@@ -6,7 +6,7 @@ export default function HomeScreen() {
   return (
     <WebView
       style={[styles.container, { marginTop: Constants.statusBarHeight }]}
-      source={{ uri: "https://meal-tracker-tan.vercel.app" }}
+      source={{ uri: "https://meal-tracker-git-feat-sinisa-koscecs-projects.vercel.app/" }}
       originWhitelist={["*"]}
       javaScriptEnabled
       domStorageEnabled
