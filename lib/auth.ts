@@ -1,11 +1,14 @@
 import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { expo } from "@better-auth/expo";
+import { db } from "../db";
+import * as schema from "../db/schema";
 
 export const auth = betterAuth({
-  database: {
-    provider: "sqlite",
-    url: "file:./auth.db", // SQLite database for development
-  },
+  database: drizzleAdapter(db, {
+    provider: "pg", // PostgreSQL with Neon
+    schema,
+  }),
   baseURL: process.env.EXPO_PUBLIC_AUTH_URL || "http://localhost:8081",
   trustedOrigins: [
     "exp://localhost:8081", // Expo development

@@ -10,6 +10,13 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading } = useAuth();
 
+  // Move useEffect to the top to ensure hooks are always called in the same order
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      authNavigation.toLogin();
+    }
+  }, [isLoading, isAuthenticated]);
+
   if (isLoading) {
     return (
       <View className="flex-1 justify-center items-center bg-white">
@@ -18,12 +25,6 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       </View>
     );
   }
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      authNavigation.toLogin();
-    }
-  }, [isLoading, isAuthenticated]);
 
   if (!isAuthenticated) {
     return (

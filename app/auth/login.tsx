@@ -4,6 +4,7 @@ import { Link } from "expo-router";
 import React, { useState } from "react";
 import { Alert, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { authNavigation } from "@/lib/router-helpers";
+import AuthDebug from "@/components/AuthDebug";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -90,6 +91,9 @@ export default function LoginScreen() {
             </TouchableOpacity>
           </Link>
         </View>
+        
+        {/* Temporary debug component */}
+        <AuthDebug />
       </View>
     </KeyboardAvoidingView>
   );
