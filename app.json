@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "taurus-mobile",
-    "slug": "taurus-mobile",
+    "name": "Juicefast Nutrition App",
+    "slug": "juicefast-nutrition-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "taurusmobile",
+    "scheme": "juicefastnutritionapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
