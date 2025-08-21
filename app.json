@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.juicefast.juicefastnutritionapp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -41,14 +45,11 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "58fff542-d20b-44ce-a6f0-6da0ff6d0578"
+        "projectId": "67bf481a-e8d8-475d-922f-498b08e22b46"
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/58fff542-d20b-44ce-a6f0-6da0ff6d0578"
     }
   }
 }
