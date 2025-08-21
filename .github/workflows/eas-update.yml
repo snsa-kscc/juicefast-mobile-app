@@ -25,13 +25,13 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
-          cache: npm
+          node-version: 22.x
+          cache: pnpm
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 10
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
