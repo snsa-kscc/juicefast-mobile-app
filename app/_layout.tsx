@@ -1,6 +1,7 @@
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useFonts } from "expo-font";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { WellnessTracker } from "@/components/tracker/WellnessTracker";
 import "../styles/global.css";
 
 export default function RootLayout() {
@@ -10,13 +11,12 @@ export default function RootLayout() {
   });
 
   if (!loaded) {
-    // Async font loading only occurs in development.
     return null;
   }
 
   return (
-    <View className="flex-1 justify-center items-center bg-gray-50">
-      <Text className="text-3xl font-bold text-red-500">Hello World</Text>
+    <View style={{ flex: 1 }}>
+      <WellnessTracker userId="user123" weeklyAverageScore={75} />
     </View>
   );
 }
