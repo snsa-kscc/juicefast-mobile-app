@@ -16,7 +16,7 @@ interface DailyHealthMetrics {
   sleep?: SleepEntry;
 }
 
-interface SleepTrackerClientProps {
+interface SleepTrackerProps {
   userId: string;
   initialSleepData: DailyHealthMetrics | null;
 }
@@ -27,7 +27,7 @@ const SLEEP_TRACKER_CONFIG = {
   defaultWakeTime: "06:00",
 };
 
-export function SleepTrackerClient({ userId, initialSleepData }: SleepTrackerClientProps) {
+export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
   const router = useRouter();
   const [sleepEntry, setSleepEntry] = useState<SleepEntry | null>(initialSleepData?.sleep || null);
   const [hoursSlept, setHoursSlept] = useState<number>(sleepEntry?.hoursSlept || SLEEP_TRACKER_CONFIG.dailyGoal);
@@ -121,7 +121,7 @@ export function SleepTrackerClient({ userId, initialSleepData }: SleepTrackerCli
         <View className="flex-row items-center justify-between p-4 relative z-10">
           <TouchableOpacity
             className="rounded-full bg-[#8B5CF6] h-10 w-10 items-center justify-center"
-            onPress={() => router.push("/tracker")}
+            onPress={() => router.back()}
           >
             <ArrowLeft size={20} color="white" />
           </TouchableOpacity>
@@ -171,7 +171,7 @@ export function SleepTrackerClient({ userId, initialSleepData }: SleepTrackerCli
               x="125"
               y="125"
               textAnchor="middle"
-              dominantBaseline="central"
+              // dominantBaseline="central" // caused error
               fontSize="44"
               fontWeight="bold"
               fill="#000"
@@ -256,7 +256,7 @@ export function SleepTrackerClient({ userId, initialSleepData }: SleepTrackerCli
             onValueChange={setSleepQuality}
             minimumTrackTintColor="#8B5CF6"
             maximumTrackTintColor="#EDE9FE"
-            thumbStyle={{ backgroundColor: "#8B5CF6" }}
+            thumbTintColor="#8B5CF6"
             disabled={isLoading}
           />
           <View className="flex-row justify-between mt-1">

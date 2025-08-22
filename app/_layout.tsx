@@ -1,11 +1,9 @@
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { useFonts } from "expo-font";
 import { View } from "react-native";
-import { WellnessTracker } from "@/components/tracker/WellnessTracker";
+import { StepsTracker } from "@/components/tracker/StepsTracker";
 import "../styles/global.css";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
@@ -16,7 +14,15 @@ export default function RootLayout() {
 
   return (
     <View style={{ flex: 1 }}>
-      <WellnessTracker userId="user123" weeklyAverageScore={75} />
+      <StepsTracker 
+        userId="user123" 
+        initialStepsData={{
+          steps: [
+            { count: 2500, timestamp: new Date('2024-01-01T08:00:00') },
+            { count: 1800, timestamp: new Date('2024-01-01T12:00:00') }
+          ]
+        }} 
+      />
     </View>
   );
 }
