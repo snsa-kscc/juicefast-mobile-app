@@ -87,7 +87,7 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
     <ScrollView className="flex-1 bg-[#FCFBF8]">
       {/* Header */}
       <View className="relative overflow-hidden py-6">
-        <View className="absolute w-64 h-64 rounded-full bg-[#4CC3FF]/40 -top-5 z-0" />
+        <View className="absolute w-64 h-64 rounded-full bg-[#4CC3FF]/40 blur-[80px] -top-5 z-0" />
         <View className="flex-row items-center justify-between px-4 relative z-10">
           <TouchableOpacity
             className="rounded-full bg-[#FFC856] h-10 w-10 items-center justify-center"
