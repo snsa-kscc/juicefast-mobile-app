@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Svg, Path, Circle } from 'react-native-svg';
 import { Settings } from 'lucide-react-native';
 
@@ -133,7 +133,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View className="flex-1 justify-center items-center py-6">
         <Text>Loading health tracker...</Text>
       </View>
     );
@@ -143,33 +143,33 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
   const strokeDashoffset = circumference - (circumference * Math.min(100, weeklyAverageScore)) / 100;
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView className="flex-1 bg-[#FCFBF8]">
       {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.blob} />
-        <View style={styles.headerContent}>
-          <Text style={styles.title}>Wellness Tracker</Text>
-          <TouchableOpacity style={styles.settingsButton}>
+      <View className="relative py-6 overflow-hidden">
+        <View className="absolute w-64 h-64 rounded-full bg-[#4CC3FF]/40 -top-5 left-0 opacity-60" style={{ filter: 'blur(80px)' }} />
+        <View className="flex-row justify-between items-center px-6 z-10">
+          <Text className="text-xl font-bold">Wellness Tracker</Text>
+          <TouchableOpacity className="w-10 h-10 rounded-full bg-transparent justify-center items-center">
             <Settings size={20} color="#9CA3AF" />
           </TouchableOpacity>
         </View>
-        <View style={styles.planSection}>
-          <Text style={styles.planText}>Today I'm going to....</Text>
+        <View className="px-6 pb-4 z-10">
+          <Text className="text-sm text-gray-500">Today I'm going to....</Text>
         </View>
       </View>
 
       {/* Wellness Score */}
-      <View style={styles.scoreSection}>
-        <View style={styles.scoreHeader}>
-          <Text style={styles.scoreTitle}>WELLNESS SCORE</Text>
-          <View style={styles.infoButton}>
-            <Text style={styles.infoIcon}>i</Text>
+      <View className="px-6 py-6 items-center">
+        <View className="flex-row justify-between items-center w-full mb-2">
+          <Text className="text-lg font-semibold tracking-widest">WELLNESS SCORE</Text>
+          <View className="w-8 h-8 rounded-full bg-gray-100 justify-center items-center">
+            <Text className="text-base text-slate-600 font-bold">i</Text>
           </View>
         </View>
-        <Text style={styles.scoreSubtitle}>Average wellness score for the last 7 days</Text>
+        <Text className="text-sm text-gray-500 mb-6">Average wellness score for the last 7 days</Text>
 
         {/* Circular Progress */}
-        <View style={styles.circularProgress}>
+        <View className="relative w-[250px] h-[250px] justify-center items-center">
           <Svg width="250" height="250" viewBox="0 0 250 250">
             <Circle
               cx="125"
@@ -191,23 +191,23 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
               transform="rotate(-90 125 125)"
             />
           </Svg>
-          <View style={styles.scoreTextContainer}>
-            <Text style={styles.scoreText}>{Math.round(weeklyAverageScore)}</Text>
+          <View className="absolute justify-center items-center">
+            <Text className="text-5xl font-bold text-black">{Math.round(weeklyAverageScore)}</Text>
           </View>
         </View>
       </View>
 
       {/* Tracking Options */}
-      <View style={styles.trackingSection}>
-        <Text style={styles.trackingTitle}>What would you like to track today?</Text>
+      <View className="px-6 py-6">
+        <Text className="text-base font-medium text-center mb-4">What would you like to track today?</Text>
         
         {trackingOptions.map((option) => (
-          <TouchableOpacity key={option.id} style={[styles.trackingCard, { backgroundColor: option.color }]}>
-            <View style={styles.cardContent}>
-              <View style={styles.iconContainer}>{option.icon}</View>
-              <View style={styles.textContainer}>
-                <Text style={styles.cardTitle}>{option.name}</Text>
-                <Text style={styles.cardSubtitle}>
+          <TouchableOpacity key={option.id} className="rounded-xl mb-3 border border-transparent" style={{ backgroundColor: option.color }}>
+            <View className="flex-row items-center p-4">
+              <View className="mr-3">{option.icon}</View>
+              <View className="flex-1">
+                <Text className="text-base font-medium mb-1">{option.name}</Text>
+                <Text className="text-sm text-gray-500">
                   {option.progress} {option.unit}
                 </Text>
               </View>
@@ -215,154 +215,8 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
           </TouchableOpacity>
         ))}
       </View>
-      <View style={styles.bottomSpacing} />
+      <View className="h-24" />
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FCFBF8',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 24,
-  },
-  header: {
-    position: 'relative',
-    paddingVertical: 24,
-    overflow: 'hidden',
-  },
-  blob: {
-    position: 'absolute',
-    width: 256,
-    height: 256,
-    borderRadius: 128,
-    backgroundColor: 'rgba(76, 195, 255, 0.4)',
-    top: -20,
-    left: 0,
-    opacity: 0.6,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 24,
-    zIndex: 10,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  settingsButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  planSection: {
-    paddingHorizontal: 24,
-    paddingBottom: 16,
-    zIndex: 10,
-  },
-  planText: {
-    fontSize: 14,
-    color: '#6B7280',
-  },
-  scoreSection: {
-    paddingHorizontal: 24,
-    paddingVertical: 24,
-    alignItems: 'center',
-  },
-  scoreHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 8,
-  },
-  scoreTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    letterSpacing: 1,
-  },
-  infoButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#F3F4F6',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  infoIcon: {
-    fontSize: 16,
-    color: '#64748B',
-    fontWeight: 'bold',
-  },
-  scoreSubtitle: {
-    fontSize: 14,
-    color: '#6B7280',
-    marginBottom: 24,
-  },
-  circularProgress: {
-    position: 'relative',
-    width: 250,
-    height: 250,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scoreTextContainer: {
-    position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scoreText: {
-    fontSize: 52,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  trackingSection: {
-    paddingHorizontal: 24,
-    paddingVertical: 24,
-  },
-  trackingTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  trackingCard: {
-    borderRadius: 12,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: 'transparent',
-  },
-  cardContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-  },
-  iconContainer: {
-    marginRight: 12,
-  },
-  textContainer: {
-    flex: 1,
-  },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 4,
-  },
-  cardSubtitle: {
-    fontSize: 14,
-    color: '#6B7280',
-  },
-  bottomSpacing: {
-    height: 96,
-  },
-});
