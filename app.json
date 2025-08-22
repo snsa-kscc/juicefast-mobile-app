@@ -5,24 +5,18 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "juicefastnutritionapp",
+    "scheme": "juicefast-nutrition-app",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.juicefast.juicefastnutritionapp",
-      "jsEngine": "jsc",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "jsEngine": "jsc"
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
@@ -47,14 +41,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "67bf481a-e8d8-475d-922f-498b08e22b46"
+        "projectId": "6e9c5757-7446-4974-80fa-fadd2ad8ebc4"
       }
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/67bf481a-e8d8-475d-922f-498b08e22b46"
-    }
+    "owner": "juicefast-app"
   }
 }
