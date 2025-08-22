@@ -1,6 +1,5 @@
 import { useFonts } from "expo-font";
-import { View } from "react-native";
-import { StepsTracker } from "@/components/tracker/StepsTracker";
+import { Stack } from "expo-router";
 import "../styles/global.css";
 
 export default function RootLayout() {
@@ -13,16 +12,22 @@ export default function RootLayout() {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <StepsTracker 
-        userId="user123" 
-        initialStepsData={{
-          steps: [
-            { count: 2500, timestamp: new Date('2024-01-01T08:00:00') },
-            { count: 1800, timestamp: new Date('2024-01-01T12:00:00') }
-          ]
-        }} 
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index" />
+      <Stack.Screen 
+        name="steps" 
+        options={{
+          presentation: 'card',
+          animation: 'slide_from_right'
+        }}
       />
-    </View>
+      <Stack.Screen 
+        name="sleep" 
+        options={{
+          presentation: 'card',
+          animation: 'slide_from_right'
+        }}
+      />
+    </Stack>
   );
 }
