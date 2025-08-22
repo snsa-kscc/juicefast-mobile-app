@@ -1,58 +1,75 @@
-import { Link, useRouter } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image } from 'expo-image';
+import { Platform, StyleSheet } from 'react-native';
 
-export default function Index() {
-  const router = useRouter();
+import { HelloWave } from '@/components/HelloWave';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 
+export default function HomeScreen() {
   return (
-    <View className="flex-1 items-center justify-center bg-white px-6">
-      <Text className="text-2xl font-bold text-blue-500 mb-8">Welcome to NativeWind!</Text>
-
-      <Text className="text-base text-gray-600 text-center mb-8">Navigate to other pages using the links below or the tab bar:</Text>
-
-      <View className="w-full max-w-xs space-y-4">
-        {/* Tab Navigation (no stacking effect) */}
-        <Text className="text-sm font-semibold text-gray-500 text-center mb-2">Tab Navigation:</Text>
-        <Link href="/(tabs)/explore" asChild>
-          <TouchableOpacity className="bg-green-500 py-4 px-6 rounded-lg">
-            <Text className="text-white text-center font-semibold text-lg">Go to Explore Page</Text>
-          </TouchableOpacity>
-        </Link>
-
-        <Link href="/(tabs)/about" asChild>
-          <TouchableOpacity className="bg-purple-500 py-4 px-6 rounded-lg">
-            <Text className="text-white text-center font-semibold text-lg">Go to About Page</Text>
-          </TouchableOpacity>
-        </Link>
-
-        {/* Stack Navigation (with stacking effect) */}
-        <Text className="text-sm font-semibold text-gray-500 text-center mt-6 mb-2">Stack Navigation:</Text>
-        <TouchableOpacity className="bg-blue-500 py-4 px-6 rounded-lg" onPress={() => router.push("/details")}>
-          <Text className="text-white text-center font-semibold text-lg">Push to Details Page →</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="bg-orange-500 py-4 px-6 rounded-lg" onPress={() => router.push("/profile")}>
-          <Text className="text-white text-center font-semibold text-lg">Push to Profile Page →</Text>
-        </TouchableOpacity>
-
-        {/* Next.js-like Dynamic Routes */}
-        <Text className="text-sm font-semibold text-gray-500 text-center mt-6 mb-2">Dynamic Routes (like Next.js):</Text>
-        <TouchableOpacity className="bg-green-500 py-4 px-6 rounded-lg" onPress={() => router.push("/user/123")}>
-          <Text className="text-white text-center font-semibold text-lg">User Profile [id] →</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="bg-yellow-500 py-4 px-6 rounded-lg" onPress={() => router.push("/posts/2024/january/my-first-post")}>
-          <Text className="text-white text-center font-semibold text-lg">Post [...slug] →</Text>
-        </TouchableOpacity>
-        
-        {/* API Routes Demo (Next.js Server Actions → Expo API) */}
-        <Text className="text-sm font-semibold text-gray-500 text-center mt-6 mb-2">API Routes (Server Actions Migration):</Text>
-        <TouchableOpacity className="bg-indigo-500 py-4 px-6 rounded-lg" onPress={() => router.push("/users")}>
-          <Text className="text-white text-center font-semibold text-lg">Users Management →</Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text className="text-sm text-gray-400 mt-8 text-center">You can also use the tab bar at the bottom to navigate</Text>
-    </View>
+    <ParallaxScrollView
+      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerImage={
+        <Image
+          source={require('@/assets/images/partial-react-logo.png')}
+          style={styles.reactLogo}
+        />
+      }>
+      <ThemedView style={styles.titleContainer}>
+        <ThemedText type="title">Welcome!</ThemedText>
+        <HelloWave />
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
+        <ThemedText>
+          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
+          Press{' '}
+          <ThemedText type="defaultSemiBold">
+            {Platform.select({
+              ios: 'cmd + d',
+              android: 'cmd + m',
+              web: 'F12',
+            })}
+          </ThemedText>{' '}
+          to open developer tools.
+        </ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
+        <ThemedText>
+          {`Tap the Explore tab to learn more about what's included in this starter app.`}
+        </ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
+        <ThemedText>
+          {`When you're ready, run `}
+          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
+          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
+          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
+          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
+        </ThemedText>
+      </ThemedView>
+    </ParallaxScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  stepContainer: {
+    gap: 8,
+    marginBottom: 8,
+  },
+  reactLogo: {
+    height: 178,
+    width: 290,
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+  },
+});
