@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Svg, Path, Circle } from 'react-native-svg';
 import { Settings } from 'lucide-react-native';
+import { CircularProgress } from './shared';
 
 interface UserProfile {
   id: string;
@@ -168,33 +169,13 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
         </View>
         <Text className="text-sm text-gray-500 mb-6">Average wellness score for the last 7 days</Text>
 
-        {/* Circular Progress */}
-        <View className="relative w-[250px] h-[250px] justify-center items-center">
-          <Svg width="250" height="250" viewBox="0 0 250 250">
-            <Circle
-              cx="125"
-              cy="125"
-              r="110"
-              fill="white"
-              stroke="#F2E9D8"
-              strokeWidth="10"
-            />
-            <Circle
-              cx="125"
-              cy="125"
-              r="110"
-              fill="none"
-              stroke="#E8D5B0"
-              strokeWidth="10"
-              strokeDasharray={circumference}
-              strokeDashoffset={strokeDashoffset}
-              transform="rotate(-90 125 125)"
-            />
-          </Svg>
-          <View className="absolute justify-center items-center">
-            <Text className="text-5xl font-bold text-black">{Math.round(weeklyAverageScore)}</Text>
-          </View>
-        </View>
+        <CircularProgress
+          value={weeklyAverageScore}
+          maxValue={100}
+          color="#E8D5B0"
+          backgroundColor="#F2E9D8"
+          displayValue={Math.round(weeklyAverageScore)}
+        />
       </View>
 
       {/* Tracking Options */}

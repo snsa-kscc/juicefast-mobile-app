@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert } from "react-native";
 import { useRouter } from "expo-router";
-import { ArrowLeft, BedIcon, MoonIcon, SunIcon, Settings } from "lucide-react-native";
+import { MoonIcon, SunIcon } from "lucide-react-native";
 import Slider from "@react-native-community/slider";
-import Svg, { Circle, Text as SvgText } from "react-native-svg";
+import { TrackerHeader, CircularProgress, ProgressBar, TrackerButton, TrackerStats } from './shared';
 
 interface SleepEntry {
   hoursSlept: number;
@@ -115,94 +115,41 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      {/* Header */}
-      <View className="relative overflow-hidden py-6">
-        <View className="absolute w-64 h-64 rounded-full bg-[#4CC3FF]/40 blur-[80px] -top-5 z-0" />
-        <View className="flex-row items-center justify-between p-4 relative z-10">
-          <TouchableOpacity
-            className="rounded-full bg-[#8B5CF6] h-10 w-10 items-center justify-center"
-            onPress={() => router.back()}
-          >
-            <ArrowLeft size={20} color="white" />
-          </TouchableOpacity>
-          <Text className="text-xl font-bold">Sleep Tracker</Text>
-          <TouchableOpacity className="rounded-full bg-transparent h-10 w-10 items-center justify-center">
-            <Settings size={20} color="#9CA3AF" />
-          </TouchableOpacity>
-        </View>
+      <TrackerHeader 
+        title="Sleep Tracker"
+        subtitle="Quality sleep improves focus, mood,\nand overall health. Track your rest."
+        onBack={() => router.back()}
+        accentColor="#8B5CF6"
+      />
 
-        <View className="px-6 py-2 items-center relative z-10">
-          <Text className="text-sm text-gray-500 text-center">
-            Quality sleep improves focus, mood,{"\n"}and overall health. Track your rest.
-          </Text>
-        </View>
-      </View>
-
-      {/* Main Content */}
-      <View className="flex-1 px-6 py-8 items-center">
-        <Text className="text-xl font-bold mb-1">DAILY SLEEP</Text>
-        <Text className="text-sm text-gray-500 mb-6">
-          {sleepEntry ? `${displayedHours} out of ${dailyGoal} hours goal` : "No sleep data recorded today"}
-        </Text>
-
-        {/* Circular Progress */}
-        <View className="w-[250px] h-[250px] mb-8 items-center justify-center">
-          <Svg width="250" height="250" viewBox="0 0 250 250">
-            <Circle
-              cx="125"
-              cy="125"
-              r="110"
-              fill="white"
-              stroke="#EDE9FE"
-              strokeWidth="8"
-            />
-            <Circle
-              cx="125"
-              cy="125"
-              r="110"
-              fill="none"
-              stroke="#8B5CF6"
-              strokeWidth="8"
-              strokeDasharray="628"
-              strokeDashoffset={628 - (628 * progressPercentage) / 100}
-              transform="rotate(-90 125 125)"
-            />
-            <SvgText
-              x="125"
-              y="125"
-              textAnchor="middle"
-              // dominantBaseline="central" // caused error
-              fontSize="44"
-              fontWeight="bold"
-              fill="#000"
-            >
-              {progressPercentage}
-            </SvgText>
-          </Svg>
-        </View>
-
-        {/* Progress markers */}
-        <View className="w-full max-w-xs flex-row justify-between items-center mb-4">
-          <Text className="text-xs text-gray-500">0h</Text>
-          <Text className="text-xs text-gray-500">2h</Text>
-          <Text className="text-xs text-gray-500">4h</Text>
-          <Text className="text-xs text-gray-500">6h</Text>
-          <Text className="text-xs text-gray-500">8h</Text>
-        </View>
-
-        {/* Progress bar */}
-        <View className="w-full max-w-xs bg-[#EDE9FE] rounded-full h-2 mb-6">
-          <View 
-            className="bg-[#8B5CF6] h-2 rounded-full" 
-            style={{ width: `${progressPercentage}%` }}
-          />
-        </View>
-
-        {/* Sleep quality indicator */}
-        <Text className="text-sm text-center text-gray-600 mb-8">
+      <TrackerStats 
+        title="DAILY SLEEP"
+        subtitle={sleepEntry ? `${displayedHours} out of ${dailyGoal} hours goal` : "No sleep data recorded today"}
+      >
+        <CircularProgress
+          value={displayedHours}
+          maxValue={dailyGoal}
+          color="#8B5CF6"
+          backgroundColor="#EDE9FE"
+          displayValue={progressPercentage}
+          strokeWidth={8}
+        />
+        
+        <View className="mb-6" />
+        
+        <ProgressBar
+          value={displayedHours}
+          maxValue={dailyGoal}
+          color="#8B5CF6"
+          backgroundColor="#EDE9FE"
+          showMarkers
+          markers={['0h', '2h', '4h', '6h', '8h']}
+        />
+        
+        <Text className="text-sm text-center text-gray-600 mb-8 mt-6">
           {sleepEntry ? `Sleep quality: ${sleepQuality}/5` : "No sleep data recorded"}
         </Text>
-      </View>
+      </TrackerStats>
 
       {/* Sleep Entry Form */}
       <View className="w-full px-6 pb-8">
@@ -265,15 +212,12 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
           </View>
         </View>
 
-        <TouchableOpacity
-          className="w-full bg-[#8B5CF6] rounded-md py-3 items-center"
+        <TrackerButton
+          title={isLoading ? "Saving..." : "Save sleep data"}
           onPress={handleSaveSleep}
           disabled={isLoading}
-        >
-          <Text className="text-white font-medium">
-            {isLoading ? "Saving..." : "Save sleep data"}
-          </Text>
-        </TouchableOpacity>
+          backgroundColor="#8B5CF6"
+        />
       </View>
     </ScrollView>
   );
