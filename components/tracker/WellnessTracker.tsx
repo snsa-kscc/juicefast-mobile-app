@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Svg, Path, Circle } from 'react-native-svg';
 import { Settings } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
 import { CircularProgress } from './shared';
 
 interface UserProfile {
@@ -74,6 +75,7 @@ const WaterIcon = () => (
 );
 
 export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverageScore = 71 }: TrackerClientProps) {
+  const router = useRouter();
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -182,19 +184,41 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
       <View className="px-6 py-6">
         <Text className="text-base font-medium text-center mb-4">What would you like to track today?</Text>
         
-        {trackingOptions.map((option) => (
-          <TouchableOpacity key={option.id} className="rounded-xl mb-3 border border-transparent" style={{ backgroundColor: option.color }}>
-            <View className="flex-row items-center p-4">
-              <View className="mr-3">{option.icon}</View>
-              <View className="flex-1">
-                <Text className="text-base font-medium mb-1">{option.name}</Text>
-                <Text className="text-sm text-gray-500">
-                  {option.progress} {option.unit}
-                </Text>
+        {trackingOptions.map((option) => {
+          const handlePress = () => {
+            if (option.id === 'steps') {
+              router.push('/steps');
+            } else if (option.id === 'sleep') {
+              router.push('/sleep');
+            }
+            // Other options don't navigate yet
+          };
+
+          return (
+            <TouchableOpacity 
+              key={option.id} 
+              className="rounded-xl mb-3 border border-transparent" 
+              style={{ backgroundColor: option.color }}
+              onPress={handlePress}
+              activeOpacity={option.id === 'steps' || option.id === 'sleep' ? 0.7 : 1}
+            >
+              <View className="flex-row items-center p-4">
+                <View className="mr-3">{option.icon}</View>
+                <View className="flex-1">
+                  <Text className="text-base font-medium mb-1">{option.name}</Text>
+                  <Text className="text-sm text-gray-500">
+                    {option.progress} {option.unit}
+                  </Text>
+                </View>
+                {(option.id === 'steps' || option.id === 'sleep') && (
+                  <View className="ml-2">
+                    <Text className="text-gray-400 text-lg">›</Text>
+                  </View>
+                )}
               </View>
-            </View>
-          </TouchableOpacity>
-        ))}
+            </TouchableOpacity>
+          );
+        })}
       </View>
       <View className="h-24" />
     </ScrollView>
