@@ -146,6 +146,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
   const strokeDashoffset = circumference - (circumference * Math.min(100, weeklyAverageScore)) / 100;
 
   return (
+    <View style={{ flex: 1 }} pointerEvents="box-none">
     <ScrollView className="flex-1 bg-[#FCFBF8]">
       {/* Header */}
       <View className="relative py-6 overflow-hidden">
@@ -222,6 +223,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
       </View>
       <View className="h-24" />
     </ScrollView>
+    </View>
   );
 }
 
