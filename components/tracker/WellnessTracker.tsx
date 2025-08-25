@@ -204,13 +204,13 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
         {trackingOptions.map((option) => {
           const handlePress = () => {
             if (option.id === 'steps') {
-              router.push('/steps');
+              router.push('/steps' as any);
             } else if (option.id === 'sleep') {
-              router.push('/sleep');
+              router.push('/sleep' as any);
             } else if (option.id === 'mindfulness') {
-              router.push('/mindfulness');
+              router.push('/mindfulness' as any);
             } else if (option.id === 'water') {
-              router.push('/hydration');
+              router.push('/hydration' as any);
             }
             // Other options don't navigate yet
           };
