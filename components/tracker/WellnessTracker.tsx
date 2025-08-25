@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Animated } from 'react-native';
 import { Svg, Path, Circle } from 'react-native-svg';
 import { Settings } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
@@ -78,13 +78,29 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
   const router = useRouter();
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [displayedScore, setDisplayedScore] = useState<number>(0);
+  
+  const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     // Simulate loading profile
     setTimeout(() => {
       setLoading(false);
+      
+      // Animate wellness score
+      Animated.timing(animatedValue, {
+        toValue: weeklyAverageScore,
+        duration: 2000,
+        useNativeDriver: false,
+      }).start();
+
+      const listener = animatedValue.addListener(({ value }) => {
+        setDisplayedScore(Math.round(value));
+      });
+
+      return () => animatedValue.removeListener(listener);
     }, 1000);
-  }, [userId]);
+  }, [userId, weeklyAverageScore]);
 
   const trackingOptions: TrackingOption[] = [
     {
@@ -93,7 +109,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
       target: "2",
       icon: <MealIcon />,
       color: "#E8F8F3",
-      progress: 0,
+      progress: 1,
       unit: "healthy meals today",
     },
     {
@@ -102,7 +118,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
       target: "10000",
       icon: <StepsIcon />,
       color: "#FFF8E8",
-      progress: 0,
+      progress: 6500,
       unit: "steps today",
     },
     {
@@ -111,7 +127,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
       target: "20",
       icon: <MindfulnessIcon />,
       color: "#FFEFEB",
-      progress: 0,
+      progress: 15,
       unit: "minutes today",
     },
     {
@@ -120,7 +136,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
       target: "8",
       icon: <SleepIcon />,
       color: "#EEEDFF",
-      progress: 0,
+      progress: 7.5,
       unit: "hours today",
     },
     {
@@ -129,7 +145,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
       target: "2.2",
       icon: <WaterIcon />,
       color: "#EBF9FF",
-      progress: 0,
+      progress: 1.8,
       unit: "liters today",
     },
   ];
@@ -173,11 +189,11 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
         <Text className="text-sm text-gray-500 mb-6">Average wellness score for the last 7 days</Text>
 
         <CircularProgress
-          value={weeklyAverageScore}
+          value={displayedScore}
           maxValue={100}
           color="#E8D5B0"
           backgroundColor="#F2E9D8"
-          displayValue={Math.round(weeklyAverageScore)}
+          displayValue={displayedScore}
         />
       </View>
 
