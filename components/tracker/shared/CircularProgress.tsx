@@ -64,7 +64,7 @@ export function CircularProgress({
         )}
       </Svg>
       {unit && (
-        <Text className="text-sm text-gray-500 mt-2">{unit}</Text>
+        <Text className="font-sans text-sm text-gray-500 mt-2">{unit}</Text>
       )}
     </View>
   );
