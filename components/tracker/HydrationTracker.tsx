@@ -124,17 +124,17 @@ export function HydrationTracker({ userId, initialWaterData, onBack }: Hydration
           markers={['0', '500ml', '1L', '1.5L', '2L']}
         />
         
-        <Text className="text-sm text-center text-gray-600 mb-8 mt-6">
+        <Text className="font-sans text-sm text-center text-gray-600 mb-8 mt-6">
           Your body is {progressPercentage}% water. You're{'\n'}giving it what it needs.
         </Text>
       </TrackerStats>
 
       {/* Add Water Form */}
       <View className="px-6">
-        <Text className="font-semibold mb-1">Add water</Text>
+        <Text className="font-sans font-semibold mb-1">Add water</Text>
         <View className="flex-row justify-between mb-1">
-          <Text className="text-xs text-gray-500">Amount (ml)</Text>
-          <Text className="text-xs font-medium">{waterAmount}ml</Text>
+          <Text className="font-sans text-xs text-gray-500">Amount (ml)</Text>
+          <Text className="font-sans text-xs font-medium">{waterAmount}ml</Text>
         </View>
 
         <View className="mb-4">
@@ -161,7 +161,7 @@ export function HydrationTracker({ userId, initialWaterData, onBack }: Hydration
               onPress={() => setWaterAmount(amount)}
               disabled={isLoading}
             >
-              <Text className="text-sm">{amount} ml</Text>
+              <Text className="font-sans text-sm">{amount} ml</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -176,7 +176,7 @@ export function HydrationTracker({ userId, initialWaterData, onBack }: Hydration
       {/* Tips Card */}
       <View className="px-6 mt-6 mb-20">
         <View className="bg-white rounded-lg p-4 shadow-sm">
-          <Text className="font-semibold mb-2">Hydration Tips</Text>
+          <Text className="font-sans font-semibold mb-2">Hydration Tips</Text>
           <View className="space-y-2">
             {[
               'Drink a glass of water first thing in the morning',
@@ -187,7 +187,7 @@ export function HydrationTracker({ userId, initialWaterData, onBack }: Hydration
                 <View className="bg-blue-100 rounded-full p-1 mr-2 mt-0.5">
                   <Droplets size={12} color="#3BB9FF" />
                 </View>
-                <Text className="text-sm flex-1">{tip}</Text>
+                <Text className="font-sans text-sm flex-1">{tip}</Text>
               </View>
             ))}
           </View>

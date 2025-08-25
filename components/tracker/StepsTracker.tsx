@@ -114,17 +114,17 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
           markers={['0', '2.5k', '5k', '7.5k', '10k']}
         />
         
-        <Text className="text-sm text-center text-gray-600 mb-8 mt-6">
+        <Text className="font-sans text-sm text-center text-gray-600 mb-8 mt-6">
           Estimated calories burned: {Math.round(displayedSteps * CALORIES_PER_STEP)} kcal
         </Text>
       </TrackerStats>
 
       {/* Add Steps Form */}
       <View className="px-6">
-        <Text className="font-semibold mb-1">Add steps</Text>
+        <Text className="font-sans font-semibold mb-1">Add steps</Text>
         <View className="flex-row justify-between mb-1">
-          <Text className="text-xs text-gray-500">Step count</Text>
-          <Text className="text-xs font-medium">{stepCount} steps</Text>
+          <Text className="font-sans text-xs text-gray-500">Step count</Text>
+          <Text className="font-sans text-xs font-medium">{stepCount} steps</Text>
         </View>
 
         <View className="mb-4">
@@ -151,7 +151,7 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
               onPress={() => setStepCount(count)}
               disabled={isLoading}
             >
-              <Text className="text-sm">{count} steps</Text>
+              <Text className="font-sans text-sm">{count} steps</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -166,7 +166,7 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
       {/* Tips Card */}
       <View className="px-6 mt-6 mb-20">
         <View className="bg-white rounded-lg p-4 shadow-sm">
-          <Text className="font-semibold mb-2">Step Tips</Text>
+          <Text className="font-sans font-semibold mb-2">Step Tips</Text>
           <View className="space-y-2">
             {[
               'Take the stairs instead of the elevator',
@@ -177,7 +177,7 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
                 <View className="bg-amber-100 rounded-full p-1 mr-2 mt-0.5">
                   <View className="w-3 h-3" />
                 </View>
-                <Text className="text-sm flex-1">{tip}</Text>
+                <Text className="font-sans text-sm flex-1">{tip}</Text>
               </View>
             ))}
           </View>

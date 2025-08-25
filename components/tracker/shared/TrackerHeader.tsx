@@ -26,13 +26,13 @@ export function TrackerHeader({ title, subtitle, onBack, accentColor = '#4CC3FF'
             <ArrowLeft size={20} color="white" />
           </TouchableOpacity>
         )}
-        <Text className="text-xl font-bold">{title}</Text>
+        <Text className="font-sans text-xl font-bold">{title}</Text>
         <TouchableOpacity className="rounded-full bg-transparent h-10 w-10 items-center justify-center">
           <Settings size={20} color="#9CA3AF" />
         </TouchableOpacity>
       </View>
       <View className="px-6 py-2 items-center relative z-10">
-        <Text className="text-sm text-gray-500 text-center">{subtitle}</Text>
+        <Text className="font-sans text-sm text-gray-500 text-center">{subtitle}</Text>
       </View>
     </View>
   );

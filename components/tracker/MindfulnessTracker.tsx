@@ -153,18 +153,18 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
           markers={['0', '5', '10', '15', '20']}
         />
         
-        <Text className="text-sm text-center text-gray-600 mb-8 mt-6">
+        <Text className="font-sans text-sm text-center text-gray-600 mb-8 mt-6">
           Mindfulness improves focus and reduces stress
         </Text>
       </TrackerStats>
 
       {/* Add Minutes Form */}
       <View className="w-full px-6 pb-8">
-        <Text className="font-semibold mb-3">Add minutes</Text>
+        <Text className="font-sans font-semibold mb-3">Add minutes</Text>
         
         <View className="flex-row justify-between mb-1">
-          <Text className="text-xs text-gray-500">Minutes</Text>
-          <Text className="text-xs font-medium">{minutes} min</Text>
+          <Text className="font-sans text-xs text-gray-500">Minutes</Text>
+          <Text className="font-sans text-xs font-medium">{minutes} min</Text>
         </View>
 
         <View className="mb-4">
@@ -182,7 +182,7 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
         </View>
 
         <View className="mb-4">
-          <Text className="text-xs text-gray-500 mb-2">Activity type</Text>
+          <Text className="font-sans text-xs text-gray-500 mb-2">Activity type</Text>
           <View className="flex-row flex-wrap" style={{ gap: 8 }}>
             {MINDFULNESS_TRACKER_CONFIG.meditationTypes.map((activity) => (
               <TouchableOpacity
@@ -218,25 +218,25 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
 
         {/* Tips Card */}
         <View className="mt-6 p-4 bg-white rounded-lg border border-gray-200">
-          <Text className="font-semibold mb-2">Mindfulness Tips</Text>
+          <Text className="font-sans font-semibold mb-2">Mindfulness Tips</Text>
           <View>
             <View className="flex-row items-start mb-2">
               <View className="bg-indigo-100 rounded-full p-1 mr-2 mt-0.5">
                 <Brain size={12} color="#6366F1" />
               </View>
-              <Text className="text-sm flex-1">Start with just 5 minutes a day and gradually increase</Text>
+              <Text className="font-sans text-sm flex-1">Start with just 5 minutes a day and gradually increase</Text>
             </View>
             <View className="flex-row items-start mb-2">
               <View className="bg-indigo-100 rounded-full p-1 mr-2 mt-0.5">
                 <Brain size={12} color="#6366F1" />
               </View>
-              <Text className="text-sm flex-1">Focus on your breath when your mind wanders</Text>
+              <Text className="font-sans text-sm flex-1">Focus on your breath when your mind wanders</Text>
             </View>
             <View className="flex-row items-start">
               <View className="bg-indigo-100 rounded-full p-1 mr-2 mt-0.5">
                 <Brain size={12} color="#6366F1" />
               </View>
-              <Text className="text-sm flex-1">Practice at the same time each day to build a habit</Text>
+              <Text className="font-sans text-sm flex-1">Practice at the same time each day to build a habit</Text>
             </View>
           </View>
         </View>

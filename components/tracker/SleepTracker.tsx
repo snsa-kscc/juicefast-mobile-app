@@ -165,19 +165,19 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
           markers={['0h', '2h', '4h', '6h', '8h']}
         />
         
-        <Text className="text-sm text-center text-gray-600 mb-8 mt-6">
+        <Text className="font-sans text-sm text-center text-gray-600 mb-8 mt-6">
           {sleepEntry ? `Sleep quality: ${sleepQuality}/5` : "No sleep data recorded"}
         </Text>
       </TrackerStats>
 
       {/* Sleep Entry Form */}
       <View className="w-full px-6 pb-8">
-        <Text className="font-semibold mb-3">Log your sleep</Text>
+        <Text className="font-sans font-semibold mb-3">Log your sleep</Text>
 
         {/* Bed time and wake time */}
         <View className="flex-row gap-4 mb-4">
           <View className="flex-1">
-            <Text className="text-xs text-gray-500 mb-1">Bed time</Text>
+              <Text className="font-sans text-sm flex-1">Avoid screens for at least 1 hour before bedtime</Text>
             <View className="relative">
               <TextInput
                 value={bedTime}
@@ -192,7 +192,7 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
             </View>
           </View>
           <View className="flex-1">
-            <Text className="text-xs text-gray-500 mb-1">Wake time</Text>
+              <Text className="font-sans text-sm flex-1">Create a relaxing bedtime routine to signal it's time to sleep</Text>
             <View className="relative">
               <TextInput
                 value={wakeTime}
@@ -211,8 +211,8 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
         {/* Sleep quality */}
         <View className="mb-4">
           <View className="flex-row justify-between mb-1">
-            <Text className="text-xs text-gray-500">Sleep quality</Text>
-            <Text className="text-xs font-medium">{sleepQuality}/5</Text>
+            <Text className="font-sans text-xs text-gray-500">Sleep quality</Text>
+            <Text className="font-sans text-xs font-medium">{sleepQuality}/5</Text>
           </View>
           <Slider
             value={sleepQuality}
@@ -227,7 +227,7 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
           />
           <View className="flex-row justify-between mt-1">
             <Text className="text-xs text-gray-500">Poor</Text>
-            <Text className="text-xs text-gray-500">Excellent</Text>
+              <Text className="font-sans text-sm flex-1">Keep a consistent sleep schedule, even on weekends</Text>
           </View>
         </View>
 
