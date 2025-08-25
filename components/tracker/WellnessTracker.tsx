@@ -193,6 +193,8 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
               router.push('/sleep');
             } else if (option.id === 'mindfulness') {
               router.push('/mindfulness');
+            } else if (option.id === 'water') {
+              router.push('/hydration');
             }
             // Other options don't navigate yet
           };
@@ -203,7 +205,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
               className="rounded-xl mb-3 border border-transparent" 
               style={{ backgroundColor: option.color }}
               onPress={handlePress}
-              activeOpacity={option.id === 'steps' || option.id === 'sleep' || option.id === 'mindfulness' ? 0.7 : 1}
+              activeOpacity={option.id === 'steps' || option.id === 'sleep' || option.id === 'mindfulness' || option.id === 'water' ? 0.7 : 1}
             >
               <View className="flex-row items-center p-4">
                 <View className="mr-3">{option.icon}</View>
@@ -213,7 +215,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
                     {option.progress} {option.unit}
                   </Text>
                 </View>
-                {(option.id === 'steps' || option.id === 'sleep' || option.id === 'mindfulness') && (
+                {(option.id === 'steps' || option.id === 'sleep' || option.id === 'mindfulness' || option.id === 'water') && (
                   <View className="ml-2">
                     <Text className="text-gray-400 text-lg">›</Text>
                   </View>
