@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert, Animated } from "react-native";
 import { useRouter } from "expo-router";
 import { MoonIcon, SunIcon } from "lucide-react-native";
 import Slider from "@react-native-community/slider";
@@ -39,12 +39,12 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const previousValueRef = useRef<number>(0);
+  const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (initialSleepData?.sleep) {
       setSleepEntry(initialSleepData.sleep);
       setHoursSlept(initialSleepData.sleep.hoursSlept);
-      setDisplayedHours(initialSleepData.sleep.hoursSlept);
       setSleepQuality(initialSleepData.sleep.quality);
       previousValueRef.current = initialSleepData.sleep.hoursSlept;
 
@@ -53,6 +53,19 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
 
       setBedTime(formatTimeForInput(bedTimeDate));
       setWakeTime(formatTimeForInput(wakeTimeDate));
+
+      // Animate counter
+      Animated.timing(animatedValue, {
+        toValue: initialSleepData.sleep.hoursSlept,
+        duration: 1500,
+        useNativeDriver: false,
+      }).start();
+
+      const listener = animatedValue.addListener(({ value }) => {
+        setDisplayedHours(value);
+      });
+
+      return () => animatedValue.removeListener(listener);
     } else {
       setDisplayedHours(0);
       previousValueRef.current = 0;
@@ -99,8 +112,14 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
 
       setSleepEntry(newSleepEntry);
       setHoursSlept(calculatedHours);
-      setDisplayedHours(calculatedHours);
       previousValueRef.current = calculatedHours;
+
+      // Animate to new value
+      Animated.timing(animatedValue, {
+        toValue: calculatedHours,
+        duration: 1000,
+        useNativeDriver: false,
+      }).start();
 
       Alert.alert("Success", "Sleep data saved successfully!");
     } catch (error) {
