@@ -1,4 +1,5 @@
 import { MindfulnessTracker } from "../components/tracker/MindfulnessTracker";
+import { AnimatedScreen } from "../components/AnimatedScreen";
 
 export default function MindfulnessScreen() {
   const mockData = {
@@ -17,9 +18,11 @@ export default function MindfulnessScreen() {
   };
 
   return (
-    <MindfulnessTracker 
-      userId="user123" 
-      initialMindfulnessData={mockData} 
-    />
+    <AnimatedScreen>
+      <MindfulnessTracker 
+        userId="user123" 
+        initialMindfulnessData={mockData} 
+      />
+    </AnimatedScreen>
   );
 }
