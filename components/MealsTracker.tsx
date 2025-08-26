@@ -156,7 +156,7 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
 
           {activeEntryTab === 'scan' && (
             <View className="flex-row gap-4 mb-4">
-              {(['camera', 'photos', 'files'] as const).map((method) => (
+              {(['camera', 'photos'] as const).map((method) => (
                 <TouchableOpacity
                   key={method}
                   className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
