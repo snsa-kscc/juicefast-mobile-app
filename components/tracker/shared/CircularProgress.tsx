@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import Svg, { Circle, Text as SvgText } from 'react-native-svg';
+import React from "react";
+import { Text, View } from "react-native";
+import Svg, { Circle, Text as SvgText } from "react-native-svg";
 
 interface CircularProgressProps {
   value: number;
@@ -13,15 +13,15 @@ interface CircularProgressProps {
   unit?: string;
 }
 
-export function CircularProgress({ 
-  value, 
-  maxValue, 
-  size = 250, 
-  strokeWidth = 10, 
-  color, 
-  backgroundColor = '#F2E9D8',
+export function CircularProgress({
+  value,
+  maxValue,
+  size = 250,
+  strokeWidth = 10,
+  color,
+  backgroundColor = "#F2E9D8",
   displayValue,
-  unit
+  unit,
 }: CircularProgressProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -31,14 +31,7 @@ export function CircularProgress({
   return (
     <View className="items-center justify-center" style={{ width: size, height: size }}>
       <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        <Circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="white"
-          stroke={backgroundColor}
-          strokeWidth={strokeWidth}
-        />
+        <Circle cx={size / 2} cy={size / 2} r={radius} fill="white" stroke={backgroundColor} strokeWidth={strokeWidth} />
         <Circle
           cx={size / 2}
           cy={size / 2}
@@ -51,21 +44,12 @@ export function CircularProgress({
           transform={`rotate(-90 ${size / 2} ${size / 2})`}
         />
         {displayValue !== undefined && (
-          <SvgText
-            x={size / 2}
-            y={size / 2 + 10}
-            textAnchor="middle"
-            fontSize="44"
-            fontWeight="bold"
-            fill="#000"
-          >
+          <SvgText x={size / 2} y={size / 2 + 10} textAnchor="middle" fontSize="44" fontWeight="bold" fill="#000">
             {displayValue}
           </SvgText>
         )}
       </Svg>
-      {unit && (
-        <Text className="font-sans text-sm text-gray-500 mt-2">{unit}</Text>
-      )}
+      {unit && <Text className="text-sm text-gray-500 mt-2">{unit}</Text>}
     </View>
   );
 }

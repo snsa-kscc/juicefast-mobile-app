@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Alert, TextInput } from 'react-native';
-import { TrackerHeader, TrackerButton } from './tracker/shared';
-import { Camera, Image, FileText, Plus } from 'lucide-react-native';
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
+import { Camera, FileText, Image } from "lucide-react-native";
+import React, { useState } from "react";
+import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { TrackerButton, TrackerHeader } from "./tracker/shared";
 
 interface MacroData {
   calories: number;
@@ -18,7 +18,7 @@ interface MealEntry extends MacroData {
   timestamp: Date;
 }
 
-type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
 interface MealsTrackerProps {
   userId: string;
@@ -27,19 +27,19 @@ interface MealsTrackerProps {
 }
 
 export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerProps) {
-  const [activeEntryTab, setActiveEntryTab] = useState<'scan' | 'manual'>('scan');
-  const [activeInputMethod, setActiveInputMethod] = useState<'camera' | 'photos' | 'files'>('camera');
+  const [activeEntryTab, setActiveEntryTab] = useState<"scan" | "manual">("scan");
+  const [activeInputMethod, setActiveInputMethod] = useState<"camera" | "photos" | "files">("camera");
   const [meals, setMeals] = useState<MealEntry[]>(initialMealsData?.meals || []);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedMealType, setSelectedMealType] = useState<MealType | null>(null);
-  const [activeTab, setActiveTab] = useState<MealType>('breakfast');
+  const [activeTab, setActiveTab] = useState<MealType>("breakfast");
   const [formData, setFormData] = useState({
-    name: '',
-    calories: '',
-    protein: '',
-    carbs: '',
-    fat: '',
-    description: ''
+    name: "",
+    calories: "",
+    protein: "",
+    carbs: "",
+    fat: "",
+    description: "",
   });
 
   const handleMealAdded = async (mealData: MacroData, mealType?: MealType) => {
@@ -57,8 +57,8 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
       const updatedMeals = [...meals, newMeal];
       setMeals(updatedMeals);
     } catch (error) {
-      console.error('Failed to save meal data:', error);
-      Alert.alert('Error', 'Failed to save meal data');
+      console.error("Failed to save meal data:", error);
+      Alert.alert("Error", "Failed to save meal data");
     } finally {
       setIsLoading(false);
     }
@@ -72,52 +72,52 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
   const handleCamera = async () => {
     try {
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Permission needed', 'Camera permission is required to take photos');
+      if (status !== "granted") {
+        Alert.alert("Permission needed", "Camera permission is required to take photos");
         return;
       }
-      
+
       const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ['images'],
+        mediaTypes: ["images"],
         allowsEditing: false,
         quality: 1,
       });
-      
+
       if (!result.canceled && result.assets[0]) {
-        Alert.alert('Image Selected', `Image URI: ${result.assets[0].uri}`);
+        Alert.alert("Image Selected", `Image URI: ${result.assets[0].uri}`);
         // TODO: Process image for meal analysis
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to access camera');
+      Alert.alert("Error", "Failed to access camera");
     }
   };
 
   const handleGallery = async () => {
     try {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Permission needed', 'Gallery permission is required to select photos');
+      if (status !== "granted") {
+        Alert.alert("Permission needed", "Gallery permission is required to select photos");
         return;
       }
-      
+
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ['images'],
+        mediaTypes: ["images"],
         allowsEditing: false,
         quality: 1,
       });
-      
+
       if (!result.canceled && result.assets[0]) {
-        Alert.alert('Image Selected', `Image URI: ${result.assets[0].uri}`);
+        Alert.alert("Image Selected", `Image URI: ${result.assets[0].uri}`);
         // TODO: Process image for meal analysis
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to access gallery');
+      Alert.alert("Error", "Failed to access gallery");
     }
   };
 
   const handleManualEntry = async () => {
     if (!formData.name || !formData.calories || !formData.protein || !formData.carbs || !formData.fat) {
-      Alert.alert('Error', 'Please fill in all required fields');
+      Alert.alert("Error", "Please fill in all required fields");
       return;
     }
 
@@ -127,22 +127,22 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
       protein: parseFloat(formData.protein),
       carbs: parseFloat(formData.carbs),
       fat: parseFloat(formData.fat),
-      description: formData.description
+      description: formData.description,
     };
 
     await handleMealAdded(mealData, selectedMealType!);
-    
+
     // Reset form
     setFormData({
-      name: '',
-      calories: '',
-      protein: '',
-      carbs: '',
-      fat: '',
-      description: ''
+      name: "",
+      calories: "",
+      protein: "",
+      carbs: "",
+      fat: "",
+      description: "",
     });
-    
-    Alert.alert('Success', 'Meal added successfully!');
+
+    Alert.alert("Success", "Meal added successfully!");
   };
 
   const calculateDailyTotals = () => {
@@ -158,7 +158,7 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
   };
 
   const getMealsByType = (mealType: MealType) => {
-    return meals.filter(meal => meal.mealType === mealType);
+    return meals.filter((meal) => meal.mealType === mealType);
   };
 
   const dailyTotals = calculateDailyTotals();
@@ -166,16 +166,20 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
 
   const getInputMethodIcon = (method: string) => {
     switch (method) {
-      case 'camera': return <Camera size={20} color="#6B7280" />;
-      case 'photos': return <Image size={20} color="#6B7280" />;
-      case 'files': return <FileText size={20} color="#6B7280" />;
-      default: return null;
+      case "camera":
+        return <Camera size={20} color="#6B7280" />;
+      case "photos":
+        return <Image size={20} color="#6B7280" />;
+      case "files":
+        return <FileText size={20} color="#6B7280" />;
+      default:
+        return null;
     }
   };
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <TrackerHeader 
+      <TrackerHeader
         title="Meal Tracker"
         subtitle="What you eat builds your energy, mood and body. Let's track it."
         onBack={selectedMealType ? () => setSelectedMealType(null) : onBack}
@@ -186,12 +190,12 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
         /* Meal type selection */
         <View className="px-4 mb-6">
           <Text className="text-xl font-bold mb-4">What meal would you like to add?</Text>
-          
-          <View className="space-y-3">
-            {(['breakfast', 'lunch', 'dinner', 'snack'] as const).map((mealType) => (
-              <TouchableOpacity
-                key={mealType}
-                className="bg-emerald-500 rounded-lg p-4"
+
+          <View>
+            {(["breakfast", "lunch", "dinner", "snack"] as const).map((mealType, index) => (
+              <TouchableOpacity 
+                key={mealType} 
+                className={`bg-emerald-500 rounded-lg p-4 ${index < 3 ? 'mb-3' : ''}`} 
                 onPress={() => handleAddMealByType(mealType)}
               >
                 <Text className="text-lg font-medium capitalize text-center text-white">{mealType}</Text>
@@ -206,53 +210,41 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
 
           <View className="flex-row gap-4 mb-4">
             <TouchableOpacity
-              className={`flex-1 rounded-md py-4 items-center ${
-                activeEntryTab === 'scan' ? 'bg-emerald-500' : 'bg-white border border-gray-200'
-              }`}
-              onPress={() => setActiveEntryTab('scan')}
+              className={`flex-1 rounded-md py-4 items-center ${activeEntryTab === "scan" ? "bg-emerald-500" : "bg-white border border-gray-200"}`}
+              onPress={() => setActiveEntryTab("scan")}
             >
-              <Text className={`font-medium ${
-                activeEntryTab === 'scan' ? 'text-white' : 'text-black'
-              }`}>
-                Upload image
-              </Text>
+              <Text className={`font-medium ${activeEntryTab === "scan" ? "text-white" : "text-black"}`}>Upload image</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className={`flex-1 rounded-md py-4 items-center ${
-                activeEntryTab === 'manual' ? 'bg-emerald-500' : 'bg-white border border-gray-200'
-              }`}
-              onPress={() => setActiveEntryTab('manual')}
+              className={`flex-1 rounded-md py-4 items-center ${activeEntryTab === "manual" ? "bg-emerald-500" : "bg-white border border-gray-200"}`}
+              onPress={() => setActiveEntryTab("manual")}
             >
-              <Text className={`font-medium ${
-                activeEntryTab === 'manual' ? 'text-white' : 'text-black'
-              }`}>
-                Manual entry
-              </Text>
+              <Text className={`font-medium ${activeEntryTab === "manual" ? "text-white" : "text-black"}`}>Manual entry</Text>
             </TouchableOpacity>
           </View>
 
-          {activeEntryTab === 'scan' ? (
+          {activeEntryTab === "scan" ? (
             <View>
               <View className="flex-row gap-4 mb-4">
                 <TouchableOpacity
                   className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
-                    activeInputMethod === 'camera' ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white'
+                    activeInputMethod === "camera" ? "border-emerald-500 bg-emerald-50" : "border-gray-200 bg-white"
                   }`}
                   onPress={() => {
-                    setActiveInputMethod('camera');
+                    setActiveInputMethod("camera");
                     handleCamera();
                   }}
                 >
                   <Camera size={20} color="#6B7280" />
                   <Text className="text-sm mt-1">Camera</Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity
                   className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
-                    activeInputMethod === 'photos' ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white'
+                    activeInputMethod === "photos" ? "border-emerald-500 bg-emerald-50" : "border-gray-200 bg-white"
                   }`}
                   onPress={() => {
-                    setActiveInputMethod('photos');
+                    setActiveInputMethod("photos");
                     handleGallery();
                   }}
                 >
@@ -260,91 +252,85 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
                   <Text className="text-sm mt-1">Photos</Text>
                 </TouchableOpacity>
               </View>
-
             </View>
           ) : (
             <View className="bg-white rounded-lg p-4 border border-gray-200">
               <Text className="text-lg font-semibold mb-4">Manual Meal Entry</Text>
-              
+
               <View className="space-y-4">
                 <View>
                   <Text className="text-sm font-medium mb-1">Meal Name</Text>
                   <TextInput
                     className="border border-gray-300 rounded-md p-3 bg-white"
                     value={formData.name}
-                    onChangeText={(text) => setFormData({...formData, name: text})}
+                    onChangeText={(text) => setFormData({ ...formData, name: text })}
                     placeholder="Enter meal name"
                   />
                 </View>
-                
+
                 <View className="flex-row gap-4">
                   <View className="flex-1">
                     <Text className="text-sm font-medium mb-1">Calories</Text>
                     <TextInput
                       className="border border-gray-300 rounded-md p-3 bg-white"
                       value={formData.calories}
-                      onChangeText={(text) => setFormData({...formData, calories: text})}
+                      onChangeText={(text) => setFormData({ ...formData, calories: text })}
                       placeholder="0"
                       keyboardType="numeric"
                     />
                   </View>
-                  
+
                   <View className="flex-1">
                     <Text className="text-sm font-medium mb-1">Protein (g)</Text>
                     <TextInput
                       className="border border-gray-300 rounded-md p-3 bg-white"
                       value={formData.protein}
-                      onChangeText={(text) => setFormData({...formData, protein: text})}
+                      onChangeText={(text) => setFormData({ ...formData, protein: text })}
                       placeholder="0"
                       keyboardType="numeric"
                     />
                   </View>
                 </View>
-                
+
                 <View className="flex-row gap-4">
                   <View className="flex-1">
                     <Text className="text-sm font-medium mb-1">Carbs (g)</Text>
                     <TextInput
                       className="border border-gray-300 rounded-md p-3 bg-white"
                       value={formData.carbs}
-                      onChangeText={(text) => setFormData({...formData, carbs: text})}
+                      onChangeText={(text) => setFormData({ ...formData, carbs: text })}
                       placeholder="0"
                       keyboardType="numeric"
                     />
                   </View>
-                  
+
                   <View className="flex-1">
                     <Text className="text-sm font-medium mb-1">Fat (g)</Text>
                     <TextInput
                       className="border border-gray-300 rounded-md p-3 bg-white"
                       value={formData.fat}
-                      onChangeText={(text) => setFormData({...formData, fat: text})}
+                      onChangeText={(text) => setFormData({ ...formData, fat: text })}
                       placeholder="0"
                       keyboardType="numeric"
                     />
                   </View>
                 </View>
-                
+
                 <View>
                   <Text className="text-sm font-medium mb-1">Description (optional)</Text>
                   <TextInput
                     className="border border-gray-300 rounded-md p-3 bg-white h-20"
                     value={formData.description}
-                    onChangeText={(text) => setFormData({...formData, description: text})}
+                    onChangeText={(text) => setFormData({ ...formData, description: text })}
                     placeholder="Enter description"
                     multiline
                     textAlignVertical="top"
                   />
                 </View>
               </View>
-              
+
               <View className="mt-4">
-                <TrackerButton
-                  title={isLoading ? 'Adding Meal...' : 'Add Meal'}
-                  onPress={handleManualEntry}
-                  disabled={isLoading}
-                  backgroundColor="#10B981"
-                />
+                <TrackerButton title={isLoading ? "Adding Meal..." : "Add Meal"} onPress={handleManualEntry} disabled={isLoading} backgroundColor="#10B981" />
               </View>
             </View>
           )}
@@ -356,19 +342,13 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
         <Text className="text-xl font-bold mb-4">Today's Meals</Text>
 
         <View className="flex-row mb-4">
-          {(['breakfast', 'snack', 'lunch', 'dinner'] as const).map((mealType) => (
+          {(["breakfast", "snack", "lunch", "dinner"] as const).map((mealType) => (
             <TouchableOpacity
               key={mealType}
-              className={`flex-1 py-2 ${
-                activeTab === mealType ? 'border-b-2 border-black' : ''
-              }`}
+              className={`flex-1 py-2 ${activeTab === mealType ? "border-b-2 border-black" : ""}`}
               onPress={() => setActiveTab(mealType)}
             >
-              <Text className={`text-sm text-center capitalize ${
-                activeTab === mealType ? 'font-medium text-black' : 'text-gray-500'
-              }`}>
-                {mealType}
-              </Text>
+              <Text className={`text-sm text-center capitalize ${activeTab === mealType ? "font-medium text-black" : "text-gray-500"}`}>{mealType}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -382,18 +362,14 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
             {currentMeals.map((meal, index) => (
               <View key={index} className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
                 <View className="flex-row justify-between items-start mb-2">
-                  <Text className="font-medium text-gray-900 flex-1">{meal.name || 'Meal'}</Text>
+                  <Text className="font-medium text-gray-900 flex-1">{meal.name || "Meal"}</Text>
                   <View className="bg-emerald-100 px-2 py-1 rounded-full">
-                    <Text className="text-sm font-bold text-emerald-700">
-                      {meal.calories} kcal
-                    </Text>
+                    <Text className="text-sm font-bold text-emerald-700">{meal.calories} kcal</Text>
                   </View>
                 </View>
-                
-                {meal.description && (
-                  <Text className="text-sm text-gray-600 mb-3">{meal.description}</Text>
-                )}
-                
+
+                {meal.description && <Text className="text-sm text-gray-600 mb-3">{meal.description}</Text>}
+
                 <View className="flex-row gap-2">
                   <View className="flex-1 bg-blue-50 p-2 rounded items-center">
                     <Text className="font-medium text-blue-700">{meal.protein}g</Text>
@@ -408,9 +384,9 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
                     <Text className="text-xs text-gray-600">Fat</Text>
                   </View>
                 </View>
-                
+
                 <Text className="text-xs text-gray-500 mt-2 text-right">
-                  {new Date(meal.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {new Date(meal.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                 </Text>
               </View>
             ))}

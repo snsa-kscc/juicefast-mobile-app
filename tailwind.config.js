@@ -5,9 +5,7 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     fontFamily: {
-      sans: ["Lufga-Regular"],
-      serif: ["Lufga-Regular"],
-      mono: ["Lufga-Regular"],
+      sans: ["Lufga-Regular", "system-ui", "sans-serif"],
       // Standard weight mappings to Lufga variants
       thin: ["Lufga-Thin"],
       extralight: ["Lufga-ExtraLight"],

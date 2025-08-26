@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Alert, Animated } from "react-native";
+import Slider from "@react-native-community/slider";
 import { useRouter } from "expo-router";
 import { Brain } from "lucide-react-native";
-import Slider from "@react-native-community/slider";
-import { TrackerHeader, CircularProgress, ProgressBar, TrackerButton, TrackerStats } from './shared';
+import { useEffect, useRef, useState } from "react";
+import { Alert, Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { CircularProgress, ProgressBar, TrackerButton, TrackerHeader, TrackerStats } from "./shared";
 
 interface MindfulnessEntry {
   minutes: number;
@@ -81,7 +81,7 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
 
     try {
       const today = new Date();
-      const activity = MINDFULNESS_TRACKER_CONFIG.meditationTypes.find(act => act.id === selectedActivity);
+      const activity = MINDFULNESS_TRACKER_CONFIG.meditationTypes.find((act) => act.id === selectedActivity);
 
       if (!activity) {
         throw new Error("Invalid activity selected");
@@ -122,17 +122,14 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <TrackerHeader 
+      <TrackerHeader
         title="Mindfulness Tracker"
         subtitle="Mindfulness practice improves mental clarity,\nreduces stress, and enhances well-being."
         onBack={() => router.back()}
         accentColor="#4CC3FF"
       />
 
-      <TrackerStats 
-        title="DAILY MINDFULNESS"
-        subtitle={`${Math.round(displayedMinutes)} out of ${dailyGoal} minutes goal`}
-      >
+      <TrackerStats title="DAILY MINDFULNESS" subtitle={`${Math.round(displayedMinutes)} out of ${dailyGoal} minutes goal`}>
         <CircularProgress
           value={displayedMinutes}
           maxValue={dailyGoal}
@@ -141,30 +138,28 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
           displayValue={progressPercentage}
           strokeWidth={10}
         />
-        
+
         <View className="mb-6" />
-        
+
         <ProgressBar
           value={displayedMinutes}
           maxValue={dailyGoal}
           color="#FE8E77"
           backgroundColor="#FFEFEB"
           showMarkers
-          markers={['0', '5', '10', '15', '20']}
+          markers={["0", "5", "10", "15", "20"]}
         />
-        
-        <Text className="font-sans text-sm text-center text-gray-600 mb-8 mt-6">
-          Mindfulness improves focus and reduces stress
-        </Text>
+
+        <Text className="font-lufga text-sm text-center text-gray-600 mb-8 mt-6">Mindfulness improves focus and reduces stress</Text>
       </TrackerStats>
 
       {/* Add Minutes Form */}
       <View className="w-full px-6 pb-8">
-        <Text className="font-sans font-semibold mb-3">Add minutes</Text>
-        
+        <Text className="font-semibold mb-3">Add minutes</Text>
+
         <View className="flex-row justify-between mb-1">
-          <Text className="font-sans text-xs text-gray-500">Minutes</Text>
-          <Text className="font-sans text-xs font-medium">{minutes} min</Text>
+          <Text className="font-lufga text-xs text-gray-500">Minutes</Text>
+          <Text className="text-xs font-medium">{minutes} min</Text>
         </View>
 
         <View className="mb-4">
@@ -182,7 +177,7 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
         </View>
 
         <View className="mb-4">
-          <Text className="font-sans text-xs text-gray-500 mb-2">Activity type</Text>
+          <Text className="font-lufga text-xs text-gray-500 mb-2">Activity type</Text>
           <View className="flex-row flex-wrap" style={{ gap: 8 }}>
             {MINDFULNESS_TRACKER_CONFIG.meditationTypes.map((activity) => (
               <TouchableOpacity
@@ -190,53 +185,39 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
                 onPress={() => setSelectedActivity(activity.id)}
                 disabled={isLoading}
                 className={`flex-row items-center px-3 py-2 rounded-md border ${
-                  selectedActivity === activity.id 
-                    ? 'bg-[#FE8E77] border-[#FE8E77]' 
-                    : 'bg-white border-gray-300'
+                  selectedActivity === activity.id ? "bg-[#FE8E77] border-[#FE8E77]" : "bg-white border-gray-300"
                 }`}
               >
-                <Brain 
-                  size={16} 
-                  color={selectedActivity === activity.id ? 'white' : '#6B7280'} 
-                />
-                <Text className={`ml-2 text-sm ${
-                  selectedActivity === activity.id ? 'text-white' : 'text-gray-700'
-                }`}>
-                  {activity.label}
-                </Text>
+                <Brain size={16} color={selectedActivity === activity.id ? "white" : "#6B7280"} />
+                <Text className={`ml-2 text-sm ${selectedActivity === activity.id ? "text-white" : "text-gray-700"}`}>{activity.label}</Text>
               </TouchableOpacity>
             ))}
           </View>
         </View>
 
-        <TrackerButton
-          title={isLoading ? "Logging..." : "Add minutes"}
-          onPress={handleAddMindfulness}
-          disabled={isLoading}
-          backgroundColor="#000000"
-        />
+        <TrackerButton title={isLoading ? "Logging..." : "Add minutes"} onPress={handleAddMindfulness} disabled={isLoading} backgroundColor="#000000" />
 
         {/* Tips Card */}
         <View className="mt-6 p-4 bg-white rounded-lg border border-gray-200">
-          <Text className="font-sans font-semibold mb-2">Mindfulness Tips</Text>
+          <Text className="font-semibold mb-2">Mindfulness Tips</Text>
           <View>
             <View className="flex-row items-start mb-2">
               <View className="bg-indigo-100 rounded-full p-1 mr-2 mt-0.5">
                 <Brain size={12} color="#6366F1" />
               </View>
-              <Text className="font-sans text-sm flex-1">Start with just 5 minutes a day and gradually increase</Text>
+              <Text className="font-lufga text-sm flex-1">Start with just 5 minutes a day and gradually increase</Text>
             </View>
             <View className="flex-row items-start mb-2">
               <View className="bg-indigo-100 rounded-full p-1 mr-2 mt-0.5">
                 <Brain size={12} color="#6366F1" />
               </View>
-              <Text className="font-sans text-sm flex-1">Focus on your breath when your mind wanders</Text>
+              <Text className="font-lufga text-sm flex-1">Focus on your breath when your mind wanders</Text>
             </View>
             <View className="flex-row items-start">
               <View className="bg-indigo-100 rounded-full p-1 mr-2 mt-0.5">
                 <Brain size={12} color="#6366F1" />
               </View>
-              <Text className="font-sans text-sm flex-1">Practice at the same time each day to build a habit</Text>
+              <Text className="font-lufga text-sm flex-1">Practice at the same time each day to build a habit</Text>
             </View>
           </View>
         </View>
