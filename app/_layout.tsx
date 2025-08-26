@@ -1,6 +1,9 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "../styles/global.css";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -29,36 +32,39 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-      <Stack.Screen
-        name="steps"
-        options={{
-          presentation: "card",
-          animation: "slide_from_right",
-        }}
-      />
-      <Stack.Screen
-        name="sleep"
-        options={{
-          presentation: "card",
-          animation: "slide_from_right",
-        }}
-      />
-      <Stack.Screen
-        name="mindfulness"
-        options={{
-          presentation: "card",
-          animation: "slide_from_right",
-        }}
-      />
-      <Stack.Screen
-        name="hydration"
-        options={{
-          presentation: "card",
-          animation: "slide_from_right",
-        }}
-      />
-    </Stack>
+    <QueryClientProvider client={queryClient}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="hello" />
+        <Stack.Screen
+          name="steps"
+          options={{
+            presentation: "card",
+            animation: "slide_from_right",
+          }}
+        />
+        <Stack.Screen
+          name="sleep"
+          options={{
+            presentation: "card",
+            animation: "slide_from_right",
+          }}
+        />
+        <Stack.Screen
+          name="mindfulness"
+          options={{
+            presentation: "card",
+            animation: "slide_from_right",
+          }}
+        />
+        <Stack.Screen
+          name="hydration"
+          options={{
+            presentation: "card",
+            animation: "slide_from_right",
+          }}
+        />
+      </Stack>
+    </QueryClientProvider>
   );
 }
