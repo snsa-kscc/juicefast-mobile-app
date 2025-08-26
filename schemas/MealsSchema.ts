@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const MealsSchema = z.object({
   name: z.string().describe("Name of the dish/food"),
+  meal: z.enum(["breakfast", "lunch", "dinner", "snack"]).describe("Type of meal"),  
   calories: z.number().describe("Calorie content in kcal"),
   protein: z.number().describe("Protein content in grams"),
   carbs: z.number().describe("Carbohydrate content in grams"),
