@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Alert, TextInput } from 'react-native';
 import { TrackerHeader, TrackerButton } from './tracker/shared';
 import { Camera, Image, FileText, Plus } from 'lucide-react-native';
 
@@ -32,6 +32,14 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedMealType, setSelectedMealType] = useState<MealType | null>(null);
   const [activeTab, setActiveTab] = useState<MealType>('breakfast');
+  const [formData, setFormData] = useState({
+    name: '',
+    calories: '',
+    protein: '',
+    carbs: '',
+    fat: '',
+    description: ''
+  });
 
   const handleMealAdded = async (mealData: MacroData, mealType?: MealType) => {
     if (!userId) return;
@@ -64,8 +72,34 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
     Alert.alert('Image Scanner', 'Image scanning functionality would be implemented here');
   };
 
-  const handleManualEntry = () => {
-    Alert.alert('Manual Entry', 'Manual entry form would be implemented here');
+  const handleManualEntry = async () => {
+    if (!formData.name || !formData.calories || !formData.protein || !formData.carbs || !formData.fat) {
+      Alert.alert('Error', 'Please fill in all required fields');
+      return;
+    }
+
+    const mealData: MacroData = {
+      name: formData.name,
+      calories: parseFloat(formData.calories),
+      protein: parseFloat(formData.protein),
+      carbs: parseFloat(formData.carbs),
+      fat: parseFloat(formData.fat),
+      description: formData.description
+    };
+
+    await handleMealAdded(mealData, selectedMealType!);
+    
+    // Reset form
+    setFormData({
+      name: '',
+      calories: '',
+      protein: '',
+      carbs: '',
+      fat: '',
+      description: ''
+    });
+    
+    Alert.alert('Success', 'Meal added successfully!');
   };
 
   const calculateDailyTotals = () => {
@@ -154,29 +188,115 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
             </TouchableOpacity>
           </View>
 
-          {activeEntryTab === 'scan' && (
-            <View className="flex-row gap-4 mb-4">
-              {(['camera', 'photos'] as const).map((method) => (
-                <TouchableOpacity
-                  key={method}
-                  className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
-                    activeInputMethod === method ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white'
-                  }`}
-                  onPress={() => setActiveInputMethod(method)}
-                >
-                  {getInputMethodIcon(method)}
-                  <Text className="text-sm mt-1 capitalize">{method}</Text>
-                </TouchableOpacity>
-              ))}
+          {activeEntryTab === 'scan' ? (
+            <View>
+              <View className="flex-row gap-4 mb-4">
+                {(['camera', 'photos'] as const).map((method) => (
+                  <TouchableOpacity
+                    key={method}
+                    className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
+                      activeInputMethod === method ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white'
+                    }`}
+                    onPress={() => setActiveInputMethod(method)}
+                  >
+                    {getInputMethodIcon(method)}
+                    <Text className="text-sm mt-1 capitalize">{method}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <TrackerButton
+                title="Scan Image"
+                onPress={handleImageScan}
+                disabled={isLoading}
+                backgroundColor="#10B981"
+              />
+            </View>
+          ) : (
+            <View className="bg-white rounded-lg p-4 border border-gray-200">
+              <Text className="text-lg font-semibold mb-4">Manual Meal Entry</Text>
+              
+              <View className="space-y-4">
+                <View>
+                  <Text className="text-sm font-medium mb-1">Meal Name</Text>
+                  <TextInput
+                    className="border border-gray-300 rounded-md p-3 bg-white"
+                    value={formData.name}
+                    onChangeText={(text) => setFormData({...formData, name: text})}
+                    placeholder="Enter meal name"
+                  />
+                </View>
+                
+                <View className="flex-row gap-4">
+                  <View className="flex-1">
+                    <Text className="text-sm font-medium mb-1">Calories</Text>
+                    <TextInput
+                      className="border border-gray-300 rounded-md p-3 bg-white"
+                      value={formData.calories}
+                      onChangeText={(text) => setFormData({...formData, calories: text})}
+                      placeholder="0"
+                      keyboardType="numeric"
+                    />
+                  </View>
+                  
+                  <View className="flex-1">
+                    <Text className="text-sm font-medium mb-1">Protein (g)</Text>
+                    <TextInput
+                      className="border border-gray-300 rounded-md p-3 bg-white"
+                      value={formData.protein}
+                      onChangeText={(text) => setFormData({...formData, protein: text})}
+                      placeholder="0"
+                      keyboardType="numeric"
+                    />
+                  </View>
+                </View>
+                
+                <View className="flex-row gap-4">
+                  <View className="flex-1">
+                    <Text className="text-sm font-medium mb-1">Carbs (g)</Text>
+                    <TextInput
+                      className="border border-gray-300 rounded-md p-3 bg-white"
+                      value={formData.carbs}
+                      onChangeText={(text) => setFormData({...formData, carbs: text})}
+                      placeholder="0"
+                      keyboardType="numeric"
+                    />
+                  </View>
+                  
+                  <View className="flex-1">
+                    <Text className="text-sm font-medium mb-1">Fat (g)</Text>
+                    <TextInput
+                      className="border border-gray-300 rounded-md p-3 bg-white"
+                      value={formData.fat}
+                      onChangeText={(text) => setFormData({...formData, fat: text})}
+                      placeholder="0"
+                      keyboardType="numeric"
+                    />
+                  </View>
+                </View>
+                
+                <View>
+                  <Text className="text-sm font-medium mb-1">Description (optional)</Text>
+                  <TextInput
+                    className="border border-gray-300 rounded-md p-3 bg-white h-20"
+                    value={formData.description}
+                    onChangeText={(text) => setFormData({...formData, description: text})}
+                    placeholder="Enter description"
+                    multiline
+                    textAlignVertical="top"
+                  />
+                </View>
+              </View>
+              
+              <View className="mt-4">
+                <TrackerButton
+                  title={isLoading ? 'Adding Meal...' : 'Add Meal'}
+                  onPress={handleManualEntry}
+                  disabled={isLoading}
+                  backgroundColor="#10B981"
+                />
+              </View>
             </View>
           )}
-
-          <TrackerButton
-            title={activeEntryTab === 'scan' ? 'Scan Image' : 'Add Manually'}
-            onPress={activeEntryTab === 'scan' ? handleImageScan : handleManualEntry}
-            disabled={isLoading}
-            backgroundColor="#10B981"
-          />
         </View>
       )}
 
