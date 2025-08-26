@@ -78,9 +78,8 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
       }
       
       const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
+        mediaTypes: ['images'],
+        allowsEditing: false,
         quality: 1,
       });
       
@@ -102,9 +101,8 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
       }
       
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
+        mediaTypes: ['images'],
+        allowsEditing: false,
         quality: 1,
       });
       
