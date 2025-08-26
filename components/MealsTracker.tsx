@@ -30,6 +30,7 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
   const [activeInputMethod, setActiveInputMethod] = useState<'camera' | 'photos' | 'files'>('camera');
   const [meals, setMeals] = useState<MealEntry[]>(initialMealsData?.meals || []);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedMealType, setSelectedMealType] = useState<MealType | null>(null);
   const [activeTab, setActiveTab] = useState<MealType>('breakfast');
 
   const handleMealAdded = async (mealData: MacroData, mealType?: MealType) => {
@@ -55,8 +56,8 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
   };
 
   const handleAddMealByType = (mealType: MealType) => {
+    setSelectedMealType(mealType);
     setActiveTab(mealType);
-    setActiveEntryTab('manual');
   };
 
   const handleImageScan = () => {
@@ -100,69 +101,88 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
       <TrackerHeader 
         title="Meal Tracker"
         subtitle="What you eat builds your energy, mood and body. Let's track it."
-        onBack={onBack}
+        onBack={selectedMealType ? () => setSelectedMealType(null) : onBack}
         accentColor="#10B981"
       />
 
-      {/* Scan meal image section */}
-      <View className="px-4 mb-6">
-        <Text className="text-xl font-bold mb-4">Scan meal image</Text>
-
-        <View className="flex-row gap-4 mb-4">
-          <TouchableOpacity
-            className={`flex-1 rounded-md py-4 items-center ${
-              activeEntryTab === 'scan' ? 'bg-emerald-500' : 'bg-white border border-gray-200'
-            }`}
-            onPress={() => setActiveEntryTab('scan')}
-          >
-            <Text className={`font-medium ${
-              activeEntryTab === 'scan' ? 'text-white' : 'text-black'
-            }`}>
-              Upload image
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            className={`flex-1 rounded-md py-4 items-center ${
-              activeEntryTab === 'manual' ? 'bg-emerald-500' : 'bg-white border border-gray-200'
-            }`}
-            onPress={() => setActiveEntryTab('manual')}
-          >
-            <Text className={`font-medium ${
-              activeEntryTab === 'manual' ? 'text-white' : 'text-black'
-            }`}>
-              Manual entry
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {activeEntryTab === 'scan' && (
-          <View className="flex-row gap-4 mb-4">
-            {(['camera', 'photos', 'files'] as const).map((method) => (
+      {!selectedMealType ? (
+        /* Meal type selection */
+        <View className="px-4 mb-6">
+          <Text className="text-xl font-bold mb-4">What meal would you like to add?</Text>
+          
+          <View className="space-y-3">
+            {(['breakfast', 'lunch', 'dinner', 'snack'] as const).map((mealType) => (
               <TouchableOpacity
-                key={method}
-                className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
-                  activeInputMethod === method ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white'
-                }`}
-                onPress={() => setActiveInputMethod(method)}
+                key={mealType}
+                className="bg-white rounded-lg p-4 border border-gray-200"
+                onPress={() => handleAddMealByType(mealType)}
               >
-                {getInputMethodIcon(method)}
-                <Text className="text-sm mt-1 capitalize">{method}</Text>
+                <Text className="text-lg font-medium capitalize text-center">{mealType}</Text>
               </TouchableOpacity>
             ))}
           </View>
-        )}
+        </View>
+      ) : (
+        /* Scan meal image section */
+        <View className="px-4 mb-6">
+          <Text className="text-xl font-bold mb-4">Add {selectedMealType}</Text>
 
-        <TrackerButton
-          title={activeEntryTab === 'scan' ? 'Scan Image' : 'Add Manually'}
-          onPress={activeEntryTab === 'scan' ? handleImageScan : handleManualEntry}
-          disabled={isLoading}
-          backgroundColor="#10B981"
-        />
-      </View>
+          <View className="flex-row gap-4 mb-4">
+            <TouchableOpacity
+              className={`flex-1 rounded-md py-4 items-center ${
+                activeEntryTab === 'scan' ? 'bg-emerald-500' : 'bg-white border border-gray-200'
+              }`}
+              onPress={() => setActiveEntryTab('scan')}
+            >
+              <Text className={`font-medium ${
+                activeEntryTab === 'scan' ? 'text-white' : 'text-black'
+              }`}>
+                Upload image
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className={`flex-1 rounded-md py-4 items-center ${
+                activeEntryTab === 'manual' ? 'bg-emerald-500' : 'bg-white border border-gray-200'
+              }`}
+              onPress={() => setActiveEntryTab('manual')}
+            >
+              <Text className={`font-medium ${
+                activeEntryTab === 'manual' ? 'text-white' : 'text-black'
+              }`}>
+                Manual entry
+              </Text>
+            </TouchableOpacity>
+          </View>
 
-      {/* Meals section */}
+          {activeEntryTab === 'scan' && (
+            <View className="flex-row gap-4 mb-4">
+              {(['camera', 'photos', 'files'] as const).map((method) => (
+                <TouchableOpacity
+                  key={method}
+                  className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
+                    activeInputMethod === method ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white'
+                  }`}
+                  onPress={() => setActiveInputMethod(method)}
+                >
+                  {getInputMethodIcon(method)}
+                  <Text className="text-sm mt-1 capitalize">{method}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+
+          <TrackerButton
+            title={activeEntryTab === 'scan' ? 'Scan Image' : 'Add Manually'}
+            onPress={activeEntryTab === 'scan' ? handleImageScan : handleManualEntry}
+            disabled={isLoading}
+            backgroundColor="#10B981"
+          />
+        </View>
+      )}
+
+      {/* Today's Meals section */}
       <View className="px-4 mb-6">
-        <Text className="text-xl font-bold mb-4">Meals</Text>
+        <Text className="text-xl font-bold mb-4">Today's Meals</Text>
 
         <View className="flex-row mb-4">
           {(['breakfast', 'snack', 'lunch', 'dinner'] as const).map((mealType) => (
@@ -184,7 +204,7 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
 
         {currentMeals.length === 0 ? (
           <View className="flex items-center justify-center py-8">
-            <Text className="text-gray-500">No meals logged yet</Text>
+            <Text className="text-gray-500">No {activeTab} logged yet</Text>
           </View>
         ) : (
           <View className="space-y-3 mb-4">
@@ -225,12 +245,6 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
             ))}
           </View>
         )}
-
-        <TrackerButton
-          title={currentMeals.length === 0 ? 'Add your first meal' : `Add another ${activeTab}`}
-          onPress={() => handleAddMealByType(activeTab)}
-          backgroundColor="#10B981"
-        />
       </View>
 
       {/* Daily nutrition totals */}
