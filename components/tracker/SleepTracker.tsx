@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert, Animated } from "react-native";
+import Slider from "@react-native-community/slider";
 import { useRouter } from "expo-router";
 import { MoonIcon, SunIcon } from "lucide-react-native";
-import Slider from "@react-native-community/slider";
-import { TrackerHeader, CircularProgress, ProgressBar, TrackerButton, TrackerStats } from './shared';
+import { useEffect, useRef, useState } from "react";
+import { Alert, Animated, ScrollView, Text, TextInput, View } from "react-native";
+import { CircularProgress, ProgressBar, TrackerButton, TrackerHeader, TrackerStats } from "./shared";
 
 interface SleepEntry {
   hoursSlept: number;
@@ -134,17 +134,14 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <TrackerHeader 
+      <TrackerHeader
         title="Sleep Tracker"
         subtitle="Quality sleep improves focus, mood,\nand overall health. Track your rest."
         onBack={() => router.back()}
         accentColor="#8B5CF6"
       />
 
-      <TrackerStats 
-        title="DAILY SLEEP"
-        subtitle={sleepEntry ? `${displayedHours} out of ${dailyGoal} hours goal` : "No sleep data recorded today"}
-      >
+      <TrackerStats title="DAILY SLEEP" subtitle={sleepEntry ? `${displayedHours} out of ${dailyGoal} hours goal` : "No sleep data recorded today"}>
         <CircularProgress
           value={displayedHours}
           maxValue={dailyGoal}
@@ -153,31 +150,31 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
           displayValue={progressPercentage}
           strokeWidth={8}
         />
-        
+
         <View className="mb-6" />
-        
+
         <ProgressBar
           value={displayedHours}
           maxValue={dailyGoal}
           color="#8B5CF6"
           backgroundColor="#EDE9FE"
           showMarkers
-          markers={['0h', '2h', '4h', '6h', '8h']}
+          markers={["0h", "2h", "4h", "6h", "8h"]}
         />
-        
-        <Text className="font-sans text-sm text-center text-gray-600 mb-8 mt-6">
+
+        <Text className="font-lufga text-sm text-center text-gray-600 mb-8 mt-6">
           {sleepEntry ? `Sleep quality: ${sleepQuality}/5` : "No sleep data recorded"}
         </Text>
       </TrackerStats>
 
       {/* Sleep Entry Form */}
       <View className="w-full px-6 pb-8">
-        <Text className="font-sans font-semibold mb-3">Log your sleep</Text>
+        <Text className="font-semibold mb-3">Log your sleep</Text>
 
         {/* Bed time and wake time */}
         <View className="flex-row gap-4 mb-4">
           <View className="flex-1">
-              <Text className="font-sans text-sm flex-1">Avoid screens for at least 1 hour before bedtime</Text>
+            <Text className="font-lufga text-sm flex-1">Avoid screens for at least 1 hour before bedtime</Text>
             <View className="relative">
               <TextInput
                 value={bedTime}
@@ -192,7 +189,7 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
             </View>
           </View>
           <View className="flex-1">
-              <Text className="font-sans text-sm flex-1">Create a relaxing bedtime routine to signal it's time to sleep</Text>
+            <Text className="font-lufga text-sm flex-1">Create a relaxing bedtime routine to signal it's time to sleep</Text>
             <View className="relative">
               <TextInput
                 value={wakeTime}
@@ -211,8 +208,8 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
         {/* Sleep quality */}
         <View className="mb-4">
           <View className="flex-row justify-between mb-1">
-            <Text className="font-sans text-xs text-gray-500">Sleep quality</Text>
-            <Text className="font-sans text-xs font-medium">{sleepQuality}/5</Text>
+            <Text className="font-lufga text-xs text-gray-500">Sleep quality</Text>
+            <Text className="text-xs font-medium">{sleepQuality}/5</Text>
           </View>
           <Slider
             value={sleepQuality}
@@ -227,16 +224,11 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
           />
           <View className="flex-row justify-between mt-1">
             <Text className="text-xs text-gray-500">Poor</Text>
-              <Text className="font-sans text-sm flex-1">Keep a consistent sleep schedule, even on weekends</Text>
+            <Text className="font-lufga text-sm flex-1">Keep a consistent sleep schedule, even on weekends</Text>
           </View>
         </View>
 
-        <TrackerButton
-          title={isLoading ? "Saving..." : "Save sleep data"}
-          onPress={handleSaveSleep}
-          disabled={isLoading}
-          backgroundColor="#8B5CF6"
-        />
+        <TrackerButton title={isLoading ? "Saving..." : "Save sleep data"} onPress={handleSaveSleep} disabled={isLoading} backgroundColor="#8B5CF6" />
       </View>
     </ScrollView>
   );

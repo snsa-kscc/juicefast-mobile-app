@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Animated } from 'react-native';
-import Slider from '@react-native-community/slider';
-import { TrackerHeader, CircularProgress, ProgressBar, TrackerButton, TrackerStats } from './shared';
-import { Droplets } from 'lucide-react-native';
+import Slider from "@react-native-community/slider";
+import { Droplets } from "lucide-react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { CircularProgress, ProgressBar, TrackerButton, TrackerHeader, TrackerStats } from "./shared";
 
 interface WaterIntake {
   amount: number;
@@ -35,7 +35,7 @@ export function HydrationTracker({ userId, initialWaterData, onBack }: Hydration
     if (initialWaterData?.waterIntake) {
       const total = initialWaterData.waterIntake.reduce((sum, entry) => sum + entry.amount, 0);
       setTotalWater(total);
-      
+
       // Animate counter
       Animated.timing(animatedValue, {
         toValue: total,
@@ -77,7 +77,7 @@ export function HydrationTracker({ userId, initialWaterData, onBack }: Hydration
       setWaterEntries(updatedEntries);
       setTotalWater(newTotal);
     } catch (error) {
-      console.error('Failed to save water data:', error);
+      console.error("Failed to save water data:", error);
     } finally {
       setIsLoading(false);
     }
@@ -94,52 +94,49 @@ export function HydrationTracker({ userId, initialWaterData, onBack }: Hydration
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <TrackerHeader 
+      <TrackerHeader
         title="Water Tracker"
         subtitle="Hydration fuels your focus, energy\nand digestion. Keep it flowing."
         onBack={onBack}
         accentColor="#3BB9FF"
       />
 
-      <TrackerStats 
-        title="DAILY HYDRATION"
-        subtitle={`${formatWaterAmount(displayedTotal)} out of ${formatWaterAmount(DAILY_GOAL)} goal achieved`}
-      >
+      <TrackerStats title="DAILY HYDRATION" subtitle={`${formatWaterAmount(displayedTotal)} out of ${formatWaterAmount(DAILY_GOAL)} goal achieved`}>
         <CircularProgress
           value={displayedTotal}
           maxValue={DAILY_GOAL}
           color="#3BB9FF"
           backgroundColor="#E6F4FF"
-          displayValue={formatWaterAmount(displayedTotal).replace('ml', '')}
+          displayValue={formatWaterAmount(displayedTotal).replace("ml", "")}
         />
-        
+
         <View className="mb-6" />
-        
+
         <ProgressBar
           value={displayedTotal}
           maxValue={DAILY_GOAL}
           color="#3BB9FF"
           backgroundColor="#E6F4FF"
           showMarkers
-          markers={['0', '500ml', '1L', '1.5L', '2L']}
+          markers={["0", "500ml", "1L", "1.5L", "2L"]}
         />
-        
-        <Text className="font-sans text-sm text-center text-gray-600 mb-8 mt-6">
-          Your body is {progressPercentage}% water. You're{'\n'}giving it what it needs.
+
+        <Text className="font-lufga text-sm text-center text-gray-600 mb-8 mt-6">
+          Your body is {progressPercentage}% water. You're{"\n"}giving it what it needs.
         </Text>
       </TrackerStats>
 
       {/* Add Water Form */}
       <View className="px-6">
-        <Text className="font-sans font-semibold mb-1">Add water</Text>
+        <Text className="font-semibold mb-1">Add water</Text>
         <View className="flex-row justify-between mb-1">
-          <Text className="font-sans text-xs text-gray-500">Amount (ml)</Text>
-          <Text className="font-sans text-xs font-medium">{waterAmount}ml</Text>
+          <Text className="font-lufga text-xs text-gray-500">Amount (ml)</Text>
+          <Text className="text-xs font-medium">{waterAmount}ml</Text>
         </View>
 
         <View className="mb-4">
           <Slider
-            style={{ width: '100%', height: 40 }}
+            style={{ width: "100%", height: 40 }}
             minimumValue={MIN_AMOUNT}
             maximumValue={MAX_AMOUNT}
             step={STEP_SIZE}
@@ -155,39 +152,30 @@ export function HydrationTracker({ userId, initialWaterData, onBack }: Hydration
         {/* Quick add buttons */}
         <View className="flex-row justify-between mb-4">
           {QUICK_ADD_AMOUNTS.map((amount) => (
-            <TouchableOpacity
-              key={amount}
-              className="border border-gray-300 rounded-md px-3 py-2"
-              onPress={() => setWaterAmount(amount)}
-              disabled={isLoading}
-            >
-              <Text className="font-sans text-sm">{amount} ml</Text>
+            <TouchableOpacity key={amount} className="border border-gray-300 rounded-md px-3 py-2" onPress={() => setWaterAmount(amount)} disabled={isLoading}>
+              <Text className="font-lufga text-sm">{amount} ml</Text>
             </TouchableOpacity>
           ))}
         </View>
 
-        <TrackerButton
-          title={isLoading ? 'Adding...' : 'Add water'}
-          onPress={handleAddWater}
-          disabled={isLoading}
-        />
+        <TrackerButton title={isLoading ? "Adding..." : "Add water"} onPress={handleAddWater} disabled={isLoading} />
       </View>
 
       {/* Tips Card */}
       <View className="px-6 mt-6 mb-20">
         <View className="bg-white rounded-lg p-4 shadow-sm">
-          <Text className="font-sans font-semibold mb-2">Hydration Tips</Text>
+          <Text className="font-semibold mb-2">Hydration Tips</Text>
           <View className="space-y-2">
             {[
-              'Drink a glass of water first thing in the morning',
-              'Carry a reusable water bottle with you throughout the day',
-              'Set reminders to drink water every hour'
+              "Drink a glass of water first thing in the morning",
+              "Carry a reusable water bottle with you throughout the day",
+              "Set reminders to drink water every hour",
             ].map((tip, index) => (
               <View key={index} className="flex-row items-start">
                 <View className="bg-blue-100 rounded-full p-1 mr-2 mt-0.5">
                   <Droplets size={12} color="#3BB9FF" />
                 </View>
-                <Text className="font-sans text-sm flex-1">{tip}</Text>
+                <Text className="font-lufga text-sm flex-1">{tip}</Text>
               </View>
             ))}
           </View>

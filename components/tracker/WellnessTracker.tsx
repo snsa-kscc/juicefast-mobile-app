@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Settings, Plus } from "lucide-react-native";
+import { Plus, Settings } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Path, Svg } from "react-native-svg";
@@ -256,32 +256,32 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
         <View className="relative py-6 overflow-hidden">
           <View className="absolute w-64 h-64 rounded-full bg-[#4CC3FF]/40 -top-5 left-0 opacity-60" style={{ filter: "blur(80px)" }} />
           <View className="flex-row justify-between items-center px-6 z-10">
-            <Text className="font-sans text-xl font-bold">Wellness Tracker</Text>
+            <Text className="text-xl font-bold">Wellness Tracker</Text>
             <TouchableOpacity className="w-10 h-10 rounded-full bg-transparent justify-center items-center">
               <Settings size={20} color="#9CA3AF" />
             </TouchableOpacity>
           </View>
           <View className="px-6 pb-4 z-10">
-            <Text className="font-sans text-sm text-gray-500">Today I'm going to....</Text>
+            <Text className="font-lufga text-sm text-gray-500">Today I'm going to....</Text>
           </View>
         </View>
 
         {/* Wellness Score */}
         <View className="px-6 py-6 items-center">
           <View className="flex-row justify-between items-center w-full mb-2">
-            <Text className="font-sans text-lg font-semibold tracking-widest">WELLNESS SCORE</Text>
+            <Text className="text-lg font-semibold tracking-widest">WELLNESS SCORE</Text>
             <View className="w-8 h-8 rounded-full bg-gray-100 justify-center items-center">
-              <Text className="font-sans text-base text-slate-600 font-bold">i</Text>
+              <Text className="text-base text-slate-600 font-bold">i</Text>
             </View>
           </View>
-          <Text className="font-sans text-sm text-gray-500 mb-6">Average wellness score for the last 7 days</Text>
+          <Text className="font-lufga text-sm text-gray-500 mb-6">Average wellness score for the last 7 days</Text>
 
           <CircularProgress value={displayedScore} maxValue={100} color="#E8D5B0" backgroundColor="#F2E9D8" displayValue={displayedScore} />
         </View>
 
         {/* Tracking Options */}
         <View className="px-6 py-6">
-          <Text className="font-sans text-base font-medium text-center mb-4">What would you like to track today?</Text>
+          <Text className="text-base font-medium text-center mb-4">What would you like to track today?</Text>
 
           {trackingOptions.map((option) => {
             const handlePress = () => {
@@ -304,13 +304,15 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
                 className="rounded-xl mb-3 border border-transparent"
                 style={{ backgroundColor: option.color }}
                 onPress={handlePress}
-                activeOpacity={option.id === "meals" || option.id === "steps" || option.id === "sleep" || option.id === "mindfulness" || option.id === "water" ? 0.7 : 1}
+                activeOpacity={
+                  option.id === "meals" || option.id === "steps" || option.id === "sleep" || option.id === "mindfulness" || option.id === "water" ? 0.7 : 1
+                }
               >
                 <View className="flex-row items-center p-4">
                   <View className="mr-3">{option.icon}</View>
                   <View className="flex-1">
-                    <Text className="font-sans text-base font-medium mb-1">{option.name}</Text>
-                    <Text className="font-sans text-sm text-gray-500">
+                    <Text className="text-base font-medium mb-1">{option.name}</Text>
+                    <Text className="font-lufga text-sm text-gray-500">
                       {option.progress} {option.unit}
                     </Text>
                   </View>
