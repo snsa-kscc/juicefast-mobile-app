@@ -285,7 +285,9 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
 
           {trackingOptions.map((option) => {
             const handlePress = () => {
-              if (option.id === "steps") {
+              if (option.id === "meals") {
+                router.push("/meals" as any);
+              } else if (option.id === "steps") {
                 router.push("/steps" as any);
               } else if (option.id === "sleep") {
                 router.push("/sleep" as any);
@@ -294,7 +296,6 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
               } else if (option.id === "water") {
                 router.push("/hydration" as any);
               }
-              // Other options don't navigate yet
             };
 
             return (
@@ -303,7 +304,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
                 className="rounded-xl mb-3 border border-transparent"
                 style={{ backgroundColor: option.color }}
                 onPress={handlePress}
-                activeOpacity={option.id === "steps" || option.id === "sleep" || option.id === "mindfulness" || option.id === "water" ? 0.7 : 1}
+                activeOpacity={option.id === "meals" || option.id === "steps" || option.id === "sleep" || option.id === "mindfulness" || option.id === "water" ? 0.7 : 1}
               >
                 <View className="flex-row items-center p-4">
                   <View className="mr-3">{option.icon}</View>
@@ -313,7 +314,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
                       {option.progress} {option.unit}
                     </Text>
                   </View>
-                  {(option.id === "steps" || option.id === "sleep" || option.id === "mindfulness" || option.id === "water") && (
+                  {(option.id === "meals" || option.id === "steps" || option.id === "sleep" || option.id === "mindfulness" || option.id === "water") && (
                     <View className="ml-2">
                       <Text className="font-sans text-gray-400 text-lg">›</Text>
                     </View>
