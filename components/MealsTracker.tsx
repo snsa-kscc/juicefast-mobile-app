@@ -114,10 +114,10 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
             {(['breakfast', 'lunch', 'dinner', 'snack'] as const).map((mealType) => (
               <TouchableOpacity
                 key={mealType}
-                className="bg-white rounded-lg p-4 border border-gray-200"
+                className="bg-emerald-500 rounded-lg p-4"
                 onPress={() => handleAddMealByType(mealType)}
               >
-                <Text className="text-lg font-medium capitalize text-center">{mealType}</Text>
+                <Text className="text-lg font-medium capitalize text-center text-white">{mealType}</Text>
               </TouchableOpacity>
             ))}
           </View>
