@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert, TextInput } from 'react-native';
 import { TrackerHeader, TrackerButton } from './tracker/shared';
 import { Camera, Image, FileText, Plus } from 'lucide-react-native';
+import * as ImagePicker from 'expo-image-picker';
 
 interface MacroData {
   calories: number;
@@ -68,8 +69,52 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
     setActiveTab(mealType);
   };
 
-  const handleImageScan = () => {
-    Alert.alert('Image Scanner', 'Image scanning functionality would be implemented here');
+  const handleCamera = async () => {
+    try {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission needed', 'Camera permission is required to take photos');
+        return;
+      }
+      
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      
+      if (!result.canceled && result.assets[0]) {
+        Alert.alert('Image Selected', `Image URI: ${result.assets[0].uri}`);
+        // TODO: Process image for meal analysis
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to access camera');
+    }
+  };
+
+  const handleGallery = async () => {
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission needed', 'Gallery permission is required to select photos');
+        return;
+      }
+      
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      
+      if (!result.canceled && result.assets[0]) {
+        Alert.alert('Image Selected', `Image URI: ${result.assets[0].uri}`);
+        // TODO: Process image for meal analysis
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to access gallery');
+    }
   };
 
   const handleManualEntry = async () => {
@@ -191,25 +236,33 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
           {activeEntryTab === 'scan' ? (
             <View>
               <View className="flex-row gap-4 mb-4">
-                {(['camera', 'photos'] as const).map((method) => (
-                  <TouchableOpacity
-                    key={method}
-                    className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
-                      activeInputMethod === method ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white'
-                    }`}
-                    onPress={() => setActiveInputMethod(method)}
-                  >
-                    {getInputMethodIcon(method)}
-                    <Text className="text-sm mt-1 capitalize">{method}</Text>
-                  </TouchableOpacity>
-                ))}
+                <TouchableOpacity
+                  className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
+                    activeInputMethod === 'camera' ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white'
+                  }`}
+                  onPress={() => {
+                    setActiveInputMethod('camera');
+                    handleCamera();
+                  }}
+                >
+                  <Camera size={20} color="#6B7280" />
+                  <Text className="text-sm mt-1">Camera</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
+                    activeInputMethod === 'photos' ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white'
+                  }`}
+                  onPress={() => {
+                    setActiveInputMethod('photos');
+                    handleGallery();
+                  }}
+                >
+                  <Image size={20} color="#6B7280" />
+                  <Text className="text-sm mt-1">Photos</Text>
+                </TouchableOpacity>
               </View>
-              <TrackerButton
-                title="Scan Image"
-                onPress={handleImageScan}
-                disabled={isLoading}
-                backgroundColor="#10B981"
-              />
+
             </View>
           ) : (
             <View className="bg-white rounded-lg p-4 border border-gray-200">
