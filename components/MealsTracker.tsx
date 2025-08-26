@@ -3,21 +3,9 @@ import { Camera, FileText, Image } from "lucide-react-native";
 import React, { useState } from "react";
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { TrackerButton, TrackerHeader } from "./tracker/shared";
+import { MealsSchema, type Meal } from "@/schemas/MealsSchema";
 
-interface MacroData {
-  calories: number;
-  protein: number;
-  carbs: number;
-  fat: number;
-  name?: string;
-  description?: string;
-}
-
-interface MealEntry extends MacroData {
-  mealType: MealType;
-  timestamp: Date;
-}
-
+type MealEntry = Meal;
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
 interface MealsTrackerProps {
@@ -42,16 +30,29 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
     description: "",
   });
 
-  const handleMealAdded = async (mealData: MacroData, mealType?: MealType) => {
+  const simulateLLMResponse = (): Meal => {
+    // Simulate LLM response with random meal data
+    const sampleMeals = [
+      { name: "Grilled Chicken Salad", calories: 350, protein: 35, carbs: 15, fat: 12, description: "Fresh mixed greens with grilled chicken breast" },
+      { name: "Salmon with Rice", calories: 520, protein: 40, carbs: 45, fat: 18, description: "Baked salmon fillet with brown rice and vegetables" },
+      { name: "Avocado Toast", calories: 280, protein: 8, carbs: 25, fat: 18, description: "Whole grain toast topped with mashed avocado" },
+    ];
+    const randomMeal = sampleMeals[Math.floor(Math.random() * sampleMeals.length)];
+    return { ...randomMeal, timestamp: new Date(), meal: selectedMealType! };
+  };
+
+  const handleMealAdded = async (mealData: Meal, mealType?: MealType) => {
     if (!userId) return;
 
     try {
       setIsLoading(true);
 
+      // Validate meal data against schema
+      const validatedMeal = MealsSchema.parse(mealData);
+
       const newMeal: MealEntry = {
-        mealType: mealType || activeTab,
-        timestamp: new Date(),
-        ...mealData,
+        ...validatedMeal,
+        meal: mealType || activeTab,
       };
 
       const updatedMeals = [...meals, newMeal];
@@ -84,8 +85,20 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
       });
 
       if (!result.canceled && result.assets[0]) {
-        Alert.alert("Image Selected", `Image URI: ${result.assets[0].uri}`);
-        // TODO: Process image for meal analysis
+        setIsLoading(true);
+        
+        // Simulate sending to LLM and receiving response
+        setTimeout(() => {
+          try {
+            const llmResponse = simulateLLMResponse();
+            handleMealAdded(llmResponse, selectedMealType!);
+            Alert.alert("Success", "Meal analyzed and added successfully!");
+          } catch (error) {
+            Alert.alert("Error", "Failed to analyze meal");
+          } finally {
+            setIsLoading(false);
+          }
+        }, 2000); // Simulate 2 second processing time
       }
     } catch (error) {
       Alert.alert("Error", "Failed to access camera");
@@ -107,8 +120,20 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
       });
 
       if (!result.canceled && result.assets[0]) {
-        Alert.alert("Image Selected", `Image URI: ${result.assets[0].uri}`);
-        // TODO: Process image for meal analysis
+        setIsLoading(true);
+        
+        // Simulate sending to LLM and receiving response
+        setTimeout(() => {
+          try {
+            const llmResponse = simulateLLMResponse();
+            handleMealAdded(llmResponse, selectedMealType!);
+            Alert.alert("Success", "Meal analyzed and added successfully!");
+          } catch (error) {
+            Alert.alert("Error", "Failed to analyze meal");
+          } finally {
+            setIsLoading(false);
+          }
+        }, 2000); // Simulate 2 second processing time
       }
     } catch (error) {
       Alert.alert("Error", "Failed to access gallery");
@@ -116,37 +141,61 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
   };
 
   const handleManualEntry = async () => {
-    if (!formData.name || !formData.calories || !formData.protein || !formData.carbs || !formData.fat) {
-      Alert.alert("Error", "Please fill in all required fields");
+    const missingFields = [];
+    
+    if (!formData.name.trim()) missingFields.push("Meal Name");
+    if (!formData.calories.trim()) missingFields.push("Calories");
+    if (!formData.protein.trim()) missingFields.push("Protein");
+    if (!formData.carbs.trim()) missingFields.push("Carbs");
+    if (!formData.fat.trim()) missingFields.push("Fat");
+    
+    if (missingFields.length > 0) {
+      Alert.alert("Missing Fields", `Please fill in: ${missingFields.join(", ")}`);
       return;
     }
 
-    const mealData: MacroData = {
-      name: formData.name,
-      calories: parseFloat(formData.calories),
-      protein: parseFloat(formData.protein),
-      carbs: parseFloat(formData.carbs),
-      fat: parseFloat(formData.fat),
-      description: formData.description,
-    };
+    try {
+      const mealData: Meal = {
+        name: formData.name,
+        calories: parseFloat(formData.calories),
+        protein: parseFloat(formData.protein),
+        carbs: parseFloat(formData.carbs),
+        fat: parseFloat(formData.fat),
+        description: formData.description,
+        timestamp: new Date(),
+        meal: selectedMealType!,
+      };
 
-    await handleMealAdded(mealData, selectedMealType!);
+      await handleMealAdded(mealData);
 
-    // Reset form
-    setFormData({
-      name: "",
-      calories: "",
-      protein: "",
-      carbs: "",
-      fat: "",
-      description: "",
-    });
+      // Reset form
+      setFormData({
+        name: "",
+        calories: "",
+        protein: "",
+        carbs: "",
+        fat: "",
+        description: "",
+      });
 
-    Alert.alert("Success", "Meal added successfully!");
+      Alert.alert("Success", "Meal added successfully!");
+    } catch (error: any) {
+      Alert.alert("Validation Error", "Please check your input values");
+    }
   };
 
   const calculateDailyTotals = () => {
-    return meals.reduce(
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    const todaysMeals = meals.filter(meal => {
+      const mealDate = new Date(meal.timestamp);
+      return mealDate >= today && mealDate < tomorrow;
+    });
+    
+    return todaysMeals.reduce(
       (totals, meal) => ({
         calories: totals.calories + meal.calories,
         protein: totals.protein + meal.protein,
@@ -158,7 +207,15 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
   };
 
   const getMealsByType = (mealType: MealType) => {
-    return meals.filter((meal) => meal.mealType === mealType);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    return meals.filter((meal) => {
+      const mealDate = new Date(meal.timestamp);
+      return meal.meal === mealType && mealDate >= today && mealDate < tomorrow;
+    });
   };
 
   const dailyTotals = calculateDailyTotals();
