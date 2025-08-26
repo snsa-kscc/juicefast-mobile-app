@@ -7,7 +7,7 @@ export const MealsSchema = z.object({
   protein: z.number().describe("Protein content in grams"),
   carbs: z.number().describe("Carbohydrate content in grams"),
   fat: z.number().describe("Fat content in grams"),
-  description: z.string().describe("Brief description of the meal"),
+  description: z.string().optional().describe("Brief description of the meal"),
   timestamp: z.date().describe("When the meal was logged"),
 });
 
