@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Settings } from "lucide-react-native";
+import { Settings, Plus } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Path, Svg } from "react-native-svg";
@@ -315,8 +315,8 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
                     </Text>
                   </View>
                   {(option.id === "meals" || option.id === "steps" || option.id === "sleep" || option.id === "mindfulness" || option.id === "water") && (
-                    <View className="ml-2">
-                      <Text className="font-sans text-gray-400 text-lg">›</Text>
+                    <View className="ml-2 w-12 h-12 rounded-full bg-white/20 items-center justify-center">
+                      <Plus size={32} color="#6B7280" />
                     </View>
                   )}
                 </View>
