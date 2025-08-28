@@ -45,6 +45,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
       console.log('Attempting to save meal:', mealData);
       await createMealMutation.mutateAsync(mealData);
       Alert.alert("Success", "Meal added successfully!");
+      setSelectedMealType(null); // Return to meal type selection
     } catch (error) {
       console.error('Meal save error:', error);
       Alert.alert("Error", `Failed to save meal data: ${error instanceof Error ? error.message : 'Unknown error'}`);
