@@ -30,7 +30,7 @@ const SLEEP_TRACKER_CONFIG = {
 export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
   const router = useRouter();
   const [sleepEntry, setSleepEntry] = useState<SleepEntry | null>(initialSleepData?.sleep || null);
-  const [hoursSlept, setHoursSlept] = useState<number>(sleepEntry?.hoursSlept || SLEEP_TRACKER_CONFIG.dailyGoal);
+  const [, setHoursSlept] = useState<number>(sleepEntry?.hoursSlept || SLEEP_TRACKER_CONFIG.dailyGoal);
   const [displayedHours, setDisplayedHours] = useState<number>(0);
   const [sleepQuality, setSleepQuality] = useState<number>(sleepEntry?.quality || 3);
   const [bedTime, setBedTime] = useState<string>(SLEEP_TRACKER_CONFIG.defaultBedtime);

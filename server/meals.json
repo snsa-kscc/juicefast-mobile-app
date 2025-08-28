@@ -1,0 +1,50 @@
+[
+  {
+    "userId": "user123",
+    "name": "Avocado Toast",
+    "meal": "dinner",
+    "calories": 280,
+    "protein": 8,
+    "carbs": 25,
+    "fat": 18,
+    "description": "Whole grain toast topped with mashed avocado",
+    "id": "1756381564724",
+    "timestamp": "2025-08-28T11:46:04.724Z"
+  },
+  {
+    "userId": "user123",
+    "name": "Cht",
+    "meal": "dinner",
+    "calories": 280,
+    "protein": 50,
+    "carbs": 30,
+    "fat": 20,
+    "description": "",
+    "id": "1756381593176",
+    "timestamp": "2025-08-28T11:46:33.176Z"
+  },
+  {
+    "userId": "user123",
+    "name": "Salmon with Rice",
+    "meal": "dinner",
+    "calories": 520,
+    "protein": 40,
+    "carbs": 45,
+    "fat": 18,
+    "description": "Baked salmon fillet with brown rice and vegetables",
+    "id": "5eaee521-453a-47c6-8a01-2461c079e8c0",
+    "timestamp": "2025-08-28T12:16:00.038Z"
+  },
+  {
+    "userId": "user123",
+    "name": "Salmon with Rice",
+    "meal": "dinner",
+    "calories": 520,
+    "protein": 40,
+    "carbs": 45,
+    "fat": 18,
+    "description": "Baked salmon fillet with brown rice and vegetables",
+    "id": "afa523b4-05eb-4b16-ba01-b6a2fd06dde8",
+    "timestamp": "2025-08-28T12:29:41.869Z"
+  }
+]

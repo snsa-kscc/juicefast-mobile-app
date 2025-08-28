@@ -1,7 +1,7 @@
 import Slider from "@react-native-community/slider";
 import { useRouter } from "expo-router";
 import { Brain } from "lucide-react-native";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Alert, Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { CircularProgress, ProgressBar, TrackerButton, TrackerHeader, TrackerStats } from "./shared";
 
@@ -47,6 +47,10 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
   const previousValueRef = useRef<number>(0);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
+  const animationListener = useCallback(({ value }: { value: number }) => {
+    setDisplayedMinutes(value);
+  }, []);
+
   useEffect(() => {
     if (initialMindfulnessData?.mindfulness) {
       setMindfulnessEntries(initialMindfulnessData.mindfulness);
@@ -61,10 +65,7 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
         useNativeDriver: false,
       }).start();
 
-      const listener = animatedValue.addListener(({ value }) => {
-        setDisplayedMinutes(value);
-      });
-
+      const listener = animatedValue.addListener(animationListener);
       return () => animatedValue.removeListener(listener);
     } else {
       setMindfulnessEntries([]);
@@ -72,7 +73,13 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
       setDisplayedMinutes(0);
       previousValueRef.current = 0;
     }
-  }, [initialMindfulnessData]);
+  }, [initialMindfulnessData, animationListener]);
+
+  useEffect(() => {
+    return () => {
+      animatedValue.removeAllListeners();
+    };
+  }, []);
 
   const handleAddMindfulness = async () => {
     if (minutes <= 0 || !userId || isLoading) return;
@@ -87,9 +94,15 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
         throw new Error("Invalid activity selected");
       }
 
+      // Sanitize input to prevent injection - validate against whitelist
+      const validActivity = MINDFULNESS_TRACKER_CONFIG.meditationTypes.find(act => act.id === selectedActivity);
+      if (!validActivity) {
+        throw new Error("Invalid activity type");
+      }
+      
       const newEntry: MindfulnessEntry = {
-        minutes: minutes,
-        activity: selectedActivity,
+        minutes: Math.max(0, Math.min(60, minutes)), // Clamp between 0-60
+        activity: validActivity.id, // Use validated activity ID
         timestamp: today,
       };
 

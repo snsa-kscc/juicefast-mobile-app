@@ -164,7 +164,7 @@ const WaterIcon = () => (
 
 export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverageScore = 71 }: TrackerClientProps) {
   const router = useRouter();
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  // const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [displayedScore, setDisplayedScore] = useState<number>(0);
 
@@ -246,8 +246,8 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
     );
   }
 
-  const circumference = 2 * Math.PI * 110;
-  const strokeDashoffset = circumference - (circumference * Math.min(100, weeklyAverageScore)) / 100;
+  // const circumference = 2 * Math.PI * 110;
+  // const strokeDashoffset = circumference - (circumference * Math.min(100, weeklyAverageScore)) / 100;
 
   return (
     <View style={{ flex: 1 }} pointerEvents="box-none">

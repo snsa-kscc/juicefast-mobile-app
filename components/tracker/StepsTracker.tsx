@@ -79,8 +79,8 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
   };
 
   const progressPercentage = Math.min(100, (displayedSteps / DAILY_GOAL) * 100);
-  const circumference = 2 * Math.PI * 110;
-  const strokeDashoffset = circumference - (circumference * progressPercentage) / 100;
+  // const circumference = 2 * Math.PI * 110;
+  // const strokeDashoffset = circumference - (circumference * progressPercentage) / 100;
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">

@@ -3,22 +3,22 @@ import { Camera, FileText, Image } from "lucide-react-native";
 import React, { useState } from "react";
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { TrackerButton, TrackerHeader } from "./tracker/shared";
-import { MealsSchema, type Meal } from "@/schemas/MealsSchema";
+import { type CreateMeal } from "@/schemas/MealsSchema";
+import { useMeals, useCreateMeal } from "@/hooks/useMeals";
 
-type MealEntry = Meal;
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
 interface MealsTrackerProps {
   userId: string;
-  initialMealsData?: { meals: MealEntry[] } | null;
   onBack?: () => void;
 }
 
-export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerProps) {
+export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
+  const { data: meals = [], isLoading: mealsLoading } = useMeals(userId);
+  const createMealMutation = useCreateMeal();
+  
   const [activeEntryTab, setActiveEntryTab] = useState<"scan" | "manual">("scan");
   const [activeInputMethod, setActiveInputMethod] = useState<"camera" | "photos" | "files">("camera");
-  const [meals, setMeals] = useState<MealEntry[]>(initialMealsData?.meals || []);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedMealType, setSelectedMealType] = useState<MealType | null>(null);
   const [activeTab, setActiveTab] = useState<MealType>("breakfast");
   const [formData, setFormData] = useState({
@@ -30,38 +30,24 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
     description: "",
   });
 
-  const simulateLLMResponse = (): Meal => {
-    // Simulate LLM response with random meal data
+  const simulateLLMResponse = (): CreateMeal => {
     const sampleMeals = [
       { name: "Grilled Chicken Salad", calories: 350, protein: 35, carbs: 15, fat: 12, description: "Fresh mixed greens with grilled chicken breast" },
       { name: "Salmon with Rice", calories: 520, protein: 40, carbs: 45, fat: 18, description: "Baked salmon fillet with brown rice and vegetables" },
       { name: "Avocado Toast", calories: 280, protein: 8, carbs: 25, fat: 18, description: "Whole grain toast topped with mashed avocado" },
     ];
     const randomMeal = sampleMeals[Math.floor(Math.random() * sampleMeals.length)];
-    return { ...randomMeal, timestamp: new Date(), meal: selectedMealType! };
+    return { ...randomMeal, userId, meal: selectedMealType! };
   };
 
-  const handleMealAdded = async (mealData: Meal, mealType?: MealType) => {
-    if (!userId) return;
-
+  const handleMealAdded = async (mealData: CreateMeal) => {
     try {
-      setIsLoading(true);
-
-      // Validate meal data against schema
-      const validatedMeal = MealsSchema.parse(mealData);
-
-      const newMeal: MealEntry = {
-        ...validatedMeal,
-        meal: mealType || activeTab,
-      };
-
-      const updatedMeals = [...meals, newMeal];
-      setMeals(updatedMeals);
+      console.log('Attempting to save meal:', mealData);
+      await createMealMutation.mutateAsync(mealData);
+      Alert.alert("Success", "Meal added successfully!");
     } catch (error) {
-      console.error("Failed to save meal data:", error);
-      Alert.alert("Error", "Failed to save meal data");
-    } finally {
-      setIsLoading(false);
+      console.error('Meal save error:', error);
+      Alert.alert("Error", `Failed to save meal data: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -85,20 +71,14 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
       });
 
       if (!result.canceled && result.assets[0]) {
-        setIsLoading(true);
-        
-        // Simulate sending to LLM and receiving response
         setTimeout(() => {
           try {
             const llmResponse = simulateLLMResponse();
-            handleMealAdded(llmResponse, selectedMealType!);
-            Alert.alert("Success", "Meal analyzed and added successfully!");
+            handleMealAdded(llmResponse);
           } catch (error) {
             Alert.alert("Error", "Failed to analyze meal");
-          } finally {
-            setIsLoading(false);
           }
-        }, 2000); // Simulate 2 second processing time
+        }, 2000);
       }
     } catch (error) {
       Alert.alert("Error", "Failed to access camera");
@@ -120,20 +100,14 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
       });
 
       if (!result.canceled && result.assets[0]) {
-        setIsLoading(true);
-        
-        // Simulate sending to LLM and receiving response
         setTimeout(() => {
           try {
             const llmResponse = simulateLLMResponse();
-            handleMealAdded(llmResponse, selectedMealType!);
-            Alert.alert("Success", "Meal analyzed and added successfully!");
+            handleMealAdded(llmResponse);
           } catch (error) {
             Alert.alert("Error", "Failed to analyze meal");
-          } finally {
-            setIsLoading(false);
           }
-        }, 2000); // Simulate 2 second processing time
+        }, 2000);
       }
     } catch (error) {
       Alert.alert("Error", "Failed to access gallery");
@@ -155,20 +129,19 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
     }
 
     try {
-      const mealData: Meal = {
+      const mealData: CreateMeal = {
+        userId,
         name: formData.name,
         calories: parseFloat(formData.calories),
         protein: parseFloat(formData.protein),
         carbs: parseFloat(formData.carbs),
         fat: parseFloat(formData.fat),
         description: formData.description,
-        timestamp: new Date(),
         meal: selectedMealType!,
       };
 
       await handleMealAdded(mealData);
 
-      // Reset form
       setFormData({
         name: "",
         calories: "",
@@ -177,23 +150,17 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
         fat: "",
         description: "",
       });
-
-      Alert.alert("Success", "Meal added successfully!");
     } catch (error: any) {
       Alert.alert("Validation Error", "Please check your input values");
     }
   };
 
   const calculateDailyTotals = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    const today = new Date().toISOString().split('T')[0];
     
-    const todaysMeals = meals.filter(meal => {
-      const mealDate = new Date(meal.timestamp);
-      return mealDate >= today && mealDate < tomorrow;
-    });
+    const todaysMeals = meals.filter(meal => 
+      meal.timestamp.startsWith(today)
+    );
     
     return todaysMeals.reduce(
       (totals, meal) => ({
@@ -207,19 +174,16 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
   };
 
   const getMealsByType = (mealType: MealType) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    const today = new Date().toISOString().split('T')[0];
     
-    return meals.filter((meal) => {
-      const mealDate = new Date(meal.timestamp);
-      return meal.meal === mealType && mealDate >= today && mealDate < tomorrow;
-    });
+    return meals.filter((meal) => 
+      meal.meal === mealType && meal.timestamp.startsWith(today)
+    );
   };
 
   const dailyTotals = calculateDailyTotals();
   const currentMeals = getMealsByType(activeTab);
+  const isLoading = mealsLoading || createMealMutation.isPending;
 
   const getInputMethodIcon = (method: string) => {
     switch (method) {
@@ -244,7 +208,6 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
       />
 
       {!selectedMealType ? (
-        /* Meal type selection */
         <View className="px-4 mb-6">
           <Text className="text-xl font-bold mb-4">What meal would you like to add?</Text>
 
@@ -261,7 +224,6 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
           </View>
         </View>
       ) : (
-        /* Scan meal image section */
         <View className="px-4 mb-6">
           <Text className="text-xl font-bold mb-4">Add {selectedMealType}</Text>
 
@@ -394,7 +356,6 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
         </View>
       )}
 
-      {/* Today's Meals section */}
       <View className="px-4 mb-6">
         <Text className="text-xl font-bold mb-4">Today's Meals</Text>
 
@@ -451,7 +412,6 @@ export function MealsTracker({ userId, initialMealsData, onBack }: MealsTrackerP
         )}
       </View>
 
-      {/* Daily nutrition totals */}
       <View className="px-4 mb-20">
         <Text className="text-xl font-bold mb-4">Daily nutrition totals</Text>
 
