@@ -3,40 +3,22 @@ import { type Meal, type CreateMeal } from '@/schemas/MealsSchema';
 import { AuthService } from '@/utils/auth';
 import { sanitizeForLog } from '@/utils/sanitize';
 
-const API_BASE = 'http://192.168.100.3:3001/api/meals';
+const API_BASE = '/api/meals';
 
 async function fetchMeals(userId: string): Promise<Meal[]> {
-  const response = await fetch(`${API_BASE}?userId=${userId}`, {
-    headers: AuthService.getAuthHeaders(),
-  });
+  const response = await fetch(`${API_BASE}?userId=${userId}`);
   if (!response.ok) throw new Error('Failed to fetch meals');
   return response.json();
 }
 
 async function createMeal(meal: CreateMeal): Promise<Meal> {
-  try {
-    console.log('Sending meal to server:', sanitizeForLog(meal));
-    const response = await fetch(API_BASE, {
-      method: 'POST',
-      headers: AuthService.getAuthHeaders(),
-      body: JSON.stringify(meal),
-    });
-    
-    console.log('Server response status:', response.status);
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Server error response:', sanitizeForLog(errorText));
-      throw new Error(`Server error: ${response.status}`);
-    }
-    
-    const result = await response.json();
-    console.log('Server response received successfully');
-    return result;
-  } catch (error) {
-    console.error('Network error occurred');
-    throw error;
-  }
+  const response = await fetch(API_BASE, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(meal),
+  });
+  if (!response.ok) throw new Error('Failed to create meal');
+  return response.json();
 }
 
 export function useMeals(userId: string) {
