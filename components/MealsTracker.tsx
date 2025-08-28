@@ -3,9 +3,7 @@ import { Camera, FileText, Image } from "lucide-react-native";
 import React, { useState } from "react";
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { TrackerButton, TrackerHeader } from "./tracker/shared";
-import { type CreateMeal } from "@/schemas/MealsSchema";
-import { useMeals, useCreateMeal } from "@/hooks/useMeals";
-import { Spinner } from "./Spinner";
+import { type CreateMeal, type Meal } from "@/schemas/MealsSchema";
 import { LoadingOverlay } from "./LoadingOverlay";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
@@ -16,8 +14,32 @@ interface MealsTrackerProps {
 }
 
 export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
-  const { data: meals = [], isLoading: mealsLoading } = useMeals(userId);
-  const createMealMutation = useCreateMeal();
+  const [meals, setMeals] = useState<Meal[]>([
+    {
+      id: "1",
+      userId: "user1",
+      name: "Grilled Chicken Salad",
+      meal: "lunch",
+      calories: 350,
+      protein: 30,
+      carbs: 15,
+      fat: 18,
+      description: "Fresh mixed greens with grilled chicken breast",
+      timestamp: new Date().toISOString()
+    },
+    {
+      id: "2",
+      userId: "user1",
+      name: "Oatmeal with Berries",
+      meal: "breakfast",
+      calories: 280,
+      protein: 8,
+      carbs: 45,
+      fat: 6,
+      description: "Steel-cut oats topped with fresh blueberries",
+      timestamp: new Date().toISOString()
+    }
+  ]);
   
   const [activeEntryTab, setActiveEntryTab] = useState<"scan" | "manual">("scan");
   const [activeInputMethod, setActiveInputMethod] = useState<"camera" | "photos" | "files">("camera");
@@ -43,16 +65,15 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
     return { ...randomMeal, userId, meal: selectedMealType! };
   };
 
-  const handleMealAdded = async (mealData: CreateMeal) => {
-    try {
-      console.log('Attempting to save meal:', mealData);
-      await createMealMutation.mutateAsync(mealData);
-      Alert.alert("Success", "Meal added successfully!");
-      setSelectedMealType(null); // Return to meal type selection
-    } catch (error) {
-      console.error('Meal save error:', error);
-      Alert.alert("Error", `Failed to save meal data: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
+  const handleMealAdded = (mealData: CreateMeal) => {
+    const newMeal: Meal = {
+      ...mealData,
+      id: Math.random().toString(36).substr(2, 9),
+      timestamp: new Date().toISOString(),
+    };
+    setMeals(prev => [...prev, newMeal]);
+    Alert.alert("Success", "Meal added successfully!");
+    setSelectedMealType(null);
   };
 
   const handleAddMealByType = (mealType: MealType) => {
@@ -150,7 +171,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
         meal: selectedMealType!,
       };
 
-      await handleMealAdded(mealData);
+      handleMealAdded(mealData);
 
       setFormData({
         name: "",
@@ -193,7 +214,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
 
   const dailyTotals = calculateDailyTotals();
   const currentMeals = getMealsByType(activeTab);
-  const isLoading = mealsLoading || createMealMutation.isPending || isProcessingImage;
+  const isLoading = isProcessingImage;
 
   const getInputMethodIcon = (method: string) => {
     switch (method) {
