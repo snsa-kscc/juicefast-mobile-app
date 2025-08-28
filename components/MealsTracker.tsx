@@ -5,6 +5,7 @@ import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "reac
 import { TrackerButton, TrackerHeader } from "./tracker/shared";
 import { type CreateMeal, type Meal } from "@/schemas/MealsSchema";
 import { LoadingOverlay } from "./LoadingOverlay";
+import { useMeals } from "@/hooks/useMeals";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
@@ -14,32 +15,10 @@ interface MealsTrackerProps {
 }
 
 export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
-  const [meals, setMeals] = useState<Meal[]>([
-    {
-      id: "1",
-      userId: "user1",
-      name: "Grilled Chicken Salad",
-      meal: "lunch",
-      calories: 350,
-      protein: 30,
-      carbs: 15,
-      fat: 18,
-      description: "Fresh mixed greens with grilled chicken breast",
-      timestamp: new Date().toISOString()
-    },
-    {
-      id: "2",
-      userId: "user1",
-      name: "Oatmeal with Berries",
-      meal: "breakfast",
-      calories: 280,
-      protein: 8,
-      carbs: 45,
-      fat: 6,
-      description: "Steel-cut oats topped with fresh blueberries",
-      timestamp: new Date().toISOString()
-    }
-  ]);
+  const { data: apiMeals = [], isLoading: mealsLoading } = useMeals(userId);
+  const [localMeals, setLocalMeals] = useState<Meal[]>([]);
+  
+  const meals = [...apiMeals, ...localMeals];
   
   const [activeEntryTab, setActiveEntryTab] = useState<"scan" | "manual">("scan");
   const [activeInputMethod, setActiveInputMethod] = useState<"camera" | "photos" | "files">("camera");
@@ -71,7 +50,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
       id: Math.random().toString(36).substr(2, 9),
       timestamp: new Date().toISOString(),
     };
-    setMeals(prev => [...prev, newMeal]);
+    setLocalMeals(prev => [...prev, newMeal]);
     Alert.alert("Success", "Meal added successfully!");
     setSelectedMealType(null);
   };
@@ -214,7 +193,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
 
   const dailyTotals = calculateDailyTotals();
   const currentMeals = getMealsByType(activeTab);
-  const isLoading = isProcessingImage;
+  const isLoading = mealsLoading || isProcessingImage;
 
   const getInputMethodIcon = (method: string) => {
     switch (method) {
