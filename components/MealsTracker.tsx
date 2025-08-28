@@ -5,6 +5,8 @@ import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "reac
 import { TrackerButton, TrackerHeader } from "./tracker/shared";
 import { type CreateMeal } from "@/schemas/MealsSchema";
 import { useMeals, useCreateMeal } from "@/hooks/useMeals";
+import { Spinner } from "./Spinner";
+import { LoadingOverlay } from "./LoadingOverlay";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
@@ -21,6 +23,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
   const [activeInputMethod, setActiveInputMethod] = useState<"camera" | "photos" | "files">("camera");
   const [selectedMealType, setSelectedMealType] = useState<MealType | null>(null);
   const [activeTab, setActiveTab] = useState<MealType>("breakfast");
+  const [isProcessingImage, setIsProcessingImage] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     calories: "",
@@ -72,12 +75,15 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
       });
 
       if (!result.canceled && result.assets[0]) {
+        setIsProcessingImage(true);
         setTimeout(() => {
           try {
             const llmResponse = simulateLLMResponse();
             handleMealAdded(llmResponse);
           } catch (error) {
             Alert.alert("Error", "Failed to analyze meal");
+          } finally {
+            setIsProcessingImage(false);
           }
         }, 2000);
       }
@@ -101,12 +107,15 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
       });
 
       if (!result.canceled && result.assets[0]) {
+        setIsProcessingImage(true);
         setTimeout(() => {
           try {
             const llmResponse = simulateLLMResponse();
             handleMealAdded(llmResponse);
           } catch (error) {
             Alert.alert("Error", "Failed to analyze meal");
+          } finally {
+            setIsProcessingImage(false);
           }
         }, 2000);
       }
@@ -184,7 +193,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
 
   const dailyTotals = calculateDailyTotals();
   const currentMeals = getMealsByType(activeTab);
-  const isLoading = mealsLoading || createMealMutation.isPending;
+  const isLoading = mealsLoading || createMealMutation.isPending || isProcessingImage;
 
   const getInputMethodIcon = (method: string) => {
     switch (method) {
@@ -200,13 +209,14 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
   };
 
   return (
-    <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <TrackerHeader
-        title="Meal Tracker"
-        subtitle="What you eat builds your energy, mood and body. Let's track it."
-        onBack={selectedMealType ? () => setSelectedMealType(null) : onBack}
-        accentColor="#10B981"
-      />
+    <View className="flex-1 bg-[#FCFBF8]">
+      <ScrollView className="flex-1">
+        <TrackerHeader
+          title="Meal Tracker"
+          subtitle="What you eat builds your energy, mood and body. Let's track it."
+          onBack={selectedMealType ? () => setSelectedMealType(null) : onBack}
+          accentColor="#10B981"
+        />
 
       {!selectedMealType ? (
         <View className="px-4 mb-6">
@@ -254,6 +264,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
                     setActiveInputMethod("camera");
                     handleCamera();
                   }}
+                  disabled={isLoading}
                 >
                   <Camera size={20} color="#6B7280" />
                   <Text className="text-sm mt-1">Camera</Text>
@@ -267,6 +278,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
                     setActiveInputMethod("photos");
                     handleGallery();
                   }}
+                  disabled={isLoading}
                 >
                   <Image size={20} color="#6B7280" />
                   <Text className="text-sm mt-1">Photos</Text>
@@ -350,7 +362,12 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
               </View>
 
               <View className="mt-4">
-                <TrackerButton title={isLoading ? "Adding Meal..." : "Add Meal"} onPress={handleManualEntry} disabled={isLoading} backgroundColor="#10B981" />
+                <TrackerButton 
+                  title="Add Meal"
+                  onPress={handleManualEntry} 
+                  disabled={isLoading} 
+                  backgroundColor="#10B981" 
+                />
               </View>
             </View>
           )}
@@ -435,6 +452,9 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
           </View>
         </View>
       </View>
-    </ScrollView>
+      </ScrollView>
+      
+      {isLoading && <LoadingOverlay />}
+    </View>
   );
 }
