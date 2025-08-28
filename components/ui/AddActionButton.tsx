@@ -79,7 +79,7 @@ export function AddActionButton() {
           onPress={handleOpenBottomSheet}
           activeOpacity={0.8}
         >
-          <Plus size={28} color="#FFFFFF" />
+          <Plus size={28} color="#000000" />
         </TouchableOpacity>
       </View>
 
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#4CC3FF',
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 8,
