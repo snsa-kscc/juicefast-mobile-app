@@ -1,6 +1,7 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import "../styles/global.css";
 import { QueryProvider } from "../providers/QueryProvider";
 
@@ -40,14 +41,16 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-      <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
-      </Stack>
-    </QueryProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <QueryProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
+        </Stack>
+      </QueryProvider>
+    </GestureHandlerRootView>
   );
 }

@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { router } from 'expo-router';
 import { WellnessTracker } from "@/components/tracker/WellnessTracker";
+import { AddActionButton } from "@/components/ui/AddActionButton";
 
 export default function Index() {
   const opacity = useSharedValue(0);
@@ -57,6 +58,8 @@ export default function Index() {
         ]}
         weeklyAverageScore={75}
       />
+      
+      <AddActionButton />
     </Animated.View>
   );
 }
