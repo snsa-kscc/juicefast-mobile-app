@@ -1,22 +1,20 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Plus, Activity, Utensils, Brain, Moon, Droplets } from 'lucide-react-native';
+import { Plus, X, Activity, Brain, Droplets, Moon, FileText, Heart, Scale, Thermometer } from 'lucide-react-native';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
 
 interface ActionOption {
   id: string;
   title: string;
-  subtitle: string;
-  icon: React.ReactNode;
-  color: string;
+  iconColor: string;
   route: string;
 }
 
 export function AddActionButton() {
   const router = useRouter();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['50%'], []);
+  const snapPoints = useMemo(() => ['75%'], []);
 
   const handleOpenBottomSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
@@ -39,52 +37,37 @@ export function AddActionButton() {
     []
   );
 
-  const actionOptions: ActionOption[] = [
-    {
-      id: 'activity',
-      title: 'Log Activity',
-      subtitle: 'Track steps, workouts, or movement',
-      icon: <Activity size={24} color="#FFC856" />,
-      color: '#FFF8E8',
-      route: '/steps'
-    },
-    {
-      id: 'meal',
-      title: 'Log Meal',
-      subtitle: 'Record what you ate today',
-      icon: <Utensils size={24} color="#0DC99B" />,
-      color: '#E8F8F3',
-      route: '/meals'
-    },
-    {
-      id: 'mindfulness',
-      title: 'Log Mindfulness',
-      subtitle: 'Track meditation or quiet time',
-      icon: <Brain size={24} color="#FE8E77" />,
-      color: '#FFEFEB',
-      route: '/mindfulness'
-    },
-    {
-      id: 'sleep',
-      title: 'Log Sleep',
-      subtitle: 'Record your sleep hours',
-      icon: <Moon size={24} color="#625FD3" />,
-      color: '#EEEDFF',
-      route: '/sleep'
-    },
-    {
-      id: 'hydration',
-      title: 'Log Water',
-      subtitle: 'Track your water intake',
-      icon: <Droplets size={24} color="#4CC3FF" />,
-      color: '#EBF9FF',
-      route: '/hydration'
-    }
+  const wellnessOptions: ActionOption[] = [
+    { id: 'activity', title: 'Activity', iconColor: '#FF6B6B', route: '/steps' },
+    { id: 'mindfulness', title: 'Mindfulness', iconColor: '#4ECDC4', route: '/mindfulness' },
+    { id: 'hydration', title: 'Hydration', iconColor: '#45B7D1', route: '/hydration' },
+    { id: 'sleep', title: 'Sleep', iconColor: '#9B59B6', route: '/sleep' }
+  ];
+
+  const diaryOptions: ActionOption[] = [
+    { id: 'note', title: 'Add note', iconColor: '#FF6B6B', route: '/notes' },
+    { id: 'moods', title: 'Log moods and symptoms', iconColor: '#FF6B6B', route: '/moods' },
+    { id: 'weight', title: 'Add weight', iconColor: '#FF6B6B', route: '/weight' },
+    { id: 'temperature', title: 'Add temperature', iconColor: '#FF8C42', route: '/temperature' }
   ];
 
   const handleOptionPress = (route: string) => {
     handleCloseBottomSheet();
     router.push(route as any);
+  };
+
+  const renderIcon = (id: string, color: string) => {
+    switch (id) {
+      case 'activity': return <Activity size={20} color={color} />;
+      case 'mindfulness': return <Brain size={20} color={color} />;
+      case 'hydration': return <Droplets size={20} color={color} />;
+      case 'sleep': return <Moon size={20} color={color} />;
+      case 'note': return <FileText size={20} color={color} />;
+      case 'moods': return <Heart size={20} color={color} />;
+      case 'weight': return <Scale size={20} color={color} />;
+      case 'temperature': return <Thermometer size={20} color={color} />;
+      default: return <Activity size={20} color={color} />;
+    }
   };
 
   return (
@@ -111,27 +94,47 @@ export function AddActionButton() {
         handleIndicatorStyle={styles.handleIndicator}
       >
         <BottomSheetView style={styles.contentContainer}>
-          <Text style={styles.title}>What would you like to log?</Text>
-          <Text style={styles.subtitle}>Choose an activity to track your wellness</Text>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={handleCloseBottomSheet} style={styles.closeButton}>
+              <X size={24} color="#666" />
+            </TouchableOpacity>
+          </View>
           
-          <View style={styles.optionsContainer}>
-            {actionOptions.map((option) => (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>WELLNESS LOG</Text>
+            {wellnessOptions.map((option) => (
               <TouchableOpacity
                 key={option.id}
-                style={[styles.optionItem, { backgroundColor: option.color }]}
+                style={styles.optionRow}
                 onPress={() => handleOptionPress(option.route)}
                 activeOpacity={0.7}
               >
-                <View style={styles.optionIcon}>
-                  {option.icon}
-                </View>
-                <View style={styles.optionContent}>
-                  <Text style={styles.optionTitle}>{option.title}</Text>
-                  <Text style={styles.optionSubtitle}>{option.subtitle}</Text>
+                <Text style={styles.optionText}>{option.title}</Text>
+                <View style={[styles.iconCircle, { backgroundColor: option.iconColor }]}>
+                  {renderIcon(option.id, '#FFFFFF')}
                 </View>
               </TouchableOpacity>
             ))}
           </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>MY DIARY</Text>
+            {diaryOptions.map((option) => (
+              <TouchableOpacity
+                key={option.id}
+                style={styles.optionRow}
+                onPress={() => handleOptionPress(option.route)}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.optionText}>{option.title}</Text>
+                <View style={[styles.iconCircle, { backgroundColor: option.iconColor }]}>
+                  {renderIcon(option.id, '#FFFFFF')}
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <Text style={styles.footerText}>For the most accurate insights,{"\n"}log daily.</Text>
         </BottomSheetView>
       </BottomSheet>
     </>
@@ -154,70 +157,77 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 8,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
   },
   bottomSheetBackground: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F5F5F5',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
   handleIndicator: {
-    backgroundColor: '#E5E7EB',
+    backgroundColor: '#000',
     width: 40,
+    height: 4,
   },
   contentContainer: {
     flex: 1,
     paddingHorizontal: 20,
+  },
+  header: {
+    alignItems: 'flex-end',
     paddingTop: 10,
+    paddingBottom: 20,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 8,
-    color: '#1F2937',
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#6B7280',
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  optionsContainer: {
-    gap: 12,
-  },
-  optionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 8,
-  },
-  optionIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+  closeButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
-  optionContent: {
-    flex: 1,
+  section: {
+    marginBottom: 30,
   },
-  optionTitle: {
+  sectionTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#1F2937',
-    marginBottom: 4,
+    fontWeight: '700',
+    color: '#000',
+    textAlign: 'center',
+    marginBottom: 20,
+    letterSpacing: 1,
   },
-  optionSubtitle: {
+  optionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    marginBottom: 8,
+    borderRadius: 12,
+  },
+  optionText: {
+    fontSize: 16,
+    color: '#000',
+    fontWeight: '500',
+  },
+  iconCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footerText: {
     fontSize: 14,
-    color: '#6B7280',
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 20,
+    lineHeight: 20,
   },
 });
