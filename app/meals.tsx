@@ -9,9 +9,6 @@ export default function Meals() {
     <AnimatedScreen>
       <MealsTracker 
         userId="user123" 
-        initialMealsData={{
-          meals: []
-        }}
         onBack={() => router.back()}
       />
     </AnimatedScreen>
