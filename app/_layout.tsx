@@ -1,6 +1,5 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import "../styles/global.css";
 import { QueryProvider } from "../providers/QueryProvider";
@@ -31,7 +30,7 @@ const SCREEN_OPTIONS = {
   animation: "slide_from_right" as const,
 };
 
-const queryClient = new QueryClient();
+
 
 export default function RootLayout() {
   const [loaded] = useFonts(FONT_CONFIG);

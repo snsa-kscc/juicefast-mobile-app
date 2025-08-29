@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
 import Animated, { 
   useSharedValue, 
   useAnimatedStyle, 
   withTiming, 
   Easing 
 } from 'react-native-reanimated';
-import { router } from 'expo-router';
 import { HomeDashboard } from "@/components/dashboard";
 import { AddActionButton } from "@/components/ui/AddActionButton";
 
@@ -34,17 +32,6 @@ export default function Index() {
 
   return (
     <Animated.View style={[{ flex: 1 }, animatedStyle]}>
-      <View className="absolute top-16 right-4 z-10">
-        <TouchableOpacity
-          onPress={() => router.push('/hello')}
-          className="bg-blue-500 px-4 py-2 rounded-lg"
-        >
-          <Text className="text-white font-semibold">
-            TanStack Query Demo
-          </Text>
-        </TouchableOpacity>
-      </View>
-      
       <HomeDashboard 
         userId="user123"
         userName="John Doe"
