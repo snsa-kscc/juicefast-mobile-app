@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Animated } from 'react-native';
 import { Info } from 'lucide-react-native';
 import { CircularProgress } from '@/components/tracker/shared';
 import { MealIcon, StepsIcon, MindfulnessIcon, WaterIcon } from './icons/TrackerIcons';
@@ -42,6 +42,23 @@ interface WellnessScoreCardProps {
 }
 
 export function WellnessScoreCard({ averageScore, dailyProgress }: WellnessScoreCardProps) {
+  const [displayedScore, setDisplayedScore] = useState<number>(0);
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: averageScore,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start();
+
+    const listener = animatedValue.addListener(({ value }) => {
+      setDisplayedScore(Math.round(value));
+    });
+
+    return () => animatedValue.removeListener(listener);
+  }, [averageScore]);
+
   return (
     <View className="bg-white rounded-2xl p-6 mb-6">
       <View className="flex-row items-center justify-center mb-4">
@@ -53,11 +70,11 @@ export function WellnessScoreCard({ averageScore, dailyProgress }: WellnessScore
 
       <View className="items-center mb-6">
         <CircularProgress
-          value={averageScore}
+          value={displayedScore}
           maxValue={100}
           color="#E8D5B0"
           backgroundColor="#F2E9D8"
-          displayValue={Math.round(averageScore)}
+          displayValue={displayedScore}
           size={200}
         />
         <Text className="text-xs text-gray-500 mt-3 text-center">
