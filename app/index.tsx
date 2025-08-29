@@ -7,7 +7,7 @@ import Animated, {
   Easing 
 } from 'react-native-reanimated';
 import { router } from 'expo-router';
-import { WellnessTracker } from "@/components/tracker/WellnessTracker";
+import { HomeDashboard } from "@/components/dashboard";
 import { AddActionButton } from "@/components/ui/AddActionButton";
 
 export default function Index() {
@@ -45,9 +45,10 @@ export default function Index() {
         </TouchableOpacity>
       </View>
       
-      <WellnessTracker 
+      <HomeDashboard 
         userId="user123"
-        weeklyMetrics={[
+        userName="John Doe"
+        initialWeeklyData={[
           { date: '2024-01-01', score: 75 },
           { date: '2024-01-02', score: 68 },
           { date: '2024-01-03', score: 82 },
@@ -56,7 +57,7 @@ export default function Index() {
           { date: '2024-01-06', score: 73 },
           { date: '2024-01-07', score: 77 }
         ]}
-        weeklyAverageScore={75}
+        initialAverageScore={75}
       />
       
       <AddActionButton />
