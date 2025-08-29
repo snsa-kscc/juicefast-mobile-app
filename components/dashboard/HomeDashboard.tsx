@@ -169,17 +169,20 @@ export function HomeDashboard({
         <DailyOverview data={displayData} />
 
         {/* Challenge Banners */}
-        <TouchableOpacity className="w-full mb-4 rounded-xl overflow-hidden">
-          <View className="bg-gradient-to-r from-orange-300 to-pink-300 h-32 justify-center items-center">
-            <Text className="text-white font-semibold">JF Challenge Started</Text>
-          </View>
+        <TouchableOpacity className="w-full mb-4">
+          <Image 
+            source={require('../../assets/images/challenge.png')}
+            className="w-full h-32 rounded-xl"
+            resizeMode="cover"
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity className="w-full mb-20 rounded-xl overflow-hidden">
-          <View className="bg-gradient-to-r from-purple-300 to-blue-300 h-32 justify-center items-center">
-            <Text className="text-white font-semibold">Fasting programs</Text>
-            <Text className="text-white text-sm">10% off</Text>
-          </View>
+        <TouchableOpacity className="w-full mb-20">
+          <Image 
+            source={require('../../assets/images/fasting.png')}
+            className="w-full h-32 rounded-xl"
+            resizeMode="cover"
+          />
         </TouchableOpacity>
       </View>
     </ScrollView>
