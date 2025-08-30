@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, Href } from 'expo-router';
 import { MealIcon, StepsIcon, MindfulnessIcon, SleepIcon, WaterIcon } from './icons/TrackerIcons';
 
 interface DailyData {
@@ -20,7 +20,7 @@ interface TaskItemProps {
   icon: React.ReactNode;
   title: string;
   subtitle: string;
-  href: string;
+  href: Href;
 }
 
 const TaskItem = ({ icon, title, subtitle, href }: TaskItemProps) => (
