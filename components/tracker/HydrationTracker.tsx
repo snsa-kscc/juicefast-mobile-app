@@ -2,7 +2,7 @@ import Slider from "@react-native-community/slider";
 import { Droplets } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { CircularProgress, ProgressBar, TrackerButton, TrackerHeader, TrackerStats } from "./shared";
+import { CircularProgress, ProgressBar, TrackerButton, WellnessHeader, TrackerStats } from "./shared";
 
 interface WaterIntake {
   amount: number;
@@ -94,10 +94,9 @@ export function HydrationTracker({ userId, initialWaterData, onBack }: Hydration
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <TrackerHeader
+      <WellnessHeader
         title="Water Tracker"
-        subtitle="Hydration fuels your focus, energy\nand digestion. Keep it flowing."
-        onBack={onBack}
+        subtitle="Hydration fuels your focus, energy and digestion. Keep it flowing."
         accentColor="#3BB9FF"
       />
 

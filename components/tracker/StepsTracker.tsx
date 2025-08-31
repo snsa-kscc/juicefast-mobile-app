@@ -1,7 +1,7 @@
 import Slider from "@react-native-community/slider";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { CircularProgress, ProgressBar, TrackerButton, TrackerHeader, TrackerStats } from "./shared";
+import { CircularProgress, ProgressBar, TrackerButton, WellnessHeader, TrackerStats } from "./shared";
 
 interface StepEntry {
   count: number;
@@ -84,7 +84,7 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <TrackerHeader title="Step Tracker" subtitle="Move your body, clear your mind —\nthe rest will follow." onBack={onBack} accentColor="#FFC856" />
+      <WellnessHeader title="Step Tracker" subtitle="Move your body, clear your mind — the rest will follow." accentColor="#FFC856" />
 
       <TrackerStats title="DAILY STEPS" subtitle={`${displayedSteps.toLocaleString()} out of ${DAILY_GOAL.toLocaleString()} steps`}>
         <CircularProgress
