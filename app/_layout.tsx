@@ -116,6 +116,12 @@ function TabLayoutContent() {
         }}
       />
       <Tabs.Screen
+        name="chat/ai"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
         name="+not-found"
         options={{
           href: null,
