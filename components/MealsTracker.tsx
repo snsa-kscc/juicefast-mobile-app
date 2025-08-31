@@ -2,7 +2,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Camera, FileText, Image } from "lucide-react-native";
 import React, { useState } from "react";
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { TrackerButton, TrackerHeader } from "./tracker/shared";
+import { TrackerButton, WellnessHeader } from "./tracker/shared";
 import { type CreateMeal, type Meal } from "@/schemas/MealsSchema";
 import { LoadingOverlay } from "./LoadingOverlay";
 import { useMeals } from "@/hooks/useMeals";
@@ -211,11 +211,10 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
   return (
     <View className="flex-1 bg-[#FCFBF8]">
       <ScrollView className="flex-1">
-        <TrackerHeader
+        <WellnessHeader
           title="Meal Tracker"
           subtitle="What you eat builds your energy, mood and body. Let's track it."
-          onBack={selectedMealType ? () => setSelectedMealType(null) : onBack}
-          accentColor="#10B981"
+          accentColor="#0DC99B"
         />
 
       {!selectedMealType ? (

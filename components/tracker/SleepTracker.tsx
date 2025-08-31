@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { MoonIcon, SunIcon } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { Alert, Animated, ScrollView, Text, TextInput, View } from "react-native";
-import { CircularProgress, ProgressBar, TrackerButton, TrackerHeader, TrackerStats } from "./shared";
+import { CircularProgress, ProgressBar, TrackerButton, WellnessHeader, TrackerStats } from "./shared";
 
 interface SleepEntry {
   hoursSlept: number;
@@ -134,11 +134,10 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <TrackerHeader
+      <WellnessHeader
         title="Sleep Tracker"
-        subtitle="Quality sleep improves focus, mood,\nand overall health. Track your rest."
-        onBack={() => router.back()}
-        accentColor="#8B5CF6"
+        subtitle="Quality sleep improves focus, mood, and overall health. Track your rest."
+        accentColor="#625FD3"
       />
 
       <TrackerStats title="DAILY SLEEP" subtitle={sleepEntry ? `${displayedHours} out of ${dailyGoal} hours goal` : "No sleep data recorded today"}>
