@@ -18,6 +18,7 @@ interface DailyHealthMetrics {
 interface MindfulnessTrackerProps {
   userId: string;
   initialMindfulnessData: DailyHealthMetrics | null;
+  onBack?: () => void;
 }
 
 const MINDFULNESS_TRACKER_CONFIG = {
@@ -34,7 +35,7 @@ const DAILY_TARGETS = {
   mindfulness: 20,
 };
 
-export function MindfulnessTracker({ userId, initialMindfulnessData }: MindfulnessTrackerProps) {
+export function MindfulnessTracker({ userId, initialMindfulnessData, onBack }: MindfulnessTrackerProps) {
   const router = useRouter();
   const [minutes, setMinutes] = useState<number>(MINDFULNESS_TRACKER_CONFIG.defaultDuration);
   const [mindfulnessEntries, setMindfulnessEntries] = useState<MindfulnessEntry[]>([]);
@@ -139,6 +140,8 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
         title="Mindfulness Tracker"
         subtitle="Mindfulness practice improves mental clarity, reduces stress, and enhances well-being."
         accentColor="#FE8E77"
+        showBackButton={true}
+        onBackPress={onBack}
       />
 
       <TrackerStats title="DAILY MINDFULNESS" subtitle={`${Math.round(displayedMinutes)} out of ${dailyGoal} minutes goal`}>

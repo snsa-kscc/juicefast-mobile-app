@@ -84,7 +84,7 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <WellnessHeader title="Step Tracker" subtitle="Move your body, clear your mind — the rest will follow." accentColor="#FFC856" />
+      <WellnessHeader title="Step Tracker" subtitle="Move your body, clear your mind — the rest will follow." accentColor="#FFC856" showBackButton={true} onBackPress={onBack} />
 
       <TrackerStats title="DAILY STEPS" subtitle={`${displayedSteps.toLocaleString()} out of ${DAILY_GOAL.toLocaleString()} steps`}>
         <CircularProgress

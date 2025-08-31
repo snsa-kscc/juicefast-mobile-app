@@ -98,6 +98,8 @@ export function HydrationTracker({ userId, initialWaterData, onBack }: Hydration
         title="Water Tracker"
         subtitle="Hydration fuels your focus, energy and digestion. Keep it flowing."
         accentColor="#3BB9FF"
+        showBackButton={true}
+        onBackPress={onBack}
       />
 
       <TrackerStats title="DAILY HYDRATION" subtitle={`${formatWaterAmount(displayedTotal)} out of ${formatWaterAmount(DAILY_GOAL)} goal achieved`}>
