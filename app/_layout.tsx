@@ -128,6 +128,12 @@ function TabLayoutContent() {
         }}
       />
       <Tabs.Screen
+        name="profile"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
         name="+not-found"
         options={{
           href: null,
