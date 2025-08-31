@@ -7,9 +7,7 @@ export default function ChatPage() {
   const router = useRouter();
 
   const handleChatOptionPress = (route: string) => {
-    // For now, we'll just log since the actual chat screens don't exist yet
-    // Replace with router.push(route) when chat screens are implemented
-    console.log(`Navigate to: ${route}`);
+    router.push(route as any);
   };
 
   const handleSettingsPress = () => {
