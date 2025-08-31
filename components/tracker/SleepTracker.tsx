@@ -19,6 +19,7 @@ interface DailyHealthMetrics {
 interface SleepTrackerProps {
   userId: string;
   initialSleepData: DailyHealthMetrics | null;
+  onBack?: () => void;
 }
 
 const SLEEP_TRACKER_CONFIG = {
@@ -27,7 +28,7 @@ const SLEEP_TRACKER_CONFIG = {
   defaultWakeTime: "06:00",
 };
 
-export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
+export function SleepTracker({ userId, initialSleepData, onBack }: SleepTrackerProps) {
   const router = useRouter();
   const [sleepEntry, setSleepEntry] = useState<SleepEntry | null>(initialSleepData?.sleep || null);
   const [, setHoursSlept] = useState<number>(sleepEntry?.hoursSlept || SLEEP_TRACKER_CONFIG.dailyGoal);
@@ -138,6 +139,8 @@ export function SleepTracker({ userId, initialSleepData }: SleepTrackerProps) {
         title="Sleep Tracker"
         subtitle="Quality sleep improves focus, mood, and overall health. Track your rest."
         accentColor="#625FD3"
+        showBackButton={true}
+        onBackPress={onBack}
       />
 
       <TrackerStats title="DAILY SLEEP" subtitle={sleepEntry ? `${displayedHours} out of ${dailyGoal} hours goal` : "No sleep data recorded today"}>

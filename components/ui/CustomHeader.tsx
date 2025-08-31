@@ -1,4 +1,4 @@
-import { Settings } from "lucide-react-native";
+import { Settings, ArrowLeft } from "lucide-react-native";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
@@ -7,13 +7,17 @@ interface WellnessHeaderProps {
   subtitle?: string;
   accentColor?: string;
   onSettingsPress?: () => void;
+  onBackPress?: () => void;
+  showBackButton?: boolean;
 }
 
 export function WellnessHeader({ 
   title, 
   subtitle = "Today I'm going to....", 
   accentColor = "#4CC3FF",
-  onSettingsPress 
+  onSettingsPress,
+  onBackPress,
+  showBackButton = false
 }: WellnessHeaderProps) {
   return (
     <View className="relative py-6 overflow-hidden">
@@ -25,7 +29,18 @@ export function WellnessHeader({
         }} 
       />
       <View className="flex-row justify-between items-center px-6 z-10">
-        <Text className="text-xl font-bold">{title}</Text>
+        <View className="flex-row items-center">
+          {showBackButton && (
+            <TouchableOpacity 
+              className="w-10 h-10 rounded-full justify-center items-center mr-2"
+              style={{ backgroundColor: accentColor }}
+              onPress={onBackPress}
+            >
+              <ArrowLeft size={20} color="white" />
+            </TouchableOpacity>
+          )}
+          <Text className="text-xl font-bold">{title}</Text>
+        </View>
         <TouchableOpacity 
           className="w-10 h-10 rounded-full bg-transparent justify-center items-center"
           onPress={onSettingsPress}

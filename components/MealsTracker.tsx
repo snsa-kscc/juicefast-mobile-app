@@ -220,6 +220,8 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
           title="Meal Tracker"
           subtitle="What you eat builds your energy, mood and body. Let's track it."
           accentColor="#0DC99B"
+          showBackButton={true}
+          onBackPress={onBack}
         />
 
       {!selectedMealType ? (
