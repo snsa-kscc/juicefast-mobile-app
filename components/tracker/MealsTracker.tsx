@@ -1,11 +1,11 @@
-import * as ImagePicker from "expo-image-picker";
-import { Camera, FileText, Image } from "lucide-react-native";
-import React, { useState, useEffect } from "react";
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { TrackerButton, WellnessHeader } from "./tracker/shared";
-import { type CreateMeal, type Meal } from "@/schemas/MealsSchema";
 import { useMeals } from "@/hooks/useMeals";
 import { useLoading } from "@/providers/LoadingProvider";
+import { type CreateMeal, type Meal } from "@/schemas/MealsSchema";
+import * as ImagePicker from "expo-image-picker";
+import { Camera, FileText, Image } from "lucide-react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { TrackerButton, WellnessHeader } from "./shared";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 

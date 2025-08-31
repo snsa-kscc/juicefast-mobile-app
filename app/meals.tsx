@@ -1,6 +1,6 @@
-import { useRouter } from "expo-router";
-import { MealsTracker } from "@/components/MealsTracker";
 import { AnimatedScreen } from "@/components/AnimatedScreen";
+import { MealsTracker } from "@/components/tracker/MealsTracker";
+import { useRouter } from "expo-router";
 
 export default function Meals() {
   const router = useRouter();
