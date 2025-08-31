@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Path, Svg } from "react-native-svg";
 import { CircularProgress, WellnessHeader } from "./shared";
+import { Spinner } from "../Spinner";
 
 interface UserProfile {
   id: string;
@@ -241,7 +242,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center py-6">
-        <Text>Loading health tracker...</Text>
+        <Spinner size={32} color="#4CC3FF" />
       </View>
     );
   }
