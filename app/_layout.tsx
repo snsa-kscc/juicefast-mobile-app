@@ -5,6 +5,7 @@ import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-cont
 import { Home, Heart, Store, MessageCircle, Users } from 'lucide-react-native';
 import "../styles/global.css";
 import { QueryProvider } from "../providers/QueryProvider";
+import { LoadingProvider } from "../providers/LoadingProvider";
 
 const FONT_CONFIG = {
   "Lufga-Thin": require("../assets/fonts/LufgaThin.ttf"),
@@ -134,9 +135,11 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <QueryProvider>
-          <TabLayoutContent />
-        </QueryProvider>
+        <LoadingProvider>
+          <QueryProvider>
+            <TabLayoutContent />
+          </QueryProvider>
+        </LoadingProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
