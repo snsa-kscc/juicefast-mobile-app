@@ -1,7 +1,8 @@
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Tabs } from "expo-router";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Home, Heart, Store, MessageCircle, Users } from 'lucide-react-native';
 import "../styles/global.css";
 import { QueryProvider } from "../providers/QueryProvider";
 
@@ -33,6 +34,96 @@ const SCREEN_OPTIONS = {
 
 
 
+function TabLayoutContent() {
+  const insets = useSafeAreaInsets();
+  
+  return (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#ffffff',
+          borderTopWidth: 1,
+          borderTopColor: '#e5e5e5',
+          height: 80 + insets.bottom,
+          paddingBottom: insets.bottom + 10,
+          paddingTop: 10,
+        },
+        tabBarActiveTintColor: '#000000',
+        tabBarInactiveTintColor: '#9ca3af',
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontFamily: 'Lufga-Medium',
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Home size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="tracker"
+        options={{
+          title: 'Tracker',
+          tabBarIcon: ({ color, size }) => (
+            <Heart size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="meals"
+        options={{
+          title: 'Store',
+          tabBarIcon: ({ color, size }) => (
+            <Store size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="steps"
+        options={{
+          title: 'Chat',
+          tabBarIcon: ({ color, size }) => (
+            <MessageCircle size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="sleep"
+        options={{
+          title: 'JF Club',
+          tabBarIcon: ({ color, size }) => (
+            <Users size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="mindfulness"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="hydration"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="+not-found"
+        options={{
+          href: null,
+        }}
+      />
+    </Tabs>
+  );
+}
+
 export default function RootLayout() {
   const [loaded] = useFonts(FONT_CONFIG);
 
@@ -44,14 +135,7 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <QueryProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
-            <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
-            <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
-            <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
-            <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
-          </Stack>
+          <TabLayoutContent />
         </QueryProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
