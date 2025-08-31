@@ -122,6 +122,12 @@ function TabLayoutContent() {
         }}
       />
       <Tabs.Screen
+        name="chat/nutritionist"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
         name="+not-found"
         options={{
           href: null,
