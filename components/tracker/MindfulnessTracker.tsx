@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { Brain } from "lucide-react-native";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Alert, Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { CircularProgress, ProgressBar, TrackerButton, TrackerHeader, TrackerStats } from "./shared";
+import { CircularProgress, ProgressBar, TrackerButton, WellnessHeader, TrackerStats } from "./shared";
 
 interface MindfulnessEntry {
   minutes: number;
@@ -135,11 +135,10 @@ export function MindfulnessTracker({ userId, initialMindfulnessData }: Mindfulne
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <TrackerHeader
+      <WellnessHeader
         title="Mindfulness Tracker"
-        subtitle="Mindfulness practice improves mental clarity,\nreduces stress, and enhances well-being."
-        onBack={() => router.back()}
-        accentColor="#4CC3FF"
+        subtitle="Mindfulness practice improves mental clarity, reduces stress, and enhances well-being."
+        accentColor="#FE8E77"
       />
 
       <TrackerStats title="DAILY MINDFULNESS" subtitle={`${Math.round(displayedMinutes)} out of ${dailyGoal} minutes goal`}>

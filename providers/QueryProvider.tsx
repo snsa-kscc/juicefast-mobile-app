@@ -1,5 +1,6 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactNode } from 'react';
+import { QueryClient, QueryClientProvider, useIsFetching } from '@tanstack/react-query';
+import { ReactNode, useEffect } from 'react';
+import { useLoading } from './LoadingProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -10,6 +11,17 @@ const queryClient = new QueryClient({
   },
 });
 
+function QueryLoadingHandler() {
+  const isFetching = useIsFetching();
+  const { setLoading } = useLoading();
+
+  useEffect(() => {
+    setLoading(isFetching > 0);
+  }, [isFetching, setLoading]);
+
+  return null;
+}
+
 interface QueryProviderProps {
   children: ReactNode;
 }
@@ -17,6 +29,7 @@ interface QueryProviderProps {
 export function QueryProvider({ children }: QueryProviderProps) {
   return (
     <QueryClientProvider client={queryClient}>
+      <QueryLoadingHandler />
       {children}
     </QueryClientProvider>
   );

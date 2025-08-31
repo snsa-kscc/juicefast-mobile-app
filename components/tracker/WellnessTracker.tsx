@@ -3,7 +3,8 @@ import { Plus, Settings } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Path, Svg } from "react-native-svg";
-import { CircularProgress } from "./shared";
+import { CircularProgress, WellnessHeader } from "./shared";
+import { Spinner } from "../Spinner";
 
 interface UserProfile {
   id: string;
@@ -241,7 +242,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center py-6">
-        <Text>Loading health tracker...</Text>
+        <Spinner size={32} color="#4CC3FF" />
       </View>
     );
   }
@@ -252,19 +253,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
   return (
     <View style={{ flex: 1 }} pointerEvents="box-none">
       <ScrollView className="flex-1 bg-[#FCFBF8]">
-        {/* Header */}
-        <View className="relative py-6 overflow-hidden">
-          <View className="absolute w-64 h-64 rounded-full bg-[#4CC3FF]/40 -top-5 left-0 opacity-60" style={{ filter: "blur(80px)" }} />
-          <View className="flex-row justify-between items-center px-6 z-10">
-            <Text className="text-xl font-bold">Wellness Tracker</Text>
-            <TouchableOpacity className="w-10 h-10 rounded-full bg-transparent justify-center items-center">
-              <Settings size={20} color="#9CA3AF" />
-            </TouchableOpacity>
-          </View>
-          <View className="px-6 pb-4 z-10">
-            <Text className="font-lufga text-sm text-gray-500">Today I'm going to....</Text>
-          </View>
-        </View>
+        <WellnessHeader title="Wellness Tracker" accentColor="#4CC3FF" />
 
         {/* Wellness Score */}
         <View className="px-6 py-6 items-center">
