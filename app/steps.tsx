@@ -1,21 +1,27 @@
+import React from "react";
 import { useRouter } from "expo-router";
-import { StepsTracker } from "@/components/tracker/StepsTracker";
 import { AnimatedScreen } from "@/components/AnimatedScreen";
+import { ChatOptions } from "@/components/chat/ChatOptions";
 
-export default function Steps() {
+export default function ChatPage() {
   const router = useRouter();
+
+  const handleChatOptionPress = (route: string) => {
+    // For now, we'll just log since the actual chat screens don't exist yet
+    // Replace with router.push(route) when chat screens are implemented
+    console.log(`Navigate to: ${route}`);
+  };
+
+  const handleSettingsPress = () => {
+    // Handle settings navigation
+    console.log("Settings pressed");
+  };
 
   return (
     <AnimatedScreen>
-      <StepsTracker 
-        userId="user123" 
-        initialStepsData={{
-          steps: [
-            { count: 2500, timestamp: new Date('2024-01-01T08:00:00') },
-            { count: 1800, timestamp: new Date('2024-01-01T12:00:00') }
-          ]
-        }}
-        onBack={() => router.back()}
+      <ChatOptions
+        onOptionPress={handleChatOptionPress}
+        onSettingsPress={handleSettingsPress}
       />
     </AnimatedScreen>
   );
