@@ -1,11 +1,11 @@
 import * as ImagePicker from "expo-image-picker";
 import { Camera, FileText, Image } from "lucide-react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { TrackerButton, TrackerHeader } from "./tracker/shared";
+import { TrackerButton, WellnessHeader } from "./tracker/shared";
 import { type CreateMeal, type Meal } from "@/schemas/MealsSchema";
-import { LoadingOverlay } from "./LoadingOverlay";
 import { useMeals } from "@/hooks/useMeals";
+import { useLoading } from "@/providers/LoadingProvider";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
@@ -16,6 +16,7 @@ interface MealsTrackerProps {
 
 export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
   const { data: apiMeals = [], isLoading: mealsLoading } = useMeals(userId);
+  const { setLoading } = useLoading();
   const [localMeals, setLocalMeals] = useState<Meal[]>([]);
   
   const meals = [...apiMeals, ...localMeals];
@@ -193,7 +194,11 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
 
   const dailyTotals = calculateDailyTotals();
   const currentMeals = getMealsByType(activeTab);
-  const isLoading = mealsLoading || isProcessingImage;
+  
+  // Update global loading state
+  useEffect(() => {
+    setLoading(mealsLoading || isProcessingImage);
+  }, [mealsLoading, isProcessingImage, setLoading]);
 
   const getInputMethodIcon = (method: string) => {
     switch (method) {
@@ -211,11 +216,10 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
   return (
     <View className="flex-1 bg-[#FCFBF8]">
       <ScrollView className="flex-1">
-        <TrackerHeader
+        <WellnessHeader
           title="Meal Tracker"
           subtitle="What you eat builds your energy, mood and body. Let's track it."
-          onBack={selectedMealType ? () => setSelectedMealType(null) : onBack}
-          accentColor="#10B981"
+          accentColor="#0DC99B"
         />
 
       {!selectedMealType ? (
@@ -264,7 +268,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
                     setActiveInputMethod("camera");
                     handleCamera();
                   }}
-                  disabled={isLoading}
+                  disabled={mealsLoading || isProcessingImage}
                 >
                   <Camera size={20} color="#6B7280" />
                   <Text className="text-sm mt-1">Camera</Text>
@@ -278,7 +282,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
                     setActiveInputMethod("photos");
                     handleGallery();
                   }}
-                  disabled={isLoading}
+                  disabled={mealsLoading || isProcessingImage}
                 >
                   <Image size={20} color="#6B7280" />
                   <Text className="text-sm mt-1">Photos</Text>
@@ -365,7 +369,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
                 <TrackerButton 
                   title="Add Meal"
                   onPress={handleManualEntry} 
-                  disabled={isLoading} 
+                  disabled={mealsLoading || isProcessingImage} 
                   backgroundColor="#10B981" 
                 />
               </View>
@@ -453,8 +457,6 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
         </View>
       </View>
       </ScrollView>
-      
-      {isLoading && <LoadingOverlay />}
     </View>
   );
 }

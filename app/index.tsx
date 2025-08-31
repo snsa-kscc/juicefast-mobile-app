@@ -8,7 +8,7 @@ import Animated, {
 import { HomeDashboard } from "@/components/dashboard";
 import { AddActionButton } from "@/components/ui/AddActionButton";
 
-export default function Index() {
+export default function HomeScreen() {
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.95);
 
