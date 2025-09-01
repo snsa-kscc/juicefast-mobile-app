@@ -1,11 +1,11 @@
 import { useFonts } from "expo-font";
 import { Tabs } from "expo-router";
+import { Heart, Home, MessageCircle, Store, Users } from 'lucide-react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Home, Heart, Store, MessageCircle, Users } from 'lucide-react-native';
-import "../styles/global.css";
-import { QueryProvider } from "../providers/QueryProvider";
 import { LoadingProvider } from "../providers/LoadingProvider";
+import { QueryProvider } from "../providers/QueryProvider";
+import "../styles/global.css";
 
 const FONT_CONFIG = {
   "Lufga-Thin": require("../assets/fonts/LufgaThin.ttf"),
@@ -77,7 +77,7 @@ function TabLayoutContent() {
         }}
       />
       <Tabs.Screen
-        name="meals"
+        name="store"
         options={{
           title: 'Store',
           tabBarIcon: ({ color, size }) => (
@@ -101,6 +101,12 @@ function TabLayoutContent() {
           tabBarIcon: ({ color, size }) => (
             <Users size={size} color={color} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="meals"
+        options={{
+          href: null,
         }}
       />
       <Tabs.Screen
