@@ -3,7 +3,7 @@ import { useLoading } from "@/providers/LoadingProvider";
 import { type CreateMeal, type Meal } from "@/schemas/MealsSchema";
 import * as ImagePicker from "expo-image-picker";
 import { Camera, FileText, Image } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { TrackerButton, WellnessHeader } from "./shared";
 
@@ -381,7 +381,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
       )}
 
       <View className="px-4 mb-6">
-        <Text className="text-xl font-bold mb-4">Today's Meals</Text>
+        <Text className="text-xl font-bold mb-4">Today&apos;s Meals</Text>
 
         <View className="flex-row mb-4">
           {(["breakfast", "snack", "lunch", "dinner"] as const).map((mealType) => (

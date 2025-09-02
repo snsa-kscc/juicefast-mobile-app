@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { MoonIcon, SunIcon } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { Alert, Animated, ScrollView, Text, TextInput, View } from "react-native";
-import { CircularProgress, ProgressBar, TrackerButton, WellnessHeader, TrackerStats } from "./shared";
+import { CircularProgress, ProgressBar, TrackerButton, TrackerStats, WellnessHeader } from "./shared";
 
 interface SleepEntry {
   hoursSlept: number;
@@ -191,7 +191,7 @@ export function SleepTracker({ userId, initialSleepData, onBack }: SleepTrackerP
             </View>
           </View>
           <View className="flex-1">
-            <Text className="font-lufga text-sm flex-1">Create a relaxing bedtime routine to signal it's time to sleep</Text>
+            <Text className="font-lufga text-sm flex-1">Create a relaxing bedtime routine to signal it&apos;s time to sleep</Text>
             <View className="relative">
               <TextInput
                 value={wakeTime}
