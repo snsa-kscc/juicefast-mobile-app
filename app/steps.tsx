@@ -1,26 +1,41 @@
-import React from "react";
-import { useRouter } from "expo-router";
 import { AnimatedScreen } from "@/components/AnimatedScreen";
-import { ChatOptions } from "@/components/chat/ChatOptions";
+import { StepsTracker } from "@/components/tracker/StepsTracker";
+import { TrackerScreenWrapper } from "@/components/TrackerScreenWrapper";
+import { useRouter } from "expo-router";
 
-export default function ChatPage() {
+const MOCK_STEPS_DATA = {
+  steps: [
+    {
+      count: 3500,
+      timestamp: new Date('2024-01-01T08:00:00')
+    },
+    {
+      count: 2000,
+      timestamp: new Date('2024-01-01T14:30:00')
+    },
+    {
+      count: 1500,
+      timestamp: new Date('2024-01-01T18:00:00')
+    }
+  ]
+};
+
+export default function StepsScreen() {
   const router = useRouter();
 
-  const handleChatOptionPress = (route: string) => {
-    router.push(route as any);
-  };
-
-  const handleSettingsPress = () => {
-    // Handle settings navigation
-    console.log("Settings pressed");
+  const handleBack = () => {
+    router.back();
   };
 
   return (
-    <AnimatedScreen>
-      <ChatOptions
-        onOptionPress={handleChatOptionPress}
-        onSettingsPress={handleSettingsPress}
-      />
-    </AnimatedScreen>
+    <TrackerScreenWrapper>
+      <AnimatedScreen>
+        <StepsTracker 
+          userId="user123"
+          initialStepsData={MOCK_STEPS_DATA}
+          onBack={handleBack}
+        />
+      </AnimatedScreen>
+    </TrackerScreenWrapper>
   );
 }

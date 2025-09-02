@@ -1,8 +1,7 @@
 import { useFonts } from "expo-font";
-import { Tabs } from "expo-router";
-import { Heart, Home, MessageCircle, Store, Users } from 'lucide-react-native';
+import { Stack } from "expo-router";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
 import "../styles/global.css";
@@ -33,122 +32,6 @@ const SCREEN_OPTIONS = {
   animation: "slide_from_right" as const,
 };
 
-
-
-function TabLayoutContent() {
-  const insets = useSafeAreaInsets();
-  
-  return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: '#ffffff',
-          borderTopWidth: 1,
-          borderTopColor: '#e5e5e5',
-          height: 80 + insets.bottom,
-          paddingBottom: insets.bottom + 10,
-          paddingTop: 10,
-        },
-        tabBarActiveTintColor: '#000000',
-        tabBarInactiveTintColor: '#9ca3af',
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontFamily: 'Lufga-Medium',
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <Home size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="tracker"
-        options={{
-          title: 'Tracker',
-          tabBarIcon: ({ color, size }) => (
-            <Heart size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="store"
-        options={{
-          title: 'Store',
-          tabBarIcon: ({ color, size }) => (
-            <Store size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="steps"
-        options={{
-          title: 'Chat',
-          tabBarIcon: ({ color, size }) => (
-            <MessageCircle size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="sleep"
-        options={{
-          title: 'JF Club',
-          tabBarIcon: ({ color, size }) => (
-            <Users size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="meals"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="mindfulness"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="hydration"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="chat/ai"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="chat/nutritionist"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="+not-found"
-        options={{
-          href: null,
-        }}
-      />
-    </Tabs>
-  );
-}
-
 export default function RootLayout() {
   const [loaded] = useFonts(FONT_CONFIG);
 
@@ -162,7 +45,18 @@ export default function RootLayout() {
         <GestureHandlerRootView style={{ flex: 1 }}>
           <LoadingProvider>
             <QueryProvider>
-              <TabLayoutContent />
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
+                <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
+                <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
+                <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
+                <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
+                <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
+                <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
+                <Stack.Screen name="chat/nutritionist" options={SCREEN_OPTIONS} />
+                <Stack.Screen name="+not-found" />
+              </Stack>
             </QueryProvider>
           </LoadingProvider>
         </GestureHandlerRootView>

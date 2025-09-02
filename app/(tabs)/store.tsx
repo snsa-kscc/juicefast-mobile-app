@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
-import { ThemedView } from '../components/ThemedView';
+import { ThemedView } from '../../components/ThemedView';
 
 export default function StoreScreen() {
   const [isLoading, setIsLoading] = React.useState(true);
