@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
-import { Plus, Settings } from "lucide-react-native";
+import { Plus } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Path, Svg } from "react-native-svg";
-import { CircularProgress, WellnessHeader } from "./shared";
 import { Spinner } from "../Spinner";
+import { CircularProgress, WellnessHeader } from "./shared";
 
 interface UserProfile {
   id: string;
