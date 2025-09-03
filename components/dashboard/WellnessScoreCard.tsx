@@ -4,14 +4,14 @@ import { Info } from 'lucide-react-native';
 import { CircularProgress } from '@/components/tracker/shared';
 import { MealIcon, StepsIcon, MindfulnessIcon, WaterIcon } from './icons/TrackerIcons';
 
-interface ProgressBarProps {
+interface WellnessProgressBarProps {
   icon: React.ReactNode;
   value: number;
   backgroundColor: string;
   fillColor: string;
 }
 
-const ProgressBar = ({ icon, value, backgroundColor, fillColor }: ProgressBarProps) => (
+const WellnessProgressBar = ({ icon, value, backgroundColor, fillColor }: WellnessProgressBarProps) => (
   <View className="flex-col items-center">
     <View className="w-12 h-16 rounded-2xl flex-col items-center justify-center mb-1 relative overflow-hidden" style={{ backgroundColor }}>
       <View 
@@ -87,25 +87,25 @@ export function WellnessScoreCard({ averageScore, dailyProgress }: WellnessScore
           DAILY PROGRESS SUMMARY (%)
         </Text>
         <View className="flex-row justify-around">
-          <ProgressBar
+          <WellnessProgressBar
             icon={<StepsIcon size={16} />}
             value={dailyProgress.steps}
             backgroundColor="#FFF8E7"
             fillColor="#FFC856"
           />
-          <ProgressBar
+          <WellnessProgressBar
             icon={<MindfulnessIcon size={16} />}
             value={dailyProgress.mindfulness}
             backgroundColor="#FFF0F0"
             fillColor="#FF8080"
           />
-          <ProgressBar
+          <WellnessProgressBar
             icon={<MealIcon size={16} />}
             value={dailyProgress.meals}
             backgroundColor="#F0FFF4"
             fillColor="#11B364"
           />
-          <ProgressBar
+          <WellnessProgressBar
             icon={<WaterIcon size={16} />}
             value={dailyProgress.water}
             backgroundColor="#EBF9FF"
