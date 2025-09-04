@@ -9,7 +9,7 @@ interface TrackerScreenWrapperProps {
 export function TrackerScreenWrapper({ children }: TrackerScreenWrapperProps) {
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1, paddingBottom: 90 }}>
+      <View style={{ flex: 1, paddingBottom: 70 }}>
         {children}
       </View>
       <CustomBottomNavigation />
