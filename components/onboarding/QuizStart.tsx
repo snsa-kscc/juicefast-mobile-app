@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
 
 interface QuizStartProps {
   onStart: () => void;
@@ -19,10 +20,19 @@ export function QuizStart({ onStart }: QuizStartProps) {
       
       <TouchableOpacity
         onPress={onStart}
-        className="bg-green-600 px-8 py-4 rounded-full w-full max-w-xs"
+        className="bg-green-600 px-8 py-4 rounded-full w-full max-w-xs mb-4"
       >
         <Text className="text-white text-lg font-semibold text-center">
           Start Quiz
+        </Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity
+        onPress={() => router.replace('/(tabs)')}
+        className="px-8 py-4"
+      >
+        <Text className="text-gray-600 text-lg font-medium text-center">
+          Skip to App
         </Text>
       </TouchableOpacity>
     </View>
