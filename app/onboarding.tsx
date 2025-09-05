@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { OnboardingQuiz } from '../components/onboarding/onboarding-quiz';
+import { OnboardingQuiz } from '../components/onboarding/OnboardingQuiz';
 
 export default function OnboardingScreen() {
   return (

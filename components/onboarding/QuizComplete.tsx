@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 
 interface QuizCompleteProps {
-  answers: Record<number, string>;
+  answers: Record<string, string | string[] | number>;
 }
 
 export function QuizComplete({ answers }: QuizCompleteProps) {
