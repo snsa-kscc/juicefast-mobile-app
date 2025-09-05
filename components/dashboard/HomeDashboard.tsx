@@ -139,24 +139,24 @@ export function HomeDashboard({
         {/* Wellness Cards - Horizontal Scrollable */}
         <View className="mb-6">
           <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-            <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3 bg-blue-200">
-              <View className="absolute inset-0 bg-gradient-to-br from-blue-300 to-blue-400 justify-end p-3">
+            <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3" style={{ backgroundColor: '#93C5FD' }}>
+              <View className="absolute inset-0 justify-end p-3" style={{ backgroundColor: '#60A5FA', zIndex: 1 }}>
                 <Text className="text-white text-xs font-medium">
                   Guided{"\n"}meditations
                 </Text>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3 bg-green-200">
-              <View className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-400 justify-end p-3">
+            <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3" style={{ backgroundColor: '#86EFAC' }}>
+              <View className="absolute inset-0 justify-end p-3" style={{ backgroundColor: '#4ADE80', zIndex: 1 }}>
                 <Text className="text-white text-xs font-medium">
                   Guided{"\n"}affirmations
                 </Text>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden bg-pink-200">
-              <View className="absolute inset-0 bg-gradient-to-br from-pink-300 to-pink-400 justify-end p-3">
+            <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden" style={{ backgroundColor: '#F9A8D4' }}>
+              <View className="absolute inset-0 justify-end p-3" style={{ backgroundColor: '#F472B6', zIndex: 1 }}>
                 <Text className="text-white text-xs font-medium">
                   Strength{"\n"}exercises
                 </Text>
@@ -177,7 +177,7 @@ export function HomeDashboard({
           />
         </TouchableOpacity>
 
-        <TouchableOpacity className="w-full mb-20">
+        <TouchableOpacity className="w-full mb-24">
           <Image 
             source={require('../../assets/images/fasting.png')}
             className="w-full h-32 rounded-xl"

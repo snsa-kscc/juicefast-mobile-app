@@ -21,7 +21,7 @@ const WellnessProgressBar = ({ icon, value, backgroundColor, fillColor }: Wellne
           backgroundColor: fillColor 
         }} 
       />
-      <View className="flex-col items-center justify-center z-10 absolute inset-0">
+      <View className="flex-col items-center justify-center absolute inset-0" style={{ zIndex: 10 }}>
         <View className="mb-1">{icon}</View>
         <Text className={`text-xs font-semibold ${value > 80 ? 'text-white' : 'text-black'}`}>
           {value}
