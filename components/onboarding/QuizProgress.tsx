@@ -10,7 +10,7 @@ export function QuizProgress({ current, total }: QuizProgressProps) {
   const progress = (current / total) * 100;
 
   return (
-    <View className="px-6 py-4 bg-white border-b border-gray-100">
+    <View className="flex-1 mr-4">
       <View className="flex-row justify-between items-center mb-2">
         <Text className="text-sm text-gray-600">
           Question {current} of {total}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
 import { useOnboardingManager } from '../../hooks/useOnboardingManager';
 import { QuizComplete } from './QuizComplete';
 import { QuizProgress } from './QuizProgress';
@@ -39,7 +40,17 @@ export function OnboardingQuiz() {
 
   return (
     <View className="flex-1 bg-white">
-      <QuizProgress current={progress.current} total={progress.total} />
+      <View className="flex-row justify-between items-center px-6 pt-4">
+        <QuizProgress current={progress.current} total={progress.total} />
+        <TouchableOpacity
+          onPress={() => router.replace('/(tabs)')}
+          className="px-4 py-2"
+        >
+          <Text className="text-gray-600 text-sm font-medium">
+            Skip to App
+          </Text>
+        </TouchableOpacity>
+      </View>
       
       <View className="flex-1 px-6 py-8">
         <Text className="text-2xl font-bold text-gray-900 mb-4 text-center">
