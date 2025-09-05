@@ -1,33 +1,31 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
-import { quizQuestions } from '../../data/onboarding/quizQuestions';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { useOnboardingManager } from '../../hooks/useOnboardingManager';
 import { QuizComplete } from './QuizComplete';
-import { QuizQuestion } from './QuizQuestion';
+import { QuizProgress } from './QuizProgress';
 import { QuizStart } from './QuizStart';
+import { QuestionRenderer } from './QuestionRenderer';
 
 export function OnboardingQuiz() {
   const [currentStep, setCurrentStep] = useState<'start' | 'quiz' | 'complete'>('start');
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string | string[] | number>>({});
+  const {
+    currentQuestion,
+    currentAnswer,
+    nextQuestion,
+    previousQuestion,
+    canGoBack,
+    answers,
+    progress
+  } = useOnboardingManager();
 
   const handleStart = () => {
     setCurrentStep('quiz');
   };
 
   const handleAnswer = (answer: string | string[] | number) => {
-    const newAnswers = { ...answers, [quizQuestions[currentQuestion].id]: answer };
-    setAnswers(newAnswers);
-
-    if (currentQuestion < quizQuestions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
+    const isComplete = nextQuestion(answer);
+    if (isComplete) {
       setCurrentStep('complete');
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
     }
   };
 
@@ -40,13 +38,37 @@ export function OnboardingQuiz() {
   }
 
   return (
-    <View className="flex-1">
-      <QuizQuestion
-        question={quizQuestions[currentQuestion]}
-        onAnswer={handleAnswer}
-        onPrevious={handlePrevious}
-        canGoBack={currentQuestion > 0}
-      />
+    <View className="flex-1 bg-white">
+      <QuizProgress current={progress.current} total={progress.total} />
+      
+      <View className="flex-1 px-6 py-8">
+        <Text className="text-2xl font-bold text-gray-900 mb-4 text-center">
+          {currentQuestion.title}
+        </Text>
+        
+        {currentQuestion.description && (
+          <Text className="text-lg text-gray-600 mb-8 text-center">
+            {currentQuestion.description}
+          </Text>
+        )}
+        
+        <QuestionRenderer
+          question={currentQuestion}
+          currentAnswer={currentAnswer}
+          onAnswer={handleAnswer}
+        />
+        
+        {canGoBack && (
+          <TouchableOpacity
+            onPress={previousQuestion}
+            className="mt-8 self-center"
+          >
+            <Text className="text-green-600 text-lg font-medium">
+              Previous
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 }

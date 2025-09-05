@@ -187,6 +187,7 @@ export const quizQuestions: QuizQuestionType[] = [
     title: "Do you do any of these activities?",
     questionNumber: 12,
     totalQuestions: 13,
+    maxSelections: 2,
     options: [
       { value: "meditation", label: "Meditation" },
       { value: "yoga", label: "Yoga" },
@@ -203,6 +204,7 @@ export const quizQuestions: QuizQuestionType[] = [
     title: "Any allergies or dietary preferences?",
     questionNumber: 13,
     totalQuestions: 13,
+    maxSelections: 2,
     options: [
       { value: "nuts", label: "Nuts" },
       { value: "gluten", label: "Gluten" },
