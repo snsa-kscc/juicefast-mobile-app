@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { QuizStart } from './QuizStart';
-import { QuizQuestion } from './QuizQuestion';
+import { quizQuestions } from '../../data/onboarding/quizQuestions';
 import { QuizComplete } from './QuizComplete';
-import { quizQuestions } from '../../data/onboarding/quiz-questions';
+import { QuizQuestion } from './QuizQuestion';
+import { QuizStart } from './QuizStart';
 
 export function OnboardingQuiz() {
   const [currentStep, setCurrentStep] = useState<'start' | 'quiz' | 'complete'>('start');

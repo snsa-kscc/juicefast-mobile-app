@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
+import React, { useState } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { QuizQuestionType } from '../../data/onboarding/quizQuestions';
 import { QuizProgress } from './QuizProgress';
-import { QuizQuestionType } from '../../data/onboarding/quiz-questions';
 
 interface QuizQuestionProps {
   question: QuizQuestionType;
@@ -34,7 +34,7 @@ export function QuizQuestion({ question, onAnswer, onPrevious, canGoBack }: Quiz
   };
 
   const handleNext = () => {
-    if (question.type === 'multiple') {
+    if (question.type === 'multiple' && selectedOptions.length > 0) {
       onAnswer(selectedOptions);
     }
   };
@@ -68,7 +68,6 @@ export function QuizQuestion({ question, onAnswer, onPrevious, canGoBack }: Quiz
               onValueChange={setSliderValue}
               minimumTrackTintColor="#16a34a"
               maximumTrackTintColor="#d1d5db"
-              thumbStyle={{ backgroundColor: '#16a34a' }}
             />
             <TouchableOpacity
               onPress={handleSliderComplete}
