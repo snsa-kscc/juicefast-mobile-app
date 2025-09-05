@@ -168,6 +168,16 @@ export function HomeDashboard({
         {/* Daily Overview */}
         <DailyOverview data={displayData} />
 
+        {/* Onboarding Button */}
+        <TouchableOpacity 
+          className="bg-green-600 px-6 py-4 rounded-xl mb-4"
+          onPress={() => router.push('/onboarding')}
+        >
+          <Text className="text-white text-lg font-semibold text-center">
+            Take Onboarding Quiz
+          </Text>
+        </TouchableOpacity>
+
         {/* Challenge Banners */}
         <TouchableOpacity className="w-full mb-4">
           <Image 
