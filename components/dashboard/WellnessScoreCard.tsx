@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Animated } from 'react-native';
+import { View, Text, Animated, StyleSheet } from 'react-native';
 import { Info } from 'lucide-react-native';
 import { CircularProgress } from '@/components/tracker/shared';
 import { MealIcon, StepsIcon, MindfulnessIcon, WaterIcon } from './icons/TrackerIcons';
@@ -68,7 +68,10 @@ export function WellnessScoreCard({ averageScore, dailyProgress }: WellnessScore
         <Info size={16} color="#9CA3AF" className="ml-2" />
       </View>
 
-      <View className="items-center mb-6">
+      <View className="items-center mb-6" 
+        collapsable={false}
+        style={StyleSheet.absoluteFill}
+        pointerEvents="none">
         <CircularProgress
           value={displayedScore}
           maxValue={100}
@@ -82,7 +85,7 @@ export function WellnessScoreCard({ averageScore, dailyProgress }: WellnessScore
         </Text>
       </View>
 
-      <View className="mb-4">
+      {/* <View className="mb-4">
         <Text className="text-center font-semibold text-xs tracking-widest uppercase mb-4">
           DAILY PROGRESS SUMMARY (%)
         </Text>
@@ -112,7 +115,7 @@ export function WellnessScoreCard({ averageScore, dailyProgress }: WellnessScore
             fillColor="#4CC3FF"
           />
         </View>
-      </View>
+      </View> */}
     </View>
   );
 }
