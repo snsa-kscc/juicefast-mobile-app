@@ -46,6 +46,7 @@ export default function RootLayout() {
           <LoadingProvider>
             <QueryProvider>
               <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="onboarding" options={{ headerShown: false }} />
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
                 <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
