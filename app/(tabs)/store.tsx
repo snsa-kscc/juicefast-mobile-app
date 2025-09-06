@@ -24,7 +24,7 @@ export default function StoreScreen() {
           </View>
         )}
         <WebView
-          source={{ uri: 'https://juicefast.com' }}
+          source={{ uri: 'https://dvasadva.com/movie' }}
           style={styles.webview}
           onLoadStart={handleLoadStart}
           onLoadEnd={handleLoadEnd}
