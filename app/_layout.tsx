@@ -1,4 +1,4 @@
-import { ClerkProvider } from "@clerk/clerk-expo";
+import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -7,6 +7,8 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
 import "../styles/global.css";
+import { useEffect } from "react";
+import { useRouter } from "expo-router";
 
 const FONT_CONFIG = {
   "Lufga-Thin": require("../assets/fonts/LufgaThin.ttf"),
@@ -34,6 +36,38 @@ const SCREEN_OPTIONS = {
   animation: "slide_from_right" as const,
 };
 
+function AuthenticatedLayout() {
+  const { isSignedIn, isLoaded } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.replace('/(auth)/sign-in');
+    }
+  }, [isSignedIn, isLoaded]);
+
+  if (!isLoaded) {
+    return null;
+  }
+
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
+      <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
+      <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
+      <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
+      <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
+      <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
+      <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
+      <Stack.Screen name="chat/nutritionist" options={SCREEN_OPTIONS} />
+      <Stack.Screen name="+not-found" />
+    </Stack>
+  );
+}
+
 export default function RootLayout() {
   const [loaded] = useFonts(FONT_CONFIG);
 
@@ -48,28 +82,7 @@ export default function RootLayout() {
           <GestureHandlerRootView style={{ flex: 1 }}>
             <LoadingProvider>
               <QueryProvider>
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen
-                    name="onboarding"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="(tabs)"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
-                  <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
-                  <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
-                  <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
-                  <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
-                  <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
-                  <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
-                  <Stack.Screen
-                    name="chat/nutritionist"
-                    options={SCREEN_OPTIONS}
-                  />
-                  <Stack.Screen name="+not-found" />
-                </Stack>
+                <AuthenticatedLayout />
               </QueryProvider>
             </LoadingProvider>
           </GestureHandlerRootView>
