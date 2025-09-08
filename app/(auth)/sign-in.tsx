@@ -2,10 +2,12 @@ import { useSignIn } from '@clerk/clerk-expo'
 import { Link, useRouter } from 'expo-router'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { useSocialSignIn } from '../../hooks/useSocialSignIn'
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn()
   const router = useRouter()
+  const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn()
 
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -85,17 +87,17 @@ export default function Page() {
 
       {/* Social Login Buttons */}
       <View className="space-y-3 mb-8">
-        <TouchableOpacity className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity onPress={signInWithFacebook} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">f</Text>
           <Text className="text-white font-semibold">Facebook</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity onPress={signInWithApple} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">🍎</Text>
           <Text className="text-white font-semibold">Apple</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity onPress={signInWithGoogle} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">G</Text>
           <Text className="text-white font-semibold">Google</Text>
         </TouchableOpacity>

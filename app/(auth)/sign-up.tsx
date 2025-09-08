@@ -2,10 +2,12 @@ import * as React from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { useSignUp } from '@clerk/clerk-expo'
 import { Link, useRouter } from 'expo-router'
+import { useSocialSignIn } from '../../hooks/useSocialSignIn'
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp()
   const router = useRouter()
+  const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn()
 
   const [firstName, setFirstName] = React.useState('')
   const [lastName, setLastName] = React.useState('')
@@ -161,11 +163,29 @@ export default function SignUpScreen() {
       </Text>
 
       {/* Checkbox */}
-      <View className="flex-row items-center mb-8">
+      <View className="flex-row items-center mb-6">
         <View className="w-5 h-5 border border-gray-300 rounded mr-3" />
         <Text className="text-sm text-gray-600 flex-1">
           I don't want to receive updates and information via email
         </Text>
+      </View>
+
+      {/* Social Login Buttons */}
+      <View className="space-y-3 mb-8">
+        <TouchableOpacity onPress={signInWithFacebook} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+          <Text className="text-white mr-2">f</Text>
+          <Text className="text-white font-semibold">Facebook</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity onPress={signInWithApple} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+          <Text className="text-white mr-2">🍎</Text>
+          <Text className="text-white font-semibold">Apple</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity onPress={signInWithGoogle} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+          <Text className="text-white mr-2">G</Text>
+          <Text className="text-white font-semibold">Google</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Sign In Link */}
