@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { useClerk } from '@clerk/clerk-expo';
 import {
   User,
   Ruler,
@@ -131,13 +132,25 @@ export default function ProfileScreen() {
     }
   };
 
+  const { signOut } = useClerk();
+
   const handleLogout = async () => {
     Alert.alert(
       'Logout',
       'Are you sure you want to logout?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'Logout', style: 'destructive', onPress: () => router.push('/') },
+        { 
+          text: 'Logout', 
+          style: 'destructive', 
+          onPress: async () => {
+            try {
+              await signOut();
+            } catch (error) {
+              console.error('Sign out error:', error);
+            }
+          }
+        },
       ]
     );
   };
