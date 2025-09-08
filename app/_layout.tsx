@@ -1,7 +1,8 @@
+import { ClerkProvider } from "@clerk/clerk-expo";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
 import "../styles/global.css";
@@ -40,28 +41,39 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <LoadingProvider>
-            <QueryProvider>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
-                <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
-                <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
-                <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
-                <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
-                <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
-                <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
-                <Stack.Screen name="chat/nutritionist" options={SCREEN_OPTIONS} />
-                <Stack.Screen name="+not-found" />
-              </Stack>
-            </QueryProvider>
-          </LoadingProvider>
-        </GestureHandlerRootView>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <ClerkProvider>
+      <SafeAreaProvider>
+        <SafeAreaView style={{ flex: 1 }}>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <LoadingProvider>
+              <QueryProvider>
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen
+                    name="onboarding"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
+                  <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
+                  <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
+                  <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
+                  <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
+                  <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
+                  <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
+                  <Stack.Screen
+                    name="chat/nutritionist"
+                    options={SCREEN_OPTIONS}
+                  />
+                  <Stack.Screen name="+not-found" />
+                </Stack>
+              </QueryProvider>
+            </LoadingProvider>
+          </GestureHandlerRootView>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </ClerkProvider>
   );
 }
