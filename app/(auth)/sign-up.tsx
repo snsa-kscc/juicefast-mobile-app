@@ -27,6 +27,10 @@ export default function SignUpScreen() {
         password,
         firstName,
         lastName,
+        unsafeMetadata: {
+          role: "user",
+          onboardingCompleted: false,
+        },
       })
 
       // Send user an email with verification code
@@ -56,7 +60,7 @@ export default function SignUpScreen() {
       // and redirect the user
       if (signUpAttempt.status === 'complete') {
         await setActive({ session: signUpAttempt.createdSessionId })
-        router.replace('/')
+        router.replace('/onboarding')
       } else {
         // If the status is not complete, check why. User may need to
         // complete further steps.

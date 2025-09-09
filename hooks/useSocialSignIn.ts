@@ -25,10 +25,20 @@ export const useSocialSignIn = () => {
 
   const signInWith = useCallback(async (provider: SocialProvider) => {
     try {
-      const { createdSessionId, setActive } = await startSSOFlow({
+      const { createdSessionId, setActive, signUp } = await startSSOFlow({
         strategy: provider,
         redirectUrl: AuthSession.makeRedirectUri(),
       })
+
+      // If this is a new user (signUp exists), add metadata
+      if (signUp) {
+        await signUp.update({
+          unsafeMetadata: {
+            role: "user",
+            onboardingCompleted: false,
+          },
+        })
+      }
 
       if (createdSessionId) {
         setActive!({ session: createdSessionId })
