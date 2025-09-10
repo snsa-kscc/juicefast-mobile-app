@@ -10,6 +10,8 @@ import "../styles/global.css";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
 const FONT_CONFIG = {
   "Lufga-Thin": require("../assets/fonts/LufgaThin.ttf"),
   "Lufga-ThinItalic": require("../assets/fonts/LufgaThinItalic.ttf"),
@@ -38,6 +40,7 @@ const SCREEN_OPTIONS = {
 
 function AuthenticatedLayout() {
   const { isSignedIn, isLoaded } = useAuth();
+  const { user } = require('@clerk/clerk-expo').useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -45,6 +48,15 @@ function AuthenticatedLayout() {
       router.replace('/(auth)/sign-in');
     }
   }, [isSignedIn, isLoaded]);
+
+  useEffect(() => {
+    if (isSignedIn && user) {
+      const isOnboardingCompleted = user.unsafeMetadata?.onboardingCompleted === true;
+      if (isOnboardingCompleted) {
+        router.replace('/(tabs)');
+      }
+    }
+  }, [isSignedIn, user]);
 
   if (!isLoaded) {
     return null;
@@ -76,7 +88,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ClerkProvider tokenCache={tokenCache}>
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
       <SafeAreaProvider>
         <SafeAreaView style={{ flex: 1 }}>
           <GestureHandlerRootView style={{ flex: 1 }}>
