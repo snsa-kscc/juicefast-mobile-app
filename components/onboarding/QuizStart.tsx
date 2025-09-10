@@ -1,12 +1,24 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
+import { useOnboardingCompletion } from '../../utils/onboarding';
 
 interface QuizStartProps {
   onStart: () => void;
 }
 
 export function QuizStart({ onStart }: QuizStartProps) {
+  const { markOnboardingCompleted } = useOnboardingCompletion();
+  
+  // Debug: Check user metadata
+  const { user } = require('@clerk/clerk-expo').useUser();
+  console.log('User metadata:', user?.unsafeMetadata);
+
+  const handleSkip = async () => {
+    await markOnboardingCompleted();
+    router.replace('/(tabs)');
+  };
+
   return (
     <View className="flex-1 justify-center items-center px-6 bg-white">
       <View className="items-center mb-12">
@@ -28,7 +40,7 @@ export function QuizStart({ onStart }: QuizStartProps) {
       </TouchableOpacity>
       
       <TouchableOpacity
-        onPress={() => router.replace('/(tabs)')}
+        onPress={handleSkip}
         className="px-8 py-4"
       >
         <Text className="text-gray-600 text-lg font-medium text-center">
