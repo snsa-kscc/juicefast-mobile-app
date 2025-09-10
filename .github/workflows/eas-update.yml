@@ -45,3 +45,5 @@ jobs:
 
       - name: Create update
         run: eas update --platform all --auto
+        env:
+          EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY }}
