@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { useOnboardingManager } from '../../hooks/useOnboardingManager';
+import { useOnboardingCompletion } from '../../utils/onboarding';
 import { QuizComplete } from './QuizComplete';
 import { QuizProgress } from './QuizProgress';
 import { QuizStart } from './QuizStart';
@@ -9,6 +10,7 @@ import { QuestionRenderer } from './QuestionRenderer';
 
 export function OnboardingQuiz() {
   const [currentStep, setCurrentStep] = useState<'start' | 'quiz' | 'complete'>('start');
+  const { markOnboardingCompleted } = useOnboardingCompletion();
   const {
     currentQuestion,
     currentAnswer,
@@ -18,6 +20,11 @@ export function OnboardingQuiz() {
     answers,
     progress
   } = useOnboardingManager();
+
+  const handleSkip = async () => {
+    await markOnboardingCompleted();
+    router.replace('/(tabs)');
+  };
 
   const handleStart = () => {
     setCurrentStep('quiz');
@@ -43,7 +50,7 @@ export function OnboardingQuiz() {
       <View className="flex-row justify-between items-center px-6 pt-4">
         <QuizProgress current={progress.current} total={progress.total} />
         <TouchableOpacity
-          onPress={() => router.replace('/(tabs)')}
+          onPress={handleSkip}
           className="px-4 py-2"
         >
           <Text className="text-gray-600 text-sm font-medium">
