@@ -1,13 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
+import { useOnboardingCompletion } from '../../utils/onboarding';
 
 interface QuizCompleteProps {
   answers: Record<string, string | string[] | number>;
 }
 
 export function QuizComplete({ answers }: QuizCompleteProps) {
-  const handleContinue = () => {
+  const { markOnboardingCompleted } = useOnboardingCompletion();
+
+  const handleContinue = async () => {
+    await markOnboardingCompleted();
     router.replace('/(tabs)');
   };
 
