@@ -99,7 +99,7 @@ export function ChatOptions({ onOptionPress, onSettingsPress }: ChatOptionsProps
           {CHAT_OPTIONS.map((option) => (
             <TouchableOpacity
               key={option.id}
-              className="bg-white rounded-xl shadow-sm active:scale-95 transition-transform"
+              className="bg-white rounded-xl shadow-sm"
               onPress={() => handleOptionPress(option.route)}
               activeOpacity={0.7}
             >
