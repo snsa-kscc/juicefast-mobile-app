@@ -136,11 +136,41 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
 
         {/* Quick add buttons */}
         <View className="flex-row justify-between mb-4">
-          {[1000, 2500, 5000].map((count) => (
-            <TouchableOpacity key={count} className="border border-gray-300 rounded-md px-3 py-2" onPress={() => setStepCount(count)} disabled={isLoading}>
-              <Text className="font-lufga text-sm">{count} steps</Text>
-            </TouchableOpacity>
-          ))}
+          <TouchableOpacity 
+            className={`border rounded-md px-3 py-2 ${
+              stepCount === 1000 ? 'border-[#FFC856] bg-[#FFF0D0]' : 'border-gray-300'
+            }`}
+            onPress={() => setStepCount(1000)} 
+            disabled={isLoading}
+          >
+            <Text className={`font-lufga text-sm ${
+              stepCount === 1000 ? 'text-[#B8860B]' : 'text-gray-700'
+            }`}>1000 steps</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            className={`border rounded-md px-3 py-2 ${
+              stepCount === 2500 ? 'border-[#FFC856] bg-[#FFF0D0]' : 'border-gray-300'
+            }`}
+            onPress={() => setStepCount(2500)} 
+            disabled={isLoading}
+          >
+            <Text className={`font-lufga text-sm ${
+              stepCount === 2500 ? 'text-[#B8860B]' : 'text-gray-700'
+            }`}>2500 steps</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            className={`border rounded-md px-3 py-2 ${
+              stepCount === 5000 ? 'border-[#FFC856] bg-[#FFF0D0]' : 'border-gray-300'
+            }`}
+            onPress={() => setStepCount(5000)} 
+            disabled={isLoading}
+          >
+            <Text className={`font-lufga text-sm ${
+              stepCount === 5000 ? 'text-[#B8860B]' : 'text-gray-700'
+            }`}>5000 steps</Text>
+          </TouchableOpacity>
         </View>
 
         <TrackerButton title={isLoading ? "Adding..." : "Add steps"} onPress={handleAddSteps} disabled={isLoading} />
