@@ -33,6 +33,11 @@ export default function StoreScreen() {
           startInLoadingState={true}
           scalesPageToFit={true}
           allowsBackForwardNavigationGestures={true}
+          mediaPlaybackRequiresUserAction={false}
+          allowsInlineMediaPlayback={true}
+          allowsFullscreenVideo={true}
+          allowsAirPlayForMediaPlayback={true}
+          mixedContentMode="compatibility"
         />
       </ThemedView>
     </SafeAreaView>
