@@ -1,0 +1,11 @@
+import { defineSchema, defineTable } from "convex/server";
+import { v } from "convex/values";
+
+export default defineSchema({
+  stepEntry: defineTable({
+    userId: v.string(),
+    count: v.number(), // steps in this entry
+    timestamp: v.number(), // UTC timestamp when recorded
+  })
+    .index("by_user_id", ["userId"])
+});
