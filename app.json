@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.juicefastapp.juicefastnutritionapp"
     },
     "web": {
       "bundler": "metro",
@@ -37,7 +38,10 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font",
+      "expo-secure-store",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
@@ -48,6 +52,12 @@
         "projectId": "6e9c5757-7446-4974-80fa-fadd2ad8ebc4"
       }
     },
-    "owner": "juicefast-app"
+    "owner": "juicefast-app",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/6e9c5757-7446-4974-80fa-fadd2ad8ebc4"
+    }
   }
 }
