@@ -1,8 +1,8 @@
-import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { WebView } from 'react-native-webview';
-import { ThemedView } from '../../components/ThemedView';
+import React from "react";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { WebView } from "react-native-webview";
+import { ThemedView } from "../../components/ThemedView";
 
 export default function StoreScreen() {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -24,7 +24,7 @@ export default function StoreScreen() {
           </View>
         )}
         <WebView
-          source={{ uri: 'https://dvasadva.com/movie' }}
+          source={{ uri: "https://juicefast.com/" }}
           style={styles.webview}
           onLoadStart={handleLoadStart}
           onLoadEnd={handleLoadEnd}
@@ -42,21 +42,20 @@ export default function StoreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   webview: {
     flex: 1,
   },
   loadingContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
     zIndex: 1,
   },
 });
-
