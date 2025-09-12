@@ -44,7 +44,7 @@ export const useSocialSignIn = () => {
         setActive!({ session: createdSessionId })
       }
     } catch (err) {
-      console.error(JSON.stringify(err, null, 2))
+      console.error('Social sign in error:', err)
     }
   }, [startSSOFlow, router])
 

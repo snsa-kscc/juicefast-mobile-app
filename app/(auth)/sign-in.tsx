@@ -31,12 +31,12 @@ export default function Page() {
       } else {
         // If the status isn't complete, check why. User might need to
         // complete further steps.
-        console.error(JSON.stringify(signInAttempt, null, 2))
+        console.error('Sign in attempt incomplete:', signInAttempt.status)
       }
     } catch (err) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      console.error(JSON.stringify(err, null, 2))
+      console.error('Sign in error:', err)
     }
   }
 
