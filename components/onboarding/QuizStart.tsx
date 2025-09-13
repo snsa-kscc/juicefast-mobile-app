@@ -12,7 +12,6 @@ export function QuizStart({ onStart }: QuizStartProps) {
   
   // Debug: Check user metadata
   const { user } = require('@clerk/clerk-expo').useUser();
-  console.log('User metadata:', user?.unsafeMetadata);
 
   const handleSkip = async () => {
     await markOnboardingCompleted();
