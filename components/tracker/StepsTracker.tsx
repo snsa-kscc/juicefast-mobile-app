@@ -1,6 +1,9 @@
 import Slider from "@react-native-community/slider";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useOptimistic, useRef, useState, startTransition } from "react";
 import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useMutation } from "convex/react";
+import { useUser } from "@clerk/clerk-expo";
+import { api } from "../../convex/_generated/api";
 import { CircularProgress, ProgressBar, TrackerButton, WellnessHeader, TrackerStats } from "./shared";
 
 interface StepEntry {
@@ -9,7 +12,6 @@ interface StepEntry {
 }
 
 interface StepsTrackerProps {
-  userId: string;
   initialStepsData?: { steps: StepEntry[] } | null;
   onBack?: () => void;
 }
@@ -17,12 +19,19 @@ interface StepsTrackerProps {
 const DAILY_GOAL = 10000;
 const CALORIES_PER_STEP = 0.04;
 
-export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerProps) {
+export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
+  const { user } = useUser();
   const [stepCount, setStepCount] = useState<number>(1000);
   const [stepEntries, setStepEntries] = useState<StepEntry[]>(initialStepsData?.steps || []);
   const [totalSteps, setTotalSteps] = useState<number>(0);
   const [displayedSteps, setDisplayedSteps] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  
+  const createStepEntry = useMutation(api.stepEntry.create);
+  
+  const [optimisticSteps, addOptimisticStep] = useOptimistic(
+    totalSteps,
+    (state, newSteps: number) => state + newSteps
+  );
 
   const animatedValue = useRef(new Animated.Value(0)).current;
 
@@ -47,34 +56,34 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
   }, [initialStepsData]);
 
   useEffect(() => {
-    if (totalSteps > 0) {
+    if (optimisticSteps > 0) {
       Animated.timing(animatedValue, {
-        toValue: totalSteps,
+        toValue: optimisticSteps,
         duration: 1000,
         useNativeDriver: false,
       }).start();
     }
-  }, [totalSteps]);
+  }, [optimisticSteps]);
 
   const handleAddSteps = async () => {
-    if (stepCount <= 0 || !userId || isLoading) return;
+    if (stepCount <= 0 || !user?.id) return;
 
+    startTransition(() => {
+      addOptimisticStep(stepCount);
+    });
+    
     try {
-      setIsLoading(true);
+      await createStepEntry({ userId: user.id, count: stepCount });
+      
       const newEntry: StepEntry = {
         count: stepCount,
         timestamp: new Date(),
       };
-
-      const updatedEntries = [...stepEntries, newEntry];
-      const newTotal = totalSteps + stepCount;
-
-      setStepEntries(updatedEntries);
-      setTotalSteps(newTotal);
+      
+      setStepEntries(prev => [...prev, newEntry]);
+      setTotalSteps(prev => prev + stepCount);
     } catch (error) {
       console.error("Failed to save steps data:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -130,7 +139,6 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
             minimumTrackTintColor="#FFC856"
             maximumTrackTintColor="#FFF0D0"
             thumbTintColor="#FFC856"
-            disabled={isLoading}
           />
         </View>
 
@@ -140,8 +148,7 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
             className={`border rounded-md px-3 py-2 ${
               stepCount === 1000 ? 'border-[#FFC856] bg-[#FFF0D0]' : 'border-gray-300'
             }`}
-            onPress={() => setStepCount(1000)} 
-            disabled={isLoading}
+            onPress={() => setStepCount(1000)}
           >
             <Text className={`font-lufga text-sm ${
               stepCount === 1000 ? 'text-[#B8860B]' : 'text-gray-700'
@@ -152,8 +159,7 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
             className={`border rounded-md px-3 py-2 ${
               stepCount === 2500 ? 'border-[#FFC856] bg-[#FFF0D0]' : 'border-gray-300'
             }`}
-            onPress={() => setStepCount(2500)} 
-            disabled={isLoading}
+            onPress={() => setStepCount(2500)}
           >
             <Text className={`font-lufga text-sm ${
               stepCount === 2500 ? 'text-[#B8860B]' : 'text-gray-700'
@@ -164,8 +170,7 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
             className={`border rounded-md px-3 py-2 ${
               stepCount === 5000 ? 'border-[#FFC856] bg-[#FFF0D0]' : 'border-gray-300'
             }`}
-            onPress={() => setStepCount(5000)} 
-            disabled={isLoading}
+            onPress={() => setStepCount(5000)}
           >
             <Text className={`font-lufga text-sm ${
               stepCount === 5000 ? 'text-[#B8860B]' : 'text-gray-700'
@@ -173,7 +178,7 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
           </TouchableOpacity>
         </View>
 
-        <TrackerButton title={isLoading ? "Adding..." : "Add steps"} onPress={handleAddSteps} disabled={isLoading} />
+        <TrackerButton title="Add steps" onPress={handleAddSteps} />
       </View>
 
       {/* Tips Card */}
