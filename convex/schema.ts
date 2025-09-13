@@ -14,5 +14,13 @@ export default defineSchema({
     amount: v.number(),
     timestamp: v.number(),
   })
+    .index("by_user_id", ["userID"]),
+
+  mindfulnessEntry: defineTable({
+    userID: v.string(),
+    minutes: v.number(),
+    activity: v.string(),
+    timestamp: v.number(),
+  })
     .index("by_user_id", ["userID"])
 });
