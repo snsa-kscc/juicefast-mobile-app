@@ -13,6 +13,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as mindfulnessEntry from "../mindfulnessEntry.js";
 import type * as stepEntry from "../stepEntry.js";
 import type * as waterIntake from "../waterIntake.js";
 
@@ -25,6 +26,7 @@ import type * as waterIntake from "../waterIntake.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  mindfulnessEntry: typeof mindfulnessEntry;
   stepEntry: typeof stepEntry;
   waterIntake: typeof waterIntake;
 }>;
