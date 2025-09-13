@@ -1,28 +1,55 @@
-import { useMeals } from "@/hooks/useMeals";
-import { useLoading } from "@/providers/LoadingProvider";
-import { type CreateMeal, type Meal } from "@/schemas/MealsSchema";
 import * as ImagePicker from "expo-image-picker";
 import { Camera, FileText, Image } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useOptimistic, useState, startTransition, useMemo } from "react";
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useMutation, useQuery } from "convex/react";
+import { useUser } from "@clerk/clerk-expo";
+import { api } from "../../convex/_generated/api";
 import { TrackerButton, WellnessHeader } from "./shared";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
+interface MealEntry {
+  name: string;
+  description: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  meal_type: string;
+  timestamp: number;
+}
+
 interface MealsTrackerProps {
-  userId: string;
   onBack?: () => void;
 }
 
-export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
-  const { data: apiMeals = [], isLoading: mealsLoading } = useMeals(userId);
-  const { setLoading } = useLoading();
-  const [localMeals, setLocalMeals] = useState<Meal[]>([]);
+export function MealsTracker({ onBack }: MealsTrackerProps) {
+  const { user } = useUser() || {};
   
-  const meals = [...apiMeals, ...localMeals];
+  const createMealEntry = useMutation(api.mealEntry.create);
+  const deleteMealEntry = useMutation(api.mealEntry.deleteByUserIdAndTimestamp);
+  
+  const { startTime, endTime } = useMemo(() => {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    return {
+      startTime: startOfDay.getTime(),
+      endTime: endOfDay.getTime()
+    };
+  }, []);
+  
+  const mealEntries = useQuery(api.mealEntry.getByUserId, 
+    user?.id ? { userID: user.id, startTime: startTime, endTime: endTime } : "skip"
+  );
+  
+  const [optimisticMeals, addOptimisticMeal] = useOptimistic(
+    mealEntries || [],
+    (state, newMeal: MealEntry) => [...state, newMeal]
+  );
   
   const [activeEntryTab, setActiveEntryTab] = useState<"scan" | "manual">("scan");
-  const [activeInputMethod, setActiveInputMethod] = useState<"camera" | "photos" | "files">("camera");
   const [selectedMealType, setSelectedMealType] = useState<MealType | null>(null);
   const [activeTab, setActiveTab] = useState<MealType>("breakfast");
   const [isProcessingImage, setIsProcessingImage] = useState(false);
@@ -35,25 +62,44 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
     description: "",
   });
 
-  const simulateLLMResponse = (): CreateMeal => {
+  const simulateLLMResponse = () => {
     const sampleMeals = [
       { name: "Grilled Chicken Salad", calories: 350, protein: 35, carbs: 15, fat: 12, description: "Fresh mixed greens with grilled chicken breast" },
       { name: "Salmon with Rice", calories: 520, protein: 40, carbs: 45, fat: 18, description: "Baked salmon fillet with brown rice and vegetables" },
       { name: "Avocado Toast", calories: 280, protein: 8, carbs: 25, fat: 18, description: "Whole grain toast topped with mashed avocado" },
     ];
-    const randomMeal = sampleMeals[Math.floor(Math.random() * sampleMeals.length)];
-    return { ...randomMeal, userId, meal: selectedMealType! };
+    return sampleMeals[Math.floor(Math.random() * sampleMeals.length)];
   };
 
-  const handleMealAdded = (mealData: CreateMeal) => {
-    const newMeal: Meal = {
+  const handleMealAdded = async (mealData: any) => {
+    if (!user?.id) return;
+
+    const newMeal: MealEntry = {
       ...mealData,
-      id: Math.random().toString(36).substr(2, 9),
-      timestamp: new Date().toISOString(),
+      meal_type: selectedMealType!,
+      timestamp: Date.now(),
     };
-    setLocalMeals(prev => [...prev, newMeal]);
-    Alert.alert("Success", "Meal added successfully!");
-    setSelectedMealType(null);
+
+    startTransition(() => {
+      addOptimisticMeal(newMeal);
+    });
+    
+    try {
+      await createMealEntry({ 
+        userID: user.id, 
+        name: mealData.name,
+        description: mealData.description,
+        calories: mealData.calories,
+        protein: mealData.protein,
+        carbs: mealData.carbs,
+        fat: mealData.fat,
+        meal_type: selectedMealType!
+      });
+      Alert.alert("Success", "Meal added successfully!");
+      setSelectedMealType(null);
+    } catch (error) {
+      console.error("Failed to save meal data:", error);
+    }
   };
 
   const handleAddMealByType = (mealType: MealType) => {
@@ -140,18 +186,16 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
     }
 
     try {
-      const mealData: CreateMeal = {
-        userId,
+      const mealData = {
         name: formData.name,
         calories: parseFloat(formData.calories),
         protein: parseFloat(formData.protein),
         carbs: parseFloat(formData.carbs),
         fat: parseFloat(formData.fat),
         description: formData.description,
-        meal: selectedMealType!,
       };
 
-      handleMealAdded(mealData);
+      await handleMealAdded(mealData);
 
       setFormData({
         name: "",
@@ -166,14 +210,10 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
     }
   };
 
-  const calculateDailyTotals = () => {
-    const today = new Date().toISOString().split('T')[0];
+  const dailyTotals = useMemo(() => {
+    if (!optimisticMeals) return { calories: 0, protein: 0, carbs: 0, fat: 0 };
     
-    const todaysMeals = meals.filter(meal => 
-      meal.timestamp.startsWith(today)
-    );
-    
-    return todaysMeals.reduce(
+    return optimisticMeals.reduce(
       (totals, meal) => ({
         calories: totals.calories + meal.calories,
         protein: totals.protein + meal.protein,
@@ -182,36 +222,26 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
       }),
       { calories: 0, protein: 0, carbs: 0, fat: 0 }
     );
-  };
+  }, [optimisticMeals]);
 
   const getMealsByType = (mealType: MealType) => {
-    const today = new Date().toISOString().split('T')[0];
-    
-    return meals.filter((meal) => 
-      meal.meal === mealType && meal.timestamp.startsWith(today)
-    );
+    if (!optimisticMeals) return [];
+    return optimisticMeals.filter((meal) => meal.meal_type === mealType);
   };
 
-  const dailyTotals = calculateDailyTotals();
   const currentMeals = getMealsByType(activeTab);
   
-  // Update global loading state
-  useEffect(() => {
-    setLoading(mealsLoading || isProcessingImage);
-  }, [mealsLoading, isProcessingImage, setLoading]);
-
-  const getInputMethodIcon = (method: string) => {
-    switch (method) {
-      case "camera":
-        return <Camera size={20} color="#6B7280" />;
-      case "photos":
-        return <Image size={20} color="#6B7280" />;
-      case "files":
-        return <FileText size={20} color="#6B7280" />;
-      default:
-        return null;
+  const handleDeleteEntry = async (timestamp: number) => {
+    if (!user?.id) return;
+    
+    try {
+      await deleteMealEntry({ userID: user.id, timestamp });
+    } catch (error) {
+      console.error("Failed to delete meal entry:", error);
     }
   };
+
+
 
   return (
     <View className="flex-1 bg-[#FCFBF8]">
@@ -263,28 +293,22 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
             <View>
               <View className="flex-row gap-4 mb-4">
                 <TouchableOpacity
-                  className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
-                    activeInputMethod === "camera" ? "border-emerald-500 bg-emerald-50" : "border-gray-200 bg-white"
-                  }`}
+                  className="flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 border-gray-200 bg-white"
                   onPress={() => {
-                    setActiveInputMethod("camera");
                     handleCamera();
                   }}
-                  disabled={mealsLoading || isProcessingImage}
+                  disabled={isProcessingImage}
                 >
                   <Camera size={20} color="#6B7280" />
                   <Text className="text-sm mt-1">Camera</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  className={`flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 ${
-                    activeInputMethod === "photos" ? "border-emerald-500 bg-emerald-50" : "border-gray-200 bg-white"
-                  }`}
+                  className="flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 border-gray-200 bg-white"
                   onPress={() => {
-                    setActiveInputMethod("photos");
                     handleGallery();
                   }}
-                  disabled={mealsLoading || isProcessingImage}
+                  disabled={isProcessingImage}
                 >
                   <Image size={20} color="#6B7280" />
                   <Text className="text-sm mt-1">Photos</Text>
@@ -371,7 +395,7 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
                 <TrackerButton 
                   title="Add Meal"
                   onPress={handleManualEntry} 
-                  disabled={mealsLoading || isProcessingImage} 
+                  disabled={isProcessingImage} 
                   backgroundColor="#10B981" 
                 />
               </View>
@@ -401,37 +425,48 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
           </View>
         ) : (
           <View className="space-y-3 mb-4">
-            {currentMeals.map((meal, index) => (
-              <View key={index} className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
-                <View className="flex-row justify-between items-start mb-2">
-                  <Text className="font-medium text-gray-900 flex-1">{meal.name || "Meal"}</Text>
-                  <View className="bg-emerald-100 px-2 py-1 rounded-full">
-                    <Text className="text-sm font-bold text-emerald-700">{meal.calories} kcal</Text>
+            {currentMeals.map((meal, index) => {
+              const date = new Date(meal.timestamp);
+              return (
+                <View key={meal._id || index} className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+                  <View className="flex-row justify-between items-start mb-2">
+                    <Text className="font-medium text-gray-900 flex-1">{meal.name || "Meal"}</Text>
+                    <View className="flex-row items-center gap-2">
+                      <View className="bg-emerald-100 px-2 py-1 rounded-full">
+                        <Text className="text-sm font-bold text-emerald-700">{meal.calories} kcal</Text>
+                      </View>
+                      <TouchableOpacity 
+                        onPress={() => handleDeleteEntry(meal.timestamp)}
+                        className="p-1 rounded-full bg-red-50 active:bg-red-100"
+                      >
+                        <Text className="text-red-500 text-sm">🗑️</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
+
+                  {meal.description && <Text className="text-sm text-gray-600 mb-3">{meal.description}</Text>}
+
+                  <View className="flex-row gap-2">
+                    <View className="flex-1 bg-blue-50 p-2 rounded items-center">
+                      <Text className="font-medium text-blue-700">{meal.protein}g</Text>
+                      <Text className="text-xs text-gray-600">Protein</Text>
+                    </View>
+                    <View className="flex-1 bg-amber-50 p-2 rounded items-center">
+                      <Text className="font-medium text-amber-700">{meal.carbs}g</Text>
+                      <Text className="text-xs text-gray-600">Carbs</Text>
+                    </View>
+                    <View className="flex-1 bg-orange-50 p-2 rounded items-center">
+                      <Text className="font-medium text-orange-700">{meal.fat}g</Text>
+                      <Text className="text-xs text-gray-600">Fat</Text>
+                    </View>
+                  </View>
+
+                  <Text className="text-xs text-gray-500 mt-2 text-right">
+                    {date.toLocaleDateString()} at {date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  </Text>
                 </View>
-
-                {meal.description && <Text className="text-sm text-gray-600 mb-3">{meal.description}</Text>}
-
-                <View className="flex-row gap-2">
-                  <View className="flex-1 bg-blue-50 p-2 rounded items-center">
-                    <Text className="font-medium text-blue-700">{meal.protein}g</Text>
-                    <Text className="text-xs text-gray-600">Protein</Text>
-                  </View>
-                  <View className="flex-1 bg-amber-50 p-2 rounded items-center">
-                    <Text className="font-medium text-amber-700">{meal.carbs}g</Text>
-                    <Text className="text-xs text-gray-600">Carbs</Text>
-                  </View>
-                  <View className="flex-1 bg-orange-50 p-2 rounded items-center">
-                    <Text className="font-medium text-orange-700">{meal.fat}g</Text>
-                    <Text className="text-xs text-gray-600">Fat</Text>
-                  </View>
-                </View>
-
-                <Text className="text-xs text-gray-500 mt-2 text-right">
-                  {new Date(meal.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                </Text>
-              </View>
-            ))}
+              );
+            })}
           </View>
         )}
       </View>
@@ -441,19 +476,19 @@ export function MealsTracker({ userId, onBack }: MealsTrackerProps) {
 
         <View className="flex-row gap-4">
           <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
-            <Text className="text-2xl font-bold text-emerald-500">{dailyTotals.calories}</Text>
+            <Text className="text-2xl font-bold text-emerald-500">{Math.round(dailyTotals.calories)}</Text>
             <Text className="text-xs text-gray-500">Calories</Text>
           </View>
           <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
-            <Text className="text-2xl font-bold text-emerald-500">{dailyTotals.protein}g</Text>
+            <Text className="text-2xl font-bold text-emerald-500">{Math.round(dailyTotals.protein)}g</Text>
             <Text className="text-xs text-gray-500">Protein</Text>
           </View>
           <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
-            <Text className="text-2xl font-bold text-emerald-500">{dailyTotals.carbs}g</Text>
+            <Text className="text-2xl font-bold text-emerald-500">{Math.round(dailyTotals.carbs)}g</Text>
             <Text className="text-xs text-gray-500">Carbs</Text>
           </View>
           <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
-            <Text className="text-2xl font-bold text-emerald-500">{dailyTotals.fat}g</Text>
+            <Text className="text-2xl font-bold text-emerald-500">{Math.round(dailyTotals.fat)}g</Text>
             <Text className="text-xs text-gray-500">Fat</Text>
           </View>
         </View>
