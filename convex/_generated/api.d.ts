@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as stepEntry from "../stepEntry.js";
+import type * as waterIntake from "../waterIntake.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -25,6 +26,7 @@ import type * as stepEntry from "../stepEntry.js";
  */
 declare const fullApi: ApiFromModules<{
   stepEntry: typeof stepEntry;
+  waterIntake: typeof waterIntake;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
