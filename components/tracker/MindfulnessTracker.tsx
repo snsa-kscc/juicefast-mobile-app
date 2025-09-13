@@ -1,8 +1,9 @@
 import Slider from "@react-native-community/slider";
-import { useRouter } from "expo-router";
-import { Brain } from "lucide-react-native";
-import { useEffect, useRef, useState, useCallback } from "react";
-import { Alert, Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useOptimistic, useRef, useState, startTransition, useMemo } from "react";
+import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useMutation, useQuery } from "convex/react";
+import { useUser } from "@clerk/clerk-expo";
+import { api } from "../../convex/_generated/api";
 import { CircularProgress, ProgressBar, TrackerButton, WellnessHeader, TrackerStats } from "./shared";
 
 interface MindfulnessEntry {
@@ -11,229 +12,222 @@ interface MindfulnessEntry {
   timestamp: Date;
 }
 
-interface DailyHealthMetrics {
-  mindfulness?: MindfulnessEntry[];
-}
-
 interface MindfulnessTrackerProps {
-  userId: string;
-  initialMindfulnessData: DailyHealthMetrics | null;
+  initialMindfulnessData?: { mindfulness: MindfulnessEntry[] } | null;
   onBack?: () => void;
 }
 
-const MINDFULNESS_TRACKER_CONFIG = {
-  defaultDuration: 10,
-  meditationTypes: [
-    { id: "meditation", label: "Meditation" },
-    { id: "breathing", label: "Breathing" },
-    { id: "mindful-walk", label: "Mindful Walk" },
-    { id: "body-scan", label: "Body Scan" },
-  ],
-};
+const DAILY_GOAL = 20; // minutes
+const ACTIVITIES = [
+  { id: "meditation", label: "Meditation" },
+  { id: "breathing", label: "Breathing" },
+  { id: "mindful-walk", label: "Mindful Walk" },
+  { id: "body-scan", label: "Body Scan" },
+];
 
-const DAILY_TARGETS = {
-  mindfulness: 20,
-};
-
-export function MindfulnessTracker({ userId, initialMindfulnessData, onBack }: MindfulnessTrackerProps) {
-  const router = useRouter();
-  const [minutes, setMinutes] = useState<number>(MINDFULNESS_TRACKER_CONFIG.defaultDuration);
-  const [mindfulnessEntries, setMindfulnessEntries] = useState<MindfulnessEntry[]>([]);
-  const [totalMinutes, setTotalMinutes] = useState<number>(0);
+export function MindfulnessTracker({ initialMindfulnessData, onBack }: MindfulnessTrackerProps) {
+  const { user } = useUser() || {};
+  const [minutes, setMinutes] = useState<number>(10);
   const [displayedMinutes, setDisplayedMinutes] = useState<number>(0);
-  const [selectedActivity, setSelectedActivity] = useState<string>(MINDFULNESS_TRACKER_CONFIG.meditationTypes[0].id);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [dailyGoal] = useState<number>(DAILY_TARGETS.mindfulness);
+  const [selectedActivity, setSelectedActivity] = useState<string>(ACTIVITIES[0].id);
+  
+  const createMindfulnessEntry = useMutation(api.mindfulnessEntry.create);
+  const deleteMindfulnessEntry = useMutation(api.mindfulnessEntry.deleteByUserIdAndTimestamp);
+  
+  const { startTime, endTime } = useMemo(() => {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    return {
+      startTime: startOfDay.getTime(),
+      endTime: endOfDay.getTime()
+    };
+  }, []);
+  
+  const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId, 
+    user?.id ? { userID: user.id, startTime: startTime, endTime: endTime } : "skip"
+  );
+  
+  const totalMinutes = useMemo(() => {
+    if (!mindfulnessEntries) return 0;
+    return mindfulnessEntries.reduce((sum, entry) => sum + entry.minutes, 0);
+  }, [mindfulnessEntries]);
+  
+  const [optimisticMinutes, addOptimisticMinutes] = useOptimistic(
+    totalMinutes || 0,
+    (state, newMinutes: number) => state + newMinutes
+  );
 
-  const previousValueRef = useRef<number>(0);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
-  const animationListener = useCallback(({ value }: { value: number }) => {
-    setDisplayedMinutes(value);
-  }, []);
-
   useEffect(() => {
-    if (initialMindfulnessData?.mindfulness) {
-      setMindfulnessEntries(initialMindfulnessData.mindfulness);
-      const total = initialMindfulnessData.mindfulness.reduce((sum, entry) => sum + entry.minutes, 0);
-      setTotalMinutes(total);
-      previousValueRef.current = total;
-
-      // Animate counter
+    if (totalMinutes > 0) {
       Animated.timing(animatedValue, {
-        toValue: total,
+        toValue: totalMinutes,
         duration: 1500,
         useNativeDriver: false,
       }).start();
 
-      const listener = animatedValue.addListener(animationListener);
+      const listener = animatedValue.addListener(({ value }) => {
+        setDisplayedMinutes(Math.round(value));
+      });
+
       return () => animatedValue.removeListener(listener);
-    } else {
-      setMindfulnessEntries([]);
-      setTotalMinutes(0);
-      setDisplayedMinutes(0);
-      previousValueRef.current = 0;
     }
-  }, [initialMindfulnessData, animationListener]);
+  }, [totalMinutes]);
 
   useEffect(() => {
-    return () => {
-      animatedValue.removeAllListeners();
-    };
-  }, []);
-
-  const handleAddMindfulness = async () => {
-    if (minutes <= 0 || !userId || isLoading) return;
-
-    setIsLoading(true);
-
-    try {
-      const today = new Date();
-      const activity = MINDFULNESS_TRACKER_CONFIG.meditationTypes.find((act) => act.id === selectedActivity);
-
-      if (!activity) {
-        throw new Error("Invalid activity selected");
-      }
-
-      // Sanitize input to prevent injection - validate against whitelist
-      const validActivity = MINDFULNESS_TRACKER_CONFIG.meditationTypes.find(act => act.id === selectedActivity);
-      if (!validActivity) {
-        throw new Error("Invalid activity type");
-      }
-      
-      const newEntry: MindfulnessEntry = {
-        minutes: Math.max(0, Math.min(60, minutes)), // Clamp between 0-60
-        activity: validActivity.id, // Use validated activity ID
-        timestamp: today,
-      };
-
-      // Update local state
-      const updatedEntries = [...mindfulnessEntries, newEntry];
-      setMindfulnessEntries(updatedEntries);
-      const newTotal = totalMinutes + minutes;
-      setTotalMinutes(newTotal);
-
-      // Animate to new value
+    if (optimisticMinutes > 0) {
       Animated.timing(animatedValue, {
-        toValue: newTotal,
+        toValue: optimisticMinutes,
         duration: 1000,
         useNativeDriver: false,
       }).start();
+    }
+  }, [optimisticMinutes]);
 
-      // Reset form
-      setMinutes(MINDFULNESS_TRACKER_CONFIG.defaultDuration);
+  const handleAddMindfulness = async () => {
+    if (minutes <= 0 || !user?.id) return;
 
-      Alert.alert("Success", "Mindfulness session logged successfully!");
+    startTransition(() => {
+      addOptimisticMinutes(minutes);
+    });
+    
+    try {
+      await createMindfulnessEntry({ userID: user.id, minutes, activity: selectedActivity });
     } catch (error) {
-      console.error("Error adding mindfulness entry:", error);
-      Alert.alert("Error", "Failed to log mindfulness session");
-    } finally {
-      setIsLoading(false);
+      console.error("Failed to save mindfulness data:", error);
     }
   };
 
-  const progressPercentage = Math.min(100, Math.round((displayedMinutes / dailyGoal) * 100));
+  const handleDeleteEntry = async (entryId: string, timestamp: number) => {
+    if (!user?.id) return;
+    
+    try {
+      await deleteMindfulnessEntry({ userID: user.id, timestamp });
+    } catch (error) {
+      console.error("Failed to delete mindfulness entry:", error);
+    }
+  };
+
+  const progressPercentage = Math.min(100, (displayedMinutes / DAILY_GOAL) * 100);
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <WellnessHeader
-        title="Mindfulness Tracker"
-        subtitle="Mindfulness practice improves mental clarity, reduces stress, and enhances well-being."
-        accentColor="#FE8E77"
-        showBackButton={true}
-        onBackPress={onBack}
-      />
+      <WellnessHeader title="Mindfulness Tracker" subtitle="Mindfulness practice improves mental clarity and reduces stress." accentColor="#FE8E77" showBackButton={true} onBackPress={onBack} />
 
-      <TrackerStats title="DAILY MINDFULNESS" subtitle={`${Math.round(displayedMinutes)} out of ${dailyGoal} minutes goal`}>
+      <TrackerStats title="DAILY MINDFULNESS" subtitle={`${displayedMinutes} out of ${DAILY_GOAL} minutes`}>
         <CircularProgress
           value={displayedMinutes}
-          maxValue={dailyGoal}
+          maxValue={DAILY_GOAL}
           color="#FE8E77"
           backgroundColor="#FFEFEB"
-          displayValue={progressPercentage}
-          strokeWidth={10}
+          displayValue={Math.round(displayedMinutes)}
         />
 
         <View className="mb-6" />
 
         <ProgressBar
           value={displayedMinutes}
-          maxValue={dailyGoal}
+          maxValue={DAILY_GOAL}
           color="#FE8E77"
           backgroundColor="#FFEFEB"
           showMarkers
           markers={["0", "5", "10", "15", "20"]}
         />
 
-        <Text className="font-lufga text-sm text-center text-gray-600 mb-8 mt-6">Mindfulness improves focus and reduces stress</Text>
+        <Text className="font-lufga text-sm text-center text-gray-600 mb-8 mt-6">
+          Sessions completed: {mindfulnessEntries?.length || 0}
+        </Text>
       </TrackerStats>
 
-      {/* Add Minutes Form */}
-      <View className="w-full px-6 pb-8">
-        <Text className="font-semibold mb-3">Add minutes</Text>
-
+      {/* Add Mindfulness Form */}
+      <View className="px-6">
+        <Text className="font-semibold mb-1">Add mindfulness session</Text>
         <View className="flex-row justify-between mb-1">
-          <Text className="font-lufga text-xs text-gray-500">Minutes</Text>
-          <Text className="text-xs font-medium">{minutes} min</Text>
+          <Text className="font-lufga text-xs text-gray-500">Duration</Text>
+          <Text className="text-xs font-medium">{minutes} minutes</Text>
         </View>
 
         <View className="mb-4">
           <Slider
-            value={minutes}
+            style={{ width: "100%", height: 40 }}
             minimumValue={1}
             maximumValue={60}
             step={1}
+            value={minutes}
             onValueChange={setMinutes}
             minimumTrackTintColor="#FE8E77"
             maximumTrackTintColor="#FFEFEB"
             thumbTintColor="#FE8E77"
-            disabled={isLoading}
           />
         </View>
 
         <View className="mb-4">
           <Text className="font-lufga text-xs text-gray-500 mb-2">Activity type</Text>
-          <View className="flex-row flex-wrap" style={{ gap: 8 }}>
-            {MINDFULNESS_TRACKER_CONFIG.meditationTypes.map((activity) => (
+          <View className="flex-row flex-wrap gap-2">
+            {ACTIVITIES.map((activity) => (
               <TouchableOpacity
                 key={activity.id}
-                onPress={() => setSelectedActivity(activity.id)}
-                disabled={isLoading}
-                className={`flex-row items-center px-3 py-2 rounded-md border ${
-                  selectedActivity === activity.id ? "bg-[#FE8E77] border-[#FE8E77]" : "bg-white border-gray-300"
+                className={`border rounded-md px-3 py-2 ${
+                  selectedActivity === activity.id ? 'border-[#FE8E77] bg-[#FFEFEB]' : 'border-gray-300'
                 }`}
+                onPress={() => setSelectedActivity(activity.id)}
               >
-                <Brain size={16} color={selectedActivity === activity.id ? "white" : "#6B7280"} />
-                <Text className={`ml-2 text-sm ${selectedActivity === activity.id ? "text-white" : "text-gray-700"}`}>{activity.label}</Text>
+                <Text className={`font-lufga text-sm ${
+                  selectedActivity === activity.id ? 'text-[#D2691E]' : 'text-gray-700'
+                }`}>{activity.label}</Text>
               </TouchableOpacity>
             ))}
           </View>
         </View>
 
-        <TrackerButton title={isLoading ? "Logging..." : "Add minutes"} onPress={handleAddMindfulness} disabled={isLoading} backgroundColor="#000000" />
+        <TrackerButton title="Add session" onPress={handleAddMindfulness} />
+      </View>
 
-        {/* Tips Card */}
-        <View className="mt-6 p-4 bg-white rounded-lg border border-gray-200">
+      {/* Mindfulness Entries List */}
+      {mindfulnessEntries && mindfulnessEntries.length > 0 && (
+        <View className="px-6 mt-6">
+          <View className="bg-white rounded-lg p-4 shadow-sm">
+            <Text className="font-semibold mb-3">Today's Mindfulness Sessions</Text>
+            {mindfulnessEntries.map((entry, index) => {
+              const date = new Date(entry.timestamp);
+              return (
+                <View key={entry._id} className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                  <View>
+                    <Text className="font-lufga text-sm font-medium">{entry.minutes} minutes - {entry.activity}</Text>
+                    <Text className="font-lufga text-xs text-gray-500">
+                      {date.toLocaleDateString()} at {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </Text>
+                  </View>
+                  <TouchableOpacity 
+                    onPress={() => handleDeleteEntry(entry._id, entry.timestamp)}
+                    className="p-2 rounded-full bg-red-50 active:bg-red-100"
+                  >
+                    <Text className="text-red-500 text-lg">🗑️</Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      )}
+
+      {/* Tips Card */}
+      <View className="px-6 mt-6 mb-20">
+        <View className="bg-white rounded-lg p-4 shadow-sm">
           <Text className="font-semibold mb-2">Mindfulness Tips</Text>
-          <View>
-            <View className="flex-row items-start mb-2">
-              <View className="bg-indigo-100 rounded-full p-1 mr-2 mt-0.5">
-                <Brain size={12} color="#6366F1" />
-              </View>
-              <Text className="font-lufga text-sm flex-1">Start with just 5 minutes a day and gradually increase</Text>
-            </View>
-            <View className="flex-row items-start mb-2">
-              <View className="bg-indigo-100 rounded-full p-1 mr-2 mt-0.5">
-                <Brain size={12} color="#6366F1" />
-              </View>
-              <Text className="font-lufga text-sm flex-1">Focus on your breath when your mind wanders</Text>
-            </View>
-            <View className="flex-row items-start">
-              <View className="bg-indigo-100 rounded-full p-1 mr-2 mt-0.5">
-                <Brain size={12} color="#6366F1" />
-              </View>
-              <Text className="font-lufga text-sm flex-1">Practice at the same time each day to build a habit</Text>
-            </View>
+          <View className="space-y-2">
+            {["Start with just 5 minutes a day and gradually increase", "Focus on your breath when your mind wanders", "Practice at the same time each day to build a habit"].map(
+              (tip, index) => (
+                <View key={index} className="flex-row items-start">
+                  <View className="bg-orange-100 rounded-full p-1 mr-2 mt-0.5">
+                    <View className="w-3 h-3" />
+                  </View>
+                  <Text className="font-lufga text-sm flex-1">{tip}</Text>
+                </View>
+              )
+            )}
           </View>
         </View>
       </View>
