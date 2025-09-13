@@ -186,6 +186,28 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
         <TrackerButton title="Add steps" onPress={handleAddSteps} />
       </View>
 
+      {/* Step Entries List */}
+      {stepEntries && stepEntries.length > 0 && (
+        <View className="px-6 mt-6">
+          <View className="bg-white rounded-lg p-4 shadow-sm">
+            <Text className="font-semibold mb-3">Today's Step Entries</Text>
+            {stepEntries.map((entry, index) => {
+              const date = new Date(entry.timestamp);
+              return (
+                <View key={entry._id} className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                  <View>
+                    <Text className="font-lufga text-sm font-medium">{entry.count.toLocaleString()} steps</Text>
+                    <Text className="font-lufga text-xs text-gray-500">
+                      {date.toLocaleDateString()} at {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </Text>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      )}
+
       {/* Tips Card */}
       <View className="px-6 mt-6 mb-20">
         <View className="bg-white rounded-lg p-4 shadow-sm">
