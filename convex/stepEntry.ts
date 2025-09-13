@@ -32,3 +32,23 @@ export const getByUserId = query({
   },
 });
 
+export const deleteByUserIdAndTimestamp = mutation({
+  args: {
+    userId: v.string(),
+    timestamp: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const entry = await ctx.db
+      .query("stepEntry")
+      .withIndex("by_user_id", (q) => q.eq("userId", args.userId))
+      .filter((q) => q.eq(q.field("timestamp"), args.timestamp))
+      .first();
+    
+    if (entry) {
+      await ctx.db.delete(entry._id);
+      return entry._id;
+    }
+    return null;
+  },
+});
+
