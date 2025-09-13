@@ -7,5 +7,12 @@ export default defineSchema({
     count: v.number(), // steps in this entry
     timestamp: v.number(), // UTC timestamp when recorded
   })
-    .index("by_user_id", ["userId"])
+    .index("by_user_id", ["userId"]),
+  
+  waterIntake: defineTable({
+    userID: v.string(),
+    amount: v.number(),
+    timestamp: v.number(),
+  })
+    .index("by_user_id", ["userID"])
 });
