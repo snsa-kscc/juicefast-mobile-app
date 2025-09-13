@@ -2,9 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
 import { Link, router } from 'expo-router';
 import { Settings } from 'lucide-react-native';
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import { WellnessScoreCard } from './WellnessScoreCard';
 import { DaySelector } from './DaySelector';
 import { DailyOverview } from './DailyOverview';
+import { Spinner } from '../Spinner';
 
 interface DailyMetrics {
   steps: number;
@@ -30,7 +33,6 @@ export function HomeDashboard({
   initialAverageScore = 71 
 }: HomeDashboardProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [selectedDateData, setSelectedDateData] = useState<DailyMetrics | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Generate array of dates for the current week (Monday to Sunday)
@@ -53,54 +55,110 @@ export function HomeDashboard({
     return dates;
   }, []);
 
-  // Mock data fetch for selected date
-  useEffect(() => {
-    const fetchDateData = async () => {
-      setIsLoading(true);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Mock data - replace with actual API call
-      const mockData: DailyMetrics = {
-        steps: 7000,
-        water: 1500, // ml
-        calories: 1800,
-        mindfulness: 15, // minutes
-        sleep: 7.5, // hours
-        healthyMeals: 2,
-        totalScore: 71,
-      };
-      
-      setSelectedDateData(mockData);
-      setIsLoading(false);
+  // Calculate start and end timestamps for selected date
+  const { startTime, endTime } = useMemo(() => {
+    const start = new Date(selectedDate);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(selectedDate);
+    end.setHours(23, 59, 59, 999);
+    return {
+      startTime: start.getTime(),
+      endTime: end.getTime()
     };
+  }, [selectedDate]);
 
-    fetchDateData();
-  }, [selectedDate, userId]);
+  // Query all 5 tables simultaneously
+  const stepEntries = useQuery(api.stepEntry.getByUserId, {
+    userId,
+    startTime,
+    endTime
+  });
+  
+  const waterEntries = useQuery(api.waterIntake.getByUserId, {
+    userID: userId,
+    startTime,
+    endTime
+  });
+  
+  const mealEntries = useQuery(api.mealEntry.getByUserId, {
+    userID: userId,
+    startTime,
+    endTime
+  });
+  
+  const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId, {
+    userID: userId,
+    startTime,
+    endTime
+  });
+  
+  const sleepEntries = useQuery(api.sleepEntry.getByUserId, {
+    userID: userId,
+    startTime,
+    endTime
+  });
 
-  // Calculate daily progress percentages
-  const dailyProgress = useMemo(() => {
-    if (!selectedDateData) {
-      return { steps: 70, mindfulness: 64, meals: 100, water: 0 };
+  // Calculate aggregated data from queries
+  const selectedDateData = useMemo(() => {
+    if (!stepEntries || !waterEntries || !mealEntries || !mindfulnessEntries || !sleepEntries) {
+      return null;
     }
 
+    const totalSteps = stepEntries.reduce((sum, entry) => sum + entry.count, 0);
+    const totalWater = waterEntries.reduce((sum, entry) => sum + entry.amount, 0);
+    const totalCalories = mealEntries.reduce((sum, entry) => sum + entry.calories, 0);
+    const totalMindfulness = mindfulnessEntries.reduce((sum, entry) => sum + entry.minutes, 0);
+    const totalSleep = sleepEntries.reduce((sum, entry) => sum + entry.hoursSlept, 0);
+    const healthyMeals = mealEntries.length;
+
     return {
-      steps: 70,
-      mindfulness: 64,
-      meals: 100,
-      water: 0,
+      steps: totalSteps,
+      water: totalWater,
+      calories: totalCalories,
+      mindfulness: totalMindfulness,
+      sleep: totalSleep,
+      healthyMeals,
+      totalScore: Math.round((totalSteps/10000 + totalWater/2200 + healthyMeals/2 + totalMindfulness/20 + totalSleep/8) * 20) // Simple scoring based on goal completion
+    };
+  }, [stepEntries, waterEntries, mealEntries, mindfulnessEntries, sleepEntries]);
+
+  // Update loading state based on query status
+  useEffect(() => {
+    const isQueryLoading = stepEntries === undefined || 
+                          waterEntries === undefined || 
+                          mealEntries === undefined || 
+                          mindfulnessEntries === undefined || 
+                          sleepEntries === undefined;
+    setIsLoading(isQueryLoading);
+  }, [stepEntries, waterEntries, mealEntries, mindfulnessEntries, sleepEntries]);
+
+  // Calculate daily progress percentages based on goals
+  const dailyProgress = useMemo(() => {
+    if (!selectedDateData) {
+      return { steps: 0, mindfulness: 0, meals: 0, water: 0 };
+    }
+
+    const stepGoal = 10000;
+    const mindfulnessGoal = 20; // minutes
+    const mealGoal = 2;
+    const waterGoal = 2200; // ml
+
+    return {
+      steps: Math.min(100, Math.round((selectedDateData.steps / stepGoal) * 100)),
+      mindfulness: Math.min(100, Math.round((selectedDateData.mindfulness / mindfulnessGoal) * 100)),
+      meals: Math.min(100, Math.round((selectedDateData.healthyMeals / mealGoal) * 100)),
+      water: Math.min(100, Math.round((selectedDateData.water / waterGoal) * 100)),
     };
   }, [selectedDateData]);
 
   const displayData = selectedDateData || {
-    steps: 7000,
+    steps: 0,
     water: 0,
-    calories: 1800,
-    mindfulness: 15,
-    sleep: 7.5,
-    totalScore: 71,
-    healthyMeals: 2,
+    calories: 0,
+    mindfulness: 0,
+    sleep: 0,
+    totalScore: 0,
+    healthyMeals: 0,
   };
 
   return (
@@ -132,7 +190,7 @@ export function HomeDashboard({
       <View className="px-6">
         {/* Wellness Score Card */}
         <WellnessScoreCard
-          averageScore={initialAverageScore}
+          averageScore={selectedDateData?.totalScore || 0}
           dailyProgress={dailyProgress}
         />
 
@@ -166,7 +224,14 @@ export function HomeDashboard({
         </View>
 
         {/* Daily Overview */}
-        <DailyOverview data={displayData} />
+        {isLoading ? (
+          <View className="items-center py-8">
+            <Spinner size={32} />
+            <Text className="text-gray-500 mt-2">Loading daily data...</Text>
+          </View>
+        ) : (
+          <DailyOverview data={displayData} />
+        )}
 
         {/* Onboarding Button */}
         <TouchableOpacity 
