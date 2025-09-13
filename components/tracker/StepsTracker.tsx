@@ -25,6 +25,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
   const [displayedSteps, setDisplayedSteps] = useState<number>(0);
   
   const createStepEntry = useMutation(api.stepEntry.create);
+  const deleteStepEntry = useMutation(api.stepEntry.deleteByUserIdAndTimestamp);
   
   const { startTime, endTime } = useMemo(() => {
     const now = new Date();
@@ -89,6 +90,16 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
       await createStepEntry({ userId: user.id, count: stepCount });
     } catch (error) {
       console.error("Failed to save steps data:", error);
+    }
+  };
+
+  const handleDeleteEntry = async (entryId: string, timestamp: number) => {
+    if (!user?.id) return;
+    
+    try {
+      await deleteStepEntry({ userId: user.id, timestamp });
+    } catch (error) {
+      console.error("Failed to delete step entry:", error);
     }
   };
 
@@ -201,6 +212,12 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
                       {date.toLocaleDateString()} at {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </Text>
                   </View>
+                  <TouchableOpacity 
+                    onPress={() => handleDeleteEntry(entry._id, entry.timestamp)}
+                    className="p-2 rounded-full bg-red-50 active:bg-red-100"
+                  >
+                    <Text className="text-red-500 text-lg">🗑️</Text>
+                  </TouchableOpacity>
                 </View>
               );
             })}
