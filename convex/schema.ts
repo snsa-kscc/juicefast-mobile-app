@@ -32,5 +32,18 @@ export default defineSchema({
     endTime: v.number(),
     timestamp: v.number(),
   })
+    .index("by_user_id", ["userID"]),
+
+  mealEntry: defineTable({
+    userID: v.string(),
+    name: v.string(),
+    description: v.string(),
+    calories: v.number(),
+    protein: v.number(),
+    carbs: v.number(),
+    fat: v.number(),
+    meal_type: v.string(),
+    timestamp: v.number(),
+  })
     .index("by_user_id", ["userID"])
 });
