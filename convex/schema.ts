@@ -22,5 +22,15 @@ export default defineSchema({
     activity: v.string(),
     timestamp: v.number(),
   })
+    .index("by_user_id", ["userID"]),
+
+  sleepEntry: defineTable({
+    userID: v.string(),
+    hoursSlept: v.number(),
+    quality: v.number(),
+    startTime: v.number(),
+    endTime: v.number(),
+    timestamp: v.number(),
+  })
     .index("by_user_id", ["userID"])
 });
