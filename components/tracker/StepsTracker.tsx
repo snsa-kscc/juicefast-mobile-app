@@ -20,7 +20,7 @@ const DAILY_GOAL = 10000;
 const CALORIES_PER_STEP = 0.04;
 
 export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
-  const { user } = useUser();
+  const { user } = useUser() || {};
   const [stepCount, setStepCount] = useState<number>(1000);
   const [displayedSteps, setDisplayedSteps] = useState<number>(0);
   

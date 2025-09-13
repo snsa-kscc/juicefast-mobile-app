@@ -31,8 +31,6 @@ export default function StepsScreen() {
     <TrackerScreenWrapper>
       <AnimatedScreen>
         <StepsTracker 
-          userId="user123"
-          initialStepsData={MOCK_STEPS_DATA}
           onBack={handleBack}
         />
       </AnimatedScreen>
