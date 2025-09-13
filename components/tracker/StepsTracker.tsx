@@ -1,7 +1,7 @@
 import Slider from "@react-native-community/slider";
-import React, { useEffect, useOptimistic, useRef, useState, startTransition } from "react";
+import React, { useEffect, useOptimistic, useRef, useState, startTransition, useMemo } from "react";
 import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { useUser } from "@clerk/clerk-expo";
 import { api } from "../../convex/_generated/api";
 import { CircularProgress, ProgressBar, TrackerButton, WellnessHeader, TrackerStats } from "./shared";
@@ -22,27 +22,40 @@ const CALORIES_PER_STEP = 0.04;
 export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
   const { user } = useUser();
   const [stepCount, setStepCount] = useState<number>(1000);
-  const [stepEntries, setStepEntries] = useState<StepEntry[]>(initialStepsData?.steps || []);
-  const [totalSteps, setTotalSteps] = useState<number>(0);
   const [displayedSteps, setDisplayedSteps] = useState<number>(0);
   
   const createStepEntry = useMutation(api.stepEntry.create);
   
+  const { startTime, endTime } = useMemo(() => {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    return {
+      startTime: startOfDay.getTime(),
+      endTime: endOfDay.getTime()
+    };
+  }, []);
+  
+  const stepEntries = useQuery(api.stepEntry.getByUserId, 
+    user?.id ? { userId: user.id, startTime, endTime } : "skip"
+  );
+  
+  const totalSteps = useMemo(() => {
+    if (!stepEntries) return 0;
+    return stepEntries.reduce((sum, entry) => sum + entry.count, 0);
+  }, [stepEntries]);
+  
   const [optimisticSteps, addOptimisticStep] = useOptimistic(
-    totalSteps,
+    totalSteps || 0,
     (state, newSteps: number) => state + newSteps
   );
 
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (initialStepsData?.steps) {
-      const total = initialStepsData.steps.reduce((sum, entry) => sum + entry.count, 0);
-      setTotalSteps(total);
-
-      // Animate counter
+    if (totalSteps > 0) {
       Animated.timing(animatedValue, {
-        toValue: total,
+        toValue: totalSteps,
         duration: 1500,
         useNativeDriver: false,
       }).start();
@@ -53,7 +66,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
 
       return () => animatedValue.removeListener(listener);
     }
-  }, [initialStepsData]);
+  }, [totalSteps]);
 
   useEffect(() => {
     if (optimisticSteps > 0) {
@@ -74,14 +87,6 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
     
     try {
       await createStepEntry({ userId: user.id, count: stepCount });
-      
-      const newEntry: StepEntry = {
-        count: stepCount,
-        timestamp: new Date(),
-      };
-      
-      setStepEntries(prev => [...prev, newEntry]);
-      setTotalSteps(prev => prev + stepCount);
     } catch (error) {
       console.error("Failed to save steps data:", error);
     }
