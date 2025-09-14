@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { useSignUp } from '@clerk/clerk-expo'
 import { Link, useRouter } from 'expo-router'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useSocialSignIn } from '../../hooks/useSocialSignIn'
 
 export default function SignUpScreen() {
@@ -75,7 +76,12 @@ export default function SignUpScreen() {
 
   if (pendingVerification) {
     return (
-      <View className="flex-1 bg-amber-50 px-6 pt-16">
+      <KeyboardAwareScrollView 
+        className="flex-1 bg-amber-50"
+        contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 64 }}
+        enableOnAndroid={true}
+        extraScrollHeight={20}
+      >
         <View className="items-center mb-8">
           <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
             <Text className="text-white text-2xl font-bold">J</Text>
@@ -95,12 +101,17 @@ export default function SignUpScreen() {
         <TouchableOpacity onPress={onVerifyPress} className="bg-black rounded-full py-4">
           <Text className="text-white text-center font-semibold text-base">Verify</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAwareScrollView>
     )
   }
 
   return (
-    <View className="flex-1 bg-amber-50 px-6 pt-16">
+    <KeyboardAwareScrollView 
+      className="flex-1 bg-amber-50"
+      contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 64 }}
+      enableOnAndroid={true}
+      extraScrollHeight={20}
+    >
       {/* Logo */}
       <View className="items-center mb-8">
         <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
@@ -199,6 +210,6 @@ export default function SignUpScreen() {
           <Text className="text-black font-semibold">Log in</Text>
         </Link>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   )
 }
