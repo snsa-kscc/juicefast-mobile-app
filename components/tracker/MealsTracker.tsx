@@ -2,6 +2,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Camera, FileText, Image } from "lucide-react-native";
 import React, { useEffect, useOptimistic, useState, startTransition, useMemo } from "react";
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
 import { useUser } from "@clerk/clerk-expo";
 import { api } from "../../convex/_generated/api";
@@ -245,7 +246,11 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
 
   return (
     <View className="flex-1 bg-[#FCFBF8]">
-      <ScrollView className="flex-1">
+      <KeyboardAwareScrollView 
+        className="flex-1"
+        enableOnAndroid={true}
+        extraScrollHeight={20}
+      >
         <WellnessHeader
           title="Meal Tracker"
           subtitle="What you eat builds your energy, mood and body. Let's track it."
@@ -493,7 +498,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
           </View>
         </View>
       </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 }

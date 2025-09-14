@@ -1,6 +1,7 @@
 import Slider from "@react-native-community/slider";
 import React, { useEffect, useOptimistic, useRef, useState, startTransition, useMemo } from "react";
 import { Animated, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
 import { useUser } from "@clerk/clerk-expo";
 import { api } from "../../convex/_generated/api";
@@ -147,7 +148,11 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
   }
 
   return (
-    <ScrollView className="flex-1 bg-[#FCFBF8]">
+    <KeyboardAwareScrollView 
+      className="flex-1 bg-[#FCFBF8]"
+      enableOnAndroid={true}
+      extraScrollHeight={20}
+    >
       <WellnessHeader title="Sleep Tracker" subtitle="Quality sleep improves focus, mood, and overall health." accentColor="#8B5CF6" showBackButton={true} onBackPress={onBack} />
 
       <TrackerStats title="DAILY SLEEP" subtitle={`${displayedHours}h out of ${DAILY_GOAL}h`}>
@@ -271,6 +276,6 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
           </View>
         </View>
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
