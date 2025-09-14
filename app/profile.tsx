@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { useClerk } from '@clerk/clerk-expo';
+import { useClerk, useUser } from '@clerk/clerk-expo';
 import {
   User,
   Ruler,
@@ -28,13 +28,7 @@ import {
 import { WellnessHeader } from '../components/ui/CustomHeader';
 import { UserProfile, User as UserType, calculateDailyCalories, getActivityLevelText } from '../schemas/UserProfileSchema';
 
-// Mock data - replace with actual data source
-const mockUser: UserType = {
-  id: '1',
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-  image: null,
-};
+
 
 const mockProfile: UserProfile = {
   id: '1',
@@ -92,6 +86,7 @@ function Select({ value, onValueChange, placeholder, options }: SelectProps) {
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const { user } = useUser();
   const [profile, setProfile] = useState<UserProfile | null>(mockProfile);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -108,7 +103,7 @@ export default function ProfileScreen() {
       setIsLoading(true);
 
       const updatedProfile: UserProfile = {
-        id: mockUser.id,
+        id: user?.id || '1',
         height: parseInt(height) || 170,
         weight: weight ? parseInt(weight) : undefined,
         age: age ? parseInt(age) : undefined,
@@ -184,14 +179,14 @@ export default function ProfileScreen() {
           
           <View className="items-center mb-6">
             <View className="w-24 h-24 rounded-full bg-blue-50 items-center justify-center mb-4 overflow-hidden">
-              {mockUser?.image ? (
-                <Image source={{ uri: mockUser.image }} className="w-full h-full" />
+              {user?.imageUrl ? (
+                <Image source={{ uri: user.imageUrl }} className="w-full h-full" />
               ) : (
                 <User size={48} color="#3B82F6" />
               )}
             </View>
             <Text className="text-xl font-semibold text-center">
-              {mockUser?.name || (mockUser?.email ? mockUser.email.split('@')[0] : 'Health Tracker User')}
+              {user?.fullName || user?.firstName || (user?.emailAddresses?.[0]?.emailAddress ? user.emailAddresses[0].emailAddress.split('@')[0] : 'Health Tracker User')}
             </Text>
           </View>
 

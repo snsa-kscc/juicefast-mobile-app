@@ -4,6 +4,7 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
 import "../styles/global.css";
@@ -11,6 +12,7 @@ import { useEffect } from "react";
 import { useRouter } from "expo-router";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
 
 const FONT_CONFIG = {
   "Lufga-Thin": require("../assets/fonts/LufgaThin.ttf"),
@@ -88,18 +90,20 @@ export default function RootLayout() {
   }
 
   return (
-    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-      <SafeAreaProvider>
-        <SafeAreaView style={{ flex: 1 }}>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <LoadingProvider>
-              <QueryProvider>
-                <AuthenticatedLayout />
-              </QueryProvider>
-            </LoadingProvider>
-          </GestureHandlerRootView>
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </ClerkProvider>
+    <ConvexProvider client={convex}>
+      <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1 }}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <LoadingProvider>
+                <QueryProvider>
+                  <AuthenticatedLayout />
+                </QueryProvider>
+              </LoadingProvider>
+            </GestureHandlerRootView>
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </ClerkProvider>
+    </ConvexProvider>
   );
 }

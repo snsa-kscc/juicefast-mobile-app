@@ -1,6 +1,9 @@
 import Slider from "@react-native-community/slider";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useOptimistic, useRef, useState, startTransition, useMemo } from "react";
 import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useMutation, useQuery } from "convex/react";
+import { useUser } from "@clerk/clerk-expo";
+import { api } from "../../convex/_generated/api";
 import { CircularProgress, ProgressBar, TrackerButton, WellnessHeader, TrackerStats } from "./shared";
 
 interface StepEntry {
@@ -9,7 +12,6 @@ interface StepEntry {
 }
 
 interface StepsTrackerProps {
-  userId: string;
   initialStepsData?: { steps: StepEntry[] } | null;
   onBack?: () => void;
 }
@@ -17,23 +19,44 @@ interface StepsTrackerProps {
 const DAILY_GOAL = 10000;
 const CALORIES_PER_STEP = 0.04;
 
-export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerProps) {
+export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
+  const { user } = useUser() || {};
   const [stepCount, setStepCount] = useState<number>(1000);
-  const [stepEntries, setStepEntries] = useState<StepEntry[]>(initialStepsData?.steps || []);
-  const [totalSteps, setTotalSteps] = useState<number>(0);
   const [displayedSteps, setDisplayedSteps] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  
+  const createStepEntry = useMutation(api.stepEntry.create);
+  const deleteStepEntry = useMutation(api.stepEntry.deleteByUserIdAndTimestamp);
+  
+  const { startTime, endTime } = useMemo(() => {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    return {
+      startTime: startOfDay.getTime(),
+      endTime: endOfDay.getTime()
+    };
+  }, []);
+  
+  const stepEntries = useQuery(api.stepEntry.getByUserId, 
+    user?.id ? { userId: user.id, startTime, endTime } : "skip"
+  );
+  
+  const totalSteps = useMemo(() => {
+    if (!stepEntries) return 0;
+    return stepEntries.reduce((sum, entry) => sum + entry.count, 0);
+  }, [stepEntries]);
+  
+  const [optimisticSteps, addOptimisticStep] = useOptimistic(
+    totalSteps || 0,
+    (state, newSteps: number) => state + newSteps
+  );
 
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (initialStepsData?.steps) {
-      const total = initialStepsData.steps.reduce((sum, entry) => sum + entry.count, 0);
-      setTotalSteps(total);
-
-      // Animate counter
+    if (totalSteps > 0) {
       Animated.timing(animatedValue, {
-        toValue: total,
+        toValue: totalSteps,
         duration: 1500,
         useNativeDriver: false,
       }).start();
@@ -44,37 +67,39 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
 
       return () => animatedValue.removeListener(listener);
     }
-  }, [initialStepsData]);
+  }, [totalSteps]);
 
   useEffect(() => {
-    if (totalSteps > 0) {
+    if (optimisticSteps > 0) {
       Animated.timing(animatedValue, {
-        toValue: totalSteps,
+        toValue: optimisticSteps,
         duration: 1000,
         useNativeDriver: false,
       }).start();
     }
-  }, [totalSteps]);
+  }, [optimisticSteps]);
 
   const handleAddSteps = async () => {
-    if (stepCount <= 0 || !userId || isLoading) return;
+    if (stepCount <= 0 || !user?.id) return;
 
+    startTransition(() => {
+      addOptimisticStep(stepCount);
+    });
+    
     try {
-      setIsLoading(true);
-      const newEntry: StepEntry = {
-        count: stepCount,
-        timestamp: new Date(),
-      };
-
-      const updatedEntries = [...stepEntries, newEntry];
-      const newTotal = totalSteps + stepCount;
-
-      setStepEntries(updatedEntries);
-      setTotalSteps(newTotal);
+      await createStepEntry({ userId: user.id, count: stepCount });
     } catch (error) {
       console.error("Failed to save steps data:", error);
-    } finally {
-      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteEntry = async (entryId: string, timestamp: number) => {
+    if (!user?.id) return;
+    
+    try {
+      await deleteStepEntry({ userId: user.id, timestamp });
+    } catch (error) {
+      console.error("Failed to delete step entry:", error);
     }
   };
 
@@ -130,21 +155,75 @@ export function StepsTracker({ userId, initialStepsData, onBack }: StepsTrackerP
             minimumTrackTintColor="#FFC856"
             maximumTrackTintColor="#FFF0D0"
             thumbTintColor="#FFC856"
-            disabled={isLoading}
           />
         </View>
 
         {/* Quick add buttons */}
         <View className="flex-row justify-between mb-4">
-          {[1000, 2500, 5000].map((count) => (
-            <TouchableOpacity key={count} className="border border-gray-300 rounded-md px-3 py-2" onPress={() => setStepCount(count)} disabled={isLoading}>
-              <Text className="font-lufga text-sm">{count} steps</Text>
-            </TouchableOpacity>
-          ))}
+          <TouchableOpacity 
+            className={`border rounded-md px-3 py-2 ${
+              stepCount === 1000 ? 'border-[#FFC856] bg-[#FFF0D0]' : 'border-gray-300'
+            }`}
+            onPress={() => setStepCount(1000)}
+          >
+            <Text className={`font-lufga text-sm ${
+              stepCount === 1000 ? 'text-[#B8860B]' : 'text-gray-700'
+            }`}>1000 steps</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            className={`border rounded-md px-3 py-2 ${
+              stepCount === 2500 ? 'border-[#FFC856] bg-[#FFF0D0]' : 'border-gray-300'
+            }`}
+            onPress={() => setStepCount(2500)}
+          >
+            <Text className={`font-lufga text-sm ${
+              stepCount === 2500 ? 'text-[#B8860B]' : 'text-gray-700'
+            }`}>2500 steps</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            className={`border rounded-md px-3 py-2 ${
+              stepCount === 5000 ? 'border-[#FFC856] bg-[#FFF0D0]' : 'border-gray-300'
+            }`}
+            onPress={() => setStepCount(5000)}
+          >
+            <Text className={`font-lufga text-sm ${
+              stepCount === 5000 ? 'text-[#B8860B]' : 'text-gray-700'
+            }`}>5000 steps</Text>
+          </TouchableOpacity>
         </View>
 
-        <TrackerButton title={isLoading ? "Adding..." : "Add steps"} onPress={handleAddSteps} disabled={isLoading} />
+        <TrackerButton title="Add steps" onPress={handleAddSteps} />
       </View>
+
+      {/* Step Entries List */}
+      {stepEntries && stepEntries.length > 0 && (
+        <View className="px-6 mt-6">
+          <View className="bg-white rounded-lg p-4 shadow-sm">
+            <Text className="font-semibold mb-3">Today's Step Entries</Text>
+            {stepEntries.map((entry, index) => {
+              const date = new Date(entry.timestamp);
+              return (
+                <View key={entry._id} className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                  <View>
+                    <Text className="font-lufga text-sm font-medium">{entry.count.toLocaleString()} steps</Text>
+                    <Text className="font-lufga text-xs text-gray-500">
+                      {date.toLocaleDateString()} at {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </Text>
+                  </View>
+                  <TouchableOpacity 
+                    onPress={() => handleDeleteEntry(entry._id, entry.timestamp)}
+                    className="p-2 rounded-full bg-red-50 active:bg-red-100"
+                  >
+                    <Text className="text-red-500 text-lg">🗑️</Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      )}
 
       {/* Tips Card */}
       <View className="px-6 mt-6 mb-20">

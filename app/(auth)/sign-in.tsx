@@ -2,6 +2,7 @@ import { useSignIn } from '@clerk/clerk-expo'
 import { Link, useRouter } from 'expo-router'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useSocialSignIn } from '../../hooks/useSocialSignIn'
 
 export default function Page() {
@@ -31,17 +32,22 @@ export default function Page() {
       } else {
         // If the status isn't complete, check why. User might need to
         // complete further steps.
-        console.error(JSON.stringify(signInAttempt, null, 2))
+        console.error('Sign in attempt incomplete:', signInAttempt.status)
       }
     } catch (err) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      console.error(JSON.stringify(err, null, 2))
+      console.error('Sign in error:', err)
     }
   }
 
   return (
-    <View className="flex-1 bg-amber-50 px-6 pt-16">
+    <KeyboardAwareScrollView 
+      className="flex-1 bg-amber-50"
+      contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 64 }}
+      enableOnAndroid={true}
+      extraScrollHeight={20}
+    >
       {/* Logo */}
       <View className="items-center mb-8">
         <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
@@ -110,6 +116,6 @@ export default function Page() {
           <Text className="text-black font-semibold">Start your journey</Text>
         </Link>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   )
 }
