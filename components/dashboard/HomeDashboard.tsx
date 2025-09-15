@@ -35,25 +35,7 @@ export function HomeDashboard({
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Generate array of dates for the current week (Monday to Sunday)
-  const weekDates = useMemo(() => {
-    const today = new Date();
-    const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-    const dates = [];
 
-    // Calculate Monday of current week
-    const monday = new Date(today);
-    monday.setDate(today.getDate() - (currentDay === 0 ? 6 : currentDay - 1));
-
-    // Generate array for Monday to Sunday
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(monday);
-      date.setDate(monday.getDate() + i);
-      dates.push(date);
-    }
-
-    return dates;
-  }, []);
 
   // Calculate start and end timestamps for selected date
   const { startTime, endTime } = useMemo(() => {
@@ -186,7 +168,6 @@ export function HomeDashboard({
 
       {/* Day Selector */}
       <DaySelector
-        weekDates={weekDates}
         selectedDate={selectedDate}
         onDateSelect={setSelectedDate}
       />
