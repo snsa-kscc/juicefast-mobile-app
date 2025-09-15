@@ -14,6 +14,7 @@ interface DailyData {
 
 interface DailyOverviewProps {
   data: DailyData;
+  isToday: boolean;
 }
 
 interface TaskItemProps {
@@ -33,7 +34,7 @@ const TaskItem = ({ icon, title, subtitle, onPress }: TaskItemProps) => (
   </TouchableOpacity>
 );
 
-export function DailyOverview({ data }: DailyOverviewProps) {
+export function DailyOverview({ data, isToday }: DailyOverviewProps) {
   const router = useRouter();
 
   const handleTrackerPress = (route: string) => {
@@ -48,30 +49,33 @@ export function DailyOverview({ data }: DailyOverviewProps) {
         <TaskItem
           icon={<MealIcon size={20} />}
           title="Eat 2 healthy meals"
-          subtitle={`${data.healthyMeals} healthy meals today`}
+          subtitle={isToday ? `${data.healthyMeals} healthy meals today` : `Logged ${data.healthyMeals} healthy meals`}
           onPress={() => handleTrackerPress("/meals")}
         />
 
         <TaskItem
           icon={<StepsIcon size={20} />}
           title="Take 10,000 steps"
-          subtitle={`${data.steps.toLocaleString()} steps today`}
+          subtitle={isToday ? `${data.steps.toLocaleString()} steps today` : `Logged ${data.steps.toLocaleString()} steps`}
           onPress={() => handleTrackerPress("/steps")}
         />
 
         <TaskItem
           icon={<MindfulnessIcon size={20} />}
           title="Spend 20 quiet minutes"
-          subtitle={`${data.mindfulness} minutes today`}
+          subtitle={isToday ? `${data.mindfulness} minutes today` : `Logged ${data.mindfulness} minutes`}
           onPress={() => handleTrackerPress("/mindfulness")}
         />
 
-        <TaskItem icon={<SleepIcon size={20} />} title="Sleep 8 hours" subtitle={`${data.sleep} hours today`} onPress={() => handleTrackerPress("/sleep")} />
+        <TaskItem icon={<SleepIcon size={20} />} 
+          title="Sleep 8 hours" 
+          subtitle={isToday ? `${data.sleep} hours today` : `Logged ${data.sleep} hours`} 
+          onPress={() => handleTrackerPress("/sleep")} />
 
         <TaskItem
           icon={<WaterIcon size={20} />}
           title="Drink 2.2L of water"
-          subtitle={`${(data.water / 1000).toFixed(1)}L today`}
+          subtitle={isToday ? `${(data.water / 1000).toFixed(1)}L today` : `Logged ${(data.water / 1000).toFixed(1)}L`}
           onPress={() => handleTrackerPress("/hydration")}
         />
       </View>

@@ -161,6 +161,11 @@ export function HomeDashboard({
     healthyMeals: 0,
   };
 
+  const isToday = useMemo(() => {
+    const today = new Date();
+    return selectedDate.toDateString() === today.toDateString();
+  }, [selectedDate]);
+
   return (
     <ScrollView className="flex-1 bg-[#F8F9FA]">
       {/* Header */}
@@ -230,7 +235,7 @@ export function HomeDashboard({
             <Text className="text-gray-500 mt-2">Loading daily data...</Text>
           </View>
         ) : (
-          <DailyOverview data={displayData} />
+          <DailyOverview data={displayData} isToday={isToday} />
         )}
 
         {/* Onboarding Button */}
