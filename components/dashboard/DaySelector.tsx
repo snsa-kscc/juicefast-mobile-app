@@ -1,13 +1,36 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 interface DaySelectorProps {
-  weekDates: Date[];
   selectedDate: Date;
   onDateSelect: (date: Date) => void;
 }
 
-export function DaySelector({ weekDates, selectedDate, onDateSelect }: DaySelectorProps) {
+export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
+  const scrollViewRef = useRef<ScrollView>(null);
+  
+  // Generate last 30 days with current day as the last item
+  const generateLast30Days = () => {
+    const days = [];
+    const today = new Date();
+    
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      days.push(date);
+    }
+    
+    return days;
+  };
+  
+  const last30Days = generateLast30Days();
+  
+  // Scroll to show current day and 6 previous days initially
+  useEffect(() => {
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: false });
+    }, 100);
+  }, []);
   const formatDay = (date: Date) => {
     return date.toLocaleDateString("en-US", { weekday: "short" }).substring(0, 1);
   };
@@ -30,13 +53,18 @@ export function DaySelector({ weekDates, selectedDate, onDateSelect }: DaySelect
   };
 
   return (
-    <View className="px-6 pb-6">
-      <View className="flex-row justify-between">
-        {weekDates.map((date: Date, index: number) => (
+    <View className="pb-6">
+      <ScrollView 
+        ref={scrollViewRef}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 24 }}
+      >
+        {last30Days.map((date: Date, index: number) => (
           <TouchableOpacity
             key={index}
             onPress={() => onDateSelect(date)}
-            className={`flex-col items-center justify-center w-10 h-12 rounded-lg ${
+            className={`flex-col items-center justify-center w-10 h-12 rounded-lg mr-4 ${
               isToday(date) 
                 ? "bg-black" 
                 : isSameDate(selectedDate, date) 
@@ -56,7 +84,7 @@ export function DaySelector({ weekDates, selectedDate, onDateSelect }: DaySelect
             </Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 }
