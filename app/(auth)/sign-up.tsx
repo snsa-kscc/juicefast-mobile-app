@@ -1,6 +1,6 @@
 import { useSignUp } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
-import * as React from "react";
+import React, { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
@@ -10,20 +10,24 @@ export default function SignUpScreen() {
   const router = useRouter();
   const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
 
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
-  const [emailAddress, setEmailAddress] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isVerifying, setIsVerifying] = React.useState(false);
-  const [pendingVerification, setPendingVerification] = React.useState(false);
-  const [code, setCode] = React.useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [pendingVerification, setPendingVerification] = useState(false);
+  const [code, setCode] = useState("");
+  const [error, setError] = useState("");
+  const [verificationError, setVerificationError] = useState("");
 
   // Handle submission of sign-up form
   const onSignUpPress = async () => {
     if (!isLoaded || isLoading) return;
 
     setIsLoading(true);
+    setError(""); // Clear previous errors
+    
     // Start sign-up process using email and password provided
     try {
       await signUp.create({
@@ -43,10 +47,26 @@ export default function SignUpScreen() {
       // Set 'pendingVerification' to true to display second form
       // and capture OTP code
       setPendingVerification(true);
-    } catch (err) {
+    } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error("Sign up error:", err);
+      
+      // Extract user-friendly error message
+      let errorMessage = "An error occurred during sign up. Please try again.";
+      
+      if (err?.errors && err.errors.length > 0) {
+        const firstError = err.errors[0];
+        if (firstError.message) {
+          errorMessage = firstError.message;
+        } else if (firstError.longMessage) {
+          errorMessage = firstError.longMessage;
+        }
+      } else if (err?.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -57,6 +77,8 @@ export default function SignUpScreen() {
     if (!isLoaded || isVerifying) return;
 
     setIsVerifying(true);
+    setVerificationError(""); // Clear previous errors
+    
     try {
       // Use the code the user provided to attempt verification
       const signUpAttempt = await signUp.attemptEmailAddressVerification({
@@ -71,12 +93,29 @@ export default function SignUpScreen() {
       } else {
         // If the status is not complete, check why. User may need to
         // complete further steps.
+        setVerificationError("Verification incomplete. Please try again.");
         console.error("Sign up attempt incomplete:", signUpAttempt.status);
       }
-    } catch (err) {
+    } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error("Verification error:", err);
+      
+      // Extract user-friendly error message
+      let errorMessage = "Invalid verification code. Please try again.";
+      
+      if (err?.errors && err.errors.length > 0) {
+        const firstError = err.errors[0];
+        if (firstError.message) {
+          errorMessage = firstError.message;
+        } else if (firstError.longMessage) {
+          errorMessage = firstError.longMessage;
+        }
+      } else if (err?.message) {
+        errorMessage = err.message;
+      }
+      
+      setVerificationError(errorMessage);
     } finally {
       setIsVerifying(false);
     }
@@ -96,6 +135,13 @@ export default function SignUpScreen() {
           </View>
           <Text className="text-2xl font-bold text-center mb-2">Verify your email</Text>
         </View>
+
+        {/* Verification Error Message */}
+        {verificationError ? (
+          <View className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-4">
+            <Text className="text-red-600 text-sm text-center">{verificationError}</Text>
+          </View>
+        ) : null}
 
         <View className="bg-white rounded-xl px-4 py-4 mb-6">
           <TextInput value={code} placeholder="Enter your verification code" className="text-base" onChangeText={(code) => setCode(code)} />
@@ -123,6 +169,13 @@ export default function SignUpScreen() {
         <Text className="text-2xl font-bold text-center mb-2">Welcome to</Text>
         <Text className="text-2xl font-bold text-center">Juicefast</Text>
       </View>
+
+      {/* Error Message */}
+      {error ? (
+        <View className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-4">
+          <Text className="text-red-600 text-sm text-center">{error}</Text>
+        </View>
+      ) : null}
 
       {/* Form */}
       <View className="space-y-4 mb-8">

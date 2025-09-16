@@ -1,6 +1,6 @@
 import { useSignIn } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
@@ -10,15 +10,18 @@ export default function Page() {
   const router = useRouter();
   const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
 
-  const [emailAddress, setEmailAddress] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   // Handle the submission of the sign-in form
   const onSignInPress = async () => {
     if (!isLoaded || isLoading) return;
 
     setIsLoading(true);
+    setError(""); // Clear previous errors
+
     // Start the sign-in process using the email and password provided
     try {
       const signInAttempt = await signIn.create({
@@ -34,12 +37,29 @@ export default function Page() {
       } else {
         // If the status isn't complete, check why. User might need to
         // complete further steps.
+        setError("Sign in incomplete. Please try again.");
         console.error("Sign in attempt incomplete:", signInAttempt.status);
       }
-    } catch (err) {
+    } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error("Sign in error:", err);
+
+      // Extract user-friendly error message
+      let errorMessage = "An error occurred during sign in. Please try again.";
+
+      if (err?.errors && err.errors.length > 0) {
+        const firstError = err.errors[0];
+        if (firstError.message) {
+          errorMessage = firstError.message;
+        } else if (firstError.longMessage) {
+          errorMessage = firstError.longMessage;
+        }
+      } else if (err?.message) {
+        errorMessage = err.message;
+      }
+
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -59,6 +79,13 @@ export default function Page() {
         </View>
         <Text className="text-2xl font-bold text-center mb-2">Welcome back</Text>
       </View>
+
+      {/* Error Message */}
+      {error ? (
+        <View className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-4">
+          <Text className="text-red-600 text-sm text-center">{error}</Text>
+        </View>
+      ) : null}
 
       {/* Form */}
       <View className="space-y-4 mb-8">
