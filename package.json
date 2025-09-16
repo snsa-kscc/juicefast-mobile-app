@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@clerk/clerk-expo": "^2.14.28",
+    "@expo/metro-runtime": "~6.1.2",
     "@expo/vector-icons": "^15.0.2",
     "@gorhom/bottom-sheet": "^5.2.3",
     "@react-native-community/slider": "^5.0.1",
@@ -31,7 +32,7 @@
     "expo-image": "~3.0.8",
     "expo-image-picker": "^17.0.8",
     "expo-linking": "~8.0.8",
-    "expo-router": "~6.0.4",
+    "expo-router": "~6.0.5",
     "expo-secure-store": "^15.0.7",
     "expo-splash-screen": "~31.0.10",
     "expo-status-bar": "~3.0.8",

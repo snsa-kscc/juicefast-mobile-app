@@ -34,6 +34,9 @@ yarn-error.*
 .env*.local
 .env
 
+# EAS configuration with secrets
+eas.json
+
 # typescript
 *.tsbuildinfo
 

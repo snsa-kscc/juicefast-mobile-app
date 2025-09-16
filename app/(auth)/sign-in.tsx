@@ -1,48 +1,52 @@
-import { useSignIn } from '@clerk/clerk-expo'
-import { Link, useRouter } from 'expo-router'
-import { Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { useSocialSignIn } from '../../hooks/useSocialSignIn'
+import { useSignIn } from "@clerk/clerk-expo";
+import { Link, useRouter } from "expo-router";
+import React from "react";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useSocialSignIn } from "../../hooks/useSocialSignIn";
 
 export default function Page() {
-  const { signIn, setActive, isLoaded } = useSignIn()
-  const router = useRouter()
-  const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn()
+  const { signIn, setActive, isLoaded } = useSignIn();
+  const router = useRouter();
+  const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
 
-  const [emailAddress, setEmailAddress] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [emailAddress, setEmailAddress] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
   // Handle the submission of the sign-in form
   const onSignInPress = async () => {
-    if (!isLoaded) return
+    if (!isLoaded || isLoading) return;
 
+    setIsLoading(true);
     // Start the sign-in process using the email and password provided
     try {
       const signInAttempt = await signIn.create({
         identifier: emailAddress,
         password,
-      })
+      });
 
       // If sign-in process is complete, set the created session as active
       // and redirect the user
-      if (signInAttempt.status === 'complete') {
-        await setActive({ session: signInAttempt.createdSessionId })
-        router.replace('/onboarding')
+      if (signInAttempt.status === "complete") {
+        await setActive({ session: signInAttempt.createdSessionId });
+        router.replace("/onboarding");
       } else {
         // If the status isn't complete, check why. User might need to
         // complete further steps.
-        console.error('Sign in attempt incomplete:', signInAttempt.status)
+        console.error("Sign in attempt incomplete:", signInAttempt.status);
       }
     } catch (err) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      console.error('Sign in error:', err)
+      console.error("Sign in error:", err);
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <KeyboardAwareScrollView 
+    <KeyboardAwareScrollView
       className="flex-1 bg-amber-50"
       contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 64 }}
       enableOnAndroid={true}
@@ -68,7 +72,7 @@ export default function Page() {
             onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
           />
         </View>
-        
+
         <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
           <Text className="text-gray-400 mr-3">🔒</Text>
           <TextInput
@@ -87,8 +91,8 @@ export default function Page() {
       </TouchableOpacity>
 
       {/* Log In Button */}
-      <TouchableOpacity onPress={onSignInPress} className="bg-black rounded-full py-4 mb-6">
-        <Text className="text-white text-center font-semibold text-base">Log in</Text>
+      <TouchableOpacity onPress={onSignInPress} className={`rounded-full py-4 mb-6 ${isLoading ? "bg-gray-600" : "bg-black"}`} disabled={isLoading}>
+        <Text className="text-white text-center font-semibold text-base">{isLoading ? "Signing..." : "Log in"}</Text>
       </TouchableOpacity>
 
       {/* Social Login Buttons */}
@@ -97,12 +101,12 @@ export default function Page() {
           <Text className="text-white mr-2">f</Text>
           <Text className="text-white font-semibold">Facebook</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity onPress={signInWithApple} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">🍎</Text>
           <Text className="text-white font-semibold">Apple</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity onPress={signInWithGoogle} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">G</Text>
           <Text className="text-white font-semibold">Google</Text>
@@ -117,5 +121,5 @@ export default function Page() {
         </Link>
       </View>
     </KeyboardAwareScrollView>
-  )
+  );
 }

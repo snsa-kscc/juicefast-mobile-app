@@ -1,26 +1,29 @@
-import * as React from 'react'
-import { Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { useSignUp } from '@clerk/clerk-expo'
-import { Link, useRouter } from 'expo-router'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { useSocialSignIn } from '../../hooks/useSocialSignIn'
+import { useSignUp } from "@clerk/clerk-expo";
+import { Link, useRouter } from "expo-router";
+import * as React from "react";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useSocialSignIn } from "../../hooks/useSocialSignIn";
 
 export default function SignUpScreen() {
-  const { isLoaded, signUp, setActive } = useSignUp()
-  const router = useRouter()
-  const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn()
+  const { isLoaded, signUp, setActive } = useSignUp();
+  const router = useRouter();
+  const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
 
-  const [firstName, setFirstName] = React.useState('')
-  const [lastName, setLastName] = React.useState('')
-  const [emailAddress, setEmailAddress] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [pendingVerification, setPendingVerification] = React.useState(false)
-  const [code, setCode] = React.useState('')
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [emailAddress, setEmailAddress] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isVerifying, setIsVerifying] = React.useState(false);
+  const [pendingVerification, setPendingVerification] = React.useState(false);
+  const [code, setCode] = React.useState("");
 
   // Handle submission of sign-up form
   const onSignUpPress = async () => {
-    if (!isLoaded) return
+    if (!isLoaded || isLoading) return;
 
+    setIsLoading(true);
     // Start sign-up process using email and password provided
     try {
       await signUp.create({
@@ -32,51 +35,56 @@ export default function SignUpScreen() {
           role: "user",
           onboardingCompleted: false,
         },
-      })
+      });
 
       // Send user an email with verification code
-      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
 
       // Set 'pendingVerification' to true to display second form
       // and capture OTP code
-      setPendingVerification(true)
+      setPendingVerification(true);
     } catch (err) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      console.error('Sign up error:', err)
+      console.error("Sign up error:", err);
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
   // Handle submission of verification form
   const onVerifyPress = async () => {
-    if (!isLoaded) return
+    if (!isLoaded || isVerifying) return;
 
+    setIsVerifying(true);
     try {
       // Use the code the user provided to attempt verification
       const signUpAttempt = await signUp.attemptEmailAddressVerification({
         code,
-      })
+      });
 
       // If verification was completed, set the session to active
       // and redirect the user
-      if (signUpAttempt.status === 'complete') {
-        await setActive({ session: signUpAttempt.createdSessionId })
-        router.replace('/onboarding')
+      if (signUpAttempt.status === "complete") {
+        await setActive({ session: signUpAttempt.createdSessionId });
+        router.replace("/onboarding");
       } else {
         // If the status is not complete, check why. User may need to
         // complete further steps.
-        console.error('Sign up attempt incomplete:', signUpAttempt.status)
+        console.error("Sign up attempt incomplete:", signUpAttempt.status);
       }
     } catch (err) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      console.error('Verification error:', err)
+      console.error("Verification error:", err);
+    } finally {
+      setIsVerifying(false);
     }
-  }
+  };
 
   if (pendingVerification) {
     return (
-      <KeyboardAwareScrollView 
+      <KeyboardAwareScrollView
         className="flex-1 bg-amber-50"
         contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 64 }}
         enableOnAndroid={true}
@@ -88,25 +96,20 @@ export default function SignUpScreen() {
           </View>
           <Text className="text-2xl font-bold text-center mb-2">Verify your email</Text>
         </View>
-        
+
         <View className="bg-white rounded-xl px-4 py-4 mb-6">
-          <TextInput
-            value={code}
-            placeholder="Enter your verification code"
-            className="text-base"
-            onChangeText={(code) => setCode(code)}
-          />
+          <TextInput value={code} placeholder="Enter your verification code" className="text-base" onChangeText={(code) => setCode(code)} />
         </View>
-        
-        <TouchableOpacity onPress={onVerifyPress} className="bg-black rounded-full py-4">
-          <Text className="text-white text-center font-semibold text-base">Verify</Text>
+
+        <TouchableOpacity onPress={onVerifyPress} className={`rounded-full py-4 ${isVerifying ? "bg-gray-600" : "bg-black"}`} disabled={isVerifying}>
+          <Text className="text-white text-center font-semibold text-base">{isVerifying ? "Verifying..." : "Verify"}</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
-    )
+    );
   }
 
   return (
-    <KeyboardAwareScrollView 
+    <KeyboardAwareScrollView
       className="flex-1 bg-amber-50"
       contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 64 }}
       enableOnAndroid={true}
@@ -125,24 +128,14 @@ export default function SignUpScreen() {
       <View className="space-y-4 mb-8">
         <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
           <Text className="text-gray-400 mr-3">👤</Text>
-          <TextInput
-            value={firstName}
-            placeholder="First name"
-            className="flex-1 text-base"
-            onChangeText={(firstName) => setFirstName(firstName)}
-          />
+          <TextInput value={firstName} placeholder="First name" className="flex-1 text-base" onChangeText={(firstName) => setFirstName(firstName)} />
         </View>
-        
+
         <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
           <Text className="text-gray-400 mr-3">👤</Text>
-          <TextInput
-            value={lastName}
-            placeholder="Last name"
-            className="flex-1 text-base"
-            onChangeText={(lastName) => setLastName(lastName)}
-          />
+          <TextInput value={lastName} placeholder="Last name" className="flex-1 text-base" onChangeText={(lastName) => setLastName(lastName)} />
         </View>
-        
+
         <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
           <Text className="text-gray-400 mr-3">✉</Text>
           <TextInput
@@ -153,7 +146,7 @@ export default function SignUpScreen() {
             onChangeText={(email) => setEmailAddress(email)}
           />
         </View>
-        
+
         <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
           <Text className="text-gray-400 mr-3">🔒</Text>
           <TextInput
@@ -167,8 +160,8 @@ export default function SignUpScreen() {
       </View>
 
       {/* Create Account Button */}
-      <TouchableOpacity onPress={onSignUpPress} className="bg-black rounded-full py-4 mb-6">
-        <Text className="text-white text-center font-semibold text-base">Create account</Text>
+      <TouchableOpacity onPress={onSignUpPress} className={`rounded-full py-4 mb-6 ${isLoading ? "bg-gray-600" : "bg-black"}`} disabled={isLoading}>
+        <Text className="text-white text-center font-semibold text-base">{isLoading ? "Signing..." : "Create account"}</Text>
       </TouchableOpacity>
 
       {/* Terms Text */}
@@ -180,9 +173,7 @@ export default function SignUpScreen() {
       {/* Checkbox */}
       <View className="flex-row items-center mb-6">
         <View className="w-5 h-5 border border-gray-300 rounded mr-3" />
-        <Text className="text-sm text-gray-600 flex-1">
-          I don't want to receive updates and information via email
-        </Text>
+        <Text className="text-sm text-gray-600 flex-1">I don't want to receive updates and information via email</Text>
       </View>
 
       {/* Social Login Buttons */}
@@ -191,12 +182,12 @@ export default function SignUpScreen() {
           <Text className="text-white mr-2">f</Text>
           <Text className="text-white font-semibold">Facebook</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity onPress={signInWithApple} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">🍎</Text>
           <Text className="text-white font-semibold">Apple</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity onPress={signInWithGoogle} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">G</Text>
           <Text className="text-white font-semibold">Google</Text>
@@ -211,5 +202,5 @@ export default function SignUpScreen() {
         </Link>
       </View>
     </KeyboardAwareScrollView>
-  )
+  );
 }
