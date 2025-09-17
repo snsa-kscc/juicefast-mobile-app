@@ -18,6 +18,7 @@ export default function SignUpScreen() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
+  const [referralCode, setReferralCode] = useState("");
   const [error, setError] = useState("");
   const [verificationError, setVerificationError] = useState("");
 
@@ -208,6 +209,16 @@ export default function SignUpScreen() {
             secureTextEntry={true}
             className="flex-1 text-base"
             onChangeText={(password) => setPassword(password)}
+          />
+        </View>
+
+        <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
+          <Text className="text-gray-400 mr-3">🎟️</Text>
+          <TextInput
+            value={referralCode}
+            placeholder="Referral code (optional)"
+            className="flex-1 text-base"
+            onChangeText={(referralCode) => setReferralCode(referralCode)}
           />
         </View>
       </View>
