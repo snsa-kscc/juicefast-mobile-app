@@ -17,6 +17,7 @@ import type * as mealEntry from "../mealEntry.js";
 import type * as mindfulnessEntry from "../mindfulnessEntry.js";
 import type * as sleepEntry from "../sleepEntry.js";
 import type * as stepEntry from "../stepEntry.js";
+import type * as userProfile from "../userProfile.js";
 import type * as waterIntake from "../waterIntake.js";
 
 /**
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   mindfulnessEntry: typeof mindfulnessEntry;
   sleepEntry: typeof sleepEntry;
   stepEntry: typeof stepEntry;
+  userProfile: typeof userProfile;
   waterIntake: typeof waterIntake;
 }>;
 export declare const api: FilterApi<
