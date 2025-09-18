@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
-import { Link, router } from 'expo-router';
-import { Settings } from 'lucide-react-native';
-import { useQuery } from 'convex/react';
-import { api } from '../../convex/_generated/api';
-import { WellnessScoreCard } from './WellnessScoreCard';
-import { DaySelector } from './DaySelector';
-import { DailyOverview } from './DailyOverview';
-import { Spinner } from '../Spinner';
+import { useQuery } from "convex/react";
+import { router } from "expo-router";
+import { Settings } from "lucide-react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { api } from "../../convex/_generated/api";
+import { Spinner } from "../Spinner";
+import { DailyOverview } from "./DailyOverview";
+import { DaySelector } from "./DaySelector";
+import { WellnessScoreCard } from "./WellnessScoreCard";
 
 interface DailyMetrics {
   steps: number;
@@ -26,16 +26,9 @@ interface HomeDashboardProps {
   initialAverageScore?: number;
 }
 
-export function HomeDashboard({ 
-  userId, 
-  userName, 
-  initialWeeklyData = [], 
-  initialAverageScore = 71 
-}: HomeDashboardProps) {
+export function HomeDashboard({ userId, userName, initialWeeklyData = [], initialAverageScore = 71 }: HomeDashboardProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-
 
   // Calculate start and end timestamps for selected date
   const { startTime, endTime } = useMemo(() => {
@@ -45,7 +38,7 @@ export function HomeDashboard({
     end.setHours(23, 59, 59, 999);
     return {
       startTime: start.getTime(),
-      endTime: end.getTime()
+      endTime: end.getTime(),
     };
   }, [selectedDate]);
 
@@ -53,31 +46,31 @@ export function HomeDashboard({
   const stepEntries = useQuery(api.stepEntry.getByUserId, {
     userId,
     startTime,
-    endTime
+    endTime,
   });
-  
+
   const waterEntries = useQuery(api.waterIntake.getByUserId, {
     userID: userId,
     startTime,
-    endTime
+    endTime,
   });
-  
+
   const mealEntries = useQuery(api.mealEntry.getByUserId, {
     userID: userId,
     startTime,
-    endTime
+    endTime,
   });
-  
+
   const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId, {
     userID: userId,
     startTime,
-    endTime
+    endTime,
   });
-  
+
   const sleepEntries = useQuery(api.sleepEntry.getByUserId, {
     userID: userId,
     startTime,
-    endTime
+    endTime,
   });
 
   // Calculate aggregated data from queries
@@ -100,17 +93,14 @@ export function HomeDashboard({
       mindfulness: totalMindfulness,
       sleep: totalSleep,
       healthyMeals,
-      totalScore: Math.round((totalSteps/10000 + totalWater/2200 + healthyMeals/2 + totalMindfulness/20 + totalSleep/8) * 20) // Simple scoring based on goal completion
+      totalScore: Math.round((totalSteps / 10000 + totalWater / 2200 + healthyMeals / 2 + totalMindfulness / 20 + totalSleep / 8) * 20), // Simple scoring based on goal completion
     };
   }, [stepEntries, waterEntries, mealEntries, mindfulnessEntries, sleepEntries]);
 
   // Update loading state based on query status
   useEffect(() => {
-    const isQueryLoading = stepEntries === undefined || 
-                          waterEntries === undefined || 
-                          mealEntries === undefined || 
-                          mindfulnessEntries === undefined || 
-                          sleepEntries === undefined;
+    const isQueryLoading =
+      stepEntries === undefined || waterEntries === undefined || mealEntries === undefined || mindfulnessEntries === undefined || sleepEntries === undefined;
     setIsLoading(isQueryLoading);
   }, [stepEntries, waterEntries, mealEntries, mindfulnessEntries, sleepEntries]);
 
@@ -153,57 +143,40 @@ export function HomeDashboard({
       {/* Header */}
       <View className="px-6 pt-12 pb-4 flex-row justify-between items-start">
         <View>
-          <Text className="text-lg font-medium text-black">
-            Hi, {userName ? userName.split(" ")[0] : "David"}!
-          </Text>
+          <Text className="text-lg font-medium text-black">Hi, {userName ? userName.split(" ")[0] : "David"}!</Text>
           <Text className="text-gray-500 text-sm mt-1">What are we doing today?</Text>
         </View>
-        <TouchableOpacity 
-          className="p-2" 
-          onPress={() => router.push('/profile' as any)}
-        >
+        <TouchableOpacity className="p-2" onPress={() => router.push("/profile" as any)}>
           <Settings size={20} color="#9CA3AF" />
         </TouchableOpacity>
       </View>
 
       {/* Day Selector */}
-      <DaySelector
-        selectedDate={selectedDate}
-        onDateSelect={setSelectedDate}
-      />
+      <DaySelector selectedDate={selectedDate} onDateSelect={setSelectedDate} />
 
       {/* Main Content */}
       <View className="px-6">
         {/* Wellness Score Card */}
-        <WellnessScoreCard
-          averageScore={selectedDateData?.totalScore || 0}
-          dailyProgress={dailyProgress}
-        />
+        <WellnessScoreCard averageScore={selectedDateData?.totalScore || 0} dailyProgress={dailyProgress} />
 
         {/* Wellness Cards - Horizontal Scrollable */}
         <View className="mb-6">
           <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
             <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3 bg-blue-200">
               <View className="absolute inset-0 bg-gradient-to-br from-blue-300 to-blue-400 justify-end p-3">
-                <Text className="text-white text-xs font-medium">
-                  Guided{"\n"}meditations
-                </Text>
+                <Text className="text-white text-xs font-medium">Guided{"\n"}meditations</Text>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3 bg-green-200">
               <View className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-400 justify-end p-3">
-                <Text className="text-white text-xs font-medium">
-                  Guided{"\n"}affirmations
-                </Text>
+                <Text className="text-white text-xs font-medium">Guided{"\n"}affirmations</Text>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden bg-pink-200">
               <View className="absolute inset-0 bg-gradient-to-br from-pink-300 to-pink-400 justify-end p-3">
-                <Text className="text-white text-xs font-medium">
-                  Strength{"\n"}exercises
-                </Text>
+                <Text className="text-white text-xs font-medium">Strength{"\n"}exercises</Text>
               </View>
             </TouchableOpacity>
           </ScrollView>
@@ -220,30 +193,17 @@ export function HomeDashboard({
         )}
 
         {/* Onboarding Button */}
-        <TouchableOpacity 
-          className="bg-green-600 px-6 py-4 rounded-xl mb-4"
-          onPress={() => router.push('/onboarding')}
-        >
-          <Text className="text-white text-lg font-semibold text-center">
-            Take Onboarding Quiz
-          </Text>
+        <TouchableOpacity className="bg-green-600 px-6 py-4 rounded-xl mb-4" onPress={() => router.push("/onboarding")}>
+          <Text className="text-white text-lg font-semibold text-center">Take Onboarding Quiz</Text>
         </TouchableOpacity>
 
         {/* Challenge Banners */}
         <TouchableOpacity className="w-full mb-4">
-          <Image 
-            source={require('../../assets/images/challenge.png')}
-            className="w-full h-32 rounded-xl"
-            resizeMode="cover"
-          />
+          <Image source={require("../../assets/images/challenge.png")} className="w-full h-32 rounded-xl" resizeMode="cover" />
         </TouchableOpacity>
 
         <TouchableOpacity className="w-full mb-20">
-          <Image 
-            source={require('../../assets/images/fasting.png')}
-            className="w-full h-32 rounded-xl"
-            resizeMode="cover"
-          />
+          <Image source={require("../../assets/images/fasting.png")} className="w-full h-32 rounded-xl" resizeMode="cover" />
         </TouchableOpacity>
       </View>
     </ScrollView>
