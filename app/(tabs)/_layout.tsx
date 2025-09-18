@@ -26,7 +26,7 @@ export default function TabLayout() {
     >
       <NativeTabs.Trigger name="index">
         <Label>Home</Label>
-        <Icon sf={"house.fill"} drawable="ic_menu_mylocation" />
+        <Icon sf="magnifyingglass" drawable="ic_menu_mylocation" />
       </NativeTabs.Trigger>
       {/* options={{
           title: "Home",
@@ -35,7 +35,7 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="tracker">
         <Label>Tracker</Label>
-        <Icon sf={"heart.fill"} drawable="ic_menu_mylocation" />
+        <Icon sf={{ default: "house", selected: "house.fill" }} drawable="ic_menu_mylocation" />
       </NativeTabs.Trigger>
       {/* options={{
           title: "Tracker",
@@ -44,7 +44,7 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="store">
         <Label>Store</Label>
-        <Icon sf={"house.fill"} drawable="ic_menu_mylocation" />
+        <Icon sf={"message"} drawable="ic_menu_mylocation" />
       </NativeTabs.Trigger>
       {/* options={{
           title: "Store",
