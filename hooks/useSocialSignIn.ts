@@ -23,7 +23,7 @@ export const useSocialSignIn = () => {
 
   useWarmUpBrowser()
 
-  const signInWith = useCallback(async (provider: SocialProvider) => {
+  const signInWith = useCallback(async (provider: SocialProvider, onSignupComplete?: () => Promise<void>) => {
     try {
       const { createdSessionId, setActive, signUp } = await startSSOFlow({
         strategy: provider,
@@ -42,6 +42,11 @@ export const useSocialSignIn = () => {
 
       if (createdSessionId) {
         setActive!({ session: createdSessionId })
+
+        // If this was a new user signup, call the completion callback
+        if (signUp && onSignupComplete) {
+          await onSignupComplete()
+        }
       }
     } catch (err) {
       console.error('Social sign in error:', err)
@@ -49,8 +54,8 @@ export const useSocialSignIn = () => {
   }, [startSSOFlow, router])
 
   return {
-    signInWithGoogle: () => signInWith('oauth_google'),
-    signInWithFacebook: () => signInWith('oauth_facebook'),
-    signInWithApple: () => signInWith('oauth_apple'),
+    signInWithGoogle: (onSignupComplete?: () => Promise<void>) => signInWith('oauth_google', onSignupComplete),
+    signInWithFacebook: (onSignupComplete?: () => Promise<void>) => signInWith('oauth_facebook', onSignupComplete),
+    signInWithApple: (onSignupComplete?: () => Promise<void>) => signInWith('oauth_apple', onSignupComplete),
   }
 }

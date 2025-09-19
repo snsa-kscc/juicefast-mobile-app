@@ -10,6 +10,7 @@ import { QueryProvider } from "../providers/QueryProvider";
 import "../styles/global.css";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
+import { handleAppInstallWithReferral } from "../utils/appInstallHandler";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
@@ -84,6 +85,21 @@ function AuthenticatedLayout() {
 
 export default function RootLayout() {
   const [loaded] = useFonts(FONT_CONFIG);
+
+  // Handle referral code from app install
+  useEffect(() => {
+    const initializeReferral = async () => {
+      try {
+        await handleAppInstallWithReferral();
+      } catch (error) {
+        console.error('Error initializing referral system:', error);
+      }
+    };
+
+    if (loaded) {
+      initializeReferral();
+    }
+  }, [loaded]);
 
   if (!loaded) {
     return null;

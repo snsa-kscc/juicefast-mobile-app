@@ -1,14 +1,20 @@
-import { useSignUp } from "@clerk/clerk-expo";
+import { useSignUp, useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
+import { ReferralStorage } from "../../utils/referralStorage";
+import { generateReferralCode } from "../../utils/referral";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
+  const { user } = useUser();
   const router = useRouter();
   const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
+  const createOrUpdateUserProfile = useMutation(api.userProfile.createOrUpdate);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -21,6 +27,55 @@ export default function SignUpScreen() {
   const [referralCode, setReferralCode] = useState("");
   const [error, setError] = useState("");
   const [verificationError, setVerificationError] = useState("");
+
+  // Load referral code from secure storage on component mount
+  useEffect(() => {
+    const loadReferralCode = async () => {
+      try {
+        const storedCode = await ReferralStorage.getReferralCode();
+        if (storedCode) {
+          setReferralCode(storedCode);
+        }
+      } catch (error) {
+        console.error('Error loading referral code:', error);
+      }
+    };
+
+    loadReferralCode();
+  }, []);
+
+  // Handle referral processing for social sign-ins
+  const handleSocialSignupComplete = async () => {
+    if (!user) return;
+
+    try {
+      // Determine which referral code to use (input takes priority over stored)
+      const storedReferralCode = await ReferralStorage.getReferralCode();
+      const finalReferralCode = referralCode || storedReferralCode;
+
+      // Generate unique referral code for the new user
+      const userFullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+      const newReferralCode = generateReferralCode(userFullName);
+
+      // Create user profile with referral data
+      await createOrUpdateUserProfile({
+        userID: user.id,
+        referralCode: newReferralCode,
+        referredBy: finalReferralCode || undefined,
+        referralCount: 0,
+      });
+
+      // Clear stored referral code after successful signup
+      if (storedReferralCode) {
+        await ReferralStorage.removeReferralCode();
+      }
+
+      router.replace("/onboarding");
+    } catch (error) {
+      console.error('Error processing social signup:', error);
+      router.replace("/onboarding");
+    }
+  };
 
   // Handle submission of sign-up form
   const onSignUpPress = async () => {
@@ -79,7 +134,7 @@ export default function SignUpScreen() {
 
     setIsVerifying(true);
     setVerificationError(""); // Clear previous errors
-    
+
     try {
       // Use the code the user provided to attempt verification
       const signUpAttempt = await signUp.attemptEmailAddressVerification({
@@ -90,6 +145,32 @@ export default function SignUpScreen() {
       // and redirect the user
       if (signUpAttempt.status === "complete") {
         await setActive({ session: signUpAttempt.createdSessionId });
+
+        // Get the user ID from Clerk
+        const user = signUpAttempt.createdUserId;
+        if (user) {
+          // Determine which referral code to use (input takes priority over stored)
+          const storedReferralCode = await ReferralStorage.getReferralCode();
+          const finalReferralCode = referralCode || storedReferralCode;
+
+          // Generate unique referral code for the new user
+          const userFullName = `${firstName} ${lastName}`.trim();
+          const newReferralCode = generateReferralCode(userFullName);
+
+          // Create user profile with referral data
+          await createOrUpdateUserProfile({
+            userID: user,
+            referralCode: newReferralCode,
+            referredBy: finalReferralCode || undefined,
+            referralCount: 0,
+          });
+
+          // Clear stored referral code after successful signup
+          if (storedReferralCode) {
+            await ReferralStorage.removeReferralCode();
+          }
+        }
+
         router.replace("/onboarding");
       } else {
         // If the status is not complete, check why. User may need to
@@ -101,10 +182,10 @@ export default function SignUpScreen() {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error("Verification error:", err);
-      
+
       // Extract user-friendly error message
       let errorMessage = "Invalid verification code. Please try again.";
-      
+
       if (err?.errors && err.errors.length > 0) {
         const firstError = err.errors[0];
         if (firstError.message) {
@@ -115,7 +196,7 @@ export default function SignUpScreen() {
       } else if (err?.message) {
         errorMessage = err.message;
       }
-      
+
       setVerificationError(errorMessage);
     } finally {
       setIsVerifying(false);
@@ -242,17 +323,17 @@ export default function SignUpScreen() {
 
       {/* Social Login Buttons */}
       <View className="space-y-3 mb-8">
-        <TouchableOpacity onPress={signInWithFacebook} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity onPress={() => signInWithFacebook(handleSocialSignupComplete)} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">f</Text>
           <Text className="text-white font-semibold">Facebook</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={signInWithApple} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity onPress={() => signInWithApple(handleSocialSignupComplete)} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">🍎</Text>
           <Text className="text-white font-semibold">Apple</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={signInWithGoogle} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity onPress={() => signInWithGoogle(handleSocialSignupComplete)} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">G</Text>
           <Text className="text-white font-semibold">Google</Text>
         </TouchableOpacity>
