@@ -1,15 +1,13 @@
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
-import { tokenCache } from '@clerk/clerk-expo/token-cache'
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { tokenCache } from "@clerk/clerk-expo/token-cache";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { useFonts } from "expo-font";
+import { Stack, useRouter } from "expo-router";
+import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
 import "../styles/global.css";
-import { useEffect } from "react";
-import { useRouter } from "expo-router";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
@@ -42,12 +40,12 @@ const SCREEN_OPTIONS = {
 
 function AuthenticatedLayout() {
   const { isSignedIn, isLoaded } = useAuth();
-  const { user } = require('@clerk/clerk-expo').useUser();
+  const { user } = require("@clerk/clerk-expo").useUser();
   const router = useRouter();
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
-      router.replace('/(auth)/sign-in');
+      router.replace("/(auth)/sign-in");
     }
   }, [isSignedIn, isLoaded]);
 
@@ -55,7 +53,7 @@ function AuthenticatedLayout() {
     if (isSignedIn && user) {
       const isOnboardingCompleted = user.unsafeMetadata?.onboardingCompleted === true;
       if (isOnboardingCompleted) {
-        router.replace('/(tabs)');
+        router.replace("/(tabs)");
       }
     }
   }, [isSignedIn, user]);
@@ -92,17 +90,17 @@ export default function RootLayout() {
   return (
     <ConvexProvider client={convex}>
       <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-        <SafeAreaProvider>
-          <SafeAreaView style={{ flex: 1 }}>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <LoadingProvider>
-                <QueryProvider>
-                  <AuthenticatedLayout />
-                </QueryProvider>
-              </LoadingProvider>
-            </GestureHandlerRootView>
-          </SafeAreaView>
-        </SafeAreaProvider>
+        {/* <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1 }}> */}
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <LoadingProvider>
+            <QueryProvider>
+              <AuthenticatedLayout />
+            </QueryProvider>
+          </LoadingProvider>
+        </GestureHandlerRootView>
+        {/* </SafeAreaView>
+        </SafeAreaProvider> */}
       </ClerkProvider>
     </ConvexProvider>
   );
