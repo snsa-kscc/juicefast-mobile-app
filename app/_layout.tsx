@@ -1,14 +1,14 @@
 import { ClerkProvider, useAuth, useUser } from "@clerk/clerk-expo";
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
 import { useFonts } from "expo-font";
-import { Stack, useRouter, useSegments } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
 import "../styles/global.css";
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { handleAppInstallWithReferral } from "../utils/appInstallHandler";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
@@ -44,20 +44,9 @@ function AuthenticatedLayout() {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
   const router = useRouter();
-  const segments = useSegments();
 
-  // Helper function to check if current route is in auth group
-  const isInAuthGroup = useCallback(() => {
-    return segments[0] === '(auth)';
-  }, [segments]);
-
-  useEffect(() => {
-    if (isLoaded && !isSignedIn && !isInAuthGroup()) {
-      // Only redirect if user is not signed in AND not already in auth group
-      router.replace('/(auth)/sso-signup');
-    }
-  }, [isLoaded, isSignedIn, isInAuthGroup, router]);
-
+  
+  
   useEffect(() => {
     if (isSignedIn && user) {
       const isOnboardingCompleted = user.unsafeMetadata?.onboardingCompleted === true;
