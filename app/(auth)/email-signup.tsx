@@ -13,7 +13,8 @@ export default function EmailSignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
   const createOrUpdateUserProfile = useMutation(api.userProfile.createOrUpdate);
-  const getByReferralCode = useQuery(api.userProfile.getByReferralCode);
+  const [referralCodeInput, setReferralCodeInput] = useState("");
+  const referralData = useQuery(api.userProfile.getByReferralCode, referralCodeInput.trim() ? { referralCode: referralCodeInput.trim() } : "skip");
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -23,7 +24,6 @@ export default function EmailSignUpScreen() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
-  const [referralCode, setReferralCode] = useState("");
   const [error, setError] = useState("");
   const [verificationError, setVerificationError] = useState("");
 
@@ -33,7 +33,7 @@ export default function EmailSignUpScreen() {
       try {
         const storedCode = await ReferralStorage.getReferralCode();
         if (storedCode) {
-          setReferralCode(storedCode);
+          setReferralCodeInput(storedCode);
         }
       } catch (error) {
         console.error('Error loading referral code:', error);
@@ -48,8 +48,12 @@ export default function EmailSignUpScreen() {
     if (!isLoaded || isLoading) return;
 
     // Validate referral code if provided
-    if (referralCode.trim()) {
-      const referralData = getByReferralCode({ referralCode: referralCode.trim() });
+    if (referralCodeInput.trim()) {
+      if (referralData === undefined) {
+        // Query is still loading, prevent submission
+        Alert.alert("Loading", "Please wait while we validate your referral code.");
+        return;
+      }
       if (!referralData) {
         Alert.alert("Invalid Referral Code", "The referral code you entered is not valid. Please check and try again.");
         return;
@@ -113,7 +117,7 @@ export default function EmailSignUpScreen() {
         const user = signUpAttempt.createdUserId;
         if (user) {
           const storedReferralCode = await ReferralStorage.getReferralCode();
-          const finalReferralCode = referralCode || storedReferralCode;
+          const finalReferralCode = referralCodeInput || storedReferralCode;
 
           const userFullName = `${firstName} ${lastName}`.trim();
           const newReferralCode = generateReferralCode(userFullName);
@@ -271,10 +275,10 @@ export default function EmailSignUpScreen() {
         <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
           <Text className="text-gray-400 mr-3">🎟️</Text>
           <TextInput
-            value={referralCode}
+            value={referralCodeInput}
             placeholder="Referral code (optional)"
             className="flex-1 text-base"
-            onChangeText={(referralCode) => setReferralCode(referralCode)}
+            onChangeText={(referralCode) => setReferralCodeInput(referralCode)}
           />
         </View>
       </View>
