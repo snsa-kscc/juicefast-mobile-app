@@ -12,7 +12,6 @@ import { api } from "../../convex/_generated/api";
 
 export default function SSOSignUpScreen() {
   const router = useRouter();
-  const { user } = useUser();
   const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
   const createOrUpdateUserProfile = useMutation(api.userProfile.createOrUpdate);
   const incrementReferralCount = useMutation(api.userProfile.incrementReferralCount);
@@ -20,6 +19,7 @@ export default function SSOSignUpScreen() {
 
   // Handle referral processing for social sign-ins
   const handleSocialSignupComplete = async () => {
+    const { user } = useUser();
     if (!user) return;
 
     try {
