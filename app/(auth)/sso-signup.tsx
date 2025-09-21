@@ -6,14 +6,17 @@ import { useSocialSignIn } from "../../hooks/useSocialSignIn";
 import { useUser } from "@clerk/clerk-expo";
 import { ReferralStorage } from "../../utils/referralStorage";
 import { generateReferralCode } from "../../utils/referral";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+
 
 export default function SSOSignUpScreen() {
   const router = useRouter();
   const { user } = useUser();
   const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
   const createOrUpdateUserProfile = useMutation(api.userProfile.createOrUpdate);
+  const incrementReferralCount = useMutation(api.userProfile.incrementReferralCount);
+  const getByReferralCode = useQuery(api.userProfile.getByReferralCode, { referralCode: "" });
 
   // Handle referral processing for social sign-ins
   const handleSocialSignupComplete = async () => {
@@ -34,6 +37,14 @@ export default function SSOSignUpScreen() {
         referredBy: storedReferralCode || undefined,
         referralCount: 0,
       });
+
+      // Increment referral count for the referrer if a valid referral code was used
+      if (storedReferralCode) {
+        const referralData = useQuery(api.userProfile.getByReferralCode, { referralCode: storedReferralCode });
+        if (referralData) {
+          await incrementReferralCount({ userID: referralData.userID });
+        }
+      }
 
       // Clear stored referral code after successful signup
       if (storedReferralCode) {

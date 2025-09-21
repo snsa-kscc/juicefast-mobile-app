@@ -13,6 +13,7 @@ export default function EmailSignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
   const createOrUpdateUserProfile = useMutation(api.userProfile.createOrUpdate);
+  const incrementReferralCount = useMutation(api.userProfile.incrementReferralCount);
   const [referralCodeInput, setReferralCodeInput] = useState("");
   const referralData = useQuery(api.userProfile.getByReferralCode, referralCodeInput.trim() ? { referralCode: referralCodeInput.trim() } : "skip");
 
@@ -128,6 +129,11 @@ export default function EmailSignUpScreen() {
             referredBy: finalReferralCode || undefined,
             referralCount: 0,
           });
+
+          // Increment referral count for the referrer if a valid referral code was used
+          if (finalReferralCode && referralData) {
+            await incrementReferralCount({ userID: referralData.userID });
+          }
 
           if (storedReferralCode) {
             await ReferralStorage.removeReferralCode();
