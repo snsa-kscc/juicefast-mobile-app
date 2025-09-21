@@ -16,12 +16,18 @@ export default function SSOSignUpScreen() {
   const createOrUpdateUserProfile = useMutation(api.userProfile.createOrUpdate);
   const incrementReferralCount = useMutation(api.userProfile.incrementReferralCount);
   const getByReferralCode = useQuery(api.userProfile.getByReferralCode, { referralCode: "" });
+  const { user } = useUser();
+
 
   // Handle referral processing for social sign-ins
   const handleSocialSignupComplete = async () => {
-    const { user } = useUser();
-    if (!user) return;
-
+    console.error("in function")
+    
+    if (!user) {
+      console.error("no user");
+      return;
+    };
+    console.error("there is user");
     try {
       // Get referral code from secure storage
       const storedReferralCode = await ReferralStorage.getReferralCode();
