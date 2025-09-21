@@ -11,6 +11,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useClerk, useUser } from '@clerk/clerk-expo';
+import * as SecureStore from 'expo-secure-store';
+import { AuthService } from '@/utils/auth';
 import {
   User,
   Ruler,
@@ -135,12 +137,15 @@ export default function ProfileScreen() {
       'Are you sure you want to logout?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Logout', 
-          style: 'destructive', 
+        {
+          text: 'Logout',
+          style: 'destructive',
           onPress: async () => {
             try {
               await signOut();
+              AuthService.clearToken();
+              await SecureStore.deleteItemAsync('REFERRAL_CODE');
+              router.replace('/(auth)/sso-signup');
             } catch (error) {
               console.error('Sign out error:', error);
             }
