@@ -5,13 +5,15 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useSignUp } from "@clerk/clerk-expo";
 import { ReferralStorage } from "../../utils/referralStorage";
 import { generateReferralCode } from "../../utils/referral";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { Alert } from "react-native";
 
 export default function EmailSignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
   const createOrUpdateUserProfile = useMutation(api.userProfile.createOrUpdate);
+  const getByReferralCode = useQuery(api.userProfile.getByReferralCode);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -44,6 +46,15 @@ export default function EmailSignUpScreen() {
   // Handle submission of sign-up form
   const onSignUpPress = async () => {
     if (!isLoaded || isLoading) return;
+
+    // Validate referral code if provided
+    if (referralCode.trim()) {
+      const referralData = getByReferralCode({ referralCode: referralCode.trim() });
+      if (!referralData) {
+        Alert.alert("Invalid Referral Code", "The referral code you entered is not valid. Please check and try again.");
+        return;
+      }
+    }
 
     setIsLoading(true);
     setError("");
