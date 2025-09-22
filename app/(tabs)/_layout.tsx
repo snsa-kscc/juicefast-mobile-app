@@ -26,7 +26,7 @@ export default function TabLayout() {
     >
       <NativeTabs.Trigger name="index">
         <Label>Home</Label>
-        <Icon sf={{ default: "house", selected: "house.fill" }} />
+        <Icon sf={{ default: "house", selected: "house.fill" }} drawable="my_custom_home" />
       </NativeTabs.Trigger>
       {/* options={{
           title: "Home",
@@ -35,7 +35,7 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="tracker">
         <Label>Tracker</Label>
-        <Icon sf={{ default: "heart", selected: "heart.fill" }} />
+        <Icon sf={{ default: "heart", selected: "heart.fill" }} drawable="ic_menu_heart" />
       </NativeTabs.Trigger>
       {/* options={{
           title: "Tracker",
@@ -44,7 +44,7 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="store">
         <Label>Store</Label>
-        <Icon sf={{ default: "bag", selected: "bag.fill" }} />
+        <Icon sf={{ default: "bag", selected: "bag.fill" }} drawable="stat_notify_chat" />
       </NativeTabs.Trigger>
       {/* options={{
           title: "Store",
@@ -53,7 +53,7 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="chat">
         <Label>Chat</Label>
-        <Icon sf={{ default: "message", selected: "message.fill" }} />
+        <Icon sf={{ default: "message", selected: "message.fill" }} drawable="ic_dialog_email" />
         <Badge>4</Badge>
       </NativeTabs.Trigger>
       {/* options={{
@@ -63,7 +63,7 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="club">
         <Label>JF Club</Label>
-        <Icon sf={{ default: "person.2", selected: "person.2.fill" }} />
+        <Icon sf={{ default: "person.2", selected: "person.2.fill" }} drawable="ic_menu_club" />
       </NativeTabs.Trigger>
       {/* options={{
           title: "JF Club",
