@@ -22,6 +22,7 @@
     "@tanstack/react-query": "^5.85.5",
     "@types/uuid": "^10.0.0",
     "convex": "^1.27.0",
+    "convex-helpers": "^0.1.104",
     "crypto-js": "^4.2.0",
     "expo": "~54.0.7",
     "expo-auth-session": "~7.0.8",

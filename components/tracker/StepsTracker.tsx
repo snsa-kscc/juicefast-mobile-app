@@ -37,8 +37,8 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
     };
   }, []);
   
-  const stepEntries = useQuery(api.stepEntry.getByUserId, 
-    user?.id ? { userId: user.id, startTime, endTime } : "skip"
+  const stepEntries = useQuery(api.stepEntry.getByUserId,
+    user?.id ? { startTime, endTime } : "skip"
   );
   
   const totalSteps = useMemo(() => {
@@ -87,7 +87,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
     });
     
     try {
-      await createStepEntry({ userId: user.id, count: stepCount });
+      await createStepEntry({ count: stepCount });
     } catch (error) {
       console.error("Failed to save steps data:", error);
     }
@@ -97,7 +97,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
     if (!user?.id) return;
     
     try {
-      await deleteStepEntry({ userId: user.id, timestamp });
+      await deleteStepEntry({ timestamp });
     } catch (error) {
       console.error("Failed to delete step entry:", error);
     }

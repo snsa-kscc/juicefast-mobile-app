@@ -27,7 +27,6 @@ interface TrackingOption {
 }
 
 interface TrackerClientProps {
-  userId?: string;
   weeklyMetrics?: DailyHealthMetrics[];
   weeklyAverageScore?: number;
 }
@@ -163,7 +162,7 @@ const WaterIcon = () => (
   </Svg>
 );
 
-export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverageScore = 71 }: TrackerClientProps) {
+export function WellnessTracker({ weeklyMetrics = [], weeklyAverageScore = 71 }: TrackerClientProps) {
   const router = useRouter();
   // const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -189,7 +188,7 @@ export function WellnessTracker({ userId = "", weeklyMetrics = [], weeklyAverage
 
       return () => animatedValue.removeListener(listener);
     }, 1000);
-  }, [userId, weeklyAverageScore]);
+  }, [weeklyAverageScore]);
 
   const trackingOptions: TrackingOption[] = [
     {

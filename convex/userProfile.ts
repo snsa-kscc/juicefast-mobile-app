@@ -1,9 +1,9 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
+
 export const createOrUpdate = mutation({
   args: {
-    userID: v.string(),
     height: v.optional(v.number()),
     weight: v.optional(v.number()),
     age: v.optional(v.number()),
@@ -14,16 +14,21 @@ export const createOrUpdate = mutation({
     referralCount: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const userId = identity.subject;
     const existingProfile = await ctx.db
       .query("userProfile")
-      .withIndex("by_user_id", (q) => q.eq("userID", args.userID))
+      .withIndex("by_user_id", (q) => q.eq("userID", userId))
       .first();
 
     if (existingProfile) {
       // Update existing profile
-      const { userID, ...updateData } = args;
       await ctx.db.patch(existingProfile._id, {
-        ...updateData,
+        ...args,
         updatedAt: Date.now(),
       });
       return existingProfile._id;
@@ -31,6 +36,7 @@ export const createOrUpdate = mutation({
       // Create new profile
       return await ctx.db.insert("userProfile", {
         ...args,
+        userID: userId,
         referralCount: args.referralCount || 0,
         updatedAt: Date.now(),
       });
@@ -39,11 +45,16 @@ export const createOrUpdate = mutation({
 });
 
 export const getByUserId = query({
-  args: { userID: v.string() },
+  args: {},
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
     return await ctx.db
       .query("userProfile")
-      .withIndex("by_user_id", (q) => q.eq("userID", args.userID))
+      .withIndex("by_user_id", (q) => q.eq("userID", identity.subject))
       .first();
   },
 });
@@ -69,19 +80,19 @@ export const getByReferredBy = query({
 });
 
 export const incrementReferralCount = mutation({
-  args: { userID: v.string() },
+  args: { referralCode: v.string() },
   handler: async (ctx, args) => {
-    const profile = await ctx.db
+    const referrerProfile = await ctx.db
       .query("userProfile")
-      .withIndex("by_user_id", (q) => q.eq("userID", args.userID))
+      .withIndex("by_referral_code", (q) => q.eq("referralCode", args.referralCode))
       .first();
 
-    if (profile) {
-      await ctx.db.patch(profile._id, {
-        referralCount: (profile.referralCount || 0) + 1,
+    if (referrerProfile) {
+      await ctx.db.patch(referrerProfile._id, {
+        referralCount: (referrerProfile.referralCount || 0) + 1,
         updatedAt: Date.now(),
       });
-      return profile._id;
+      return referrerProfile._id;
     }
     return null;
   },

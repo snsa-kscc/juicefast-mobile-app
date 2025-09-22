@@ -4,13 +4,16 @@ import React, { useEffect, useOptimistic, useState, startTransition, useMemo } f
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
-import { useUser } from "@clerk/clerk-expo";
 import { api } from "../../convex/_generated/api";
+import { Id } from "../../convex/_generated/dataModel";
 import { TrackerButton, WellnessHeader } from "./shared";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
 interface MealEntry {
+  _id: Id<"mealEntry">;
+  _creationTime: number;
+  userID: string;
   name: string;
   description: string;
   calories: number;
@@ -26,7 +29,6 @@ interface MealsTrackerProps {
 }
 
 export function MealsTracker({ onBack }: MealsTrackerProps) {
-  const { user } = useUser() || {};
   
   const createMealEntry = useMutation(api.mealEntry.create);
   const deleteMealEntry = useMutation(api.mealEntry.deleteByUserIdAndTimestamp);
@@ -41,8 +43,8 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
     };
   }, []);
   
-  const mealEntries = useQuery(api.mealEntry.getByUserId, 
-    user?.id ? { userID: user.id, startTime: startTime, endTime: endTime } : "skip"
+  const mealEntries = useQuery(api.mealEntry.getByUserId,
+    { startTime: startTime, endTime: endTime }
   );
   
   const [optimisticMeals, addOptimisticMeal] = useOptimistic(
@@ -73,8 +75,6 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
   };
 
   const handleMealAdded = async (mealData: any) => {
-    if (!user?.id) return;
-
     const newMeal: MealEntry = {
       ...mealData,
       meal_type: selectedMealType!,
@@ -86,8 +86,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
     });
     
     try {
-      await createMealEntry({ 
-        userID: user.id, 
+      await createMealEntry({
         name: mealData.name,
         description: mealData.description,
         calories: mealData.calories,
@@ -233,10 +232,8 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
   const currentMeals = getMealsByType(activeTab);
   
   const handleDeleteEntry = async (timestamp: number) => {
-    if (!user?.id) return;
-    
     try {
-      await deleteMealEntry({ userID: user.id, timestamp });
+      await deleteMealEntry({ timestamp });
     } catch (error) {
       console.error("Failed to delete meal entry:", error);
     }

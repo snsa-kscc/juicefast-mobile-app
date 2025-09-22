@@ -37,8 +37,8 @@ export function HydrationTracker({ initialWaterData, onBack }: HydrationTrackerP
     };
   }, []);
   
-  const waterEntries = useQuery(api.waterIntake.getByUserId, 
-    user?.id ? { userID: user.id, startTime: startTime, endTime: endTime } : "skip"
+  const waterEntries = useQuery(api.waterIntake.getByUserId,
+    user?.id ? { startTime: startTime, endTime: endTime } : "skip"
   );
   
   const totalWater = useMemo(() => {
@@ -87,7 +87,7 @@ export function HydrationTracker({ initialWaterData, onBack }: HydrationTrackerP
     });
     
     try {
-      await createWaterEntry({ userID: user.id, amount: waterAmount });
+      await createWaterEntry({ amount: waterAmount });
     } catch (error) {
       console.error("Failed to save water data:", error);
     }
@@ -97,7 +97,7 @@ export function HydrationTracker({ initialWaterData, onBack }: HydrationTrackerP
     if (!user?.id) return;
     
     try {
-      await deleteWaterEntry({ userID: user.id, timestamp });
+      await deleteWaterEntry({ timestamp });
     } catch (error) {
       console.error("Failed to delete water entry:", error);
     }

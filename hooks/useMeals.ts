@@ -5,13 +5,13 @@ import { sanitizeForLog } from '@/utils/sanitize';
 
 const API_BASE = '/api/meals';
 
-async function fetchMeals(userId: string): Promise<Meal[]> {
-  const response = await fetch(`${API_BASE}?userId=${userId}`);
+async function fetchMeals(): Promise<Meal[]> {
+  const response = await fetch(API_BASE);
   if (!response.ok) throw new Error('Failed to fetch meals');
   return response.json();
 }
 
-async function createMeal(meal: CreateMeal): Promise<Meal> {
+async function createMeal(meal: Omit<CreateMeal, 'userId'>): Promise<Meal> {
   const response = await fetch(API_BASE, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -21,21 +21,20 @@ async function createMeal(meal: CreateMeal): Promise<Meal> {
   return response.json();
 }
 
-export function useMeals(userId: string) {
+export function useMeals() {
   return useQuery({
-    queryKey: ['meals', userId],
-    queryFn: () => fetchMeals(userId),
-    enabled: !!userId,
+    queryKey: ['meals'],
+    queryFn: fetchMeals,
   });
 }
 
 export function useCreateMeal() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: createMeal,
-    onSuccess: (newMeal) => {
-      queryClient.invalidateQueries({ queryKey: ['meals', newMeal.userId] });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['meals'] });
     },
   });
 }

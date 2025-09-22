@@ -1,13 +1,12 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TextInput, TouchableOpacity, View , Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSignUp } from "@clerk/clerk-expo";
 import { ReferralStorage } from "../../utils/referralStorage";
 import { generateReferralCode } from "../../utils/referral";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import { Alert } from "react-native";
 
 export default function EmailSignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -124,7 +123,6 @@ export default function EmailSignUpScreen() {
           const newReferralCode = generateReferralCode(userFullName);
 
           await createOrUpdateUserProfile({
-            userID: user,
             referralCode: newReferralCode,
             referredBy: finalReferralCode || undefined,
             referralCount: 0,
@@ -132,7 +130,7 @@ export default function EmailSignUpScreen() {
 
           // Increment referral count for the referrer if a valid referral code was used
           if (finalReferralCode && referralData) {
-            await incrementReferralCount({ userID: referralData.userID });
+            await incrementReferralCount({ referralCode: finalReferralCode });
           }
 
           if (storedReferralCode) {

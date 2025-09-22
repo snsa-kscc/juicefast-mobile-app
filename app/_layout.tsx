@@ -4,7 +4,8 @@ import { useFonts } from "expo-font";
 import { Stack, useRouter } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexProviderWithClerk } from "convex/react-clerk";
+import { ConvexReactClient } from "convex/react";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
 import "../styles/global.css";
@@ -101,8 +102,8 @@ export default function RootLayout() {
   }
 
   return (
-    <ConvexProvider client={convex}>
-      <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         <SafeAreaProvider>
           <SafeAreaView style={{ flex: 1 }}>
             <GestureHandlerRootView style={{ flex: 1 }}>
@@ -114,7 +115,7 @@ export default function RootLayout() {
             </GestureHandlerRootView>
           </SafeAreaView>
         </SafeAreaProvider>
-      </ClerkProvider>
-    </ConvexProvider>
+      </ConvexProviderWithClerk>
+    </ClerkProvider>
   );
 }

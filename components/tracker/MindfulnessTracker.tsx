@@ -44,8 +44,8 @@ export function MindfulnessTracker({ initialMindfulnessData, onBack }: Mindfulne
     };
   }, []);
   
-  const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId, 
-    user?.id ? { userID: user.id, startTime: startTime, endTime: endTime } : "skip"
+  const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId,
+    user?.id ? { startTime: startTime, endTime: endTime } : "skip"
   );
   
   const totalMinutes = useMemo(() => {
@@ -94,7 +94,7 @@ export function MindfulnessTracker({ initialMindfulnessData, onBack }: Mindfulne
     });
     
     try {
-      await createMindfulnessEntry({ userID: user.id, minutes, activity: selectedActivity });
+      await createMindfulnessEntry({ minutes, activity: selectedActivity });
     } catch (error) {
       console.error("Failed to save mindfulness data:", error);
     }
@@ -104,7 +104,7 @@ export function MindfulnessTracker({ initialMindfulnessData, onBack }: Mindfulne
     if (!user?.id) return;
     
     try {
-      await deleteMindfulnessEntry({ userID: user.id, timestamp });
+      await deleteMindfulnessEntry({ timestamp });
     } catch (error) {
       console.error("Failed to delete mindfulness entry:", error);
     }

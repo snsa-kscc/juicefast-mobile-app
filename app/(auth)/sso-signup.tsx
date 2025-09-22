@@ -6,7 +6,7 @@ import { useSocialSignIn } from "../../hooks/useSocialSignIn";
 import { useUser } from "@clerk/clerk-expo";
 import { ReferralStorage } from "../../utils/referralStorage";
 import { generateReferralCode } from "../../utils/referral";
-import { useMutation, useQuery } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 
 
@@ -40,7 +40,6 @@ export default function SSOSignUpScreen() {
 
       // Create user profile with referral data
       await createOrUpdateUserProfile({
-        userID: userId,
         referralCode: newReferralCode,
         referredBy: storedReferralCode || undefined,
         referralCount: 0,
@@ -49,10 +48,8 @@ export default function SSOSignUpScreen() {
       // Handle referral count increment if there was a referrer
       if (storedReferralCode) {
         try {
-          // Note: We'll need to implement a separate mutation that finds user by referral code
-          // For now, we'll skip this step and handle it in a future iteration
-          // TODO: Create a mutation that increments referral count by referral code
-          console.log('Referral code found, but increment logic needs to be implemented:', storedReferralCode);
+          await incrementReferralCount({ referralCode: storedReferralCode });
+          console.log('Referral count incremented for code:', storedReferralCode);
         } catch (referralError) {
           console.error('Error incrementing referral count:', referralError);
           // Don't fail the whole process if referral increment fails
