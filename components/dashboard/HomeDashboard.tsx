@@ -3,6 +3,7 @@ import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
 import { Link, router } from 'expo-router';
 import { Settings } from 'lucide-react-native';
 import { useQuery } from 'convex/react';
+import { useAuth } from '@clerk/clerk-expo';
 import { api } from '../../convex/_generated/api';
 import { WellnessScoreCard } from './WellnessScoreCard';
 import { DaySelector } from './DaySelector';
@@ -20,20 +21,15 @@ interface DailyMetrics {
 }
 
 interface HomeDashboardProps {
-  userId: string;
   userName?: string;
-  initialWeeklyData?: any[];
-  initialAverageScore?: number;
 }
 
-export function HomeDashboard({ 
-  userId, 
-  userName, 
-  initialWeeklyData = [], 
-  initialAverageScore = 71 
+export function HomeDashboard({
+  userName
 }: HomeDashboardProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isSignedIn } = useAuth();
 
 
 
@@ -49,36 +45,31 @@ export function HomeDashboard({
     };
   }, [selectedDate]);
 
-  // Query all 5 tables simultaneously
-  const stepEntries = useQuery(api.stepEntry.getByUserId, {
-    userId,
+  // Query all 5 tables simultaneously - only when authenticated
+  const stepEntries = useQuery(api.stepEntry.getByUserId, isSignedIn ? {
     startTime,
     endTime
-  });
-  
-  const waterEntries = useQuery(api.waterIntake.getByUserId, {
-    userID: userId,
+  } : "skip");
+
+  const waterEntries = useQuery(api.waterIntake.getByUserId, isSignedIn ? {
     startTime,
     endTime
-  });
-  
-  const mealEntries = useQuery(api.mealEntry.getByUserId, {
-    userID: userId,
+  } : "skip");
+
+  const mealEntries = useQuery(api.mealEntry.getByUserId, isSignedIn ? {
     startTime,
     endTime
-  });
-  
-  const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId, {
-    userID: userId,
+  } : "skip");
+
+  const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId, isSignedIn ? {
     startTime,
     endTime
-  });
-  
-  const sleepEntries = useQuery(api.sleepEntry.getByUserId, {
-    userID: userId,
+  } : "skip");
+
+  const sleepEntries = useQuery(api.sleepEntry.getByUserId, isSignedIn ? {
     startTime,
     endTime
-  });
+  } : "skip");
 
   // Calculate aggregated data from queries
   const selectedDateData = useMemo(() => {
@@ -210,7 +201,11 @@ export function HomeDashboard({
         </View>
 
         {/* Daily Overview */}
-        {isLoading ? (
+        {!isSignedIn ? (
+          <View className="items-center py-8">
+            <Text className="text-gray-500">Please sign in to view your wellness data</Text>
+          </View>
+        ) : isLoading ? (
           <View className="items-center py-8">
             <Spinner size={32} />
             <Text className="text-gray-500 mt-2">Loading daily data...</Text>
