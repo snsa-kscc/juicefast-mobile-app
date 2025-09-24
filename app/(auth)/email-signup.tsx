@@ -4,15 +4,12 @@ import { Text, TextInput, TouchableOpacity, View , Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSignUp } from "@clerk/clerk-expo";
 import { ReferralStorage } from "../../utils/referralStorage";
-import { generateReferralCode } from "../../utils/referral";
-import { useMutation, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 
 export default function EmailSignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
-  const createOrUpdateUserProfile = useMutation(api.userProfile.createOrUpdate);
-  const incrementReferralCount = useMutation(api.userProfile.incrementReferralCount);
   const [referralCodeInput, setReferralCodeInput] = useState("");
   const referralData = useQuery(api.userProfile.getByReferralCode, referralCodeInput.trim() ? { referralCode: referralCodeInput.trim() } : "skip");
 
@@ -114,28 +111,9 @@ export default function EmailSignUpScreen() {
       if (signUpAttempt.status === "complete") {
         await setActive({ session: signUpAttempt.createdSessionId });
 
-        const user = signUpAttempt.createdUserId;
-        if (user) {
-          const storedReferralCode = await ReferralStorage.getReferralCode();
-          const finalReferralCode = referralCodeInput || storedReferralCode;
-
-          const userFullName = `${firstName} ${lastName}`.trim();
-          const newReferralCode = generateReferralCode(userFullName);
-
-          await createOrUpdateUserProfile({
-            referralCode: newReferralCode,
-            referredBy: finalReferralCode || undefined,
-            referralCount: 0,
-          });
-
-          // Increment referral count for the referrer if a valid referral code was used
-          if (finalReferralCode && referralData) {
-            await incrementReferralCount({ referralCode: finalReferralCode });
-          }
-
-          if (storedReferralCode) {
-            await ReferralStorage.removeReferralCode();
-          }
+        // Store referral code in SecureStore if provided (don't create profile yet)
+        if (referralCodeInput.trim()) {
+          await ReferralStorage.storeReferralCode(referralCodeInput.trim());
         }
 
         router.replace("/onboarding");

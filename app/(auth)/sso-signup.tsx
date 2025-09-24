@@ -1,26 +1,37 @@
 import { useUser } from "@clerk/clerk-expo";
-import { useMutation } from "convex/react";
 import { Link, useRouter } from "expo-router";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { api } from "../../convex/_generated/api";
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
-import { generateReferralCode } from "../../utils/referral";
 import { ReferralStorage } from "../../utils/referralStorage";
 
 export default function SSOSignUpScreen() {
   const router = useRouter();
   const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
-  const createOrUpdateUserProfile = useMutation(api.userProfile.createOrUpdate);
-  const incrementReferralCount = useMutation(api.userProfile.incrementReferralCount);
   const { user, isLoaded } = useUser();
 
   // Track if we've already processed this user to avoid duplicate processing
   const processedUserRef = useRef<string | null>(null);
 
-  // Handle referral processing for social sign-ins
-  const handleSocialSignupComplete = async (userId: string) => {
+  // Log any existing referral code for debugging
+  useEffect(() => {
+    const logExistingReferralCode = async () => {
+      try {
+        const storedCode = await ReferralStorage.getReferralCode();
+        if (storedCode) {
+          console.log("SSO Signup: Found existing referral code in SecureStore:", storedCode);
+        }
+      } catch (error) {
+        console.error("Error checking existing referral code:", error);
+      }
+    };
+
+    logExistingReferralCode();
+  }, []);
+
+  // Handle redirect after SSO authentication
+  const handleSocialSignupComplete = useCallback(async (userId: string) => {
     console.log("Processing social signup for user:", userId);
 
     // Prevent duplicate processing
@@ -29,47 +40,20 @@ export default function SSOSignUpScreen() {
       return;
     }
 
-    try {
-      // Get referral code from secure storage
-      const storedReferralCode = await ReferralStorage.getReferralCode();
-
-      // Generate unique referral code for the new user
-      const userFullName = `${user?.firstName || ""} ${user?.lastName || ""}`.trim();
-      const newReferralCode = generateReferralCode(userFullName);
-
-      // Create user profile with referral data
-      await createOrUpdateUserProfile({
-        referralCode: newReferralCode,
-        referredBy: storedReferralCode || undefined,
-        referralCount: 0,
-      });
-
-      // Handle referral count increment if there was a referrer
-      if (storedReferralCode) {
-        try {
-          await incrementReferralCount({ referralCode: storedReferralCode });
-          console.log("Referral count incremented for code:", storedReferralCode);
-        } catch (referralError) {
-          console.error("Error incrementing referral count:", referralError);
-          // Don't fail the whole process if referral increment fails
-        }
-      }
-
-      // Clear stored referral code after successful signup
-      if (storedReferralCode) {
-        await ReferralStorage.removeReferralCode();
-      }
-
-      // Mark this user as processed
-      processedUserRef.current = userId;
-
-      console.log("Social signup processing completed successfully");
-      router.replace("/onboarding");
-    } catch (error) {
-      console.error("Error processing social signup:", error);
-      router.replace("/onboarding");
+    // Log that we're proceeding to onboarding (referral code should already be stored from app install)
+    const storedCode = await ReferralStorage.getReferralCode();
+    if (storedCode) {
+      console.log("SSO user proceeding to onboarding with stored referral code:", storedCode);
+    } else {
+      console.log("SSO user proceeding to onboarding without referral code");
     }
-  };
+
+    // Mark this user as processed
+    processedUserRef.current = userId;
+
+    console.log("Social signup processing completed successfully");
+    router.replace("/onboarding");
+  }, [router]);
 
   // useEffect to handle user state changes after SSO
   useEffect(() => {
@@ -78,7 +62,7 @@ export default function SSOSignUpScreen() {
       console.log("User detected after SSO, processing...");
       handleSocialSignupComplete(user.id);
     }
-  }, [isLoaded, user]); // Dependencies: when user loads or changes
+  }, [isLoaded, user, handleSocialSignupComplete]); // Dependencies: when user loads or changes
 
   return (
     <KeyboardAwareScrollView
@@ -129,7 +113,7 @@ export default function SSOSignUpScreen() {
 
       {/* Terms Text */}
       <Text className="text-xs text-gray-500 text-center mb-0">
-        By joining, you're cool with our
+        By joining, you&apos;re cool with our
         <Text className="text-blue-600"> Terms</Text> and <Text className="text-blue-600">Privacy Policy</Text>
       </Text>
       <Text className="text-xs text-gray-500 text-center mb-6">Respect, privacy, and good vibes only</Text>
