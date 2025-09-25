@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+import { useAuth } from "@clerk/clerk-expo";
 import { useQuery } from "convex/react";
 import { router } from "expo-router";
 import { Settings } from "lucide-react-native";
@@ -9,19 +9,6 @@ import { Spinner } from "../Spinner";
 import { DailyOverview } from "./DailyOverview";
 import { DaySelector } from "./DaySelector";
 import { WellnessScoreCard } from "./WellnessScoreCard";
-=======
-import React, { useState, useEffect, useMemo } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
-import { Link, router } from 'expo-router';
-import { Settings } from 'lucide-react-native';
-import { useQuery } from 'convex/react';
-import { useAuth } from '@clerk/clerk-expo';
-import { api } from '../../convex/_generated/api';
-import { WellnessScoreCard } from './WellnessScoreCard';
-import { DaySelector } from './DaySelector';
-import { DailyOverview } from './DailyOverview';
-import { Spinner } from '../Spinner';
->>>>>>> tracker
 
 interface DailyMetrics {
   steps: number;
@@ -37,13 +24,7 @@ interface HomeDashboardProps {
   userName?: string;
 }
 
-<<<<<<< HEAD
-export function HomeDashboard({ userId, userName, initialWeeklyData = [], initialAverageScore = 71 }: HomeDashboardProps) {
-=======
-export function HomeDashboard({
-  userName
-}: HomeDashboardProps) {
->>>>>>> tracker
+export function HomeDashboard({ userName }: HomeDashboardProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isSignedIn } = useAuth();
@@ -61,59 +42,55 @@ export function HomeDashboard({
   }, [selectedDate]);
 
   // Query all 5 tables simultaneously - only when authenticated
-  const stepEntries = useQuery(api.stepEntry.getByUserId, isSignedIn ? {
-    startTime,
-<<<<<<< HEAD
-    endTime,
-  });
+  const stepEntries = useQuery(
+    api.stepEntry.getByUserId,
+    isSignedIn
+      ? {
+          startTime,
+          endTime,
+        }
+      : "skip"
+  );
 
-  const waterEntries = useQuery(api.waterIntake.getByUserId, {
-    userID: userId,
-    startTime,
-    endTime,
-  });
+  const waterEntries = useQuery(
+    api.waterIntake.getByUserId,
+    isSignedIn
+      ? {
+          startTime,
+          endTime,
+        }
+      : "skip"
+  );
 
-  const mealEntries = useQuery(api.mealEntry.getByUserId, {
-    userID: userId,
-    startTime,
-    endTime,
-  });
+  const mealEntries = useQuery(
+    api.mealEntry.getByUserId,
+    isSignedIn
+      ? {
+          startTime,
+          endTime,
+        }
+      : "skip"
+  );
 
-  const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId, {
-    userID: userId,
-    startTime,
-    endTime,
-  });
+  const mindfulnessEntries = useQuery(
+    api.mindfulnessEntry.getByUserId,
+    isSignedIn
+      ? {
+          startTime,
+          endTime,
+        }
+      : "skip"
+  );
 
-  const sleepEntries = useQuery(api.sleepEntry.getByUserId, {
-    userID: userId,
-    startTime,
-    endTime,
-  });
-=======
-    endTime
-  } : "skip");
-
-  const waterEntries = useQuery(api.waterIntake.getByUserId, isSignedIn ? {
-    startTime,
-    endTime
-  } : "skip");
-
-  const mealEntries = useQuery(api.mealEntry.getByUserId, isSignedIn ? {
-    startTime,
-    endTime
-  } : "skip");
-
-  const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId, isSignedIn ? {
-    startTime,
-    endTime
-  } : "skip");
-
-  const sleepEntries = useQuery(api.sleepEntry.getByUserId, isSignedIn ? {
-    startTime,
-    endTime
-  } : "skip");
->>>>>>> tracker
+  const sleepEntries = useQuery(
+    api.sleepEntry.getByUserId,
+    isSignedIn
+      ? {
+          startTime,
+          endTime,
+        }
+      : "skip"
+  );
 
   // Calculate aggregated data from queries
   const selectedDateData = useMemo(() => {
