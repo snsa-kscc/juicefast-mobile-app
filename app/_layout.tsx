@@ -47,13 +47,21 @@ function AuthenticatedLayout() {
   const router = useRouter();
 
   useEffect(() => {
+    if (!isLoaded) return; // Wait for auth to load
+
     if (isSignedIn && user) {
+      // User is signed in - check onboarding status
       const isOnboardingCompleted = user.unsafeMetadata?.onboardingCompleted === true;
       if (isOnboardingCompleted) {
         router.replace("/(tabs)");
+      } else {
+        router.replace("/onboarding");
       }
+    } else {
+      // User is not signed in - redirect to signup
+      router.replace("/(auth)/sso-signup");
     }
-  }, [isSignedIn, user, router]);
+  }, [isSignedIn, user, isLoaded, router]);
 
   if (!isLoaded) {
     return null;
