@@ -32,6 +32,7 @@ import {
 } from 'lucide-react-native';
 import { WellnessHeader } from '../components/ui/CustomHeader';
 import { UserProfile, calculateDailyCalories, getActivityLevelText } from '../schemas/UserProfileSchema';
+import { ActivityLevelPopup } from '../components/ActivityLevelPopup';
 
 
 
@@ -94,6 +95,7 @@ export default function ProfileScreen() {
   const [age, setAge] = useState<string>('');
   const [gender, setGender] = useState<string | undefined>();
   const [activityLevel, setActivityLevel] = useState<string | undefined>();
+  const [showActivityPopup, setShowActivityPopup] = useState(false);
 
   useEffect(() => {
     if (userProfile) {
@@ -333,14 +335,17 @@ export default function ProfileScreen() {
                 <Text className="text-sm font-medium text-gray-700 mb-2">Activity Level</Text>
                 <View className="flex-row items-center">
                   <Activity size={16} color="#9CA3AF" />
-                  <View className="flex-1 ml-2">
-                    <Select
-                      value={activityLevel}
-                      onValueChange={setActivityLevel}
-                      placeholder="Select activity level"
-                      options={activityOptions}
-                    />
-                  </View>
+                  <TouchableOpacity
+                    className="flex-1 ml-2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-3"
+                    onPress={() => setShowActivityPopup(true)}
+                  >
+                    <Text className={`text-gray-900 ${activityLevel ? '' : 'text-gray-500'}`}>
+                      {activityLevel
+                        ? activityOptions.find(opt => opt.value === activityLevel)?.label
+                        : 'Select activity level'
+                      }
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
 
@@ -528,6 +533,14 @@ export default function ProfileScreen() {
             </View>
           </View>
         )}
+
+        {/* Activity Level Popup */}
+        <ActivityLevelPopup
+          visible={showActivityPopup}
+          onClose={() => setShowActivityPopup(false)}
+          selectedValue={activityLevel}
+          onSelect={setActivityLevel}
+        />
       </ScrollView>
     </SafeAreaView>
   );
