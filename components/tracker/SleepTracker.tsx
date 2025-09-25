@@ -42,8 +42,8 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
     };
   }, []);
   
-  const sleepEntries = useQuery(api.sleepEntry.getByUserId, 
-    user?.id ? { userID: user.id, startTime: startTime, endTime: endTime } : "skip"
+  const sleepEntries = useQuery(api.sleepEntry.getByUserId,
+    user?.id ? { startTime: startTime, endTime: endTime } : "skip"
   );
   
   const totalHours = useMemo(() => {
@@ -119,9 +119,8 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
     });
     
     try {
-      await createSleepEntry({ 
-        userID: user.id, 
-        hoursSlept: hours, 
+      await createSleepEntry({
+        hoursSlept: hours,
         quality: sleepQuality,
         startTime: sleepStartTime,
         endTime: sleepEndTime
@@ -135,7 +134,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
     if (!user?.id) return;
     
     try {
-      await deleteSleepEntry({ userID: user.id, timestamp });
+      await deleteSleepEntry({ timestamp });
     } catch (error) {
       console.error("Failed to delete sleep entry:", error);
     }

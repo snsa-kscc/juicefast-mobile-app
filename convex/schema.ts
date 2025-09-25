@@ -45,5 +45,22 @@ export default defineSchema({
     meal_type: v.string(),
     timestamp: v.number(),
   })
+    .index("by_user_id", ["userID"]),
+
+  userProfile: defineTable({
+    userID: v.string(),
+    height: v.optional(v.number()),
+    weight: v.optional(v.number()),
+    age: v.optional(v.number()),
+    gender: v.optional(v.string()),
+    activityLevel: v.optional(v.string()),
+    referralCode: v.string(),
+    referredBy: v.optional(v.string()),
+    referralCount: v.number(),
+    updatedAt: v.number(),
+  })
     .index("by_user_id", ["userID"])
+    .index("by_referral_code", ["referralCode"])
+    .index("by_referred_by", ["referredBy"]),
 });
+

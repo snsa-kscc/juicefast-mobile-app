@@ -1,6 +1,7 @@
-import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
+import { ClerkProvider, useAuth, useUser } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexReactClient } from "convex/react";
+import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { useFonts } from "expo-font";
 import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
@@ -8,6 +9,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
 import "../styles/global.css";
+import { handleAppInstallWithReferral } from "../utils/appInstallHandler";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
@@ -40,14 +42,8 @@ const SCREEN_OPTIONS = {
 
 function AuthenticatedLayout() {
   const { isSignedIn, isLoaded } = useAuth();
-  const { user } = require("@clerk/clerk-expo").useUser();
+  const { user } = useUser();
   const router = useRouter();
-
-  useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      router.replace("/(auth)/sign-in");
-    }
-  }, [isSignedIn, isLoaded]);
 
   useEffect(() => {
     if (isSignedIn && user) {
@@ -56,7 +52,7 @@ function AuthenticatedLayout() {
         router.replace("/(tabs)");
       }
     }
-  }, [isSignedIn, user]);
+  }, [isSignedIn, user, router]);
 
   if (!isLoaded) {
     return null;
@@ -83,13 +79,28 @@ function AuthenticatedLayout() {
 export default function RootLayout() {
   const [loaded] = useFonts(FONT_CONFIG);
 
+  // Handle referral code from app install
+  useEffect(() => {
+    const initializeReferral = async () => {
+      try {
+        await handleAppInstallWithReferral();
+      } catch (error) {
+        console.error("Error initializing referral system:", error);
+      }
+    };
+
+    if (loaded) {
+      initializeReferral();
+    }
+  }, [loaded]);
+
   if (!loaded) {
     return null;
   }
 
   return (
-    <ConvexProvider client={convex}>
-      <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         {/* <SafeAreaProvider>
           <SafeAreaView style={{ flex: 1 }}> */}
         <GestureHandlerRootView style={{ flex: 1 }}>
@@ -101,7 +112,7 @@ export default function RootLayout() {
         </GestureHandlerRootView>
         {/* </SafeAreaView>
         </SafeAreaProvider> */}
-      </ClerkProvider>
-    </ConvexProvider>
+      </ConvexProviderWithClerk>
+    </ClerkProvider>
   );
 }

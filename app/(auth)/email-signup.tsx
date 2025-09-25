@@ -1,14 +1,17 @@
-import { useSignUp } from "@clerk/clerk-expo";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TextInput, TouchableOpacity, View , Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useSocialSignIn } from "../../hooks/useSocialSignIn";
+import { useSignUp } from "@clerk/clerk-expo";
+import { ReferralStorage } from "../../utils/referralStorage";
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
-export default function SignUpScreen() {
+export default function EmailSignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
-  const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
+  const [referralCodeInput, setReferralCodeInput] = useState("");
+  const referralData = useQuery(api.userProfile.getByReferralCode, referralCodeInput.trim() ? { referralCode: referralCodeInput.trim() } : "skip");
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -21,14 +24,42 @@ export default function SignUpScreen() {
   const [error, setError] = useState("");
   const [verificationError, setVerificationError] = useState("");
 
+  // Load referral code from secure storage on component mount
+  React.useEffect(() => {
+    const loadReferralCode = async () => {
+      try {
+        const storedCode = await ReferralStorage.getReferralCode();
+        if (storedCode) {
+          setReferralCodeInput(storedCode);
+        }
+      } catch (error) {
+        console.error('Error loading referral code:', error);
+      }
+    };
+
+    loadReferralCode();
+  }, []);
+
   // Handle submission of sign-up form
   const onSignUpPress = async () => {
     if (!isLoaded || isLoading) return;
 
+    // Validate referral code if provided
+    if (referralCodeInput.trim()) {
+      if (referralData === undefined) {
+        // Query is still loading, prevent submission
+        Alert.alert("Loading", "Please wait while we validate your referral code.");
+        return;
+      }
+      if (!referralData) {
+        Alert.alert("Invalid Referral Code", "The referral code you entered is not valid. Please check and try again.");
+        return;
+      }
+    }
+
     setIsLoading(true);
-    setError(""); // Clear previous errors
-    
-    // Start sign-up process using email and password provided
+    setError("");
+
     try {
       await signUp.create({
         emailAddress,
@@ -41,20 +72,13 @@ export default function SignUpScreen() {
         },
       });
 
-      // Send user an email with verification code
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-
-      // Set 'pendingVerification' to true to display second form
-      // and capture OTP code
       setPendingVerification(true);
     } catch (err: any) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
       console.error("Sign up error:", err);
-      
-      // Extract user-friendly error message
+
       let errorMessage = "An error occurred during sign up. Please try again.";
-      
+
       if (err?.errors && err.errors.length > 0) {
         const firstError = err.errors[0];
         if (firstError.message) {
@@ -65,7 +89,7 @@ export default function SignUpScreen() {
       } else if (err?.message) {
         errorMessage = err.message;
       }
-      
+
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -77,33 +101,31 @@ export default function SignUpScreen() {
     if (!isLoaded || isVerifying) return;
 
     setIsVerifying(true);
-    setVerificationError(""); // Clear previous errors
-    
+    setVerificationError("");
+
     try {
-      // Use the code the user provided to attempt verification
       const signUpAttempt = await signUp.attemptEmailAddressVerification({
         code,
       });
 
-      // If verification was completed, set the session to active
-      // and redirect the user
       if (signUpAttempt.status === "complete") {
         await setActive({ session: signUpAttempt.createdSessionId });
+
+        // Store referral code in SecureStore if provided (don't create profile yet)
+        if (referralCodeInput.trim()) {
+          await ReferralStorage.storeReferralCode(referralCodeInput.trim());
+        }
+
         router.replace("/onboarding");
       } else {
-        // If the status is not complete, check why. User may need to
-        // complete further steps.
         setVerificationError("Verification incomplete. Please try again.");
         console.error("Sign up attempt incomplete:", signUpAttempt.status);
       }
     } catch (err: any) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
       console.error("Verification error:", err);
-      
-      // Extract user-friendly error message
+
       let errorMessage = "Invalid verification code. Please try again.";
-      
+
       if (err?.errors && err.errors.length > 0) {
         const firstError = err.errors[0];
         if (firstError.message) {
@@ -114,7 +136,7 @@ export default function SignUpScreen() {
       } else if (err?.message) {
         errorMessage = err.message;
       }
-      
+
       setVerificationError(errorMessage);
     } finally {
       setIsVerifying(false);
@@ -134,20 +156,30 @@ export default function SignUpScreen() {
             <Text className="text-white text-2xl font-bold">J</Text>
           </View>
           <Text className="text-2xl font-bold text-center mb-2">Verify your email</Text>
+          <Text className="text-gray-500 text-center">We sent you a verification code</Text>
         </View>
 
-        {/* Verification Error Message */}
         {verificationError ? (
           <View className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-4">
             <Text className="text-red-600 text-sm text-center">{verificationError}</Text>
           </View>
         ) : null}
 
-        <View className="bg-white rounded-xl px-4 py-4 mb-6">
-          <TextInput value={code} placeholder="Enter your verification code" className="text-base" onChangeText={(code) => setCode(code)} />
+        <View className="bg-gray-50 rounded-xl px-4 py-4 mb-6">
+          <TextInput
+            value={code}
+            placeholder="Enter your verification code"
+            className="text-base"
+            onChangeText={(code) => setCode(code)}
+            keyboardType="numeric"
+          />
         </View>
 
-        <TouchableOpacity onPress={onVerifyPress} className={`rounded-full py-4 ${isVerifying ? "bg-gray-600" : "bg-black"}`} disabled={isVerifying}>
+        <TouchableOpacity
+          onPress={onVerifyPress}
+          className={`rounded-full py-4 ${isVerifying ? "bg-gray-600" : "bg-black"}`}
+          disabled={isVerifying}
+        >
           <Text className="text-white text-center font-semibold text-base">{isVerifying ? "Verifying..." : "Verify"}</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
@@ -166,8 +198,8 @@ export default function SignUpScreen() {
         <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
           <Text className="text-white text-2xl font-bold">J</Text>
         </View>
-        <Text className="text-2xl font-bold text-center mb-2">Welcome to</Text>
-        <Text className="text-2xl font-bold text-center">Juicefast</Text>
+        <Text className="text-2xl font-bold text-center mb-2">Create your account</Text>
+        <Text className="text-gray-500 text-center">Sign up with your email</Text>
       </View>
 
       {/* Error Message */}
@@ -178,29 +210,40 @@ export default function SignUpScreen() {
       ) : null}
 
       {/* Form */}
-      <View className="space-y-4 mb-8">
-        <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
+      <View className="space-y-4 mb-6">
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
           <Text className="text-gray-400 mr-3">👤</Text>
-          <TextInput value={firstName} placeholder="First name" className="flex-1 text-base" onChangeText={(firstName) => setFirstName(firstName)} />
+          <TextInput
+            value={firstName}
+            placeholder="First name"
+            className="flex-1 text-base"
+            onChangeText={(firstName) => setFirstName(firstName)}
+          />
         </View>
 
-        <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
           <Text className="text-gray-400 mr-3">👤</Text>
-          <TextInput value={lastName} placeholder="Last name" className="flex-1 text-base" onChangeText={(lastName) => setLastName(lastName)} />
+          <TextInput
+            value={lastName}
+            placeholder="Last name"
+            className="flex-1 text-base"
+            onChangeText={(lastName) => setLastName(lastName)}
+          />
         </View>
 
-        <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
-          <Text className="text-gray-400 mr-3">✉</Text>
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
+          <Text className="text-gray-400 mr-3">✉️</Text>
           <TextInput
             autoCapitalize="none"
             value={emailAddress}
             placeholder="Email"
             className="flex-1 text-base"
             onChangeText={(email) => setEmailAddress(email)}
+            keyboardType="email-address"
           />
         </View>
 
-        <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
           <Text className="text-gray-400 mr-3">🔒</Text>
           <TextInput
             value={password}
@@ -210,11 +253,25 @@ export default function SignUpScreen() {
             onChangeText={(password) => setPassword(password)}
           />
         </View>
+
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
+          <Text className="text-gray-400 mr-3">🎟️</Text>
+          <TextInput
+            value={referralCodeInput}
+            placeholder="Referral code (optional)"
+            className="flex-1 text-base"
+            onChangeText={(referralCode) => setReferralCodeInput(referralCode)}
+          />
+        </View>
       </View>
 
       {/* Create Account Button */}
-      <TouchableOpacity onPress={onSignUpPress} className={`rounded-full py-4 mb-6 ${isLoading ? "bg-gray-600" : "bg-black"}`} disabled={isLoading}>
-        <Text className="text-white text-center font-semibold text-base">{isLoading ? "Signing..." : "Create account"}</Text>
+      <TouchableOpacity
+        onPress={onSignUpPress}
+        className={`rounded-full py-4 mb-6 ${isLoading ? "bg-gray-600" : "bg-black"}`}
+        disabled={isLoading}
+      >
+        <Text className="text-white text-center font-semibold text-base">{isLoading ? "Creating account..." : "Create account"}</Text>
       </TouchableOpacity>
 
       {/* Terms Text */}
@@ -223,37 +280,13 @@ export default function SignUpScreen() {
         marketing updates
       </Text>
 
-      {/* Checkbox */}
-      <View className="flex-row items-center mb-6">
-        <View className="w-5 h-5 border border-gray-300 rounded mr-3" />
-        <Text className="text-sm text-gray-600 flex-1">I don't want to receive updates and information via email</Text>
-      </View>
-
-      {/* Social Login Buttons */}
-      <View className="space-y-3 mb-8">
-        <TouchableOpacity onPress={signInWithFacebook} className="bg-black rounded-full py-4 flex-row items-center justify-center">
-          <Text className="text-white mr-2">f</Text>
-          <Text className="text-white font-semibold">Facebook</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={signInWithApple} className="bg-black rounded-full py-4 flex-row items-center justify-center">
-          <Text className="text-white mr-2">🍎</Text>
-          <Text className="text-white font-semibold">Apple</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={signInWithGoogle} className="bg-black rounded-full py-4 flex-row items-center justify-center">
-          <Text className="text-white mr-2">G</Text>
-          <Text className="text-white font-semibold">Google</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Sign In Link */}
-      <View className="flex-row justify-center">
-        <Text className="text-gray-500">Already have an account? </Text>
-        <Link href="/sign-in">
-          <Text className="text-black font-semibold">Log in</Text>
-        </Link>
-      </View>
+      {/* Back to SSO Button */}
+      <TouchableOpacity
+        onPress={() => router.back()}
+        className="bg-gray-50 rounded-full py-4 mb-8"
+      >
+        <Text className="text-gray-700 text-center font-semibold">← Back to all sign-up options</Text>
+      </TouchableOpacity>
     </KeyboardAwareScrollView>
   );
 }

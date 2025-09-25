@@ -1,14 +1,34 @@
-import { useSignIn } from "@clerk/clerk-expo";
+import { useSignIn, useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
+import { ReferralStorage } from "../../utils/referralStorage";
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn();
   const router = useRouter();
+  const { user } = useUser();
   const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
+  
+  // Handle referral processing for social sign-ins
+  const handleSocialSignInComplete = async () => {
+    try {
+      // For existing users signing in with social, check if profile exists
+      if (user) {
+        try {
+          await ReferralStorage.removeReferralCode();
+        } catch (error) {
+          console.log('No referral code to remove or error removing:', error);
+        }
+      }
+      router.replace("/onboarding");
+    } catch (error) {
+      console.error('Error processing social signin:', error);
+      router.replace("/onboarding");
+    }
+  };
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
@@ -124,17 +144,17 @@ export default function Page() {
 
       {/* Social Login Buttons */}
       <View className="space-y-3 mb-8">
-        <TouchableOpacity onPress={signInWithFacebook} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity onPress={() => signInWithFacebook(handleSocialSignInComplete)} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">f</Text>
           <Text className="text-white font-semibold">Facebook</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={signInWithApple} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity onPress={() => signInWithApple(handleSocialSignInComplete)} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">🍎</Text>
           <Text className="text-white font-semibold">Apple</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={signInWithGoogle} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity onPress={() => signInWithGoogle(handleSocialSignInComplete)} className="bg-black rounded-full py-4 flex-row items-center justify-center">
           <Text className="text-white mr-2">G</Text>
           <Text className="text-white font-semibold">Google</Text>
         </TouchableOpacity>
@@ -143,7 +163,7 @@ export default function Page() {
       {/* Sign Up Link */}
       <View className="flex-row justify-center">
         <Text className="text-gray-500">Not a member yet? </Text>
-        <Link href="/sign-up">
+        <Link href="/(auth)/sso-signup">
           <Text className="text-black font-semibold">Start your journey</Text>
         </Link>
       </View>

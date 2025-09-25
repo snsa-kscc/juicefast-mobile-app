@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useQuery } from "convex/react";
 import { router } from "expo-router";
 import { Settings } from "lucide-react-native";
@@ -8,6 +9,19 @@ import { Spinner } from "../Spinner";
 import { DailyOverview } from "./DailyOverview";
 import { DaySelector } from "./DaySelector";
 import { WellnessScoreCard } from "./WellnessScoreCard";
+=======
+import React, { useState, useEffect, useMemo } from 'react';
+import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
+import { Link, router } from 'expo-router';
+import { Settings } from 'lucide-react-native';
+import { useQuery } from 'convex/react';
+import { useAuth } from '@clerk/clerk-expo';
+import { api } from '../../convex/_generated/api';
+import { WellnessScoreCard } from './WellnessScoreCard';
+import { DaySelector } from './DaySelector';
+import { DailyOverview } from './DailyOverview';
+import { Spinner } from '../Spinner';
+>>>>>>> tracker
 
 interface DailyMetrics {
   steps: number;
@@ -20,15 +34,19 @@ interface DailyMetrics {
 }
 
 interface HomeDashboardProps {
-  userId: string;
   userName?: string;
-  initialWeeklyData?: any[];
-  initialAverageScore?: number;
 }
 
+<<<<<<< HEAD
 export function HomeDashboard({ userId, userName, initialWeeklyData = [], initialAverageScore = 71 }: HomeDashboardProps) {
+=======
+export function HomeDashboard({
+  userName
+}: HomeDashboardProps) {
+>>>>>>> tracker
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isSignedIn } = useAuth();
 
   // Calculate start and end timestamps for selected date
   const { startTime, endTime } = useMemo(() => {
@@ -42,10 +60,10 @@ export function HomeDashboard({ userId, userName, initialWeeklyData = [], initia
     };
   }, [selectedDate]);
 
-  // Query all 5 tables simultaneously
-  const stepEntries = useQuery(api.stepEntry.getByUserId, {
-    userId,
+  // Query all 5 tables simultaneously - only when authenticated
+  const stepEntries = useQuery(api.stepEntry.getByUserId, isSignedIn ? {
     startTime,
+<<<<<<< HEAD
     endTime,
   });
 
@@ -72,6 +90,30 @@ export function HomeDashboard({ userId, userName, initialWeeklyData = [], initia
     startTime,
     endTime,
   });
+=======
+    endTime
+  } : "skip");
+
+  const waterEntries = useQuery(api.waterIntake.getByUserId, isSignedIn ? {
+    startTime,
+    endTime
+  } : "skip");
+
+  const mealEntries = useQuery(api.mealEntry.getByUserId, isSignedIn ? {
+    startTime,
+    endTime
+  } : "skip");
+
+  const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId, isSignedIn ? {
+    startTime,
+    endTime
+  } : "skip");
+
+  const sleepEntries = useQuery(api.sleepEntry.getByUserId, isSignedIn ? {
+    startTime,
+    endTime
+  } : "skip");
+>>>>>>> tracker
 
   // Calculate aggregated data from queries
   const selectedDateData = useMemo(() => {
@@ -183,7 +225,11 @@ export function HomeDashboard({ userId, userName, initialWeeklyData = [], initia
         </View>
 
         {/* Daily Overview */}
-        {isLoading ? (
+        {!isSignedIn ? (
+          <View className="items-center py-8">
+            <Text className="text-gray-500">Please sign in to view your wellness data</Text>
+          </View>
+        ) : isLoading ? (
           <View className="items-center py-8">
             <Spinner size={32} />
             <Text className="text-gray-500 mt-2">Loading daily data...</Text>
