@@ -1,6 +1,6 @@
 export interface UserProfile {
   id: string;
-  height: number;
+  height?: number;
   weight?: number;
   age?: number;
   gender?: string;

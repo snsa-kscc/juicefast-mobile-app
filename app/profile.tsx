@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,12 +7,16 @@ import {
   TextInput,
   Alert,
   Image,
+  Share,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useClerk, useUser } from '@clerk/clerk-expo';
 import * as SecureStore from 'expo-secure-store';
+import * as Clipboard from 'expo-clipboard';
 import { AuthService } from '@/utils/auth';
+import { api } from '@/convex/_generated/api';
+import { useQuery, useMutation } from 'convex/react';
 import {
   User,
   Ruler,
@@ -21,28 +25,16 @@ import {
   Activity,
   LogOut,
   Settings,
-  Bell,
   Heart,
-  Award,
   Users,
   ChevronDown,
+  Copy,
 } from 'lucide-react-native';
 import { WellnessHeader } from '../components/ui/CustomHeader';
-import { UserProfile, User as UserType, calculateDailyCalories, getActivityLevelText } from '../schemas/UserProfileSchema';
+import { UserProfile, calculateDailyCalories, getActivityLevelText } from '../schemas/UserProfileSchema';
 
 
 
-const mockProfile: UserProfile = {
-  id: '1',
-  height: 175,
-  weight: 70,
-  age: 30,
-  gender: 'male',
-  activityLevel: 'moderate',
-  referralCode: 'JOHN123',
-  referralCount: 3,
-  referrals: [],
-};
 
 interface SelectProps {
   value: string | undefined;
@@ -89,36 +81,63 @@ function Select({ value, onValueChange, placeholder, options }: SelectProps) {
 export default function ProfileScreen() {
   const router = useRouter();
   const { user } = useUser();
-  const [profile, setProfile] = useState<UserProfile | null>(mockProfile);
+  const userProfile = useQuery(api.userProfile.getByUserId);
+  const updateUserProfile = useMutation(api.userProfile.createOrUpdate);
+
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   // Form state
-  const [height, setHeight] = useState<string>(mockProfile?.height?.toString() || '170');
-  const [weight, setWeight] = useState<string>(mockProfile?.weight?.toString() || '');
-  const [age, setAge] = useState<string>(mockProfile?.age?.toString() || '');
-  const [gender, setGender] = useState<string | undefined>(mockProfile?.gender);
-  const [activityLevel, setActivityLevel] = useState<string | undefined>(mockProfile?.activityLevel);
+  const [height, setHeight] = useState<string>('');
+  const [weight, setWeight] = useState<string>('');
+  const [age, setAge] = useState<string>('');
+  const [gender, setGender] = useState<string | undefined>();
+  const [activityLevel, setActivityLevel] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (userProfile) {
+      const adaptedProfile: UserProfile = {
+        id: userProfile.userID,
+        height: userProfile.height,
+        weight: userProfile.weight,
+        age: userProfile.age,
+        gender: userProfile.gender,
+        activityLevel: userProfile.activityLevel as any,
+        referralCode: userProfile.referralCode,
+        referredBy: userProfile.referredBy,
+        referralCount: userProfile.referralCount,
+        referrals: [],
+      };
+      setProfile(adaptedProfile);
+      setHeight(userProfile.height?.toString() || '');
+      setWeight(userProfile.weight?.toString() || '');
+      setAge(userProfile.age?.toString() || '');
+      setGender(userProfile.gender);
+      setActivityLevel(userProfile.activityLevel);
+    }
+  }, [userProfile]);
 
   const handleSaveProfile = async () => {
     try {
       setIsLoading(true);
 
-      const updatedProfile: UserProfile = {
-        id: user?.id || '1',
-        height: parseInt(height) || 170,
+      if (!profile?.referralCode) {
+        Alert.alert('Error', 'Referral code is required');
+        return;
+      }
+
+      await updateUserProfile({
+        height: height ? parseInt(height) : undefined,
         weight: weight ? parseInt(weight) : undefined,
         age: age ? parseInt(age) : undefined,
-        gender: gender || '',
-        activityLevel: (activityLevel as any) || 'moderate',
-        referralCode: profile?.referralCode,
-        referredBy: profile?.referredBy,
-        referralCount: profile?.referralCount || 0,
-        referrals: profile?.referrals || [],
-      };
+        gender: gender,
+        activityLevel: activityLevel,
+        referralCode: profile.referralCode,
+        referredBy: profile.referredBy,
+        referralCount: profile.referralCount,
+      });
 
-      // TODO: Save to actual data source
-      setProfile(updatedProfile);
       setIsEditing(false);
       Alert.alert('Success', 'Profile updated successfully!');
     } catch (error) {
@@ -153,6 +172,37 @@ export default function ProfileScreen() {
         },
       ]
     );
+  };
+
+  const handleCopyReferralLink = async () => {
+    if (!profile?.referralCode) return;
+
+    try {
+      const referralLink = `https://juicefast.app/referral?code=${profile.referralCode}`;
+      await Clipboard.setStringAsync(referralLink);
+      Alert.alert('Success', 'Referral link copied to clipboard!');
+    } catch (error) {
+      console.error('Failed to copy link:', error);
+      Alert.alert('Error', 'Failed to copy referral link');
+    }
+  };
+
+  const handleShareReferralLink = async () => {
+    if (!profile?.referralCode) return;
+
+    try {
+      const referralLink = `https://juicefast.app/referral?code=${profile.referralCode}`;
+      const message = `Finally, a nutrition app that actually works. Get yours free here - ${referralLink}`;
+
+      await Share.share({
+        message,
+        url: referralLink,
+        title: 'Join Juicefast - Your Personal Nutrition App'
+      });
+    } catch (error) {
+      console.error('Failed to share link:', error);
+      Alert.alert('Error', 'Failed to share referral link');
+    }
   };
 
   const genderOptions = [
@@ -204,16 +254,7 @@ export default function ProfileScreen() {
               <Text className="ml-3 text-gray-900 font-medium">Edit Profile</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="flex-row items-center p-3 bg-gray-50 rounded-lg">
-              <Bell size={20} color="#6B7280" />
-              <Text className="ml-3 text-gray-900 font-medium">Notifications</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity className="flex-row items-center p-3 bg-gray-50 rounded-lg">
-              <Award size={20} color="#6B7280" />
-              <Text className="ml-3 text-gray-900 font-medium">Goals & Targets</Text>
-            </TouchableOpacity>
-
+  
             <TouchableOpacity
               className="flex-row items-center p-3 bg-red-50 rounded-lg"
               onPress={handleLogout}
@@ -332,7 +373,7 @@ export default function ProfileScreen() {
                     </View>
                     <View>
                       <Text className="text-sm text-gray-500">Height</Text>
-                      <Text className="font-medium">{profile?.height || '-'} cm</Text>
+                      <Text className="font-medium">{profile?.height ?? '-'}</Text>
                     </View>
                   </View>
                 </View>
@@ -344,7 +385,7 @@ export default function ProfileScreen() {
                     </View>
                     <View>
                       <Text className="text-sm text-gray-500">Weight</Text>
-                      <Text className="font-medium">{profile?.weight || '-'} kg</Text>
+                      <Text className="font-medium">{profile?.weight ?? '-'} kg</Text>
                     </View>
                   </View>
                 </View>
@@ -356,7 +397,7 @@ export default function ProfileScreen() {
                     </View>
                     <View>
                       <Text className="text-sm text-gray-500">Age</Text>
-                      <Text className="font-medium">{profile?.age || '-'}</Text>
+                      <Text className="font-medium">{profile?.age ?? '-'}</Text>
                     </View>
                   </View>
                 </View>
@@ -369,7 +410,7 @@ export default function ProfileScreen() {
                     <View>
                       <Text className="text-sm text-gray-500">Gender</Text>
                       <Text className="font-medium">
-                        {profile?.gender ? profile.gender.charAt(0).toUpperCase() + profile.gender.slice(1) : '-'}
+                        {profile?.gender ?? '-'}
                       </Text>
                     </View>
                   </View>
@@ -410,7 +451,7 @@ export default function ProfileScreen() {
                 <View className="flex-row items-center justify-between mb-2">
                   <Heart size={20} color="#EF4444" />
                   <Text className="text-lg font-bold">
-                    {profile?.weight && profile?.height 
+                    {profile?.weight && profile?.height
                       ? (profile.weight / Math.pow(profile.height / 100, 2)).toFixed(1)
                       : '-'
                     }
@@ -453,7 +494,7 @@ export default function ProfileScreen() {
         {profile?.referralCode && (
           <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
             <Text className="text-lg font-bold mb-4">Referral Program</Text>
-            
+
             <View className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 mb-4">
               <View className="flex-row items-center justify-between mb-2">
                 <Users size={20} color="#3B82F6" />
@@ -461,6 +502,29 @@ export default function ProfileScreen() {
               </View>
               <Text className="text-sm font-medium text-gray-600 mb-2">Referrals Made</Text>
               <Text className="text-xs text-gray-500">Your code: {profile.referralCode}</Text>
+            </View>
+
+            <View className="space-y-3">
+              <View className="bg-gray-50 rounded-lg p-3">
+                <View className="flex-row items-center justify-between">
+                  <Text className="text-sm text-gray-600 flex-1 mr-2" numberOfLines={2}>
+                    {profile?.referralCode ? `https://juicefast.app/referral?code=${profile.referralCode}` : '-'}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={handleCopyReferralLink}
+                    className="p-2"
+                  >
+                    <Copy size={16} color="#6B7280" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                className="flex-row items-center justify-center bg-purple-500 py-3 rounded-lg"
+                onPress={handleShareReferralLink}
+              >
+                <Text className="text-white font-medium">Share Link</Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
