@@ -41,3 +41,7 @@ eas.json
 *.tsbuildinfo
 
 app-example
+
+# Native
+ios/
+android/

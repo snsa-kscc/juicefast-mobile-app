@@ -1,77 +1,74 @@
-import { Tabs } from "expo-router";
-import { Heart, Home, MessageCircle, Store, Users } from 'lucide-react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Platform } from 'react-native';
+import { Badge, Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
-  
+
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: '#ffffff',
-          borderTopWidth: 1,
-          borderTopColor: '#e5e5e5',
-          height: Platform.OS === 'ios' ? 80 + insets.bottom : 70,
-          paddingBottom: Platform.OS === 'ios' ? insets.bottom + 10 : 10,
-          paddingTop: 10,
-        },
-        tabBarActiveTintColor: '#000000',
-        tabBarInactiveTintColor: '#9ca3af',
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontFamily: 'Lufga-Medium',
-        },
-      }}
+    <NativeTabs
+    // screenOptions={{
+    //   headerShown: false,
+    //   tabBarStyle: {
+    //     backgroundColor: "#ffffff",
+    //     borderTopWidth: 1,
+    //     borderTopColor: "#e5e5e5",
+    //     height: Platform.OS === "ios" ? 80 + insets.bottom : 70,
+    //     paddingBottom: Platform.OS === "ios" ? insets.bottom + 10 : 10,
+    //     paddingTop: 10,
+    //   },
+    //   tabBarActiveTintColor: "#000000",
+    //   tabBarInactiveTintColor: "#9ca3af",
+    //   tabBarLabelStyle: {
+    //     fontSize: 12,
+    //     fontFamily: "Lufga-Medium",
+    //   },
+    // }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <Home size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="tracker"
-        options={{
-          title: 'Tracker',
-          tabBarIcon: ({ color, size }) => (
-            <Heart size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="store"
-        options={{
-          title: 'Store',
-          tabBarIcon: ({ color, size }) => (
-            <Store size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="chat"
-        options={{
-          title: 'Chat',
-          tabBarIcon: ({ color, size }) => (
-            <MessageCircle size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="club"
-        options={{
-          title: 'JF Club',
-          tabBarIcon: ({ color, size }) => (
-            <Users size={size} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+      <NativeTabs.Trigger name="index">
+        <Label>Home</Label>
+        <Icon sf={{ default: "house", selected: "house.fill" }} drawable="my_custom_home" />
+      </NativeTabs.Trigger>
+      {/* options={{
+          title: "Home",
+          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+        }} */}
+
+      <NativeTabs.Trigger name="tracker">
+        <Label>Tracker</Label>
+        <Icon sf={{ default: "heart", selected: "heart.fill" }} drawable="ic_menu_heart" />
+      </NativeTabs.Trigger>
+      {/* options={{
+          title: "Tracker",
+          tabBarIcon: ({ color, size }) => <Heart size={size} color={color} />,
+         }} */}
+
+      <NativeTabs.Trigger name="store">
+        <Label>Store</Label>
+        <Icon sf={{ default: "bag", selected: "bag.fill" }} drawable="stat_notify_chat" />
+      </NativeTabs.Trigger>
+      {/* options={{
+          title: "Store",
+          tabBarIcon: ({ color, size }) => <Store size={size} color={color} />,
+         }} */}
+
+      <NativeTabs.Trigger name="chat">
+        <Label>Chat</Label>
+        <Icon sf={{ default: "message", selected: "message.fill" }} drawable="ic_dialog_email" />
+        <Badge>4</Badge>
+      </NativeTabs.Trigger>
+      {/* options={{
+          title: "Chat",
+          tabBarIcon: ({ color, size }) => <MessageCircle size={size} color={color} />,
+         }} */}
+
+      <NativeTabs.Trigger name="club">
+        <Label>JF Club</Label>
+        <Icon sf={{ default: "person.2", selected: "person.2.fill" }} drawable="ic_menu_club" />
+      </NativeTabs.Trigger>
+      {/* options={{
+          title: "JF Club",
+          tabBarIcon: ({ color, size }) => <Users size={size} color={color} />,
+        }} */}
+    </NativeTabs>
   );
 }
-

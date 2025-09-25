@@ -1,15 +1,15 @@
 import { ClerkProvider, useAuth, useUser } from "@clerk/clerk-expo";
-import { tokenCache } from '@clerk/clerk-expo/token-cache'
+import { tokenCache } from "@clerk/clerk-expo/token-cache";
+import { ConvexReactClient } from "convex/react";
+import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { useFonts } from "expo-font";
 import { Stack, useRouter } from "expo-router";
+import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { ConvexProviderWithClerk } from "convex/react-clerk";
-import { ConvexReactClient } from "convex/react";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
 import "../styles/global.css";
-import { useEffect } from "react";
 import { handleAppInstallWithReferral } from "../utils/appInstallHandler";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
@@ -46,16 +46,22 @@ function AuthenticatedLayout() {
   const { user } = useUser();
   const router = useRouter();
 
-  
-  
   useEffect(() => {
+    if (!isLoaded) return; // Wait for auth to load
+
     if (isSignedIn && user) {
+      // User is signed in - check onboarding status
       const isOnboardingCompleted = user.unsafeMetadata?.onboardingCompleted === true;
       if (isOnboardingCompleted) {
-        router.replace('/(tabs)');
+        router.replace("/(tabs)");
+      } else {
+        router.replace("/onboarding");
       }
+    } else {
+      // User is not signed in - redirect to signup
+      router.replace("/(auth)/sso-signup");
     }
-  }, [isSignedIn, user, router]);
+  }, [isSignedIn, user, isLoaded, router]);
 
   if (!isLoaded) {
     return null;
@@ -88,7 +94,7 @@ export default function RootLayout() {
       try {
         await handleAppInstallWithReferral();
       } catch (error) {
-        console.error('Error initializing referral system:', error);
+        console.error("Error initializing referral system:", error);
       }
     };
 

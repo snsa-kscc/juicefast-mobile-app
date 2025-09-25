@@ -45,7 +45,6 @@ export const useSocialSignIn = () => {
         // redundant block
         if (signUp) {
           try {
-            console.log("BAM!!!!!!");
             await signUp.update({
               unsafeMetadata: {
                 role: "user",

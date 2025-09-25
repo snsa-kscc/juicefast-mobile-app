@@ -1,8 +1,8 @@
-import { usePathname, useRouter } from 'expo-router';
-import { Heart, Home, MessageCircle, Store, Users } from 'lucide-react-native';
-import React from 'react';
-import { Platform, Text, TouchableOpacity, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { usePathname, useRouter } from "expo-router";
+import { Heart, Home, MessageCircle, Store, Users } from "lucide-react-native";
+import React from "react";
+import { Platform, Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface TabItem {
   name: string;
@@ -12,11 +12,11 @@ interface TabItem {
 }
 
 const tabs: TabItem[] = [
-  { name: 'index', route: '/', title: 'Home', icon: Home },
-  { name: 'tracker', route: '/tracker', title: 'Tracker', icon: Heart },
-  { name: 'store', route: '/store', title: 'Store', icon: Store },
-  { name: 'chat', route: '/chat', title: 'Chat', icon: MessageCircle },
-  { name: 'club', route: '/club', title: 'JF Club', icon: Users },
+  { name: "index", route: "/", title: "Home", icon: Home },
+  { name: "tracker", route: "/tracker", title: "Tracker", icon: Heart },
+  { name: "store", route: "/store", title: "Store", icon: Store },
+  { name: "chat", route: "/chat", title: "Chat", icon: MessageCircle },
+  { name: "club", route: "/club", title: "JF Club", icon: Users },
 ];
 
 export function CustomBottomNavigation() {
@@ -29,25 +29,25 @@ export function CustomBottomNavigation() {
   };
 
   const isActive = (route: string) => {
-    if (route === '/') {
-      return pathname === '/';
+    if (route === "/") {
+      return pathname === "/";
     }
     return pathname.startsWith(route);
   };
 
   return (
-    <View 
+    <View
       style={{
-        backgroundColor: '#ffffff',
+        backgroundColor: "#ffffff",
         borderTopWidth: 1,
-        borderTopColor: '#e5e5e5',
-        height: Platform.OS === 'ios' ? 80 + insets.bottom : 70,
-        paddingBottom: Platform.OS === 'ios' ? insets.bottom + 10 : 10,
+        borderTopColor: "#e5e5e5",
+        height: Platform.OS === "ios" ? 80 + insets.bottom : 70,
+        paddingBottom: Platform.OS === "ios" ? insets.bottom + 10 : 10,
         paddingTop: 8,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        position: 'absolute',
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        position: "absolute",
         bottom: 0,
         left: 0,
         right: 0,
@@ -56,26 +56,23 @@ export function CustomBottomNavigation() {
       {tabs.map((tab) => {
         const active = isActive(tab.route);
         const IconComponent = tab.icon;
-        
+
         return (
           <TouchableOpacity
             key={tab.name}
             onPress={() => handleTabPress(tab.route)}
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
+              alignItems: "center",
+              justifyContent: "center",
               flex: 1,
             }}
           >
-            <IconComponent 
-              size={24} 
-              color={active ? '#000000' : '#9ca3af'} 
-            />
-            <Text 
+            <IconComponent size={24} color={active ? "#000000" : "#9ca3af"} />
+            <Text
               style={{
                 fontSize: 12,
-                fontFamily: 'Lufga-Medium',
-                color: active ? '#000000' : '#9ca3af',
+                fontFamily: "Lufga-Medium",
+                color: active ? "#000000" : "#9ca3af",
                 marginTop: 4,
               }}
             >
