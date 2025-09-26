@@ -10,6 +10,10 @@ import {
   Alert,
 } from 'react-native';
 import { Send, User } from 'lucide-react-native';
+import { useQuery, useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
+import { useUser } from '@clerk/clerk-expo';
 import { Spinner } from '@/components/Spinner';
 
 interface Nutritionist {
@@ -37,27 +41,21 @@ interface Message {
   timestamp: string;
 }
 
-interface NutritionistChatProps {
-  userId: string;
-  nutritionists: Nutritionist[];
-  activeSession?: ChatSession | null;
-  initialMessages: Message[];
-}
-
-export function NutritionistChat({ 
-  userId, 
-  nutritionists, 
-  activeSession, 
-  initialMessages 
-}: NutritionistChatProps) {
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+export function NutritionistChat() {
+  const { user } = useUser();
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedNutritionist, setSelectedNutritionist] = useState<Nutritionist | null>(
-    activeSession ? nutritionists.find(n => n.id === activeSession.nutritionistId) || null : null
-  );
-  const [currentSession, setCurrentSession] = useState<ChatSession | null>(activeSession || null);
+  const [selectedNutritionist, setSelectedNutritionist] = useState<Nutritionist | null>(null);
+  const [currentSession, setCurrentSession] = useState<ChatSession | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
+
+  // Convex hooks
+  const nutritionists = useQuery(api.nutritionistChat.getOnlineNutritionists);
+  const userSessions = useQuery(api.nutritionistChat.getUserSessions);
+  const sendMessage = useMutation(api.nutritionistChat.sendMessage);
+  const createSession = useMutation(api.nutritionistChat.createChatSession);
+  const endSession = useMutation(api.nutritionistChat.endChatSession);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -75,39 +73,47 @@ export function NutritionistChat({
       return;
     }
 
+    if (!user) {
+      Alert.alert('Error', 'Please sign in to start a chat session.');
+      return;
+    }
+
+    setIsLoading(true);
     setSelectedNutritionist(nutritionist);
-    
-    // Create new session (mock implementation)
-    const newSession: ChatSession = {
-      id: Date.now().toString(),
-      nutritionistId: nutritionist.id,
-      userId,
-      status: 'active',
-      createdAt: new Date().toISOString(),
-    };
-    
-    setCurrentSession(newSession);
-    
-    // Add welcome message from nutritionist
-    const welcomeMessage: Message = {
-      id: Date.now().toString(),
-      sessionId: newSession.id,
-      senderId: nutritionist.id,
-      senderType: 'nutritionist',
-      content: `Hi! I'm ${nutritionist.name}, your ${nutritionist.specialization}. I'm here to help you with your nutrition goals. How can I assist you today?`,
-      timestamp: new Date().toISOString(),
-    };
-    
-    setMessages([welcomeMessage]);
+
+    try {
+      // Create new session
+      const sessionId = await createSession({ nutritionistId: nutritionist.id });
+
+      const newSession: ChatSession = {
+        id: sessionId.toString(),
+        nutritionistId: nutritionist.id,
+        userId: user.id,
+        status: 'active',
+        createdAt: new Date().toISOString(),
+      };
+
+      setCurrentSession(newSession);
+
+      // Clear messages initially - real messages will be fetched
+      setMessages([]);
+
+    } catch (error) {
+      console.error('Failed to create session:', error);
+      Alert.alert('Error', 'Failed to start chat session. Please try again.');
+      setSelectedNutritionist(null);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const sendMessage = async () => {
-    if (!inputText.trim() || isLoading || !currentSession || !selectedNutritionist) return;
+  const handleSendMessage = async () => {
+    if (!inputText.trim() || isLoading || !currentSession || !selectedNutritionist || !user) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
       sessionId: currentSession.id,
-      senderId: userId,
+      senderId: user.id,
       senderType: 'user',
       content: inputText.trim(),
       timestamp: new Date().toISOString(),
@@ -117,19 +123,19 @@ export function NutritionistChat({
     setInputText('');
     setIsLoading(true);
 
-    // Simulate nutritionist response (replace with actual API call)
-    setTimeout(() => {
-      const nutritionistResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        sessionId: currentSession.id,
-        senderId: selectedNutritionist.id,
-        senderType: 'nutritionist',
-        content: generateNutritionistResponse(userMessage.content),
-        timestamp: new Date().toISOString(),
-      };
-      setMessages(prev => [...prev, nutritionistResponse]);
+    try {
+      await sendMessage({
+        sessionId: currentSession.id as Id<"chatSessions">,
+        content: inputText.trim()
+      });
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      Alert.alert('Error', 'Failed to send message. Please try again.');
+      // Remove the message from local state if send failed
+      setMessages(prev => prev.slice(0, -1));
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   const generateNutritionistResponse = (userInput: string): string => {
@@ -155,7 +161,9 @@ export function NutritionistChat({
     return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  const endSession = () => {
+  const handleEndSession = async () => {
+    if (!currentSession) return;
+
     Alert.alert(
       'End Session',
       'Are you sure you want to end this chat session?',
@@ -164,10 +172,16 @@ export function NutritionistChat({
         {
           text: 'End Session',
           style: 'destructive',
-          onPress: () => {
-            setCurrentSession(null);
-            setSelectedNutritionist(null);
-            setMessages([]);
+          onPress: async () => {
+            try {
+              await endSession({ sessionId: currentSession.id as Id<"chatSessions"> });
+              setCurrentSession(null);
+              setSelectedNutritionist(null);
+              setMessages([]);
+            } catch (error) {
+              console.error('Failed to end session:', error);
+              Alert.alert('Error', 'Failed to end session. Please try again.');
+            }
           },
         },
       ]
@@ -182,15 +196,16 @@ export function NutritionistChat({
         <Text className="text-gray-600 font-lufga mb-6">
           Connect with one of our certified nutritionists for personalized guidance
         </Text>
-        
+
         <ScrollView showsVerticalScrollIndicator={false}>
-          {nutritionists.map((nutritionist) => (
-            <TouchableOpacity
-              key={nutritionist.id}
-              className="bg-white rounded-xl p-4 mb-4 shadow-sm border border-gray-100"
-              onPress={() => startChatSession(nutritionist)}
-              disabled={!nutritionist.isOnline}
-            >
+          {nutritionists && nutritionists.length > 0 ? (
+            nutritionists.map((nutritionist) => (
+              <TouchableOpacity
+                key={nutritionist.id}
+                className="bg-white rounded-xl p-4 mb-4 shadow-sm border border-gray-100"
+                onPress={() => startChatSession(nutritionist)}
+                disabled={!nutritionist.isOnline || isLoading}
+              >
               <View className="flex-row items-center">
                 <View className="w-12 h-12 bg-[#E1D5B9] rounded-full items-center justify-center mr-4">
                   <User size={24} color="#8B7355" />
@@ -216,7 +231,18 @@ export function NutritionistChat({
                 </View>
               </View>
             </TouchableOpacity>
-          ))}
+            ))
+          ) : (
+            <View className="bg-white rounded-xl p-8 items-center">
+              <User size={48} color="#E1D5B9" />
+              <Text className="text-lg font-lufga-medium text-gray-900 mt-4">
+                No nutritionists available
+              </Text>
+              <Text className="text-sm font-lufga text-gray-600 text-center mt-2">
+                Please check back later when nutritionists are online.
+              </Text>
+            </View>
+          )}
         </ScrollView>
       </View>
     );
@@ -247,7 +273,7 @@ export function NutritionistChat({
           
           <TouchableOpacity
             className="bg-red-100 px-3 py-1 rounded-full"
-            onPress={endSession}
+            onPress={handleEndSession}
           >
             <Text className="text-red-600 text-xs font-lufga-medium">End Session</Text>
           </TouchableOpacity>
@@ -307,14 +333,13 @@ export function NutritionistChat({
             onChangeText={setInputText}
             multiline
             textAlignVertical="top"
-            onSubmitEditing={sendMessage}
-            blurOnSubmit={false}
+            onSubmitEditing={handleSendMessage}
           />
           <TouchableOpacity
             className={`p-3 m-1 rounded-xl ${
               inputText.trim() && !isLoading ? 'bg-[#E1D5B9]' : 'bg-gray-200'
             }`}
-            onPress={sendMessage}
+            onPress={handleSendMessage}
             disabled={!inputText.trim() || isLoading}
           >
             <Send 

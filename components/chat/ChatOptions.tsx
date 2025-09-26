@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
 import Svg, { Path, Rect } from "react-native-svg";
+import { useUser } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
 
 interface ChatOption {
   id: string;
@@ -22,6 +24,18 @@ const NutritionistIcon = () => (
     <Rect x="3" y="3" width="18" height="18" rx="4" stroke="#E1D5B9" strokeLinecap="round" strokeLinejoin="round" />
     <Path d="M7 8H17" stroke="#E1D5B9" strokeLinecap="round" strokeLinejoin="round" />
     <Path d="M7 16H12" stroke="#E1D5B9" strokeLinecap="round" strokeLinejoin="round" />
+  </Svg>
+);
+
+const DashboardIcon = () => (
+  <Svg width={54} height={54} viewBox="0 0 44 44" fill="none">
+    <Path d="M4 9H18" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
+    <Path d="M4 14H18" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
+    <Path d="M4 19H12" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
+    <Rect x="22" y="4" width="18" height="18" rx="4" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
+    <Path d="M26 10H36" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
+    <Path d="M26 14H36" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
+    <Path d="M26 18H31" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
   </Svg>
 );
 
@@ -71,32 +85,48 @@ const CHAT_OPTIONS: ChatOption[] = [
   },
 ];
 
+const NUTRITIONIST_OPTIONS: ChatOption[] = [
+  {
+    id: "dashboard",
+    name: "Nutritionist Dashboard",
+    description: "Manage your chat sessions and client communications",
+    icon: <DashboardIcon />,
+    route: "/nutritionist/dashboard",
+  },
+];
+
 export function ChatOptions({ onOptionPress, onSettingsPress }: ChatOptionsProps) {
+  const { user } = useUser();
+  const router = useRouter();
+
+  const isNutritionist = user?.unsafeMetadata?.role === "nutritionist";
+  const displayOptions = isNutritionist ? [...NUTRITIONIST_OPTIONS, ...CHAT_OPTIONS] : CHAT_OPTIONS;
+
   const handleOptionPress = (route: string) => {
     if (onOptionPress) {
       onOptionPress(route);
     } else {
-      // Default behavior - log for now until chat screens are implemented
-      console.log(`Navigate to: ${route}`);
+      // Use router for navigation
+      router.push(route as any);
     }
   };
 
   return (
     <View className="flex-1 bg-[#FCFBF8]">
       <WellnessHeader
-        title="Talk to us"
-        subtitle="Choose your chat experience"
-        accentColor="#4CC3FF"
+        title={isNutritionist ? "Nutritionist Portal" : "Talk to us"}
+        subtitle={isNutritionist ? "Manage your practice and client communications" : "Choose your chat experience"}
+        accentColor={isNutritionist ? "#8B7355" : "#4CC3FF"}
         onSettingsPress={onSettingsPress}
       />
-      
-      <ScrollView 
-        className="flex-1 px-4" 
+
+      <ScrollView
+        className="flex-1 px-4"
         showsVerticalScrollIndicator={false}
         contentContainerClassName="items-center pb-8"
       >
         <View className="w-full max-w-md space-y-4">
-          {CHAT_OPTIONS.map((option) => (
+          {displayOptions.map((option) => (
             <TouchableOpacity
               key={option.id}
               className="bg-white rounded-xl shadow-sm"
