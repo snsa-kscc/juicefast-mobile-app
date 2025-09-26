@@ -39,6 +39,7 @@ export default function NutritionistChatSession() {
 
   const sessionData = useQuery(api.nutritionistChat.getNutritionistSessions);
   const currentSession = sessionData?.find(s => s.id === sessionId);
+  const messagesData = useQuery(api.nutritionistChat.getMessages, sessionId ? { sessionId: sessionId as Id<"chatSessions"> } : "skip");
 
   const sendMessage = useMutation(api.nutritionistChat.sendMessage);
   const markAsRead = useMutation(api.nutritionistChat.markMessagesAsRead);
@@ -54,25 +55,18 @@ export default function NutritionistChatSession() {
       router.replace("/nutritionist/dashboard");
       return;
     }
-
-    // Fetch messages for this session
-    const fetchMessages = async () => {
-      try {
-        const response = await fetch(`/api/messages?sessionId=${sessionId}`);
-        const data = await response.json();
-        setMessages(data);
-
-        // Mark user messages as read
-        if (data.length > 0) {
-          await markAsRead({ sessionId: sessionId as Id<"chatSessions">, senderType: "user" });
-        }
-      } catch (error) {
-        console.error("Failed to fetch messages:", error);
-      }
-    };
-
-    fetchMessages();
   }, [sessionId, user]);
+
+  useEffect(() => {
+    if (messagesData) {
+      setMessages(messagesData);
+
+      // Mark user messages as read
+      if (messagesData.length > 0) {
+        markAsRead({ sessionId: sessionId as Id<"chatSessions">, senderType: "user" });
+      }
+    }
+  }, [messagesData, sessionId, markAsRead]);
 
   useEffect(() => {
     scrollToBottom();
@@ -216,8 +210,7 @@ export default function NutritionistChatSession() {
             multiline
             textAlignVertical="top"
             onSubmitEditing={handleSend}
-            blurOnSubmit={false}
-            editable={currentSession.status === "active"}
+                        editable={currentSession.status === "active"}
           />
           <TouchableOpacity
             className={`p-3 m-1 rounded-xl ${
