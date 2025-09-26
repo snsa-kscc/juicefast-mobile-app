@@ -2,7 +2,6 @@ import { usePathname, useRouter } from "expo-router";
 import { Heart, Home, MessageCircle, Store, Users } from "lucide-react-native";
 import React from "react";
 import { Platform, Text, TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface TabItem {
   name: string;
@@ -22,7 +21,7 @@ const tabs: TabItem[] = [
 export function CustomBottomNavigation() {
   const router = useRouter();
   const pathname = usePathname();
-  const insets = useSafeAreaInsets();
+  // const insets = useSafeAreaInsets();
 
   const handleTabPress = (route: string) => {
     router.push(route as any);
@@ -41,8 +40,8 @@ export function CustomBottomNavigation() {
         backgroundColor: "#ffffff",
         borderTopWidth: 1,
         borderTopColor: "#e5e5e5",
-        height: Platform.OS === "ios" ? 80 + insets.bottom : 70,
-        paddingBottom: Platform.OS === "ios" ? insets.bottom + 10 : 10,
+        // height: Platform.OS === "ios" ? 80 + insets.bottom : 70,
+        // paddingBottom: Platform.OS === "ios" ? insets.bottom + 10 : 10,
         paddingTop: 8,
         flexDirection: "row",
         justifyContent: "space-around",

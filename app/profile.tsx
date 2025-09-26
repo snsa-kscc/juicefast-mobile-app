@@ -1,40 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  Alert,
-  Image,
-  Share,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
-import { useClerk, useUser } from '@clerk/clerk-expo';
-import * as SecureStore from 'expo-secure-store';
-import * as Clipboard from 'expo-clipboard';
-import { AuthService } from '@/utils/auth';
-import { api } from '@/convex/_generated/api';
-import { useQuery, useMutation } from 'convex/react';
-import {
-  User,
-  Ruler,
-  Scale,
-  Calendar,
-  Activity,
-  LogOut,
-  Settings,
-  Heart,
-  Users,
-  ChevronDown,
-  Copy,
-} from 'lucide-react-native';
-import { WellnessHeader } from '../components/ui/CustomHeader';
-import { UserProfile, calculateDailyCalories, getActivityLevelText } from '../schemas/UserProfileSchema';
-
-
-
+import { api } from "@/convex/_generated/api";
+import { AuthService } from "@/utils/auth";
+import { useClerk, useUser } from "@clerk/clerk-expo";
+import { useMutation, useQuery } from "convex/react";
+import * as Clipboard from "expo-clipboard";
+import { useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
+import { Activity, Calendar, ChevronDown, Copy, Heart, LogOut, Ruler, Scale, Settings, User, Users } from "lucide-react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Image, ScrollView, Share, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { WellnessHeader } from "../components/ui/CustomHeader";
+import { UserProfile, calculateDailyCalories, getActivityLevelText } from "../schemas/UserProfileSchema";
 
 interface SelectProps {
   value: string | undefined;
@@ -52,12 +27,10 @@ function Select({ value, onValueChange, placeholder, options }: SelectProps) {
         className="flex-row items-center justify-between bg-gray-50 border border-gray-200 rounded-lg px-3 py-3"
         onPress={() => setIsOpen(!isOpen)}
       >
-        <Text className={`flex-1 ${value ? 'text-gray-900' : 'text-gray-500'}`}>
-          {value ? options.find(opt => opt.value === value)?.label : placeholder}
-        </Text>
+        <Text className={`flex-1 ${value ? "text-gray-900" : "text-gray-500"}`}>{value ? options.find((opt) => opt.value === value)?.label : placeholder}</Text>
         <ChevronDown size={20} color="#9CA3AF" />
       </TouchableOpacity>
-      
+
       {isOpen && (
         <View className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg mt-1 z-50 shadow-lg">
           {options.map((option) => (
@@ -89,9 +62,9 @@ export default function ProfileScreen() {
   const [isLoading, setIsLoading] = useState(false);
 
   // Form state
-  const [height, setHeight] = useState<string>('');
-  const [weight, setWeight] = useState<string>('');
-  const [age, setAge] = useState<string>('');
+  const [height, setHeight] = useState<string>("");
+  const [weight, setWeight] = useState<string>("");
+  const [age, setAge] = useState<string>("");
   const [gender, setGender] = useState<string | undefined>();
   const [activityLevel, setActivityLevel] = useState<string | undefined>();
 
@@ -110,9 +83,9 @@ export default function ProfileScreen() {
         referrals: [],
       };
       setProfile(adaptedProfile);
-      setHeight(userProfile.height?.toString() || '');
-      setWeight(userProfile.weight?.toString() || '');
-      setAge(userProfile.age?.toString() || '');
+      setHeight(userProfile.height?.toString() || "");
+      setWeight(userProfile.weight?.toString() || "");
+      setAge(userProfile.age?.toString() || "");
       setGender(userProfile.gender);
       setActivityLevel(userProfile.activityLevel);
     }
@@ -123,7 +96,7 @@ export default function ProfileScreen() {
       setIsLoading(true);
 
       if (!profile?.referralCode) {
-        Alert.alert('Error', 'Referral code is required');
+        Alert.alert("Error", "Referral code is required");
         return;
       }
 
@@ -139,10 +112,10 @@ export default function ProfileScreen() {
       });
 
       setIsEditing(false);
-      Alert.alert('Success', 'Profile updated successfully!');
+      Alert.alert("Success", "Profile updated successfully!");
     } catch (error) {
-      console.error('Failed to save profile:', error);
-      Alert.alert('Error', 'Failed to save profile');
+      console.error("Failed to save profile:", error);
+      Alert.alert("Error", "Failed to save profile");
     } finally {
       setIsLoading(false);
     }
@@ -151,39 +124,35 @@ export default function ProfileScreen() {
   const { signOut } = useClerk();
 
   const handleLogout = async () => {
-    Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Logout',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await signOut();
-              AuthService.clearToken();
-              await SecureStore.deleteItemAsync('REFERRAL_CODE');
-              router.replace('/(auth)/sso-signup');
-            } catch (error) {
-              console.error('Sign out error:', error);
-            }
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Logout",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            await signOut();
+            AuthService.clearToken();
+            await SecureStore.deleteItemAsync("REFERRAL_CODE");
+            router.replace("/(auth)/sso-signup");
+          } catch (error) {
+            console.error("Sign out error:", error);
           }
         },
-      ]
-    );
+      },
+    ]);
   };
 
   const handleCopyReferralLink = async () => {
     if (!profile?.referralCode) return;
 
     try {
-      const referralLink = `https://juicefast.app/referral?code=${profile.referralCode}`;
+      const referralLink = `https://juicefast.com/referral?code=${profile.referralCode}`;
       await Clipboard.setStringAsync(referralLink);
-      Alert.alert('Success', 'Referral link copied to clipboard!');
+      Alert.alert("Success", "Referral link copied to clipboard!");
     } catch (error) {
-      console.error('Failed to copy link:', error);
-      Alert.alert('Error', 'Failed to copy referral link');
+      console.error("Failed to copy link:", error);
+      Alert.alert("Error", "Failed to copy referral link");
     }
   };
 
@@ -191,74 +160,60 @@ export default function ProfileScreen() {
     if (!profile?.referralCode) return;
 
     try {
-      const referralLink = `https://juicefast.app/referral?code=${profile.referralCode}`;
+      const referralLink = `https://juicefast.com/referral?code=${profile.referralCode}`;
       const message = `Finally, a nutrition app that actually works. Get yours free here - ${referralLink}`;
 
       await Share.share({
         message,
         url: referralLink,
-        title: 'Join Juicefast - Your Personal Nutrition App'
+        title: "Join Juicefast - Your Personal Nutrition App",
       });
     } catch (error) {
-      console.error('Failed to share link:', error);
-      Alert.alert('Error', 'Failed to share referral link');
+      console.error("Failed to share link:", error);
+      Alert.alert("Error", "Failed to share referral link");
     }
   };
 
   const genderOptions = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
   ];
 
   const activityOptions = [
-    { label: 'Sedentary (little to no exercise)', value: 'sedentary' },
-    { label: 'Light (exercise 1-3 days/week)', value: 'light' },
-    { label: 'Moderate (exercise 3-5 days/week)', value: 'moderate' },
-    { label: 'Active (exercise 6-7 days/week)', value: 'active' },
-    { label: 'Very Active (professional athlete level)', value: 'very_active' },
+    { label: "Sedentary (little to no exercise)", value: "sedentary" },
+    { label: "Light (exercise 1-3 days/week)", value: "light" },
+    { label: "Moderate (exercise 3-5 days/week)", value: "moderate" },
+    { label: "Active (exercise 6-7 days/week)", value: "active" },
+    { label: "Very Active (professional athlete level)", value: "very_active" },
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <WellnessHeader
-        title="Profile"
-        subtitle="Manage your health profile"
-        showBackButton
-        onBackPress={() => router.back()}
-      />
-      
-      <ScrollView className="flex-1 px-6">
+    <View className="flex-1 bg-white">
+      <WellnessHeader title="Profile" subtitle="Manage your health profile" showBackButton onBackPress={() => router.back()} />
+
+      <ScrollView className="flex-1">
         {/* Profile Card */}
         <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
           <Text className="text-xl font-bold mb-4">Your Profile</Text>
-          
+
           <View className="items-center mb-6">
             <View className="w-24 h-24 rounded-full bg-blue-50 items-center justify-center mb-4 overflow-hidden">
-              {user?.imageUrl ? (
-                <Image source={{ uri: user.imageUrl }} className="w-full h-full" />
-              ) : (
-                <User size={48} color="#3B82F6" />
-              )}
+              {user?.imageUrl ? <Image source={{ uri: user.imageUrl }} className="w-full h-full" /> : <User size={48} color="#3B82F6" />}
             </View>
             <Text className="text-xl font-semibold text-center">
-              {user?.fullName || user?.firstName || (user?.emailAddresses?.[0]?.emailAddress ? user.emailAddresses[0].emailAddress.split('@')[0] : 'Health Tracker User')}
+              {user?.fullName ||
+                user?.firstName ||
+                (user?.emailAddresses?.[0]?.emailAddress ? user.emailAddresses[0].emailAddress.split("@")[0] : "Health Tracker User")}
             </Text>
           </View>
 
           <View className="space-y-3">
-            <TouchableOpacity
-              className="flex-row items-center p-3 bg-gray-50 rounded-lg"
-              onPress={() => setIsEditing(true)}
-            >
+            <TouchableOpacity className="flex-row items-center p-3 bg-gray-50 rounded-lg" onPress={() => setIsEditing(true)}>
               <Settings size={20} color="#6B7280" />
               <Text className="ml-3 text-gray-900 font-medium">Edit Profile</Text>
             </TouchableOpacity>
 
-  
-            <TouchableOpacity
-              className="flex-row items-center p-3 bg-red-50 rounded-lg"
-              onPress={handleLogout}
-            >
+            <TouchableOpacity className="flex-row items-center p-3 bg-red-50 rounded-lg" onPress={handleLogout}>
               <LogOut size={20} color="#EF4444" />
               <Text className="ml-3 text-red-500 font-medium">Log Out</Text>
             </TouchableOpacity>
@@ -267,9 +222,7 @@ export default function ProfileScreen() {
 
         {/* Profile Details */}
         <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
-          <Text className="text-xl font-bold mb-4">
-            {isEditing ? 'Edit Your Details' : 'Your Details'}
-          </Text>
+          <Text className="text-xl font-bold mb-4">{isEditing ? "Edit Your Details" : "Your Details"}</Text>
 
           {isEditing ? (
             <View className="space-y-4">
@@ -278,13 +231,7 @@ export default function ProfileScreen() {
                   <Text className="text-sm font-medium text-gray-700 mb-2">Height (cm)</Text>
                   <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-3">
                     <Ruler size={16} color="#9CA3AF" />
-                    <TextInput
-                      className="flex-1 ml-2 text-gray-900"
-                      value={height}
-                      onChangeText={setHeight}
-                      keyboardType="numeric"
-                      placeholder="170"
-                    />
+                    <TextInput className="flex-1 ml-2 text-gray-900" value={height} onChangeText={setHeight} keyboardType="numeric" placeholder="170" />
                   </View>
                 </View>
 
@@ -292,13 +239,7 @@ export default function ProfileScreen() {
                   <Text className="text-sm font-medium text-gray-700 mb-2">Weight (kg)</Text>
                   <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-3">
                     <Scale size={16} color="#9CA3AF" />
-                    <TextInput
-                      className="flex-1 ml-2 text-gray-900"
-                      value={weight}
-                      onChangeText={setWeight}
-                      keyboardType="numeric"
-                      placeholder="70"
-                    />
+                    <TextInput className="flex-1 ml-2 text-gray-900" value={weight} onChangeText={setWeight} keyboardType="numeric" placeholder="70" />
                   </View>
                 </View>
               </View>
@@ -308,24 +249,13 @@ export default function ProfileScreen() {
                   <Text className="text-sm font-medium text-gray-700 mb-2">Age</Text>
                   <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-3">
                     <Calendar size={16} color="#9CA3AF" />
-                    <TextInput
-                      className="flex-1 ml-2 text-gray-900"
-                      value={age}
-                      onChangeText={setAge}
-                      keyboardType="numeric"
-                      placeholder="30"
-                    />
+                    <TextInput className="flex-1 ml-2 text-gray-900" value={age} onChangeText={setAge} keyboardType="numeric" placeholder="30" />
                   </View>
                 </View>
 
                 <View className="flex-1">
                   <Text className="text-sm font-medium text-gray-700 mb-2">Gender</Text>
-                  <Select
-                    value={gender}
-                    onValueChange={setGender}
-                    placeholder="Select gender"
-                    options={genderOptions}
-                  />
+                  <Select value={gender} onValueChange={setGender} placeholder="Select gender" options={genderOptions} />
                 </View>
               </View>
 
@@ -334,32 +264,17 @@ export default function ProfileScreen() {
                 <View className="flex-row items-center">
                   <Activity size={16} color="#9CA3AF" />
                   <View className="flex-1 ml-2">
-                    <Select
-                      value={activityLevel}
-                      onValueChange={setActivityLevel}
-                      placeholder="Select activity level"
-                      options={activityOptions}
-                    />
+                    <Select value={activityLevel} onValueChange={setActivityLevel} placeholder="Select activity level" options={activityOptions} />
                   </View>
                 </View>
               </View>
 
               <View className="flex-row justify-end space-x-3 pt-4">
-                <TouchableOpacity
-                  className="px-6 py-3 bg-gray-100 rounded-lg"
-                  onPress={() => setIsEditing(false)}
-                  disabled={isLoading}
-                >
+                <TouchableOpacity className="px-6 py-3 bg-gray-100 rounded-lg" onPress={() => setIsEditing(false)} disabled={isLoading}>
                   <Text className="text-gray-700 font-medium">Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  className="px-6 py-3 bg-blue-500 rounded-lg"
-                  onPress={handleSaveProfile}
-                  disabled={isLoading}
-                >
-                  <Text className="text-white font-medium">
-                    {isLoading ? 'Saving...' : 'Save Changes'}
-                  </Text>
+                <TouchableOpacity className="px-6 py-3 bg-blue-500 rounded-lg" onPress={handleSaveProfile} disabled={isLoading}>
+                  <Text className="text-white font-medium">{isLoading ? "Saving..." : "Save Changes"}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -373,7 +288,7 @@ export default function ProfileScreen() {
                     </View>
                     <View>
                       <Text className="text-sm text-gray-500">Height</Text>
-                      <Text className="font-medium">{profile?.height ?? '-'}</Text>
+                      <Text className="font-medium">{profile?.height ?? "-"}</Text>
                     </View>
                   </View>
                 </View>
@@ -385,7 +300,7 @@ export default function ProfileScreen() {
                     </View>
                     <View>
                       <Text className="text-sm text-gray-500">Weight</Text>
-                      <Text className="font-medium">{profile?.weight ?? '-'} kg</Text>
+                      <Text className="font-medium">{profile?.weight ?? "-"} kg</Text>
                     </View>
                   </View>
                 </View>
@@ -397,7 +312,7 @@ export default function ProfileScreen() {
                     </View>
                     <View>
                       <Text className="text-sm text-gray-500">Age</Text>
-                      <Text className="font-medium">{profile?.age ?? '-'}</Text>
+                      <Text className="font-medium">{profile?.age ?? "-"}</Text>
                     </View>
                   </View>
                 </View>
@@ -409,9 +324,7 @@ export default function ProfileScreen() {
                     </View>
                     <View>
                       <Text className="text-sm text-gray-500">Gender</Text>
-                      <Text className="font-medium">
-                        {profile?.gender ?? '-'}
-                      </Text>
+                      <Text className="font-medium">{profile?.gender ?? "-"}</Text>
                     </View>
                   </View>
                 </View>
@@ -423,18 +336,13 @@ export default function ProfileScreen() {
                     </View>
                     <View className="flex-1">
                       <Text className="text-sm text-gray-500">Activity Level</Text>
-                      <Text className="font-medium">
-                        {profile?.activityLevel ? getActivityLevelText(profile.activityLevel) : '-'}
-                      </Text>
+                      <Text className="font-medium">{profile?.activityLevel ? getActivityLevelText(profile.activityLevel) : "-"}</Text>
                     </View>
                   </View>
                 </View>
               </View>
 
-              <TouchableOpacity
-                className="bg-blue-500 py-3 rounded-lg items-center"
-                onPress={() => setIsEditing(true)}
-              >
+              <TouchableOpacity className="bg-blue-500 py-3 rounded-lg items-center" onPress={() => setIsEditing(true)}>
                 <Text className="text-white font-medium">Edit Details</Text>
               </TouchableOpacity>
             </View>
@@ -444,17 +352,14 @@ export default function ProfileScreen() {
         {/* Health Metrics Summary */}
         <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
           <Text className="text-lg font-bold mb-4">Health Metrics</Text>
-          
+
           <View className="flex-row flex-wrap -mx-2">
             <View className="w-1/3 px-2 mb-4">
               <View className="bg-red-50 rounded-xl p-4">
                 <View className="flex-row items-center justify-between mb-2">
                   <Heart size={20} color="#EF4444" />
                   <Text className="text-lg font-bold">
-                    {profile?.weight && profile?.height
-                      ? (profile.weight / Math.pow(profile.height / 100, 2)).toFixed(1)
-                      : '-'
-                    }
+                    {profile?.weight && profile?.height ? (profile.weight / Math.pow(profile.height / 100, 2)).toFixed(1) : "-"}
                   </Text>
                 </View>
                 <Text className="text-sm font-medium text-gray-600">BMI</Text>
@@ -468,8 +373,7 @@ export default function ProfileScreen() {
                   <Text className="text-sm font-bold">
                     {profile?.weight && profile?.height && profile?.age && profile?.gender && profile?.activityLevel
                       ? calculateDailyCalories(profile.weight, profile.height, profile.age, profile.gender, profile.activityLevel)
-                      : '-'
-                    }
+                      : "-"}
                   </Text>
                 </View>
                 <Text className="text-sm font-medium text-gray-600">Daily Calories</Text>
@@ -480,9 +384,7 @@ export default function ProfileScreen() {
               <View className="bg-blue-50 rounded-xl p-4">
                 <View className="flex-row items-center justify-between mb-2">
                   <Heart size={20} color="#3B82F6" />
-                  <Text className="text-sm font-bold">
-                    {profile?.weight ? `${Math.round(profile.weight * 30)} ml` : '-'}
-                  </Text>
+                  <Text className="text-sm font-bold">{profile?.weight ? `${Math.round(profile.weight * 30)} ml` : "-"}</Text>
                 </View>
                 <Text className="text-sm font-medium text-gray-600">Water Goal</Text>
               </View>
@@ -508,27 +410,21 @@ export default function ProfileScreen() {
               <View className="bg-gray-50 rounded-lg p-3">
                 <View className="flex-row items-center justify-between">
                   <Text className="text-sm text-gray-600 flex-1 mr-2" numberOfLines={2}>
-                    {profile?.referralCode ? `https://juicefast.app/referral?code=${profile.referralCode}` : '-'}
+                    {profile?.referralCode ? `https://juicefast.app/referral?code=${profile.referralCode}` : "-"}
                   </Text>
-                  <TouchableOpacity
-                    onPress={handleCopyReferralLink}
-                    className="p-2"
-                  >
+                  <TouchableOpacity onPress={handleCopyReferralLink} className="p-2">
                     <Copy size={16} color="#6B7280" />
                   </TouchableOpacity>
                 </View>
               </View>
 
-              <TouchableOpacity
-                className="flex-row items-center justify-center bg-purple-500 py-3 rounded-lg"
-                onPress={handleShareReferralLink}
-              >
+              <TouchableOpacity className="flex-row items-center justify-center bg-purple-500 py-3 rounded-lg" onPress={handleShareReferralLink}>
                 <Text className="text-white font-medium">Share Link</Text>
               </TouchableOpacity>
             </View>
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

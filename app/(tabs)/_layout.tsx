@@ -1,8 +1,7 @@
 import { Badge, Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabLayout() {
-  const insets = useSafeAreaInsets();
+  // const insets = useSafeAreaInsets();
 
   return (
     <NativeTabs
@@ -26,7 +25,7 @@ export default function TabLayout() {
     >
       <NativeTabs.Trigger name="index">
         <Label>Home</Label>
-        <Icon sf={{ default: "house", selected: "house.fill" }} drawable="my_custom_home" />
+        <Icon sf={{ default: "house", selected: "house.fill" }} drawable="ic_menu_home" />
       </NativeTabs.Trigger>
       {/* options={{
           title: "Home",
@@ -35,7 +34,7 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="tracker">
         <Label>Tracker</Label>
-        <Icon sf={{ default: "heart", selected: "heart.fill" }} drawable="ic_menu_heart" />
+        <Icon sf={{ default: "heart", selected: "heart.fill" }} drawable="ic_menu_home" />
       </NativeTabs.Trigger>
       {/* options={{
           title: "Tracker",
@@ -63,7 +62,7 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="club">
         <Label>JF Club</Label>
-        <Icon sf={{ default: "person.2", selected: "person.2.fill" }} drawable="ic_menu_club" />
+        <Icon sf={{ default: "person.2", selected: "person.2.fill" }} drawable="ic_dialog_email" />
       </NativeTabs.Trigger>
       {/* options={{
           title: "JF Club",
