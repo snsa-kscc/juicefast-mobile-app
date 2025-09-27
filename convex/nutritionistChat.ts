@@ -63,6 +63,20 @@ export const createChatSession = mutation({
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Unauthorized");
 
+    // Check if user already has an active session with this nutritionist
+    const existingSession = await ctx.db
+      .query("chatSessions")
+      .withIndex("by_user", q => q.eq("userId", identity.subject))
+      .filter(q => q.and(
+        q.eq(q.field("nutritionistId"), args.nutritionistId),
+        q.eq(q.field("status"), "active")
+      ))
+      .first();
+
+    if (existingSession) {
+      throw new Error("You already have an active session with this nutritionist");
+    }
+
     const nutritionist = await ctx.db
       .query("nutritionists")
       .filter(q => q.eq(q.field("clerkId"), args.nutritionistId))
@@ -71,8 +85,12 @@ export const createChatSession = mutation({
     if (!nutritionist) throw new Error("Nutritionist not found");
     if (!nutritionist.isOnline) throw new Error("Nutritionist is offline");
 
+    // Get user first name from Clerk token claims
+    const userFirstName = identity.name?.split(' ')[0] || identity.givenName || "User";
+
     const sessionId = await ctx.db.insert("chatSessions", {
       userId: identity.subject,
+      userName: userFirstName,
       nutritionistId: args.nutritionistId,
       status: "active",
       startedAt: Date.now(),
@@ -94,8 +112,8 @@ export const endChatSession = mutation({
     const session = await ctx.db.get(args.sessionId);
     if (!session) throw new Error("Session not found");
 
-    // Verify user is part of this session
-    if (session.userId !== identity.subject) {
+    // Verify user is part of this session (either user or nutritionist)
+    if (session.userId !== identity.subject && session.nutritionistId !== identity.subject) {
       throw new Error("Unauthorized");
     }
 
@@ -251,6 +269,7 @@ export const getUserSessions = query({
         return {
           id: session._id,
           nutritionistId: session.nutritionistId,
+          userName: session.userName,
           status: session.status,
           startedAt: session.startedAt,
           endedAt: session.endedAt,
@@ -339,6 +358,7 @@ export const getNutritionistSessions = query({
         return {
           id: session._id,
           userId: session.userId,
+          userName: session.userName,
           status: session.status,
           startedAt: session.startedAt,
           endedAt: session.endedAt,
@@ -385,6 +405,70 @@ export const getActiveSessionsForNutritionist = query({
             content: lastMessage.content,
             timestamp: lastMessage.timestamp
           } : null
+        };
+      })
+    );
+  }
+});
+
+// User-specific query for active sessions only
+export const getActiveUserSessions = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+
+    // Get only active sessions for the authenticated user
+    const sessions = await ctx.db
+      .query("chatSessions")
+      .withIndex("by_user", q => q.eq("userId", identity.subject))
+      .filter(q => q.eq(q.field("status"), "active"))
+      .order("desc")
+      .collect();
+
+    return await Promise.all(
+      sessions.map(async (session) => {
+        const nutritionist = await ctx.db
+          .query("nutritionists")
+          .withIndex("by_clerk_id", q => q.eq("clerkId", session.nutritionistId))
+          .first();
+
+        const lastMessage = await ctx.db
+          .query("chatMessages")
+          .withIndex("by_session", q => q.eq("sessionId", session._id))
+          .order("desc")
+          .first();
+
+        // Count unread messages from nutritionist
+        const unreadMessages = await ctx.db
+          .query("chatMessages")
+          .withIndex("by_session", q => q.eq("sessionId", session._id))
+          .filter(q => q.and(
+            q.eq(q.field("senderType"), "nutritionist"),
+            q.eq(q.field("isRead"), false)
+          ))
+          .collect();
+
+        return {
+          id: session._id,
+          nutritionistId: session.nutritionistId,
+          userName: session.userName,
+          status: session.status,
+          startedAt: session.startedAt,
+          endedAt: session.endedAt,
+          lastMessageAt: session.lastMessageAt,
+          nutritionist: nutritionist ? {
+            name: nutritionist.name,
+            specialization: nutritionist.specialization,
+            isOnline: nutritionist.isOnline,
+            avatarUrl: nutritionist.avatarUrl
+          } : null,
+          lastMessage: lastMessage ? {
+            content: lastMessage.content,
+            senderType: lastMessage.senderType,
+            timestamp: lastMessage.timestamp,
+            isRead: lastMessage.isRead
+          } : null,
+          unreadCount: unreadMessages.length
         };
       })
     );

@@ -7,17 +7,17 @@ import {
   RefreshControl,
   Alert,
 } from 'react-native';
-import { useQuery, useMutation } from 'convex/react';
+import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { useUser } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
-import { User, MessageSquare, Clock, CheckCircle, XCircle, LogOut } from 'lucide-react-native';
+import { User, MessageSquare, ArrowLeft } from 'lucide-react-native';
 import { Spinner } from '@/components/Spinner';
 
 interface ChatSession {
   id: Id<"chatSessions">;
-  userId: string;
+  nutritionistId: string;
   userName?: string;
   status: string;
   startedAt: number;
@@ -30,36 +30,29 @@ interface ChatSession {
     isRead: boolean;
   } | null;
   unreadCount: number;
+  nutritionist: {
+    name: string;
+    specialization: string;
+    isOnline: boolean;
+    avatarUrl?: string;
+  } | null;
 }
 
-export default function NutritionistDashboard() {
+export default function UserSessions() {
   const { user } = useUser();
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isOnline, setIsOnline] = useState(false);
 
-  const sessions = useQuery(api.nutritionistChat.getNutritionistSessions);
-  const activeSessions = useQuery(api.nutritionistChat.getActiveSessionsForNutritionist);
-  const updateStatus = useMutation(api.nutritionistChat.updateNutritionistStatus);
+  // Fetch only active sessions for the logged-in user
+  const sessions = useQuery(api.nutritionistChat.getActiveUserSessions);
 
   useEffect(() => {
-    if (user?.unsafeMetadata?.role !== "nutritionist") {
-      Alert.alert("Access Denied", "This area is for nutritionists only.");
+    if (!user) {
+      Alert.alert("Access Denied", "Please sign in to view your sessions.");
       router.replace("/chat");
       return;
     }
-    setIsOnline(true);
-    updateNutritionistOnlineStatus(true);
-  }, [user]);
-
-  const updateNutritionistOnlineStatus = async (online: boolean) => {
-    if (!user) return;
-    try {
-      await updateStatus({ clerkId: user.id, isOnline: online });
-    } catch (error) {
-      console.error("Failed to update status:", error);
-    }
-  };
+  }, [user, router]);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -67,14 +60,16 @@ export default function NutritionistDashboard() {
     setTimeout(() => setIsRefreshing(false), 1000);
   };
 
-  const toggleOnlineStatus = () => {
-    const newStatus = !isOnline;
-    setIsOnline(newStatus);
-    updateNutritionistOnlineStatus(newStatus);
+  const handleSessionPress = (sessionId: Id<"chatSessions">) => {
+    // Navigate to the nutritionist chat with the specific session
+    router.push({
+      pathname: "/chat/nutritionist",
+      params: { sessionId: sessionId.toString() }
+    });
   };
 
-  const handleSessionPress = (sessionId: Id<"chatSessions">) => {
-    router.push(`/nutritionist/chat/${sessionId}`);
+  const handleBack = () => {
+    router.back();
   };
 
   const formatTime = (timestamp: number) => {
@@ -91,31 +86,21 @@ export default function NutritionistDashboard() {
     }
   };
 
+  const formatStartTime = (timestamp: number) => {
+    return new Date(timestamp).toLocaleDateString([], {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   const getSessionStatus = (session: ChatSession) => {
     if (session.status === "active") return { text: "Active", color: "bg-green-100 text-green-800" };
-    if (session.status === "ended") return { text: "Ended", color: "bg-gray-100 text-gray-800" };
-    return { text: "Pending", color: "bg-yellow-100 text-yellow-800" };
+    return { text: session.status, color: "bg-gray-100 text-gray-800" };
   };
 
-  const handleLogout = () => {
-    Alert.alert(
-      "Go Offline",
-      "Are you sure you want to go offline? You won't receive new chat requests.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Go Offline",
-          style: "destructive",
-          onPress: () => {
-            setIsOnline(false);
-            updateNutritionistOnlineStatus(false);
-          },
-        },
-      ]
-    );
-  };
-
-  if (!user || user.unsafeMetadata?.role !== "nutritionist") {
+  if (!user) {
     return (
       <View className="flex-1 bg-[#FCFBF8] items-center justify-center">
         <Spinner size={32} color="#8B7355" />
@@ -128,65 +113,29 @@ export default function NutritionistDashboard() {
       {/* Header */}
       <View className="bg-white px-4 py-4 border-b border-gray-100">
         <View className="flex-row items-center justify-between">
-          <View>
-            <Text className="text-2xl font-lufga-bold text-gray-900">
-              Nutritionist Dashboard
-            </Text>
-            <Text className="text-sm font-lufga text-gray-600 mt-1">
-              Welcome back, {user.firstName || user.username}
-            </Text>
-          </View>
-
-          <View className="flex-row items-center space-x-3">
-            <TouchableOpacity
-              className={`px-3 py-1 rounded-full flex-row items-center ${
-                isOnline ? 'bg-green-100' : 'bg-gray-200'
-              }`}
-              onPress={toggleOnlineStatus}
-            >
-              <View className={`w-2 h-2 rounded-full mr-2 ${
-                isOnline ? 'bg-green-500' : 'bg-gray-500'
-              }`} />
-              <Text className={`text-xs font-lufga-medium ${
-                isOnline ? 'text-green-800' : 'text-gray-600'
-              }`}>
-                {isOnline ? 'Online' : 'Offline'}
+          <View className="flex-row items-center">
+            <TouchableOpacity onPress={handleBack} className="mr-3">
+              <ArrowLeft size={20} color="#8B7355" />
+            </TouchableOpacity>
+            <View>
+              <Text className="text-2xl font-lufga-bold text-gray-900">
+                My Sessions
               </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              className="p-2"
-              onPress={handleLogout}
-            >
-              <LogOut size={20} color="#8B7355" />
-            </TouchableOpacity>
+              <Text className="text-sm font-lufga text-gray-600 mt-1">
+                Your active nutritionist chats
+              </Text>
+            </View>
           </View>
         </View>
       </View>
 
       {/* Stats */}
       <View className="px-4 py-4">
-        <View className="grid grid-cols-3 gap-4">
-          <View className="bg-white rounded-xl p-4 shadow-sm">
-            <Text className="text-2xl font-lufga-bold text-[#8B7355]">
-              {activeSessions?.length || 0}
-            </Text>
-            <Text className="text-sm font-lufga text-gray-600">Active Chats</Text>
-          </View>
-
-          <View className="bg-white rounded-xl p-4 shadow-sm">
-            <Text className="text-2xl font-lufga-bold text-[#8B7355]">
-              {sessions?.filter(s => s.unreadCount > 0).length || 0}
-            </Text>
-            <Text className="text-sm font-lufga text-gray-600">Unread Messages</Text>
-          </View>
-
-          <View className="bg-white rounded-xl p-4 shadow-sm">
-            <Text className="text-2xl font-lufga-bold text-[#8B7355]">
-              {sessions?.length || 0}
-            </Text>
-            <Text className="text-sm font-lufga text-gray-600">Total Sessions</Text>
-          </View>
+        <View className="bg-white rounded-xl p-4 shadow-sm">
+          <Text className="text-2xl font-lufga-bold text-[#8B7355]">
+            {sessions?.length || 0}
+          </Text>
+          <Text className="text-sm font-lufga text-gray-600">Active Sessions</Text>
         </View>
       </View>
 
@@ -194,7 +143,7 @@ export default function NutritionistDashboard() {
       <View className="flex-1 px-4 pb-4">
         <View className="flex-row items-center justify-between mb-4">
           <Text className="text-lg font-lufga-bold text-gray-900">
-            Chat Sessions
+            Active Sessions
           </Text>
           <Text className="text-sm font-lufga text-gray-600">
             {sessions?.length || 0} total
@@ -228,7 +177,10 @@ export default function NutritionistDashboard() {
                         </View>
                         <View className="flex-1">
                           <Text className="text-base font-lufga-medium text-gray-900">
-                            {session.userName || `Client ${session.userId.slice(0, 8)}`}
+                            {session.nutritionist?.name || "Nutritionist"}
+                          </Text>
+                          <Text className="text-sm font-lufga text-gray-600">
+                            {session.nutritionist?.specialization || "Health Specialist"}
                           </Text>
                           <View className="flex-row items-center mt-1">
                             <View className={`px-2 py-1 rounded-full ${statusInfo.color}`}>
@@ -243,6 +195,12 @@ export default function NutritionistDashboard() {
                                 </Text>
                               </View>
                             )}
+                            {session.nutritionist?.isOnline && (
+                              <View className="ml-2 flex-row items-center">
+                                <View className="w-2 h-2 bg-green-500 rounded-full mr-1" />
+                                <Text className="text-xs font-lufga text-green-600">Online</Text>
+                              </View>
+                            )}
                           </View>
                         </View>
                       </View>
@@ -250,7 +208,7 @@ export default function NutritionistDashboard() {
                       {session.lastMessage && (
                         <View className="ml-11">
                           <Text className="text-sm font-lufga text-gray-600 line-clamp-1">
-                            {session.lastMessage.senderType === "user" ? "Client: " : "You: "}
+                            {session.lastMessage.senderType === "user" ? "You: " : `${session.nutritionist?.name || "Nutritionist"}: `}
                             {session.lastMessage.content}
                           </Text>
                           <Text className="text-xs font-lufga text-gray-400 mt-1">
@@ -258,6 +216,12 @@ export default function NutritionistDashboard() {
                           </Text>
                         </View>
                       )}
+
+                      <View className="ml-11 mt-2">
+                        <Text className="text-xs font-lufga text-gray-500">
+                          Started: {formatStartTime(session.startedAt)}
+                        </Text>
+                      </View>
                     </View>
 
                     <View className="flex-col items-end">
@@ -274,11 +238,17 @@ export default function NutritionistDashboard() {
             <View className="bg-white rounded-xl p-8 items-center">
               <MessageSquare size={48} color="#E1D5B9" />
               <Text className="text-lg font-lufga-medium text-gray-900 mt-4">
-                No chat sessions yet
+                No Active Sessions
               </Text>
               <Text className="text-sm font-lufga text-gray-600 text-center mt-2">
-                When clients start chatting with you, sessions will appear here.
+                When you start chatting with nutritionists, your active sessions will appear here.
               </Text>
+              <TouchableOpacity
+                className="bg-[#8B7355] px-6 py-2 rounded-lg mt-4"
+                onPress={() => router.push("/chat/nutritionist")}
+              >
+                <Text className="text-white font-lufga-medium">Start a Chat</Text>
+              </TouchableOpacity>
             </View>
           )}
         </ScrollView>

@@ -85,6 +85,7 @@ export default defineSchema({
 
   chatSessions: defineTable({
     userId: v.string(),
+    userName: v.string(),
     nutritionistId: v.string(),
     status: v.union(v.literal("active"), v.literal("ended"), v.literal("pending")),
     startedAt: v.number(),

@@ -9,11 +9,12 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import { Send, User } from 'lucide-react-native';
+import { Send, User, ArrowLeft, Users, List } from 'lucide-react-native';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { useUser } from '@clerk/clerk-expo';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Spinner } from '@/components/Spinner';
 
 interface Nutritionist {
@@ -44,10 +45,13 @@ interface Message {
 
 export function NutritionistChat() {
   const { user } = useUser();
+  const router = useRouter();
+  const { sessionId } = useLocalSearchParams();
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [selectedNutritionist, setSelectedNutritionist] = useState<Nutritionist | null>(null);
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null);
+  const [showSessionSwitcher, setShowSessionSwitcher] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
 
   // Convex hooks
@@ -102,6 +106,81 @@ export function NutritionistChat() {
       }
     }
   }, [messages, currentSession, markMessagesAsRead]);
+
+  // Handle session restoration from URL parameters
+  useEffect(() => {
+    if (sessionId && userSessions && !currentSession) {
+      const targetSession = userSessions.find(session =>
+        session.id.toString() === sessionId && session.status === "active"
+      );
+
+      if (targetSession) {
+        const nutritionist = nutritionists?.find(n => n.id === targetSession.nutritionistId);
+        if (nutritionist) {
+          setCurrentSession({
+            id: targetSession.id.toString(),
+            nutritionistId: targetSession.nutritionistId,
+            userId: user?.id || "",
+            status: 'active',
+            createdAt: new Date(targetSession.startedAt).toISOString(),
+          });
+          setSelectedNutritionist(nutritionist);
+        }
+      }
+    }
+  }, [sessionId, userSessions, currentSession, nutritionists, user]);
+
+  // Check for existing active sessions and restore the most recent one
+  useEffect(() => {
+    if (userSessions && !currentSession && !sessionId) {
+      const activeSessions = userSessions.filter(session => session.status === "active");
+      if (activeSessions.length > 0) {
+        // Sort by most recent activity and get the most recent one
+        const mostRecentSession = activeSessions.sort((a, b) =>
+          Math.max(b.lastMessageAt, b.startedAt) - Math.max(a.lastMessageAt, a.startedAt)
+        )[0];
+
+        // Find the nutritionist for this session
+        const nutritionist = nutritionists?.find(n => n.id === mostRecentSession.nutritionistId);
+        if (nutritionist) {
+          setCurrentSession({
+            id: mostRecentSession.id.toString(),
+            nutritionistId: mostRecentSession.nutritionistId,
+            userId: user?.id || "",
+            status: 'active',
+            createdAt: new Date(mostRecentSession.startedAt).toISOString(),
+          });
+          setSelectedNutritionist(nutritionist);
+        }
+      }
+    }
+  }, [userSessions, currentSession, nutritionists, user, sessionId]);
+
+  const handleBackToSelection = () => {
+    // Only clear the local state, don't end the session
+    setCurrentSession(null);
+    setSelectedNutritionist(null);
+    setShowSessionSwitcher(false);
+  };
+
+  const switchToSession = (session: any) => {
+    const nutritionist = nutritionists?.find(n => n.id === session.nutritionistId);
+    if (nutritionist) {
+      setCurrentSession({
+        id: session.id.toString(),
+        nutritionistId: session.nutritionistId,
+        userId: user?.id || "",
+        status: 'active',
+        createdAt: new Date(session.startedAt).toISOString(),
+      });
+      setSelectedNutritionist(nutritionist);
+      setShowSessionSwitcher(false);
+    }
+  };
+
+  const handleViewSessions = () => {
+    router.push("/chat/sessions");
+  };
 
   const startChatSession = async (nutritionist: Nutritionist) => {
     if (!nutritionist.isOnline) {
@@ -166,11 +245,14 @@ export function NutritionistChat() {
   };
 
   const handleEndSession = async () => {
-    if (!currentSession) return;
+    if (!currentSession) {
+      Alert.alert('Error', 'No active session to end.');
+      return;
+    }
 
     Alert.alert(
       'End Session',
-      'Are you sure you want to end this chat session?',
+      'Are you sure you want to end this chat session? This will close your conversation and you will need to start a new session to chat again.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -178,12 +260,22 @@ export function NutritionistChat() {
           style: 'destructive',
           onPress: async () => {
             try {
-              await endSession({ sessionId: currentSession.id as Id<"chatSessions"> });
+              setIsLoading(true);
+              console.log('Ending session with ID:', currentSession.id);
+              const result = await endSession({ sessionId: currentSession.id as Id<"chatSessions"> });
+              console.log('Session ended successfully:', result);
               setCurrentSession(null);
               setSelectedNutritionist(null);
-            } catch (error) {
+              setShowSessionSwitcher(false);
+              Alert.alert('Success', 'Chat session has been ended.');
+              setTimeout(() => {
+                router.push('/chat/nutritionist');
+              }, 1000);
+            } catch (error: any) {
               console.error('Failed to end session:', error);
-              Alert.alert('Error', 'Failed to end session. Please try again.');
+              Alert.alert('Error', `Failed to end session: ${error.message || 'Please try again.'}`);
+            } finally {
+              setIsLoading(false);
             }
           },
         },
@@ -193,22 +285,87 @@ export function NutritionistChat() {
 
   // Show nutritionist selection if no active session
   if (!currentSession || !selectedNutritionist) {
+    const activeSessions = userSessions?.filter(session => session.status === "active") || [];
+
     return (
       <View className="flex-1 bg-[#FCFBF8] px-4">
-        <Text className="text-xl font-lufga-bold mb-4">Choose a Nutritionist</Text>
+        <View className="flex-row items-center justify-between mb-4">
+          <Text className="text-xl font-lufga-bold">Choose a Nutritionist</Text>
+          <TouchableOpacity
+            className="bg-[#8B7355] px-3 py-2 rounded-lg flex-row items-center"
+            onPress={handleViewSessions}
+          >
+            <List size={16} color="white" />
+            <Text className="text-white font-lufga-medium ml-2">My Sessions</Text>
+          </TouchableOpacity>
+        </View>
         <Text className="text-gray-600 font-lufga mb-6">
           Connect with one of our certified nutritionists for personalized guidance
         </Text>
 
+        {/* Show active sessions if any exist */}
+        {activeSessions.length > 0 && (
+          <View className="mb-6">
+            <Text className="text-green-800 font-lufga-medium mb-3">
+              Your Active Sessions ({activeSessions.length})
+            </Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="pb-2">
+              {activeSessions.map((session) => {
+                const nutritionist = nutritionists?.find(n => n.id === session.nutritionistId);
+                return (
+                  <TouchableOpacity
+                    key={session.id.toString()}
+                    className="bg-green-50 border border-green-200 rounded-xl p-3 mr-3 min-w-[200px]"
+                    onPress={() => {
+                      if (nutritionist) {
+                        setCurrentSession({
+                          id: session.id.toString(),
+                          nutritionistId: session.nutritionistId,
+                          userId: user?.id || "",
+                          status: 'active',
+                          createdAt: new Date(session.startedAt).toISOString(),
+                        });
+                        setSelectedNutritionist(nutritionist);
+                      }
+                    }}
+                  >
+                    <View className="flex-row items-center">
+                      <View className="w-8 h-8 bg-green-200 rounded-full items-center justify-center mr-2">
+                        <User size={16} color="#059669" />
+                      </View>
+                      <View className="flex-1">
+                        <Text className="text-green-800 font-lufga-medium text-sm">
+                          {nutritionist?.name || 'Nutritionist'}
+                        </Text>
+                        <Text className="text-green-600 text-xs font-lufga">
+                          Tap to resume
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+        )}
+
         <ScrollView showsVerticalScrollIndicator={false}>
           {nutritionists && nutritionists.length > 0 ? (
-            nutritionists.map((nutritionist) => (
-              <TouchableOpacity
-                key={nutritionist.id}
-                className="bg-white rounded-xl p-4 mb-4 shadow-sm border border-gray-100"
-                onPress={() => startChatSession(nutritionist)}
-                disabled={!nutritionist.isOnline || isLoading}
-              >
+            nutritionists.map((nutritionist) => {
+              // Check if user already has active session with this nutritionist
+              const hasActiveSession = userSessions?.some(
+                session => session.nutritionistId === nutritionist.id && session.status === "active"
+              );
+
+              return (
+                <TouchableOpacity
+                  key={nutritionist.id}
+                  className={`bg-white rounded-xl p-4 mb-4 shadow-sm border ${
+                    hasActiveSession ? 'border-green-300 bg-green-50' : 'border-gray-100'
+                  }`}
+                  onPress={() => startChatSession(nutritionist)}
+                  disabled={!nutritionist.isOnline || isLoading || hasActiveSession}
+                >
               <View className="flex-row items-center">
                 <View className="w-12 h-12 bg-[#E1D5B9] rounded-full items-center justify-center mr-4">
                   <User size={24} color="#8B7355" />
@@ -227,14 +384,20 @@ export function NutritionistChat() {
                     {nutritionist.specialization}
                   </Text>
                   <Text className={`text-xs font-lufga mt-1 ${
-                    nutritionist.isOnline ? 'text-green-600' : 'text-gray-500'
+                    hasActiveSession ? 'text-green-600' : nutritionist.isOnline ? 'text-green-600' : 'text-gray-500'
                   }`}>
-                    {nutritionist.isOnline ? 'Available now' : 'Currently offline'}
+                    {hasActiveSession ? 'Session in progress' : nutritionist.isOnline ? 'Available now' : 'Currently offline'}
                   </Text>
                 </View>
+                {hasActiveSession && (
+                  <View className="bg-green-100 px-2 py-1 rounded-full">
+                    <Text className="text-green-700 text-xs font-lufga-medium">Active</Text>
+                  </View>
+                )}
               </View>
             </TouchableOpacity>
-            ))
+            );
+            })
           ) : (
             <View className="bg-white rounded-xl p-8 items-center">
               <User size={48} color="#E1D5B9" />
@@ -261,6 +424,12 @@ export function NutritionistChat() {
       <View className="bg-white px-4 py-3 border-b border-gray-100">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
+            <TouchableOpacity
+              onPress={handleBackToSelection}
+              className="mr-3"
+            >
+              <ArrowLeft size={20} color="#8B7355" />
+            </TouchableOpacity>
             <View className="w-10 h-10 bg-[#E1D5B9] rounded-full items-center justify-center mr-3">
               <User size={20} color="#8B7355" />
             </View>
@@ -273,14 +442,69 @@ export function NutritionistChat() {
               </Text>
             </View>
           </View>
-          
-          <TouchableOpacity
-            className="bg-red-100 px-3 py-1 rounded-full"
-            onPress={handleEndSession}
-          >
-            <Text className="text-red-600 text-xs font-lufga-medium">End Session</Text>
-          </TouchableOpacity>
+
+          <View className="flex-row items-center">
+            {/* Session switcher button - only show if multiple active sessions exist */}
+            {userSessions && userSessions.filter(s => s.status === "active").length > 1 && (
+              <TouchableOpacity
+                className="bg-blue-100 px-3 py-1 rounded-full mr-2"
+                onPress={() => setShowSessionSwitcher(!showSessionSwitcher)}
+              >
+                <View className="flex-row items-center">
+                  <Users size={14} color="#1e40af" />
+                  <Text className="text-blue-600 text-xs font-lufga-medium ml-1">
+                    {userSessions.filter(s => s.status === "active").length}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+
+            <TouchableOpacity
+              className={`bg-red-100 px-2 py-1 rounded-full ${isLoading ? 'opacity-50' : ''}`}
+              onPress={handleEndSession}
+              disabled={isLoading}
+            >
+              <Text className="text-red-600 text-xs font-lufga-medium">
+                {isLoading ? 'Ending...' : 'End session'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
+
+        {/* Session switcher dropdown */}
+        {showSessionSwitcher && (
+          <View className="absolute top-16 right-4 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[200px]">
+            <Text className="text-gray-700 font-lufga-medium px-3 py-2 border-b border-gray-100">
+              Switch to:
+            </Text>
+            {userSessions
+              ?.filter(session => session.status === "active" && session.nutritionistId !== selectedNutritionist?.id)
+              .map((session) => {
+                const nutritionist = nutritionists?.find(n => n.id === session.nutritionistId);
+                return (
+                  <TouchableOpacity
+                    key={session.id.toString()}
+                    className="px-3 py-2 border-b border-gray-50 hover:bg-gray-50"
+                    onPress={() => switchToSession(session)}
+                  >
+                    <View className="flex-row items-center">
+                      <View className="w-6 h-6 bg-gray-200 rounded-full items-center justify-center mr-2">
+                        <User size={12} color="#6b7280" />
+                      </View>
+                      <View>
+                        <Text className="text-gray-900 font-lufga text-sm">
+                          {nutritionist?.name || 'Nutritionist'}
+                        </Text>
+                        <Text className="text-gray-500 text-xs font-lufga">
+                          {nutritionist?.specialization}
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+          </View>
+        )}
       </View>
 
       {/* Messages */}

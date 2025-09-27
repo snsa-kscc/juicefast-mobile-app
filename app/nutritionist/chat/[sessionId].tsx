@@ -131,7 +131,7 @@ export default function NutritionistChatSession() {
             </View>
             <View>
               <Text className="font-lufga-medium text-gray-900">
-                Client {currentSession.userId.slice(0, 8)}
+                {currentSession.userName || 'Client'}
               </Text>
               <Text className="text-xs font-lufga text-gray-600">
                 {currentSession.status === "active" ? "Active session" : "Session ended"}
