@@ -42,8 +42,7 @@ export default function NutritionistChatPage() {
   };
 
   const handleSettingsPress = () => {
-    // Handle settings navigation
-    console.log("Settings pressed");
+    router.push("/profile");
   };
 
   // Mock active session and messages - replace with actual API calls

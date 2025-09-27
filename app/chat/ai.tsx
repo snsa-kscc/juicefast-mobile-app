@@ -14,8 +14,7 @@ export default function AIChatPage() {
   };
 
   const handleSettingsPress = () => {
-    // Handle settings navigation
-    console.log("Settings pressed");
+    router.push("/profile");
   };
 
   return (
