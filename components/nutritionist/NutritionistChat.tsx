@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -39,11 +39,11 @@ interface Message {
   senderType: 'user' | 'nutritionist';
   content: string;
   timestamp: string;
+  isRead: boolean;
 }
 
 export function NutritionistChat() {
   const { user } = useUser();
-  const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [selectedNutritionist, setSelectedNutritionist] = useState<Nutritionist | null>(null);
@@ -56,6 +56,10 @@ export function NutritionistChat() {
   const sendMessage = useMutation(api.nutritionistChat.sendMessage);
   const createSession = useMutation(api.nutritionistChat.createChatSession);
   const endSession = useMutation(api.nutritionistChat.endChatSession);
+  const markMessagesAsRead = useMutation(api.nutritionistChat.markMessagesAsRead);
+  const realtimeMessages = useQuery(api.nutritionistChat.getMessages,
+    currentSession ? { sessionId: currentSession.id as Id<"chatSessions"> } : "skip"
+  );
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -63,9 +67,41 @@ export function NutritionistChat() {
     }, 100);
   };
 
+  // Convert realtime messages to the expected Message interface format
+  const messages = useMemo(() => {
+    if (!realtimeMessages) return [];
+    return realtimeMessages.map(msg => ({
+      id: msg.id.toString(),
+      sessionId: msg.sessionId.toString(),
+      senderId: msg.senderId,
+      senderType: msg.senderType,
+      content: msg.content,
+      timestamp: new Date(msg.timestamp).toISOString(),
+      isRead: msg.isRead
+    }));
+  }, [realtimeMessages]);
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Mark nutritionist messages as read when they are viewed
+  useEffect(() => {
+    if (currentSession && messages.length > 0) {
+      const unreadNutritionistMessages = messages.filter(
+        msg => msg.senderType === 'nutritionist' && !msg.isRead
+      );
+
+      if (unreadNutritionistMessages.length > 0) {
+        markMessagesAsRead({
+          sessionId: currentSession.id as Id<"chatSessions">,
+          senderType: 'nutritionist'
+        }).catch(error => {
+          console.error('Failed to mark messages as read:', error);
+        });
+      }
+    }
+  }, [messages, currentSession, markMessagesAsRead]);
 
   const startChatSession = async (nutritionist: Nutritionist) => {
     if (!nutritionist.isOnline) {
@@ -95,9 +131,6 @@ export function NutritionistChat() {
 
       setCurrentSession(newSession);
 
-      // Clear messages initially - real messages will be fetched
-      setMessages([]);
-
     } catch (error) {
       console.error('Failed to create session:', error);
       Alert.alert('Error', 'Failed to start chat session. Please try again.');
@@ -110,16 +143,6 @@ export function NutritionistChat() {
   const handleSendMessage = async () => {
     if (!inputText.trim() || isLoading || !currentSession || !selectedNutritionist || !user) return;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      sessionId: currentSession.id,
-      senderId: user.id,
-      senderType: 'user',
-      content: inputText.trim(),
-      timestamp: new Date().toISOString(),
-    };
-
-    setMessages(prev => [...prev, userMessage]);
     setInputText('');
     setIsLoading(true);
 
@@ -131,32 +154,13 @@ export function NutritionistChat() {
     } catch (error) {
       console.error('Failed to send message:', error);
       Alert.alert('Error', 'Failed to send message. Please try again.');
-      // Remove the message from local state if send failed
-      setMessages(prev => prev.slice(0, -1));
+      setInputText(inputText.trim()); // Restore the text if send failed
     } finally {
       setIsLoading(false);
     }
   };
 
-  const generateNutritionistResponse = (userInput: string): string => {
-    // Simple response logic - replace with actual nutritionist chat
-    const lowerInput = userInput.toLowerCase();
-    
-    if (lowerInput.includes('weight') || lowerInput.includes('lose') || lowerInput.includes('gain')) {
-      return "Weight management is a journey that requires a balanced approach. I'd recommend focusing on sustainable habits rather than quick fixes. Can you tell me about your current eating patterns and goals?";
-    }
-    
-    if (lowerInput.includes('diet') || lowerInput.includes('meal') || lowerInput.includes('food')) {
-      return "Great question about nutrition! A balanced diet should include a variety of whole foods. I'd love to help you create a personalized meal plan. What are your dietary preferences or restrictions?";
-    }
-    
-    if (lowerInput.includes('supplement') || lowerInput.includes('vitamin')) {
-      return "Supplements can be helpful, but it's best to get nutrients from whole foods first. I'd need to know more about your current diet and any deficiencies to make specific recommendations. Have you had any recent blood work done?";
-    }
-    
-    return "That's a great question! As your nutritionist, I'm here to provide personalized guidance based on your specific needs and goals. Could you share more details about your current situation so I can better assist you?";
-  };
-
+  
   const formatTime = (date: string) => {
     return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
@@ -177,7 +181,6 @@ export function NutritionistChat() {
               await endSession({ sessionId: currentSession.id as Id<"chatSessions"> });
               setCurrentSession(null);
               setSelectedNutritionist(null);
-              setMessages([]);
             } catch (error) {
               console.error('Failed to end session:', error);
               Alert.alert('Error', 'Failed to end session. Please try again.');
