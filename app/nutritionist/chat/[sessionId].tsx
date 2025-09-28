@@ -5,8 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView,
-  Platform,
   Alert,
 } from 'react-native';
 import { useQuery, useMutation } from 'convex/react';
@@ -16,6 +14,7 @@ import { useUser } from '@clerk/clerk-expo';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Send, User, ArrowLeft, X } from 'lucide-react-native';
 import { Spinner } from '@/components/Spinner';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface Message {
   id: Id<"chatMessages">;
@@ -145,9 +144,12 @@ export default function NutritionistChatSession() {
   }
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
       className="flex-1 bg-[#FCFBF8]"
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      contentContainerStyle={{ flexGrow: 1 }}
+      enableOnAndroid={true}
+      enableAutomaticScroll={true}
+      extraScrollHeight={20}
     >
       {/* Chat header */}
       <View className="bg-white px-4 py-3 border-b border-gray-100">
@@ -273,6 +275,6 @@ export default function NutritionistChatSession() {
           </Text>
         )}
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }

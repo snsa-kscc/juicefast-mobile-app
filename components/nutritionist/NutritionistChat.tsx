@@ -5,11 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView,
-  Platform,
   Alert,
 } from 'react-native';
-import { Send, User, ArrowLeft, Users } from 'lucide-react-native';
+import { Send, User, Users } from 'lucide-react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
@@ -377,9 +376,12 @@ export function NutritionistChat() {
 
   // Show chat interface
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAwareScrollView
       className="flex-1 bg-[#FCFBF8]"
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      contentContainerStyle={{ flexGrow: 1 }}
+      enableOnAndroid={true}
+      enableAutomaticScroll={true}
+      extraScrollHeight={20}
     >
       {/* Chat header */}
       <View className="bg-white px-4 py-3 border-b border-gray-100">
@@ -534,6 +536,6 @@ export function NutritionistChat() {
           </TouchableOpacity>
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }

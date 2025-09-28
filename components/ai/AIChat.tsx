@@ -5,11 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
 import { Send } from 'lucide-react-native';
 import { Spinner } from '@/components/Spinner';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface Message {
   id: string;
@@ -96,9 +95,12 @@ export function AIChat({ userId }: AIChatProps) {
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAwareScrollView
       className="flex-1 bg-[#FCFBF8]"
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      contentContainerStyle={{ flexGrow: 1 }}
+      enableOnAndroid={true}
+      enableAutomaticScroll={true}
+      extraScrollHeight={20}
     >
       <ScrollView
         ref={scrollViewRef}
@@ -168,6 +170,6 @@ export function AIChat({ userId }: AIChatProps) {
           </TouchableOpacity>
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
