@@ -155,12 +155,6 @@ export function NutritionistChat() {
     }
   }, [userSessions, currentSession, nutritionists, user, sessionId]);
 
-  const handleBackToSelection = () => {
-    // Only clear the local state, don't end the session
-    setCurrentSession(null);
-    setSelectedNutritionist(null);
-    setShowSessionSwitcher(false);
-  };
 
   const switchToSession = (session: any) => {
     const nutritionist = nutritionists?.find(n => n.id === session.nutritionistId);
@@ -391,12 +385,6 @@ export function NutritionistChat() {
       <View className="bg-white px-4 py-3 border-b border-gray-100">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
-            <TouchableOpacity
-              onPress={handleBackToSelection}
-              className="mr-3"
-            >
-              <ArrowLeft size={20} color="#8B7355" />
-            </TouchableOpacity>
             <View className="w-10 h-10 bg-[#E1D5B9] rounded-full items-center justify-center mr-3">
               <User size={20} color="#8B7355" />
             </View>
