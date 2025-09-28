@@ -9,7 +9,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import { Send, User, ArrowLeft, Users, List } from 'lucide-react-native';
+import { Send, User, ArrowLeft, Users } from 'lucide-react-native';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
@@ -55,10 +55,9 @@ export function NutritionistChat() {
   const scrollViewRef = useRef<ScrollView>(null);
 
   // Convex hooks
-  const nutritionists = useQuery(api.nutritionistChat.getOnlineNutritionists);
+  const nutritionists = useQuery(api.nutritionistChat.getNutritionists);
   const userSessions = useQuery(api.nutritionistChat.getUserSessions);
   const sendMessage = useMutation(api.nutritionistChat.sendMessage);
-  const createSession = useMutation(api.nutritionistChat.createChatSession);
   const endSession = useMutation(api.nutritionistChat.endChatSession);
   const markMessagesAsRead = useMutation(api.nutritionistChat.markMessagesAsRead);
   const realtimeMessages = useQuery(api.nutritionistChat.getMessages,
@@ -182,57 +181,29 @@ export function NutritionistChat() {
     router.push("/chat/sessions");
   };
 
-  const startChatSession = async (nutritionist: Nutritionist) => {
-    if (!nutritionist.isOnline) {
-      Alert.alert('Unavailable', `${nutritionist.name} is currently offline. Please try again later.`);
-      return;
-    }
-
-    if (!user) {
-      Alert.alert('Error', 'Please sign in to start a chat session.');
-      return;
-    }
-
-    setIsLoading(true);
-    setSelectedNutritionist(nutritionist);
-
-    try {
-      // Create new session
-      const sessionId = await createSession({ nutritionistId: nutritionist.id });
-
-      const newSession: ChatSession = {
-        id: sessionId.toString(),
-        nutritionistId: nutritionist.id,
-        userId: user.id,
-        status: 'active',
-        createdAt: new Date().toISOString(),
-      };
-
-      setCurrentSession(newSession);
-
-    } catch (error) {
-      console.error('Failed to create session:', error);
-      Alert.alert('Error', 'Failed to start chat session. Please try again.');
-      setSelectedNutritionist(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  
   const handleSendMessage = async () => {
-    if (!inputText.trim() || isLoading || !currentSession || !selectedNutritionist || !user) return;
+    if (!inputText.trim() || isLoading || !selectedNutritionist || !user) return;
 
     setInputText('');
     setIsLoading(true);
 
     try {
+      // This will automatically create a session if needed
       await sendMessage({
-        sessionId: currentSession.id as Id<"chatSessions">,
+        nutritionistId: selectedNutritionist.id,
         content: inputText.trim()
       });
-    } catch (error) {
+
+      // The session will be created automatically, so we need to fetch the latest sessions
+      // to update our currentSession state
+      if (!currentSession) {
+        // The component will automatically update due to the userSessions query
+        // and the useEffect that restores the most recent session
+      }
+    } catch (error: any) {
       console.error('Failed to send message:', error);
-      Alert.alert('Error', 'Failed to send message. Please try again.');
+      Alert.alert('Error', error.message || 'Failed to send message. Please try again.');
       setInputText(inputText.trim()); // Restore the text if send failed
     } finally {
       setIsLoading(false);
@@ -251,12 +222,12 @@ export function NutritionistChat() {
     }
 
     Alert.alert(
-      'End Session',
-      'Are you sure you want to end this chat session? This will close your conversation and you will need to start a new session to chat again.',
+      'End Chat',
+      'Are you sure you want to end this chat? This will close your conversation and you will need to start a new chat to chat again.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
-          text: 'End Session',
+          text: 'End Chat',
           style: 'destructive',
           onPress: async () => {
             try {
@@ -267,13 +238,13 @@ export function NutritionistChat() {
               setCurrentSession(null);
               setSelectedNutritionist(null);
               setShowSessionSwitcher(false);
-              Alert.alert('Success', 'Chat session has been ended.');
+              Alert.alert('Success', 'Chat has been ended.');
               setTimeout(() => {
                 router.push('/chat/nutritionist');
               }, 1000);
             } catch (error: any) {
               console.error('Failed to end session:', error);
-              Alert.alert('Error', `Failed to end session: ${error.message || 'Please try again.'}`);
+              Alert.alert('Error', `Failed to end chat: ${error.message || 'Please try again.'}`);
             } finally {
               setIsLoading(false);
             }
@@ -283,31 +254,27 @@ export function NutritionistChat() {
     );
   };
 
-  // Show nutritionist selection if no active session
-  if (!currentSession || !selectedNutritionist) {
+  // Show nutritionist selection if no nutritionist selected
+  if (!selectedNutritionist) {
     const activeSessions = userSessions?.filter(session => session.status === "active") || [];
 
     return (
       <View className="flex-1 bg-[#FCFBF8] px-4">
-        <View className="flex-row items-center justify-between mb-4">
+        <View className="mb-4">
           <Text className="text-xl font-lufga-bold">Choose a Nutritionist</Text>
-          <TouchableOpacity
-            className="bg-[#8B7355] px-3 py-2 rounded-lg flex-row items-center"
-            onPress={handleViewSessions}
-          >
-            <List size={16} color="white" />
-            <Text className="text-white font-lufga-medium ml-2">My Sessions</Text>
-          </TouchableOpacity>
         </View>
         <Text className="text-gray-600 font-lufga mb-6">
           Connect with one of our certified nutritionists for personalized guidance
+        </Text>
+        <Text className="text-gray-500 font-lufga mb-6 text-sm">
+          💡 You can message nutritionists even when they're offline - they'll receive your message when they're back online
         </Text>
 
         {/* Show active sessions if any exist */}
         {activeSessions.length > 0 && (
           <View className="mb-6">
             <Text className="text-green-800 font-lufga-medium mb-3">
-              Your Active Sessions ({activeSessions.length})
+              Your Active Chats ({activeSessions.length})
             </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="pb-2">
               {activeSessions.map((session) => {
@@ -363,8 +330,8 @@ export function NutritionistChat() {
                   className={`bg-white rounded-xl p-4 mb-4 shadow-sm border ${
                     hasActiveSession ? 'border-green-300 bg-green-50' : 'border-gray-100'
                   }`}
-                  onPress={() => startChatSession(nutritionist)}
-                  disabled={!nutritionist.isOnline || isLoading || hasActiveSession}
+                  onPress={() => setSelectedNutritionist(nutritionist)}
+                  disabled={isLoading || hasActiveSession}
                 >
               <View className="flex-row items-center">
                 <View className="w-12 h-12 bg-[#E1D5B9] rounded-full items-center justify-center mr-4">
@@ -386,7 +353,7 @@ export function NutritionistChat() {
                   <Text className={`text-xs font-lufga mt-1 ${
                     hasActiveSession ? 'text-green-600' : nutritionist.isOnline ? 'text-green-600' : 'text-gray-500'
                   }`}>
-                    {hasActiveSession ? 'Session in progress' : nutritionist.isOnline ? 'Available now' : 'Currently offline'}
+                    {hasActiveSession ? 'Chat in progress' : nutritionist.isOnline ? 'Available now' : 'Offline - message will be delivered when online'}
                   </Text>
                 </View>
                 {hasActiveSession && (
@@ -465,7 +432,7 @@ export function NutritionistChat() {
               disabled={isLoading}
             >
               <Text className="text-red-600 text-xs font-lufga-medium">
-                {isLoading ? 'Ending...' : 'End session'}
+                {isLoading ? 'Ending...' : 'End chat'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -550,7 +517,7 @@ export function NutritionistChat() {
       </ScrollView>
 
       {/* Input */}
-      <View className="px-4 pb-4 bg-[#FCFBF8]">
+      <View className="px-4 py-2 bg-white border-t border-gray-100">
         <View className="flex-row items-end bg-white rounded-2xl shadow-sm border border-gray-100">
           <TextInput
             className="flex-1 px-4 py-3 text-base font-lufga text-gray-800 max-h-24"
@@ -569,9 +536,9 @@ export function NutritionistChat() {
             onPress={handleSendMessage}
             disabled={!inputText.trim() || isLoading}
           >
-            <Send 
-              size={20} 
-              color={inputText.trim() && !isLoading ? '#8B7355' : '#9CA3AF'} 
+            <Send
+              size={20}
+              color={inputText.trim() && !isLoading ? '#8B7355' : '#9CA3AF'}
             />
           </TouchableOpacity>
         </View>

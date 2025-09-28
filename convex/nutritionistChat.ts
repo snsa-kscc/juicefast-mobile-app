@@ -63,18 +63,15 @@ export const createChatSession = mutation({
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Unauthorized");
 
-    // Check if user already has an active session with this nutritionist
-    const existingSession = await ctx.db
+    // Check if user already has any active session (exclusive session)
+    const existingActiveSession = await ctx.db
       .query("chatSessions")
       .withIndex("by_user", q => q.eq("userId", identity.subject))
-      .filter(q => q.and(
-        q.eq(q.field("nutritionistId"), args.nutritionistId),
-        q.eq(q.field("status"), "active")
-      ))
+      .filter(q => q.eq(q.field("status"), "active"))
       .first();
 
-    if (existingSession) {
-      throw new Error("You already have an active session with this nutritionist");
+    if (existingActiveSession) {
+      throw new Error("You already have an active chat. Please end it before starting a new one.");
     }
 
     const nutritionist = await ctx.db
@@ -83,7 +80,6 @@ export const createChatSession = mutation({
       .first();
 
     if (!nutritionist) throw new Error("Nutritionist not found");
-    if (!nutritionist.isOnline) throw new Error("Nutritionist is offline");
 
     // Get user first name from Clerk token claims
     const userFirstName = identity.name?.split(' ')[0] || identity.givenName || "User";
@@ -129,6 +125,86 @@ export const endChatSession = mutation({
 // Message mutations
 export const sendMessage = mutation({
   args: {
+    nutritionistId: v.string(),
+    content: v.string()
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+
+    // Find or create an active session with this nutritionist
+    let session = await ctx.db
+      .query("chatSessions")
+      .withIndex("by_user", q => q.eq("userId", identity.subject))
+      .filter(q => q.and(
+        q.eq(q.field("nutritionistId"), args.nutritionistId),
+        q.eq(q.field("status"), "active")
+      ))
+      .first();
+
+    // If no active session exists, create one
+    if (!session) {
+      // Check if user already has any active session (exclusive session)
+      const existingActiveSession = await ctx.db
+        .query("chatSessions")
+        .withIndex("by_user", q => q.eq("userId", identity.subject))
+        .filter(q => q.eq(q.field("status"), "active"))
+        .first();
+
+      if (existingActiveSession) {
+        throw new Error("You already have an active chat. Please end it before starting a new one.");
+      }
+
+      const nutritionist = await ctx.db
+        .query("nutritionists")
+        .filter(q => q.eq(q.field("clerkId"), args.nutritionistId))
+        .first();
+
+      if (!nutritionist) throw new Error("Nutritionist not found");
+
+      // Get user first name from Clerk token claims
+      const userFirstName = identity.name?.split(' ')[0] || identity.givenName || "User";
+
+      const sessionId = await ctx.db.insert("chatSessions", {
+        userId: identity.subject,
+        userName: userFirstName,
+        nutritionistId: args.nutritionistId,
+        status: "active",
+        startedAt: Date.now(),
+        lastMessageAt: Date.now()
+      });
+
+      session = await ctx.db.get(sessionId);
+    }
+
+    if (!session) throw new Error("Failed to create or find session");
+    if (session.status !== "active") throw new Error("Session is not active");
+
+    // Verify user is part of this session
+    const isUser = session.userId === identity.subject;
+    if (!isUser) {
+      throw new Error("Unauthorized");
+    }
+
+    const messageId = await ctx.db.insert("chatMessages", {
+      sessionId: session._id,
+      senderId: identity.subject,
+      senderType: "user",
+      content: args.content,
+      timestamp: Date.now(),
+      isRead: false
+    });
+
+    // Update session last message time
+    await ctx.db.patch(session._id, { lastMessageAt: Date.now() });
+
+    return messageId;
+  }
+});
+
+// Nutritionist send message function
+export const sendNutritionistMessage = mutation({
+  args: {
     sessionId: v.id("chatSessions"),
     content: v.string()
   },
@@ -140,18 +216,16 @@ export const sendMessage = mutation({
     if (!session) throw new Error("Session not found");
     if (session.status !== "active") throw new Error("Session is not active");
 
-    // Verify user is part of this session
+    // Verify user is the nutritionist
     const isNutritionist = session.nutritionistId === identity.subject;
-    const isUser = session.userId === identity.subject;
-
-    if (!isNutritionist && !isUser) {
+    if (!isNutritionist) {
       throw new Error("Unauthorized");
     }
 
     const messageId = await ctx.db.insert("chatMessages", {
       sessionId: args.sessionId,
       senderId: identity.subject,
-      senderType: isNutritionist ? "nutritionist" : "user",
+      senderType: "nutritionist",
       content: args.content,
       timestamp: Date.now(),
       isRead: false

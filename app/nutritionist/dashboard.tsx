@@ -37,9 +37,11 @@ export default function NutritionistDashboard() {
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isOnline, setIsOnline] = useState(false);
+  const [filter, setFilter] = useState<'all' | 'active' | 'ended'>('all');
+  const [displayedChats, setDisplayedChats] = useState(20);
 
-  const sessions = useQuery(api.nutritionistChat.getNutritionistSessions);
-  const activeSessions = useQuery(api.nutritionistChat.getActiveSessionsForNutritionist);
+  const chats = useQuery(api.nutritionistChat.getNutritionistSessions);
+  const activeChats = useQuery(api.nutritionistChat.getActiveSessionsForNutritionist);
   const updateStatus = useMutation(api.nutritionistChat.updateNutritionistStatus);
 
   useEffect(() => {
@@ -63,6 +65,7 @@ export default function NutritionistDashboard() {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
+    setDisplayedChats(20); // Reset pagination on refresh
     // Refetch queries will happen automatically
     setTimeout(() => setIsRefreshing(false), 1000);
   };
@@ -73,8 +76,12 @@ export default function NutritionistDashboard() {
     updateNutritionistOnlineStatus(newStatus);
   };
 
-  const handleSessionPress = (sessionId: Id<"chatSessions">) => {
-    router.push(`/nutritionist/chat/${sessionId}`);
+  const handleChatPress = (chatId: Id<"chatSessions">) => {
+    router.push(`/nutritionist/chat/${chatId}`);
+  };
+
+  const handleLoadMore = () => {
+    setDisplayedChats(prev => prev + 20);
   };
 
   const formatTime = (timestamp: number) => {
@@ -91,9 +98,16 @@ export default function NutritionistDashboard() {
     }
   };
 
-  const getSessionStatus = (session: ChatSession) => {
-    if (session.status === "active") return { text: "Active", color: "bg-green-100 text-green-800" };
-    if (session.status === "ended") return { text: "Ended", color: "bg-gray-100 text-gray-800" };
+  const filteredChats = chats?.filter(chat => {
+    if (filter === 'all') return true;
+    if (filter === 'active') return chat.status === 'active';
+    if (filter === 'ended') return chat.status === 'ended';
+    return true;
+  });
+
+  const getChatStatus = (chat: ChatSession) => {
+    if (chat.status === "active") return { text: "Active", color: "bg-green-100 text-green-800" };
+    if (chat.status === "ended") return { text: "Ended", color: "bg-gray-100 text-gray-800" };
     return { text: "Pending", color: "bg-yellow-100 text-yellow-800" };
   };
 
@@ -164,41 +178,55 @@ export default function NutritionistDashboard() {
         </View>
       </View>
 
-      {/* Stats */}
-      <View className="px-4 py-4">
-        <View className="grid grid-cols-3 gap-4">
-          <View className="bg-white rounded-xl p-4 shadow-sm">
-            <Text className="text-2xl font-lufga-bold text-[#8B7355]">
-              {activeSessions?.length || 0}
-            </Text>
-            <Text className="text-sm font-lufga text-gray-600">Active Chats</Text>
-          </View>
-
-          <View className="bg-white rounded-xl p-4 shadow-sm">
-            <Text className="text-2xl font-lufga-bold text-[#8B7355]">
-              {sessions?.filter(s => s.unreadCount > 0).length || 0}
-            </Text>
-            <Text className="text-sm font-lufga text-gray-600">Unread Messages</Text>
-          </View>
-
-          <View className="bg-white rounded-xl p-4 shadow-sm">
-            <Text className="text-2xl font-lufga-bold text-[#8B7355]">
-              {sessions?.length || 0}
-            </Text>
-            <Text className="text-sm font-lufga text-gray-600">Total Sessions</Text>
-          </View>
-        </View>
-      </View>
-
-      {/* Sessions List */}
+      {/* Chats List */}
       <View className="flex-1 px-4 pb-4">
         <View className="flex-row items-center justify-between mb-4">
           <Text className="text-lg font-lufga-bold text-gray-900">
-            Chat Sessions
+            Chats
           </Text>
           <Text className="text-sm font-lufga text-gray-600">
-            {sessions?.length || 0} total
+            {filteredChats?.length || 0} shown
           </Text>
+        </View>
+
+        {/* Filter buttons */}
+        <View className="flex-row space-x-2 mb-4">
+          <TouchableOpacity
+            className={`flex-1 py-2 px-4 rounded-lg ${
+              filter === 'all' ? 'bg-[#8B7355]' : 'bg-gray-200'
+            }`}
+            onPress={() => setFilter('all')}
+          >
+            <Text className={`text-center font-lufga-medium ${
+              filter === 'all' ? 'text-white' : 'text-gray-700'
+            }`}>
+              All ({chats?.length || 0})
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className={`flex-1 py-2 px-4 rounded-lg ${
+              filter === 'active' ? 'bg-green-500' : 'bg-gray-200'
+            }`}
+            onPress={() => setFilter('active')}
+          >
+            <Text className={`text-center font-lufga-medium ${
+              filter === 'active' ? 'text-white' : 'text-gray-700'
+            }`}>
+              Active ({activeChats?.length || 0})
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className={`flex-1 py-2 px-4 rounded-lg ${
+              filter === 'ended' ? 'bg-gray-500' : 'bg-gray-200'
+            }`}
+            onPress={() => setFilter('ended')}
+          >
+            <Text className={`text-center font-lufga-medium ${
+              filter === 'ended' ? 'text-white' : 'text-gray-700'
+            }`}>
+              Ended ({chats?.filter(s => s.status === 'ended').length || 0})
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <ScrollView
@@ -211,14 +239,14 @@ export default function NutritionistDashboard() {
             />
           }
         >
-          {sessions && sessions.length > 0 ? (
-            sessions.map((session) => {
-              const statusInfo = getSessionStatus(session);
+          {filteredChats && filteredChats.length > 0 ? (
+            filteredChats.slice(0, displayedChats).map((chat) => {
+              const statusInfo = getChatStatus(chat);
               return (
                 <TouchableOpacity
-                  key={session.id}
+                  key={chat.id}
                   className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100"
-                  onPress={() => handleSessionPress(session.id)}
+                  onPress={() => handleChatPress(chat.id)}
                 >
                   <View className="flex-row items-start justify-between">
                     <View className="flex-1">
@@ -228,7 +256,7 @@ export default function NutritionistDashboard() {
                         </View>
                         <View className="flex-1">
                           <Text className="text-base font-lufga-medium text-gray-900">
-                            {session.userName || `Client ${session.userId.slice(0, 8)}`}
+                            {chat.userName || `Client ${chat.userId.slice(0, 8)}`}
                           </Text>
                           <View className="flex-row items-center mt-1">
                             <View className={`px-2 py-1 rounded-full ${statusInfo.color}`}>
@@ -236,25 +264,21 @@ export default function NutritionistDashboard() {
                                 {statusInfo.text}
                               </Text>
                             </View>
-                            {session.unreadCount > 0 && (
-                              <View className="ml-2 bg-red-500 px-2 py-1 rounded-full">
-                                <Text className="text-xs font-lufga-medium text-white">
-                                  {session.unreadCount} new
-                                </Text>
-                              </View>
+                            {chat.status === "active" && chat.lastMessage?.senderType === "user" && !chat.lastMessage?.isRead && (
+                              <View className="ml-2 w-3 h-3 bg-blue-500 rounded-full" />
                             )}
                           </View>
                         </View>
                       </View>
 
-                      {session.lastMessage && (
+                      {chat.lastMessage && (
                         <View className="ml-11">
                           <Text className="text-sm font-lufga text-gray-600 line-clamp-1">
-                            {session.lastMessage.senderType === "user" ? "Client: " : "You: "}
-                            {session.lastMessage.content}
+                            {chat.lastMessage.senderType === "user" ? "Client: " : "You: "}
+                            {chat.lastMessage.content}
                           </Text>
                           <Text className="text-xs font-lufga text-gray-400 mt-1">
-                            {formatTime(session.lastMessage.timestamp)}
+                            {formatTime(chat.lastMessage.timestamp)}
                           </Text>
                         </View>
                       )}
@@ -263,7 +287,7 @@ export default function NutritionistDashboard() {
                     <View className="flex-col items-end">
                       <MessageSquare size={16} color="#8B7355" />
                       <Text className="text-xs font-lufga text-gray-400 mt-2">
-                        {formatTime(session.lastMessageAt)}
+                        {formatTime(chat.lastMessageAt)}
                       </Text>
                     </View>
                   </View>
@@ -274,12 +298,24 @@ export default function NutritionistDashboard() {
             <View className="bg-white rounded-xl p-8 items-center">
               <MessageSquare size={48} color="#E1D5B9" />
               <Text className="text-lg font-lufga-medium text-gray-900 mt-4">
-                No chat sessions yet
+                No chats yet
               </Text>
               <Text className="text-sm font-lufga text-gray-600 text-center mt-2">
-                When clients start chatting with you, sessions will appear here.
+                When clients start chatting with you, chats will appear here.
               </Text>
             </View>
+          )}
+
+          {/* Show more button */}
+          {filteredChats && filteredChats.length > displayedChats && (
+            <TouchableOpacity
+              className="bg-[#8B7355] py-3 rounded-lg mt-4"
+              onPress={handleLoadMore}
+            >
+              <Text className="text-white font-lufga-medium text-center">
+                Show More ({filteredChats.length - displayedChats} remaining)
+              </Text>
+            </TouchableOpacity>
           )}
         </ScrollView>
       </View>

@@ -82,8 +82,8 @@ function AuthenticatedLayout() {
       <Stack.Screen name="chat/nutritionist" options={SCREEN_OPTIONS} />
       <Stack.Screen name="nutritionist" options={{
         ...SCREEN_OPTIONS,
-        headerShown: false,
-        gestureEnabled: false
+        // headerShown: false,
+        // gestureEnabled: false
       }} />
       <Stack.Screen name="+not-found" />
     </Stack>

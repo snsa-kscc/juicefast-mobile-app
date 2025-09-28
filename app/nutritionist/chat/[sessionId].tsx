@@ -9,12 +9,13 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { useUser } from '@clerk/clerk-expo';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { Send, User, ArrowLeft } from 'lucide-react-native';
+import { Send, User, ArrowLeft, X } from 'lucide-react-native';
 import { Spinner } from '@/components/Spinner';
 
 interface Message {
@@ -41,8 +42,9 @@ export default function NutritionistChatSession() {
   const currentSession = sessionData?.find(s => s.id === sessionId);
   const messagesData = useQuery(api.nutritionistChat.getMessages, sessionId ? { sessionId: sessionId as Id<"chatSessions"> } : "skip");
 
-  const sendMessage = useMutation(api.nutritionistChat.sendMessage);
+  const sendMessage = useMutation(api.nutritionistChat.sendNutritionistMessage);
   const markAsRead = useMutation(api.nutritionistChat.markMessagesAsRead);
+  const endSession = useMutation(api.nutritionistChat.endChatSession);
 
   useEffect(() => {
     if (!user || user.unsafeMetadata?.role !== "nutritionist") {
@@ -106,6 +108,35 @@ export default function NutritionistChatSession() {
     router.back();
   };
 
+  const handleEndSession = async () => {
+    if (!currentSession || currentSession.status !== "active") {
+      Alert.alert('Error', 'No active session to end.');
+      return;
+    }
+
+    Alert.alert(
+      'End Chat',
+      'Are you sure you want to end this chat? This will close your conversation.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'End Chat',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await endSession({ sessionId: sessionId as Id<"chatSessions"> });
+              Alert.alert('Success', 'Chat has been ended.');
+              router.back();
+            } catch (error: any) {
+              console.error('Failed to end chat:', error);
+              Alert.alert('Error', `Failed to end chat: ${error.message || 'Please try again.'}`);
+            }
+          },
+        },
+      ]
+    );
+  };
+
   if (!user || user.unsafeMetadata?.role !== "nutritionist" || !currentSession) {
     return (
       <View className="flex-1 bg-[#FCFBF8] items-center justify-center">
@@ -134,17 +165,23 @@ export default function NutritionistChatSession() {
                 {currentSession.userName || 'Client'}
               </Text>
               <Text className="text-xs font-lufga text-gray-600">
-                {currentSession.status === "active" ? "Active session" : "Session ended"}
+                {currentSession.status === "active" ? "Active chat" : "Chat ended"}
               </Text>
             </View>
           </View>
 
-          {currentSession.unreadCount > 0 && (
-            <View className="bg-red-500 px-2 py-1 rounded-full">
-              <Text className="text-xs font-lufga-medium text-white">
-                {currentSession.unreadCount} new
-              </Text>
-            </View>
+          {currentSession.status === "active" && (
+            <TouchableOpacity
+              className="bg-red-100 px-3 py-2 rounded-full"
+              onPress={handleEndSession}
+            >
+              <View className="flex-row items-center">
+                <X size={14} color="#dc2626" />
+                <Text className="text-red-600 text-xs font-lufga-medium ml-1">
+                  End Chat
+                </Text>
+              </View>
+            </TouchableOpacity>
           )}
         </View>
       </View>
@@ -199,7 +236,11 @@ export default function NutritionistChatSession() {
       </ScrollView>
 
       {/* Input */}
-      <View className="px-4 pb-4 bg-[#FCFBF8]">
+      <KeyboardAwareScrollView
+        className="flex-1"
+        enableOnAndroid={true}
+        extraScrollHeight={20}
+      >
         <View className="flex-row items-end bg-white rounded-2xl shadow-sm border border-gray-100">
           <TextInput
             className="flex-1 px-4 py-3 text-base font-lufga text-gray-800 max-h-24"
@@ -210,7 +251,7 @@ export default function NutritionistChatSession() {
             multiline
             textAlignVertical="top"
             onSubmitEditing={handleSend}
-                        editable={currentSession.status === "active"}
+            editable={currentSession.status === "active"}
           />
           <TouchableOpacity
             className={`p-3 m-1 rounded-xl ${
@@ -233,10 +274,10 @@ export default function NutritionistChatSession() {
 
         {currentSession.status !== "active" && (
           <Text className="text-xs font-lufga text-gray-500 text-center mt-2">
-            This session has ended. You cannot send new messages.
+            This chat has ended. You cannot send new messages.
           </Text>
         )}
-      </View>
+      </KeyboardAwareScrollView>
     </KeyboardAvoidingView>
   );
 }

@@ -30,6 +30,18 @@ const mockNutritionists = [
     specialization: 'Weight Management Specialist',
     isOnline: true,
   },
+  {
+    id: '5',
+    name: 'Dr. Lisa Park',
+    specialization: 'Wellness Nutritionist',
+    isOnline: false,
+  },
+  {
+    id: '6',
+    name: 'Robert Taylor',
+    specialization: 'Fitness Nutritionist',
+    isOnline: false,
+  },
 ];
 
 const userId = "user-123";
