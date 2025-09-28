@@ -9,7 +9,6 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
@@ -236,11 +235,7 @@ export default function NutritionistChatSession() {
       </ScrollView>
 
       {/* Input */}
-      <KeyboardAwareScrollView
-        className="flex-1"
-        enableOnAndroid={true}
-        extraScrollHeight={20}
-      >
+      <View className="px-4 py-3 bg-white border-t border-gray-100">
         <View className="flex-row items-end bg-white rounded-2xl shadow-sm border border-gray-100">
           <TextInput
             className="flex-1 px-4 py-3 text-base font-lufga text-gray-800 max-h-24"
@@ -277,7 +272,7 @@ export default function NutritionistChatSession() {
             This chat has ended. You cannot send new messages.
           </Text>
         )}
-      </KeyboardAwareScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 }
