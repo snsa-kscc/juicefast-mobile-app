@@ -426,15 +426,18 @@ export function NutritionistChat() {
               </TouchableOpacity>
             )}
 
-            <TouchableOpacity
-              className={`bg-red-100 px-2 py-1 rounded-full ${isLoading ? 'opacity-50' : ''}`}
-              onPress={handleEndSession}
-              disabled={isLoading}
-            >
-              <Text className="text-red-600 text-xs font-lufga-medium">
-                {isLoading ? 'Ending...' : 'End chat'}
-              </Text>
-            </TouchableOpacity>
+            {/* End session button - only show when there's an active session */}
+            {currentSession && currentSession.status === 'active' && (
+              <TouchableOpacity
+                className={`bg-red-100 px-2 py-1 rounded-full ${isLoading ? 'opacity-50' : ''}`}
+                onPress={handleEndSession}
+                disabled={isLoading}
+              >
+                <Text className="text-red-600 text-xs font-lufga-medium">
+                  {isLoading ? 'Ending...' : 'End chat'}
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 
