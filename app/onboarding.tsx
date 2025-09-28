@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useUser } from '@clerk/clerk-expo';
 import { OnboardingQuiz } from '../components/onboarding/OnboardingQuiz';
 
 export default function OnboardingScreen() {
   const { user, isLoaded } = useUser();
+  const { retake } = useLocalSearchParams<{ retake?: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
@@ -14,8 +15,8 @@ export default function OnboardingScreen() {
       if (!isLoaded) return;
 
       try {
-        // Check if onboarding is already completed
-        if (user?.unsafeMetadata?.onboardingCompleted === true) {
+        // Check if onboarding is already completed and user is not explicitly retaking
+        if (user?.unsafeMetadata?.onboardingCompleted === true && !retake) {
           setShouldRedirect(true);
           return;
         }
@@ -27,7 +28,7 @@ export default function OnboardingScreen() {
     };
 
     checkOnboardingStatus();
-  }, [isLoaded, user]);
+  }, [isLoaded, user, retake]);
 
   useEffect(() => {
     if (shouldRedirect) {

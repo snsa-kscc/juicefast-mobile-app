@@ -30,6 +30,18 @@ const mockNutritionists = [
     specialization: 'Weight Management Specialist',
     isOnline: true,
   },
+  {
+    id: '5',
+    name: 'Dr. Lisa Park',
+    specialization: 'Wellness Nutritionist',
+    isOnline: false,
+  },
+  {
+    id: '6',
+    name: 'Robert Taylor',
+    specialization: 'Fitness Nutritionist',
+    isOnline: false,
+  },
 ];
 
 const userId = "user-123";
@@ -42,8 +54,7 @@ export default function NutritionistChatPage() {
   };
 
   const handleSettingsPress = () => {
-    // Handle settings navigation
-    console.log("Settings pressed");
+    router.push("/profile");
   };
 
   // Mock active session and messages - replace with actual API calls

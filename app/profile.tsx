@@ -1,15 +1,17 @@
-import { api } from "@/convex/_generated/api";
-import { AuthService } from "@/utils/auth";
-import { useClerk, useUser } from "@clerk/clerk-expo";
-import { useMutation, useQuery } from "convex/react";
-import * as Clipboard from "expo-clipboard";
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Alert, Image, Share } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useClerk, useUser } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
-import { Activity, Calendar, ChevronDown, Copy, Heart, LogOut, Ruler, Scale, Settings, User, Users } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
-import { Alert, Image, ScrollView, Share, Text, TextInput, TouchableOpacity, View } from "react-native";
+import * as Clipboard from "expo-clipboard";
+import { AuthService } from "@/utils/auth";
+import { api } from "@/convex/_generated/api";
+import { useQuery, useMutation } from "convex/react";
+import { User, Ruler, Scale, Calendar, Activity, LogOut, Settings, Heart, Users, ChevronDown, Copy } from "lucide-react-native";
 import { WellnessHeader } from "../components/ui/CustomHeader";
 import { UserProfile, calculateDailyCalories, getActivityLevelText } from "../schemas/UserProfileSchema";
+import { ActivityLevelPopup } from "../components/ActivityLevelPopup";
 
 interface SelectProps {
   value: string | undefined;
@@ -67,6 +69,7 @@ export default function ProfileScreen() {
   const [age, setAge] = useState<string>("");
   const [gender, setGender] = useState<string | undefined>();
   const [activityLevel, setActivityLevel] = useState<string | undefined>();
+  const [showActivityPopup, setShowActivityPopup] = useState(false);
 
   useEffect(() => {
     if (userProfile) {
@@ -263,9 +266,11 @@ export default function ProfileScreen() {
                 <Text className="text-sm font-medium text-gray-700 mb-2">Activity Level</Text>
                 <View className="flex-row items-center">
                   <Activity size={16} color="#9CA3AF" />
-                  <View className="flex-1 ml-2">
-                    <Select value={activityLevel} onValueChange={setActivityLevel} placeholder="Select activity level" options={activityOptions} />
-                  </View>
+                  <TouchableOpacity className="flex-1 ml-2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-3" onPress={() => setShowActivityPopup(true)}>
+                    <Text className={`text-gray-900 ${activityLevel ? "" : "text-gray-500"}`}>
+                      {activityLevel ? activityOptions.find((opt) => opt.value === activityLevel)?.label : "Select activity level"}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
 
@@ -424,6 +429,9 @@ export default function ProfileScreen() {
             </View>
           </View>
         )}
+
+        {/* Activity Level Popup */}
+        <ActivityLevelPopup visible={showActivityPopup} onClose={() => setShowActivityPopup(false)} selectedValue={activityLevel} onSelect={setActivityLevel} />
       </ScrollView>
     </View>
   );

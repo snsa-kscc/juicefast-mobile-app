@@ -15,6 +15,7 @@ import type {
 } from "convex/server";
 import type * as mealEntry from "../mealEntry.js";
 import type * as mindfulnessEntry from "../mindfulnessEntry.js";
+import type * as nutritionistChat from "../nutritionistChat.js";
 import type * as sleepEntry from "../sleepEntry.js";
 import type * as stepEntry from "../stepEntry.js";
 import type * as userProfile from "../userProfile.js";
@@ -32,6 +33,7 @@ import type * as waterIntake from "../waterIntake.js";
 declare const fullApi: ApiFromModules<{
   mealEntry: typeof mealEntry;
   mindfulnessEntry: typeof mindfulnessEntry;
+  nutritionistChat: typeof nutritionistChat;
   sleepEntry: typeof sleepEntry;
   stepEntry: typeof stepEntry;
   userProfile: typeof userProfile;

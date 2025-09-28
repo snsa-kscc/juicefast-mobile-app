@@ -2,9 +2,21 @@ import React from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { ThemedView } from "../../components/ThemedView";
+import { useLocalSearchParams } from "expo-router";
 
 export default function StoreScreen() {
+  const { link } = useLocalSearchParams<{ link?: string }>();
   const [isLoading, setIsLoading] = React.useState(true);
+  const [storedLink, setStoredLink] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    console.log("Store Screen - Link parameter:", link);
+    if (link && !storedLink) {
+      const decodedLink = decodeURIComponent(link);
+      console.log("Storing link:", decodedLink);
+      setStoredLink(decodedLink);
+    }
+  }, [link, storedLink]);
 
   const handleLoadStart = () => {
     setIsLoading(true);
@@ -12,6 +24,12 @@ export default function StoreScreen() {
 
   const handleLoadEnd = () => {
     setIsLoading(false);
+  };
+
+  const getWebViewSource = () => {
+    const urlToUse = storedLink || "https://juicefast.com/";
+    console.log("Using URL:", urlToUse);
+    return { uri: urlToUse };
   };
 
   return (
@@ -22,7 +40,7 @@ export default function StoreScreen() {
         </View>
       )}
       <WebView
-        source={{ uri: "https://juicefast.com/" }}
+        source={getWebViewSource()}
         style={styles.webview}
         onLoadStart={handleLoadStart}
         onLoadEnd={handleLoadEnd}
