@@ -1,12 +1,13 @@
 import * as ImagePicker from "expo-image-picker";
-import { Camera, FileText, Image } from "lucide-react-native";
-import React, { useEffect, useOptimistic, useState, startTransition, useMemo } from "react";
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Camera, Image } from "lucide-react-native";
+import React, { useOptimistic, useState, startTransition, useMemo } from "react";
+import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { TrackerButton, WellnessHeader } from "./shared";
+import { MealAnalyzer } from "../../utils/mealAnalyzer";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
@@ -65,13 +66,41 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
     description: "",
   });
 
-  const simulateLLMResponse = () => {
-    const sampleMeals = [
-      { name: "Grilled Chicken Salad", calories: 350, protein: 35, carbs: 15, fat: 12, description: "Fresh mixed greens with grilled chicken breast" },
-      { name: "Salmon with Rice", calories: 520, protein: 40, carbs: 45, fat: 18, description: "Baked salmon fillet with brown rice and vegetables" },
-      { name: "Avocado Toast", calories: 280, protein: 8, carbs: 25, fat: 18, description: "Whole grain toast topped with mashed avocado" },
-    ];
-    return sampleMeals[Math.floor(Math.random() * sampleMeals.length)];
+  const analyzeMealImage = async (imageUri: string): Promise<any> => {
+    try {
+      // Convert image to base64
+      const response = await fetch(imageUri);
+      const blob = await response.blob();
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+
+      // Extract base64 data (remove data:image/jpeg;base64, prefix)
+      const base64Data = base64.split(',')[1];
+
+      const analyzer = new MealAnalyzer();
+      const result = await analyzer.analyzeMeal(base64Data, 'image/jpeg');
+
+      if (result.success && result.data) {
+        return {
+          name: result.data.name,
+          calories: result.data.calories,
+          protein: result.data.protein,
+          carbs: result.data.carbs,
+          fat: result.data.fat,
+          description: result.data.description,
+        };
+      } else {
+        console.error('Meal analysis failed:', result.error);
+        return MealAnalyzer.getFallbackMealData();
+      }
+    } catch (error) {
+      console.error('Error processing image:', error);
+      return MealAnalyzer.getFallbackMealData();
+    }
   };
 
   const handleMealAdded = async (mealData: any) => {
@@ -123,16 +152,15 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
 
       if (!result.canceled && result.assets[0]) {
         setIsProcessingImage(true);
-        setTimeout(() => {
-          try {
-            const llmResponse = simulateLLMResponse();
-            handleMealAdded(llmResponse);
-          } catch (error) {
-            Alert.alert("Error", "Failed to analyze meal");
-          } finally {
-            setIsProcessingImage(false);
-          }
-        }, 2000);
+        try {
+          const analyzedMeal = await analyzeMealImage(result.assets[0].uri);
+          await handleMealAdded(analyzedMeal);
+        } catch (error) {
+          console.error("Camera analysis error:", error);
+          Alert.alert("Error", "Failed to analyze meal. Please try manual entry.");
+        } finally {
+          setIsProcessingImage(false);
+        }
       }
     } catch (error) {
       Alert.alert("Error", "Failed to access camera");
@@ -155,16 +183,15 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
 
       if (!result.canceled && result.assets[0]) {
         setIsProcessingImage(true);
-        setTimeout(() => {
-          try {
-            const llmResponse = simulateLLMResponse();
-            handleMealAdded(llmResponse);
-          } catch (error) {
-            Alert.alert("Error", "Failed to analyze meal");
-          } finally {
-            setIsProcessingImage(false);
-          }
-        }, 2000);
+        try {
+          const analyzedMeal = await analyzeMealImage(result.assets[0].uri);
+          await handleMealAdded(analyzedMeal);
+        } catch (error) {
+          console.error("Gallery analysis error:", error);
+          Alert.alert("Error", "Failed to analyze meal. Please try manual entry.");
+        } finally {
+          setIsProcessingImage(false);
+        }
       }
     } catch (error) {
       Alert.alert("Error", "Failed to access gallery");
