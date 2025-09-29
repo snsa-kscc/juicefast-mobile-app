@@ -44,7 +44,7 @@ export default function UserSessions() {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Fetch only active sessions for the logged-in user
-  const sessions = useQuery(api.nutritionistChat.getActiveUserSessions);
+  const sessions = useQuery(api.nutritionistChat.getActiveUserSessions, user ? undefined : "skip");
 
   useEffect(() => {
     if (!user) {
