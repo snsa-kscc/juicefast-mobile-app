@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Keyboard,
+  StyleSheet,
 } from 'react-native';
 import { Send, User, Users } from 'lucide-react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
@@ -42,12 +43,22 @@ interface Message {
   isRead: boolean;
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  inner: {
+    flex: 1,
+  },
+});
+
 export function NutritionistChat() {
   const { user } = useUser();
   const router = useRouter();
   const { sessionId } = useLocalSearchParams();
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [selectedNutritionist, setSelectedNutritionist] = useState<Nutritionist | null>(null);
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null);
   const [showSessionSwitcher, setShowSessionSwitcher] = useState(false);
@@ -62,6 +73,20 @@ export function NutritionistChat() {
   const realtimeMessages = useQuery(api.nutritionistChat.getMessages,
     currentSession ? { sessionId: currentSession.id as Id<"chatSessions"> } : "skip"
   );
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', (e) => {
+      setKeyboardHeight(e.endCoordinates.height);
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardHeight(0);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -174,7 +199,7 @@ export function NutritionistChat() {
     router.push("/chat/sessions");
   };
 
-  
+
   const handleSendMessage = async () => {
     if (!inputText.trim() || isLoading || !selectedNutritionist || !user) return;
 
@@ -203,7 +228,7 @@ export function NutritionistChat() {
     }
   };
 
-  
+
   const formatTime = (date: string) => {
     return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
@@ -252,20 +277,20 @@ export function NutritionistChat() {
     const activeSessions = userSessions?.filter(session => session.status === "active") || [];
 
     return (
-      <View className="flex-1 bg-[#FCFBF8] px-4">
-        <View className="mb-4">
+      <View style={[styles.container, { backgroundColor: '#FCFBF8' }]}>
+        <View className="px-4 mb-4">
           <Text className="text-xl font-lufga-bold">Choose a Nutritionist</Text>
         </View>
-        <Text className="text-gray-600 font-lufga mb-6">
+        <Text className="text-gray-600 font-lufga mb-6 px-4">
           Connect with one of our certified nutritionists for personalized guidance
         </Text>
-        <Text className="text-gray-500 font-lufga mb-6 text-sm">
+        <Text className="text-gray-500 font-lufga mb-6 text-sm px-4">
           💡 You can message nutritionists even when they're offline - they'll receive your message when they're back online
         </Text>
 
         {/* Show active sessions if any exist */}
         {activeSessions.length > 0 && (
-          <View className="mb-6">
+          <View className="mb-6 px-4">
             <Text className="text-green-800 font-lufga-medium mb-3">
               Your Active Chats ({activeSessions.length})
             </Text>
@@ -309,7 +334,7 @@ export function NutritionistChat() {
           </View>
         )}
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} className="px-4">
           {nutritionists && nutritionists.length > 0 ? (
             nutritionists.map((nutritionist) => {
               // Check if user already has active session with this nutritionist
@@ -330,7 +355,7 @@ export function NutritionistChat() {
                 <View className="w-12 h-12 bg-[#E1D5B9] rounded-full items-center justify-center mr-4">
                   <User size={24} color="#8B7355" />
                 </View>
-                
+
                 <View className="flex-1">
                   <View className="flex-row items-center mb-1">
                     <Text className="text-lg font-lufga-medium text-gray-900">
@@ -376,166 +401,162 @@ export function NutritionistChat() {
 
   // Show chat interface
   return (
-    <KeyboardAwareScrollView
-      className="flex-1 bg-[#FCFBF8]"
-      contentContainerStyle={{ flexGrow: 1 }}
-      enableOnAndroid={true}
-      enableAutomaticScroll={true}
-      extraScrollHeight={20}
-    >
-      {/* Chat header */}
-      <View className="bg-white px-4 py-3 border-b border-gray-100">
-        <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center">
-            <View className="w-10 h-10 bg-[#E1D5B9] rounded-full items-center justify-center mr-3">
-              <User size={20} color="#8B7355" />
-            </View>
-            <View>
-              <Text className="font-lufga-medium text-gray-900">
-                {selectedNutritionist.name}
-              </Text>
-              <Text className="text-xs font-lufga text-gray-600">
-                {selectedNutritionist.specialization}
-              </Text>
-            </View>
-          </View>
-
-          <View className="flex-row items-center">
-            {/* Session switcher button - only show if multiple active sessions exist */}
-            {userSessions && userSessions.filter(s => s.status === "active").length > 1 && (
-              <TouchableOpacity
-                className="bg-blue-100 px-3 py-1 rounded-full mr-2"
-                onPress={() => setShowSessionSwitcher(!showSessionSwitcher)}
-              >
-                <View className="flex-row items-center">
-                  <Users size={14} color="#1e40af" />
-                  <Text className="text-blue-600 text-xs font-lufga-medium ml-1">
-                    {userSessions.filter(s => s.status === "active").length}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-
-            {/* End session button - only show when there's an active session */}
-            {currentSession && currentSession.status === 'active' && (
-              <TouchableOpacity
-                className={`bg-red-100 px-2 py-1 rounded-full ${isLoading ? 'opacity-50' : ''}`}
-                onPress={handleEndSession}
-                disabled={isLoading}
-              >
-                <Text className="text-red-600 text-xs font-lufga-medium">
-                  {isLoading ? 'Ending...' : 'End chat'}
+    <View style={[styles.container, { backgroundColor: '#FCFBF8' }]}>
+      <View style={[styles.inner, { paddingBottom: keyboardHeight }]}>
+        {/* Chat header */}
+        <View className="bg-white px-4 py-3 border-b border-gray-100">
+          <View className="flex-row items-center justify-between">
+            <View className="flex-row items-center">
+              <View className="w-10 h-10 bg-[#E1D5B9] rounded-full items-center justify-center mr-3">
+                <User size={20} color="#8B7355" />
+              </View>
+              <View>
+                <Text className="font-lufga-medium text-gray-900">
+                  {selectedNutritionist.name}
                 </Text>
-              </TouchableOpacity>
-            )}
+                <Text className="text-xs font-lufga text-gray-600">
+                  {selectedNutritionist.specialization}
+                </Text>
+              </View>
+            </View>
+
+            <View className="flex-row items-center">
+              {/* Session switcher button - only show if multiple active sessions exist */}
+              {userSessions && userSessions.filter(s => s.status === "active").length > 1 && (
+                <TouchableOpacity
+                  className="bg-blue-100 px-3 py-1 rounded-full mr-2"
+                  onPress={() => setShowSessionSwitcher(!showSessionSwitcher)}
+                >
+                  <View className="flex-row items-center">
+                    <Users size={14} color="#1e40af" />
+                    <Text className="text-blue-600 text-xs font-lufga-medium ml-1">
+                      {userSessions.filter(s => s.status === "active").length}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+
+              {/* End session button - only show when there's an active session */}
+              {currentSession && currentSession.status === 'active' && (
+                <TouchableOpacity
+                  className={`bg-red-100 px-2 py-1 rounded-full ${isLoading ? 'opacity-50' : ''}`}
+                  onPress={handleEndSession}
+                  disabled={isLoading}
+                >
+                  <Text className="text-red-600 text-xs font-lufga-medium">
+                    {isLoading ? 'Ending...' : 'End chat'}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
+
+          {/* Session switcher dropdown */}
+          {showSessionSwitcher && (
+            <View className="absolute top-16 right-4 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[200px]">
+              <Text className="text-gray-700 font-lufga-medium px-3 py-2 border-b border-gray-100">
+                Switch to:
+              </Text>
+              {userSessions
+                ?.filter(session => session.status === "active" && session.nutritionistId !== selectedNutritionist?.id)
+                .map((session) => {
+                  const nutritionist = nutritionists?.find(n => n.id === session.nutritionistId);
+                  return (
+                    <TouchableOpacity
+                      key={session.id.toString()}
+                      className="px-3 py-2 border-b border-gray-50 hover:bg-gray-50"
+                      onPress={() => switchToSession(session)}
+                    >
+                      <View className="flex-row items-center">
+                        <View className="w-6 h-6 bg-gray-200 rounded-full items-center justify-center mr-2">
+                          <User size={12} color="#6b7280" />
+                        </View>
+                        <View>
+                          <Text className="text-gray-900 font-lufga text-sm">
+                            {nutritionist?.name || 'Nutritionist'}
+                          </Text>
+                          <Text className="text-gray-500 text-xs font-lufga">
+                            {nutritionist?.specialization}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+            </View>
+          )}
         </View>
 
-        {/* Session switcher dropdown */}
-        {showSessionSwitcher && (
-          <View className="absolute top-16 right-4 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[200px]">
-            <Text className="text-gray-700 font-lufga-medium px-3 py-2 border-b border-gray-100">
-              Switch to:
-            </Text>
-            {userSessions
-              ?.filter(session => session.status === "active" && session.nutritionistId !== selectedNutritionist?.id)
-              .map((session) => {
-                const nutritionist = nutritionists?.find(n => n.id === session.nutritionistId);
-                return (
-                  <TouchableOpacity
-                    key={session.id.toString()}
-                    className="px-3 py-2 border-b border-gray-50 hover:bg-gray-50"
-                    onPress={() => switchToSession(session)}
-                  >
-                    <View className="flex-row items-center">
-                      <View className="w-6 h-6 bg-gray-200 rounded-full items-center justify-center mr-2">
-                        <User size={12} color="#6b7280" />
-                      </View>
-                      <View>
-                        <Text className="text-gray-900 font-lufga text-sm">
-                          {nutritionist?.name || 'Nutritionist'}
-                        </Text>
-                        <Text className="text-gray-500 text-xs font-lufga">
-                          {nutritionist?.specialization}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-          </View>
-        )}
-      </View>
-
-      {/* Messages */}
-      <ScrollView
-        ref={scrollViewRef}
-        className="flex-1 px-4 py-2"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      >
-        {messages.map((message) => (
-          <View
-            key={message.id}
-            className={`mb-4 ${message.senderType === 'user' ? 'items-end' : 'items-start'}`}
-          >
+        {/* Messages */}
+        <ScrollView
+          ref={scrollViewRef}
+          className="flex-1 px-4 py-2"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        >
+          {messages.map((message) => (
             <View
-              className={`max-w-[80%] px-4 py-3 rounded-2xl ${
-                message.senderType === 'user'
-                  ? 'bg-[#E1D5B9] rounded-br-md'
-                  : 'bg-white rounded-bl-md shadow-sm'
-              }`}
+              key={message.id}
+              className={`mb-4 ${message.senderType === 'user' ? 'items-end' : 'items-start'}`}
             >
-              <Text
-                className={`text-base font-lufga leading-5 ${
-                  message.senderType === 'user' ? 'text-gray-800' : 'text-gray-800'
+              <View
+                className={`max-w-[80%] px-4 py-3 rounded-2xl ${
+                  message.senderType === 'user'
+                    ? 'bg-[#E1D5B9] rounded-br-md'
+                    : 'bg-white rounded-bl-md shadow-sm'
                 }`}
               >
-                {message.content}
+                <Text
+                  className={`text-base font-lufga leading-5 ${
+                    message.senderType === 'user' ? 'text-gray-800' : 'text-gray-800'
+                  }`}
+                >
+                  {message.content}
+                </Text>
+              </View>
+              <Text className="text-xs font-lufga text-gray-400 mt-1 px-2">
+                {formatTime(message.timestamp)}
               </Text>
             </View>
-            <Text className="text-xs font-lufga text-gray-400 mt-1 px-2">
-              {formatTime(message.timestamp)}
-            </Text>
-          </View>
-        ))}
-        
-        {isLoading && (
-          <View className="items-start mb-4">
-            <View className="bg-white px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
-              <Spinner size={20} color="#E1D5B9" />
-            </View>
-          </View>
-        )}
-      </ScrollView>
+          ))}
 
-      {/* Input */}
-      <View className="px-4 py-2 bg-white border-t border-gray-100">
-        <View className="flex-row items-end bg-white rounded-2xl shadow-sm border border-gray-100">
-          <TextInput
-            className="flex-1 px-4 py-3 text-base font-lufga text-gray-800 max-h-24"
-            placeholder="Ask your nutritionist anything..."
-            placeholderTextColor="#9CA3AF"
-            value={inputText}
-            onChangeText={setInputText}
-            multiline
-            textAlignVertical="top"
-            onSubmitEditing={handleSendMessage}
-          />
-          <TouchableOpacity
-            className={`p-3 m-1 rounded-xl ${
-              inputText.trim() && !isLoading ? 'bg-[#E1D5B9]' : 'bg-gray-200'
-            }`}
-            onPress={handleSendMessage}
-            disabled={!inputText.trim() || isLoading}
-          >
-            <Send
-              size={20}
-              color={inputText.trim() && !isLoading ? '#8B7355' : '#9CA3AF'}
+          {isLoading && (
+            <View className="items-start mb-4">
+              <View className="bg-white px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
+                <Spinner size={20} color="#E1D5B9" />
+              </View>
+            </View>
+          )}
+        </ScrollView>
+
+        {/* Input */}
+        <View className="px-4 py-2 bg-white border-t border-gray-100">
+          <View className="flex-row items-end bg-white rounded-2xl shadow-sm border border-gray-100">
+            <TextInput
+              className="flex-1 px-4 py-3 text-base font-lufga text-gray-800 max-h-24"
+              placeholder="Ask your nutritionist anything..."
+              placeholderTextColor="#9CA3AF"
+              value={inputText}
+              onChangeText={setInputText}
+              multiline
+              textAlignVertical="top"
+              onSubmitEditing={handleSendMessage}
             />
-          </TouchableOpacity>
+            <TouchableOpacity
+              className={`p-3 m-1 rounded-xl ${
+                inputText.trim() && !isLoading ? 'bg-[#E1D5B9]' : 'bg-gray-200'
+              }`}
+              onPress={handleSendMessage}
+              disabled={!inputText.trim() || isLoading}
+            >
+              <Send
+                size={20}
+                color={inputText.trim() && !isLoading ? '#8B7355' : '#9CA3AF'}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </View>
   );
 }

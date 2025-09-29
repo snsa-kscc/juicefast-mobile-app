@@ -21,6 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
+      "windowSoftInputMode": "adjustResize",
       "package": "com.juicefastapp.juicefastnutritionapp"
     },
     "web": {
