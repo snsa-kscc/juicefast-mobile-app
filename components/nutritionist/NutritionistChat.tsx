@@ -302,7 +302,7 @@ export function NutritionistChat() {
           Connect with one of our certified nutritionists for personalized guidance
         </Text>
         <Text className="text-gray-500 font-lufga mb-6 text-sm px-4">
-          💡 You can message nutritionists even when they're offline - they'll receive your message when they're back online
+          💡 You can message nutritionists even when they&apos;re offline - they&apos;ll receive your message when they&apos;re back online
         </Text>
 
         {/* Show active sessions if any exist */}

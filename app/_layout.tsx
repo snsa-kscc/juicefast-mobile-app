@@ -89,6 +89,7 @@ function AuthenticatedLayout() {
         // headerShown: false,
         // gestureEnabled: false
       }} />
+      <Stack.Screen name="test-push" options={SCREEN_OPTIONS} />
       <Stack.Screen name="+not-found" />
     </Stack>
   );
