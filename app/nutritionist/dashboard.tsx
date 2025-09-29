@@ -40,8 +40,8 @@ export default function NutritionistDashboard() {
   const [filter, setFilter] = useState<'all' | 'active' | 'ended'>('all');
   const [displayedChats, setDisplayedChats] = useState(20);
 
-  const chats = useQuery(api.nutritionistChat.getNutritionistSessions);
-  const activeChats = useQuery(api.nutritionistChat.getActiveSessionsForNutritionist);
+  const chats = useQuery(api.nutritionistChat.getNutritionistSessions, user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip");
+  const activeChats = useQuery(api.nutritionistChat.getActiveSessionsForNutritionist, user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip");
   const updateStatus = useMutation(api.nutritionistChat.updateNutritionistStatus);
 
   useEffect(() => {

@@ -11,8 +11,7 @@ export default function ChatPage() {
   };
 
   const handleSettingsPress = () => {
-    // Handle settings navigation
-    console.log("Settings pressed");
+    router.push("/profile");
   };
 
   return (

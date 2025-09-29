@@ -55,6 +55,15 @@ const styles = StyleSheet.create({
 export function NutritionistChat() {
   const { user } = useUser();
   const router = useRouter();
+
+  // Redirect if user is not authenticated
+  if (!user) {
+    return (
+      <View style={[styles.container, { backgroundColor: '#FCFBF8' }]} className="items-center justify-center">
+        <Text className="text-gray-600 font-lufga">Please sign in to access chat features.</Text>
+      </View>
+    );
+  }
   const { sessionId } = useLocalSearchParams();
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -64,14 +73,14 @@ export function NutritionistChat() {
   const [showSessionSwitcher, setShowSessionSwitcher] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
 
-  // Convex hooks
-  const nutritionists = useQuery(api.nutritionistChat.getNutritionists);
-  const userSessions = useQuery(api.nutritionistChat.getUserSessions);
+  // Convex hooks - only execute when user is authenticated
+  const nutritionists = useQuery(api.nutritionistChat.getNutritionists, user ? undefined : "skip");
+  const userSessions = useQuery(api.nutritionistChat.getUserSessions, user ? undefined : "skip");
   const sendMessage = useMutation(api.nutritionistChat.sendMessage);
   const endSession = useMutation(api.nutritionistChat.endChatSession);
   const markMessagesAsRead = useMutation(api.nutritionistChat.markMessagesAsRead);
   const realtimeMessages = useQuery(api.nutritionistChat.getMessages,
-    currentSession ? { sessionId: currentSession.id as Id<"chatSessions"> } : "skip"
+    currentSession && user ? { sessionId: currentSession.id as Id<"chatSessions"> } : "skip"
   );
 
   useEffect(() => {
@@ -195,10 +204,7 @@ export function NutritionistChat() {
     }
   };
 
-  const handleViewSessions = () => {
-    router.push("/chat/sessions");
-  };
-
+  
 
   const handleSendMessage = async () => {
     if (!inputText.trim() || isLoading || !selectedNutritionist || !user) return;
