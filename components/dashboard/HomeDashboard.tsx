@@ -221,9 +221,12 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
         </TouchableOpacity>
 
         {/* Test Push Notifications */}
-        <Link href="/test-notifications">
-          <Text>Test Push Notifications</Text>
-        </Link>
+        <TouchableOpacity 
+          className="bg-blue-600 px-6 py-4 rounded-xl mb-4" 
+          onPress={() => router.push("/test-notifications")}
+        >
+          <Text className="text-white text-lg font-semibold text-center">Test Push Notifications</Text>
+        </TouchableOpacity>
 
         {/* Challenge Banners */}
         <TouchableOpacity className="w-full mb-4">
