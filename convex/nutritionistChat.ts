@@ -198,7 +198,46 @@ export const sendMessage = mutation({
     // Update session last message time
     await ctx.db.patch(session._id, { lastMessageAt: Date.now() });
 
-    return messageId;
+    // Get user info for notification
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_user_id", q => q.eq("userId", identity.subject))
+      .first();
+
+    // Get nutritionist's push token
+    const nutritionistUser = await ctx.db
+      .query("users")
+      .withIndex("by_user_id", q => q.eq("userId", session.nutritionistId))
+      .first();
+
+    // Send push notification to nutritionist if they have a push token
+    if (nutritionistUser?.pushToken) {
+      try {
+        await fetch('https://exp.host/--/api/v2/push/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: nutritionistUser.pushToken,
+            sound: 'default',
+            title: user?.name || session.userName || "User",
+            body: args.content,
+            data: { chatId: session._id.toString() },
+          }),
+        });
+      } catch (error) {
+        console.error('Failed to send push notification:', error);
+        // Don't throw error - message was still sent successfully
+      }
+    }
+
+    return {
+      messageId,
+      recipientId: session.nutritionistId,
+      senderName: user?.name || session.userName || "User",
+      senderType: "user"
+    };
   }
 });
 
@@ -234,7 +273,46 @@ export const sendNutritionistMessage = mutation({
     // Update session last message time
     await ctx.db.patch(args.sessionId, { lastMessageAt: Date.now() });
 
-    return messageId;
+    // Get nutritionist info for notification
+    const nutritionist = await ctx.db
+      .query("nutritionists")
+      .withIndex("by_clerk_id", q => q.eq("clerkId", identity.subject))
+      .first();
+
+    // Get user's push token
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_user_id", q => q.eq("userId", session.userId))
+      .first();
+
+    // Send push notification if user has a push token
+    if (user?.pushToken) {
+      try {
+        await fetch('https://exp.host/--/api/v2/push/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: user.pushToken,
+            sound: 'default',
+            title: nutritionist?.name || "Nutritionist",
+            body: args.content,
+            data: { chatId: args.sessionId.toString() },
+          }),
+        });
+      } catch (error) {
+        console.error('Failed to send push notification:', error);
+        // Don't throw error - message was still sent successfully
+      }
+    }
+
+    return {
+      messageId,
+      recipientId: session.userId,
+      senderName: nutritionist?.name || "Nutritionist",
+      senderType: "nutritionist"
+    };
   }
 });
 

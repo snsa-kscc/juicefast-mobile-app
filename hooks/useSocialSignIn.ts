@@ -2,6 +2,7 @@ import { useSSO } from "@clerk/clerk-expo";
 import * as AuthSession from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 import { useCallback, useEffect, useState } from "react";
+import { getPushToken } from "../services/messagingService";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -61,6 +62,16 @@ export const useSocialSignIn = () => {
         }
 
         await setActive!({ session: createdSessionId });
+
+        // Store push token after successful authentication
+        try {
+          const token = await getPushToken();
+          if (token) {
+            console.log("Push token obtained after social sign-in");
+          }
+        } catch (error) {
+          console.warn("Failed to get push token after social sign-in:", error);
+        }
 
         if (signUp && onSignupComplete) {
           try {

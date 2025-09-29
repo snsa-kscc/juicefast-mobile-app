@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
+import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
 import { ReferralStorage } from "../../utils/referralStorage";
 
 export default function Page() {
@@ -11,6 +12,9 @@ export default function Page() {
   const router = useRouter();
   const { user } = useUser();
   const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
+
+  // Automatically store push token when user signs in
+  usePushTokenStorage({ skip: !user });
   
   // Handle referral processing for social sign-ins
   const handleSocialSignInComplete = async () => {

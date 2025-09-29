@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
+import { usePushTokenStorage } from "../hooks/usePushTokenStorage";
 import "../styles/global.css";
 import { handleAppInstallWithReferral } from "../utils/appInstallHandler";
 
@@ -45,6 +46,9 @@ function AuthenticatedLayout() {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
   const router = useRouter();
+
+  // Automatically store push token for all authenticated users
+  usePushTokenStorage({ skip: !user });
 
   useEffect(() => {
     if (!isLoaded) return; // Wait for auth to load

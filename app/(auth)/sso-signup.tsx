@@ -4,12 +4,16 @@ import React, { useEffect, useRef, useCallback } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
+import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
 import { ReferralStorage } from "../../utils/referralStorage";
 
 export default function SSOSignUpScreen() {
   const router = useRouter();
   const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
   const { user, isLoaded } = useUser();
+
+  // Automatically store push token when user signs up
+  usePushTokenStorage({ skip: !user });
 
   // Track if we've already processed this user to avoid duplicate processing
   const processedUserRef = useRef<string | null>(null);

@@ -16,6 +16,7 @@ import { Id } from '@/convex/_generated/dataModel';
 import { useUser } from '@clerk/clerk-expo';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Spinner } from '@/components/Spinner';
+import { addNotificationListener, addForegroundNotificationListener } from '@/services/messagingService';
 
 interface Nutritionist {
   id: string;
@@ -33,15 +34,6 @@ interface ChatSession {
   createdAt: string;
 }
 
-interface Message {
-  id: string;
-  sessionId: string;
-  senderId: string;
-  senderType: 'user' | 'nutritionist';
-  content: string;
-  timestamp: string;
-  isRead: boolean;
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -55,15 +47,6 @@ const styles = StyleSheet.create({
 export function NutritionistChat() {
   const { user } = useUser();
   const router = useRouter();
-
-  // Redirect if user is not authenticated
-  if (!user) {
-    return (
-      <View style={[styles.container, { backgroundColor: '#FCFBF8' }]} className="items-center justify-center">
-        <Text className="text-gray-600 font-lufga">Please sign in to access chat features.</Text>
-      </View>
-    );
-  }
   const { sessionId } = useLocalSearchParams();
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -72,7 +55,7 @@ export function NutritionistChat() {
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(null);
   const [showSessionSwitcher, setShowSessionSwitcher] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
-
+  
   // Convex hooks - only execute when user is authenticated
   const nutritionists = useQuery(api.nutritionistChat.getNutritionists, user ? undefined : "skip");
   const userSessions = useQuery(api.nutritionistChat.getUserSessions, user ? undefined : "skip");
@@ -96,6 +79,32 @@ export function NutritionistChat() {
       hideSubscription.remove();
     };
   }, []);
+
+  // Listen for notification taps (when app was closed/background)
+  useEffect(() => {
+    const unsubscribeTap = addNotificationListener((chatId) => {
+      if (user) {
+        console.log('User tapped notification for chat:', chatId);
+        // Handle navigation to specific chat if needed
+      }
+    });
+
+    return unsubscribeTap;
+  }, [user]);
+
+  // Listen for notifications when app is OPEN
+  useEffect(() => {
+    const unsubscribeForeground = addForegroundNotificationListener(
+      (senderName, messageText, chatId) => {
+        if (user) {
+          console.log('New message while app open:', messageText);
+          // You could show an in-app notification or handle it silently
+        }
+      }
+    );
+
+    return unsubscribeForeground;
+  }, [user]);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -209,14 +218,16 @@ export function NutritionistChat() {
   const handleSendMessage = async () => {
     if (!inputText.trim() || isLoading || !selectedNutritionist || !user) return;
 
+    const messageText = inputText.trim();
     setInputText('');
     setIsLoading(true);
 
     try {
       // This will automatically create a session if needed
+      // Push notification is handled server-side
       await sendMessage({
         nutritionistId: selectedNutritionist.id,
-        content: inputText.trim()
+        content: messageText
       });
 
       // The session will be created automatically, so we need to fetch the latest sessions
@@ -228,7 +239,7 @@ export function NutritionistChat() {
     } catch (error: any) {
       console.error('Failed to send message:', error);
       Alert.alert('Error', error.message || 'Failed to send message. Please try again.');
-      setInputText(inputText.trim()); // Restore the text if send failed
+      setInputText(messageText); // Restore the text if send failed
     } finally {
       setIsLoading(false);
     }
@@ -401,6 +412,15 @@ export function NutritionistChat() {
             </View>
           )}
         </ScrollView>
+      </View>
+    );
+  }
+
+  // Redirect if user is not authenticated
+  if (!user) {
+    return (
+      <View style={[styles.container, { backgroundColor: '#FCFBF8' }]} className="items-center justify-center">
+        <Text className="text-gray-600 font-lufga">Please sign in to access chat features.</Text>
       </View>
     );
   }

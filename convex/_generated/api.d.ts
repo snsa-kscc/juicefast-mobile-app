@@ -19,6 +19,7 @@ import type * as nutritionistChat from "../nutritionistChat.js";
 import type * as sleepEntry from "../sleepEntry.js";
 import type * as stepEntry from "../stepEntry.js";
 import type * as userProfile from "../userProfile.js";
+import type * as users from "../users.js";
 import type * as util from "../util.js";
 import type * as waterIntake from "../waterIntake.js";
 
@@ -37,6 +38,7 @@ declare const fullApi: ApiFromModules<{
   sleepEntry: typeof sleepEntry;
   stepEntry: typeof stepEntry;
   userProfile: typeof userProfile;
+  users: typeof users;
   util: typeof util;
   waterIntake: typeof waterIntake;
 }>;

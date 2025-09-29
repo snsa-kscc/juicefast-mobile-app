@@ -16,6 +16,7 @@ import { useUser } from '@clerk/clerk-expo';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Send, User, ArrowLeft, X } from 'lucide-react-native';
 import { Spinner } from '@/components/Spinner';
+import { addNotificationListener, addForegroundNotificationListener } from '@/services/messagingService';
 
 interface Message {
   id: Id<"chatMessages">;
@@ -54,7 +55,7 @@ export default function NutritionistChatSession() {
   const sendMessage = useMutation(api.nutritionistChat.sendNutritionistMessage);
   const markAsRead = useMutation(api.nutritionistChat.markMessagesAsRead);
   const endSession = useMutation(api.nutritionistChat.endChatSession);
-
+  
   useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', (e) => {
       setKeyboardHeight(e.endCoordinates.height);
@@ -82,6 +83,32 @@ export default function NutritionistChatSession() {
     }
   }, [sessionId, user]);
 
+  // Listen for notification taps (when app was closed/background)
+  useEffect(() => {
+    if (!user) return;
+
+    const unsubscribeTap = addNotificationListener((chatId) => {
+      console.log('Nutritionist tapped notification for chat:', chatId);
+      // Handle navigation to specific chat if needed
+    });
+
+    return unsubscribeTap;
+  }, [user]);
+
+  // Listen for notifications when app is OPEN
+  useEffect(() => {
+    if (!user) return;
+
+    const unsubscribeForeground = addForegroundNotificationListener(
+      (senderName, messageText, chatId) => {
+        console.log('New message while app open:', messageText);
+        // You could show an in-app notification or handle it silently
+      }
+    );
+
+    return unsubscribeForeground;
+  }, [user]);
+
   useEffect(() => {
     if (messagesData) {
       setMessages(messagesData);
@@ -104,11 +131,12 @@ export default function NutritionistChatSession() {
   };
 
   const handleSend = async () => {
-    if (!inputText.trim() || isLoading || !sessionId) return;
+    if (!inputText.trim() || isLoading || !sessionId || !currentSession) return;
 
     setIsLoading(true);
 
     try {
+      // Send message - push notification is handled server-side
       await sendMessage({
         sessionId: sessionId as Id<"chatSessions">,
         content: inputText.trim()

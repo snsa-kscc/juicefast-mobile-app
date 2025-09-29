@@ -63,6 +63,15 @@ export default defineSchema({
     .index("by_referral_code", ["referralCode"])
     .index("by_referred_by", ["referredBy"]),
 
+  // Push tokens for notifications
+  users: defineTable({
+    userId: v.string(),
+    pushToken: v.optional(v.string()),
+    role: v.optional(v.union(v.literal("user"), v.literal("nutritionist"))),
+    name: v.optional(v.string()),
+  })
+    .index("by_user_id", ["userId"]),
+
   // Nutritionist chat tables
   nutritionists: defineTable({
     clerkId: v.string(),
