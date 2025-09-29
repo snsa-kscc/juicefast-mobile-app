@@ -4,11 +4,11 @@ import * as Notifications from "expo-notifications";
 // Configure notification behavior - don't show alerts when app is open
 Notifications.setNotificationHandler({
   handleNotification: async (notification) => ({
-    shouldShowAlert: true, // Don't show when app is open
-    shouldPlaySound: true, // Don't play sound when app is open
-    shouldSetBadge: false,
-    shouldShowBanner: false,
-    shouldShowList: false,
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
   }),
 });
 
