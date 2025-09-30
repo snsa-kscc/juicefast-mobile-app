@@ -1,4 +1,4 @@
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalMutation } from "./_generated/server";
 import { v } from "convex/values";
 
 
@@ -63,6 +63,25 @@ export const deleteByUserIdAndTimestamp = mutation({
       return entry._id;
     }
     return null;
+  },
+});
+
+// Server-side functions for API routes - these accept userId as parameter
+export const getByUserIdForServer = query({
+  args: {
+    userId: v.string(),
+    startTime: v.number(),
+    endTime: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const entries = await ctx.db
+      .query("stepEntry")
+      .withIndex("by_user_id", (q) => q.eq("userId", args.userId))
+      .collect();
+
+    return entries.filter(entry =>
+      entry.timestamp >= args.startTime && entry.timestamp <= args.endTime
+    );
   },
 });
 

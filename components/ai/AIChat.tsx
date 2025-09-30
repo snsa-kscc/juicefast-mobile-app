@@ -35,7 +35,6 @@ export function AIChat({ userId: _userId }: AIChatProps) {
     isLoading,
     error,
     sendMessage,
-    isMetricsLoading,
   } = useHealthChat();
 
   const scrollToBottom = () => {
@@ -76,14 +75,7 @@ export function AIChat({ userId: _userId }: AIChatProps) {
   return (
     <View style={[styles.container, { backgroundColor: '#FCFBF8' }]}>
       <View style={[styles.inner, { paddingBottom: keyboardHeight }]}>
-        {/* Loading state for metrics */}
-        {isMetricsLoading && (
-          <View className="items-center py-8">
-            <Spinner size={32} />
-            <Text className="text-gray-500 mt-2">Loading your health data...</Text>
-          </View>
-        )}
-
+  
         {/* Error state */}
         {error && (
           <View className="px-4 py-2">

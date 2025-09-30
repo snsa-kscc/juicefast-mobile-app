@@ -70,3 +70,22 @@ export const deleteByUserIdAndTimestamp = mutation({
     return null;
   },
 });
+
+// Server-side functions for API routes - these accept userId as parameter
+export const getByUserIdForServer = query({
+  args: {
+    userId: v.string(),
+    startTime: v.number(),
+    endTime: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const entries = await ctx.db
+      .query("mealEntry")
+      .withIndex("by_user_id", (q) => q.eq("userID", args.userId))
+      .collect();
+
+    return entries.filter(entry =>
+      entry.timestamp >= args.startTime && entry.timestamp <= args.endTime
+    );
+  },
+});
