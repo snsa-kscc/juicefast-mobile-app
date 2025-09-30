@@ -62,6 +62,26 @@ export const getUser = query({
   },
 });
 
+// Clear user's push token (for logout/security)
+export const clearPushToken = mutation({
+  args: { userId: v.string() },
+  handler: async (ctx, args) => {
+    const existingUser = await ctx.db
+      .query("users")
+      .withIndex("by_user_id", q => q.eq("userId", args.userId))
+      .first();
+
+    if (existingUser) {
+      await ctx.db.patch(existingUser._id, {
+        pushToken: undefined
+      });
+      return true;
+    }
+
+    return false;
+  },
+});
+
 // Get user by push token
 export const getUserByPushToken = query({
   args: { pushToken: v.string() },

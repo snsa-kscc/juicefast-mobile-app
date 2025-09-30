@@ -89,22 +89,35 @@ export async function sendPushNotification(targetToken: string, senderName: stri
 }
 
 // Listen for notification taps (when app was closed/background)
-export function addNotificationListener(callback: (chatId?: string) => void) {
+export function addNotificationListener(callback: (chatId?: string, intendedRecipientId?: string) => void) {
   const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
     const chatId = response.notification.request.content.data.chatId as string | undefined;
-    callback(chatId);
+    const intendedRecipientId = response.notification.request.content.data.intendedRecipientId as string | undefined;
+
+    // Validate that the current user is the intended recipient
+    if (intendedRecipientId) {
+      // This will be handled by the chat components with user context
+      // We just pass the validation data along
+      callback(chatId, intendedRecipientId);
+    } else {
+      // Legacy notifications without recipient validation
+      callback(chatId);
+    }
   });
 
   return () => subscription.remove();
 }
 
 // Listen for notifications when app is OPEN
-export function addForegroundNotificationListener(callback: (senderName: string, messageText: string, chatId?: string) => void) {
+export function addForegroundNotificationListener(callback: (senderName: string, messageText: string, chatId?: string, intendedRecipientId?: string) => void) {
   const subscription = Notifications.addNotificationReceivedListener((notification) => {
     // This fires when notification arrives and app is OPEN
     const { title, body, data } = notification.request.content;
     const chatId = data?.chatId as string | undefined;
-    callback(title || "Someone", body || "", chatId);
+    const intendedRecipientId = data?.intendedRecipientId as string | undefined;
+
+    // Pass recipient validation data along with the notification
+    callback(title || "Someone", body || "", chatId, intendedRecipientId);
   });
 
   return () => subscription.remove();

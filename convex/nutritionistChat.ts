@@ -219,6 +219,7 @@ export const sendMessage = mutation({
           senderName: user?.name || session.userName || "User",
           messageText: args.content,
           chatId: session._id.toString(),
+          intendedRecipientId: session.nutritionistId, // The nutritionist is the intended recipient
         });
       } catch (error) {
         console.error('Failed to send push notification:', error);
@@ -287,6 +288,7 @@ export const sendNutritionistMessage = mutation({
           senderName: nutritionist?.name || "Nutritionist",
           messageText: args.content,
           chatId: args.sessionId.toString(),
+          intendedRecipientId: session.userId, // The user is the intended recipient
         });
       } catch (error) {
         console.error('Failed to send push notification:', error);
@@ -621,6 +623,7 @@ export const sendPushNotification = action({
     senderName: v.string(),
     messageText: v.string(),
     chatId: v.string(),
+    intendedRecipientId: v.string(), // Add recipient validation
   },
   handler: async (_, args) => {
     if (!args.targetToken) {
@@ -633,7 +636,10 @@ export const sendPushNotification = action({
       sound: "default",
       title: args.senderName,
       body: args.messageText,
-      data: { chatId: args.chatId },
+      data: {
+        chatId: args.chatId,
+        intendedRecipientId: args.intendedRecipientId, // Include for validation
+      },
       priority: "high",
       channelId: "default",
     };

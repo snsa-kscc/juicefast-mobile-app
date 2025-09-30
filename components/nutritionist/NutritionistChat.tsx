@@ -82,8 +82,14 @@ export function NutritionistChat() {
 
   // Listen for notification taps (when app was closed/background)
   useEffect(() => {
-    const unsubscribeTap = addNotificationListener((chatId) => {
+    const unsubscribeTap = addNotificationListener((chatId, intendedRecipientId) => {
       if (user) {
+        // Validate that the current user is the intended recipient
+        if (intendedRecipientId && intendedRecipientId !== user.id) {
+          console.log('Ignoring notification - not the intended recipient:', intendedRecipientId);
+          return; // Silent ignore - wrong user logged in
+        }
+
         console.log('User tapped notification for chat:', chatId);
         // Handle navigation to specific chat if needed
       }
@@ -95,8 +101,14 @@ export function NutritionistChat() {
   // Listen for notifications when app is OPEN
   useEffect(() => {
     const unsubscribeForeground = addForegroundNotificationListener(
-      (senderName, messageText, chatId) => {
+      (senderName, messageText, chatId, intendedRecipientId) => {
         if (user) {
+          // Validate that the current user is the intended recipient
+          if (intendedRecipientId && intendedRecipientId !== user.id) {
+            console.log('Ignoring foreground notification - not the intended recipient:', intendedRecipientId);
+            return; // Silent ignore - wrong user logged in
+          }
+
           console.log('New message while app open:', messageText);
           // You could show an in-app notification or handle it silently
         }
