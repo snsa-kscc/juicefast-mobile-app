@@ -11,6 +11,7 @@
     "lint": "expo lint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^2.0.17",
     "@clerk/clerk-expo": "^2.14.28",
     "@expo/metro-runtime": "~6.1.2",
     "@expo/vector-icons": "^15.0.2",
