@@ -13,6 +13,9 @@
       "bundleIdentifier": "com.juicefastapp.juicefastnutritionapp",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
+      },
+      "entitlements": {
+        "aps-environment": "development"
       }
     },
     "android": {
@@ -22,7 +25,12 @@
       },
       "edgeToEdgeEnabled": true,
       "windowSoftInputMode": "adjustResize",
-      "package": "com.juicefastapp.juicefastnutritionapp"
+      "package": "com.juicefastapp.juicefastnutritionapp",
+      "permissions": [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE",
+        "android.permission.WAKE_LOCK"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -49,7 +57,8 @@
           "supportsBackgroundPlayback": true,
           "supportsPictureInPicture": true
         }
-      ]
+      ],
+      "expo-notifications"
     ],
     "experiments": {
       "typedRoutes": true

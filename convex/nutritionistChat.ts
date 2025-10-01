@@ -1,5 +1,6 @@
-import { mutation, query } from "./_generated/server";
+import { mutation, query, action } from "./_generated/server";
 import { v } from "convex/values";
+import { api } from "./_generated/api";
 
 // Nutritionist mutations
 export const createNutritionist = mutation({
@@ -198,7 +199,40 @@ export const sendMessage = mutation({
     // Update session last message time
     await ctx.db.patch(session._id, { lastMessageAt: Date.now() });
 
-    return messageId;
+    // Get user info for notification
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_user_id", q => q.eq("userId", identity.subject))
+      .first();
+
+    // Get nutritionist's push token
+    const nutritionistUser = await ctx.db
+      .query("users")
+      .withIndex("by_user_id", q => q.eq("userId", session.nutritionistId))
+      .first();
+
+    // Send push notification to nutritionist if they have a push token
+    if (nutritionistUser?.pushToken) {
+      try {
+        await ctx.scheduler.runAfter(0, api.nutritionistChat.sendPushNotification, {
+          targetToken: nutritionistUser.pushToken,
+          senderName: user?.name || session.userName || "User",
+          messageText: args.content,
+          chatId: session._id.toString(),
+          intendedRecipientId: session.nutritionistId, // The nutritionist is the intended recipient
+        });
+      } catch (error) {
+        console.error('Failed to send push notification:', error);
+        // Don't throw error - message was still sent successfully
+      }
+    }
+
+    return {
+      messageId,
+      recipientId: session.nutritionistId,
+      senderName: user?.name || session.userName || "User",
+      senderType: "user"
+    };
   }
 });
 
@@ -234,7 +268,40 @@ export const sendNutritionistMessage = mutation({
     // Update session last message time
     await ctx.db.patch(args.sessionId, { lastMessageAt: Date.now() });
 
-    return messageId;
+    // Get nutritionist info for notification
+    const nutritionist = await ctx.db
+      .query("nutritionists")
+      .withIndex("by_clerk_id", q => q.eq("clerkId", identity.subject))
+      .first();
+
+    // Get user's push token
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_user_id", q => q.eq("userId", session.userId))
+      .first();
+
+    // Send push notification if user has a push token
+    if (user?.pushToken) {
+      try {
+        await ctx.scheduler.runAfter(0, api.nutritionistChat.sendPushNotification, {
+          targetToken: user.pushToken,
+          senderName: nutritionist?.name || "Nutritionist",
+          messageText: args.content,
+          chatId: args.sessionId.toString(),
+          intendedRecipientId: session.userId, // The user is the intended recipient
+        });
+      } catch (error) {
+        console.error('Failed to send push notification:', error);
+        // Don't throw error - message was still sent successfully
+      }
+    }
+
+    return {
+      messageId,
+      recipientId: session.userId,
+      senderName: nutritionist?.name || "Nutritionist",
+      senderType: "nutritionist"
+    };
   }
 });
 
@@ -547,4 +614,62 @@ export const getActiveUserSessions = query({
       })
     );
   }
+});
+
+// Push notification action (can make external API calls)
+export const sendPushNotification = action({
+  args: {
+    targetToken: v.string(),
+    senderName: v.string(),
+    messageText: v.string(),
+    chatId: v.string(),
+    intendedRecipientId: v.string(), // Add recipient validation
+  },
+  handler: async (_, args) => {
+    if (!args.targetToken) {
+      console.log("Push notification failed: No target token provided");
+      return;
+    }
+
+    const message = {
+      to: args.targetToken,
+      sound: "default",
+      title: args.senderName,
+      body: args.messageText,
+      data: {
+        chatId: args.chatId,
+        intendedRecipientId: args.intendedRecipientId, // Include for validation
+      },
+      priority: "high",
+      channelId: "default",
+    };
+
+    try {
+      const response = await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(message),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.error("Push notification failed:", result);
+        throw new Error(result.message || "Failed to send push notification");
+      }
+
+      if (result.data?.status === "error") {
+        console.error("Push notification error:", result.data);
+        throw new Error(result.data.message || "Push notification error");
+      }
+
+      console.log("Push notification sent successfully:", result.data);
+      return result.data;
+    } catch (error) {
+      console.error("Failed to send push notification:", error);
+      throw error;
+    }
+  },
 });

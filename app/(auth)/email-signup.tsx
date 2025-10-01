@@ -6,10 +6,14 @@ import { useSignUp } from "@clerk/clerk-expo";
 import { ReferralStorage } from "../../utils/referralStorage";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
 
 export default function EmailSignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
+
+  // Automatically store push token when user signs up and signs in
+  usePushTokenStorage();
   const [referralCodeInput, setReferralCodeInput] = useState("");
   const referralData = useQuery(api.userProfile.getByReferralCode, referralCodeInput.trim() ? { referralCode: referralCodeInput.trim() } : "skip");
 

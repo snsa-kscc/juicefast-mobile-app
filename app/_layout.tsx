@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
+import { usePushTokenStorage } from "../hooks/usePushTokenStorage";
 import "../styles/global.css";
 import { handleAppInstallWithReferral } from "../utils/appInstallHandler";
 
@@ -44,6 +45,9 @@ function AuthenticatedLayout() {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
   const router = useRouter();
+
+  // Automatically store push token for all authenticated users
+  usePushTokenStorage({ skip: !user });
 
   useEffect(() => {
     if (!isLoaded) return; // Wait for auth to load
@@ -84,6 +88,7 @@ function AuthenticatedLayout() {
         // headerShown: false,
         // gestureEnabled: false
       }} />
+      <Stack.Screen name="test-push" options={SCREEN_OPTIONS} />
       <Stack.Screen name="+not-found" />
     </Stack>
   );

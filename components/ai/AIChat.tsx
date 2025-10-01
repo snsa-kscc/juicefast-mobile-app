@@ -111,13 +111,23 @@ export function AIChat({ userId: _userId }: AIChatProps) {
                     : 'bg-white rounded-bl-md shadow-sm'
                 }`}
               >
-                <Text
-                  className={`text-base font-lufga leading-5 ${
-                    message.isUser ? 'text-white' : 'text-gray-800'
-                  }`}
-                >
-                  {message.text}
-                </Text>
+                {message.isStreaming && !message.text ? (
+                  // Show spinner while waiting for first chunk
+                  <View className="flex-row items-center justify-center py-2">
+                    <Spinner size={20} color="#4CC3FF" />
+                  </View>
+                ) : (
+                  <Text
+                    className={`text-base font-lufga leading-5 ${
+                      message.isUser ? 'text-white' : 'text-gray-800'
+                    }`}
+                  >
+                    {message.text}
+                    {message.isStreaming && (
+                      <Text className="inline-block animate-pulse">▊</Text>
+                    )}
+                  </Text>
+                )}
               </View>
               <Text className="text-xs font-lufga text-gray-400 mt-1 px-2">
                 {formatTime(message.timestamp)}
@@ -125,7 +135,7 @@ export function AIChat({ userId: _userId }: AIChatProps) {
             </View>
           ))}
 
-          {isLoading && (
+          {isLoading && messages.length === 0 && (
             <View className="items-start mb-4">
               <View className="bg-white px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
                 <Spinner size={20} color="#4CC3FF" />

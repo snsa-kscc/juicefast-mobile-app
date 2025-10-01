@@ -1,6 +1,6 @@
 import { useAuth } from "@clerk/clerk-expo";
 import { useQuery } from "convex/react";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import { Settings } from "lucide-react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
@@ -218,6 +218,14 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
         {/* Onboarding Button */}
         <TouchableOpacity className="bg-green-600 px-6 py-4 rounded-xl mb-4" onPress={() => router.push("/onboarding?retake=true")}>
           <Text className="text-white text-lg font-semibold text-center">Take Onboarding Quiz</Text>
+        </TouchableOpacity>
+
+        {/* Test Push Notifications */}
+        <TouchableOpacity 
+          className="bg-blue-600 px-6 py-4 rounded-xl mb-4" 
+          onPress={() => router.push("/test-notifications")}
+        >
+          <Text className="text-white text-lg font-semibold text-center">Test Push Notifications</Text>
         </TouchableOpacity>
 
         {/* Challenge Banners */}
