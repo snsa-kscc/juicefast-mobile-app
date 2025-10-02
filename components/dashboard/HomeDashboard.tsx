@@ -49,7 +49,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           startTime,
           endTime,
         }
-      : "skip",
+      : "skip"
   );
 
   const waterEntries = useQuery(
@@ -59,7 +59,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           startTime,
           endTime,
         }
-      : "skip",
+      : "skip"
   );
 
   const mealEntries = useQuery(
@@ -69,7 +69,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           startTime,
           endTime,
         }
-      : "skip",
+      : "skip"
   );
 
   const mindfulnessEntries = useQuery(
@@ -79,7 +79,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           startTime,
           endTime,
         }
-      : "skip",
+      : "skip"
   );
 
   const sleepEntries = useQuery(
@@ -89,7 +89,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           startTime,
           endTime,
         }
-      : "skip",
+      : "skip"
   );
 
   // Calculate aggregated data from queries
@@ -107,19 +107,19 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
     const totalSteps = stepEntries.reduce((sum, entry) => sum + entry.count, 0);
     const totalWater = waterEntries.reduce(
       (sum, entry) => sum + entry.amount,
-      0,
+      0
     );
     const totalCalories = mealEntries.reduce(
       (sum, entry) => sum + entry.calories,
-      0,
+      0
     );
     const totalMindfulness = mindfulnessEntries.reduce(
       (sum, entry) => sum + entry.minutes,
-      0,
+      0
     );
     const totalSleep = sleepEntries.reduce(
       (sum, entry) => sum + entry.hoursSlept,
-      0,
+      0
     );
     const healthyMeals = mealEntries.length;
 
@@ -136,7 +136,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           healthyMeals / 2 +
           totalMindfulness / 20 +
           totalSleep / 8) *
-          20,
+          20
       ), // Simple scoring based on goal completion
     };
   }, [
@@ -178,19 +178,19 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
     return {
       steps: Math.min(
         100,
-        Math.round((selectedDateData.steps / stepGoal) * 100),
+        Math.round((selectedDateData.steps / stepGoal) * 100)
       ),
       mindfulness: Math.min(
         100,
-        Math.round((selectedDateData.mindfulness / mindfulnessGoal) * 100),
+        Math.round((selectedDateData.mindfulness / mindfulnessGoal) * 100)
       ),
       meals: Math.min(
         100,
-        Math.round((selectedDateData.healthyMeals / mealGoal) * 100),
+        Math.round((selectedDateData.healthyMeals / mealGoal) * 100)
       ),
       water: Math.min(
         100,
-        Math.round((selectedDateData.water / waterGoal) * 100),
+        Math.round((selectedDateData.water / waterGoal) * 100)
       ),
     };
   }, [selectedDateData]);

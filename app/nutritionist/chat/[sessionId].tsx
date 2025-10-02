@@ -55,7 +55,7 @@ export default function NutritionistChatSession() {
   const currentSession = sessionData?.find((s) => s.id === sessionId);
   const messagesData = useQuery(
     api.nutritionistChat.getMessages,
-    sessionId ? { sessionId: sessionId as Id<"chatSessions"> } : "skip",
+    sessionId ? { sessionId: sessionId as Id<"chatSessions"> } : "skip"
   );
 
   const sendMessage = useMutation(api.nutritionistChat.sendNutritionistMessage);
@@ -99,14 +99,14 @@ export default function NutritionistChatSession() {
         if (intendedRecipientId && intendedRecipientId !== user.id) {
           console.log(
             "Ignoring notification - not the intended recipient:",
-            intendedRecipientId,
+            intendedRecipientId
           );
           return; // Silent ignore - wrong user logged in
         }
 
         console.log("Nutritionist tapped notification for chat:", chatId);
         // Handle navigation to specific chat if needed
-      },
+      }
     );
 
     return unsubscribeTap;
@@ -122,14 +122,14 @@ export default function NutritionistChatSession() {
         if (intendedRecipientId && intendedRecipientId !== user.id) {
           console.log(
             "Ignoring foreground notification - not the intended recipient:",
-            intendedRecipientId,
+            intendedRecipientId
           );
           return; // Silent ignore - wrong user logged in
         }
 
         console.log("New message while app open:", messageText);
         // You could show an in-app notification or handle it silently
-      },
+      }
     );
 
     return unsubscribeForeground;
@@ -214,12 +214,12 @@ export default function NutritionistChatSession() {
               console.error("Failed to end chat:", error);
               Alert.alert(
                 "Error",
-                `Failed to end chat: ${error.message || "Please try again."}`,
+                `Failed to end chat: ${error.message || "Please try again."}`
               );
             }
           },
         },
-      ],
+      ]
     );
   };
 

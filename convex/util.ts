@@ -21,7 +21,7 @@ export const protectedQuery = query({
 });
 
 export const withUser = (
-  handler: (ctx: any, args: any, userId: string) => any,
+  handler: (ctx: any, args: any, userId: string) => any
 ) => {
   return async (ctx: any, args: any) => {
     const identity = await ctx.auth.getUserIdentity();

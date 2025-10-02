@@ -48,7 +48,7 @@ export function AddActionButton() {
         onPress={handleCloseBottomSheet}
       />
     ),
-    [],
+    []
   );
 
   const wellnessOptions: ActionOption[] = [

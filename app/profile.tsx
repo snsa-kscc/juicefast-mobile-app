@@ -361,7 +361,7 @@ export default function ProfileScreen() {
                     >
                       {activityLevel
                         ? activityOptions.find(
-                            (opt) => opt.value === activityLevel,
+                            (opt) => opt.value === activityLevel
                           )?.label
                         : "Select activity level"}
                     </Text>
@@ -510,7 +510,7 @@ export default function ProfileScreen() {
                           profile.height,
                           profile.age,
                           profile.gender,
-                          profile.activityLevel,
+                          profile.activityLevel
                         )
                       : "-"}
                   </Text>

@@ -27,7 +27,7 @@ export default function SSOSignUpScreen() {
         if (storedCode) {
           console.log(
             "SSO Signup: Found existing referral code in SecureStore:",
-            storedCode,
+            storedCode
           );
         }
       } catch (error) {
@@ -54,7 +54,7 @@ export default function SSOSignUpScreen() {
       if (storedCode) {
         console.log(
           "SSO user proceeding to onboarding with stored referral code:",
-          storedCode,
+          storedCode
         );
       } else {
         console.log("SSO user proceeding to onboarding without referral code");
@@ -66,7 +66,7 @@ export default function SSOSignUpScreen() {
       console.log("Social signup processing completed successfully");
       router.replace("/onboarding");
     },
-    [router],
+    [router]
   );
 
   // useEffect to handle user state changes after SSO

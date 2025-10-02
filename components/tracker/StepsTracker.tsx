@@ -51,12 +51,12 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
     const startOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate(),
+      now.getDate()
     );
     const endOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1,
+      now.getDate() + 1
     );
     return {
       startTime: startOfDay.getTime(),
@@ -66,7 +66,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
 
   const stepEntries = useQuery(
     api.stepEntry.getByUserId,
-    user?.id ? { startTime, endTime } : "skip",
+    user?.id ? { startTime, endTime } : "skip"
   );
 
   const totalSteps = useMemo(() => {
@@ -76,7 +76,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
 
   const [optimisticSteps, addOptimisticStep] = useOptimistic(
     totalSteps || 0,
-    (state, newSteps: number) => state + newSteps,
+    (state, newSteps: number) => state + newSteps
   );
 
   const animatedValue = useRef(new Animated.Value(0)).current;

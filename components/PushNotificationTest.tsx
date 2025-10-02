@@ -29,7 +29,7 @@ export default function PushNotificationTest() {
           console.log("My Token:", token.substring(0, 20) + "...");
         } else {
           console.log(
-            "No token obtained - check if running on physical device",
+            "No token obtained - check if running on physical device"
           );
         }
       } catch (error) {
@@ -54,7 +54,7 @@ export default function PushNotificationTest() {
     } catch (error) {
       Alert.alert(
         "Error",
-        error instanceof Error ? error.message : "Failed to send notification",
+        error instanceof Error ? error.message : "Failed to send notification"
       );
     } finally {
       setIsSending(false);
@@ -75,7 +75,7 @@ export default function PushNotificationTest() {
     } catch (error) {
       Alert.alert(
         "Error",
-        error instanceof Error ? error.message : "Failed to send notification",
+        error instanceof Error ? error.message : "Failed to send notification"
       );
     } finally {
       setIsSending(false);

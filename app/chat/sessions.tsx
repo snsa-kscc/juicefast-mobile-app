@@ -46,7 +46,7 @@ export default function UserSessions() {
   // Fetch only active sessions for the logged-in user
   const sessions = useQuery(
     api.nutritionistChat.getActiveUserSessions,
-    user ? undefined : "skip",
+    user ? undefined : "skip"
   );
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export default function UserSessions() {
     const date = new Date(timestamp);
     const now = new Date();
     const diffInHours = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60),
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60)
     );
 
     if (diffInHours < 1) {

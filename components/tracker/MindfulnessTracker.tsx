@@ -52,12 +52,12 @@ export function MindfulnessTracker({
   const [minutes, setMinutes] = useState<number>(10);
   const [displayedMinutes, setDisplayedMinutes] = useState<number>(0);
   const [selectedActivity, setSelectedActivity] = useState<string>(
-    ACTIVITIES[0].id,
+    ACTIVITIES[0].id
   );
 
   const createMindfulnessEntry = useMutation(api.mindfulnessEntry.create);
   const deleteMindfulnessEntry = useMutation(
-    api.mindfulnessEntry.deleteByUserIdAndTimestamp,
+    api.mindfulnessEntry.deleteByUserIdAndTimestamp
   );
 
   const { startTime, endTime } = useMemo(() => {
@@ -65,12 +65,12 @@ export function MindfulnessTracker({
     const startOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate(),
+      now.getDate()
     );
     const endOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1,
+      now.getDate() + 1
     );
     return {
       startTime: startOfDay.getTime(),
@@ -80,7 +80,7 @@ export function MindfulnessTracker({
 
   const mindfulnessEntries = useQuery(
     api.mindfulnessEntry.getByUserId,
-    user?.id ? { startTime: startTime, endTime: endTime } : "skip",
+    user?.id ? { startTime: startTime, endTime: endTime } : "skip"
   );
 
   const totalMinutes = useMemo(() => {
@@ -90,7 +90,7 @@ export function MindfulnessTracker({
 
   const [optimisticMinutes, addOptimisticMinutes] = useOptimistic(
     totalMinutes || 0,
-    (state, newMinutes: number) => state + newMinutes,
+    (state, newMinutes: number) => state + newMinutes
   );
 
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -147,7 +147,7 @@ export function MindfulnessTracker({
 
   const progressPercentage = Math.min(
     100,
-    (displayedMinutes / DAILY_GOAL) * 100,
+    (displayedMinutes / DAILY_GOAL) * 100
   );
 
   return (

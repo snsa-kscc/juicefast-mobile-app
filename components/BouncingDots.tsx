@@ -29,7 +29,7 @@ export function BouncingDots({
             duration: 400,
             useNativeDriver: true,
           }),
-        ]),
+        ])
       );
     };
 

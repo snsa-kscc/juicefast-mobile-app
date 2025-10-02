@@ -19,9 +19,9 @@ export const createNutritionist = mutation({
             day: v.string(),
             startTime: v.string(),
             endTime: v.string(),
-          }),
+          })
         ),
-      }),
+      })
     ),
   },
   handler: async (ctx, args) => {
@@ -77,7 +77,7 @@ export const createChatSession = mutation({
 
     if (existingActiveSession) {
       throw new Error(
-        "You already have an active chat. Please end it before starting a new one.",
+        "You already have an active chat. Please end it before starting a new one."
       );
     }
 
@@ -150,8 +150,8 @@ export const sendMessage = mutation({
       .filter((q) =>
         q.and(
           q.eq(q.field("nutritionistId"), args.nutritionistId),
-          q.eq(q.field("status"), "active"),
-        ),
+          q.eq(q.field("status"), "active")
+        )
       )
       .first();
 
@@ -166,7 +166,7 @@ export const sendMessage = mutation({
 
       if (existingActiveSession) {
         throw new Error(
-          "You already have an active chat. Please end it before starting a new one.",
+          "You already have an active chat. Please end it before starting a new one."
         );
       }
 
@@ -238,7 +238,7 @@ export const sendMessage = mutation({
             messageText: args.content,
             chatId: session._id.toString(),
             intendedRecipientId: session.nutritionistId, // The nutritionist is the intended recipient
-          },
+          }
         );
       } catch (error) {
         console.error("Failed to send push notification:", error);
@@ -311,7 +311,7 @@ export const sendNutritionistMessage = mutation({
             messageText: args.content,
             chatId: args.sessionId.toString(),
             intendedRecipientId: session.userId, // The user is the intended recipient
-          },
+          }
         );
       } catch (error) {
         console.error("Failed to send push notification:", error);
@@ -355,8 +355,8 @@ export const markMessagesAsRead = mutation({
       .filter((q) =>
         q.and(
           q.eq(q.field("senderType"), args.senderType),
-          q.eq(q.field("isRead"), false),
-        ),
+          q.eq(q.field("isRead"), false)
+        )
       )
       .collect();
 
@@ -424,7 +424,7 @@ export const getUserSessions = query({
         const nutritionist = await ctx.db
           .query("nutritionists")
           .withIndex("by_clerk_id", (q) =>
-            q.eq("clerkId", session.nutritionistId),
+            q.eq("clerkId", session.nutritionistId)
           )
           .first();
 
@@ -459,7 +459,7 @@ export const getUserSessions = query({
               }
             : null,
         };
-      }),
+      })
     );
   },
 });
@@ -510,7 +510,7 @@ export const getNutritionistSessions = query({
     const sessions = await ctx.db
       .query("chatSessions")
       .withIndex("by_nutritionist", (q) =>
-        q.eq("nutritionistId", identity.subject),
+        q.eq("nutritionistId", identity.subject)
       )
       .order("desc")
       .collect();
@@ -529,8 +529,8 @@ export const getNutritionistSessions = query({
           .filter((q) =>
             q.and(
               q.eq(q.field("senderType"), "user"),
-              q.eq(q.field("isRead"), false),
-            ),
+              q.eq(q.field("isRead"), false)
+            )
           )
           .collect();
 
@@ -552,7 +552,7 @@ export const getNutritionistSessions = query({
             : null,
           unreadCount: unreadCount.length,
         };
-      }),
+      })
     );
   },
 });
@@ -565,7 +565,7 @@ export const getActiveSessionsForNutritionist = query({
     const sessions = await ctx.db
       .query("chatSessions")
       .withIndex("by_nutritionist", (q) =>
-        q.eq("nutritionistId", identity.subject),
+        q.eq("nutritionistId", identity.subject)
       )
       .filter((q) => q.eq(q.field("status"), "active"))
       .order("desc")
@@ -591,7 +591,7 @@ export const getActiveSessionsForNutritionist = query({
               }
             : null,
         };
-      }),
+      })
     );
   },
 });
@@ -615,7 +615,7 @@ export const getActiveUserSessions = query({
         const nutritionist = await ctx.db
           .query("nutritionists")
           .withIndex("by_clerk_id", (q) =>
-            q.eq("clerkId", session.nutritionistId),
+            q.eq("clerkId", session.nutritionistId)
           )
           .first();
 
@@ -632,8 +632,8 @@ export const getActiveUserSessions = query({
           .filter((q) =>
             q.and(
               q.eq(q.field("senderType"), "nutritionist"),
-              q.eq(q.field("isRead"), false),
-            ),
+              q.eq(q.field("isRead"), false)
+            )
           )
           .collect();
 
@@ -663,7 +663,7 @@ export const getActiveUserSessions = query({
             : null,
           unreadCount: unreadMessages.length,
         };
-      }),
+      })
     );
   },
 });

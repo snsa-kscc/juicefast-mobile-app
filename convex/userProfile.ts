@@ -64,7 +64,7 @@ export const getByReferralCode = query({
     return await ctx.db
       .query("userProfile")
       .withIndex("by_referral_code", (q) =>
-        q.eq("referralCode", args.referralCode),
+        q.eq("referralCode", args.referralCode)
       )
       .first();
   },
@@ -86,7 +86,7 @@ export const incrementReferralCount = mutation({
     const referrerProfile = await ctx.db
       .query("userProfile")
       .withIndex("by_referral_code", (q) =>
-        q.eq("referralCode", args.referralCode),
+        q.eq("referralCode", args.referralCode)
       )
       .first();
 

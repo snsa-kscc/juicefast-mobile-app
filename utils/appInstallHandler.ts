@@ -21,7 +21,7 @@ export const handleAppInstallWithReferral = async (): Promise<void> => {
         await ReferralStorage.storeReferralCode(referralCode);
         console.log(
           "Referral code stored from app install deep link:",
-          referralCode,
+          referralCode
         );
         return;
       }
@@ -43,7 +43,7 @@ export const handleAppInstallWithReferral = async (): Promise<void> => {
       await ReferralStorage.storeReferralCode(androidReferralCode);
       console.log(
         "Referral code stored from Google Play Store:",
-        androidReferralCode,
+        androidReferralCode
       );
       return;
     }
@@ -127,7 +127,7 @@ const getAndroidPlayStoreReferral = async (): Promise<string | null> => {
  * from the app store installation process
  */
 export const storeInstallReferralCode = async (
-  referralCode: string,
+  referralCode: string
 ): Promise<void> => {
   try {
     if (referralCode && referralCode.trim().length > 0) {

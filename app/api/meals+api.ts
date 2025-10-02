@@ -40,6 +40,6 @@ export async function POST(request: Request) {
       ...body,
       timestamp: new Date().toISOString(),
     },
-    { status: 201 },
+    { status: 201 }
   );
 }

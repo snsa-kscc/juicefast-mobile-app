@@ -40,7 +40,7 @@ export function SubcategoryDetail({
       acc[group].push(item);
       return acc;
     },
-    {},
+    {}
   );
 
   const headerImageUrl =

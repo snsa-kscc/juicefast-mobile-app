@@ -10,7 +10,7 @@ export const useOnboardingCompletion = () => {
   const router = useRouter();
   const createOrUpdateUserProfile = useMutation(api.userProfile.createOrUpdate);
   const incrementReferralCount = useMutation(
-    api.userProfile.incrementReferralCount,
+    api.userProfile.incrementReferralCount
   );
 
   const markOnboardingCompleted = async () => {
@@ -57,7 +57,7 @@ export const useOnboardingCompletion = () => {
           await incrementReferralCount({ referralCode: storedReferralCode });
           console.log(
             "Referral count incremented for code:",
-            storedReferralCode,
+            storedReferralCode
           );
         } catch (referralError) {
           console.error("Error incrementing referral count:", referralError);

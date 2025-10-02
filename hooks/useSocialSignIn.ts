@@ -35,7 +35,7 @@ export const useSocialSignIn = () => {
   const signInWith = useCallback(
     async (
       provider: SocialProvider,
-      onSignupComplete?: () => Promise<void>,
+      onSignupComplete?: () => Promise<void>
     ) => {
       try {
         setState("loading");
@@ -102,28 +102,28 @@ export const useSocialSignIn = () => {
         console.error("Social sign in error:", err);
       }
     },
-    [startSSOFlow],
+    [startSSOFlow]
   );
 
   const signInWithGoogle = useCallback(
     async (onSignupComplete?: () => Promise<void>) => {
       await signInWith("oauth_google", onSignupComplete);
     },
-    [signInWith],
+    [signInWith]
   );
 
   const signInWithFacebook = useCallback(
     async (onSignupComplete?: () => Promise<void>) => {
       await signInWith("oauth_facebook", onSignupComplete);
     },
-    [signInWith],
+    [signInWith]
   );
 
   const signInWithApple = useCallback(
     async (onSignupComplete?: () => Promise<void>) => {
       await signInWith("oauth_apple", onSignupComplete);
     },
-    [signInWith],
+    [signInWith]
   );
 
   return {

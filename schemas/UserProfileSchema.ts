@@ -24,7 +24,7 @@ export function calculateDailyCalories(
   height: number,
   age: number,
   gender: string,
-  activityLevel: string,
+  activityLevel: string
 ): string {
   // Calculate BMR using Mifflin-St Jeor Equation
   let bmr = 0;

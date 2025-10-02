@@ -38,7 +38,7 @@ export const getByUserId = query({
 
     return entries.filter(
       (entry) =>
-        entry.timestamp >= args.startTime && entry.timestamp <= args.endTime,
+        entry.timestamp >= args.startTime && entry.timestamp <= args.endTime
     );
   },
 });
@@ -82,7 +82,7 @@ export const getByUserIdForServer = query({
 
     return entries.filter(
       (entry) =>
-        entry.timestamp >= args.startTime && entry.timestamp <= args.endTime,
+        entry.timestamp >= args.startTime && entry.timestamp <= args.endTime
     );
   },
 });

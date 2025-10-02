@@ -92,7 +92,7 @@ export function useHealthChat(): UseHealthChatReturn {
       console.log("Response type:", response.type);
       console.log(
         "Response headers:",
-        Object.fromEntries(response.headers.entries()),
+        Object.fromEntries(response.headers.entries())
       );
       console.log("Response body:", response.body);
       console.log("Response body used:", response.bodyUsed);
@@ -110,7 +110,7 @@ export function useHealthChat(): UseHealthChatReturn {
             isStreaming: false,
           };
           setMessages((prev) =>
-            prev.map((msg) => (msg.id === aiMessageId ? aiChatMessage : msg)),
+            prev.map((msg) => (msg.id === aiMessageId ? aiChatMessage : msg))
           );
           return;
         } catch (textError) {
@@ -125,12 +125,12 @@ export function useHealthChat(): UseHealthChatReturn {
               isStreaming: false,
             };
             setMessages((prev) =>
-              prev.map((msg) => (msg.id === aiMessageId ? aiChatMessage : msg)),
+              prev.map((msg) => (msg.id === aiMessageId ? aiChatMessage : msg))
             );
             return;
           } catch (jsonError) {
             throw new Error(
-              "Response body is null and both text and JSON fallback failed",
+              "Response body is null and both text and JSON fallback failed"
             );
           }
         }
@@ -154,16 +154,16 @@ export function useHealthChat(): UseHealthChatReturn {
         // Update the streaming message with new content
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === aiMessageId ? { ...msg, text: accumulatedText } : msg,
-          ),
+            msg.id === aiMessageId ? { ...msg, text: accumulatedText } : msg
+          )
         );
       }
 
       // Mark streaming as complete
       setMessages((prev) =>
         prev.map((msg) =>
-          msg.id === aiMessageId ? { ...msg, isStreaming: false } : msg,
-        ),
+          msg.id === aiMessageId ? { ...msg, isStreaming: false } : msg
+        )
       );
     } catch (err) {
       console.error("Error sending message:", err);
@@ -178,7 +178,7 @@ export function useHealthChat(): UseHealthChatReturn {
             text: "Sorry, I encountered an error. Please try again.",
             isUser: false,
             timestamp: new Date(),
-          }),
+          })
       );
     } finally {
       setIsLoading(false);

@@ -31,7 +31,7 @@ export class MealAnalyzer {
 
   async analyzeMeal(
     imageBase64: string,
-    mimeType: string = "image/jpeg",
+    mimeType: string = "image/jpeg"
   ): Promise<MealAnalysisResult> {
     try {
       const model = this.genAI.getGenerativeModel({

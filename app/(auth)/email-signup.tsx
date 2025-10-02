@@ -19,7 +19,7 @@ export default function EmailSignUpScreen() {
     api.userProfile.getByReferralCode,
     referralCodeInput.trim()
       ? { referralCode: referralCodeInput.trim() }
-      : "skip",
+      : "skip"
   );
 
   const [firstName, setFirstName] = useState("");
@@ -59,14 +59,14 @@ export default function EmailSignUpScreen() {
         // Query is still loading, prevent submission
         Alert.alert(
           "Loading",
-          "Please wait while we validate your referral code.",
+          "Please wait while we validate your referral code."
         );
         return;
       }
       if (!referralData) {
         Alert.alert(
           "Invalid Referral Code",
-          "The referral code you entered is not valid. Please check and try again.",
+          "The referral code you entered is not valid. Please check and try again."
         );
         return;
       }

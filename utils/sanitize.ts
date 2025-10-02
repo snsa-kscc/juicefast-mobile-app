@@ -16,7 +16,7 @@ export function sanitizeString(input: string): string {
 export function validateNumericRange(
   value: number,
   min: number,
-  max: number,
+  max: number
 ): number {
   return Math.max(min, Math.min(max, value));
 }

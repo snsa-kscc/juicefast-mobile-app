@@ -22,7 +22,7 @@ export function Spinner({ size = 24, color = "#10B981" }: SpinnerProps) {
         duration: 1000,
         easing: Easing.linear,
       }),
-      -1,
+      -1
     );
   }, []);
 

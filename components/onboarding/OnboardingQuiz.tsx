@@ -10,7 +10,7 @@ import { QuestionRenderer } from "./QuestionRenderer";
 
 export function OnboardingQuiz() {
   const [currentStep, setCurrentStep] = useState<"start" | "quiz" | "complete">(
-    "start",
+    "start"
   );
   const { markOnboardingCompleted } = useOnboardingCompletion();
   const {

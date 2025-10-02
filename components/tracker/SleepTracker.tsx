@@ -51,7 +51,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
 
   const createSleepEntry = useMutation(api.sleepEntry.create);
   const deleteSleepEntry = useMutation(
-    api.sleepEntry.deleteByUserIdAndTimestamp,
+    api.sleepEntry.deleteByUserIdAndTimestamp
   );
 
   const { startTime, endTime } = useMemo(() => {
@@ -59,12 +59,12 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
     const startOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate(),
+      now.getDate()
     );
     const endOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1,
+      now.getDate() + 1
     );
     return {
       startTime: startOfDay.getTime(),
@@ -74,7 +74,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
 
   const sleepEntries = useQuery(
     api.sleepEntry.getByUserId,
-    user?.id ? { startTime: startTime, endTime: endTime } : "skip",
+    user?.id ? { startTime: startTime, endTime: endTime } : "skip"
   );
 
   const totalHours = useMemo(() => {
@@ -84,7 +84,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
 
   const [optimisticHours, addOptimisticHours] = useOptimistic(
     totalHours || 0,
-    (state, newHours: number) => state + newHours,
+    (state, newHours: number) => state + newHours
   );
 
   const animatedValue = useRef(new Animated.Value(0)).current;

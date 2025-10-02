@@ -30,7 +30,7 @@ export function usePushTokenStorage(options: UsePushTokenStorageOptions = {}) {
             await clearPushToken({ userId: previousUserId.current });
             console.log(
               "Push token cleared for previous user:",
-              previousUserId.current,
+              previousUserId.current
             );
           }
         } catch (error) {

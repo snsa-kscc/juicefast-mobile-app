@@ -48,7 +48,7 @@ export function HydrationTracker({
 
   const createWaterEntry = useMutation(api.waterIntake.create);
   const deleteWaterEntry = useMutation(
-    api.waterIntake.deleteByUserIdAndTimestamp,
+    api.waterIntake.deleteByUserIdAndTimestamp
   );
 
   const { startTime, endTime } = useMemo(() => {
@@ -56,12 +56,12 @@ export function HydrationTracker({
     const startOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate(),
+      now.getDate()
     );
     const endOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1,
+      now.getDate() + 1
     );
     return {
       startTime: startOfDay.getTime(),
@@ -71,7 +71,7 @@ export function HydrationTracker({
 
   const waterEntries = useQuery(
     api.waterIntake.getByUserId,
-    user?.id ? { startTime: startTime, endTime: endTime } : "skip",
+    user?.id ? { startTime: startTime, endTime: endTime } : "skip"
   );
 
   const totalWater = useMemo(() => {
@@ -81,7 +81,7 @@ export function HydrationTracker({
 
   const [optimisticWater, addOptimisticWater] = useOptimistic(
     totalWater || 0,
-    (state, newWater: number) => state + newWater,
+    (state, newWater: number) => state + newWater
   );
 
   const animatedValue = useRef(new Animated.Value(0)).current;

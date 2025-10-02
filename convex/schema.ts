@@ -82,9 +82,9 @@ export default defineSchema({
             day: v.string(),
             startTime: v.string(),
             endTime: v.string(),
-          }),
+          })
         ),
-      }),
+      })
     ),
   })
     .index("by_clerk_id", ["clerkId"])
@@ -97,7 +97,7 @@ export default defineSchema({
     status: v.union(
       v.literal("active"),
       v.literal("ended"),
-      v.literal("pending"),
+      v.literal("pending")
     ),
     startedAt: v.number(),
     endedAt: v.optional(v.number()),

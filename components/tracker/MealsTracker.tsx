@@ -43,12 +43,12 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
     const startOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate(),
+      now.getDate()
     );
     const endOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1,
+      now.getDate() + 1
     );
     return {
       startTime: startOfDay.getTime(),
@@ -63,14 +63,14 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
 
   const [optimisticMeals, addOptimisticMeal] = useOptimistic(
     mealEntries || [],
-    (state, newMeal: MealEntry) => [...state, newMeal],
+    (state, newMeal: MealEntry) => [...state, newMeal]
   );
 
   const [activeEntryTab, setActiveEntryTab] = useState<"scan" | "manual">(
-    "scan",
+    "scan"
   );
   const [selectedMealType, setSelectedMealType] = useState<MealType | null>(
-    null,
+    null
   );
   const [activeTab, setActiveTab] = useState<MealType>("breakfast");
   const [isProcessingImage, setIsProcessingImage] = useState(false);
@@ -159,7 +159,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
       if (status !== "granted") {
         Alert.alert(
           "Permission needed",
-          "Camera permission is required to take photos",
+          "Camera permission is required to take photos"
         );
         return;
       }
@@ -179,7 +179,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
           console.error("Camera analysis error:", error);
           Alert.alert(
             "Error",
-            "Failed to analyze meal. Please try manual entry.",
+            "Failed to analyze meal. Please try manual entry."
           );
         } finally {
           setIsProcessingImage(false);
@@ -197,7 +197,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
       if (status !== "granted") {
         Alert.alert(
           "Permission needed",
-          "Gallery permission is required to select photos",
+          "Gallery permission is required to select photos"
         );
         return;
       }
@@ -217,7 +217,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
           console.error("Gallery analysis error:", error);
           Alert.alert(
             "Error",
-            "Failed to analyze meal. Please try manual entry.",
+            "Failed to analyze meal. Please try manual entry."
           );
         } finally {
           setIsProcessingImage(false);
@@ -240,7 +240,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
     if (missingFields.length > 0) {
       Alert.alert(
         "Missing Fields",
-        `Please fill in: ${missingFields.join(", ")}`,
+        `Please fill in: ${missingFields.join(", ")}`
       );
       return;
     }
@@ -280,7 +280,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
         carbs: totals.carbs + meal.carbs,
         fat: totals.fat + meal.fat,
       }),
-      { calories: 0, protein: 0, carbs: 0, fat: 0 },
+      { calories: 0, protein: 0, carbs: 0, fat: 0 }
     );
   }, [optimisticMeals]);
 
@@ -332,7 +332,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
                       {mealType}
                     </Text>
                   </TouchableOpacity>
-                ),
+                )
               )}
             </View>
           </View>
@@ -517,7 +517,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
                     {mealType}
                   </Text>
                 </TouchableOpacity>
-              ),
+              )
             )}
           </View>
 

@@ -56,7 +56,7 @@ export function NutritionistChat() {
   const [selectedNutritionist, setSelectedNutritionist] =
     useState<Nutritionist | null>(null);
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(
-    null,
+    null
   );
   const [showSessionSwitcher, setShowSessionSwitcher] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -64,22 +64,22 @@ export function NutritionistChat() {
   // Convex hooks - only execute when user is authenticated
   const nutritionists = useQuery(
     api.nutritionistChat.getNutritionists,
-    user ? undefined : "skip",
+    user ? undefined : "skip"
   );
   const userSessions = useQuery(
     api.nutritionistChat.getUserSessions,
-    user ? undefined : "skip",
+    user ? undefined : "skip"
   );
   const sendMessage = useMutation(api.nutritionistChat.sendMessage);
   const endSession = useMutation(api.nutritionistChat.endChatSession);
   const markMessagesAsRead = useMutation(
-    api.nutritionistChat.markMessagesAsRead,
+    api.nutritionistChat.markMessagesAsRead
   );
   const realtimeMessages = useQuery(
     api.nutritionistChat.getMessages,
     currentSession && user
       ? { sessionId: currentSession.id as Id<"chatSessions"> }
-      : "skip",
+      : "skip"
   );
 
   useEffect(() => {
@@ -105,7 +105,7 @@ export function NutritionistChat() {
           if (intendedRecipientId && intendedRecipientId !== user.id) {
             console.log(
               "Ignoring notification - not the intended recipient:",
-              intendedRecipientId,
+              intendedRecipientId
             );
             return; // Silent ignore - wrong user logged in
           }
@@ -113,7 +113,7 @@ export function NutritionistChat() {
           console.log("User tapped notification for chat:", chatId);
           // Handle navigation to specific chat if needed
         }
-      },
+      }
     );
 
     return unsubscribeTap;
@@ -128,7 +128,7 @@ export function NutritionistChat() {
           if (intendedRecipientId && intendedRecipientId !== user.id) {
             console.log(
               "Ignoring foreground notification - not the intended recipient:",
-              intendedRecipientId,
+              intendedRecipientId
             );
             return; // Silent ignore - wrong user logged in
           }
@@ -136,7 +136,7 @@ export function NutritionistChat() {
           console.log("New message while app open:", messageText);
           // You could show an in-app notification or handle it silently
         }
-      },
+      }
     );
 
     return unsubscribeForeground;
@@ -170,7 +170,7 @@ export function NutritionistChat() {
   useEffect(() => {
     if (currentSession && messages.length > 0) {
       const unreadNutritionistMessages = messages.filter(
-        (msg) => msg.senderType === "nutritionist" && !msg.isRead,
+        (msg) => msg.senderType === "nutritionist" && !msg.isRead
       );
 
       if (unreadNutritionistMessages.length > 0) {
@@ -189,12 +189,12 @@ export function NutritionistChat() {
     if (sessionId && userSessions && !currentSession) {
       const targetSession = userSessions.find(
         (session) =>
-          session.id.toString() === sessionId && session.status === "active",
+          session.id.toString() === sessionId && session.status === "active"
       );
 
       if (targetSession) {
         const nutritionist = nutritionists?.find(
-          (n) => n.id === targetSession.nutritionistId,
+          (n) => n.id === targetSession.nutritionistId
         );
         if (nutritionist) {
           setCurrentSession({
@@ -214,19 +214,19 @@ export function NutritionistChat() {
   useEffect(() => {
     if (userSessions && !currentSession && !sessionId) {
       const activeSessions = userSessions.filter(
-        (session) => session.status === "active",
+        (session) => session.status === "active"
       );
       if (activeSessions.length > 0) {
         // Sort by most recent activity and get the most recent one
         const mostRecentSession = activeSessions.sort(
           (a, b) =>
             Math.max(b.lastMessageAt, b.startedAt) -
-            Math.max(a.lastMessageAt, a.startedAt),
+            Math.max(a.lastMessageAt, a.startedAt)
         )[0];
 
         // Find the nutritionist for this session
         const nutritionist = nutritionists?.find(
-          (n) => n.id === mostRecentSession.nutritionistId,
+          (n) => n.id === mostRecentSession.nutritionistId
         );
         if (nutritionist) {
           setCurrentSession({
@@ -244,7 +244,7 @@ export function NutritionistChat() {
 
   const switchToSession = (session: any) => {
     const nutritionist = nutritionists?.find(
-      (n) => n.id === session.nutritionistId,
+      (n) => n.id === session.nutritionistId
     );
     if (nutritionist) {
       setCurrentSession({
@@ -285,7 +285,7 @@ export function NutritionistChat() {
       console.error("Failed to send message:", error);
       Alert.alert(
         "Error",
-        error.message || "Failed to send message. Please try again.",
+        error.message || "Failed to send message. Please try again."
       );
       setInputText(messageText); // Restore the text if send failed
     } finally {
@@ -333,14 +333,14 @@ export function NutritionistChat() {
               console.error("Failed to end session:", error);
               Alert.alert(
                 "Error",
-                `Failed to end chat: ${error.message || "Please try again."}`,
+                `Failed to end chat: ${error.message || "Please try again."}`
               );
             } finally {
               setIsLoading(false);
             }
           },
         },
-      ],
+      ]
     );
   };
 
@@ -376,7 +376,7 @@ export function NutritionistChat() {
             >
               {activeSessions.map((session) => {
                 const nutritionist = nutritionists?.find(
-                  (n) => n.id === session.nutritionistId,
+                  (n) => n.id === session.nutritionistId
                 );
                 return (
                   <TouchableOpacity
@@ -422,7 +422,7 @@ export function NutritionistChat() {
               const hasActiveSession = userSessions?.some(
                 (session) =>
                   session.nutritionistId === nutritionist.id &&
-                  session.status === "active",
+                  session.status === "active"
               );
 
               return (
@@ -581,11 +581,11 @@ export function NutritionistChat() {
                 ?.filter(
                   (session) =>
                     session.status === "active" &&
-                    session.nutritionistId !== selectedNutritionist?.id,
+                    session.nutritionistId !== selectedNutritionist?.id
                 )
                 .map((session) => {
                   const nutritionist = nutritionists?.find(
-                    (n) => n.id === session.nutritionistId,
+                    (n) => n.id === session.nutritionistId
                   );
                   return (
                     <TouchableOpacity

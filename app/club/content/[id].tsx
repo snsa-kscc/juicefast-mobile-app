@@ -98,7 +98,7 @@ export default function ClubContentDetail() {
           console.error("Video play error:", error);
           Alert.alert(
             "Playback Error",
-            "Unable to start video playback. Please try again.",
+            "Unable to start video playback. Please try again."
           );
         }
       } else {
@@ -113,7 +113,7 @@ export default function ClubContentDetail() {
           console.error("Video playback error:", error);
           Alert.alert(
             "Playback Error",
-            "Unable to control video playback. Please try again.",
+            "Unable to control video playback. Please try again."
           );
         }
       }
@@ -121,7 +121,7 @@ export default function ClubContentDetail() {
       // Handle other content types
       Alert.alert(
         "Coming Soon",
-        "Audio playback functionality will be available soon.",
+        "Audio playback functionality will be available soon."
       );
     }
   };

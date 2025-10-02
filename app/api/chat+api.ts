@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     });
     const waterEntries = await convex.query(
       api.waterIntake.getByUserIdForServer,
-      { userId, startTime, endTime },
+      { userId, startTime, endTime }
     );
     const mealEntries = await convex.query(api.mealEntry.getByUserIdForServer, {
       userId,
@@ -50,11 +50,11 @@ export async function POST(request: Request) {
     });
     const mindfulnessEntries = await convex.query(
       api.mindfulnessEntry.getByUserIdForServer,
-      { userId, startTime, endTime },
+      { userId, startTime, endTime }
     );
     const sleepEntries = await convex.query(
       api.sleepEntry.getByUserIdForServer,
-      { userId, startTime, endTime },
+      { userId, startTime, endTime }
     );
 
     // Calculate aggregated data from queries
@@ -62,59 +62,59 @@ export async function POST(request: Request) {
       steps:
         stepEntries?.reduce(
           (sum: number, entry: any) => sum + entry.count,
-          0,
+          0
         ) || 0,
       water:
         waterEntries?.reduce(
           (sum: number, entry: any) => sum + entry.amount,
-          0,
+          0
         ) || 0,
       calories:
         mealEntries?.reduce(
           (sum: number, entry: any) => sum + entry.calories,
-          0,
+          0
         ) || 0,
       mindfulness:
         mindfulnessEntries?.reduce(
           (sum: number, entry: any) => sum + entry.minutes,
-          0,
+          0
         ) || 0,
       sleep:
         sleepEntries?.reduce(
           (sum: number, entry: any) => sum + entry.hoursSlept,
-          0,
+          0
         ) || 0,
       healthyMeals: mealEntries?.length || 0,
       totalScore: Math.round(
         ((stepEntries?.reduce(
           (sum: number, entry: any) => sum + entry.count,
-          0,
+          0
         ) || 0) /
           10000 +
           (waterEntries?.reduce(
             (sum: number, entry: any) => sum + entry.amount,
-            0,
+            0
           ) || 0) /
             2200 +
           (mealEntries?.length || 0) / 2 +
           (mindfulnessEntries?.reduce(
             (sum: number, entry: any) => sum + entry.minutes,
-            0,
+            0
           ) || 0) /
             20 +
           (sleepEntries?.reduce(
             (sum: number, entry: any) => sum + entry.hoursSlept,
-            0,
+            0
           ) || 0) /
             8) *
-          20,
+          20
       ),
     };
 
     if (!messages || !Array.isArray(messages)) {
       return Response.json(
         { error: "Invalid messages format" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -170,7 +170,7 @@ export async function POST(request: Request) {
     console.error("Error in chat API:", error);
     return Response.json(
       { error: "Failed to process chat request" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

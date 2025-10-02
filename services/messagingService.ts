@@ -37,7 +37,7 @@ export async function getPushToken(): Promise<string | null> {
     const token = await Notifications.getExpoPushTokenAsync();
     console.log(
       "Push token obtained successfully:",
-      token.data.substring(0, 20) + "...",
+      token.data.substring(0, 20) + "..."
     );
     return token.data;
   } catch (error) {
@@ -51,7 +51,7 @@ export async function sendPushNotification(
   targetToken: string,
   senderName: string,
   messageText: string,
-  chatId?: string,
+  chatId?: string
 ) {
   if (!targetToken) {
     console.error("Push notification failed: No target token provided");
@@ -99,7 +99,7 @@ export async function sendPushNotification(
 
 // Listen for notification taps (when app was closed/background)
 export function addNotificationListener(
-  callback: (chatId?: string, intendedRecipientId?: string) => void,
+  callback: (chatId?: string, intendedRecipientId?: string) => void
 ) {
   const subscription = Notifications.addNotificationResponseReceivedListener(
     (response) => {
@@ -118,7 +118,7 @@ export function addNotificationListener(
         // Legacy notifications without recipient validation
         callback(chatId);
       }
-    },
+    }
   );
 
   return () => subscription.remove();
@@ -130,8 +130,8 @@ export function addForegroundNotificationListener(
     senderName: string,
     messageText: string,
     chatId?: string,
-    intendedRecipientId?: string,
-  ) => void,
+    intendedRecipientId?: string
+  ) => void
 ) {
   const subscription = Notifications.addNotificationReceivedListener(
     (notification) => {
@@ -144,7 +144,7 @@ export function addForegroundNotificationListener(
 
       // Pass recipient validation data along with the notification
       callback(title || "Someone", body || "", chatId, intendedRecipientId);
-    },
+    }
   );
 
   return () => subscription.remove();

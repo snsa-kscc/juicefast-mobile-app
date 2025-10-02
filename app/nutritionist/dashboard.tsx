@@ -49,14 +49,14 @@ export default function NutritionistDashboard() {
 
   const chats = useQuery(
     api.nutritionistChat.getNutritionistSessions,
-    user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip",
+    user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip"
   );
   const activeChats = useQuery(
     api.nutritionistChat.getActiveSessionsForNutritionist,
-    user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip",
+    user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip"
   );
   const updateStatus = useMutation(
-    api.nutritionistChat.updateNutritionistStatus,
+    api.nutritionistChat.updateNutritionistStatus
   );
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function NutritionistDashboard() {
     const date = new Date(timestamp);
     const now = new Date();
     const diffInHours = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60),
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60)
     );
 
     if (diffInHours < 1) {
@@ -147,7 +147,7 @@ export default function NutritionistDashboard() {
             updateNutritionistOnlineStatus(false);
           },
         },
-      ],
+      ]
     );
   };
 

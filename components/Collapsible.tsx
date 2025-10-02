@@ -18,7 +18,7 @@ export function Collapsible({
     () => ({
       transform: [{ rotate: isOpen ? "90deg" : "0deg" }],
     }),
-    [isOpen],
+    [isOpen]
   );
 
   return (

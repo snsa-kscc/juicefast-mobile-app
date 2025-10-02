@@ -28,7 +28,7 @@ const processClubData = (rawData: ClubItem[]): ProcessedClubItem[] => {
 
 // Determine item type based on URL and category
 const determineItemType = (
-  item: ClubItem,
+  item: ClubItem
 ): "meditation" | "track" | "video" | "audio" => {
   if (item.url.includes(".m3u8")) return "video";
   if (item.subcategory.includes("meditation")) return "meditation";
@@ -74,7 +74,7 @@ export const getItemsByCategory = (category: string): ProcessedClubItem[] => {
 
 // Get items by subcategory
 export const getItemsBySubcategory = (
-  subcategory: string,
+  subcategory: string
 ): ProcessedClubItem[] => {
   return CLUB_DATA.filter((item) => item.subcategory === subcategory);
 };
@@ -103,7 +103,7 @@ export const getSubcategoryData = (category: string) => {
 
 // Get detailed subcategory information
 export const getSubcategoryDetail = (
-  subcategory: string,
+  subcategory: string
 ): SubcategoryData | null => {
   const items = getItemsBySubcategory(subcategory);
   if (items.length === 0) return null;
@@ -162,7 +162,7 @@ export const getTrendingContent = (): ProcessedClubItem[] => {
   // Get a diverse mix from different subcategories
   const guidedMeditations = getItemsBySubcategory("guided meditations").slice(
     0,
-    8,
+    8
   );
   const sleepTracks = getItemsBySubcategory("better sleep").slice(0, 4);
   const binauralBeats = getItemsBySubcategory("binaural beats").slice(0, 4);

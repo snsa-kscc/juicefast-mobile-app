@@ -40,10 +40,10 @@ const LINK_RULES = [
 ];
 
 function getSelectedLink(
-  answers: Record<string, string | string[] | number>,
+  answers: Record<string, string | string[] | number>
 ): string | null {
   const matchingLinks = LINK_RULES.filter((rule) =>
-    rule.condition(answers),
+    rule.condition(answers)
   ).map((rule) => rule.link);
 
   if (matchingLinks.length === 0) {

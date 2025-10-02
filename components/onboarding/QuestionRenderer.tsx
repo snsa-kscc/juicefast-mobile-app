@@ -15,10 +15,10 @@ export function QuestionRenderer({
   onAnswer,
 }: QuestionRendererProps) {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(
-    Array.isArray(currentAnswer) ? currentAnswer : [],
+    Array.isArray(currentAnswer) ? currentAnswer : []
   );
   const [sliderValue, setSliderValue] = useState(
-    typeof currentAnswer === "number" ? currentAnswer : question.min || 0,
+    typeof currentAnswer === "number" ? currentAnswer : question.min || 0
   );
 
   useEffect(() => {
