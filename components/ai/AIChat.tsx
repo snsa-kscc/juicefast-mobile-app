@@ -10,7 +10,11 @@ import {
 } from 'react-native';
 import { Send } from 'lucide-react-native';
 import { Spinner } from '@/components/Spinner';
-import { useHealthChat } from '@/hooks/useHealthChat';
+import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
+import { generateAPIUrl } from '@/utils';
+import { useAuth } from '@clerk/clerk-expo';
+import { fetch as expoFetch } from 'expo/fetch';
 
 interface AIChatProps {
   userId: string;
@@ -29,13 +33,26 @@ export function AIChat({ userId: _userId }: AIChatProps) {
   const [inputText, setInputText] = useState('');
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const scrollViewRef = useRef<ScrollView>(null);
+  const { getToken } = useAuth();
 
   const {
     messages,
-    isLoading,
     error,
+    status,
     sendMessage,
-  } = useHealthChat();
+  } = useChat({
+    transport: new DefaultChatTransport({
+      fetch: expoFetch as unknown as typeof globalThis.fetch,
+      api: generateAPIUrl('/api/chat'),
+      headers: async () => {
+        const token = await getToken({ template: "convex" });
+        return {
+          Authorization: `Bearer ${token}`,
+        };
+      },
+    }),
+    onError: error => console.error(error, 'ERROR'),
+  });
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -62,9 +79,12 @@ export function AIChat({ userId: _userId }: AIChatProps) {
   }, []);
 
   const handleSendMessage = async () => {
-    if (!inputText.trim() || isLoading) return;
+    if (!inputText.trim() || status === 'streaming') return;
 
-    await sendMessage(inputText.trim());
+    await sendMessage({
+      role: 'user',
+      parts: [{ type: 'text', text: inputText.trim() }]
+    });
     setInputText('');
   };
 
@@ -80,7 +100,9 @@ export function AIChat({ userId: _userId }: AIChatProps) {
         {error && (
           <View className="px-4 py-2">
             <View className="bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-              <Text className="text-red-800 text-sm font-lufga">{error}</Text>
+              <Text className="text-red-800 text-sm font-lufga">
+                {error instanceof Error ? error.message : 'An error occurred'}
+              </Text>
             </View>
           </View>
         )}
@@ -94,16 +116,16 @@ export function AIChat({ userId: _userId }: AIChatProps) {
           {messages.map((message) => (
             <View
               key={message.id}
-              className={`mb-4 ${message.isUser ? 'items-end' : 'items-start'}`}
+              className={`mb-4 ${message.role === 'user' ? 'items-end' : 'items-start'}`}
             >
               <View
                 className={`max-w-[80%] px-4 py-3 rounded-2xl ${
-                  message.isUser
+                  message.role === 'user'
                     ? 'bg-[#4CC3FF] rounded-br-md'
                     : 'bg-white rounded-bl-md shadow-sm'
                 }`}
               >
-                {message.isStreaming && !message.text ? (
+                {status === 'streaming' && !message.parts?.length ? (
                   // Show spinner while waiting for first chunk
                   <View className="flex-row items-center justify-center py-2">
                     <Spinner size={20} color="#4CC3FF" />
@@ -111,23 +133,27 @@ export function AIChat({ userId: _userId }: AIChatProps) {
                 ) : (
                   <Text
                     className={`text-base font-lufga leading-5 ${
-                      message.isUser ? 'text-white' : 'text-gray-800'
+                      message.role === 'user' ? 'text-white' : 'text-gray-800'
                     }`}
                   >
-                    {message.text}
-                    {message.isStreaming && (
+                    {message.parts?.map((part, index) => (
+                      <Text key={index}>
+                        {part.type === 'text' ? part.text : ''}
+                      </Text>
+                    ))}
+                    {status === 'streaming' && messages[messages.length - 1]?.id === message.id && (
                       <Text className="inline-block animate-pulse">▊</Text>
                     )}
                   </Text>
                 )}
               </View>
               <Text className="text-xs font-lufga text-gray-400 mt-1 px-2">
-                {formatTime(message.timestamp)}
+                {formatTime(new Date())}
               </Text>
             </View>
           ))}
 
-          {isLoading && messages.length === 0 && (
+          {status === 'submitted' && messages.length === 0 && (
             <View className="items-start mb-4">
               <View className="bg-white px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
                 <Spinner size={20} color="#4CC3FF" />
@@ -150,14 +176,14 @@ export function AIChat({ userId: _userId }: AIChatProps) {
             />
             <TouchableOpacity
               className={`p-3 m-1 rounded-xl ${
-                inputText.trim() && !isLoading ? 'bg-[#4CC3FF]' : 'bg-gray-200'
+                inputText.trim() && status !== 'streaming' ? 'bg-[#4CC3FF]' : 'bg-gray-200'
               }`}
               onPress={handleSendMessage}
-              disabled={!inputText.trim() || isLoading}
+              disabled={!inputText.trim() || status === 'streaming'}
             >
               <Send
                 size={20}
-                color={inputText.trim() && !isLoading ? 'white' : '#9CA3AF'}
+                color={inputText.trim() && status !== 'streaming' ? 'white' : '#9CA3AF'}
               />
             </TouchableOpacity>
           </View>
