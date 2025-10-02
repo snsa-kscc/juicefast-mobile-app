@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, StyleSheet } from "react-native";
-import { Send } from "lucide-react-native";
-import { Spinner } from "@/components/Spinner";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { BouncingDots } from "@/components/BouncingDots";
 import { generateAPIUrl } from "@/utils";
+import { useChat } from "@ai-sdk/react";
 import { useAuth } from "@clerk/clerk-expo";
+import { DefaultChatTransport } from "ai";
 import { fetch as expoFetch } from "expo/fetch";
+import { Send } from "lucide-react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Keyboard, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 interface AIChatProps {
   userId: string;
@@ -27,8 +27,6 @@ export function AIChat({ userId: _userId }: AIChatProps) {
   const scrollViewRef = useRef<ScrollView>(null);
   const { getToken } = useAuth();
 
-  console.log("generateAPIUrl", generateAPIUrl("/api/chat"));
-
   const { messages, error, status, sendMessage } = useChat({
     transport: new DefaultChatTransport({
       fetch: expoFetch as unknown as typeof globalThis.fetch,
@@ -40,10 +38,9 @@ export function AIChat({ userId: _userId }: AIChatProps) {
         };
       },
     }),
-    onError: (error) => console.error(error, "ERROR"),
   });
 
-  console.log("messages", messages);
+  const isLoading = status === "streaming" || status === "submitted";
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -70,13 +67,15 @@ export function AIChat({ userId: _userId }: AIChatProps) {
   }, []);
 
   const handleSendMessage = async () => {
-    if (!inputText.trim() || status === "streaming") return;
+    if (!inputText.trim() || isLoading) return;
+
+    const messageText = inputText.trim();
+    setInputText(""); // Clear input immediately for better UX
 
     await sendMessage({
       role: "user",
-      parts: [{ type: "text", text: inputText.trim() }],
+      parts: [{ type: "text", text: messageText }],
     });
-    setInputText("");
   };
 
   const formatTime = (date: Date) => {
@@ -101,28 +100,21 @@ export function AIChat({ userId: _userId }: AIChatProps) {
               <View
                 className={`max-w-[80%] px-4 py-3 rounded-2xl ${message.role === "user" ? "bg-[#4CC3FF] rounded-br-md" : "bg-white rounded-bl-md shadow-sm"}`}
               >
-                {status === "streaming" && !message.parts?.length ? (
-                  // Show spinner while waiting for first chunk
-                  <View className="flex-row items-center justify-center py-2">
-                    <Spinner size={20} color="#4CC3FF" />
-                  </View>
-                ) : (
-                  <Text className={`text-base font-lufga leading-5 ${message.role === "user" ? "text-white" : "text-gray-800"}`}>
-                    {message.parts?.map((part, index) => (
-                      <Text key={index}>{part.type === "text" ? part.text : ""}</Text>
-                    ))}
-                    {status === "streaming" && messages[messages.length - 1]?.id === message.id && <Text className="inline-block animate-pulse">▊</Text>}
-                  </Text>
-                )}
+                <Text className={`text-base font-lufga leading-5 ${message.role === "user" ? "text-white" : "text-gray-800"}`}>
+                  {message.parts?.map((part, index) => (
+                    <Text key={index}>{part.type === "text" ? part.text : ""}</Text>
+                  ))}
+                </Text>
               </View>
               <Text className="text-xs font-lufga text-gray-400 mt-1 px-2">{formatTime(new Date())}</Text>
             </View>
           ))}
 
-          {status === "submitted" && messages.length === 0 && (
+          {/* Show bouncing dots on assistant side while waiting for response */}
+          {status === "submitted" && (
             <View className="items-start mb-4">
               <View className="bg-white px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
-                <Spinner size={20} color="#4CC3FF" />
+                <BouncingDots color="#9CA3AF" size={8} />
               </View>
             </View>
           )}
@@ -141,11 +133,11 @@ export function AIChat({ userId: _userId }: AIChatProps) {
               onSubmitEditing={handleSendMessage}
             />
             <TouchableOpacity
-              className={`p-3 m-1 rounded-xl ${inputText.trim() && status !== "streaming" ? "bg-[#4CC3FF]" : "bg-gray-200"}`}
+              className={`p-3 m-1 rounded-xl ${inputText.trim() && !isLoading ? "bg-[#4CC3FF]" : "bg-gray-200"}`}
               onPress={handleSendMessage}
-              disabled={!inputText.trim() || status === "streaming"}
+              disabled={!inputText.trim() || isLoading}
             >
-              <Send size={20} color={inputText.trim() && status !== "streaming" ? "white" : "#9CA3AF"} />
+              <Send size={20} color={inputText.trim() && !isLoading ? "white" : "#9CA3AF"} />
             </TouchableOpacity>
           </View>
         </View>
