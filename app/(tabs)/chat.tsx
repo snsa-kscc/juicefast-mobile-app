@@ -2,6 +2,7 @@ import React from "react";
 import { useRouter } from "expo-router";
 import { AnimatedScreen } from "@/components/AnimatedScreen";
 import { ChatOptions } from "@/components/chat/ChatOptions";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ChatPage() {
   const router = useRouter();
@@ -16,10 +17,9 @@ export default function ChatPage() {
 
   return (
     <AnimatedScreen>
-      <ChatOptions
-        onOptionPress={handleChatOptionPress}
-        onSettingsPress={handleSettingsPress}
-      />
+      <SafeAreaView className="flex-1">
+        <ChatOptions onOptionPress={handleChatOptionPress} onSettingsPress={handleSettingsPress} />
+      </SafeAreaView>
     </AnimatedScreen>
   );
 }
