@@ -29,11 +29,7 @@
     "convex": "^1.27.0",
     "convex-helpers": "^0.1.104",
     "crypto-js": "^4.2.0",
-<<<<<<< HEAD
-    "expo": "~54.0.11",
-=======
     "expo": "~54.0.12",
->>>>>>> aichat
     "expo-auth-session": "~7.0.8",
     "expo-blur": "~15.0.7",
     "expo-clipboard": "^8.0.7",
@@ -45,11 +41,7 @@
     "expo-image-picker": "^17.0.8",
     "expo-linking": "~8.0.8",
     "expo-notifications": "^0.32.12",
-<<<<<<< HEAD
-    "expo-router": "~6.0.9",
-=======
     "expo-router": "~6.0.10",
->>>>>>> aichat
     "expo-secure-store": "^15.0.7",
     "expo-sharing": "^14.0.7",
     "expo-splash-screen": "~31.0.10",
@@ -57,10 +49,7 @@
     "expo-symbols": "~1.0.7",
     "expo-system-ui": "~6.0.7",
     "expo-updates": "~29.0.12",
-<<<<<<< HEAD
     "expo-video": "~3.0.11",
-=======
->>>>>>> aichat
     "expo-web-browser": "~15.0.8",
     "lucide-react-native": "^0.541.0",
     "nativewind": "^4.1.23",
