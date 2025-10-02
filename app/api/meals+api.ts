@@ -1,7 +1,6 @@
-
 export async function GET(request: Request) {
-  await new Promise(resolve => setTimeout(resolve, 3000));
-  
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
   return Response.json([
     {
       id: "1",
@@ -13,7 +12,7 @@ export async function GET(request: Request) {
       carbs: 15,
       fat: 18,
       description: "Fresh mixed greens with grilled chicken breast",
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     },
     {
       id: "2",
@@ -25,19 +24,22 @@ export async function GET(request: Request) {
       carbs: 45,
       fat: 6,
       description: "Steel-cut oats topped with fresh blueberries",
-      timestamp: new Date().toISOString()
-    }
+      timestamp: new Date().toISOString(),
+    },
   ]);
 }
 
 export async function POST(request: Request) {
-  await new Promise(resolve => setTimeout(resolve, 500));
-  
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
   const body = await request.json();
-  
-  return Response.json({
-    id: Math.random().toString(36).substr(2, 9),
-    ...body,
-    timestamp: new Date().toISOString()
-  }, { status: 201 });
+
+  return Response.json(
+    {
+      id: Math.random().toString(36).substr(2, 9),
+      ...body,
+      timestamp: new Date().toISOString(),
+    },
+    { status: 201 },
+  );
 }

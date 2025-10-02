@@ -1,30 +1,30 @@
-import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import React from "react";
+import { TouchableOpacity, Text } from "react-native";
 
 interface TrackerButtonProps {
   title: string;
   onPress: () => void;
   disabled?: boolean;
-  variant?: 'primary' | 'secondary';
+  variant?: "primary" | "secondary";
   backgroundColor?: string;
 }
 
-export function TrackerButton({ 
-  title, 
-  onPress, 
-  disabled = false, 
-  variant = 'primary',
-  backgroundColor
+export function TrackerButton({
+  title,
+  onPress,
+  disabled = false,
+  variant = "primary",
+  backgroundColor,
 }: TrackerButtonProps) {
   const getButtonStyle = () => {
     if (backgroundColor) {
       return { backgroundColor };
     }
-    return variant === 'primary' ? 'bg-black' : 'bg-gray-200';
+    return variant === "primary" ? "bg-black" : "bg-gray-200";
   };
 
   const getTextStyle = () => {
-    return variant === 'primary' ? 'text-white' : 'text-black';
+    return variant === "primary" ? "text-white" : "text-black";
   };
 
   return (
@@ -34,9 +34,7 @@ export function TrackerButton({
       onPress={onPress}
       disabled={disabled}
     >
-      <Text className={`font-medium ${getTextStyle()}`}>
-        {title}
-      </Text>
+      <Text className={`font-medium ${getTextStyle()}`}>{title}</Text>
     </TouchableOpacity>
   );
 }

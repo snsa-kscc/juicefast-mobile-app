@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useUser } from '@clerk/clerk-expo';
-import { OnboardingQuiz } from '../components/onboarding/OnboardingQuiz';
+import React, { useState, useEffect } from "react";
+import { View, ActivityIndicator } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
+import { OnboardingQuiz } from "../components/onboarding/OnboardingQuiz";
 
 export default function OnboardingScreen() {
   const { user, isLoaded } = useUser();
@@ -21,7 +21,7 @@ export default function OnboardingScreen() {
           return;
         }
       } catch (error) {
-        console.error('Error checking onboarding status:', error);
+        console.error("Error checking onboarding status:", error);
       } finally {
         setIsLoading(false);
       }
@@ -32,7 +32,7 @@ export default function OnboardingScreen() {
 
   useEffect(() => {
     if (shouldRedirect) {
-      router.replace('/(tabs)');
+      router.replace("/(tabs)");
     }
   }, [shouldRedirect]);
 

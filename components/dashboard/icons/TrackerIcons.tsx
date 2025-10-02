@@ -1,5 +1,5 @@
-import React from 'react';
-import Svg, { Path } from 'react-native-svg';
+import React from "react";
+import Svg, { Path } from "react-native-svg";
 
 interface IconProps {
   size?: number;
@@ -8,9 +8,27 @@ interface IconProps {
 
 export const MealIcon = ({ size = 24, color = "#000" }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 44 44" fill="none">
-    <Path d="M16.5 13.7497H5.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M11.1359 38.5V22" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M10.9999 13.75V5.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <Path
+      d="M16.5 13.7497H5.5"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M11.1359 38.5V22"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M10.9999 13.75V5.5"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
     <Path
       d="M38.5 38.5C29.3873 38.5 22 31.1127 22 22C22 12.8873 29.3873 5.5 38.5 5.5"
       stroke={color}
@@ -132,7 +150,19 @@ export const WaterIcon = ({ size = 24, color = "#000" }: IconProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <Path d="M13.4016 15.9313L21.9999 7.33301" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M30.5983 15.9313L22 7.33301" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <Path
+      d="M13.4016 15.9313L21.9999 7.33301"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M30.5983 15.9313L22 7.33301"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </Svg>
 );

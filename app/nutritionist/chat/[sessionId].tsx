@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,21 +8,24 @@ import {
   Alert,
   Keyboard,
   StyleSheet,
-} from 'react-native';
-import { useQuery, useMutation } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
-import { useUser } from '@clerk/clerk-expo';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import { Send, User, ArrowLeft, X } from 'lucide-react-native';
-import { Spinner } from '@/components/Spinner';
-import { addNotificationListener, addForegroundNotificationListener } from '@/services/messagingService';
+} from "react-native";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import { useUser } from "@clerk/clerk-expo";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { Send, User, ArrowLeft, X } from "lucide-react-native";
+import { Spinner } from "@/components/Spinner";
+import {
+  addNotificationListener,
+  addForegroundNotificationListener,
+} from "@/services/messagingService";
 
 interface Message {
   id: Id<"chatMessages">;
   sessionId: Id<"chatSessions">;
   senderId: string;
-  senderType: 'user' | 'nutritionist';
+  senderType: "user" | "nutritionist";
   content: string;
   timestamp: number;
   isRead: boolean;
@@ -44,23 +47,26 @@ export default function NutritionistChatSession() {
   const scrollViewRef = useRef<ScrollView>(null);
 
   const [messages, setMessages] = useState<Message[]>([]);
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   const sessionData = useQuery(api.nutritionistChat.getNutritionistSessions);
-  const currentSession = sessionData?.find(s => s.id === sessionId);
-  const messagesData = useQuery(api.nutritionistChat.getMessages, sessionId ? { sessionId: sessionId as Id<"chatSessions"> } : "skip");
+  const currentSession = sessionData?.find((s) => s.id === sessionId);
+  const messagesData = useQuery(
+    api.nutritionistChat.getMessages,
+    sessionId ? { sessionId: sessionId as Id<"chatSessions"> } : "skip",
+  );
 
   const sendMessage = useMutation(api.nutritionistChat.sendNutritionistMessage);
   const markAsRead = useMutation(api.nutritionistChat.markMessagesAsRead);
   const endSession = useMutation(api.nutritionistChat.endChatSession);
-  
+
   useEffect(() => {
-    const showSubscription = Keyboard.addListener('keyboardDidShow', (e) => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
       setKeyboardHeight(e.endCoordinates.height);
     });
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardHeight(0);
     });
 
@@ -87,16 +93,21 @@ export default function NutritionistChatSession() {
   useEffect(() => {
     if (!user) return;
 
-    const unsubscribeTap = addNotificationListener((chatId, intendedRecipientId) => {
-      // Validate that the current user is the intended recipient
-      if (intendedRecipientId && intendedRecipientId !== user.id) {
-        console.log('Ignoring notification - not the intended recipient:', intendedRecipientId);
-        return; // Silent ignore - wrong user logged in
-      }
+    const unsubscribeTap = addNotificationListener(
+      (chatId, intendedRecipientId) => {
+        // Validate that the current user is the intended recipient
+        if (intendedRecipientId && intendedRecipientId !== user.id) {
+          console.log(
+            "Ignoring notification - not the intended recipient:",
+            intendedRecipientId,
+          );
+          return; // Silent ignore - wrong user logged in
+        }
 
-      console.log('Nutritionist tapped notification for chat:', chatId);
-      // Handle navigation to specific chat if needed
-    });
+        console.log("Nutritionist tapped notification for chat:", chatId);
+        // Handle navigation to specific chat if needed
+      },
+    );
 
     return unsubscribeTap;
   }, [user]);
@@ -109,13 +120,16 @@ export default function NutritionistChatSession() {
       (senderName, messageText, chatId, intendedRecipientId) => {
         // Validate that the current user is the intended recipient
         if (intendedRecipientId && intendedRecipientId !== user.id) {
-          console.log('Ignoring foreground notification - not the intended recipient:', intendedRecipientId);
+          console.log(
+            "Ignoring foreground notification - not the intended recipient:",
+            intendedRecipientId,
+          );
           return; // Silent ignore - wrong user logged in
         }
 
-        console.log('New message while app open:', messageText);
+        console.log("New message while app open:", messageText);
         // You could show an in-app notification or handle it silently
-      }
+      },
     );
 
     return unsubscribeForeground;
@@ -127,7 +141,10 @@ export default function NutritionistChatSession() {
 
       // Mark user messages as read
       if (messagesData.length > 0) {
-        markAsRead({ sessionId: sessionId as Id<"chatSessions">, senderType: "user" });
+        markAsRead({
+          sessionId: sessionId as Id<"chatSessions">,
+          senderType: "user",
+        });
       }
     }
   }, [messagesData, sessionId, markAsRead]);
@@ -151,10 +168,10 @@ export default function NutritionistChatSession() {
       // Send message - push notification is handled server-side
       await sendMessage({
         sessionId: sessionId as Id<"chatSessions">,
-        content: inputText.trim()
+        content: inputText.trim(),
       });
 
-      setInputText('');
+      setInputText("");
       setIsLoading(false);
     } catch (error) {
       console.error("Failed to send message:", error);
@@ -164,7 +181,10 @@ export default function NutritionistChatSession() {
   };
 
   const formatTime = (timestamp: number) => {
-    return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return new Date(timestamp).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   const handleBack = () => {
@@ -173,43 +193,53 @@ export default function NutritionistChatSession() {
 
   const handleEndSession = async () => {
     if (!currentSession || currentSession.status !== "active") {
-      Alert.alert('Error', 'No active session to end.');
+      Alert.alert("Error", "No active session to end.");
       return;
     }
 
     Alert.alert(
-      'End Chat',
-      'Are you sure you want to end this chat? This will close your conversation.',
+      "End Chat",
+      "Are you sure you want to end this chat? This will close your conversation.",
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: "Cancel", style: "cancel" },
         {
-          text: 'End Chat',
-          style: 'destructive',
+          text: "End Chat",
+          style: "destructive",
           onPress: async () => {
             try {
               await endSession({ sessionId: sessionId as Id<"chatSessions"> });
-              Alert.alert('Success', 'Chat has been ended.');
+              Alert.alert("Success", "Chat has been ended.");
               router.back();
             } catch (error: any) {
-              console.error('Failed to end chat:', error);
-              Alert.alert('Error', `Failed to end chat: ${error.message || 'Please try again.'}`);
+              console.error("Failed to end chat:", error);
+              Alert.alert(
+                "Error",
+                `Failed to end chat: ${error.message || "Please try again."}`,
+              );
             }
           },
         },
-      ]
+      ],
     );
   };
 
-  if (!user || user.unsafeMetadata?.role !== "nutritionist" || !currentSession) {
+  if (
+    !user ||
+    user.unsafeMetadata?.role !== "nutritionist" ||
+    !currentSession
+  ) {
     return (
-      <View style={[styles.container, { backgroundColor: '#FCFBF8' }]} className="items-center justify-center">
+      <View
+        style={[styles.container, { backgroundColor: "#FCFBF8" }]}
+        className="items-center justify-center"
+      >
         <Spinner size={32} color="#8B7355" />
       </View>
     );
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: '#FCFBF8' }]}>
+    <View style={[styles.container, { backgroundColor: "#FCFBF8" }]}>
       <View style={[styles.inner, { paddingBottom: keyboardHeight }]}>
         {/* Chat header */}
         <View className="bg-white px-4 py-3 border-b border-gray-100">
@@ -223,10 +253,12 @@ export default function NutritionistChatSession() {
               </View>
               <View>
                 <Text className="font-lufga-medium text-gray-900">
-                  {currentSession.userName || 'Client'}
+                  {currentSession.userName || "Client"}
                 </Text>
                 <Text className="text-xs font-lufga text-gray-600">
-                  {currentSession.status === "active" ? "Active chat" : "Chat ended"}
+                  {currentSession.status === "active"
+                    ? "Active chat"
+                    : "Chat ended"}
                 </Text>
               </View>
             </View>
@@ -257,18 +289,20 @@ export default function NutritionistChatSession() {
           {messages.map((message) => (
             <View
               key={message.id}
-              className={`mb-4 ${message.senderType === 'nutritionist' ? 'items-end' : 'items-start'}`}
+              className={`mb-4 ${message.senderType === "nutritionist" ? "items-end" : "items-start"}`}
             >
               <View
                 className={`max-w-[80%] px-4 py-3 rounded-2xl ${
-                  message.senderType === 'nutritionist'
-                    ? 'bg-[#8B7355] rounded-br-md'
-                    : 'bg-white rounded-bl-md shadow-sm'
+                  message.senderType === "nutritionist"
+                    ? "bg-[#8B7355] rounded-br-md"
+                    : "bg-white rounded-bl-md shadow-sm"
                 }`}
               >
                 <Text
                   className={`text-base font-lufga leading-5 ${
-                    message.senderType === 'nutritionist' ? 'text-white' : 'text-gray-800'
+                    message.senderType === "nutritionist"
+                      ? "text-white"
+                      : "text-gray-800"
                   }`}
                 >
                   {message.content}
@@ -278,10 +312,12 @@ export default function NutritionistChatSession() {
                 <Text className="text-xs font-lufga text-gray-400">
                   {formatTime(message.timestamp)}
                 </Text>
-                {message.senderType === 'nutritionist' && (
-                  <View className={`ml-2 w-2 h-2 rounded-full ${
-                    message.isRead ? 'bg-green-500' : 'bg-gray-400'
-                  }`} />
+                {message.senderType === "nutritionist" && (
+                  <View
+                    className={`ml-2 w-2 h-2 rounded-full ${
+                      message.isRead ? "bg-green-500" : "bg-gray-400"
+                    }`}
+                  />
                 )}
               </View>
             </View>
@@ -312,18 +348,27 @@ export default function NutritionistChatSession() {
             />
             <TouchableOpacity
               className={`p-3 m-1 rounded-xl ${
-                inputText.trim() && !isLoading && currentSession.status === "active"
-                  ? 'bg-[#8B7355]'
-                  : 'bg-gray-200'
+                inputText.trim() &&
+                !isLoading &&
+                currentSession.status === "active"
+                  ? "bg-[#8B7355]"
+                  : "bg-gray-200"
               }`}
               onPress={handleSend}
-              disabled={!inputText.trim() || isLoading || currentSession.status !== "active"}
+              disabled={
+                !inputText.trim() ||
+                isLoading ||
+                currentSession.status !== "active"
+              }
             >
               <Send
                 size={20}
-                color={inputText.trim() && !isLoading && currentSession.status === "active"
-                  ? 'white'
-                  : '#9CA3AF'
+                color={
+                  inputText.trim() &&
+                  !isLoading &&
+                  currentSession.status === "active"
+                    ? "white"
+                    : "#9CA3AF"
                 }
               />
             </TouchableOpacity>

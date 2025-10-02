@@ -3,7 +3,12 @@ import { AddActionButton } from "@/components/ui/AddActionButton";
 import { useUser } from "@clerk/clerk-expo";
 import React, { useEffect } from "react";
 import { Platform, View } from "react-native";
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {

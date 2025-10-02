@@ -34,32 +34,88 @@ export async function POST(request: Request) {
     const userId = requestUserId || "current-user";
 
     // Query all 5 tables simultaneously from Convex using server-side functions
-    const stepEntries = await convex.query(api.stepEntry.getByUserIdForServer, { userId, startTime, endTime });
-    const waterEntries = await convex.query(api.waterIntake.getByUserIdForServer, { userId, startTime, endTime });
-    const mealEntries = await convex.query(api.mealEntry.getByUserIdForServer, { userId, startTime, endTime });
-    const mindfulnessEntries = await convex.query(api.mindfulnessEntry.getByUserIdForServer, { userId, startTime, endTime });
-    const sleepEntries = await convex.query(api.sleepEntry.getByUserIdForServer, { userId, startTime, endTime });
+    const stepEntries = await convex.query(api.stepEntry.getByUserIdForServer, {
+      userId,
+      startTime,
+      endTime,
+    });
+    const waterEntries = await convex.query(
+      api.waterIntake.getByUserIdForServer,
+      { userId, startTime, endTime },
+    );
+    const mealEntries = await convex.query(api.mealEntry.getByUserIdForServer, {
+      userId,
+      startTime,
+      endTime,
+    });
+    const mindfulnessEntries = await convex.query(
+      api.mindfulnessEntry.getByUserIdForServer,
+      { userId, startTime, endTime },
+    );
+    const sleepEntries = await convex.query(
+      api.sleepEntry.getByUserIdForServer,
+      { userId, startTime, endTime },
+    );
 
     // Calculate aggregated data from queries
     const todayMetrics = {
-      steps: stepEntries?.reduce((sum: number, entry: any) => sum + entry.count, 0) || 0,
-      water: waterEntries?.reduce((sum: number, entry: any) => sum + entry.amount, 0) || 0,
-      calories: mealEntries?.reduce((sum: number, entry: any) => sum + entry.calories, 0) || 0,
-      mindfulness: mindfulnessEntries?.reduce((sum: number, entry: any) => sum + entry.minutes, 0) || 0,
-      sleep: sleepEntries?.reduce((sum: number, entry: any) => sum + entry.hoursSlept, 0) || 0,
+      steps:
+        stepEntries?.reduce(
+          (sum: number, entry: any) => sum + entry.count,
+          0,
+        ) || 0,
+      water:
+        waterEntries?.reduce(
+          (sum: number, entry: any) => sum + entry.amount,
+          0,
+        ) || 0,
+      calories:
+        mealEntries?.reduce(
+          (sum: number, entry: any) => sum + entry.calories,
+          0,
+        ) || 0,
+      mindfulness:
+        mindfulnessEntries?.reduce(
+          (sum: number, entry: any) => sum + entry.minutes,
+          0,
+        ) || 0,
+      sleep:
+        sleepEntries?.reduce(
+          (sum: number, entry: any) => sum + entry.hoursSlept,
+          0,
+        ) || 0,
       healthyMeals: mealEntries?.length || 0,
       totalScore: Math.round(
-        ((stepEntries?.reduce((sum: number, entry: any) => sum + entry.count, 0) || 0) / 10000 +
-          (waterEntries?.reduce((sum: number, entry: any) => sum + entry.amount, 0) || 0) / 2200 +
+        ((stepEntries?.reduce(
+          (sum: number, entry: any) => sum + entry.count,
+          0,
+        ) || 0) /
+          10000 +
+          (waterEntries?.reduce(
+            (sum: number, entry: any) => sum + entry.amount,
+            0,
+          ) || 0) /
+            2200 +
           (mealEntries?.length || 0) / 2 +
-          (mindfulnessEntries?.reduce((sum: number, entry: any) => sum + entry.minutes, 0) || 0) / 20 +
-          (sleepEntries?.reduce((sum: number, entry: any) => sum + entry.hoursSlept, 0) || 0) / 8) *
-          20
+          (mindfulnessEntries?.reduce(
+            (sum: number, entry: any) => sum + entry.minutes,
+            0,
+          ) || 0) /
+            20 +
+          (sleepEntries?.reduce(
+            (sum: number, entry: any) => sum + entry.hoursSlept,
+            0,
+          ) || 0) /
+            8) *
+          20,
       ),
     };
 
     if (!messages || !Array.isArray(messages)) {
-      return Response.json({ error: "Invalid messages format" }, { status: 400 });
+      return Response.json(
+        { error: "Invalid messages format" },
+        { status: 400 },
+      );
     }
 
     // Create a context message with the user's health data
@@ -72,7 +128,10 @@ export async function POST(request: Request) {
       - Sleep: ${todayMetrics.sleep > 0 ? `${todayMetrics.sleep} hours of sleep` : "No sleep data logged"}
       - Mindfulness: ${todayMetrics.mindfulness > 0 ? `${todayMetrics.mindfulness} minutes out of 20 minute goal` : "No mindfulness sessions logged"}
       - Overall Health Score: ${
-        typeof todayMetrics.totalScore === "number" && todayMetrics.totalScore > 0 ? `${todayMetrics.totalScore.toFixed(1)}/100` : "Not calculated"
+        typeof todayMetrics.totalScore === "number" &&
+        todayMetrics.totalScore > 0
+          ? `${todayMetrics.totalScore.toFixed(1)}/100`
+          : "Not calculated"
       }
     `;
 
@@ -109,6 +168,9 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Error in chat API:", error);
-    return Response.json({ error: "Failed to process chat request" }, { status: 500 });
+    return Response.json(
+      { error: "Failed to process chat request" },
+      { status: 500 },
+    );
   }
 }

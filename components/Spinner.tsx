@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import React, { useEffect } from "react";
+import { View } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withRepeat,
   withTiming,
   Easing,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
 interface SpinnerProps {
   size?: number;
   color?: string;
 }
 
-export function Spinner({ size = 24, color = '#10B981' }: SpinnerProps) {
+export function Spinner({ size = 24, color = "#10B981" }: SpinnerProps) {
   const rotation = useSharedValue(0);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export function Spinner({ size = 24, color = '#10B981' }: SpinnerProps) {
         duration: 1000,
         easing: Easing.linear,
       }),
-      -1
+      -1,
     );
   }, []);
 
@@ -39,7 +39,7 @@ export function Spinner({ size = 24, color = '#10B981' }: SpinnerProps) {
             height: size,
             borderRadius: size / 2,
             borderWidth: 2,
-            borderColor: 'transparent',
+            borderColor: "transparent",
             borderTopColor: color,
           },
           animatedStyle,

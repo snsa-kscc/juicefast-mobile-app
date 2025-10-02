@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { ProcessedClubItem } from '@/types/club';
-import { ContentCard } from './ContentCard';
+import React from "react";
+import { View, Text, StyleSheet, FlatList } from "react-native";
+import { ProcessedClubItem } from "@/types/club";
+import { ContentCard } from "./ContentCard";
 
 interface ContentGridProps {
   items: ProcessedClubItem[];
@@ -11,19 +11,16 @@ interface ContentGridProps {
   onItemPress?: (item: ProcessedClubItem) => void;
 }
 
-export function ContentGrid({ 
-  items, 
-  title, 
+export function ContentGrid({
+  items,
+  title,
   subtitle,
   columns = 2,
-  onItemPress 
+  onItemPress,
 }: ContentGridProps) {
   const renderItem = ({ item }: { item: ProcessedClubItem }) => (
     <View style={[styles.itemContainer, { width: `${100 / columns - 2}%` }]}>
-      <ContentCard
-        item={item}
-        onPress={() => onItemPress?.(item)}
-      />
+      <ContentCard item={item} onPress={() => onItemPress?.(item)} />
     </View>
   );
 
@@ -35,7 +32,7 @@ export function ContentGrid({
           {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
         </View>
       )}
-      
+
       <FlatList
         data={items}
         renderItem={renderItem}
@@ -57,18 +54,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: '700',
-    color: '#111827',
+    fontWeight: "700",
+    color: "#111827",
     marginBottom: 4,
   },
   subtitle: {
     fontSize: 14,
-    color: '#6B7280',
+    color: "#6B7280",
   },
   row: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   itemContainer: {
-    marginHorizontal: '1%',
+    marginHorizontal: "1%",
   },
 });

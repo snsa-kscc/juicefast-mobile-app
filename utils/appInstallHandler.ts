@@ -1,5 +1,5 @@
-import { ReferralStorage } from './referralStorage';
-import * as Linking from 'expo-linking';
+import { ReferralStorage } from "./referralStorage";
+import * as Linking from "expo-linking";
 
 /**
  * Handle app install with referral code
@@ -14,12 +14,15 @@ export const handleAppInstallWithReferral = async (): Promise<void> => {
     if (initialUrl) {
       // Parse the URL to extract referral code
       const url = new URL(initialUrl);
-      const referralCode = url.searchParams.get('referral');
+      const referralCode = url.searchParams.get("referral");
 
       if (referralCode) {
         // Store the referral code securely
         await ReferralStorage.storeReferralCode(referralCode);
-        console.log('Referral code stored from app install deep link:', referralCode);
+        console.log(
+          "Referral code stored from app install deep link:",
+          referralCode,
+        );
         return;
       }
     }
@@ -29,7 +32,7 @@ export const handleAppInstallWithReferral = async (): Promise<void> => {
     const iOSReferralCode = await getIOSAppStoreReferral();
     if (iOSReferralCode) {
       await ReferralStorage.storeReferralCode(iOSReferralCode);
-      console.log('Referral code stored from iOS App Store:', iOSReferralCode);
+      console.log("Referral code stored from iOS App Store:", iOSReferralCode);
       return;
     }
 
@@ -38,13 +41,16 @@ export const handleAppInstallWithReferral = async (): Promise<void> => {
     const androidReferralCode = await getAndroidPlayStoreReferral();
     if (androidReferralCode) {
       await ReferralStorage.storeReferralCode(androidReferralCode);
-      console.log('Referral code stored from Google Play Store:', androidReferralCode);
+      console.log(
+        "Referral code stored from Google Play Store:",
+        androidReferralCode,
+      );
       return;
     }
 
-    console.log('No referral code found from app install sources');
+    console.log("No referral code found from app install sources");
   } catch (error) {
-    console.error('Error handling app install with referral:', error);
+    console.error("Error handling app install with referral:", error);
   }
 };
 
@@ -65,9 +71,9 @@ const getIOSAppStoreReferral = async (): Promise<string | null> => {
       const url = new URL(initialUrl);
 
       // Check for iOS-specific parameters
-      const iOSReferral = url.searchParams.get('ref');
-      const campaignReferral = url.searchParams.get('campaign');
-      const sourceReferral = url.searchParams.get('source');
+      const iOSReferral = url.searchParams.get("ref");
+      const campaignReferral = url.searchParams.get("campaign");
+      const sourceReferral = url.searchParams.get("source");
 
       // Return the first valid referral code found
       return iOSReferral || campaignReferral || sourceReferral || null;
@@ -75,7 +81,7 @@ const getIOSAppStoreReferral = async (): Promise<string | null> => {
 
     return null;
   } catch (error) {
-    console.error('Error getting iOS App Store referral:', error);
+    console.error("Error getting iOS App Store referral:", error);
     return null;
   }
 };
@@ -100,9 +106,9 @@ const getAndroidPlayStoreReferral = async (): Promise<string | null> => {
       const url = new URL(initialUrl);
 
       // Check for Android-specific parameters
-      const androidReferral = url.searchParams.get('referrer');
-      const utmSource = url.searchParams.get('utm_source');
-      const utmCampaign = url.searchParams.get('utm_campaign');
+      const androidReferral = url.searchParams.get("referrer");
+      const utmSource = url.searchParams.get("utm_source");
+      const utmCampaign = url.searchParams.get("utm_campaign");
 
       // Return the first valid referral code found
       return androidReferral || utmSource || utmCampaign || null;
@@ -110,7 +116,7 @@ const getAndroidPlayStoreReferral = async (): Promise<string | null> => {
 
     return null;
   } catch (error) {
-    console.error('Error getting Android Play Store referral:', error);
+    console.error("Error getting Android Play Store referral:", error);
     return null;
   }
 };
@@ -120,14 +126,16 @@ const getAndroidPlayStoreReferral = async (): Promise<string | null> => {
  * This can be called directly when you receive the referral code
  * from the app store installation process
  */
-export const storeInstallReferralCode = async (referralCode: string): Promise<void> => {
+export const storeInstallReferralCode = async (
+  referralCode: string,
+): Promise<void> => {
   try {
     if (referralCode && referralCode.trim().length > 0) {
       await ReferralStorage.storeReferralCode(referralCode.trim());
-      console.log('Referral code stored from app install:', referralCode);
+      console.log("Referral code stored from app install:", referralCode);
     }
   } catch (error) {
-    console.error('Error storing install referral code:', error);
+    console.error("Error storing install referral code:", error);
     throw error;
   }
 };

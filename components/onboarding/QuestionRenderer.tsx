@@ -1,7 +1,7 @@
-import Slider from '@react-native-community/slider';
-import React, { useState, useEffect } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { QuizQuestionType } from '../../data/onboarding/quizQuestions';
+import Slider from "@react-native-community/slider";
+import React, { useState, useEffect } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { QuizQuestionType } from "../../data/onboarding/quizQuestions";
 
 interface QuestionRendererProps {
   question: QuizQuestionType;
@@ -9,12 +9,16 @@ interface QuestionRendererProps {
   onAnswer: (answer: string | string[] | number) => void;
 }
 
-export function QuestionRenderer({ question, currentAnswer, onAnswer }: QuestionRendererProps) {
+export function QuestionRenderer({
+  question,
+  currentAnswer,
+  onAnswer,
+}: QuestionRendererProps) {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(
-    Array.isArray(currentAnswer) ? currentAnswer : []
+    Array.isArray(currentAnswer) ? currentAnswer : [],
   );
   const [sliderValue, setSliderValue] = useState(
-    typeof currentAnswer === 'number' ? currentAnswer : question.min || 0
+    typeof currentAnswer === "number" ? currentAnswer : question.min || 0,
   );
 
   useEffect(() => {
@@ -23,8 +27,8 @@ export function QuestionRenderer({ question, currentAnswer, onAnswer }: Question
     } else {
       setSelectedOptions([]);
     }
-    
-    if (typeof currentAnswer === 'number') {
+
+    if (typeof currentAnswer === "number") {
       setSliderValue(currentAnswer);
     }
   }, [currentAnswer, question.id]);
@@ -35,10 +39,13 @@ export function QuestionRenderer({ question, currentAnswer, onAnswer }: Question
 
   const handleMultipleSelect = (value: string) => {
     const newSelected = selectedOptions.includes(value)
-      ? selectedOptions.filter(item => item !== value)
+      ? selectedOptions.filter((item) => item !== value)
       : [...selectedOptions, value];
-    
-    if (question.maxSelections && newSelected.length <= question.maxSelections) {
+
+    if (
+      question.maxSelections &&
+      newSelected.length <= question.maxSelections
+    ) {
       setSelectedOptions(newSelected);
     }
   };
@@ -53,14 +60,14 @@ export function QuestionRenderer({ question, currentAnswer, onAnswer }: Question
     }
   };
 
-  if (question.type === 'slider') {
+  if (question.type === "slider") {
     return (
       <View className="mb-8">
         <Text className="text-center text-xl mb-4">
           {sliderValue} {question.unit}
         </Text>
         <Slider
-          style={{ width: '100%', height: 40 }}
+          style={{ width: "100%", height: 40 }}
           minimumValue={question.min}
           maximumValue={question.max}
           step={question.step}
@@ -74,7 +81,7 @@ export function QuestionRenderer({ question, currentAnswer, onAnswer }: Question
           className="bg-green-600 px-6 py-3 rounded-lg mt-4"
         >
           <Text className="text-white text-lg font-semibold text-center">
-            {question.nextButtonText || 'Next'}
+            {question.nextButtonText || "Next"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -84,37 +91,43 @@ export function QuestionRenderer({ question, currentAnswer, onAnswer }: Question
   return (
     <View className="space-y-4">
       {question.options?.map((option, index) => {
-        const isSelected = question.type === 'multiple' 
-          ? selectedOptions.includes(option.value)
-          : false;
-        
+        const isSelected =
+          question.type === "multiple"
+            ? selectedOptions.includes(option.value)
+            : false;
+
         return (
           <TouchableOpacity
             key={index}
-            onPress={() => question.type === 'single' 
-              ? handleSingleSelect(option.value)
-              : handleMultipleSelect(option.value)
+            onPress={() =>
+              question.type === "single"
+                ? handleSingleSelect(option.value)
+                : handleMultipleSelect(option.value)
             }
             className={`border rounded-lg p-4 ${
-              isSelected ? 'bg-green-100 border-green-600' : 'bg-gray-50 border-gray-200'
+              isSelected
+                ? "bg-green-100 border-green-600"
+                : "bg-gray-50 border-gray-200"
             }`}
           >
-            <Text className={`text-lg text-center ${
-              isSelected ? 'text-green-800' : 'text-gray-800'
-            }`}>
+            <Text
+              className={`text-lg text-center ${
+                isSelected ? "text-green-800" : "text-gray-800"
+              }`}
+            >
               {option.label}
             </Text>
           </TouchableOpacity>
         );
       })}
-      
-      {question.type === 'multiple' && selectedOptions.length > 0 && (
+
+      {question.type === "multiple" && selectedOptions.length > 0 && (
         <TouchableOpacity
           onPress={handleMultipleNext}
           className="bg-green-600 px-6 py-3 rounded-lg mt-4"
         >
           <Text className="text-white text-lg font-semibold text-center">
-            {question.nextButtonText || 'Next'}
+            {question.nextButtonText || "Next"}
           </Text>
         </TouchableOpacity>
       )}

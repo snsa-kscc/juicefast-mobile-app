@@ -1,7 +1,7 @@
 export const Lufga = {
   thin: "Lufga-Thin",
   thinItalic: "Lufga-ThinItalic",
-  extraLight: "Lufga-ExtraLight", 
+  extraLight: "Lufga-ExtraLight",
   extraLightItalic: "Lufga-ExtraLightItalic",
   light: "Lufga-Light",
   lightItalic: "Lufga-LightItalic",

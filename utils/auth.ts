@@ -12,13 +12,13 @@ export class AuthService {
 
   static getAuthHeaders(): Record<string, string> {
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
-    
+
     if (this.token) {
       headers.Authorization = `Bearer ${this.token}`;
     }
-    
+
     return headers;
   }
 
@@ -28,4 +28,4 @@ export class AuthService {
 }
 
 // For demo purposes, set a dummy token
-AuthService.setToken('demo-token-123');
+AuthService.setToken("demo-token-123");

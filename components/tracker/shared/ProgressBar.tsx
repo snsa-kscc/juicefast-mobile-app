@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React from "react";
+import { View, Text } from "react-native";
 
 interface ProgressBarProps {
   value: number;
@@ -10,13 +10,13 @@ interface ProgressBarProps {
   markers?: string[];
 }
 
-export function ProgressBar({ 
-  value, 
-  maxValue, 
-  color, 
-  backgroundColor = '#F2E9D8',
+export function ProgressBar({
+  value,
+  maxValue,
+  color,
+  backgroundColor = "#F2E9D8",
   showMarkers = false,
-  markers = []
+  markers = [],
 }: ProgressBarProps) {
   const progressPercentage = Math.min(100, (value / maxValue) * 100);
 
@@ -25,16 +25,18 @@ export function ProgressBar({
       {showMarkers && markers.length > 0 && (
         <View className="flex-row justify-between items-center mb-4">
           {markers.map((marker, index) => (
-            <Text key={index} className="text-xs text-gray-500">{marker}</Text>
+            <Text key={index} className="text-xs text-gray-500">
+              {marker}
+            </Text>
           ))}
         </View>
       )}
       <View className="rounded-full h-2" style={{ backgroundColor }}>
-        <View 
-          className="h-2 rounded-full" 
-          style={{ 
+        <View
+          className="h-2 rounded-full"
+          style={{
             width: `${progressPercentage}%`,
-            backgroundColor: color
+            backgroundColor: color,
           }}
         />
       </View>

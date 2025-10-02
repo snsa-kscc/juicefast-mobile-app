@@ -20,7 +20,8 @@ export async function getPushToken(): Promise<string | null> {
       return null;
     }
 
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
 
     if (existingStatus !== "granted") {
@@ -34,7 +35,10 @@ export async function getPushToken(): Promise<string | null> {
     }
 
     const token = await Notifications.getExpoPushTokenAsync();
-    console.log("Push token obtained successfully:", token.data.substring(0, 20) + "...");
+    console.log(
+      "Push token obtained successfully:",
+      token.data.substring(0, 20) + "...",
+    );
     return token.data;
   } catch (error) {
     console.error("Failed to get push token:", error);
@@ -43,7 +47,12 @@ export async function getPushToken(): Promise<string | null> {
 }
 
 // Send push notification to a token (call this from your backend or another user's device)
-export async function sendPushNotification(targetToken: string, senderName: string, messageText: string, chatId?: string) {
+export async function sendPushNotification(
+  targetToken: string,
+  senderName: string,
+  messageText: string,
+  chatId?: string,
+) {
   if (!targetToken) {
     console.error("Push notification failed: No target token provided");
     return;
@@ -89,36 +98,54 @@ export async function sendPushNotification(targetToken: string, senderName: stri
 }
 
 // Listen for notification taps (when app was closed/background)
-export function addNotificationListener(callback: (chatId?: string, intendedRecipientId?: string) => void) {
-  const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
-    const chatId = response.notification.request.content.data.chatId as string | undefined;
-    const intendedRecipientId = response.notification.request.content.data.intendedRecipientId as string | undefined;
+export function addNotificationListener(
+  callback: (chatId?: string, intendedRecipientId?: string) => void,
+) {
+  const subscription = Notifications.addNotificationResponseReceivedListener(
+    (response) => {
+      const chatId = response.notification.request.content.data.chatId as
+        | string
+        | undefined;
+      const intendedRecipientId = response.notification.request.content.data
+        .intendedRecipientId as string | undefined;
 
-    // Validate that the current user is the intended recipient
-    if (intendedRecipientId) {
-      // This will be handled by the chat components with user context
-      // We just pass the validation data along
-      callback(chatId, intendedRecipientId);
-    } else {
-      // Legacy notifications without recipient validation
-      callback(chatId);
-    }
-  });
+      // Validate that the current user is the intended recipient
+      if (intendedRecipientId) {
+        // This will be handled by the chat components with user context
+        // We just pass the validation data along
+        callback(chatId, intendedRecipientId);
+      } else {
+        // Legacy notifications without recipient validation
+        callback(chatId);
+      }
+    },
+  );
 
   return () => subscription.remove();
 }
 
 // Listen for notifications when app is OPEN
-export function addForegroundNotificationListener(callback: (senderName: string, messageText: string, chatId?: string, intendedRecipientId?: string) => void) {
-  const subscription = Notifications.addNotificationReceivedListener((notification) => {
-    // This fires when notification arrives and app is OPEN
-    const { title, body, data } = notification.request.content;
-    const chatId = data?.chatId as string | undefined;
-    const intendedRecipientId = data?.intendedRecipientId as string | undefined;
+export function addForegroundNotificationListener(
+  callback: (
+    senderName: string,
+    messageText: string,
+    chatId?: string,
+    intendedRecipientId?: string,
+  ) => void,
+) {
+  const subscription = Notifications.addNotificationReceivedListener(
+    (notification) => {
+      // This fires when notification arrives and app is OPEN
+      const { title, body, data } = notification.request.content;
+      const chatId = data?.chatId as string | undefined;
+      const intendedRecipientId = data?.intendedRecipientId as
+        | string
+        | undefined;
 
-    // Pass recipient validation data along with the notification
-    callback(title || "Someone", body || "", chatId, intendedRecipientId);
-  });
+      // Pass recipient validation data along with the notification
+      callback(title || "Someone", body || "", chatId, intendedRecipientId);
+    },
+  );
 
   return () => subscription.remove();
 }

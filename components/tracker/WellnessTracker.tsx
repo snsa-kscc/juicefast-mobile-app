@@ -1,7 +1,13 @@
 import { useRouter } from "expo-router";
 import { Plus } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Path, Svg } from "react-native-svg";
 import { Spinner } from "../Spinner";
 import { CircularProgress, WellnessHeader } from "./shared";
@@ -33,9 +39,27 @@ interface TrackerClientProps {
 
 const MealIcon = () => (
   <Svg width="36" height="36" viewBox="0 0 44 44" fill="none">
-    <Path d="M16.5 13.7497H5.5" stroke="#0DC99B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M11.1359 38.5V22" stroke="#0DC99B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M10.9999 13.75V5.5" stroke="#0DC99B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <Path
+      d="M16.5 13.7497H5.5"
+      stroke="#0DC99B"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M11.1359 38.5V22"
+      stroke="#0DC99B"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M10.9999 13.75V5.5"
+      stroke="#0DC99B"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
     <Path
       d="M38.5 38.5C29.3873 38.5 22 31.1127 22 22C22 12.8873 29.3873 5.5 38.5 5.5"
       stroke="#0DC99B"
@@ -157,12 +181,27 @@ const WaterIcon = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <Path d="M13.4016 15.9313L21.9999 7.33301" stroke="#4CC3FF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M30.5983 15.9313L22 7.33301" stroke="#4CC3FF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <Path
+      d="M13.4016 15.9313L21.9999 7.33301"
+      stroke="#4CC3FF"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M30.5983 15.9313L22 7.33301"
+      stroke="#4CC3FF"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </Svg>
 );
 
-export function WellnessTracker({ weeklyMetrics = [], weeklyAverageScore = 71 }: TrackerClientProps) {
+export function WellnessTracker({
+  weeklyMetrics = [],
+  weeklyAverageScore = 71,
+}: TrackerClientProps) {
   const router = useRouter();
   // const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -257,19 +296,31 @@ export function WellnessTracker({ weeklyMetrics = [], weeklyAverageScore = 71 }:
         {/* Wellness Score */}
         <View className="px-6 py-6 items-center">
           <View className="flex-row justify-between items-center w-full mb-2">
-            <Text className="text-lg font-semibold tracking-widest">WELLNESS SCORE</Text>
+            <Text className="text-lg font-semibold tracking-widest">
+              WELLNESS SCORE
+            </Text>
             <View className="w-8 h-8 rounded-full bg-gray-100 justify-center items-center">
               <Text className="text-base text-slate-600 font-bold">i</Text>
             </View>
           </View>
-          <Text className="font-lufga text-sm text-gray-500 mb-6">Average wellness score for the last 7 days</Text>
+          <Text className="font-lufga text-sm text-gray-500 mb-6">
+            Average wellness score for the last 7 days
+          </Text>
 
-          <CircularProgress value={displayedScore} maxValue={100} color="#E8D5B0" backgroundColor="#F2E9D8" displayValue={displayedScore} />
+          <CircularProgress
+            value={displayedScore}
+            maxValue={100}
+            color="#E8D5B0"
+            backgroundColor="#F2E9D8"
+            displayValue={displayedScore}
+          />
         </View>
 
         {/* Tracking Options */}
         <View className="px-6 py-6">
-          <Text className="text-base font-medium text-center mb-4">What would you like to track today?</Text>
+          <Text className="text-base font-medium text-center mb-4">
+            What would you like to track today?
+          </Text>
 
           {trackingOptions.map((option) => {
             const handlePress = () => {
@@ -293,18 +344,30 @@ export function WellnessTracker({ weeklyMetrics = [], weeklyAverageScore = 71 }:
                 style={{ backgroundColor: option.color }}
                 onPress={handlePress}
                 activeOpacity={
-                  option.id === "meals" || option.id === "steps" || option.id === "sleep" || option.id === "mindfulness" || option.id === "water" ? 0.7 : 1
+                  option.id === "meals" ||
+                  option.id === "steps" ||
+                  option.id === "sleep" ||
+                  option.id === "mindfulness" ||
+                  option.id === "water"
+                    ? 0.7
+                    : 1
                 }
               >
                 <View className="flex-row items-center p-4">
                   <View className="mr-3">{option.icon}</View>
                   <View className="flex-1">
-                    <Text className="text-base font-medium mb-1">{option.name}</Text>
+                    <Text className="text-base font-medium mb-1">
+                      {option.name}
+                    </Text>
                     <Text className="font-lufga text-sm text-gray-500">
                       {option.progress} {option.unit}
                     </Text>
                   </View>
-                  {(option.id === "meals" || option.id === "steps" || option.id === "sleep" || option.id === "mindfulness" || option.id === "water") && (
+                  {(option.id === "meals" ||
+                    option.id === "steps" ||
+                    option.id === "sleep" ||
+                    option.id === "mindfulness" ||
+                    option.id === "water") && (
                     <View className="ml-2 w-12 h-12 rounded-full bg-white/20 items-center justify-center">
                       <Plus size={32} color="#6B7280" />
                     </View>

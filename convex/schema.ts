@@ -6,23 +6,20 @@ export default defineSchema({
     userId: v.string(),
     count: v.number(), // steps in this entry
     timestamp: v.number(), // UTC timestamp when recorded
-  })
-    .index("by_user_id", ["userId"]),
-  
+  }).index("by_user_id", ["userId"]),
+
   waterIntake: defineTable({
     userID: v.string(),
     amount: v.number(),
     timestamp: v.number(),
-  })
-    .index("by_user_id", ["userID"]),
+  }).index("by_user_id", ["userID"]),
 
   mindfulnessEntry: defineTable({
     userID: v.string(),
     minutes: v.number(),
     activity: v.string(),
     timestamp: v.number(),
-  })
-    .index("by_user_id", ["userID"]),
+  }).index("by_user_id", ["userID"]),
 
   sleepEntry: defineTable({
     userID: v.string(),
@@ -31,8 +28,7 @@ export default defineSchema({
     startTime: v.number(),
     endTime: v.number(),
     timestamp: v.number(),
-  })
-    .index("by_user_id", ["userID"]),
+  }).index("by_user_id", ["userID"]),
 
   mealEntry: defineTable({
     userID: v.string(),
@@ -44,8 +40,7 @@ export default defineSchema({
     fat: v.number(),
     meal_type: v.string(),
     timestamp: v.number(),
-  })
-    .index("by_user_id", ["userID"]),
+  }).index("by_user_id", ["userID"]),
 
   userProfile: defineTable({
     userID: v.string(),
@@ -69,8 +64,7 @@ export default defineSchema({
     pushToken: v.optional(v.string()),
     role: v.optional(v.union(v.literal("user"), v.literal("nutritionist"))),
     name: v.optional(v.string()),
-  })
-    .index("by_user_id", ["userId"]),
+  }).index("by_user_id", ["userId"]),
 
   // Nutritionist chat tables
   nutritionists: defineTable({
@@ -80,14 +74,18 @@ export default defineSchema({
     bio: v.string(),
     isOnline: v.boolean(),
     avatarUrl: v.optional(v.string()),
-    availability: v.optional(v.object({
-      timezone: v.string(),
-      workingHours: v.array(v.object({
-        day: v.string(),
-        startTime: v.string(),
-        endTime: v.string()
-      }))
-    }))
+    availability: v.optional(
+      v.object({
+        timezone: v.string(),
+        workingHours: v.array(
+          v.object({
+            day: v.string(),
+            startTime: v.string(),
+            endTime: v.string(),
+          }),
+        ),
+      }),
+    ),
   })
     .index("by_clerk_id", ["clerkId"])
     .index("by_online_status", ["isOnline"]),
@@ -96,10 +94,14 @@ export default defineSchema({
     userId: v.string(),
     userName: v.string(),
     nutritionistId: v.string(),
-    status: v.union(v.literal("active"), v.literal("ended"), v.literal("pending")),
+    status: v.union(
+      v.literal("active"),
+      v.literal("ended"),
+      v.literal("pending"),
+    ),
     startedAt: v.number(),
     endedAt: v.optional(v.number()),
-    lastMessageAt: v.number()
+    lastMessageAt: v.number(),
   })
     .index("by_user", ["userId"])
     .index("by_nutritionist", ["nutritionistId"])
@@ -111,9 +113,8 @@ export default defineSchema({
     senderType: v.union(v.literal("user"), v.literal("nutritionist")),
     content: v.string(),
     timestamp: v.number(),
-    isRead: v.boolean()
+    isRead: v.boolean(),
   })
     .index("by_session", ["sessionId"])
     .index("by_sender", ["senderId"]),
 });
-

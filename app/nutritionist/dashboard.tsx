@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,14 +6,21 @@ import {
   ScrollView,
   RefreshControl,
   Alert,
-} from 'react-native';
-import { useQuery, useMutation } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
-import { useUser } from '@clerk/clerk-expo';
-import { useRouter } from 'expo-router';
-import { User, MessageSquare, Clock, CheckCircle, XCircle, LogOut } from 'lucide-react-native';
-import { Spinner } from '@/components/Spinner';
+} from "react-native";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import { useUser } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
+import {
+  User,
+  MessageSquare,
+  Clock,
+  CheckCircle,
+  XCircle,
+  LogOut,
+} from "lucide-react-native";
+import { Spinner } from "@/components/Spinner";
 
 interface ChatSession {
   id: Id<"chatSessions">;
@@ -37,12 +44,20 @@ export default function NutritionistDashboard() {
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isOnline, setIsOnline] = useState(false);
-  const [filter, setFilter] = useState<'all' | 'active' | 'ended'>('all');
+  const [filter, setFilter] = useState<"all" | "active" | "ended">("all");
   const [displayedChats, setDisplayedChats] = useState(20);
 
-  const chats = useQuery(api.nutritionistChat.getNutritionistSessions, user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip");
-  const activeChats = useQuery(api.nutritionistChat.getActiveSessionsForNutritionist, user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip");
-  const updateStatus = useMutation(api.nutritionistChat.updateNutritionistStatus);
+  const chats = useQuery(
+    api.nutritionistChat.getNutritionistSessions,
+    user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip",
+  );
+  const activeChats = useQuery(
+    api.nutritionistChat.getActiveSessionsForNutritionist,
+    user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip",
+  );
+  const updateStatus = useMutation(
+    api.nutritionistChat.updateNutritionistStatus,
+  );
 
   useEffect(() => {
     if (user?.unsafeMetadata?.role !== "nutritionist") {
@@ -81,16 +96,21 @@ export default function NutritionistDashboard() {
   };
 
   const handleLoadMore = () => {
-    setDisplayedChats(prev => prev + 20);
+    setDisplayedChats((prev) => prev + 20);
   };
 
   const formatTime = (timestamp: number) => {
     const date = new Date(timestamp);
     const now = new Date();
-    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+    const diffInHours = Math.floor(
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60),
+    );
 
     if (diffInHours < 1) {
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     } else if (diffInHours < 24) {
       return `${diffInHours}h ago`;
     } else {
@@ -98,16 +118,18 @@ export default function NutritionistDashboard() {
     }
   };
 
-  const filteredChats = chats?.filter(chat => {
-    if (filter === 'all') return true;
-    if (filter === 'active') return chat.status === 'active';
-    if (filter === 'ended') return chat.status === 'ended';
+  const filteredChats = chats?.filter((chat) => {
+    if (filter === "all") return true;
+    if (filter === "active") return chat.status === "active";
+    if (filter === "ended") return chat.status === "ended";
     return true;
   });
 
   const getChatStatus = (chat: ChatSession) => {
-    if (chat.status === "active") return { text: "Active", color: "bg-green-100 text-green-800" };
-    if (chat.status === "ended") return { text: "Ended", color: "bg-gray-100 text-gray-800" };
+    if (chat.status === "active")
+      return { text: "Active", color: "bg-green-100 text-green-800" };
+    if (chat.status === "ended")
+      return { text: "Ended", color: "bg-gray-100 text-gray-800" };
     return { text: "Pending", color: "bg-yellow-100 text-yellow-800" };
   };
 
@@ -125,7 +147,7 @@ export default function NutritionistDashboard() {
             updateNutritionistOnlineStatus(false);
           },
         },
-      ]
+      ],
     );
   };
 
@@ -154,24 +176,25 @@ export default function NutritionistDashboard() {
           <View className="flex-row items-center space-x-3">
             <TouchableOpacity
               className={`px-3 py-1 rounded-full flex-row items-center ${
-                isOnline ? 'bg-green-100' : 'bg-gray-200'
+                isOnline ? "bg-green-100" : "bg-gray-200"
               }`}
               onPress={toggleOnlineStatus}
             >
-              <View className={`w-2 h-2 rounded-full mr-2 ${
-                isOnline ? 'bg-green-500' : 'bg-gray-500'
-              }`} />
-              <Text className={`text-xs font-lufga-medium ${
-                isOnline ? 'text-green-800' : 'text-gray-600'
-              }`}>
-                {isOnline ? 'Online' : 'Offline'}
+              <View
+                className={`w-2 h-2 rounded-full mr-2 ${
+                  isOnline ? "bg-green-500" : "bg-gray-500"
+                }`}
+              />
+              <Text
+                className={`text-xs font-lufga-medium ${
+                  isOnline ? "text-green-800" : "text-gray-600"
+                }`}
+              >
+                {isOnline ? "Online" : "Offline"}
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              className="p-2"
-              onPress={handleLogout}
-            >
+            <TouchableOpacity className="p-2" onPress={handleLogout}>
               <LogOut size={20} color="#8B7355" />
             </TouchableOpacity>
           </View>
@@ -181,9 +204,7 @@ export default function NutritionistDashboard() {
       {/* Chats List */}
       <View className="flex-1 px-4 pb-4">
         <View className="flex-row items-center justify-between mb-4">
-          <Text className="text-lg font-lufga-bold text-gray-900">
-            Chats
-          </Text>
+          <Text className="text-lg font-lufga-bold text-gray-900">Chats</Text>
           <Text className="text-sm font-lufga text-gray-600">
             {filteredChats?.length || 0} shown
           </Text>
@@ -193,38 +214,44 @@ export default function NutritionistDashboard() {
         <View className="flex-row space-x-2 mb-4">
           <TouchableOpacity
             className={`flex-1 py-2 px-4 rounded-lg ${
-              filter === 'all' ? 'bg-[#8B7355]' : 'bg-gray-200'
+              filter === "all" ? "bg-[#8B7355]" : "bg-gray-200"
             }`}
-            onPress={() => setFilter('all')}
+            onPress={() => setFilter("all")}
           >
-            <Text className={`text-center font-lufga-medium ${
-              filter === 'all' ? 'text-white' : 'text-gray-700'
-            }`}>
+            <Text
+              className={`text-center font-lufga-medium ${
+                filter === "all" ? "text-white" : "text-gray-700"
+              }`}
+            >
               All ({chats?.length || 0})
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             className={`flex-1 py-2 px-4 rounded-lg ${
-              filter === 'active' ? 'bg-green-500' : 'bg-gray-200'
+              filter === "active" ? "bg-green-500" : "bg-gray-200"
             }`}
-            onPress={() => setFilter('active')}
+            onPress={() => setFilter("active")}
           >
-            <Text className={`text-center font-lufga-medium ${
-              filter === 'active' ? 'text-white' : 'text-gray-700'
-            }`}>
+            <Text
+              className={`text-center font-lufga-medium ${
+                filter === "active" ? "text-white" : "text-gray-700"
+              }`}
+            >
               Active ({activeChats?.length || 0})
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             className={`flex-1 py-2 px-4 rounded-lg ${
-              filter === 'ended' ? 'bg-gray-500' : 'bg-gray-200'
+              filter === "ended" ? "bg-gray-500" : "bg-gray-200"
             }`}
-            onPress={() => setFilter('ended')}
+            onPress={() => setFilter("ended")}
           >
-            <Text className={`text-center font-lufga-medium ${
-              filter === 'ended' ? 'text-white' : 'text-gray-700'
-            }`}>
-              Ended ({chats?.filter(s => s.status === 'ended').length || 0})
+            <Text
+              className={`text-center font-lufga-medium ${
+                filter === "ended" ? "text-white" : "text-gray-700"
+              }`}
+            >
+              Ended ({chats?.filter((s) => s.status === "ended").length || 0})
             </Text>
           </TouchableOpacity>
         </View>
@@ -256,17 +283,22 @@ export default function NutritionistDashboard() {
                         </View>
                         <View className="flex-1">
                           <Text className="text-base font-lufga-medium text-gray-900">
-                            {chat.userName || `Client ${chat.userId.slice(0, 8)}`}
+                            {chat.userName ||
+                              `Client ${chat.userId.slice(0, 8)}`}
                           </Text>
                           <View className="flex-row items-center mt-1">
-                            <View className={`px-2 py-1 rounded-full ${statusInfo.color}`}>
+                            <View
+                              className={`px-2 py-1 rounded-full ${statusInfo.color}`}
+                            >
                               <Text className="text-xs font-lufga-medium">
                                 {statusInfo.text}
                               </Text>
                             </View>
-                            {chat.status === "active" && chat.lastMessage?.senderType === "user" && !chat.lastMessage?.isRead && (
-                              <View className="ml-2 w-3 h-3 bg-blue-500 rounded-full" />
-                            )}
+                            {chat.status === "active" &&
+                              chat.lastMessage?.senderType === "user" &&
+                              !chat.lastMessage?.isRead && (
+                                <View className="ml-2 w-3 h-3 bg-blue-500 rounded-full" />
+                              )}
                           </View>
                         </View>
                       </View>
@@ -274,7 +306,9 @@ export default function NutritionistDashboard() {
                       {chat.lastMessage && (
                         <View className="ml-11">
                           <Text className="text-sm font-lufga text-gray-600 line-clamp-1">
-                            {chat.lastMessage.senderType === "user" ? "Client: " : "You: "}
+                            {chat.lastMessage.senderType === "user"
+                              ? "Client: "
+                              : "You: "}
                             {chat.lastMessage.content}
                           </Text>
                           <Text className="text-xs font-lufga text-gray-400 mt-1">

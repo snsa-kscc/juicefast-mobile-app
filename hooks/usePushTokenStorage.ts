@@ -28,7 +28,10 @@ export function usePushTokenStorage(options: UsePushTokenStorageOptions = {}) {
         try {
           if (previousUserId.current) {
             await clearPushToken({ userId: previousUserId.current });
-            console.log("Push token cleared for previous user:", previousUserId.current);
+            console.log(
+              "Push token cleared for previous user:",
+              previousUserId.current,
+            );
           }
         } catch (error) {
           console.error("Failed to clear previous push token:", error);
@@ -50,8 +53,12 @@ export function usePushTokenStorage(options: UsePushTokenStorageOptions = {}) {
             await updatePushToken({
               userId: user.id,
               pushToken: token,
-              name: user.fullName || user.firstName || user.lastName || undefined,
-              role: user.unsafeMetadata?.role === "nutritionist" ? "nutritionist" : "user",
+              name:
+                user.fullName || user.firstName || user.lastName || undefined,
+              role:
+                user.unsafeMetadata?.role === "nutritionist"
+                  ? "nutritionist"
+                  : "user",
             });
             console.log("Push token stored for user:", user.id);
           }

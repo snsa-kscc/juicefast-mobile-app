@@ -35,8 +35,13 @@ export default function AIChatPage() {
           <AIChat userId={userId} />
         ) : (
           <View className="flex-1 bg-[#FCFBF8] items-center justify-center px-6">
-            <Text className="text-gray-500 text-center text-lg font-lufga-medium mb-4">Sign in to chat with your AI health assistant</Text>
-            <Text className="text-gray-400 text-center text-sm font-lufga">Your health data will be used to provide personalized wellness guidance</Text>
+            <Text className="text-gray-500 text-center text-lg font-lufga-medium mb-4">
+              Sign in to chat with your AI health assistant
+            </Text>
+            <Text className="text-gray-400 text-center text-sm font-lufga">
+              Your health data will be used to provide personalized wellness
+              guidance
+            </Text>
           </View>
         )}
       </SafeAreaView>

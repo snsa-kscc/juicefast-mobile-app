@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Alert, Image, Share } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+  Image,
+  Share,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useClerk, useUser } from "@clerk/clerk-expo";
@@ -8,9 +17,25 @@ import * as Clipboard from "expo-clipboard";
 import { AuthService } from "@/utils/auth";
 import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
-import { User, Ruler, Scale, Calendar, Activity, LogOut, Settings, Heart, Users, ChevronDown, Copy } from "lucide-react-native";
+import {
+  User,
+  Ruler,
+  Scale,
+  Calendar,
+  Activity,
+  LogOut,
+  Settings,
+  Heart,
+  Users,
+  ChevronDown,
+  Copy,
+} from "lucide-react-native";
 import { WellnessHeader } from "../components/ui/CustomHeader";
-import { UserProfile, calculateDailyCalories, getActivityLevelText } from "../schemas/UserProfileSchema";
+import {
+  UserProfile,
+  calculateDailyCalories,
+  getActivityLevelText,
+} from "../schemas/UserProfileSchema";
 import { ActivityLevelPopup } from "../components/ActivityLevelPopup";
 
 interface SelectProps {
@@ -29,7 +54,11 @@ function Select({ value, onValueChange, placeholder, options }: SelectProps) {
         className="flex-row items-center justify-between bg-gray-50 border border-gray-200 rounded-lg px-3 py-3"
         onPress={() => setIsOpen(!isOpen)}
       >
-        <Text className={`flex-1 ${value ? "text-gray-900" : "text-gray-500"}`}>{value ? options.find((opt) => opt.value === value)?.label : placeholder}</Text>
+        <Text className={`flex-1 ${value ? "text-gray-900" : "text-gray-500"}`}>
+          {value
+            ? options.find((opt) => opt.value === value)?.label
+            : placeholder}
+        </Text>
         <ChevronDown size={20} color="#9CA3AF" />
       </TouchableOpacity>
 
@@ -192,7 +221,12 @@ export default function ProfileScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <WellnessHeader title="Profile" subtitle="Manage your health profile" showBackButton onBackPress={() => router.back()} />
+      <WellnessHeader
+        title="Profile"
+        subtitle="Manage your health profile"
+        showBackButton
+        onBackPress={() => router.back()}
+      />
 
       <ScrollView className="flex-1">
         {/* Profile Card */}
@@ -201,22 +235,39 @@ export default function ProfileScreen() {
 
           <View className="items-center mb-6">
             <View className="w-24 h-24 rounded-full bg-blue-50 items-center justify-center mb-4 overflow-hidden">
-              {user?.imageUrl ? <Image source={{ uri: user.imageUrl }} className="w-full h-full" /> : <User size={48} color="#3B82F6" />}
+              {user?.imageUrl ? (
+                <Image
+                  source={{ uri: user.imageUrl }}
+                  className="w-full h-full"
+                />
+              ) : (
+                <User size={48} color="#3B82F6" />
+              )}
             </View>
             <Text className="text-xl font-semibold text-center">
               {user?.fullName ||
                 user?.firstName ||
-                (user?.emailAddresses?.[0]?.emailAddress ? user.emailAddresses[0].emailAddress.split("@")[0] : "Health Tracker User")}
+                (user?.emailAddresses?.[0]?.emailAddress
+                  ? user.emailAddresses[0].emailAddress.split("@")[0]
+                  : "Health Tracker User")}
             </Text>
           </View>
 
           <View className="space-y-3">
-            <TouchableOpacity className="flex-row items-center p-3 bg-gray-50 rounded-lg" onPress={() => setIsEditing(true)}>
+            <TouchableOpacity
+              className="flex-row items-center p-3 bg-gray-50 rounded-lg"
+              onPress={() => setIsEditing(true)}
+            >
               <Settings size={20} color="#6B7280" />
-              <Text className="ml-3 text-gray-900 font-medium">Edit Profile</Text>
+              <Text className="ml-3 text-gray-900 font-medium">
+                Edit Profile
+              </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="flex-row items-center p-3 bg-red-50 rounded-lg" onPress={handleLogout}>
+            <TouchableOpacity
+              className="flex-row items-center p-3 bg-red-50 rounded-lg"
+              onPress={handleLogout}
+            >
               <LogOut size={20} color="#EF4444" />
               <Text className="ml-3 text-red-500 font-medium">Log Out</Text>
             </TouchableOpacity>
@@ -225,61 +276,115 @@ export default function ProfileScreen() {
 
         {/* Profile Details */}
         <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
-          <Text className="text-xl font-bold mb-4">{isEditing ? "Edit Your Details" : "Your Details"}</Text>
+          <Text className="text-xl font-bold mb-4">
+            {isEditing ? "Edit Your Details" : "Your Details"}
+          </Text>
 
           {isEditing ? (
             <View className="space-y-4">
               <View className="flex-row space-x-4">
                 <View className="flex-1">
-                  <Text className="text-sm font-medium text-gray-700 mb-2">Height (cm)</Text>
+                  <Text className="text-sm font-medium text-gray-700 mb-2">
+                    Height (cm)
+                  </Text>
                   <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-3">
                     <Ruler size={16} color="#9CA3AF" />
-                    <TextInput className="flex-1 ml-2 text-gray-900" value={height} onChangeText={setHeight} keyboardType="numeric" placeholder="170" />
+                    <TextInput
+                      className="flex-1 ml-2 text-gray-900"
+                      value={height}
+                      onChangeText={setHeight}
+                      keyboardType="numeric"
+                      placeholder="170"
+                    />
                   </View>
                 </View>
 
                 <View className="flex-1">
-                  <Text className="text-sm font-medium text-gray-700 mb-2">Weight (kg)</Text>
+                  <Text className="text-sm font-medium text-gray-700 mb-2">
+                    Weight (kg)
+                  </Text>
                   <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-3">
                     <Scale size={16} color="#9CA3AF" />
-                    <TextInput className="flex-1 ml-2 text-gray-900" value={weight} onChangeText={setWeight} keyboardType="numeric" placeholder="70" />
+                    <TextInput
+                      className="flex-1 ml-2 text-gray-900"
+                      value={weight}
+                      onChangeText={setWeight}
+                      keyboardType="numeric"
+                      placeholder="70"
+                    />
                   </View>
                 </View>
               </View>
 
               <View className="flex-row space-x-4">
                 <View className="flex-1">
-                  <Text className="text-sm font-medium text-gray-700 mb-2">Age</Text>
+                  <Text className="text-sm font-medium text-gray-700 mb-2">
+                    Age
+                  </Text>
                   <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-3">
                     <Calendar size={16} color="#9CA3AF" />
-                    <TextInput className="flex-1 ml-2 text-gray-900" value={age} onChangeText={setAge} keyboardType="numeric" placeholder="30" />
+                    <TextInput
+                      className="flex-1 ml-2 text-gray-900"
+                      value={age}
+                      onChangeText={setAge}
+                      keyboardType="numeric"
+                      placeholder="30"
+                    />
                   </View>
                 </View>
 
                 <View className="flex-1">
-                  <Text className="text-sm font-medium text-gray-700 mb-2">Gender</Text>
-                  <Select value={gender} onValueChange={setGender} placeholder="Select gender" options={genderOptions} />
+                  <Text className="text-sm font-medium text-gray-700 mb-2">
+                    Gender
+                  </Text>
+                  <Select
+                    value={gender}
+                    onValueChange={setGender}
+                    placeholder="Select gender"
+                    options={genderOptions}
+                  />
                 </View>
               </View>
 
               <View>
-                <Text className="text-sm font-medium text-gray-700 mb-2">Activity Level</Text>
+                <Text className="text-sm font-medium text-gray-700 mb-2">
+                  Activity Level
+                </Text>
                 <View className="flex-row items-center">
                   <Activity size={16} color="#9CA3AF" />
-                  <TouchableOpacity className="flex-1 ml-2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-3" onPress={() => setShowActivityPopup(true)}>
-                    <Text className={`text-gray-900 ${activityLevel ? "" : "text-gray-500"}`}>
-                      {activityLevel ? activityOptions.find((opt) => opt.value === activityLevel)?.label : "Select activity level"}
+                  <TouchableOpacity
+                    className="flex-1 ml-2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-3"
+                    onPress={() => setShowActivityPopup(true)}
+                  >
+                    <Text
+                      className={`text-gray-900 ${activityLevel ? "" : "text-gray-500"}`}
+                    >
+                      {activityLevel
+                        ? activityOptions.find(
+                            (opt) => opt.value === activityLevel,
+                          )?.label
+                        : "Select activity level"}
                     </Text>
                   </TouchableOpacity>
                 </View>
               </View>
 
               <View className="flex-row justify-end space-x-3 pt-4">
-                <TouchableOpacity className="px-6 py-3 bg-gray-100 rounded-lg" onPress={() => setIsEditing(false)} disabled={isLoading}>
+                <TouchableOpacity
+                  className="px-6 py-3 bg-gray-100 rounded-lg"
+                  onPress={() => setIsEditing(false)}
+                  disabled={isLoading}
+                >
                   <Text className="text-gray-700 font-medium">Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity className="px-6 py-3 bg-blue-500 rounded-lg" onPress={handleSaveProfile} disabled={isLoading}>
-                  <Text className="text-white font-medium">{isLoading ? "Saving..." : "Save Changes"}</Text>
+                <TouchableOpacity
+                  className="px-6 py-3 bg-blue-500 rounded-lg"
+                  onPress={handleSaveProfile}
+                  disabled={isLoading}
+                >
+                  <Text className="text-white font-medium">
+                    {isLoading ? "Saving..." : "Save Changes"}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -293,7 +398,9 @@ export default function ProfileScreen() {
                     </View>
                     <View>
                       <Text className="text-sm text-gray-500">Height</Text>
-                      <Text className="font-medium">{profile?.height ?? "-"}</Text>
+                      <Text className="font-medium">
+                        {profile?.height ?? "-"}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -305,7 +412,9 @@ export default function ProfileScreen() {
                     </View>
                     <View>
                       <Text className="text-sm text-gray-500">Weight</Text>
-                      <Text className="font-medium">{profile?.weight ?? "-"} kg</Text>
+                      <Text className="font-medium">
+                        {profile?.weight ?? "-"} kg
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -329,7 +438,9 @@ export default function ProfileScreen() {
                     </View>
                     <View>
                       <Text className="text-sm text-gray-500">Gender</Text>
-                      <Text className="font-medium">{profile?.gender ?? "-"}</Text>
+                      <Text className="font-medium">
+                        {profile?.gender ?? "-"}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -340,14 +451,23 @@ export default function ProfileScreen() {
                       <Activity size={20} color="#3B82F6" />
                     </View>
                     <View className="flex-1">
-                      <Text className="text-sm text-gray-500">Activity Level</Text>
-                      <Text className="font-medium">{profile?.activityLevel ? getActivityLevelText(profile.activityLevel) : "-"}</Text>
+                      <Text className="text-sm text-gray-500">
+                        Activity Level
+                      </Text>
+                      <Text className="font-medium">
+                        {profile?.activityLevel
+                          ? getActivityLevelText(profile.activityLevel)
+                          : "-"}
+                      </Text>
                     </View>
                   </View>
                 </View>
               </View>
 
-              <TouchableOpacity className="bg-blue-500 py-3 rounded-lg items-center" onPress={() => setIsEditing(true)}>
+              <TouchableOpacity
+                className="bg-blue-500 py-3 rounded-lg items-center"
+                onPress={() => setIsEditing(true)}
+              >
                 <Text className="text-white font-medium">Edit Details</Text>
               </TouchableOpacity>
             </View>
@@ -364,7 +484,11 @@ export default function ProfileScreen() {
                 <View className="flex-row items-center justify-between mb-2">
                   <Heart size={20} color="#EF4444" />
                   <Text className="text-lg font-bold">
-                    {profile?.weight && profile?.height ? (profile.weight / Math.pow(profile.height / 100, 2)).toFixed(1) : "-"}
+                    {profile?.weight && profile?.height
+                      ? (
+                          profile.weight / Math.pow(profile.height / 100, 2)
+                        ).toFixed(1)
+                      : "-"}
                   </Text>
                 </View>
                 <Text className="text-sm font-medium text-gray-600">BMI</Text>
@@ -376,12 +500,24 @@ export default function ProfileScreen() {
                 <View className="flex-row items-center justify-between mb-2">
                   <Heart size={20} color="#10B981" />
                   <Text className="text-sm font-bold">
-                    {profile?.weight && profile?.height && profile?.age && profile?.gender && profile?.activityLevel
-                      ? calculateDailyCalories(profile.weight, profile.height, profile.age, profile.gender, profile.activityLevel)
+                    {profile?.weight &&
+                    profile?.height &&
+                    profile?.age &&
+                    profile?.gender &&
+                    profile?.activityLevel
+                      ? calculateDailyCalories(
+                          profile.weight,
+                          profile.height,
+                          profile.age,
+                          profile.gender,
+                          profile.activityLevel,
+                        )
                       : "-"}
                   </Text>
                 </View>
-                <Text className="text-sm font-medium text-gray-600">Daily Calories</Text>
+                <Text className="text-sm font-medium text-gray-600">
+                  Daily Calories
+                </Text>
               </View>
             </View>
 
@@ -389,9 +525,15 @@ export default function ProfileScreen() {
               <View className="bg-blue-50 rounded-xl p-4">
                 <View className="flex-row items-center justify-between mb-2">
                   <Heart size={20} color="#3B82F6" />
-                  <Text className="text-sm font-bold">{profile?.weight ? `${Math.round(profile.weight * 30)} ml` : "-"}</Text>
+                  <Text className="text-sm font-bold">
+                    {profile?.weight
+                      ? `${Math.round(profile.weight * 30)} ml`
+                      : "-"}
+                  </Text>
                 </View>
-                <Text className="text-sm font-medium text-gray-600">Water Goal</Text>
+                <Text className="text-sm font-medium text-gray-600">
+                  Water Goal
+                </Text>
               </View>
             </View>
           </View>
@@ -405,25 +547,42 @@ export default function ProfileScreen() {
             <View className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 mb-4">
               <View className="flex-row items-center justify-between mb-2">
                 <Users size={20} color="#3B82F6" />
-                <Text className="text-lg font-bold">{profile.referralCount || 0}</Text>
+                <Text className="text-lg font-bold">
+                  {profile.referralCount || 0}
+                </Text>
               </View>
-              <Text className="text-sm font-medium text-gray-600 mb-2">Referrals Made</Text>
-              <Text className="text-xs text-gray-500">Your code: {profile.referralCode}</Text>
+              <Text className="text-sm font-medium text-gray-600 mb-2">
+                Referrals Made
+              </Text>
+              <Text className="text-xs text-gray-500">
+                Your code: {profile.referralCode}
+              </Text>
             </View>
 
             <View className="space-y-3">
               <View className="bg-gray-50 rounded-lg p-3">
                 <View className="flex-row items-center justify-between">
-                  <Text className="text-sm text-gray-600 flex-1 mr-2" numberOfLines={2}>
-                    {profile?.referralCode ? `https://juicefast.app/referral?code=${profile.referralCode}` : "-"}
+                  <Text
+                    className="text-sm text-gray-600 flex-1 mr-2"
+                    numberOfLines={2}
+                  >
+                    {profile?.referralCode
+                      ? `https://juicefast.app/referral?code=${profile.referralCode}`
+                      : "-"}
                   </Text>
-                  <TouchableOpacity onPress={handleCopyReferralLink} className="p-2">
+                  <TouchableOpacity
+                    onPress={handleCopyReferralLink}
+                    className="p-2"
+                  >
                     <Copy size={16} color="#6B7280" />
                   </TouchableOpacity>
                 </View>
               </View>
 
-              <TouchableOpacity className="flex-row items-center justify-center bg-purple-500 py-3 rounded-lg" onPress={handleShareReferralLink}>
+              <TouchableOpacity
+                className="flex-row items-center justify-center bg-purple-500 py-3 rounded-lg"
+                onPress={handleShareReferralLink}
+              >
                 <Text className="text-white font-medium">Share Link</Text>
               </TouchableOpacity>
             </View>
@@ -431,7 +590,12 @@ export default function ProfileScreen() {
         )}
 
         {/* Activity Level Popup */}
-        <ActivityLevelPopup visible={showActivityPopup} onClose={() => setShowActivityPopup(false)} selectedValue={activityLevel} onSelect={setActivityLevel} />
+        <ActivityLevelPopup
+          visible={showActivityPopup}
+          onClose={() => setShowActivityPopup(false)}
+          selectedValue={activityLevel}
+          onSelect={setActivityLevel}
+        />
       </ScrollView>
     </View>
   );

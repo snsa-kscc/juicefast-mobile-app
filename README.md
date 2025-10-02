@@ -17,32 +17,38 @@ The **Juicefast Nutrition App** is a wellness-focused mobile application that he
 ## 🛠 Tech Stack
 
 ### Core Framework
+
 - **React Native** `0.81.4` - Cross-platform mobile development
 - **Expo** `~54.0.8` - Development platform and toolchain
 - **TypeScript** `~5.9.2` - Type-safe JavaScript development
 
 ### Navigation & Routing
+
 - **Expo Router** `~6.0.6` - File-based routing system
 - **React Navigation** `^7.1.6` - Navigation library for React Native
 
 ### Styling & UI
+
 - **NativeWind** `^4.1.23` - Tailwind CSS for React Native
 - **React Native Reanimated** `~4.1.0` - Advanced animations
 - **React Native SVG** `15.12.1` - SVG support for custom icons
 - **Lucide React Native** `^0.541.0` - Icon library
 
 ### State Management & Data
+
 - **React Query (TanStack)** `^5.85.5` - Server state management
 - **Convex** `^1.27.0` - Backend-as-a-Service
 - **Zod** `^4.1.3` - Schema validation
 
 ### Authentication & Security
+
 - **Clerk** `^2.14.28` - Authentication and user management
 - **Expo Secure Store** `^15.0.7` - Secure local storage
 - **Crypto-js** `^4.2.0` - Cryptographic operations
 - **UUID** `^11.1.0` - Secure ID generation
 
 ### Additional Features
+
 - **Expo Image Picker** `^17.0.8` - Image selection functionality
 - **React Native Gesture Handler** `~2.28.0` - Advanced gesture recognition
 - **Bottom Sheet** `^5.2.3` - Modal bottom sheet component
@@ -51,6 +57,7 @@ The **Juicefast Nutrition App** is a wellness-focused mobile application that he
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js (v18 or later)
 - pnpm (recommended) or npm
 - Expo CLI
@@ -60,12 +67,14 @@ The **Juicefast Nutrition App** is a wellness-focused mobile application that he
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd jf-mobile
    ```
 
 2. **Install dependencies**
+
    ```bash
    pnpm install
    # or
@@ -73,6 +82,7 @@ The **Juicefast Nutrition App** is a wellness-focused mobile application that he
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env.local
    # Edit .env.local with your configuration
@@ -87,14 +97,14 @@ The **Juicefast Nutrition App** is a wellness-focused mobile application that he
 
 ### Development Commands
 
-| Command | Description |
-|---------|-------------|
-| `pnpm start` | Start the Expo development server |
-| `pnpm android` | Run on Android emulator/device |
-| `pnpm ios` | Run on iOS simulator/device |
-| `pnpm web` | Run on web browser |
-| `pnpm lint` | Run ESLint for code quality |
-| `pnpm reset-project` | Reset to blank project structure |
+| Command              | Description                       |
+| -------------------- | --------------------------------- |
+| `pnpm start`         | Start the Expo development server |
+| `pnpm android`       | Run on Android emulator/device    |
+| `pnpm ios`           | Run on iOS simulator/device       |
+| `pnpm web`           | Run on web browser                |
+| `pnpm lint`          | Run ESLint for code quality       |
+| `pnpm reset-project` | Reset to blank project structure  |
 
 ## 📁 Project Structure
 
@@ -135,19 +145,24 @@ utils/                     # Utility functions
 ## 🎨 Architecture & Design
 
 ### Route Groups Pattern
+
 The app uses Expo Router's modern route groups pattern for better organization:
+
 - `(tabs)/` - Contains all tab-based navigation screens
 - Root level screens are accessible via stack navigation
 - Clean separation between tabbed and non-tabbed screens
 
 ### Animation System
+
 Sophisticated animations powered by React Native Reanimated:
+
 - **Entrance Animations**: Staggered fade-ins, slides, and zoom effects
 - **Continuous Animations**: Spinning and pulsing effects
 - **Spring Physics**: Natural motion with spring animations
 - **Interactive Feedback**: Visual responses to user interactions
 
 ### Styling System
+
 - **NativeWind**: Tailwind CSS classes for consistent styling
 - **Custom Color Palette**: Category-specific color schemes
 - **Responsive Design**: Flexible layouts that adapt to different screen sizes
@@ -158,6 +173,7 @@ Sophisticated animations powered by React Native Reanimated:
 The app has been hardened with multiple security and performance improvements:
 
 ### Security Fixes Applied
+
 - ✅ **Log Injection Prevention** (CWE-117)
 - ✅ **HTTPS Enforcement** (CWE-319)
 - ✅ **Authorization Middleware** (CWE-862)
@@ -165,6 +181,7 @@ The app has been hardened with multiple security and performance improvements:
 - ✅ **NoSQL Injection Prevention** (CWE-943)
 
 ### Performance Optimizations
+
 - ✅ **UUID-based ID Generation** (prevents collisions)
 - ✅ **Memory Leak Prevention** (proper cleanup)
 - ✅ **Object Recreation Optimization** (useMemo, static objects)
@@ -181,18 +198,22 @@ For detailed information about specific aspects of the project, see:
 ## 🔧 Development Notes
 
 ### Current State
+
 - Primary feature: Wellness tracking with circular progress display
 - Tab navigation structure implemented but customizable
 - Uses pnpm for package management
 - TypeScript with strict mode enabled
 
 ### Path Mapping
+
 The project uses `@/*` path mapping for cleaner imports:
+
 ```typescript
-import { WellnessTracker } from '@/components/tracker/WellnessTracker'
+import { WellnessTracker } from "@/components/tracker/WellnessTracker";
 ```
 
 ### Environment Configuration
+
 - Development and production environment support
 - Secure storage for sensitive configuration
 - EAS Build integration for deployment
@@ -200,6 +221,7 @@ import { WellnessTracker } from '@/components/tracker/WellnessTracker'
 ## 🚢 Deployment
 
 The app is configured for deployment with:
+
 - **EAS Build** for native app compilation
 - **Expo Updates** for over-the-air updates
 - **Multi-platform support** (iOS, Android, Web)

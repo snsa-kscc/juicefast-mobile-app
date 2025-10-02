@@ -1,5 +1,5 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { z } from 'zod';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { z } from "zod";
 
 const MealAnalysisSchema = z.object({
   calories: z.number().min(0).max(5000),
@@ -24,14 +24,19 @@ export class MealAnalyzer {
   constructor() {
     const apiKey = process.env.EXPO_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY;
     if (!apiKey) {
-      throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is not configured');
+      throw new Error("GOOGLE_GENERATIVE_AI_API_KEY is not configured");
     }
     this.genAI = new GoogleGenerativeAI(apiKey);
   }
 
-  async analyzeMeal(imageBase64: string, mimeType: string = 'image/jpeg'): Promise<MealAnalysisResult> {
+  async analyzeMeal(
+    imageBase64: string,
+    mimeType: string = "image/jpeg",
+  ): Promise<MealAnalysisResult> {
     try {
-      const model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+      const model = this.genAI.getGenerativeModel({
+        model: "gemini-2.5-flash",
+      });
 
       const imageParts = [
         {
@@ -61,26 +66,29 @@ Respond with ONLY the JSON object, no additional text.`;
       const text = response.text();
 
       // Clean the response text
-      const cleanText = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      const cleanText = text
+        .replace(/```json\n?/g, "")
+        .replace(/```\n?/g, "")
+        .trim();
 
       let parsedData;
       try {
         parsedData = JSON.parse(cleanText);
       } catch (parseError) {
-        console.error('Failed to parse JSON response:', cleanText);
+        console.error("Failed to parse JSON response:", cleanText);
         return {
           success: false,
-          error: 'Failed to parse AI response',
+          error: "Failed to parse AI response",
         };
       }
 
       // Validate with Zod schema
       const validatedData = MealAnalysisSchema.safeParse(parsedData);
       if (!validatedData.success) {
-        console.error('Validation error:', validatedData.error);
+        console.error("Validation error:", validatedData.error);
         return {
           success: false,
-          error: 'Invalid response format from AI',
+          error: "Invalid response format from AI",
         };
       }
 
@@ -89,10 +97,11 @@ Respond with ONLY the JSON object, no additional text.`;
         data: validatedData.data,
       };
     } catch (error) {
-      console.error('Error analyzing meal:', error);
+      console.error("Error analyzing meal:", error);
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to analyze meal',
+        error:
+          error instanceof Error ? error.message : "Failed to analyze meal",
       };
     }
   }
@@ -104,8 +113,9 @@ Respond with ONLY the JSON object, no additional text.`;
       protein: 25,
       carbs: 40,
       fat: 12,
-      name: 'Mixed Meal',
-      description: 'Could not analyze this meal. Please enter nutrition information manually.',
+      name: "Mixed Meal",
+      description:
+        "Could not analyze this meal. Please enter nutrition information manually.",
     };
   }
 }

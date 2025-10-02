@@ -3,17 +3,21 @@
  */
 
 export function sanitizeForLog(input: any): string {
-  if (typeof input === 'string') {
-    return input.replace(/[\r\n\t]/g, ' ').trim();
+  if (typeof input === "string") {
+    return input.replace(/[\r\n\t]/g, " ").trim();
   }
-  return JSON.stringify(input).replace(/[\r\n\t]/g, ' ');
+  return JSON.stringify(input).replace(/[\r\n\t]/g, " ");
 }
 
 export function sanitizeString(input: string): string {
-  return input.replace(/[<>\"'&]/g, '').trim();
+  return input.replace(/[<>\"'&]/g, "").trim();
 }
 
-export function validateNumericRange(value: number, min: number, max: number): number {
+export function validateNumericRange(
+  value: number,
+  min: number,
+  max: number,
+): number {
   return Math.max(min, Math.min(max, value));
 }
 
@@ -23,5 +27,5 @@ export function isValidEmail(email: string): boolean {
 }
 
 export function sanitizeUserId(userId: string): string {
-  return userId.replace(/[^a-zA-Z0-9-_]/g, '');
+  return userId.replace(/[^a-zA-Z0-9-_]/g, "");
 }

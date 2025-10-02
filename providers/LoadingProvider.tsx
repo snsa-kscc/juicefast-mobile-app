@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { LoadingOverlay } from '@/components/LoadingOverlay';
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import { LoadingOverlay } from "@/components/LoadingOverlay";
 
 interface LoadingContextType {
   isLoading: boolean;
@@ -11,7 +11,7 @@ const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 export function useLoading() {
   const context = useContext(LoadingContext);
   if (!context) {
-    throw new Error('useLoading must be used within LoadingProvider');
+    throw new Error("useLoading must be used within LoadingProvider");
   }
   return context;
 }

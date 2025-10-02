@@ -11,6 +11,7 @@ This app now has push notifications implemented for the nutritionist chat featur
 ## Testing Push Notifications
 
 ### Method 1: Test Component
+
 1. Open the app on two physical devices
 2. Navigate to `/test-notifications` on both devices
 3. Copy the token from Device A
@@ -19,12 +20,14 @@ This app now has push notifications implemented for the nutritionist chat featur
 6. Close the app on Device A to see the notification
 
 ### Method 2: Using Expo Push Tool
+
 1. Get your device token from the app (check console logs or the test component)
 2. Go to https://expo.dev/notifications
 3. Paste your token
 4. Type a test message and send
 
 ### Method 3: Using Two Devices in Chat
+
 1. Open the chat between a user and nutritionist on two different devices
 2. Send messages between devices
 3. Close the recipient app to see push notifications

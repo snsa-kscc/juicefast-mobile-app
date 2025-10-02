@@ -20,11 +20,11 @@ export interface User {
 
 // Helper function to calculate daily calories
 export function calculateDailyCalories(
-  weight: number, 
-  height: number, 
-  age: number, 
-  gender: string, 
-  activityLevel: string
+  weight: number,
+  height: number,
+  age: number,
+  gender: string,
+  activityLevel: string,
 ): string {
   // Calculate BMR using Mifflin-St Jeor Equation
   let bmr = 0;
@@ -43,7 +43,9 @@ export function calculateDailyCalories(
     very_active: 1.9,
   };
 
-  const multiplier = activityMultipliers[activityLevel as keyof typeof activityMultipliers] || 1.2;
+  const multiplier =
+    activityMultipliers[activityLevel as keyof typeof activityMultipliers] ||
+    1.2;
   const calories = Math.round(bmr * multiplier);
 
   return `${calories} kcal`;

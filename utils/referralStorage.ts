@@ -1,6 +1,6 @@
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 
-const REFERRAL_CODE_KEY = 'referral_code';
+const REFERRAL_CODE_KEY = "referral_code";
 
 export const ReferralStorage = {
   /**
@@ -10,8 +10,8 @@ export const ReferralStorage = {
     try {
       await SecureStore.setItemAsync(REFERRAL_CODE_KEY, referralCode);
     } catch (error) {
-      console.error('Error storing referral code:', error);
-      throw new Error('Failed to store referral code');
+      console.error("Error storing referral code:", error);
+      throw new Error("Failed to store referral code");
     }
   },
 
@@ -22,7 +22,7 @@ export const ReferralStorage = {
     try {
       return await SecureStore.getItemAsync(REFERRAL_CODE_KEY);
     } catch (error) {
-      console.error('Error retrieving referral code:', error);
+      console.error("Error retrieving referral code:", error);
       return null;
     }
   },
@@ -34,8 +34,8 @@ export const ReferralStorage = {
     try {
       await SecureStore.deleteItemAsync(REFERRAL_CODE_KEY);
     } catch (error) {
-      console.error('Error removing referral code:', error);
-      throw new Error('Failed to remove referral code');
+      console.error("Error removing referral code:", error);
+      throw new Error("Failed to remove referral code");
     }
   },
 
@@ -47,8 +47,8 @@ export const ReferralStorage = {
       const code = await this.getReferralCode();
       return code !== null && code.length > 0;
     } catch (error) {
-      console.error('Error checking referral code:', error);
+      console.error("Error checking referral code:", error);
       return false;
     }
-  }
+  },
 };

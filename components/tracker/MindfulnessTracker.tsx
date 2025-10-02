@@ -1,10 +1,29 @@
 import Slider from "@react-native-community/slider";
-import React, { useEffect, useOptimistic, useRef, useState, startTransition, useMemo } from "react";
-import { Animated, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import React, {
+  useEffect,
+  useOptimistic,
+  useRef,
+  useState,
+  startTransition,
+  useMemo,
+} from "react";
+import {
+  Animated,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useMutation, useQuery } from "convex/react";
 import { useUser } from "@clerk/clerk-expo";
 import { api } from "../../convex/_generated/api";
-import { CircularProgress, ProgressBar, TrackerButton, WellnessHeader, TrackerStats } from "./shared";
+import {
+  CircularProgress,
+  ProgressBar,
+  TrackerButton,
+  WellnessHeader,
+  TrackerStats,
+} from "./shared";
 
 interface MindfulnessEntry {
   minutes: number;
@@ -25,37 +44,53 @@ const ACTIVITIES = [
   { id: "body-scan", label: "Body Scan" },
 ];
 
-export function MindfulnessTracker({ initialMindfulnessData, onBack }: MindfulnessTrackerProps) {
+export function MindfulnessTracker({
+  initialMindfulnessData,
+  onBack,
+}: MindfulnessTrackerProps) {
   const { user } = useUser() || {};
   const [minutes, setMinutes] = useState<number>(10);
   const [displayedMinutes, setDisplayedMinutes] = useState<number>(0);
-  const [selectedActivity, setSelectedActivity] = useState<string>(ACTIVITIES[0].id);
-  
+  const [selectedActivity, setSelectedActivity] = useState<string>(
+    ACTIVITIES[0].id,
+  );
+
   const createMindfulnessEntry = useMutation(api.mindfulnessEntry.create);
-  const deleteMindfulnessEntry = useMutation(api.mindfulnessEntry.deleteByUserIdAndTimestamp);
-  
+  const deleteMindfulnessEntry = useMutation(
+    api.mindfulnessEntry.deleteByUserIdAndTimestamp,
+  );
+
   const { startTime, endTime } = useMemo(() => {
     const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const startOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+    );
+    const endOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1,
+    );
     return {
       startTime: startOfDay.getTime(),
-      endTime: endOfDay.getTime()
+      endTime: endOfDay.getTime(),
     };
   }, []);
-  
-  const mindfulnessEntries = useQuery(api.mindfulnessEntry.getByUserId,
-    user?.id ? { startTime: startTime, endTime: endTime } : "skip"
+
+  const mindfulnessEntries = useQuery(
+    api.mindfulnessEntry.getByUserId,
+    user?.id ? { startTime: startTime, endTime: endTime } : "skip",
   );
-  
+
   const totalMinutes = useMemo(() => {
     if (!mindfulnessEntries) return 0;
     return mindfulnessEntries.reduce((sum, entry) => sum + entry.minutes, 0);
   }, [mindfulnessEntries]);
-  
+
   const [optimisticMinutes, addOptimisticMinutes] = useOptimistic(
     totalMinutes || 0,
-    (state, newMinutes: number) => state + newMinutes
+    (state, newMinutes: number) => state + newMinutes,
   );
 
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -92,7 +127,7 @@ export function MindfulnessTracker({ initialMindfulnessData, onBack }: Mindfulne
     startTransition(() => {
       addOptimisticMinutes(minutes);
     });
-    
+
     try {
       await createMindfulnessEntry({ minutes, activity: selectedActivity });
     } catch (error) {
@@ -102,7 +137,7 @@ export function MindfulnessTracker({ initialMindfulnessData, onBack }: Mindfulne
 
   const handleDeleteEntry = async (entryId: string, timestamp: number) => {
     if (!user?.id) return;
-    
+
     try {
       await deleteMindfulnessEntry({ timestamp });
     } catch (error) {
@@ -110,13 +145,25 @@ export function MindfulnessTracker({ initialMindfulnessData, onBack }: Mindfulne
     }
   };
 
-  const progressPercentage = Math.min(100, (displayedMinutes / DAILY_GOAL) * 100);
+  const progressPercentage = Math.min(
+    100,
+    (displayedMinutes / DAILY_GOAL) * 100,
+  );
 
   return (
     <ScrollView className="flex-1 bg-[#FCFBF8]">
-      <WellnessHeader title="Mindfulness Tracker" subtitle="Mindfulness practice improves mental clarity and reduces stress." accentColor="#FE8E77" showBackButton={true} onBackPress={onBack} />
+      <WellnessHeader
+        title="Mindfulness Tracker"
+        subtitle="Mindfulness practice improves mental clarity and reduces stress."
+        accentColor="#FE8E77"
+        showBackButton={true}
+        onBackPress={onBack}
+      />
 
-      <TrackerStats title="DAILY MINDFULNESS" subtitle={`${displayedMinutes} out of ${DAILY_GOAL} minutes`}>
+      <TrackerStats
+        title="DAILY MINDFULNESS"
+        subtitle={`${displayedMinutes} out of ${DAILY_GOAL} minutes`}
+      >
         <CircularProgress
           value={displayedMinutes}
           maxValue={DAILY_GOAL}
@@ -164,19 +211,29 @@ export function MindfulnessTracker({ initialMindfulnessData, onBack }: Mindfulne
         </View>
 
         <View className="mb-4">
-          <Text className="font-lufga text-xs text-gray-500 mb-2">Activity type</Text>
+          <Text className="font-lufga text-xs text-gray-500 mb-2">
+            Activity type
+          </Text>
           <View className="flex-row flex-wrap gap-2">
             {ACTIVITIES.map((activity) => (
               <TouchableOpacity
                 key={activity.id}
                 className={`border rounded-md px-3 py-2 ${
-                  selectedActivity === activity.id ? 'border-[#FE8E77] bg-[#FFEFEB]' : 'border-gray-300'
+                  selectedActivity === activity.id
+                    ? "border-[#FE8E77] bg-[#FFEFEB]"
+                    : "border-gray-300"
                 }`}
                 onPress={() => setSelectedActivity(activity.id)}
               >
-                <Text className={`font-lufga text-sm ${
-                  selectedActivity === activity.id ? 'text-[#D2691E]' : 'text-gray-700'
-                }`}>{activity.label}</Text>
+                <Text
+                  className={`font-lufga text-sm ${
+                    selectedActivity === activity.id
+                      ? "text-[#D2691E]"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {activity.label}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -189,19 +246,32 @@ export function MindfulnessTracker({ initialMindfulnessData, onBack }: Mindfulne
       {mindfulnessEntries && mindfulnessEntries.length > 0 && (
         <View className="px-6 mt-6">
           <View className="bg-white rounded-lg p-4 shadow-sm">
-            <Text className="font-semibold mb-3">Today's Mindfulness Sessions</Text>
+            <Text className="font-semibold mb-3">
+              Today's Mindfulness Sessions
+            </Text>
             {mindfulnessEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);
               return (
-                <View key={entry._id} className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                <View
+                  key={entry._id}
+                  className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
+                >
                   <View>
-                    <Text className="font-lufga text-sm font-medium">{entry.minutes} minutes - {entry.activity}</Text>
+                    <Text className="font-lufga text-sm font-medium">
+                      {entry.minutes} minutes - {entry.activity}
+                    </Text>
                     <Text className="font-lufga text-xs text-gray-500">
-                      {date.toLocaleDateString()} at {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {date.toLocaleDateString()} at{" "}
+                      {date.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </Text>
                   </View>
-                  <TouchableOpacity 
-                    onPress={() => handleDeleteEntry(entry._id, entry.timestamp)}
+                  <TouchableOpacity
+                    onPress={() =>
+                      handleDeleteEntry(entry._id, entry.timestamp)
+                    }
                     className="p-2 rounded-full bg-red-50 active:bg-red-100"
                   >
                     <Text className="text-red-500 text-lg">🗑️</Text>
@@ -218,16 +288,18 @@ export function MindfulnessTracker({ initialMindfulnessData, onBack }: Mindfulne
         <View className="bg-white rounded-lg p-4 shadow-sm">
           <Text className="font-semibold mb-2">Mindfulness Tips</Text>
           <View className="space-y-2">
-            {["Start with just 5 minutes a day and gradually increase", "Focus on your breath when your mind wanders", "Practice at the same time each day to build a habit"].map(
-              (tip, index) => (
-                <View key={index} className="flex-row items-start">
-                  <View className="bg-orange-100 rounded-full p-1 mr-2 mt-0.5">
-                    <View className="w-3 h-3" />
-                  </View>
-                  <Text className="font-lufga text-sm flex-1">{tip}</Text>
+            {[
+              "Start with just 5 minutes a day and gradually increase",
+              "Focus on your breath when your mind wanders",
+              "Practice at the same time each day to build a habit",
+            ].map((tip, index) => (
+              <View key={index} className="flex-row items-start">
+                <View className="bg-orange-100 rounded-full p-1 mr-2 mt-0.5">
+                  <View className="w-3 h-3" />
                 </View>
-              )
-            )}
+                <Text className="font-lufga text-sm flex-1">{tip}</Text>
+              </View>
+            ))}
           </View>
         </View>
       </View>

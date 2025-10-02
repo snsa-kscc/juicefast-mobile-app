@@ -33,7 +33,10 @@ export const useSocialSignIn = () => {
   }, []);
 
   const signInWith = useCallback(
-    async (provider: SocialProvider, onSignupComplete?: () => Promise<void>) => {
+    async (
+      provider: SocialProvider,
+      onSignupComplete?: () => Promise<void>,
+    ) => {
       try {
         setState("loading");
         setError(null);
@@ -83,8 +86,12 @@ export const useSocialSignIn = () => {
 
         setState("success");
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "Authentication failed";
-        const errorCode = err && typeof err === "object" && "code" in err ? String(err.code) : undefined;
+        const errorMessage =
+          err instanceof Error ? err.message : "Authentication failed";
+        const errorCode =
+          err && typeof err === "object" && "code" in err
+            ? String(err.code)
+            : undefined;
 
         setError({
           message: errorMessage,
@@ -95,28 +102,28 @@ export const useSocialSignIn = () => {
         console.error("Social sign in error:", err);
       }
     },
-    [startSSOFlow]
+    [startSSOFlow],
   );
 
   const signInWithGoogle = useCallback(
     async (onSignupComplete?: () => Promise<void>) => {
       await signInWith("oauth_google", onSignupComplete);
     },
-    [signInWith]
+    [signInWith],
   );
 
   const signInWithFacebook = useCallback(
     async (onSignupComplete?: () => Promise<void>) => {
       await signInWith("oauth_facebook", onSignupComplete);
     },
-    [signInWith]
+    [signInWith],
   );
 
   const signInWithApple = useCallback(
     async (onSignupComplete?: () => Promise<void>) => {
       await signInWith("oauth_apple", onSignupComplete);
     },
-    [signInWith]
+    [signInWith],
   );
 
   return {

@@ -48,7 +48,8 @@ export const completeOnboarding = async ({
 export const useOnboardingStatus = () => {
   const { isLoaded, user } = useUser();
 
-  const hasCompletedOnboarding = user?.unsafeMetadata?.onboardingCompleted === true;
+  const hasCompletedOnboarding =
+    user?.unsafeMetadata?.onboardingCompleted === true;
   const userRole = user?.unsafeMetadata?.role as string | undefined;
 
   return {
@@ -100,6 +101,6 @@ export const useStoredReferralData = () => {
 export const useReferralCodeValidation = (referralCode: string) => {
   return useQuery(
     api.userProfile.getByReferralCode,
-    referralCode.trim() ? { referralCode: referralCode.trim() } : "skip"
+    referralCode.trim() ? { referralCode: referralCode.trim() } : "skip",
   );
 };

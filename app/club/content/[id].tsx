@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Alert,
+} from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useEvent } from "expo";
@@ -16,22 +24,32 @@ export default function ClubContentDetail() {
   const item = CLUB_DATA.find((item: ProcessedClubItem) => item.id === id);
 
   // Create video player only for video content
-  const player = item?.type === 'video' && item.url ? useVideoPlayer(item.url, player => {
-    player.loop = false;
-  }) : null;
+  const player =
+    item?.type === "video" && item.url
+      ? useVideoPlayer(item.url, (player) => {
+          player.loop = false;
+        })
+      : null;
 
   // Track playing state - only for video content with valid player
-  const { isPlaying } = player ? useEvent(player, 'playingChange', { 
-    isPlaying: player.playing 
-  }) : { isPlaying: false };
+  const { isPlaying } = player
+    ? useEvent(player, "playingChange", {
+        isPlaying: player.playing,
+      })
+    : { isPlaying: false };
 
   if (!item) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.errorContainer}>
           <Text style={styles.errorTitle}>Content Not Found</Text>
-          <Text style={styles.errorText}>The wellness content you're looking for doesn't exist.</Text>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <Text style={styles.errorText}>
+            The wellness content you're looking for doesn't exist.
+          </Text>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
             <Ionicons name="arrow-back" size={16} color="#374151" />
             <Text style={styles.backButtonText}>Back to Club</Text>
           </TouchableOpacity>
@@ -47,7 +65,11 @@ export default function ClubContentDetail() {
       case "track":
         return "Play Track";
       case "video":
-        return showVideo ? (isPlaying ? "Pause Video" : "Resume Video") : "Watch Video";
+        return showVideo
+          ? isPlaying
+            ? "Pause Video"
+            : "Resume Video"
+          : "Watch Video";
       case "audio":
         return "Play Audio";
       default:
@@ -56,25 +78,28 @@ export default function ClubContentDetail() {
   };
 
   const handlePlayPress = async () => {
-    if (item.type === 'video') {
+    if (item.type === "video") {
       if (!item.url) {
-        Alert.alert('Error', 'Video URL is not available for this content.');
+        Alert.alert("Error", "Video URL is not available for this content.");
         return;
       }
-      
+
       if (!player) {
-        Alert.alert('Error', 'Video player is not available.');
+        Alert.alert("Error", "Video player is not available.");
         return;
       }
-      
+
       if (!showVideo) {
         // Show video player for the first time
         setShowVideo(true);
         try {
           player.play();
         } catch (error) {
-          console.error('Video play error:', error);
-          Alert.alert('Playback Error', 'Unable to start video playback. Please try again.');
+          console.error("Video play error:", error);
+          Alert.alert(
+            "Playback Error",
+            "Unable to start video playback. Please try again.",
+          );
         }
       } else {
         // Toggle play/pause
@@ -85,13 +110,19 @@ export default function ClubContentDetail() {
             player.play();
           }
         } catch (error) {
-          console.error('Video playback error:', error);
-          Alert.alert('Playback Error', 'Unable to control video playback. Please try again.');
+          console.error("Video playback error:", error);
+          Alert.alert(
+            "Playback Error",
+            "Unable to control video playback. Please try again.",
+          );
         }
       }
     } else {
       // Handle other content types
-      Alert.alert('Coming Soon', 'Audio playback functionality will be available soon.');
+      Alert.alert(
+        "Coming Soon",
+        "Audio playback functionality will be available soon.",
+      );
     }
   };
 
@@ -99,16 +130,20 @@ export default function ClubContentDetail() {
     <SafeAreaView style={styles.container}>
       {/* Fixed header with back button and content info */}
       <View style={styles.fixedHeader}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.headerBackButton}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={styles.headerBackButton}
+        >
           <Ionicons name="arrow-back" size={20} color="#111827" />
         </TouchableOpacity>
-        
+
         <View style={styles.headerInfo}>
           <Text style={styles.headerTitle}>{item.title}</Text>
           <View style={styles.headerMeta}>
             {item.subcategory && (
               <Text style={styles.headerSubtitle}>
-                {item.subcategory.charAt(0).toUpperCase() + item.subcategory.slice(1)}
+                {item.subcategory.charAt(0).toUpperCase() +
+                  item.subcategory.slice(1)}
               </Text>
             )}
             {item.duration && (
@@ -124,7 +159,7 @@ export default function ClubContentDetail() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Video or Image Container */}
         <View style={styles.mediaContainer}>
-          {showVideo && item.type === 'video' && player ? (
+          {showVideo && item.type === "video" && player ? (
             <VideoView
               player={player}
               style={styles.videoPlayer}
@@ -134,14 +169,17 @@ export default function ClubContentDetail() {
             />
           ) : (
             <>
-              <Image 
-                source={{ uri: item.imageUrl }} 
-                style={styles.mediaImage} 
-                defaultSource={require("@/assets/images/icon.png")} 
+              <Image
+                source={{ uri: item.imageUrl }}
+                style={styles.mediaImage}
+                defaultSource={require("@/assets/images/icon.png")}
               />
               {/* Video overlay controls (only show when video is not playing) */}
-              {item.type === 'video' && !showVideo && (
-                <TouchableOpacity onPress={handlePlayPress} style={styles.videoPlayOverlay}>
+              {item.type === "video" && !showVideo && (
+                <TouchableOpacity
+                  onPress={handlePlayPress}
+                  style={styles.videoPlayOverlay}
+                >
                   <View style={styles.playIconContainer}>
                     <Ionicons name="play" size={32} color="#FFFFFF" />
                   </View>
@@ -155,10 +193,14 @@ export default function ClubContentDetail() {
         <View style={styles.actionsContainer}>
           {/* Play button */}
           <TouchableOpacity style={styles.playButton} onPress={handlePlayPress}>
-            <Ionicons 
-              name={item.type === 'video' && showVideo && isPlaying ? "pause" : "play"} 
-              size={20} 
-              color="#FFFFFF" 
+            <Ionicons
+              name={
+                item.type === "video" && showVideo && isPlaying
+                  ? "pause"
+                  : "play"
+              }
+              size={20}
+              color="#FFFFFF"
             />
             <Text style={styles.playButtonText}>{getActionText()}</Text>
           </TouchableOpacity>
@@ -183,7 +225,9 @@ export default function ClubContentDetail() {
         {/* Description */}
         <View style={styles.descriptionContainer}>
           <Text style={styles.descriptionTitle}>About</Text>
-          <Text style={styles.descriptionText}>{getDescriptionForType(item.type)}</Text>
+          <Text style={styles.descriptionText}>
+            {getDescriptionForType(item.type)}
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>

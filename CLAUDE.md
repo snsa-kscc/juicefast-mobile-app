@@ -9,20 +9,24 @@ This is the **Juicefast Nutrition App**, a React Native mobile application built
 ## Development Commands
 
 ### Basic Development
+
 - **Start development server**: `expo start` (or `npm start`)
-- **Android**: `expo start --android` (or `npm run android`) 
+- **Android**: `expo start --android` (or `npm run android`)
 - **iOS**: `expo start --ios` (or `npm run ios`)
 - **Web**: `expo start --web` (or `npm run web`)
 
 ### Code Quality
+
 - **Lint code**: `expo lint` (or `npm run lint`)
 
 ### Project Management
+
 - **Reset to blank project**: `npm run reset-project` - moves starter code to app-example/ and creates blank app/
 
 ## Architecture & Structure
 
 ### Core Technologies
+
 - **Framework**: React Native with Expo (~53.0.20)
 - **Navigation**: Expo Router with file-based routing
 - **Styling**: NativeWind (Tailwind CSS for React Native)
@@ -32,6 +36,7 @@ This is the **Juicefast Nutrition App**, a React Native mobile application built
 - **State Management**: React hooks (useState, useEffect)
 
 ### Project Structure
+
 - **app/**: File-based routing with Expo Router
   - `_layout.tsx`: Root layout, currently renders WellnessTracker as main screen
   - `(tabs)/`: Tab-based navigation structure (currently unused)
@@ -56,6 +61,7 @@ Located at `components/tracker/WellnessTracker.tsx`, this is the main feature co
 ### Styling System
 
 Uses NativeWind for Tailwind CSS classes in React Native:
+
 - **Colors**: Custom color palette with category-specific backgrounds
 - **Typography**: SpaceMono font with various weights
 - **Layout**: Flexbox with responsive spacing
@@ -70,19 +76,23 @@ Uses NativeWind for Tailwind CSS classes in React Native:
 ## Development Notes
 
 ### Current State
+
 - App is in development with wellness tracking as the primary feature
 - Main screen displays WellnessTracker component directly from root layout
 - Tab navigation structure exists but is not currently active
 - Uses pnpm for package management
 
 ### Animation System
+
 The app heavily uses React Native Reanimated for sophisticated animations:
+
 - Entrance animations with staggered delays
 - Continuous animations (spinning, pulsing)
 - Spring physics for natural motion
 - Various animation types: FadeIn, SlideIn, ZoomIn, BounceIn
 
 ### Styling Patterns
+
 - NativeWind classes for consistent styling
 - Custom background colors for different tracking categories
 - Conditional styling based on component state

@@ -9,7 +9,8 @@ import { ReferralStorage } from "../../utils/referralStorage";
 
 export default function SSOSignUpScreen() {
   const router = useRouter();
-  const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
+  const { signInWithGoogle, signInWithFacebook, signInWithApple } =
+    useSocialSignIn();
   const { user, isLoaded } = useUser();
 
   // Automatically store push token when user signs up
@@ -24,7 +25,10 @@ export default function SSOSignUpScreen() {
       try {
         const storedCode = await ReferralStorage.getReferralCode();
         if (storedCode) {
-          console.log("SSO Signup: Found existing referral code in SecureStore:", storedCode);
+          console.log(
+            "SSO Signup: Found existing referral code in SecureStore:",
+            storedCode,
+          );
         }
       } catch (error) {
         console.error("Error checking existing referral code:", error);
@@ -35,29 +39,35 @@ export default function SSOSignUpScreen() {
   }, []);
 
   // Handle redirect after SSO authentication
-  const handleSocialSignupComplete = useCallback(async (userId: string) => {
-    console.log("Processing social signup for user:", userId);
+  const handleSocialSignupComplete = useCallback(
+    async (userId: string) => {
+      console.log("Processing social signup for user:", userId);
 
-    // Prevent duplicate processing
-    if (processedUserRef.current === userId) {
-      console.log("User already processed, skipping");
-      return;
-    }
+      // Prevent duplicate processing
+      if (processedUserRef.current === userId) {
+        console.log("User already processed, skipping");
+        return;
+      }
 
-    // Log that we're proceeding to onboarding (referral code should already be stored from app install)
-    const storedCode = await ReferralStorage.getReferralCode();
-    if (storedCode) {
-      console.log("SSO user proceeding to onboarding with stored referral code:", storedCode);
-    } else {
-      console.log("SSO user proceeding to onboarding without referral code");
-    }
+      // Log that we're proceeding to onboarding (referral code should already be stored from app install)
+      const storedCode = await ReferralStorage.getReferralCode();
+      if (storedCode) {
+        console.log(
+          "SSO user proceeding to onboarding with stored referral code:",
+          storedCode,
+        );
+      } else {
+        console.log("SSO user proceeding to onboarding without referral code");
+      }
 
-    // Mark this user as processed
-    processedUserRef.current = userId;
+      // Mark this user as processed
+      processedUserRef.current = userId;
 
-    console.log("Social signup processing completed successfully");
-    router.replace("/onboarding");
-  }, [router]);
+      console.log("Social signup processing completed successfully");
+      router.replace("/onboarding");
+    },
+    [router],
+  );
 
   // useEffect to handle user state changes after SSO
   useEffect(() => {
@@ -80,29 +90,47 @@ export default function SSOSignUpScreen() {
         <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
           <Text className="text-white text-2xl font-bold">J</Text>
         </View>
-        <Text className="text-2xl font-bold text-center mb-2">Become the best version of yourself</Text>
+        <Text className="text-2xl font-bold text-center mb-2">
+          Become the best version of yourself
+        </Text>
       </View>
 
       {/* Continue with Email Button */}
-      <TouchableOpacity onPress={() => router.push("/(auth)/email-signup")} className="py-4 mb-8">
-        <Text className="text-gray-900 text-center font-semibold underline">Sign up with email</Text>
+      <TouchableOpacity
+        onPress={() => router.push("/(auth)/email-signup")}
+        className="py-4 mb-8"
+      >
+        <Text className="text-gray-900 text-center font-semibold underline">
+          Sign up with email
+        </Text>
       </TouchableOpacity>
 
       <Text className="text-gray-900 text-center mb-6">or</Text>
 
       {/* Social Login Buttons */}
       <View className="space-y-3 mb-8 mt-4">
-        <TouchableOpacity onPress={() => signInWithGoogle()} className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity
+          onPress={() => signInWithGoogle()}
+          className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center"
+        >
           <Text className="text-white mr-2">G</Text>
           <Text className="text-white font-semibold">Continue with Google</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => signInWithFacebook()} className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity
+          onPress={() => signInWithFacebook()}
+          className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center"
+        >
           <Text className="text-white mr-2">f</Text>
-          <Text className="text-white font-semibold">Continue with Facebook</Text>
+          <Text className="text-white font-semibold">
+            Continue with Facebook
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => signInWithApple()} className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity
+          onPress={() => signInWithApple()}
+          className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center"
+        >
           <Text className="text-white mr-2">🍎</Text>
           <Text className="text-white font-semibold">Continue with Apple</Text>
         </TouchableOpacity>
@@ -118,9 +146,12 @@ export default function SSOSignUpScreen() {
       {/* Terms Text */}
       <Text className="text-xs text-gray-500 text-center mb-0">
         By joining, you&apos;re cool with our
-        <Text className="text-blue-600"> Terms</Text> and <Text className="text-blue-600">Privacy Policy</Text>
+        <Text className="text-blue-600"> Terms</Text> and{" "}
+        <Text className="text-blue-600">Privacy Policy</Text>
       </Text>
-      <Text className="text-xs text-gray-500 text-center mb-6">Respect, privacy, and good vibes only</Text>
+      <Text className="text-xs text-gray-500 text-center mb-6">
+        Respect, privacy, and good vibes only
+      </Text>
 
       {/* Sign In Link */}
       <View className="flex-row justify-center">

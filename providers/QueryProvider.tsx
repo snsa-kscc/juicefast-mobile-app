@@ -1,6 +1,10 @@
-import { QueryClient, QueryClientProvider, useIsFetching } from '@tanstack/react-query';
-import { ReactNode, useEffect } from 'react';
-import { useLoading } from './LoadingProvider';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useIsFetching,
+} from "@tanstack/react-query";
+import { ReactNode, useEffect } from "react";
+import { useLoading } from "./LoadingProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {

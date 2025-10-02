@@ -1,22 +1,22 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import { useLocalSearchParams, router } from 'expo-router';
-import { SubcategoryDetail } from '@/components/club/SubcategoryDetail';
-import { getSubcategoryDetail } from '@/utils/clubData';
-import { ProcessedClubItem } from '@/types/club';
+import React from "react";
+import { SafeAreaView, StyleSheet } from "react-native";
+import { useLocalSearchParams, router } from "expo-router";
+import { SubcategoryDetail } from "@/components/club/SubcategoryDetail";
+import { getSubcategoryDetail } from "@/utils/clubData";
+import { ProcessedClubItem } from "@/types/club";
 
 export default function SubcategoryPage() {
-  const { category, subcategory } = useLocalSearchParams<{ 
-    category: string; 
-    subcategory: string; 
+  const { category, subcategory } = useLocalSearchParams<{
+    category: string;
+    subcategory: string;
   }>();
 
-  const subcategoryData = getSubcategoryDetail(subcategory || '');
+  const subcategoryData = getSubcategoryDetail(subcategory || "");
 
   const handleItemClick = (item: ProcessedClubItem) => {
     router.push({
-      pathname: '/club/content/[id]',
-      params: { id: item.id }
+      pathname: "/club/content/[id]",
+      params: { id: item.id },
     });
   };
 
@@ -56,6 +56,6 @@ export default function SubcategoryPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
   },
 });

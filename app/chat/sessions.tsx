@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,14 +6,14 @@ import {
   ScrollView,
   RefreshControl,
   Alert,
-} from 'react-native';
-import { useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
-import { useUser } from '@clerk/clerk-expo';
-import { useRouter } from 'expo-router';
-import { User, MessageSquare, ArrowLeft } from 'lucide-react-native';
-import { Spinner } from '@/components/Spinner';
+} from "react-native";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import { useUser } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
+import { User, MessageSquare, ArrowLeft } from "lucide-react-native";
+import { Spinner } from "@/components/Spinner";
 
 interface ChatSession {
   id: Id<"chatSessions">;
@@ -44,7 +44,10 @@ export default function UserSessions() {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Fetch only active sessions for the logged-in user
-  const sessions = useQuery(api.nutritionistChat.getActiveUserSessions, user ? undefined : "skip");
+  const sessions = useQuery(
+    api.nutritionistChat.getActiveUserSessions,
+    user ? undefined : "skip",
+  );
 
   useEffect(() => {
     if (!user) {
@@ -64,7 +67,7 @@ export default function UserSessions() {
     // Navigate to the nutritionist chat with the specific session
     router.push({
       pathname: "/chat/nutritionist",
-      params: { sessionId: sessionId.toString() }
+      params: { sessionId: sessionId.toString() },
     });
   };
 
@@ -75,10 +78,15 @@ export default function UserSessions() {
   const formatTime = (timestamp: number) => {
     const date = new Date(timestamp);
     const now = new Date();
-    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+    const diffInHours = Math.floor(
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60),
+    );
 
     if (diffInHours < 1) {
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     } else if (diffInHours < 24) {
       return `${diffInHours}h ago`;
     } else {
@@ -88,15 +96,16 @@ export default function UserSessions() {
 
   const formatStartTime = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString([], {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const getSessionStatus = (session: ChatSession) => {
-    if (session.status === "active") return { text: "Active", color: "bg-green-100 text-green-800" };
+    if (session.status === "active")
+      return { text: "Active", color: "bg-green-100 text-green-800" };
     return { text: session.status, color: "bg-gray-100 text-gray-800" };
   };
 
@@ -135,7 +144,9 @@ export default function UserSessions() {
           <Text className="text-2xl font-lufga-bold text-[#8B7355]">
             {sessions?.length || 0}
           </Text>
-          <Text className="text-sm font-lufga text-gray-600">Active Sessions</Text>
+          <Text className="text-sm font-lufga text-gray-600">
+            Active Sessions
+          </Text>
         </View>
       </View>
 
@@ -180,10 +191,13 @@ export default function UserSessions() {
                             {session.nutritionist?.name || "Nutritionist"}
                           </Text>
                           <Text className="text-sm font-lufga text-gray-600">
-                            {session.nutritionist?.specialization || "Health Specialist"}
+                            {session.nutritionist?.specialization ||
+                              "Health Specialist"}
                           </Text>
                           <View className="flex-row items-center mt-1">
-                            <View className={`px-2 py-1 rounded-full ${statusInfo.color}`}>
+                            <View
+                              className={`px-2 py-1 rounded-full ${statusInfo.color}`}
+                            >
                               <Text className="text-xs font-lufga-medium">
                                 {statusInfo.text}
                               </Text>
@@ -198,7 +212,9 @@ export default function UserSessions() {
                             {session.nutritionist?.isOnline && (
                               <View className="ml-2 flex-row items-center">
                                 <View className="w-2 h-2 bg-green-500 rounded-full mr-1" />
-                                <Text className="text-xs font-lufga text-green-600">Online</Text>
+                                <Text className="text-xs font-lufga text-green-600">
+                                  Online
+                                </Text>
                               </View>
                             )}
                           </View>
@@ -208,7 +224,9 @@ export default function UserSessions() {
                       {session.lastMessage && (
                         <View className="ml-11">
                           <Text className="text-sm font-lufga text-gray-600 line-clamp-1">
-                            {session.lastMessage.senderType === "user" ? "You: " : `${session.nutritionist?.name || "Nutritionist"}: `}
+                            {session.lastMessage.senderType === "user"
+                              ? "You: "
+                              : `${session.nutritionist?.name || "Nutritionist"}: `}
                             {session.lastMessage.content}
                           </Text>
                           <Text className="text-xs font-lufga text-gray-400 mt-1">
@@ -241,13 +259,16 @@ export default function UserSessions() {
                 No Active Sessions
               </Text>
               <Text className="text-sm font-lufga text-gray-600 text-center mt-2">
-                When you start chatting with nutritionists, your active sessions will appear here.
+                When you start chatting with nutritionists, your active sessions
+                will appear here.
               </Text>
               <TouchableOpacity
                 className="bg-[#8B7355] px-6 py-2 rounded-lg mt-4"
                 onPress={() => router.push("/chat/nutritionist")}
               >
-                <Text className="text-white font-lufga-medium">Start a Chat</Text>
+                <Text className="text-white font-lufga-medium">
+                  Start a Chat
+                </Text>
               </TouchableOpacity>
             </View>
           )}

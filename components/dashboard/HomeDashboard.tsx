@@ -49,7 +49,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           startTime,
           endTime,
         }
-      : "skip"
+      : "skip",
   );
 
   const waterEntries = useQuery(
@@ -59,7 +59,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           startTime,
           endTime,
         }
-      : "skip"
+      : "skip",
   );
 
   const mealEntries = useQuery(
@@ -69,7 +69,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           startTime,
           endTime,
         }
-      : "skip"
+      : "skip",
   );
 
   const mindfulnessEntries = useQuery(
@@ -79,7 +79,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           startTime,
           endTime,
         }
-      : "skip"
+      : "skip",
   );
 
   const sleepEntries = useQuery(
@@ -89,20 +89,38 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           startTime,
           endTime,
         }
-      : "skip"
+      : "skip",
   );
 
   // Calculate aggregated data from queries
   const selectedDateData = useMemo(() => {
-    if (!stepEntries || !waterEntries || !mealEntries || !mindfulnessEntries || !sleepEntries) {
+    if (
+      !stepEntries ||
+      !waterEntries ||
+      !mealEntries ||
+      !mindfulnessEntries ||
+      !sleepEntries
+    ) {
       return null;
     }
 
     const totalSteps = stepEntries.reduce((sum, entry) => sum + entry.count, 0);
-    const totalWater = waterEntries.reduce((sum, entry) => sum + entry.amount, 0);
-    const totalCalories = mealEntries.reduce((sum, entry) => sum + entry.calories, 0);
-    const totalMindfulness = mindfulnessEntries.reduce((sum, entry) => sum + entry.minutes, 0);
-    const totalSleep = sleepEntries.reduce((sum, entry) => sum + entry.hoursSlept, 0);
+    const totalWater = waterEntries.reduce(
+      (sum, entry) => sum + entry.amount,
+      0,
+    );
+    const totalCalories = mealEntries.reduce(
+      (sum, entry) => sum + entry.calories,
+      0,
+    );
+    const totalMindfulness = mindfulnessEntries.reduce(
+      (sum, entry) => sum + entry.minutes,
+      0,
+    );
+    const totalSleep = sleepEntries.reduce(
+      (sum, entry) => sum + entry.hoursSlept,
+      0,
+    );
     const healthyMeals = mealEntries.length;
 
     return {
@@ -112,16 +130,39 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
       mindfulness: totalMindfulness,
       sleep: totalSleep,
       healthyMeals,
-      totalScore: Math.round((totalSteps / 10000 + totalWater / 2200 + healthyMeals / 2 + totalMindfulness / 20 + totalSleep / 8) * 20), // Simple scoring based on goal completion
+      totalScore: Math.round(
+        (totalSteps / 10000 +
+          totalWater / 2200 +
+          healthyMeals / 2 +
+          totalMindfulness / 20 +
+          totalSleep / 8) *
+          20,
+      ), // Simple scoring based on goal completion
     };
-  }, [stepEntries, waterEntries, mealEntries, mindfulnessEntries, sleepEntries]);
+  }, [
+    stepEntries,
+    waterEntries,
+    mealEntries,
+    mindfulnessEntries,
+    sleepEntries,
+  ]);
 
   // Update loading state based on query status
   useEffect(() => {
     const isQueryLoading =
-      stepEntries === undefined || waterEntries === undefined || mealEntries === undefined || mindfulnessEntries === undefined || sleepEntries === undefined;
+      stepEntries === undefined ||
+      waterEntries === undefined ||
+      mealEntries === undefined ||
+      mindfulnessEntries === undefined ||
+      sleepEntries === undefined;
     setIsLoading(isQueryLoading);
-  }, [stepEntries, waterEntries, mealEntries, mindfulnessEntries, sleepEntries]);
+  }, [
+    stepEntries,
+    waterEntries,
+    mealEntries,
+    mindfulnessEntries,
+    sleepEntries,
+  ]);
 
   // Calculate daily progress percentages based on goals
   const dailyProgress = useMemo(() => {
@@ -135,10 +176,22 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
     const waterGoal = 2200; // ml
 
     return {
-      steps: Math.min(100, Math.round((selectedDateData.steps / stepGoal) * 100)),
-      mindfulness: Math.min(100, Math.round((selectedDateData.mindfulness / mindfulnessGoal) * 100)),
-      meals: Math.min(100, Math.round((selectedDateData.healthyMeals / mealGoal) * 100)),
-      water: Math.min(100, Math.round((selectedDateData.water / waterGoal) * 100)),
+      steps: Math.min(
+        100,
+        Math.round((selectedDateData.steps / stepGoal) * 100),
+      ),
+      mindfulness: Math.min(
+        100,
+        Math.round((selectedDateData.mindfulness / mindfulnessGoal) * 100),
+      ),
+      meals: Math.min(
+        100,
+        Math.round((selectedDateData.healthyMeals / mealGoal) * 100),
+      ),
+      water: Math.min(
+        100,
+        Math.round((selectedDateData.water / waterGoal) * 100),
+      ),
     };
   }, [selectedDateData]);
 
@@ -162,10 +215,17 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
       {/* Header */}
       <View className="px-6 pt-12 pb-4 flex-row justify-between items-start">
         <View>
-          <Text className="text-lg font-medium text-black">Hi, {userName ? userName.split(" ")[0] : "David"}!</Text>
-          <Text className="text-gray-500 text-sm mt-1">What are we doing today?</Text>
+          <Text className="text-lg font-medium text-black">
+            Hi, {userName ? userName.split(" ")[0] : "David"}!
+          </Text>
+          <Text className="text-gray-500 text-sm mt-1">
+            What are we doing today?
+          </Text>
         </View>
-        <TouchableOpacity className="p-2" onPress={() => router.push("/profile" as any)}>
+        <TouchableOpacity
+          className="p-2"
+          onPress={() => router.push("/profile" as any)}
+        >
           <Settings size={20} color="#9CA3AF" />
         </TouchableOpacity>
       </View>
@@ -176,26 +236,39 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
       {/* Main Content */}
       <View className="px-6">
         {/* Wellness Score Card */}
-        <WellnessScoreCard averageScore={selectedDateData?.totalScore || 0} dailyProgress={dailyProgress} />
+        <WellnessScoreCard
+          averageScore={selectedDateData?.totalScore || 0}
+          dailyProgress={dailyProgress}
+        />
 
         {/* Wellness Cards - Horizontal Scrollable */}
         <View className="mb-6">
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className="flex-row"
+          >
             <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3 bg-blue-200">
               <View className="absolute inset-0 bg-gradient-to-br from-blue-300 to-blue-400 justify-end p-3">
-                <Text className="text-white text-xs font-medium">Guided{"\n"}meditations</Text>
+                <Text className="text-white text-xs font-medium">
+                  Guided{"\n"}meditations
+                </Text>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3 bg-green-200">
               <View className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-400 justify-end p-3">
-                <Text className="text-white text-xs font-medium">Guided{"\n"}affirmations</Text>
+                <Text className="text-white text-xs font-medium">
+                  Guided{"\n"}affirmations
+                </Text>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden bg-pink-200">
               <View className="absolute inset-0 bg-gradient-to-br from-pink-300 to-pink-400 justify-end p-3">
-                <Text className="text-white text-xs font-medium">Strength{"\n"}exercises</Text>
+                <Text className="text-white text-xs font-medium">
+                  Strength{"\n"}exercises
+                </Text>
               </View>
             </TouchableOpacity>
           </ScrollView>
@@ -204,7 +277,9 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
         {/* Daily Overview */}
         {!isSignedIn ? (
           <View className="items-center py-8">
-            <Text className="text-gray-500">Please sign in to view your wellness data</Text>
+            <Text className="text-gray-500">
+              Please sign in to view your wellness data
+            </Text>
           </View>
         ) : isLoading ? (
           <View className="items-center py-8">
@@ -216,25 +291,40 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
         )}
 
         {/* Onboarding Button */}
-        <TouchableOpacity className="bg-green-600 px-6 py-4 rounded-xl mb-4" onPress={() => router.push("/onboarding?retake=true")}>
-          <Text className="text-white text-lg font-semibold text-center">Take Onboarding Quiz</Text>
+        <TouchableOpacity
+          className="bg-green-600 px-6 py-4 rounded-xl mb-4"
+          onPress={() => router.push("/onboarding?retake=true")}
+        >
+          <Text className="text-white text-lg font-semibold text-center">
+            Take Onboarding Quiz
+          </Text>
         </TouchableOpacity>
 
         {/* Test Push Notifications */}
-        <TouchableOpacity 
-          className="bg-blue-600 px-6 py-4 rounded-xl mb-4" 
+        <TouchableOpacity
+          className="bg-blue-600 px-6 py-4 rounded-xl mb-4"
           onPress={() => router.push("/test-notifications")}
         >
-          <Text className="text-white text-lg font-semibold text-center">Test Push Notifications</Text>
+          <Text className="text-white text-lg font-semibold text-center">
+            Test Push Notifications
+          </Text>
         </TouchableOpacity>
 
         {/* Challenge Banners */}
         <TouchableOpacity className="w-full mb-4">
-          <Image source={require("../../assets/images/challenge.png")} className="w-full h-32 rounded-xl" resizeMode="cover" />
+          <Image
+            source={require("../../assets/images/challenge.png")}
+            className="w-full h-32 rounded-xl"
+            resizeMode="cover"
+          />
         </TouchableOpacity>
 
         <TouchableOpacity className="w-full mb-20">
-          <Image source={require("../../assets/images/fasting.png")} className="w-full h-32 rounded-xl" resizeMode="cover" />
+          <Image
+            source={require("../../assets/images/fasting.png")}
+            className="w-full h-32 rounded-xl"
+            resizeMode="cover"
+          />
         </TouchableOpacity>
       </View>
     </ScrollView>

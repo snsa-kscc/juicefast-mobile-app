@@ -1,13 +1,18 @@
-import { ClubItem, ProcessedClubItem, WellnessCategory, SubcategoryData } from '@/types/club';
-import clubDataRaw from '@/data/jf-club.json';
+import {
+  ClubItem,
+  ProcessedClubItem,
+  WellnessCategory,
+  SubcategoryData,
+} from "@/types/club";
+import clubDataRaw from "@/data/jf-club.json";
 
 // Wellness categories for the app
 export const WELLNESS_CATEGORIES: WellnessCategory[] = [
-  { id: 'trending', name: 'Trending' },
-  { id: 'mind', name: 'Mind' },
-  { id: 'workouts', name: 'Workouts' },
-  { id: 'nutrition', name: 'Nutrition' },
-  { id: 'beauty', name: 'Beauty' },
+  { id: "trending", name: "Trending" },
+  { id: "mind", name: "Mind" },
+  { id: "workouts", name: "Workouts" },
+  { id: "nutrition", name: "Nutrition" },
+  { id: "beauty", name: "Beauty" },
 ];
 
 // Process raw club data
@@ -22,24 +27,37 @@ const processClubData = (rawData: ClubItem[]): ProcessedClubItem[] => {
 };
 
 // Determine item type based on URL and category
-const determineItemType = (item: ClubItem): 'meditation' | 'track' | 'video' | 'audio' => {
-  if (item.url.includes('.m3u8')) return 'video';
-  if (item.subcategory.includes('meditation')) return 'meditation';
-  if (item.subcategory.includes('sleep') || item.subcategory.includes('binaural')) return 'track';
-  return 'audio';
+const determineItemType = (
+  item: ClubItem,
+): "meditation" | "track" | "video" | "audio" => {
+  if (item.url.includes(".m3u8")) return "video";
+  if (item.subcategory.includes("meditation")) return "meditation";
+  if (
+    item.subcategory.includes("sleep") ||
+    item.subcategory.includes("binaural")
+  )
+    return "track";
+  return "audio";
 };
 
 // Generate placeholder image URL based on category and subcategory
 const generateImageUrl = (item: ClubItem): string => {
   // Map subcategories to appropriate Unsplash images
   const imageMap: Record<string, string> = {
-    'guided meditations': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop&crop=center',
-    'better sleep': 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=400&fit=crop&crop=center',
-    'binaural beats': 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&crop=center',
-    'relaxation music': 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&crop=center',
+    "guided meditations":
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop&crop=center",
+    "better sleep":
+      "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=400&fit=crop&crop=center",
+    "binaural beats":
+      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&crop=center",
+    "relaxation music":
+      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&crop=center",
   };
 
-  return imageMap[item.subcategory] || 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop&crop=center';
+  return (
+    imageMap[item.subcategory] ||
+    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop&crop=center"
+  );
 };
 
 // Process and export all club data
@@ -47,77 +65,90 @@ export const CLUB_DATA = processClubData(clubDataRaw as ClubItem[]);
 
 // Get items by category
 export const getItemsByCategory = (category: string): ProcessedClubItem[] => {
-  if (category === 'trending') {
+  if (category === "trending") {
     // Return a mix of popular items from different categories
     return CLUB_DATA.slice(0, 20);
   }
-  return CLUB_DATA.filter(item => item.category === category);
+  return CLUB_DATA.filter((item) => item.category === category);
 };
 
 // Get items by subcategory
-export const getItemsBySubcategory = (subcategory: string): ProcessedClubItem[] => {
-  return CLUB_DATA.filter(item => item.subcategory === subcategory);
+export const getItemsBySubcategory = (
+  subcategory: string,
+): ProcessedClubItem[] => {
+  return CLUB_DATA.filter((item) => item.subcategory === subcategory);
 };
 
 // Get unique subcategories for a category
 export const getSubcategoriesForCategory = (category: string): string[] => {
   const items = getItemsByCategory(category);
-  const subcategories = [...new Set(items.map(item => item.subcategory))];
+  const subcategories = [...new Set(items.map((item) => item.subcategory))];
   return subcategories;
 };
 
 // Get subcategory data with counts
 export const getSubcategoryData = (category: string) => {
   const subcategories = getSubcategoriesForCategory(category);
-  return subcategories.map(subcategory => {
+  return subcategories.map((subcategory) => {
     const items = getItemsBySubcategory(subcategory);
     return {
-      id: subcategory.toLowerCase().replace(/\s+/g, '-'),
+      id: subcategory.toLowerCase().replace(/\s+/g, "-"),
       name: subcategory.charAt(0).toUpperCase() + subcategory.slice(1),
       count: items.length,
-      countLabel: 'tracks',
+      countLabel: "tracks",
       imageUrl: items[0]?.imageUrl,
     };
   });
 };
 
 // Get detailed subcategory information
-export const getSubcategoryDetail = (subcategory: string): SubcategoryData | null => {
+export const getSubcategoryDetail = (
+  subcategory: string,
+): SubcategoryData | null => {
   const items = getItemsBySubcategory(subcategory);
   if (items.length === 0) return null;
 
-  const subcategoryMap: Record<string, Omit<SubcategoryData, 'items'>> = {
-    'guided meditations': {
-      title: 'Guided Meditations',
+  const subcategoryMap: Record<string, Omit<SubcategoryData, "items">> = {
+    "guided meditations": {
+      title: "Guided Meditations",
       subtitle: `${items.length} meditations`,
-      description: 'Through these meditations, you can achieve a mental, physical and emotional balance and reset. Find your inner peace with our guided meditation tracks.',
-      featuredImageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center',
+      description:
+        "Through these meditations, you can achieve a mental, physical and emotional balance and reset. Find your inner peace with our guided meditation tracks.",
+      featuredImageUrl:
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
     },
-    'better sleep': {
-      title: 'Better Sleep',
+    "better sleep": {
+      title: "Better Sleep",
       subtitle: `${items.length} sleep tracks`,
-      description: 'Catch the z\'s you need to with the help of these sleep tracks. Play them in the background, focus on the sound, and slip into a slumber.',
-      featuredImageUrl: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=300&fit=crop&crop=center',
+      description:
+        "Catch the z's you need to with the help of these sleep tracks. Play them in the background, focus on the sound, and slip into a slumber.",
+      featuredImageUrl:
+        "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=300&fit=crop&crop=center",
     },
-    'binaural beats': {
-      title: 'Binaural Beats',
+    "binaural beats": {
+      title: "Binaural Beats",
       subtitle: `${items.length} tracks`,
-      description: 'These specially designed audio tracks use different frequencies in each ear to help you focus, relax, or sleep. For best results, listen with headphones.',
-      featuredImageUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center',
+      description:
+        "These specially designed audio tracks use different frequencies in each ear to help you focus, relax, or sleep. For best results, listen with headphones.",
+      featuredImageUrl:
+        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center",
     },
-    'relaxation music': {
-      title: 'Relaxation Music',
+    "relaxation music": {
+      title: "Relaxation Music",
       subtitle: `${items.length} tracks`,
-      description: 'Here you\'ll find relaxing music that can help lower your heart rate, reduce stress and induce calmness. Take 20 minutes to relax and focus inwards.',
-      featuredImageUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center',
+      description:
+        "Here you'll find relaxing music that can help lower your heart rate, reduce stress and induce calmness. Take 20 minutes to relax and focus inwards.",
+      featuredImageUrl:
+        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center",
     },
   };
 
   const subcategoryInfo = subcategoryMap[subcategory] || {
     title: subcategory.charAt(0).toUpperCase() + subcategory.slice(1),
     subtitle: `${items.length} items`,
-    description: 'Wellness content to support your journey.',
-    featuredImageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center',
+    description: "Wellness content to support your journey.",
+    featuredImageUrl:
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
   };
 
   return {
@@ -129,12 +160,20 @@ export const getSubcategoryDetail = (subcategory: string): SubcategoryData | nul
 // Get trending content (mix of popular items)
 export const getTrendingContent = (): ProcessedClubItem[] => {
   // Get a diverse mix from different subcategories
-  const guidedMeditations = getItemsBySubcategory('guided meditations').slice(0, 8);
-  const sleepTracks = getItemsBySubcategory('better sleep').slice(0, 4);
-  const binauralBeats = getItemsBySubcategory('binaural beats').slice(0, 4);
-  const relaxationMusic = getItemsBySubcategory('relaxation music').slice(0, 4);
+  const guidedMeditations = getItemsBySubcategory("guided meditations").slice(
+    0,
+    8,
+  );
+  const sleepTracks = getItemsBySubcategory("better sleep").slice(0, 4);
+  const binauralBeats = getItemsBySubcategory("binaural beats").slice(0, 4);
+  const relaxationMusic = getItemsBySubcategory("relaxation music").slice(0, 4);
 
-  return [...guidedMeditations, ...sleepTracks, ...binauralBeats, ...relaxationMusic];
+  return [
+    ...guidedMeditations,
+    ...sleepTracks,
+    ...binauralBeats,
+    ...relaxationMusic,
+  ];
 };
 
 // Daily content (featured items for today)

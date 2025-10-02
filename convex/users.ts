@@ -7,13 +7,13 @@ export const updatePushToken = mutation({
     userId: v.string(),
     pushToken: v.optional(v.string()),
     name: v.optional(v.string()),
-    role: v.optional(v.union(v.literal("user"), v.literal("nutritionist")))
+    role: v.optional(v.union(v.literal("user"), v.literal("nutritionist"))),
   },
   handler: async (ctx, args) => {
     // Find existing user
     const existingUser = await ctx.db
       .query("users")
-      .withIndex("by_user_id", q => q.eq("userId", args.userId))
+      .withIndex("by_user_id", (q) => q.eq("userId", args.userId))
       .first();
 
     if (existingUser) {
@@ -21,7 +21,7 @@ export const updatePushToken = mutation({
       await ctx.db.patch(existingUser._id, {
         pushToken: args.pushToken,
         name: args.name,
-        role: args.role
+        role: args.role,
       });
       return existingUser._id;
     } else {
@@ -30,7 +30,7 @@ export const updatePushToken = mutation({
         userId: args.userId,
         pushToken: args.pushToken,
         name: args.name,
-        role: args.role
+        role: args.role,
       });
     }
   },
@@ -42,7 +42,7 @@ export const getPushToken = query({
   handler: async (ctx, args) => {
     const user = await ctx.db
       .query("users")
-      .withIndex("by_user_id", q => q.eq("userId", args.userId))
+      .withIndex("by_user_id", (q) => q.eq("userId", args.userId))
       .first();
 
     return user?.pushToken || null;
@@ -55,7 +55,7 @@ export const getUser = query({
   handler: async (ctx, args) => {
     const user = await ctx.db
       .query("users")
-      .withIndex("by_user_id", q => q.eq("userId", args.userId))
+      .withIndex("by_user_id", (q) => q.eq("userId", args.userId))
       .first();
 
     return user || null;
@@ -68,12 +68,12 @@ export const clearPushToken = mutation({
   handler: async (ctx, args) => {
     const existingUser = await ctx.db
       .query("users")
-      .withIndex("by_user_id", q => q.eq("userId", args.userId))
+      .withIndex("by_user_id", (q) => q.eq("userId", args.userId))
       .first();
 
     if (existingUser) {
       await ctx.db.patch(existingUser._id, {
-        pushToken: undefined
+        pushToken: undefined,
       });
       return true;
     }
@@ -88,7 +88,7 @@ export const getUserByPushToken = query({
   handler: async (ctx, args) => {
     const user = await ctx.db
       .query("users")
-      .filter(q => q.eq(q.field("pushToken"), args.pushToken))
+      .filter((q) => q.eq(q.field("pushToken"), args.pushToken))
       .first();
 
     return user || null;

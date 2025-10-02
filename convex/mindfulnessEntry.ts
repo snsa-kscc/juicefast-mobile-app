@@ -1,7 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
-
 export const create = mutation({
   args: {
     minutes: v.number(),
@@ -23,8 +22,8 @@ export const create = mutation({
 
 export const getByUserId = query({
   args: {
-      startTime: v.number(),
-      endTime: v.number(),
+    startTime: v.number(),
+    endTime: v.number(),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -37,8 +36,9 @@ export const getByUserId = query({
       .withIndex("by_user_id", (q) => q.eq("userID", identity.subject))
       .collect();
 
-    return entries.filter(entry =>
-      entry.timestamp >= args.startTime && entry.timestamp <= args.endTime
+    return entries.filter(
+      (entry) =>
+        entry.timestamp >= args.startTime && entry.timestamp <= args.endTime,
     );
   },
 });
@@ -80,8 +80,9 @@ export const getByUserIdForServer = query({
       .withIndex("by_user_id", (q) => q.eq("userID", args.userId))
       .collect();
 
-    return entries.filter(entry =>
-      entry.timestamp >= args.startTime && entry.timestamp <= args.endTime
+    return entries.filter(
+      (entry) =>
+        entry.timestamp >= args.startTime && entry.timestamp <= args.endTime,
     );
   },
 });

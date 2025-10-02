@@ -1,6 +1,6 @@
-import React from 'react';
-import { View } from 'react-native';
-import { Spinner } from './Spinner';
+import React from "react";
+import { View } from "react-native";
+import { Spinner } from "./Spinner";
 
 export function LoadingOverlay() {
   return (

@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View , Alert } from "react-native";
+import { Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSignUp } from "@clerk/clerk-expo";
 import { ReferralStorage } from "../../utils/referralStorage";
@@ -15,7 +15,12 @@ export default function EmailSignUpScreen() {
   // Automatically store push token when user signs up and signs in
   usePushTokenStorage();
   const [referralCodeInput, setReferralCodeInput] = useState("");
-  const referralData = useQuery(api.userProfile.getByReferralCode, referralCodeInput.trim() ? { referralCode: referralCodeInput.trim() } : "skip");
+  const referralData = useQuery(
+    api.userProfile.getByReferralCode,
+    referralCodeInput.trim()
+      ? { referralCode: referralCodeInput.trim() }
+      : "skip",
+  );
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -37,7 +42,7 @@ export default function EmailSignUpScreen() {
           setReferralCodeInput(storedCode);
         }
       } catch (error) {
-        console.error('Error loading referral code:', error);
+        console.error("Error loading referral code:", error);
       }
     };
 
@@ -52,11 +57,17 @@ export default function EmailSignUpScreen() {
     if (referralCodeInput.trim()) {
       if (referralData === undefined) {
         // Query is still loading, prevent submission
-        Alert.alert("Loading", "Please wait while we validate your referral code.");
+        Alert.alert(
+          "Loading",
+          "Please wait while we validate your referral code.",
+        );
         return;
       }
       if (!referralData) {
-        Alert.alert("Invalid Referral Code", "The referral code you entered is not valid. Please check and try again.");
+        Alert.alert(
+          "Invalid Referral Code",
+          "The referral code you entered is not valid. Please check and try again.",
+        );
         return;
       }
     }
@@ -159,13 +170,19 @@ export default function EmailSignUpScreen() {
           <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
             <Text className="text-white text-2xl font-bold">J</Text>
           </View>
-          <Text className="text-2xl font-bold text-center mb-2">Verify your email</Text>
-          <Text className="text-gray-500 text-center">We sent you a verification code</Text>
+          <Text className="text-2xl font-bold text-center mb-2">
+            Verify your email
+          </Text>
+          <Text className="text-gray-500 text-center">
+            We sent you a verification code
+          </Text>
         </View>
 
         {verificationError ? (
           <View className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-4">
-            <Text className="text-red-600 text-sm text-center">{verificationError}</Text>
+            <Text className="text-red-600 text-sm text-center">
+              {verificationError}
+            </Text>
           </View>
         ) : null}
 
@@ -184,7 +201,9 @@ export default function EmailSignUpScreen() {
           className={`rounded-full py-4 ${isVerifying ? "bg-gray-600" : "bg-black"}`}
           disabled={isVerifying}
         >
-          <Text className="text-white text-center font-semibold text-base">{isVerifying ? "Verifying..." : "Verify"}</Text>
+          <Text className="text-white text-center font-semibold text-base">
+            {isVerifying ? "Verifying..." : "Verify"}
+          </Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
     );
@@ -202,8 +221,12 @@ export default function EmailSignUpScreen() {
         <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
           <Text className="text-white text-2xl font-bold">J</Text>
         </View>
-        <Text className="text-2xl font-bold text-center mb-2">Create your account</Text>
-        <Text className="text-gray-500 text-center">Sign up with your email</Text>
+        <Text className="text-2xl font-bold text-center mb-2">
+          Create your account
+        </Text>
+        <Text className="text-gray-500 text-center">
+          Sign up with your email
+        </Text>
       </View>
 
       {/* Error Message */}
@@ -275,7 +298,9 @@ export default function EmailSignUpScreen() {
         className={`rounded-full py-4 mb-6 ${isLoading ? "bg-gray-600" : "bg-black"}`}
         disabled={isLoading}
       >
-        <Text className="text-white text-center font-semibold text-base">{isLoading ? "Creating account..." : "Create account"}</Text>
+        <Text className="text-white text-center font-semibold text-base">
+          {isLoading ? "Creating account..." : "Create account"}
+        </Text>
       </TouchableOpacity>
 
       {/* Terms Text */}
@@ -289,7 +314,9 @@ export default function EmailSignUpScreen() {
         onPress={() => router.back()}
         className="bg-gray-50 rounded-full py-4 mb-8"
       >
-        <Text className="text-gray-700 text-center font-semibold">← Back to all sign-up options</Text>
+        <Text className="text-gray-700 text-center font-semibold">
+          ← Back to all sign-up options
+        </Text>
       </TouchableOpacity>
     </KeyboardAwareScrollView>
   );

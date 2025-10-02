@@ -1,9 +1,14 @@
-import { useState } from 'react';
-import { quizQuestions, QuizQuestionType } from '../data/onboarding/quizQuestions';
+import { useState } from "react";
+import {
+  quizQuestions,
+  QuizQuestionType,
+} from "../data/onboarding/quizQuestions";
 
 export const useOnboardingManager = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string | string[] | number>>({});
+  const [answers, setAnswers] = useState<
+    Record<string, string | string[] | number>
+  >({});
 
   const currentQuestion = quizQuestions[currentQuestionIndex];
   const isFirstQuestion = currentQuestionIndex === 0;
@@ -14,7 +19,7 @@ export const useOnboardingManager = () => {
     setAnswers(newAnswers);
 
     if (!isLastQuestion) {
-      setCurrentQuestionIndex(prev => prev + 1);
+      setCurrentQuestionIndex((prev) => prev + 1);
       return false; // Not complete
     }
     return true; // Quiz complete
@@ -22,7 +27,7 @@ export const useOnboardingManager = () => {
 
   const previousQuestion = () => {
     if (!isFirstQuestion) {
-      setCurrentQuestionIndex(prev => prev - 1);
+      setCurrentQuestionIndex((prev) => prev - 1);
     }
   };
 
@@ -39,7 +44,7 @@ export const useOnboardingManager = () => {
     answers,
     progress: {
       current: currentQuestionIndex + 1,
-      total: quizQuestions.length
-    }
+      total: quizQuestions.length,
+    },
   };
 };

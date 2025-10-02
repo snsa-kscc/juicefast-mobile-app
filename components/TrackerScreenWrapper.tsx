@@ -1,6 +1,6 @@
-import React from 'react';
-import { View } from 'react-native';
-import { CustomBottomNavigation } from './ui/CustomBottomNavigation';
+import React from "react";
+import { View } from "react-native";
+import { CustomBottomNavigation } from "./ui/CustomBottomNavigation";
 
 interface TrackerScreenWrapperProps {
   children: React.ReactNode;
@@ -9,9 +9,7 @@ interface TrackerScreenWrapperProps {
 export function TrackerScreenWrapper({ children }: TrackerScreenWrapperProps) {
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1, paddingBottom: 70 }}>
-        {children}
-      </View>
+      <View style={{ flex: 1, paddingBottom: 70 }}>{children}</View>
       <CustomBottomNavigation />
     </View>
   );

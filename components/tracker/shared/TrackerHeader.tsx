@@ -9,13 +9,25 @@ interface TrackerHeaderProps {
   accentColor?: string;
 }
 
-export function TrackerHeader({ title, subtitle, onBack, accentColor = "#4CC3FF" }: TrackerHeaderProps) {
+export function TrackerHeader({
+  title,
+  subtitle,
+  onBack,
+  accentColor = "#4CC3FF",
+}: TrackerHeaderProps) {
   return (
     <View className="relative overflow-hidden py-6">
-      <View className="absolute w-64 h-64 rounded-full blur-[80px] -top-5 z-0 opacity-40" style={{ backgroundColor: accentColor }} />
+      <View
+        className="absolute w-64 h-64 rounded-full blur-[80px] -top-5 z-0 opacity-40"
+        style={{ backgroundColor: accentColor }}
+      />
       <View className="flex-row items-center justify-between px-4 relative z-10">
         {onBack && (
-          <TouchableOpacity className="rounded-full h-10 w-10 items-center justify-center" style={{ backgroundColor: accentColor }} onPress={onBack}>
+          <TouchableOpacity
+            className="rounded-full h-10 w-10 items-center justify-center"
+            style={{ backgroundColor: accentColor }}
+            onPress={onBack}
+          >
             <ArrowLeft size={20} color="white" />
           </TouchableOpacity>
         )}
@@ -25,7 +37,9 @@ export function TrackerHeader({ title, subtitle, onBack, accentColor = "#4CC3FF"
         </TouchableOpacity>
       </View>
       <View className="px-6 py-2 items-center relative z-10">
-        <Text className="font-lufga text-sm text-gray-500 text-center">{subtitle}</Text>
+        <Text className="font-lufga text-sm text-gray-500 text-center">
+          {subtitle}
+        </Text>
       </View>
     </View>
   );

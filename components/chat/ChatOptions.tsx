@@ -20,22 +20,85 @@ interface ChatOptionsProps {
 
 const NutritionistIcon = () => (
   <Svg width={54} height={54} viewBox="0 0 44 44" fill="none">
-    <Path d="M7 12H17" stroke="#E1D5B9" strokeLinecap="round" strokeLinejoin="round" />
-    <Rect x="3" y="3" width="18" height="18" rx="4" stroke="#E1D5B9" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M7 8H17" stroke="#E1D5B9" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M7 16H12" stroke="#E1D5B9" strokeLinecap="round" strokeLinejoin="round" />
+    <Path
+      d="M7 12H17"
+      stroke="#E1D5B9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Rect
+      x="3"
+      y="3"
+      width="18"
+      height="18"
+      rx="4"
+      stroke="#E1D5B9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M7 8H17"
+      stroke="#E1D5B9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M7 16H12"
+      stroke="#E1D5B9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </Svg>
 );
 
 const DashboardIcon = () => (
   <Svg width={54} height={54} viewBox="0 0 44 44" fill="none">
-    <Path d="M4 9H18" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M4 14H18" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M4 19H12" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
-    <Rect x="22" y="4" width="18" height="18" rx="4" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M26 10H36" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M26 14H36" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
-    <Path d="M26 18H31" stroke="#8B7355" strokeLinecap="round" strokeLinejoin="round" />
+    <Path
+      d="M4 9H18"
+      stroke="#8B7355"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M4 14H18"
+      stroke="#8B7355"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M4 19H12"
+      stroke="#8B7355"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Rect
+      x="22"
+      y="4"
+      width="18"
+      height="18"
+      rx="4"
+      stroke="#8B7355"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M26 10H36"
+      stroke="#8B7355"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M26 14H36"
+      stroke="#8B7355"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M26 18H31"
+      stroke="#8B7355"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </Svg>
 );
 
@@ -95,12 +158,17 @@ const NUTRITIONIST_OPTIONS: ChatOption[] = [
   },
 ];
 
-export function ChatOptions({ onOptionPress, onSettingsPress }: ChatOptionsProps) {
+export function ChatOptions({
+  onOptionPress,
+  onSettingsPress,
+}: ChatOptionsProps) {
   const { user } = useUser();
   const router = useRouter();
 
   const isNutritionist = user?.unsafeMetadata?.role === "nutritionist";
-  const displayOptions = isNutritionist ? [...NUTRITIONIST_OPTIONS, ...CHAT_OPTIONS] : CHAT_OPTIONS;
+  const displayOptions = isNutritionist
+    ? [...NUTRITIONIST_OPTIONS, ...CHAT_OPTIONS]
+    : CHAT_OPTIONS;
 
   const handleOptionPress = (route: string) => {
     if (onOptionPress) {
@@ -115,7 +183,11 @@ export function ChatOptions({ onOptionPress, onSettingsPress }: ChatOptionsProps
     <View className="flex-1 bg-[#FCFBF8]">
       <WellnessHeader
         title={isNutritionist ? "Nutritionist Portal" : "Talk to us"}
-        subtitle={isNutritionist ? "Manage your practice and client communications" : "Choose your chat experience"}
+        subtitle={
+          isNutritionist
+            ? "Manage your practice and client communications"
+            : "Choose your chat experience"
+        }
         accentColor={isNutritionist ? "#8B7355" : "#4CC3FF"}
         onSettingsPress={onSettingsPress}
       />
@@ -134,9 +206,7 @@ export function ChatOptions({ onOptionPress, onSettingsPress }: ChatOptionsProps
               activeOpacity={0.7}
             >
               <View className="p-6 flex-row items-start">
-                <View className="mr-4">
-                  {option.icon}
-                </View>
+                <View className="mr-4">{option.icon}</View>
                 <View className="flex-1">
                   <Text className="text-lg font-lufga-medium text-black mb-4">
                     {option.name}

@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { router } from 'expo-router';
-import { useOnboardingCompletion } from '../../utils/onboarding';
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { router } from "expo-router";
+import { useOnboardingCompletion } from "../../utils/onboarding";
 
 interface QuizStartProps {
   onStart: () => void;
@@ -9,13 +9,13 @@ interface QuizStartProps {
 
 export function QuizStart({ onStart }: QuizStartProps) {
   const { markOnboardingCompleted } = useOnboardingCompletion();
-  
+
   // Debug: Check user metadata
-  const { user } = require('@clerk/clerk-expo').useUser();
+  const { user } = require("@clerk/clerk-expo").useUser();
 
   const handleSkip = async () => {
     await markOnboardingCompleted();
-    router.replace('/(tabs)');
+    router.replace("/(tabs)");
   };
 
   return (
@@ -28,7 +28,7 @@ export function QuizStart({ onStart }: QuizStartProps) {
           Let's personalize your juice fasting journey with a quick quiz
         </Text>
       </View>
-      
+
       <TouchableOpacity
         onPress={onStart}
         className="bg-green-600 px-8 py-4 rounded-full w-full max-w-xs mb-4"
@@ -37,11 +37,8 @@ export function QuizStart({ onStart }: QuizStartProps) {
           Start Quiz
         </Text>
       </TouchableOpacity>
-      
-      <TouchableOpacity
-        onPress={handleSkip}
-        className="px-8 py-4"
-      >
+
+      <TouchableOpacity onPress={handleSkip} className="px-8 py-4">
         <Text className="text-gray-600 text-lg font-medium text-center">
           Skip to App
         </Text>

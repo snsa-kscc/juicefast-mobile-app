@@ -39,7 +39,8 @@ export const quizQuestions: QuizQuestionType[] = [
     id: "current_weight",
     type: "slider",
     title: "What is your current weight?",
-    description: "It's okay to estimate. You can always change your weight later",
+    description:
+      "It's okay to estimate. You can always change your weight later",
     questionNumber: 2,
     totalQuestions: 13,
     min: 40,

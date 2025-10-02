@@ -11,11 +11,12 @@ export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn();
   const router = useRouter();
   const { user } = useUser();
-  const { signInWithGoogle, signInWithFacebook, signInWithApple } = useSocialSignIn();
+  const { signInWithGoogle, signInWithFacebook, signInWithApple } =
+    useSocialSignIn();
 
   // Automatically store push token when user signs in
   usePushTokenStorage({ skip: !user });
-  
+
   // Handle referral processing for social sign-ins
   const handleSocialSignInComplete = async () => {
     try {
@@ -24,12 +25,12 @@ export default function Page() {
         try {
           await ReferralStorage.removeReferralCode();
         } catch (error) {
-          console.log('No referral code to remove or error removing:', error);
+          console.log("No referral code to remove or error removing:", error);
         }
       }
       router.replace("/onboarding");
     } catch (error) {
-      console.error('Error processing social signin:', error);
+      console.error("Error processing social signin:", error);
       router.replace("/onboarding");
     }
   };
@@ -101,7 +102,9 @@ export default function Page() {
         <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
           <Text className="text-white text-2xl font-bold">J</Text>
         </View>
-        <Text className="text-2xl font-bold text-center mb-2">Welcome back</Text>
+        <Text className="text-2xl font-bold text-center mb-2">
+          Welcome back
+        </Text>
       </View>
 
       {/* Error Message */}
@@ -142,23 +145,38 @@ export default function Page() {
       </TouchableOpacity>
 
       {/* Log In Button */}
-      <TouchableOpacity onPress={onSignInPress} className={`rounded-full py-4 mb-6 ${isLoading ? "bg-gray-600" : "bg-black"}`} disabled={isLoading}>
-        <Text className="text-white text-center font-semibold text-base">{isLoading ? "Signing..." : "Log in"}</Text>
+      <TouchableOpacity
+        onPress={onSignInPress}
+        className={`rounded-full py-4 mb-6 ${isLoading ? "bg-gray-600" : "bg-black"}`}
+        disabled={isLoading}
+      >
+        <Text className="text-white text-center font-semibold text-base">
+          {isLoading ? "Signing..." : "Log in"}
+        </Text>
       </TouchableOpacity>
 
       {/* Social Login Buttons */}
       <View className="space-y-3 mb-8">
-        <TouchableOpacity onPress={() => signInWithFacebook(handleSocialSignInComplete)} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity
+          onPress={() => signInWithFacebook(handleSocialSignInComplete)}
+          className="bg-black rounded-full py-4 flex-row items-center justify-center"
+        >
           <Text className="text-white mr-2">f</Text>
           <Text className="text-white font-semibold">Facebook</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => signInWithApple(handleSocialSignInComplete)} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity
+          onPress={() => signInWithApple(handleSocialSignInComplete)}
+          className="bg-black rounded-full py-4 flex-row items-center justify-center"
+        >
           <Text className="text-white mr-2">🍎</Text>
           <Text className="text-white font-semibold">Apple</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => signInWithGoogle(handleSocialSignInComplete)} className="bg-black rounded-full py-4 flex-row items-center justify-center">
+        <TouchableOpacity
+          onPress={() => signInWithGoogle(handleSocialSignInComplete)}
+          className="bg-black rounded-full py-4 flex-row items-center justify-center"
+        >
           <Text className="text-white mr-2">G</Text>
           <Text className="text-white font-semibold">Google</Text>
         </TouchableOpacity>

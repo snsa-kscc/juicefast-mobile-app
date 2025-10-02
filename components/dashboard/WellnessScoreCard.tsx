@@ -1,8 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Animated } from 'react-native';
-import { Info } from 'lucide-react-native';
-import { CircularProgress } from '@/components/tracker/shared';
-import { MealIcon, StepsIcon, MindfulnessIcon, WaterIcon } from './icons/TrackerIcons';
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, Animated } from "react-native";
+import { Info } from "lucide-react-native";
+import { CircularProgress } from "@/components/tracker/shared";
+import {
+  MealIcon,
+  StepsIcon,
+  MindfulnessIcon,
+  WaterIcon,
+} from "./icons/TrackerIcons";
 
 interface WellnessProgressBarProps {
   icon: React.ReactNode;
@@ -11,19 +16,29 @@ interface WellnessProgressBarProps {
   fillColor: string;
 }
 
-const WellnessProgressBar = ({ icon, value, backgroundColor, fillColor }: WellnessProgressBarProps) => (
+const WellnessProgressBar = ({
+  icon,
+  value,
+  backgroundColor,
+  fillColor,
+}: WellnessProgressBarProps) => (
   <View className="flex-col items-center">
-    <View className="w-12 h-16 rounded-2xl flex-col items-center justify-center mb-1 relative overflow-hidden" style={{ backgroundColor }}>
-      <View 
-        className="absolute bottom-0 left-0 right-0" 
-        style={{ 
+    <View
+      className="w-12 h-16 rounded-2xl flex-col items-center justify-center mb-1 relative overflow-hidden"
+      style={{ backgroundColor }}
+    >
+      <View
+        className="absolute bottom-0 left-0 right-0"
+        style={{
           height: `${Math.min(100, value)}%`,
-          backgroundColor: fillColor 
-        }} 
+          backgroundColor: fillColor,
+        }}
       />
       <View className="flex-col items-center justify-center z-10 absolute inset-0">
         <View className="mb-1">{icon}</View>
-        <Text className={`text-xs font-semibold ${value > 80 ? 'text-white' : 'text-black'}`}>
+        <Text
+          className={`text-xs font-semibold ${value > 80 ? "text-white" : "text-black"}`}
+        >
           {value}
         </Text>
       </View>
@@ -41,7 +56,10 @@ interface WellnessScoreCardProps {
   };
 }
 
-export function WellnessScoreCard({ averageScore, dailyProgress }: WellnessScoreCardProps) {
+export function WellnessScoreCard({
+  averageScore,
+  dailyProgress,
+}: WellnessScoreCardProps) {
   const [displayedScore, setDisplayedScore] = useState<number>(0);
   const animatedValue = useRef(new Animated.Value(0)).current;
 

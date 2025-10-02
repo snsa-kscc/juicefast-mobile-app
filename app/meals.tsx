@@ -9,10 +9,7 @@ export default function Meals() {
   return (
     <TrackerScreenWrapper>
       <AnimatedScreen>
-        <MealsTracker 
-          userId="user123" 
-          onBack={() => router.back()}
-        />
+        <MealsTracker userId="user123" onBack={() => router.back()} />
       </AnimatedScreen>
     </TrackerScreenWrapper>
   );

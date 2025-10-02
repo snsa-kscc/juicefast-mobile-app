@@ -18,7 +18,10 @@ export default function ChatPage() {
   return (
     <AnimatedScreen>
       <SafeAreaView className="flex-1">
-        <ChatOptions onOptionPress={handleChatOptionPress} onSettingsPress={handleSettingsPress} />
+        <ChatOptions
+          onOptionPress={handleChatOptionPress}
+          onSettingsPress={handleSettingsPress}
+        />
       </SafeAreaView>
     </AnimatedScreen>
   );

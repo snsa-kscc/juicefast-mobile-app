@@ -54,7 +54,8 @@ function AuthenticatedLayout() {
 
     if (isSignedIn && user) {
       // User is signed in - check onboarding status
-      const isOnboardingCompleted = user.unsafeMetadata?.onboardingCompleted === true;
+      const isOnboardingCompleted =
+        user.unsafeMetadata?.onboardingCompleted === true;
       if (isOnboardingCompleted) {
         router.replace("/(tabs)");
       } else {
@@ -83,11 +84,14 @@ function AuthenticatedLayout() {
       <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
       <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
       <Stack.Screen name="chat/nutritionist" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="nutritionist" options={{
-        ...SCREEN_OPTIONS,
-        // headerShown: false,
-        // gestureEnabled: false
-      }} />
+      <Stack.Screen
+        name="nutritionist"
+        options={{
+          ...SCREEN_OPTIONS,
+          // headerShown: false,
+          // gestureEnabled: false
+        }}
+      />
       <Stack.Screen name="test-push" options={SCREEN_OPTIONS} />
       <Stack.Screen name="+not-found" />
     </Stack>

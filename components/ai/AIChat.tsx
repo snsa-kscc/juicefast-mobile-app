@@ -6,7 +6,15 @@ import { DefaultChatTransport } from "ai";
 import { fetch as expoFetch } from "expo/fetch";
 import { Send } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Keyboard, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 interface AIChatProps {
   userId: string;
@@ -89,24 +97,40 @@ export function AIChat({ userId: _userId }: AIChatProps) {
         {error && (
           <View className="px-4 py-2">
             <View className="bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-              <Text className="text-red-800 text-sm font-lufga">{error instanceof Error ? error.message : "An error occurred"}</Text>
+              <Text className="text-red-800 text-sm font-lufga">
+                {error instanceof Error ? error.message : "An error occurred"}
+              </Text>
             </View>
           </View>
         )}
 
-        <ScrollView ref={scrollViewRef} className="flex-1 px-4 py-2" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 20 }}>
+        <ScrollView
+          ref={scrollViewRef}
+          className="flex-1 px-4 py-2"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        >
           {messages.map((message) => (
-            <View key={message.id} className={`mb-4 ${message.role === "user" ? "items-end" : "items-start"}`}>
+            <View
+              key={message.id}
+              className={`mb-4 ${message.role === "user" ? "items-end" : "items-start"}`}
+            >
               <View
                 className={`max-w-[80%] px-4 py-3 rounded-2xl ${message.role === "user" ? "bg-[#4CC3FF] rounded-br-md" : "bg-white rounded-bl-md shadow-sm"}`}
               >
-                <Text className={`text-base font-lufga leading-5 ${message.role === "user" ? "text-white" : "text-gray-800"}`}>
+                <Text
+                  className={`text-base font-lufga leading-5 ${message.role === "user" ? "text-white" : "text-gray-800"}`}
+                >
                   {message.parts?.map((part, index) => (
-                    <Text key={index}>{part.type === "text" ? part.text : ""}</Text>
+                    <Text key={index}>
+                      {part.type === "text" ? part.text : ""}
+                    </Text>
                   ))}
                 </Text>
               </View>
-              <Text className="text-xs font-lufga text-gray-400 mt-1 px-2">{formatTime(new Date())}</Text>
+              <Text className="text-xs font-lufga text-gray-400 mt-1 px-2">
+                {formatTime(new Date())}
+              </Text>
             </View>
           ))}
 
@@ -137,7 +161,10 @@ export function AIChat({ userId: _userId }: AIChatProps) {
               onPress={handleSendMessage}
               disabled={!inputText.trim() || isLoading}
             >
-              <Send size={20} color={inputText.trim() && !isLoading ? "white" : "#9CA3AF"} />
+              <Send
+                size={20}
+                color={inputText.trim() && !isLoading ? "white" : "#9CA3AF"}
+              />
             </TouchableOpacity>
           </View>
         </View>

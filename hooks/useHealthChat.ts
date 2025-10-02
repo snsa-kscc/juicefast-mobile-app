@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { useAuth } from '@clerk/clerk-expo';
+import { useState, useCallback } from "react";
+import { useAuth } from "@clerk/clerk-expo";
 
 interface ChatMessage {
   id: string;
@@ -53,7 +53,7 @@ export function useHealthChat(): UseHealthChatReturn {
     const aiMessageId = (Date.now() + 1).toString();
     const aiChatMessage: ChatMessage = {
       id: aiMessageId,
-      text: '',
+      text: "",
       isUser: false,
       timestamp: new Date(),
       isStreaming: true,
@@ -66,21 +66,21 @@ export function useHealthChat(): UseHealthChatReturn {
       const token = await getToken({ template: "convex" });
 
       // Call our API endpoint with health data for streaming
-      const response = await fetch('/api/chat', {
-        method: 'POST',
+      const response = await fetch("/api/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           // Add the Authorization header with the Clerk token
           ...(token && { Authorization: `Bearer ${token}` }),
         },
         body: JSON.stringify({
           messages: [
             {
-              role: 'user',
+              role: "user",
               content: userMessage,
-            }
+            },
           ],
-          userId: 'current-user', // You might want to get this from auth
+          userId: "current-user", // You might want to get this from auth
         }),
       });
 
@@ -89,55 +89,56 @@ export function useHealthChat(): UseHealthChatReturn {
       }
 
       // Debug: Log response headers and type
-      console.log('Response type:', response.type);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-      console.log('Response body:', response.body);
-      console.log('Response body used:', response.bodyUsed);
+      console.log("Response type:", response.type);
+      console.log(
+        "Response headers:",
+        Object.fromEntries(response.headers.entries()),
+      );
+      console.log("Response body:", response.body);
+      console.log("Response body used:", response.bodyUsed);
 
       if (!response.body) {
         // Fallback: try to get response as text since content-type is text/plain
-        console.log('No response body, trying text fallback');
+        console.log("No response body, trying text fallback");
         try {
           const text = await response.text();
           const aiChatMessage: ChatMessage = {
             id: aiMessageId,
-            text: text || 'No response received',
+            text: text || "No response received",
             isUser: false,
             timestamp: new Date(),
             isStreaming: false,
           };
           setMessages((prev) =>
-            prev.map((msg) =>
-              msg.id === aiMessageId ? aiChatMessage : msg
-            )
+            prev.map((msg) => (msg.id === aiMessageId ? aiChatMessage : msg)),
           );
           return;
         } catch (textError) {
-          console.error('Text fallback failed:', textError);
+          console.error("Text fallback failed:", textError);
           try {
             const data = await response.json();
             const aiChatMessage: ChatMessage = {
               id: aiMessageId,
-              text: data.message || data.text || 'No response received',
+              text: data.message || data.text || "No response received",
               isUser: false,
               timestamp: new Date(),
               isStreaming: false,
             };
             setMessages((prev) =>
-              prev.map((msg) =>
-                msg.id === aiMessageId ? aiChatMessage : msg
-              )
+              prev.map((msg) => (msg.id === aiMessageId ? aiChatMessage : msg)),
             );
             return;
           } catch (jsonError) {
-            throw new Error('Response body is null and both text and JSON fallback failed');
+            throw new Error(
+              "Response body is null and both text and JSON fallback failed",
+            );
           }
         }
       }
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
-      let accumulatedText = '';
+      let accumulatedText = "";
 
       while (true) {
         const { done, value } = await reader.read();
@@ -145,7 +146,7 @@ export function useHealthChat(): UseHealthChatReturn {
         if (done) break;
 
         const chunk = decoder.decode(value, { stream: true });
-        console.log('Received chunk:', chunk);
+        console.log("Received chunk:", chunk);
 
         // AI SDK 5 sends text chunks directly, no special parsing needed
         accumulatedText += chunk;
@@ -153,25 +154,20 @@ export function useHealthChat(): UseHealthChatReturn {
         // Update the streaming message with new content
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === aiMessageId
-              ? { ...msg, text: accumulatedText }
-              : msg
-          )
+            msg.id === aiMessageId ? { ...msg, text: accumulatedText } : msg,
+          ),
         );
       }
 
       // Mark streaming as complete
       setMessages((prev) =>
         prev.map((msg) =>
-          msg.id === aiMessageId
-            ? { ...msg, isStreaming: false }
-            : msg
-        )
+          msg.id === aiMessageId ? { ...msg, isStreaming: false } : msg,
+        ),
       );
-
     } catch (err) {
-      console.error('Error sending message:', err);
-      setError('Failed to get response from AI. Please try again.');
+      console.error("Error sending message:", err);
+      setError("Failed to get response from AI. Please try again.");
 
       // Remove the streaming message and add error message
       setMessages((prev) =>
@@ -179,10 +175,10 @@ export function useHealthChat(): UseHealthChatReturn {
           .filter((msg) => msg.id !== aiMessageId)
           .concat({
             id: (Date.now() + 2).toString(),
-            text: 'Sorry, I encountered an error. Please try again.',
+            text: "Sorry, I encountered an error. Please try again.",
             isUser: false,
             timestamp: new Date(),
-          })
+          }),
       );
     } finally {
       setIsLoading(false);

@@ -14,7 +14,7 @@ export interface WellnessCategory {
 export interface ProcessedClubItem extends ClubItem {
   id: string;
   duration: string;
-  type: 'meditation' | 'track' | 'video' | 'audio';
+  type: "meditation" | "track" | "video" | "audio";
   imageUrl?: string;
 }
 

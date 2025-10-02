@@ -1,45 +1,45 @@
-import React from 'react';
-import { useRouter } from 'expo-router';
-import { AnimatedScreen } from '@/components/AnimatedScreen';
-import { WellnessHeader } from '@/components/ui/CustomHeader';
-import { NutritionistChat } from '@/components/nutritionist/NutritionistChat';
+import React from "react";
+import { useRouter } from "expo-router";
+import { AnimatedScreen } from "@/components/AnimatedScreen";
+import { WellnessHeader } from "@/components/ui/CustomHeader";
+import { NutritionistChat } from "@/components/nutritionist/NutritionistChat";
 
 // Mock data - replace with actual API calls
 const mockNutritionists = [
   {
-    id: '1',
-    name: 'Dr. Sarah Johnson',
-    specialization: 'Clinical Nutritionist',
+    id: "1",
+    name: "Dr. Sarah Johnson",
+    specialization: "Clinical Nutritionist",
     isOnline: true,
   },
   {
-    id: '2',
-    name: 'Mike Chen',
-    specialization: 'Sports Nutritionist',
+    id: "2",
+    name: "Mike Chen",
+    specialization: "Sports Nutritionist",
     isOnline: true,
   },
   {
-    id: '3',
-    name: 'Dr. Emily Rodriguez',
-    specialization: 'Pediatric Nutritionist',
+    id: "3",
+    name: "Dr. Emily Rodriguez",
+    specialization: "Pediatric Nutritionist",
     isOnline: false,
   },
   {
-    id: '4',
-    name: 'James Wilson',
-    specialization: 'Weight Management Specialist',
+    id: "4",
+    name: "James Wilson",
+    specialization: "Weight Management Specialist",
     isOnline: true,
   },
   {
-    id: '5',
-    name: 'Dr. Lisa Park',
-    specialization: 'Wellness Nutritionist',
+    id: "5",
+    name: "Dr. Lisa Park",
+    specialization: "Wellness Nutritionist",
     isOnline: false,
   },
   {
-    id: '6',
-    name: 'Robert Taylor',
-    specialization: 'Fitness Nutritionist',
+    id: "6",
+    name: "Robert Taylor",
+    specialization: "Fitness Nutritionist",
     isOnline: false,
   },
 ];
@@ -71,8 +71,8 @@ export default function NutritionistChatPage() {
         onBackPress={handleBackPress}
         onSettingsPress={handleSettingsPress}
       />
-      
-      <NutritionistChat 
+
+      <NutritionistChat
         userId={userId}
         nutritionists={mockNutritionists}
         activeSession={activeSession}

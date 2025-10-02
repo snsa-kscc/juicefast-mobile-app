@@ -1,7 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
-
 export const createOrUpdate = mutation({
   args: {
     height: v.optional(v.number()),
@@ -64,7 +63,9 @@ export const getByReferralCode = query({
   handler: async (ctx, args) => {
     return await ctx.db
       .query("userProfile")
-      .withIndex("by_referral_code", (q) => q.eq("referralCode", args.referralCode))
+      .withIndex("by_referral_code", (q) =>
+        q.eq("referralCode", args.referralCode),
+      )
       .first();
   },
 });
@@ -84,7 +85,9 @@ export const incrementReferralCount = mutation({
   handler: async (ctx, args) => {
     const referrerProfile = await ctx.db
       .query("userProfile")
-      .withIndex("by_referral_code", (q) => q.eq("referralCode", args.referralCode))
+      .withIndex("by_referral_code", (q) =>
+        q.eq("referralCode", args.referralCode),
+      )
       .first();
 
     if (referrerProfile) {

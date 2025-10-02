@@ -1,6 +1,20 @@
-import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import { useRouter } from "expo-router";
-import { Activity, Brain, Droplets, FileText, Heart, Moon, Plus, Scale, Thermometer, X } from "lucide-react-native";
+import {
+  Activity,
+  Brain,
+  Droplets,
+  FileText,
+  Heart,
+  Moon,
+  Plus,
+  Scale,
+  Thermometer,
+  X,
+} from "lucide-react-native";
 import React, { useCallback, useMemo, useRef } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -25,22 +39,60 @@ export function AddActionButton() {
   }, []);
 
   const renderBackdrop = useCallback(
-    (props: any) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} opacity={0.5} onPress={handleCloseBottomSheet} />,
-    []
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        opacity={0.5}
+        onPress={handleCloseBottomSheet}
+      />
+    ),
+    [],
   );
 
   const wellnessOptions: ActionOption[] = [
-    { id: "activity", title: "Activity", iconColor: "#FF6B6B", route: "/steps" },
-    { id: "mindfulness", title: "Mindfulness", iconColor: "#4ECDC4", route: "/mindfulness" },
-    { id: "hydration", title: "Hydration", iconColor: "#45B7D1", route: "/hydration" },
+    {
+      id: "activity",
+      title: "Activity",
+      iconColor: "#FF6B6B",
+      route: "/steps",
+    },
+    {
+      id: "mindfulness",
+      title: "Mindfulness",
+      iconColor: "#4ECDC4",
+      route: "/mindfulness",
+    },
+    {
+      id: "hydration",
+      title: "Hydration",
+      iconColor: "#45B7D1",
+      route: "/hydration",
+    },
     { id: "sleep", title: "Sleep", iconColor: "#9B59B6", route: "/sleep" },
   ];
 
   const diaryOptions: ActionOption[] = [
     { id: "note", title: "Add note", iconColor: "#FF6B6B", route: "/notes" },
-    { id: "moods", title: "Log moods and symptoms", iconColor: "#FF6B6B", route: "/moods" },
-    { id: "weight", title: "Add weight", iconColor: "#FF6B6B", route: "/weight" },
-    { id: "temperature", title: "Add temperature", iconColor: "#FF8C42", route: "/temperature" },
+    {
+      id: "moods",
+      title: "Log moods and symptoms",
+      iconColor: "#FF6B6B",
+      route: "/moods",
+    },
+    {
+      id: "weight",
+      title: "Add weight",
+      iconColor: "#FF6B6B",
+      route: "/weight",
+    },
+    {
+      id: "temperature",
+      title: "Add temperature",
+      iconColor: "#FF8C42",
+      route: "/temperature",
+    },
   ];
 
   const handleOptionPress = (route: string) => {
@@ -85,7 +137,11 @@ export function AddActionButton() {
     <>
       {/* Floating Action Button */}
       <View style={styles.fabContainer} pointerEvents="box-none">
-        <TouchableOpacity style={styles.fab} onPress={handleOpenBottomSheet} activeOpacity={0.8}>
+        <TouchableOpacity
+          style={styles.fab}
+          onPress={handleOpenBottomSheet}
+          activeOpacity={0.8}
+        >
           <Plus size={28} color="#000000" />
         </TouchableOpacity>
       </View>
@@ -104,7 +160,10 @@ export function AddActionButton() {
       >
         <BottomSheetView style={styles.contentContainer}>
           <View style={styles.header}>
-            <TouchableOpacity onPress={handleCloseBottomSheet} style={styles.closeButton}>
+            <TouchableOpacity
+              onPress={handleCloseBottomSheet}
+              style={styles.closeButton}
+            >
               <X size={24} color="#666" />
             </TouchableOpacity>
           </View>
@@ -112,9 +171,21 @@ export function AddActionButton() {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>WELLNESS LOG</Text>
             {wellnessOptions.map((option) => (
-              <TouchableOpacity key={option.id} style={styles.optionRow} onPress={() => handleOptionPress(option.route)} activeOpacity={0.7}>
+              <TouchableOpacity
+                key={option.id}
+                style={styles.optionRow}
+                onPress={() => handleOptionPress(option.route)}
+                activeOpacity={0.7}
+              >
                 <Text style={styles.optionText}>{option.title}</Text>
-                <View style={[styles.iconCircle, { backgroundColor: option.iconColor }]}>{renderIcon(option.id, "#FFFFFF")}</View>
+                <View
+                  style={[
+                    styles.iconCircle,
+                    { backgroundColor: option.iconColor },
+                  ]}
+                >
+                  {renderIcon(option.id, "#FFFFFF")}
+                </View>
               </TouchableOpacity>
             ))}
           </View>
@@ -122,14 +193,28 @@ export function AddActionButton() {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>MY DIARY</Text>
             {diaryOptions.map((option) => (
-              <TouchableOpacity key={option.id} style={styles.optionRow} onPress={() => handleOptionPress(option.route)} activeOpacity={0.7}>
+              <TouchableOpacity
+                key={option.id}
+                style={styles.optionRow}
+                onPress={() => handleOptionPress(option.route)}
+                activeOpacity={0.7}
+              >
                 <Text style={styles.optionText}>{option.title}</Text>
-                <View style={[styles.iconCircle, { backgroundColor: option.iconColor }]}>{renderIcon(option.id, "#FFFFFF")}</View>
+                <View
+                  style={[
+                    styles.iconCircle,
+                    { backgroundColor: option.iconColor },
+                  ]}
+                >
+                  {renderIcon(option.id, "#FFFFFF")}
+                </View>
               </TouchableOpacity>
             ))}
           </View>
 
-          <Text style={styles.footerText}>For the most accurate insights,{"\n"}log daily.</Text>
+          <Text style={styles.footerText}>
+            For the most accurate insights,{"\n"}log daily.
+          </Text>
         </BottomSheetView>
       </BottomSheet>
     </>

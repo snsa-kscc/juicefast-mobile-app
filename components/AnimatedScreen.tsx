@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import Animated, { 
-  useSharedValue, 
-  useAnimatedStyle, 
-  withTiming, 
-  Easing 
-} from 'react-native-reanimated';
+import React, { useEffect } from "react";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 
 interface AnimatedScreenProps {
   children: React.ReactNode;

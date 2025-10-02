@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { ProcessedClubItem } from '@/types/club';
-import { ContentCard } from './ContentCard';
+import React from "react";
+import { View, Text, StyleSheet, FlatList } from "react-native";
+import { ProcessedClubItem } from "@/types/club";
+import { ContentCard } from "./ContentCard";
 
 interface DailyContentProps {
   items: ProcessedClubItem[];
@@ -22,8 +22,10 @@ export function DailyContent({ items, onItemPress }: DailyContentProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Daily Recommendations</Text>
-      <Text style={styles.subtitle}>Curated content for your wellness journey</Text>
-      
+      <Text style={styles.subtitle}>
+        Curated content for your wellness journey
+      </Text>
+
       <FlatList
         data={items}
         renderItem={renderItem}
@@ -41,13 +43,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: '700',
-    color: '#111827',
+    fontWeight: "700",
+    color: "#111827",
     marginBottom: 4,
   },
   subtitle: {
     fontSize: 14,
-    color: '#6B7280',
+    color: "#6B7280",
     marginBottom: 16,
   },
   listContainer: {
