@@ -1,9 +1,13 @@
-export function generateAPIUrl(path: string): string {
-  // In development, you might want to use a local server
-  // In production, this would be your actual API URL
-  const baseURL = __DEV__
-    ? 'https://juicefast-nutrition-app--stt4l7lbec.expo.app'
-    : 'https://juicefast-nutrition-app.expo.app';
+import Constants from "expo-constants";
 
+export function generateAPIUrl(path: string): string {
+  let baseURL = "https://juicefast-nutrition-app.expo.app";
+
+  if (process.env.NODE_ENV === "development") {
+    const hostUri = Constants.expoConfig?.hostUri;
+    const isTunnel = hostUri?.includes(".exp.direct") || hostUri?.includes("ngrok");
+
+    baseURL = isTunnel ? `https://${hostUri}` : `http://${hostUri}:8081`;
+  }
   return `${baseURL}${path}`;
 }
