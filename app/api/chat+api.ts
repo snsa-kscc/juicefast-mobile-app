@@ -99,7 +99,6 @@ export async function POST(request: Request) {
       system: systemMessage.content,
       messages: convertToModelMessages(messages),
       temperature: 0.7,
-      maxOutputTokens: 500,
     });
 
     return result.toUIMessageStreamResponse({
