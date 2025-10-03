@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, TouchableOpacity, ScrollView, LayoutChangeEvent } from "react-native";
 
 interface DaySelectorProps {
   selectedDate: Date;
@@ -8,6 +8,8 @@ interface DaySelectorProps {
 
 export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
   const scrollViewRef = useRef<ScrollView>(null);
+  const [contentWidth, setContentWidth] = useState(0);
+  const [scrollViewWidth, setScrollViewWidth] = useState(0);
 
   // Generate last 30 days with current day as the last item
   const generateLast30Days = () => {
@@ -25,12 +27,20 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
 
   const last30Days = generateLast30Days();
 
-  // Scroll to show current day and 6 previous days initially
+  // Scroll to show last 7 days (current day + 6 previous days)
   useEffect(() => {
-    setTimeout(() => {
-      scrollViewRef.current?.scrollToEnd({ animated: false });
-    }, 100);
-  }, []);
+    if (contentWidth > 0 && scrollViewWidth > 0) {
+      // Calculate position to show last 7 days
+      // Each day item is 40px (w-10) + 16px margin (mr-4) = 56px
+      const itemWidth = 56;
+      const visibleDays = 7;
+      const scrollPosition = Math.max(0, contentWidth - scrollViewWidth);
+      
+      setTimeout(() => {
+        scrollViewRef.current?.scrollTo({ x: scrollPosition, animated: false });
+      }, 50);
+    }
+  }, [contentWidth, scrollViewWidth]);
   const formatDay = (date: Date) => {
     return date
       .toLocaleDateString("en-US", { weekday: "short" })
@@ -60,12 +70,14 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
 
   return (
     <View className="pb-6">
-      <ScrollView
-        ref={scrollViewRef}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 24 }}
-      >
+      <View className="ml-12 mr-6">
+        <ScrollView
+          ref={scrollViewRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          onContentSizeChange={(width) => setContentWidth(width)}
+          onLayout={(event: LayoutChangeEvent) => setScrollViewWidth(event.nativeEvent.layout.width)}
+        >
         {last30Days.map((date: Date, index: number) => (
           <TouchableOpacity
             key={index}
@@ -94,7 +106,8 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
             </Text>
           </TouchableOpacity>
         ))}
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 }
