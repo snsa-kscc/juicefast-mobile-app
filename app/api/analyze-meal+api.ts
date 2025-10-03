@@ -1,6 +1,8 @@
 import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
+import { ConvexHttpClient } from "convex/browser";
+import { api } from "../../convex/_generated/api";
 
 const MacroSchema = z.object({
   name: z.string().describe("Name of the dish/food"),
@@ -17,6 +19,10 @@ export async function POST(request: Request) {
     if (!authorizationHeader) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const token = authorizationHeader.split(" ")[1];
+    const convex = new ConvexHttpClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
+    convex.setAuth(token);
 
     const { imageBase64 } = await request.json();
 

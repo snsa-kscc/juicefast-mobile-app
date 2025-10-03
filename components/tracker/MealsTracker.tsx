@@ -6,7 +6,7 @@ import React, {
   startTransition,
   useMemo,
 } from "react";
-import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
 import { useAuth } from "@clerk/clerk-expo";
@@ -367,6 +367,12 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
 
             {activeEntryTab === "scan" ? (
               <View>
+                {isProcessingImage && (
+                  <View className="bg-emerald-50 rounded-lg p-4 mb-4 flex-row items-center">
+                    <ActivityIndicator size="small" color="#10B981" />
+                    <Text className="ml-3 text-emerald-700">Analyzing meal...</Text>
+                  </View>
+                )}
                 <View className="flex-row gap-4 mb-4">
                   <TouchableOpacity
                     className="flex-1 flex-col items-center justify-center h-24 rounded-lg border-2 border-gray-200 bg-white"
