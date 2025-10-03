@@ -115,8 +115,8 @@ export default function Page() {
       ) : null}
 
       {/* Form */}
-      <View className="space-y-4 mb-8">
-        <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
+      <View className="mb-8">
+        <View className="bg-white rounded-xl px-4 py-4 flex-row items-center mb-4">
           <Text className="text-gray-400 mr-3">✉</Text>
           <TextInput
             autoCapitalize="none"
@@ -156,10 +156,10 @@ export default function Page() {
       </TouchableOpacity>
 
       {/* Social Login Buttons */}
-      <View className="space-y-3 mb-8">
+      <View className="mb-8">
         <TouchableOpacity
           onPress={() => signInWithFacebook(handleSocialSignInComplete)}
-          className="bg-black rounded-full py-4 flex-row items-center justify-center"
+          className="bg-black rounded-full py-4 flex-row items-center justify-center mb-3"
         >
           <Text className="text-white mr-2">f</Text>
           <Text className="text-white font-semibold">Facebook</Text>
@@ -167,7 +167,7 @@ export default function Page() {
 
         <TouchableOpacity
           onPress={() => signInWithApple(handleSocialSignInComplete)}
-          className="bg-black rounded-full py-4 flex-row items-center justify-center"
+          className="bg-black rounded-full py-4 flex-row items-center justify-center mb-3"
         >
           <Text className="text-white mr-2">🍎</Text>
           <Text className="text-white font-semibold">Apple</Text>

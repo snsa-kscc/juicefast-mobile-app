@@ -237,8 +237,8 @@ export default function EmailSignUpScreen() {
       ) : null}
 
       {/* Form */}
-      <View className="space-y-4 mb-6">
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
+      <View className="mb-6">
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
           <Text className="text-gray-400 mr-3">👤</Text>
           <TextInput
             value={firstName}
@@ -248,7 +248,7 @@ export default function EmailSignUpScreen() {
           />
         </View>
 
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
           <Text className="text-gray-400 mr-3">👤</Text>
           <TextInput
             value={lastName}
@@ -258,7 +258,7 @@ export default function EmailSignUpScreen() {
           />
         </View>
 
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
           <Text className="text-gray-400 mr-3">✉️</Text>
           <TextInput
             autoCapitalize="none"
@@ -270,7 +270,7 @@ export default function EmailSignUpScreen() {
           />
         </View>
 
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
           <Text className="text-gray-400 mr-3">🔒</Text>
           <TextInput
             value={password}

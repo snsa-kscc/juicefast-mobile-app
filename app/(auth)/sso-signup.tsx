@@ -108,10 +108,10 @@ export default function SSOSignUpScreen() {
       <Text className="text-gray-900 text-center mb-6">or</Text>
 
       {/* Social Login Buttons */}
-      <View className="space-y-3 mb-8 mt-4">
+      <View className="mb-8 mt-4">
         <TouchableOpacity
           onPress={() => signInWithGoogle()}
-          className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center"
+          className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center mb-3"
         >
           <Text className="text-white mr-2">G</Text>
           <Text className="text-white font-semibold">Continue with Google</Text>
@@ -119,7 +119,7 @@ export default function SSOSignUpScreen() {
 
         <TouchableOpacity
           onPress={() => signInWithFacebook()}
-          className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center"
+          className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center mb-3"
         >
           <Text className="text-white mr-2">f</Text>
           <Text className="text-white font-semibold">
@@ -144,14 +144,21 @@ export default function SSOSignUpScreen() {
       </View>
 
       {/* Terms Text */}
-      <Text className="text-xs text-gray-500 text-center mb-0">
-        By joining, you&apos;re cool with our
-        <Text className="text-blue-600"> Terms</Text> and{" "}
-        <Text className="text-blue-600">Privacy Policy</Text>
-      </Text>
-      <Text className="text-xs text-gray-500 text-center mb-6">
-        Respect, privacy, and good vibes only
-      </Text>
+      <View className="mb-6">
+        <Text className="text-xs text-gray-500 text-center mb-0">
+          By joining, you&apos;re cool with our{" "}
+          <Link href="/terms">
+            <Text className="text-blue-600">Terms</Text>
+          </Link>{" "}
+          and{" "}
+          <Link href="/privacy">
+            <Text className="text-blue-600">Privacy Policy</Text>
+          </Link>
+        </Text>
+        <Text className="text-xs text-gray-500 text-center mt-2">
+          Respect, privacy, and good vibes only
+        </Text>
+      </View>
 
       {/* Sign In Link */}
       <View className="flex-row justify-center">

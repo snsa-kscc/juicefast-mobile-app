@@ -10,7 +10,7 @@ import {
   Share,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useRouter, Link } from "expo-router";
 import { useClerk, useUser } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
 import * as Clipboard from "expo-clipboard";
@@ -253,9 +253,9 @@ export default function ProfileScreen() {
             </Text>
           </View>
 
-          <View className="space-y-3">
+          <View>
             <TouchableOpacity
-              className="flex-row items-center p-3 bg-gray-50 rounded-lg"
+              className="flex-row items-center p-3 bg-gray-50 rounded-lg mb-3"
               onPress={() => setIsEditing(true)}
             >
               <Settings size={20} color="#6B7280" />
@@ -281,8 +281,8 @@ export default function ProfileScreen() {
           </Text>
 
           {isEditing ? (
-            <View className="space-y-4">
-              <View className="flex-row space-x-4">
+            <View>
+              <View className="flex-row space-x-4 mb-4">
                 <View className="flex-1">
                   <Text className="text-sm font-medium text-gray-700 mb-2">
                     Height (cm)
@@ -316,7 +316,7 @@ export default function ProfileScreen() {
                 </View>
               </View>
 
-              <View className="flex-row space-x-4">
+              <View className="flex-row space-x-4 mb-4">
                 <View className="flex-1">
                   <Text className="text-sm font-medium text-gray-700 mb-2">
                     Age
@@ -389,8 +389,8 @@ export default function ProfileScreen() {
               </View>
             </View>
           ) : (
-            <View className="space-y-4">
-              <View className="flex-row flex-wrap">
+            <View>
+              <View className="flex-row flex-wrap mb-4">
                 <View className="w-1/2 pr-2 mb-4">
                   <View className="flex-row items-center">
                     <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
@@ -559,8 +559,8 @@ export default function ProfileScreen() {
               </Text>
             </View>
 
-            <View className="space-y-3">
-              <View className="bg-gray-50 rounded-lg p-3">
+            <View>
+              <View className="bg-gray-50 rounded-lg p-3 mb-3">
                 <View className="flex-row items-center justify-between">
                   <Text
                     className="text-sm text-gray-600 flex-1 mr-2"
@@ -588,6 +588,35 @@ export default function ProfileScreen() {
             </View>
           </View>
         )}
+
+        {/* Legal Section */}
+        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
+          <Text className="text-lg font-bold mb-4">Legal</Text>
+
+          <View>
+            <Link href="/terms" asChild>
+              <TouchableOpacity className="flex-row items-center justify-between p-3 bg-gray-50 rounded-lg mb-3">
+                <Text className="text-gray-900 font-medium">
+                  Terms of Service
+                </Text>
+                <Text className="text-gray-400">→</Text>
+              </TouchableOpacity>
+            </Link>
+
+            <Link href="/privacy" asChild>
+              <TouchableOpacity className="flex-row items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <Text className="text-gray-900 font-medium">
+                  Privacy Policy
+                </Text>
+                <Text className="text-gray-400">→</Text>
+              </TouchableOpacity>
+            </Link>
+          </View>
+
+          <Text className="text-xs text-gray-500 text-center mt-4">
+            Respect, privacy, and good vibes only ✨
+          </Text>
+        </View>
 
         {/* Activity Level Popup */}
         <ActivityLevelPopup
