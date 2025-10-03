@@ -11,10 +11,17 @@ export default function HydrationScreen() {
     router.back();
   };
 
+  const handleSettingsPress = () => {
+    router.push("/profile");
+  };
+
   return (
     <TrackerScreenWrapper>
       <AnimatedScreen>
-        <HydrationTracker onBack={handleBack} />
+        <HydrationTracker 
+          onBack={handleBack}
+          onSettingsPress={handleSettingsPress}
+        />
       </AnimatedScreen>
     </TrackerScreenWrapper>
   );

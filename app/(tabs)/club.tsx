@@ -99,7 +99,10 @@ export default function JFClub() {
             <View style={styles.header}>
               <View style={styles.headerTop}>
                 <Text style={styles.headerTitle}>JF Club</Text>
-                <TouchableOpacity style={styles.settingsButton}>
+                <TouchableOpacity 
+                  style={styles.settingsButton}
+                  onPress={() => router.push("/profile")}
+                >
                   <Ionicons name="settings-outline" size={20} color="#374151" />
                 </TouchableOpacity>
               </View>

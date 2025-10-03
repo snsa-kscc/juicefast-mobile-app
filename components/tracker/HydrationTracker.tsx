@@ -33,6 +33,7 @@ interface WaterEntry {
 interface HydrationTrackerProps {
   initialWaterData?: { water: WaterEntry[] } | null;
   onBack?: () => void;
+  onSettingsPress?: () => void;
 }
 
 const DAILY_GOAL = 2000; // ml
@@ -41,6 +42,7 @@ const ML_PER_GLASS = 250;
 export function HydrationTracker({
   initialWaterData,
   onBack,
+  onSettingsPress,
 }: HydrationTrackerProps) {
   const { user } = useUser() || {};
   const [waterAmount, setWaterAmount] = useState<number>(250);
@@ -146,6 +148,7 @@ export function HydrationTracker({
         accentColor="#4FC3F7"
         showBackButton={true}
         onBackPress={onBack}
+        onSettingsPress={onSettingsPress}
       />
 
       <TrackerStats

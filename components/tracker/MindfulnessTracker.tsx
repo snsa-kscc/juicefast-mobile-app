@@ -34,6 +34,7 @@ interface MindfulnessEntry {
 interface MindfulnessTrackerProps {
   initialMindfulnessData?: { mindfulness: MindfulnessEntry[] } | null;
   onBack?: () => void;
+  onSettingsPress?: () => void;
 }
 
 const DAILY_GOAL = 20; // minutes
@@ -47,6 +48,7 @@ const ACTIVITIES = [
 export function MindfulnessTracker({
   initialMindfulnessData,
   onBack,
+  onSettingsPress,
 }: MindfulnessTrackerProps) {
   const { user } = useUser() || {};
   const [minutes, setMinutes] = useState<number>(10);
@@ -158,6 +160,7 @@ export function MindfulnessTracker({
         accentColor="#FE8E77"
         showBackButton={true}
         onBackPress={onBack}
+        onSettingsPress={onSettingsPress}
       />
 
       <TrackerStats

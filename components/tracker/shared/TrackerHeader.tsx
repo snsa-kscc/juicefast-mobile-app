@@ -6,6 +6,7 @@ interface TrackerHeaderProps {
   title: string;
   subtitle: string;
   onBack?: () => void;
+  onSettingsPress?: () => void;
   accentColor?: string;
 }
 
@@ -13,6 +14,7 @@ export function TrackerHeader({
   title,
   subtitle,
   onBack,
+  onSettingsPress,
   accentColor = "#4CC3FF",
 }: TrackerHeaderProps) {
   return (
@@ -32,7 +34,10 @@ export function TrackerHeader({
           </TouchableOpacity>
         )}
         <Text className="text-xl font-bold">{title}</Text>
-        <TouchableOpacity className="rounded-full bg-transparent h-10 w-10 items-center justify-center">
+        <TouchableOpacity 
+          className="rounded-full bg-transparent h-10 w-10 items-center justify-center"
+          onPress={onSettingsPress}
+        >
           <Settings size={20} color="#9CA3AF" />
         </TouchableOpacity>
       </View>

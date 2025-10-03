@@ -10,10 +10,17 @@ export default function MindfulnessScreen() {
     router.back();
   };
 
+  const handleSettingsPress = () => {
+    router.push("/profile");
+  };
+
   return (
     <TrackerScreenWrapper>
       <AnimatedScreen>
-        <MindfulnessTracker onBack={handleBack} />
+        <MindfulnessTracker 
+          onBack={handleBack}
+          onSettingsPress={handleSettingsPress}
+        />
       </AnimatedScreen>
     </TrackerScreenWrapper>
   );

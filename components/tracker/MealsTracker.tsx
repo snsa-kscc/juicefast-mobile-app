@@ -32,9 +32,10 @@ interface MealEntry {
 
 interface MealsTrackerProps {
   onBack?: () => void;
+  onSettingsPress?: () => void;
 }
 
-export function MealsTracker({ onBack }: MealsTrackerProps) {
+export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
   const createMealEntry = useMutation(api.mealEntry.create);
   const deleteMealEntry = useMutation(api.mealEntry.deleteByUserIdAndTimestamp);
 
@@ -312,6 +313,7 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
           accentColor="#0DC99B"
           showBackButton={true}
           onBackPress={onBack}
+          onSettingsPress={onSettingsPress}
         />
 
         {!selectedMealType ? (
