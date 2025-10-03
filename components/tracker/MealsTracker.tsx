@@ -9,10 +9,10 @@ import React, {
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
+import { useAuth } from "@clerk/clerk-expo";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { TrackerButton, WellnessHeader } from "./shared";
-import { MealAnalyzer } from "../../utils/mealAnalyzer";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
@@ -83,41 +83,41 @@ export function MealsTracker({ onBack }: MealsTrackerProps) {
     description: "",
   });
 
+  const { getToken } = useAuth();
+
   const analyzeMealImage = async (imageUri: string): Promise<any> => {
-    try {
-      // Convert image to base64
-      const response = await fetch(imageUri);
-      const blob = await response.blob();
-      const base64 = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+    const base64 = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
 
-      // Extract base64 data (remove data:image/jpeg;base64, prefix)
-      const base64Data = base64.split(",")[1];
+    const token = await getToken();
+    const apiResponse = await fetch("/api/analyze-meal", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        imageBase64: base64,
+      }),
+    });
 
-      const analyzer = new MealAnalyzer();
-      const result = await analyzer.analyzeMeal(base64Data, "image/jpeg");
-
-      if (result.success && result.data) {
-        return {
-          name: result.data.name,
-          calories: result.data.calories,
-          protein: result.data.protein,
-          carbs: result.data.carbs,
-          fat: result.data.fat,
-          description: result.data.description,
-        };
-      } else {
-        console.error("Meal analysis failed:", result.error);
-        return MealAnalyzer.getFallbackMealData();
-      }
-    } catch (error) {
-      console.error("Error processing image:", error);
-      return MealAnalyzer.getFallbackMealData();
+    if (!apiResponse.ok) {
+      throw new Error("Failed to analyze meal image");
     }
+
+    const result = await apiResponse.json();
+
+    if (!result.name || !result.calories) {
+      throw new Error("Invalid response from meal analyzer");
+    }
+
+    return result;
   };
 
   const handleMealAdded = async (mealData: any) => {
