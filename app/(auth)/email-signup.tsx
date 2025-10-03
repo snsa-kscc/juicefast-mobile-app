@@ -4,6 +4,7 @@ import { Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSignUp } from "@clerk/clerk-expo";
 import { ReferralStorage } from "../../utils/referralStorage";
+import * as SecureStore from "expo-secure-store";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
@@ -26,6 +27,8 @@ export default function EmailSignUpScreen() {
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [noPromotions, setNoPromotions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [pendingVerification, setPendingVerification] = useState(false);
@@ -52,6 +55,12 @@ export default function EmailSignUpScreen() {
   // Handle submission of sign-up form
   const onSignUpPress = async () => {
     if (!isLoaded || isLoading) return;
+
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      setError("Passwords do not match. Please try again.");
+      return;
+    }
 
     // Validate referral code if provided
     if (referralCodeInput.trim()) {
@@ -130,6 +139,12 @@ export default function EmailSignUpScreen() {
         if (referralCodeInput.trim()) {
           await ReferralStorage.storeReferralCode(referralCodeInput.trim());
         }
+
+        // Store promotion preference
+        await SecureStore.setItemAsync(
+          "allow_promotion",
+          JSON.stringify(!noPromotions)
+        );
 
         router.replace("/onboarding");
       } else {
@@ -281,7 +296,18 @@ export default function EmailSignUpScreen() {
           />
         </View>
 
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center">
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
+          <Text className="text-gray-400 mr-3">🔒</Text>
+          <TextInput
+            value={confirmPassword}
+            placeholder="Confirm password"
+            secureTextEntry={true}
+            className="flex-1 text-base"
+            onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
+          />
+        </View>
+
+        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
           <Text className="text-gray-400 mr-3">🎟️</Text>
           <TextInput
             value={referralCodeInput}
@@ -290,6 +316,22 @@ export default function EmailSignUpScreen() {
             onChangeText={(referralCode) => setReferralCodeInput(referralCode)}
           />
         </View>
+
+        <TouchableOpacity
+          onPress={() => setNoPromotions(!noPromotions)}
+          className="flex-row items-center"
+        >
+          <View
+            className={`w-5 h-5 rounded border-2 mr-3 items-center justify-center ${
+              noPromotions ? "bg-black border-black" : "border-gray-300"
+            }`}
+          >
+            {noPromotions && <Text className="text-white text-xs">✓</Text>}
+          </View>
+          <Text className="text-sm text-gray-700 flex-1">
+            I don't want to receive updates and promotions via email
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {/* Create Account Button */}

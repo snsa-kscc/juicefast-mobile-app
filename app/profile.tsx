@@ -8,6 +8,7 @@ import {
   Alert,
   Image,
   Share,
+  Switch,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, Link } from "expo-router";
@@ -99,6 +100,7 @@ export default function ProfileScreen() {
   const [gender, setGender] = useState<string | undefined>();
   const [activityLevel, setActivityLevel] = useState<string | undefined>();
   const [showActivityPopup, setShowActivityPopup] = useState(false);
+  const [allowPromotion, setAllowPromotion] = useState(true);
 
   useEffect(() => {
     if (userProfile) {
@@ -120,6 +122,7 @@ export default function ProfileScreen() {
       setAge(userProfile.age?.toString() || "");
       setGender(userProfile.gender);
       setActivityLevel(userProfile.activityLevel);
+      setAllowPromotion(userProfile.allow_promotion ?? true);
     }
   }, [userProfile]);
 
@@ -141,6 +144,7 @@ export default function ProfileScreen() {
         referralCode: profile.referralCode,
         referredBy: profile.referredBy,
         referralCount: profile.referralCount,
+        allow_promotion: allowPromotion,
       });
 
       setIsEditing(false);
@@ -588,6 +592,42 @@ export default function ProfileScreen() {
             </View>
           </View>
         )}
+
+        {/* Preferences Section */}
+        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
+          <Text className="text-lg font-bold mb-4">Preferences</Text>
+
+          <View className="flex-row items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <Text className="text-gray-900 font-medium flex-1 mr-3">
+              Receive updates and promotions via email
+            </Text>
+            <Switch
+              value={allowPromotion}
+              onValueChange={async (value) => {
+                setAllowPromotion(value);
+                try {
+                  if (!profile?.referralCode) return;
+                  await updateUserProfile({
+                    height: height ? parseInt(height) : undefined,
+                    weight: weight ? parseInt(weight) : undefined,
+                    age: age ? parseInt(age) : undefined,
+                    gender: gender,
+                    activityLevel: activityLevel,
+                    referralCode: profile.referralCode,
+                    referredBy: profile.referredBy,
+                    referralCount: profile.referralCount,
+                    allow_promotion: value,
+                  });
+                } catch (error) {
+                  console.error("Failed to update preference:", error);
+                  setAllowPromotion(!value);
+                }
+              }}
+              trackColor={{ false: "#D1D5DB", true: "#3B82F6" }}
+              thumbColor="#FFFFFF"
+            />
+          </View>
+        </View>
 
         {/* Legal Section */}
         <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
