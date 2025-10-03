@@ -89,25 +89,23 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
           {last30Days.map((date: Date, index: number) => (
             <TouchableOpacity
               key={index}
-              onPress={() => onDateSelect(date)}
+              onPress={() => onDateSelect(new Date(date))}
               className={`flex-col items-center justify-center w-10 h-12 rounded-lg mr-4 ${
-                isToday(date)
+                isSameDate(selectedDate, date)
                   ? "bg-black"
-                  : isSameDate(selectedDate, date)
-                    ? "bg-gray-200"
-                    : ""
+                  : ""
               }`}
             >
               <Text
                 className={`text-[10px] font-medium mb-1 ${
-                  isToday(date) ? "text-white" : "text-gray-500"
+                  isSameDate(selectedDate, date) ? "text-white" : "text-gray-500"
                 }`}
               >
                 {formatDay(date)}
               </Text>
               <Text
                 className={`text-sm font-semibold ${
-                  isToday(date) ? "text-white" : "text-black"
+                  isSameDate(selectedDate, date) ? "text-white" : "text-black"
                 }`}
               >
                 {formatDate(date)}

@@ -31,15 +31,13 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
 
   // Calculate start and end timestamps for selected date
   const { startTime, endTime } = useMemo(() => {
-    const start = new Date(selectedDate);
-    start.setHours(0, 0, 0, 0);
-    const end = new Date(selectedDate);
-    end.setHours(23, 59, 59, 999);
+    const start = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 0, 0, 0, 0);
+    const end = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 23, 59, 59, 999);
     return {
       startTime: start.getTime(),
       endTime: end.getTime(),
     };
-  }, [selectedDate]);
+  }, [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate()]);
 
   // Query all 5 tables simultaneously - only when authenticated
   const stepEntries = useQuery(
