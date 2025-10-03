@@ -4,7 +4,7 @@
     "slug": "juicefast-nutrition-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/jf-picto.png",
     "scheme": "juicefast-nutrition-app",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -20,8 +20,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/jf-picto.png",
+        "backgroundColor": "#2d2d2d"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.juicefastapp.juicefastnutritionapp",
@@ -42,10 +42,10 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/jf-picto.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#2d2d2d"
         }
       ],
       "expo-font",

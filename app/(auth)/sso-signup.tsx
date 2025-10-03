@@ -6,6 +6,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
 import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
 import { ReferralStorage } from "../../utils/referralStorage";
+import { Image } from "react-native";
 
 export default function SSOSignUpScreen() {
   const router = useRouter();
@@ -88,7 +89,10 @@ export default function SSOSignUpScreen() {
       {/* Logo */}
       <View className="items-center mb-8">
         <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
-          <Text className="text-white text-2xl font-bold">J</Text>
+          <Image
+            source={require("../../assets/images/jf-picto.png")}
+            className="w-32 h-32 rounded-xl"
+          />
         </View>
         <Text className="text-2xl font-bold text-center mb-2">
           Become the best version of yourself
