@@ -4,9 +4,12 @@ import {
   Label,
   NativeTabs,
 } from "expo-router/unstable-native-tabs";
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 export default function TabLayout() {
-  // const insets = useSafeAreaInsets();
+  const sessions = useQuery(api.nutritionistChat.getActiveUserSessions);
+  const unreadCount = sessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) || 0;
 
   return (
     <NativeTabs
@@ -70,7 +73,7 @@ export default function TabLayout() {
           sf={{ default: "message", selected: "message.fill" }}
           drawable="ic_dialog_email"
         />
-        <Badge>4</Badge>
+        {unreadCount > 0 && <Badge>{unreadCount.toString()}</Badge>}
       </NativeTabs.Trigger>
       {/* options={{
           title: "Chat",
