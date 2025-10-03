@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView, LayoutChangeEvent } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  LayoutChangeEvent,
+} from "react-native";
 
 interface DaySelectorProps {
   selectedDate: Date;
@@ -35,7 +41,7 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
       const itemWidth = 56;
       const visibleDays = 7;
       const scrollPosition = Math.max(0, contentWidth - scrollViewWidth);
-      
+
       setTimeout(() => {
         scrollViewRef.current?.scrollTo({ x: scrollPosition, animated: false });
       }, 50);
@@ -70,42 +76,44 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
 
   return (
     <View className="pb-6">
-      <View className="ml-12 mr-6">
+      <View className="ml-6 mr-6">
         <ScrollView
           ref={scrollViewRef}
           horizontal
           showsHorizontalScrollIndicator={false}
           onContentSizeChange={(width) => setContentWidth(width)}
-          onLayout={(event: LayoutChangeEvent) => setScrollViewWidth(event.nativeEvent.layout.width)}
+          onLayout={(event: LayoutChangeEvent) =>
+            setScrollViewWidth(event.nativeEvent.layout.width)
+          }
         >
-        {last30Days.map((date: Date, index: number) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => onDateSelect(date)}
-            className={`flex-col items-center justify-center w-10 h-12 rounded-lg mr-4 ${
-              isToday(date)
-                ? "bg-black"
-                : isSameDate(selectedDate, date)
-                  ? "bg-gray-200"
-                  : ""
-            }`}
-          >
-            <Text
-              className={`text-[10px] font-medium mb-1 ${
-                isToday(date) ? "text-white" : "text-gray-500"
+          {last30Days.map((date: Date, index: number) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => onDateSelect(date)}
+              className={`flex-col items-center justify-center w-10 h-12 rounded-lg mr-4 ${
+                isToday(date)
+                  ? "bg-black"
+                  : isSameDate(selectedDate, date)
+                    ? "bg-gray-200"
+                    : ""
               }`}
             >
-              {formatDay(date)}
-            </Text>
-            <Text
-              className={`text-sm font-semibold ${
-                isToday(date) ? "text-white" : "text-black"
-              }`}
-            >
-              {formatDate(date)}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                className={`text-[10px] font-medium mb-1 ${
+                  isToday(date) ? "text-white" : "text-gray-500"
+                }`}
+              >
+                {formatDay(date)}
+              </Text>
+              <Text
+                className={`text-sm font-semibold ${
+                  isToday(date) ? "text-white" : "text-black"
+                }`}
+              >
+                {formatDate(date)}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </ScrollView>
       </View>
     </View>
