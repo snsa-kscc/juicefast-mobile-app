@@ -6,13 +6,21 @@ import React, {
   startTransition,
   useMemo,
 } from "react";
-import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
 import { useAuth } from "@clerk/clerk-expo";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { TrackerButton, WellnessHeader } from "./shared";
+import { generateAPIUrl } from "@/utils";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
@@ -97,7 +105,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
     });
 
     const token = await getToken();
-    const apiResponse = await fetch("/api/analyze-meal", {
+    const apiResponse = await fetch(generateAPIUrl("/api/analyze-meal"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -372,7 +380,9 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                 {isProcessingImage && (
                   <View className="bg-emerald-50 rounded-lg p-4 mb-4 flex-row items-center">
                     <ActivityIndicator size="small" color="#10B981" />
-                    <Text className="ml-3 text-emerald-700">Analyzing meal...</Text>
+                    <Text className="ml-3 text-emerald-700">
+                      Analyzing meal...
+                    </Text>
                   </View>
                 )}
                 <View className="flex-row gap-4 mb-4">
