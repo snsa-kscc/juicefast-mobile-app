@@ -6,9 +6,14 @@ import {
 } from "expo-router/unstable-native-tabs";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { useAuth } from "@clerk/clerk-expo";
 
 export default function TabLayout() {
-  const sessions = useQuery(api.nutritionistChat.getActiveUserSessions);
+  const { isSignedIn } = useAuth();
+  const sessions = useQuery(
+    api.nutritionistChat.getActiveUserSessions,
+    isSignedIn ? undefined : "skip"
+  );
   const unreadCount = sessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) || 0;
 
   return (

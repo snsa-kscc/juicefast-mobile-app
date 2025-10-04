@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { AnimatedScreen } from "@/components/AnimatedScreen";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
 import { NutritionistChat } from "@/components/nutritionist/NutritionistChat";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // Mock data - replace with actual API calls
 const mockNutritionists = [
@@ -62,22 +63,19 @@ export default function NutritionistChatPage() {
   const initialMessages: any[] = [];
 
   return (
-    <AnimatedScreen>
-      <WellnessHeader
-        title="Nutritionist Chat"
-        subtitle="Connect with certified nutrition experts"
-        accentColor="#E1D5B9"
-        showBackButton={true}
-        onBackPress={handleBackPress}
-        onSettingsPress={handleSettingsPress}
-      />
+    <SafeAreaView className="flex-1">
+      <AnimatedScreen>
+        <WellnessHeader
+          title="Nutritionist Chat"
+          subtitle="Connect with certified nutrition experts"
+          accentColor="#E1D5B9"
+          showBackButton={true}
+          onBackPress={handleBackPress}
+          onSettingsPress={handleSettingsPress}
+        />
 
-      <NutritionistChat
-        userId={userId}
-        nutritionists={mockNutritionists}
-        activeSession={activeSession}
-        initialMessages={initialMessages}
-      />
-    </AnimatedScreen>
+        <NutritionistChat />
+      </AnimatedScreen>
+    </SafeAreaView>
   );
 }
