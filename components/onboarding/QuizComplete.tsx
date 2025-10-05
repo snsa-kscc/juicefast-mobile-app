@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { router } from "expo-router";
 import { useOnboardingCompletion } from "../../utils/onboarding";
+import { CheckCircle, ArrowRight } from "lucide-react-native";
 
 interface QuizCompleteProps {
   answers: Record<string, string | string[] | number>;
@@ -65,42 +66,116 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
     await markOnboardingCompleted();
 
     const selectedLink = getSelectedLink(answers);
-    console.log("Selected Link:", selectedLink);
 
     if (selectedLink) {
-      console.log("Navigating to Store with link:", selectedLink);
       const encodedLink = encodeURIComponent(selectedLink);
-      console.log("Encoded link:", encodedLink);
       router.replace({
         pathname: "/(tabs)/store",
         params: { link: encodedLink },
       });
     } else {
-      console.log("Navigating to Home tabs");
       router.replace("/(tabs)");
     }
   };
 
   return (
-    <View className="flex-1 justify-center items-center px-6 bg-white">
-      <View className="items-center mb-12">
-        <Text className="text-4xl font-bold text-gray-900 text-center mb-4">
-          Quiz Complete!
-        </Text>
-        <Text className="text-lg text-gray-600 text-center leading-relaxed">
-          Thank you for completing the onboarding quiz. Your personalized juice
-          fasting plan is ready.
-        </Text>
-      </View>
+    <ScrollView className="flex-1" style={{ backgroundColor: "#F8F6F2" }}>
+      <View className="flex-1 items-center justify-center px-6 py-12">
+        {/* Success icon */}
+        <View
+          className="w-20 h-20 rounded-full items-center justify-center mb-6"
+          style={{ backgroundColor: "#D1FAE5" }}
+        >
+          <CheckCircle size={40} color="#10B981" />
+        </View>
 
-      <TouchableOpacity
-        onPress={handleContinue}
-        className="bg-green-600 px-8 py-4 rounded-full w-full max-w-xs"
-      >
-        <Text className="text-white text-lg font-semibold text-center">
-          Continue to App
+        {/* Title */}
+        <Text
+          className="text-4xl font-bold text-center mb-4"
+          style={{ color: "#1A1A1A", lineHeight: 44 }}
+        >
+          Your Wellness Profile is Ready!
         </Text>
-      </TouchableOpacity>
-    </View>
+
+        {/* Description */}
+        <Text
+          className="text-xl text-center mb-12 max-w-md"
+          style={{ color: "#6B7280", lineHeight: 28 }}
+        >
+          Based on your responses, we've created a personalized wellness plan
+          just for you.
+        </Text>
+
+        {/* Recommendations */}
+        <View className="w-full max-w-md mb-8">
+          <View className="flex-row items-center justify-center mb-6">
+            <Text className="text-2xl mr-2">✨</Text>
+            <Text className="text-2xl font-bold" style={{ color: "#1A1A1A" }}>
+              Your Personalized Plan
+            </Text>
+          </View>
+
+          <View className="bg-white rounded-2xl p-6 mb-4">
+            <View className="flex-row items-center mb-3">
+              <Text className="text-2xl mr-3">🍊</Text>
+              <Text
+                className="font-semibold text-lg"
+                style={{ color: "#1A1A1A" }}
+              >
+                Wellness Journey
+              </Text>
+            </View>
+            <Text className="leading-relaxed" style={{ color: "#6B7280" }}>
+              Focus on balanced nutrition and consistent healthy habits to
+              improve your overall well-being.
+            </Text>
+          </View>
+
+          <View className="bg-white rounded-2xl p-6 mb-4">
+            <View className="flex-row items-center mb-3">
+              <Text className="text-2xl mr-3">💧</Text>
+              <Text
+                className="font-semibold text-lg"
+                style={{ color: "#1A1A1A" }}
+              >
+                Hydration Focus
+              </Text>
+            </View>
+            <Text className="leading-relaxed" style={{ color: "#6B7280" }}>
+              Stay hydrated throughout your journey. We'll help you track your
+              daily water intake.
+            </Text>
+          </View>
+
+          <View className="bg-white rounded-2xl p-6">
+            <View className="flex-row items-center mb-3">
+              <Text className="text-2xl mr-3">🏋️</Text>
+              <Text
+                className="font-semibold text-lg"
+                style={{ color: "#1A1A1A" }}
+              >
+                Movement Matters
+              </Text>
+            </View>
+            <Text className="leading-relaxed" style={{ color: "#6B7280" }}>
+              Regular activity is key. We'll support you in building sustainable
+              exercise habits.
+            </Text>
+          </View>
+        </View>
+
+        {/* Continue button */}
+        <TouchableOpacity
+          onPress={handleContinue}
+          className="flex-row items-center justify-center px-8 rounded-full w-full max-w-xs"
+          style={{ backgroundColor: "#1A1A1A", height: 56 }}
+        >
+          <Text className="text-white text-base font-semibold mr-2">
+            Complete Setup
+          </Text>
+          <ArrowRight size={20} color="white" />
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }

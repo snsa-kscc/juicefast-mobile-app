@@ -1,8 +1,12 @@
 import Slider from "@react-native-community/slider";
-import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { QuizQuestionType } from "../../data/onboarding/quizQuestions";
 import { QuizProgress } from "./QuizProgress";
+import { ArrowLeft } from "lucide-react-native";
+import { router } from "expo-router";
+import { useOnboardingCompletion } from "../../utils/onboarding";
+import { WeightPicker } from "./WeightPicker";
 
 interface QuizQuestionProps {
   question: QuizQuestionType;
@@ -17,130 +21,298 @@ export function QuizQuestion({
   onPrevious,
   canGoBack,
 }: QuizQuestionProps) {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [sliderValue, setSliderValue] = useState(question.min || 0);
+  const [answer, setAnswer] = useState<string | string[] | number>(() => {
+    if (question.type === "multiple") return [];
+    if (question.type === "slider") return question.min || 0;
+    return "";
+  });
+  const { markOnboardingCompleted } = useOnboardingCompletion();
 
-  const handleSingleSelect = (value: string) => {
-    onAnswer(value);
-  };
-
-  const handleMultipleSelect = (value: string) => {
-    const newSelected = selectedOptions.includes(value)
-      ? selectedOptions.filter((item) => item !== value)
-      : [...selectedOptions, value];
-
-    if (
-      question.maxSelections &&
-      newSelected.length <= question.maxSelections
-    ) {
-      setSelectedOptions(newSelected);
+  useEffect(() => {
+    if (question.type === "multiple") {
+      setAnswer([]);
+    } else if (question.type === "slider") {
+      setAnswer(question.min || 0);
+    } else {
+      setAnswer("");
     }
+  }, [question.id, question.type, question.min]);
+
+  const handleSingleChoice = (value: string) => {
+    setAnswer(value);
   };
 
-  const handleSliderComplete = () => {
-    onAnswer(sliderValue);
+  const handleMultipleChoice = (value: string) => {
+    const currentAnswers = Array.isArray(answer) ? answer : [];
+    if (currentAnswers.includes(value)) {
+      setAnswer(currentAnswers.filter((a) => a !== value));
+      return;
+    }
+    if (question.maxSelections && currentAnswers.length >= question.maxSelections) {
+      return;
+    }
+    setAnswer([...currentAnswers, value]);
   };
 
   const handleNext = () => {
-    if (question.type === "multiple" && selectedOptions.length > 0) {
-      onAnswer(selectedOptions);
+    if (isAnswerValid()) {
+      onAnswer(answer);
     }
   };
 
+  const handleSkip = async () => {
+    await markOnboardingCompleted();
+    router.replace("/(tabs)");
+  };
+
+  const isAnswerValid = () => {
+    if (question.type === "multiple") {
+      return Array.isArray(answer) && answer.length > 0;
+    }
+    if (question.type === "single") {
+      return !!answer && answer !== "";
+    }
+    if (question.type === "slider") {
+      return typeof answer === "number";
+    }
+    return false;
+  };
+
   return (
-    <View className="flex-1 bg-white">
-      <QuizProgress
-        current={question.questionNumber || 1}
-        total={question.totalQuestions || 13}
-      />
+    <View className="flex-1" style={{ backgroundColor: "#F8F6F2" }}>
+      {/* Header with back button and progress */}
+      <View className="flex-row items-center px-6 pt-12 pb-4">
+        <TouchableOpacity
+          onPress={onPrevious}
+          disabled={!canGoBack}
+          className="w-12 h-12 rounded-full items-center justify-center"
+          style={{ backgroundColor: canGoBack ? "#11B364" : "#9CA3AF" }}
+        >
+          <ArrowLeft size={20} color="white" />
+        </TouchableOpacity>
+        <QuizProgress
+          current={question.questionNumber || 1}
+          total={question.totalQuestions || 13}
+        />
+      </View>
 
-      <View className="flex-1 px-6 py-8">
-        <Text className="text-2xl font-bold text-gray-900 mb-4 text-center">
-          {question.title}
-        </Text>
-
-        {question.description && (
-          <Text className="text-lg text-gray-600 mb-8 text-center">
-            {question.description}
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        {/* Title and Description - outside the card */}
+        <View className="px-6 pt-4 pb-6">
+          <Text
+            className="text-3xl font-bold text-center mb-3"
+            style={{ color: "#1A1A1A", lineHeight: 38 }}
+          >
+            {question.title}
           </Text>
-        )}
-
-        {question.type === "slider" ? (
-          <View className="mb-8">
-            <Text className="text-center text-xl mb-4">
-              {sliderValue} {question.unit}
-            </Text>
-            <Slider
-              style={{ width: "100%", height: 40 }}
-              minimumValue={question.min}
-              maximumValue={question.max}
-              step={question.step}
-              value={sliderValue}
-              onValueChange={setSliderValue}
-              minimumTrackTintColor="#16a34a"
-              maximumTrackTintColor="#d1d5db"
-            />
-            <TouchableOpacity
-              onPress={handleSliderComplete}
-              className="bg-green-600 px-6 py-3 rounded-lg mt-4"
+          {question.description && (
+            <Text
+              className="text-base text-center leading-relaxed"
+              style={{ color: "#1A1A1A" }}
             >
-              <Text className="text-white text-lg font-semibold text-center">
-                {question.nextButtonText || "Next"}
+              {question.description}
+            </Text>
+          )}
+        </View>
+
+        {/* Main content - white card */}
+        <View className="mx-6 mb-6 bg-white rounded-3xl p-6">
+          {/* Question indicator */}
+          <View className="pb-4">
+            <Text className="text-sm" style={{ color: "#1A1A1A" }}>
+              Question {question.questionNumber}/{question.totalQuestions}
+              {question.type === "single" && " - pick one answer"}
+              {question.type === "multiple" && question.maxSelections && ` - pick up to ${question.maxSelections} ${question.maxSelections === 1 ? "answer" : "answers"}`}
+              {question.type === "multiple" && !question.maxSelections && " - pick all that apply"}
+            </Text>
+          </View>
+
+          {/* Divider */}
+          <View className="border-b mb-6" style={{ borderColor: "#F3F4F6" }} />
+
+          {/* Single choice options with radio buttons */}
+          {question.type === "single" && question.options && (
+            <View>
+              {question.options.map((option, index) => {
+                const isSelected = answer === option.value;
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleSingleChoice(option.value)}
+                    className="flex-row items-center border rounded-lg p-4 mb-3 bg-white"
+                    style={{
+                      borderColor: isSelected ? "#11B364" : "#E5E7EB",
+                      height: 56,
+                    }}
+                  >
+                    {/* Radio button - circle with filled dot when selected */}
+                    <View
+                      className="w-5 h-5 rounded-full items-center justify-center mr-3"
+                      style={{
+                        borderWidth: 2,
+                        borderColor: isSelected ? "#11B364" : "#D1D5DB",
+                      }}
+                    >
+                      {isSelected && (
+                        <View
+                          className="w-2.5 h-2.5 rounded-full"
+                          style={{ backgroundColor: "#11B364" }}
+                        />
+                      )}
+                    </View>
+                    <Text
+                      style={{
+                        color: isSelected ? "#11B364" : "#1A1A1A",
+                        fontWeight: isSelected ? "500" : "400",
+                      }}
+                    >
+                      {option.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
+
+          {/* Multiple choice options with checkboxes */}
+          {question.type === "multiple" && question.options && (
+            <View>
+              {question.options.map((option, index) => {
+                const isSelected =
+                  Array.isArray(answer) && answer.includes(option.value);
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleMultipleChoice(option.value)}
+                    className="flex-row items-center border rounded-lg p-4 mb-3 bg-white"
+                    style={{
+                      borderColor: isSelected ? "#11B364" : "#E5E7EB",
+                      height: 56,
+                    }}
+                  >
+                    {/* Checkbox - square with checkmark when selected */}
+                    <View
+                      className="w-5 h-5 rounded items-center justify-center mr-3"
+                      style={{
+                        borderWidth: 2,
+                        borderColor: isSelected ? "#11B364" : "#D1D5DB",
+                        backgroundColor: isSelected ? "#11B364" : "transparent",
+                      }}
+                    >
+                      {isSelected && (
+                        <Text
+                          style={{
+                            color: "white",
+                            fontSize: 12,
+                            fontWeight: "bold",
+                          }}
+                        >
+                          ✓
+                        </Text>
+                      )}
+                    </View>
+                    <Text
+                      style={{
+                        color: isSelected ? "#11B364" : "#1A1A1A",
+                        fontWeight: isSelected ? "500" : "400",
+                      }}
+                    >
+                      {option.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
+
+          {/* Slider input */}
+          {question.type === "slider" && (
+            <View className="mb-6">
+              <View className="bg-gray-50 p-4 rounded-lg mb-4">
+                <Text
+                  className="text-center text-lg mb-2"
+                  style={{ color: "#6B7280" }}
+                >
+                  Select your {question.title.toLowerCase()}
+                </Text>
+                {question.unit === "kg" ? (
+                  <WeightPicker
+                    value={typeof answer === "number" ? answer : question.min || 0}
+                    onChange={(value) => setAnswer(value)}
+                    min={question.min || 40}
+                    max={question.max || 150}
+                  />
+                ) : (
+                  <>
+                    <View
+                      className="items-center py-2 px-6 rounded-md self-center"
+                      style={{ backgroundColor: "#E7F6EF" }}
+                    >
+                      <Text
+                        className="text-2xl font-bold"
+                        style={{ color: "#1A1A1A" }}
+                      >
+                        {typeof answer === "number" ? answer : question.min || 0}{" "}
+                        <Text className="text-lg">{question.unit}</Text>
+                      </Text>
+                    </View>
+                    <Slider
+                      style={{ width: "100%", height: 40, marginTop: 16 }}
+                      minimumValue={question.min}
+                      maximumValue={question.max}
+                      step={question.step}
+                      value={typeof answer === "number" ? answer : question.min || 0}
+                      onValueChange={(value) => setAnswer(value)}
+                      minimumTrackTintColor="#11B364"
+                      maximumTrackTintColor="#d1d5db"
+                    />
+                    <View className="flex-row justify-between mt-2">
+                      <Text className="text-sm" style={{ color: "#6B7280" }}>
+                        {question.min} {question.unit}
+                      </Text>
+                      <Text className="text-sm" style={{ color: "#6B7280" }}>
+                        {question.max} {question.unit}
+                      </Text>
+                    </View>
+                  </>
+                )}
+              </View>
+            </View>
+          )}
+
+          {/* Divider */}
+          <View className="border-b my-6" style={{ borderColor: "#F3F4F6" }} />
+
+          {/* Next button */}
+          <View className="items-center">
+            <TouchableOpacity
+              onPress={handleNext}
+              disabled={!isAnswerValid()}
+              className="px-14 rounded-full"
+              style={{
+                backgroundColor: isAnswerValid() ? "#1A1A1A" : "#D1D5DB",
+                height: 56,
+              }}
+            >
+              <View className="flex-1 justify-center">
+                <Text className="text-white text-base font-semibold text-center">
+                  {question.nextButtonText || "Continue"}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            {/* Skip link */}
+            <TouchableOpacity onPress={handleSkip} className="mt-4">
+              <Text
+                className="text-sm font-medium underline"
+                style={{ color: "#1A1A1A" }}
+              >
+                Skip onboarding
               </Text>
             </TouchableOpacity>
           </View>
-        ) : (
-          <View className="space-y-4">
-            {question.options?.map((option, index) => {
-              const isSelected =
-                question.type === "multiple"
-                  ? selectedOptions.includes(option.value)
-                  : false;
-
-              return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() =>
-                    question.type === "single"
-                      ? handleSingleSelect(option.value)
-                      : handleMultipleSelect(option.value)
-                  }
-                  className={`border rounded-lg p-4 ${
-                    isSelected
-                      ? "bg-green-100 border-green-600"
-                      : "bg-gray-50 border-gray-200"
-                  }`}
-                >
-                  <Text
-                    className={`text-lg text-center ${
-                      isSelected ? "text-green-800" : "text-gray-800"
-                    }`}
-                  >
-                    {option.label}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-
-            {question.type === "multiple" && selectedOptions.length > 0 && (
-              <TouchableOpacity
-                onPress={handleNext}
-                className="bg-green-600 px-6 py-3 rounded-lg mt-4"
-              >
-                <Text className="text-white text-lg font-semibold text-center">
-                  {question.nextButtonText || "Next"}
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        )}
-
-        {canGoBack && (
-          <TouchableOpacity onPress={onPrevious} className="mt-8 self-center">
-            <Text className="text-green-600 text-lg font-medium">Previous</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+        </View>
+      </ScrollView>
     </View>
   );
 }
