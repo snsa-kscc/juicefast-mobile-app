@@ -1,11 +1,11 @@
 import { useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
-import React, { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useSocialSignIn } from "../../hooks/useSocialSignIn";
-import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
-import { ReferralStorage } from "../../utils/referralStorage";
+import { useSocialSignIn } from "@/hooks/useSocialSignIn";
+import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
+import { ReferralStorage } from "@/utils/referralStorage";
 import { Image } from "react-native";
 
 export default function SSOSignUpScreen() {
@@ -81,20 +81,19 @@ export default function SSOSignUpScreen() {
 
   return (
     <KeyboardAwareScrollView
-      className="flex-1 bg-amber-50"
-      contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 64 }}
+      className="flex-1 bg-jf-gray pt-20 px-6"
       enableOnAndroid={true}
       extraScrollHeight={20}
     >
       {/* Logo */}
-      <View className="items-center mb-8">
+      <View className="items-center">
         <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
           <Image
-            source={require("../../assets/images/jf-picto.png")}
-            className="w-32 h-32 rounded-xl"
+            source={require("@/assets/images/jf-picto.png")}
+            className="w-24 h-24 rounded-xl"
           />
         </View>
-        <Text className="text-2xl font-bold text-center mb-2">
+        <Text className="text-4xl font-lufga-bold text-center mb-16 mt-14">
           Become the best version of yourself
         </Text>
       </View>
@@ -102,73 +101,84 @@ export default function SSOSignUpScreen() {
       {/* Continue with Email Button */}
       <TouchableOpacity
         onPress={() => router.push("/(auth)/email-signup")}
-        className="py-4 mb-8"
+        className="mb-4"
       >
         <Text className="text-gray-900 text-center font-semibold underline">
           Sign up with email
         </Text>
       </TouchableOpacity>
 
-      <Text className="text-gray-900 text-center mb-6">or</Text>
+      <Text className="text-gray-900 font-lufga text-center mb-4">or</Text>
 
       {/* Social Login Buttons */}
-      <View className="mb-8 mt-4">
+      <View className="mt-2 px-4">
         <TouchableOpacity
-          onPress={() => signInWithGoogle()}
-          className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center mb-3"
+          onPress={() => signInWithApple()}
+          className="bg-gray-900 rounded-xl py-4 flex-row items-center mb-4"
         >
-          <Text className="text-white mr-2">G</Text>
-          <Text className="text-white font-semibold">Continue with Google</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => signInWithFacebook()}
-          className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center mb-3"
-        >
-          <Text className="text-white mr-2">f</Text>
-          <Text className="text-white font-semibold">
-            Continue with Facebook
+          <Image
+            source={require("@/assets/images/socials/apple.png")}
+            className="w-6 h-6 ml-14"
+          />
+          <Text className="text-white font-semibold ml-8">
+            Continue with Apple
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => signInWithApple()}
-          className="bg-gray-900 rounded-full py-4 flex-row items-center justify-center"
+          onPress={() => signInWithGoogle()}
+          className="bg-gray-900 rounded-xl py-4 flex-row items-center mb-4"
         >
-          <Text className="text-white mr-2">🍎</Text>
-          <Text className="text-white font-semibold">Continue with Apple</Text>
+          <Image
+            source={require("@/assets/images/socials/google.png")}
+            className="w-6 h-6 ml-14"
+          />
+          <Text className="text-white font-semibold ml-8">
+            Continue with Google
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => signInWithFacebook()}
+          className="bg-gray-900 rounded-xl py-4 flex-row items-center"
+        >
+          <Image
+            source={require("@/assets/images/socials/fb.png")}
+            className="w-6 h-6 ml-14"
+          />
+          <Text className="text-white font-semibold ml-8">
+            Continue with Facebook
+          </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Divider */}
-      <View className="flex-row items-center mb-8">
-        <View className="flex-1 h-px bg-gray-300" />
-        <Text className="text-gray-500 mx-4">or</Text>
-        <View className="flex-1 h-px bg-gray-300" />
-      </View>
-
       {/* Terms Text */}
-      <View className="mb-6">
-        <Text className="text-xs text-gray-500 text-center mb-0">
+      <View className="my-12">
+        <Text className="text-xs text-black text-center mb-0 font-lufga">
           By joining, you&apos;re cool with our{" "}
           <Link href="/terms">
-            <Text className="text-blue-600">Terms</Text>
+            <Text className="underline">Terms</Text>
           </Link>{" "}
           and{" "}
           <Link href="/privacy">
-            <Text className="text-blue-600">Privacy Policy</Text>
+            <Text className="underline">Privacy Policy</Text>
           </Link>
+          .
         </Text>
-        <Text className="text-xs text-gray-500 text-center mt-2">
-          Respect, privacy, and good vibes only
+        <Text className="text-xs text-black text-center font-lufga">
+          Respect, privacy, and good vibes only.
         </Text>
       </View>
 
       {/* Sign In Link */}
       <View className="flex-row justify-center">
-        <Text className="text-gray-500">Already have an account? </Text>
+        <Text className="text-black font-lufga-semibold">
+          Already have an account?{" "}
+        </Text>
         <Link href="/(auth)/sign-in">
-          <Text className="text-black font-semibold">Log in</Text>
+          <Text className="text-black font-lufga-semibold underline">
+            Log in
+          </Text>
         </Link>
       </View>
     </KeyboardAwareScrollView>

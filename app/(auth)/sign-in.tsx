@@ -1,7 +1,7 @@
 import { useSignIn, useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TextInput, TouchableOpacity, View, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
 import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
@@ -92,101 +92,131 @@ export default function Page() {
 
   return (
     <KeyboardAwareScrollView
-      className="flex-1 bg-amber-50"
-      contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 64 }}
+      className="flex-1 bg-jf-gray pt-20 px-6"
       enableOnAndroid={true}
       extraScrollHeight={20}
     >
       {/* Logo */}
-      <View className="items-center mb-8">
+      <View className="items-center">
         <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
-          <Text className="text-white text-2xl font-bold">J</Text>
+          <Image
+            source={require("@/assets/images/jf-picto.png")}
+            className="w-24 h-24 rounded-xl"
+          />
         </View>
-        <Text className="text-2xl font-bold text-center mb-2">
+        <Text className="text-4xl font-lufga-bold text-center mb-16 mt-14">
           Welcome back
         </Text>
       </View>
 
       {/* Error Message */}
       {error ? (
-        <View className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-4">
-          <Text className="text-red-600 text-sm text-center">{error}</Text>
+        <View className="bg-red-50 border border-red-200 rounded-xl mx-4 py-3 mb-4">
+          <Text className="text-red-600 text-sm text-center font-lufga">
+            {error}
+          </Text>
         </View>
       ) : null}
 
       {/* Form */}
-      <View className="mb-8">
-        <View className="bg-white rounded-xl px-4 py-4 flex-row items-center mb-4">
+      <View className="mb-6 px-4">
+        <View className="bg-white rounded-2xl border border-gray-200 px-4 py-3 flex-row items-center mb-4">
           <Text className="text-gray-400 mr-3">✉</Text>
           <TextInput
             autoCapitalize="none"
             value={emailAddress}
             placeholder="Email"
-            className="flex-1 text-base"
+            placeholderTextColor="#9CA3AF"
+            className="flex-1 text-base text-gray-500 font-lufga"
             onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
           />
         </View>
 
-        <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
+        <View className="bg-white rounded-2xl border border-gray-200 px-4 py-3 flex-row items-center mb-4">
           <Text className="text-gray-400 mr-3">🔒</Text>
           <TextInput
             value={password}
             placeholder="Password"
+            placeholderTextColor="#9CA3AF"
             secureTextEntry={true}
-            className="flex-1 text-base"
+            className="flex-1 text-base text-gray-500 font-lufga"
             onChangeText={(password) => setPassword(password)}
           />
         </View>
+
+        {/* Forgot Password and Log In Button */}
+        <View className="flex-row items-center justify-between">
+          <Link href="/(auth)/forgot-password" asChild>
+            <TouchableOpacity>
+              <Text className="text-gray-500 font-lufga underline">
+                Forgot password?
+              </Text>
+            </TouchableOpacity>
+          </Link>
+
+          <TouchableOpacity
+            onPress={onSignInPress}
+            className={`rounded-full px-14 py-4 ${isLoading ? "bg-gray-600" : "bg-gray-900"}`}
+            disabled={isLoading}
+          >
+            <Text className="text-white text-center font-semibold">
+              {isLoading ? "Signing in..." : "Log in"}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
-      {/* Forgot Password */}
-      <TouchableOpacity className="mb-6">
-        <Text className="text-gray-500 text-center">Forgot password?</Text>
-      </TouchableOpacity>
-
-      {/* Log In Button */}
-      <TouchableOpacity
-        onPress={onSignInPress}
-        className={`rounded-full py-4 mb-6 ${isLoading ? "bg-gray-600" : "bg-black"}`}
-        disabled={isLoading}
-      >
-        <Text className="text-white text-center font-semibold text-base">
-          {isLoading ? "Signing..." : "Log in"}
-        </Text>
-      </TouchableOpacity>
+      <Text className="text-gray-900 font-lufga text-center my-4">or</Text>
 
       {/* Social Login Buttons */}
-      <View className="mb-8">
-        <TouchableOpacity
-          onPress={() => signInWithFacebook(handleSocialSignInComplete)}
-          className="bg-black rounded-full py-4 flex-row items-center justify-center mb-3"
-        >
-          <Text className="text-white mr-2">f</Text>
-          <Text className="text-white font-semibold">Facebook</Text>
-        </TouchableOpacity>
-
+      <View className="mt-2 px-4">
         <TouchableOpacity
           onPress={() => signInWithApple(handleSocialSignInComplete)}
-          className="bg-black rounded-full py-4 flex-row items-center justify-center mb-3"
+          className="bg-gray-900 rounded-xl py-4 flex-row items-center mb-4"
         >
-          <Text className="text-white mr-2">🍎</Text>
-          <Text className="text-white font-semibold">Apple</Text>
+          <Image
+            source={require("@/assets/images/socials/apple.png")}
+            className="w-6 h-6 ml-14"
+          />
+          <Text className="text-white font-semibold ml-8">
+            Continue with Apple
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => signInWithGoogle(handleSocialSignInComplete)}
-          className="bg-black rounded-full py-4 flex-row items-center justify-center"
+          className="bg-gray-900 rounded-xl py-4 flex-row items-center mb-4"
         >
-          <Text className="text-white mr-2">G</Text>
-          <Text className="text-white font-semibold">Google</Text>
+          <Image
+            source={require("@/assets/images/socials/google.png")}
+            className="w-6 h-6 ml-14"
+          />
+          <Text className="text-white font-semibold ml-8">
+            Continue with Google
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => signInWithFacebook(handleSocialSignInComplete)}
+          className="bg-gray-900 rounded-xl py-4 flex-row items-center"
+        >
+          <Image
+            source={require("@/assets/images/socials/fb.png")}
+            className="w-6 h-6 ml-14"
+          />
+          <Text className="text-white font-semibold ml-8">
+            Continue with Facebook
+          </Text>
         </TouchableOpacity>
       </View>
 
       {/* Sign Up Link */}
-      <View className="flex-row justify-center">
-        <Text className="text-gray-500">Not a member yet? </Text>
+      <View className="flex-row justify-center mt-12">
+        <Text className="text-gray-500 font-lufga">Not a member yet? </Text>
         <Link href="/(auth)/sso-signup">
-          <Text className="text-black font-semibold">Start your journey</Text>
+          <Text className="text-black font-lufga-semibold underline">
+            Start your journey
+          </Text>
         </Link>
       </View>
     </KeyboardAwareScrollView>

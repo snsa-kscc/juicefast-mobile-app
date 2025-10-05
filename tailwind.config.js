@@ -18,6 +18,9 @@ module.exports = {
       black: ["Lufga-Black"],
     },
     extend: {
+      colors: {
+        "jf-gray": "#F8F6EB",
+      },
       fontFamily: {
         // Specific Lufga variants (including italics)
         "lufga-thin": ["Lufga-Thin"],
