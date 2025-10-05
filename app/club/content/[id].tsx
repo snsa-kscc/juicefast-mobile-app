@@ -15,6 +15,7 @@ import { VideoView, useVideoPlayer } from "expo-video";
 import { CLUB_DATA } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ProtectedContent } from "@/components/club/ProtectedContent";
 
 export default function ClubContentDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -76,6 +77,10 @@ export default function ClubContentDetail() {
         return "Start Content";
     }
   };
+
+  // Check if this is the first pilates video that needs protection
+  const isFirstPilatesVideo =
+    item.subcategory === "pilates" && item.title === "Inner Thigh Pilates";
 
   const handlePlayPress = async () => {
     if (item.type === "video") {
@@ -158,36 +163,62 @@ export default function ClubContentDetail() {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Video or Image Container */}
-        <View style={styles.mediaContainer}>
-          {showVideo && item.type === "video" && player ? (
-            <VideoView
-              player={player}
-              style={styles.videoPlayer}
-              nativeControls={true}
-              fullscreenOptions={{ enable: true }}
-              allowsPictureInPicture={true}
-            />
-          ) : (
-            <>
-              <Image
-                source={{ uri: item.imageUrl }}
-                style={styles.mediaImage}
-                defaultSource={require("@/assets/images/icon.png")}
-              />
-              {/* Video overlay controls (only show when video is not playing) */}
-              {item.type === "video" && !showVideo && (
-                <TouchableOpacity
-                  onPress={handlePlayPress}
-                  style={styles.videoPlayOverlay}
-                >
-                  <View style={styles.playIconContainer}>
-                    <Ionicons name="play" size={32} color="#FFFFFF" />
-                  </View>
-                </TouchableOpacity>
+        <ProtectedContent
+          requiredFeature="premium_access"
+          fallback={
+            isFirstPilatesVideo ? (
+              <View style={styles.lockedContainer}>
+                <View style={styles.lockedContent}>
+                  <Ionicons name="lock-closed" size={48} color="#F59E0B" />
+                  <Text style={styles.lockedTitle}>Premium Content</Text>
+                  <Text style={styles.lockedText}>
+                    This video is available for premium members only.
+                  </Text>
+                  <TouchableOpacity style={styles.upgradeButton}>
+                    <Text style={styles.upgradeButtonText}>
+                      Upgrade to Premium
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : null
+          }
+        >
+          {isFirstPilatesVideo ? null : (
+            <View style={styles.mediaContainer}>
+              {showVideo && item.type === "video" && player ? (
+                <VideoView
+                  player={player}
+                  style={styles.videoPlayer}
+                  nativeControls={true}
+                  fullscreenOptions={{ enable: true }}
+                  allowsPictureInPicture={true}
+                />
+              ) : (
+                <>
+                  <Image
+                    source={{ uri: item.imageUrl }}
+                    style={styles.mediaImage}
+                    defaultSource={require("@/assets/images/icon.png")}
+                  />
+                  {/* Video overlay controls (only show when video is not playing) */}
+                  {item.type === "video" && !showVideo && (
+                    <TouchableOpacity
+                      onPress={handlePlayPress}
+                      style={styles.videoPlayOverlay}
+                    >
+                      <View style={styles.playIconContainer}>
+                        <Ionicons name="play" size={32} color="#FFFFFF" />
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                </>
               )}
-            </>
+            </View>
           )}
-        </View>
+        </ProtectedContent>
+
+        {!isFirstPilatesVideo && <View style={styles.mediaContainer} />}
 
         {/* Content actions */}
         <View style={styles.actionsContainer}>
@@ -409,5 +440,40 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#6B7280",
     lineHeight: 24,
+  },
+  lockedContainer: {
+    width: "100%",
+    aspectRatio: 16 / 9,
+    backgroundColor: "#F9FAFB",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  lockedContent: {
+    alignItems: "center",
+    paddingHorizontal: 32,
+  },
+  lockedTitle: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#111827",
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  lockedText: {
+    fontSize: 16,
+    color: "#6B7280",
+    textAlign: "center",
+    marginBottom: 24,
+  },
+  upgradeButton: {
+    backgroundColor: "#F59E0B",
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  upgradeButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
