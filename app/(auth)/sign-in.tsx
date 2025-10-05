@@ -1,11 +1,13 @@
 import { useSignIn, useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View, Image } from "react-native";
+import { Text, TextInput, TouchableOpacity, View, Image, Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
 import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
 import { ReferralStorage } from "../../utils/referralStorage";
+import { MailIcon, LockIcon } from "@/components/icons/AuthIcons";
+import { getInputFieldPadding } from "@/utils/platformStyles";
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -120,8 +122,10 @@ export default function Page() {
 
       {/* Form */}
       <View className="mb-6 px-4">
-        <View className="bg-white rounded-2xl border border-gray-200 px-4 py-3 flex-row items-center mb-4">
-          <Text className="text-gray-400 mr-3">✉</Text>
+        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+          <View className="mr-3">
+            <MailIcon />
+          </View>
           <TextInput
             autoCapitalize="none"
             value={emailAddress}
@@ -132,8 +136,10 @@ export default function Page() {
           />
         </View>
 
-        <View className="bg-white rounded-2xl border border-gray-200 px-4 py-3 flex-row items-center mb-4">
-          <Text className="text-gray-400 mr-3">🔒</Text>
+        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+          <View className="mr-3">
+            <LockIcon />
+          </View>
           <TextInput
             value={password}
             placeholder="Password"
@@ -219,6 +225,9 @@ export default function Page() {
           </Text>
         </Link>
       </View>
+
+      {/* Android Navigation Bar Spacer */}
+      {Platform.OS === "android" && <View className="h-16" />}
     </KeyboardAwareScrollView>
   );
 }

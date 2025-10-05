@@ -1,8 +1,10 @@
 import { useSignIn } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View, Image } from "react-native";
+import { Text, TextInput, TouchableOpacity, View, Image, Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { MailIcon, LockIcon } from "@/components/icons/AuthIcons";
+import { getInputFieldPadding } from "@/utils/platformStyles";
 
 export default function ForgotPasswordPage() {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -124,8 +126,10 @@ export default function ForgotPasswordPage() {
         {!successfulCreation ? (
           <>
             {/* Email Input */}
-            <View className="bg-white rounded-2xl border border-gray-200 px-4 py-3 flex-row items-center mb-6">
-              <Text className="text-gray-400 mr-3">✉</Text>
+            <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-6`}>
+              <View className="mr-3">
+                <MailIcon />
+              </View>
               <TextInput
                 autoCapitalize="none"
                 value={email}
@@ -151,8 +155,10 @@ export default function ForgotPasswordPage() {
         ) : (
           <>
             {/* Code Input */}
-            <View className="bg-white rounded-2xl border border-gray-200 px-4 py-3 flex-row items-center mb-4">
-              <Text className="text-gray-400 mr-3">🔑</Text>
+            <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+              <View className="mr-3">
+                <LockIcon />
+              </View>
               <TextInput
                 value={code}
                 placeholder="Reset Code"
@@ -164,8 +170,10 @@ export default function ForgotPasswordPage() {
             </View>
 
             {/* New Password Input */}
-            <View className="bg-white rounded-2xl border border-gray-200 px-4 py-3 flex-row items-center mb-6">
-              <Text className="text-gray-400 mr-3">🔒</Text>
+            <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-6`}>
+              <View className="mr-3">
+                <LockIcon />
+              </View>
               <TextInput
                 value={password}
                 placeholder="New Password"
@@ -199,6 +207,9 @@ export default function ForgotPasswordPage() {
           Back to Sign In
         </Text>
       </TouchableOpacity>
+
+      {/* Android Navigation Bar Spacer */}
+      {Platform.OS === "android" && <View className="h-16" />}
     </KeyboardAwareScrollView>
   );
 }

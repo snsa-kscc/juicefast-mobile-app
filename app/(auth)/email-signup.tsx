@@ -1,6 +1,14 @@
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
+import { useState, useEffect } from "react";
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Image,
+  Alert,
+  Platform,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSignUp } from "@clerk/clerk-expo";
 import { ReferralStorage } from "../../utils/referralStorage";
@@ -8,6 +16,8 @@ import * as SecureStore from "expo-secure-store";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
+import { MailIcon, LockIcon, UserIcon } from "@/components/icons/AuthIcons";
+import { getInputFieldPadding } from "@/utils/platformStyles";
 
 export default function EmailSignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -37,7 +47,7 @@ export default function EmailSignUpScreen() {
   const [verificationError, setVerificationError] = useState("");
 
   // Load referral code from secure storage on component mount
-  React.useEffect(() => {
+  useEffect(() => {
     const loadReferralCode = async () => {
       try {
         const storedCode = await ReferralStorage.getReferralCode();
@@ -176,150 +186,192 @@ export default function EmailSignUpScreen() {
   if (pendingVerification) {
     return (
       <KeyboardAwareScrollView
-        className="flex-1 bg-amber-50"
-        contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 64 }}
+        className="flex-1 bg-jf-gray pt-20 px-6"
         enableOnAndroid={true}
         extraScrollHeight={20}
       >
-        <View className="items-center mb-8">
+        {/* Logo */}
+        <View className="items-center">
           <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
-            <Text className="text-white text-2xl font-bold">J</Text>
+            <Image
+              source={require("@/assets/images/jf-picto.png")}
+              className="w-24 h-24 rounded-xl"
+            />
           </View>
-          <Text className="text-2xl font-bold text-center mb-2">
+          <Text className="text-4xl font-lufga-bold text-center mb-16 mt-14">
             Verify your email
-          </Text>
-          <Text className="text-gray-500 text-center">
-            We sent you a verification code
           </Text>
         </View>
 
         {verificationError ? (
-          <View className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-4">
-            <Text className="text-red-600 text-sm text-center">
+          <View className="bg-red-50 border border-red-200 rounded-xl mx-4 py-3 mb-4">
+            <Text className="text-red-600 text-sm text-center font-lufga">
               {verificationError}
             </Text>
           </View>
         ) : null}
 
-        <View className="bg-gray-50 rounded-xl px-4 py-4 mb-6">
-          <TextInput
-            value={code}
-            placeholder="Enter your verification code"
-            className="text-base"
-            onChangeText={(code) => setCode(code)}
-            keyboardType="numeric"
-          />
+        <View className="mb-6 px-4">
+          <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} mb-4`}>
+            <TextInput
+              value={code}
+              placeholder="Enter your verification code"
+              placeholderTextColor="#9CA3AF"
+              className="text-base text-gray-500 font-lufga"
+              onChangeText={(code) => setCode(code)}
+              keyboardType="numeric"
+            />
+          </View>
+
+          <TouchableOpacity
+            onPress={onVerifyPress}
+            className={`rounded-full px-14 py-4 ${isVerifying ? "bg-gray-600" : "bg-gray-900"}`}
+            disabled={isVerifying}
+          >
+            <Text className="text-white text-center font-semibold">
+              {isVerifying ? "Verifying..." : "Verify"}
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity
-          onPress={onVerifyPress}
-          className={`rounded-full py-4 ${isVerifying ? "bg-gray-600" : "bg-black"}`}
-          disabled={isVerifying}
-        >
-          <Text className="text-white text-center font-semibold text-base">
-            {isVerifying ? "Verifying..." : "Verify"}
-          </Text>
-        </TouchableOpacity>
+        {/* Android Navigation Bar Spacer */}
+        {Platform.OS === "android" && <View className="h-16" />}
       </KeyboardAwareScrollView>
     );
   }
 
   return (
     <KeyboardAwareScrollView
-      className="flex-1 bg-amber-50"
-      contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 64 }}
+      className="flex-1 bg-jf-gray pt-20 px-6"
       enableOnAndroid={true}
       extraScrollHeight={20}
     >
       {/* Logo */}
-      <View className="items-center mb-8">
+      <View className="items-center">
         <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
-          <Text className="text-white text-2xl font-bold">J</Text>
+          <Image
+            source={require("@/assets/images/jf-picto.png")}
+            className="w-24 h-24 rounded-xl"
+          />
         </View>
-        <Text className="text-2xl font-bold text-center mb-2">
-          Create your account
-        </Text>
-        <Text className="text-gray-500 text-center">
-          Sign up with your email
+        <Text className="text-4xl font-lufga-bold text-center mb-16 mt-14">
+          Welcome to Juicefast
         </Text>
       </View>
 
       {/* Error Message */}
       {error ? (
-        <View className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-4">
-          <Text className="text-red-600 text-sm text-center">{error}</Text>
+        <View className="bg-red-50 border border-red-200 rounded-xl mx-4 py-3 mb-4">
+          <Text className="text-red-600 text-sm text-center font-lufga">
+            {error}
+          </Text>
         </View>
       ) : null}
 
       {/* Form */}
-      <View className="mb-6">
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
-          <Text className="text-gray-400 mr-3">👤</Text>
+      <View className="mb-6 px-4">
+        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+          <View className="mr-3">
+            <UserIcon />
+          </View>
           <TextInput
             value={firstName}
             placeholder="First name"
-            className="flex-1 text-base"
+            placeholderTextColor="#9CA3AF"
+            className="flex-1 text-base text-gray-500 font-lufga"
             onChangeText={(firstName) => setFirstName(firstName)}
           />
         </View>
 
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
-          <Text className="text-gray-400 mr-3">👤</Text>
+        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+          <View className="mr-3">
+            <UserIcon />
+          </View>
           <TextInput
             value={lastName}
             placeholder="Last name"
-            className="flex-1 text-base"
+            placeholderTextColor="#9CA3AF"
+            className="flex-1 text-base text-gray-500 font-lufga"
             onChangeText={(lastName) => setLastName(lastName)}
           />
         </View>
 
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
-          <Text className="text-gray-400 mr-3">✉️</Text>
+        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+          <View className="mr-3">
+            <MailIcon />
+          </View>
           <TextInput
             autoCapitalize="none"
             value={emailAddress}
             placeholder="Email"
-            className="flex-1 text-base"
+            placeholderTextColor="#9CA3AF"
+            className="flex-1 text-base text-gray-500 font-lufga"
             onChangeText={(email) => setEmailAddress(email)}
             keyboardType="email-address"
           />
         </View>
 
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
-          <Text className="text-gray-400 mr-3">🔒</Text>
+        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+          <View className="mr-3">
+            <LockIcon />
+          </View>
           <TextInput
             value={password}
             placeholder="Create a password"
+            placeholderTextColor="#9CA3AF"
             secureTextEntry={true}
-            className="flex-1 text-base"
+            className="flex-1 text-base text-gray-500 font-lufga"
             onChangeText={(password) => setPassword(password)}
           />
         </View>
 
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
-          <Text className="text-gray-400 mr-3">🔒</Text>
+        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+          <View className="mr-3">
+            <LockIcon />
+          </View>
           <TextInput
             value={confirmPassword}
             placeholder="Confirm password"
+            placeholderTextColor="#9CA3AF"
             secureTextEntry={true}
-            className="flex-1 text-base"
-            onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
+            className="flex-1 text-base text-gray-500 font-lufga"
+            onChangeText={(confirmPassword) =>
+              setConfirmPassword(confirmPassword)
+            }
           />
         </View>
 
-        <View className="bg-gray-50 rounded-xl px-4 py-4 flex-row items-center mb-4">
-          <Text className="text-gray-400 mr-3">🎟️</Text>
+        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+          <View className="mr-3">
+            <LockIcon />
+          </View>
           <TextInput
             value={referralCodeInput}
             placeholder="Referral code (optional)"
-            className="flex-1 text-base"
+            placeholderTextColor="#9CA3AF"
+            className="flex-1 text-base text-gray-500 font-lufga"
             onChangeText={(referralCode) => setReferralCodeInput(referralCode)}
           />
         </View>
 
         <TouchableOpacity
+          onPress={onSignUpPress}
+          className={`rounded-full py-4 mt-12 mb-6 ${isLoading ? "bg-gray-600" : "bg-gray-900"}`}
+          disabled={isLoading}
+        >
+          <Text className="text-white text-center font-semibold">
+            {isLoading ? "Creating account..." : "Create account"}
+          </Text>
+        </TouchableOpacity>
+
+        <Text className="text-xs text-gray-500 text-center mb-6 font-lufga">
+          Your email will be used to send you product and{"\n"}
+          marketing updates
+        </Text>
+
+        <TouchableOpacity
           onPress={() => setNoPromotions(!noPromotions)}
-          className="flex-row items-center"
+          className="flex-row items-center mb-4"
         >
           <View
             className={`w-5 h-5 rounded border-2 mr-3 items-center justify-center ${
@@ -328,38 +380,24 @@ export default function EmailSignUpScreen() {
           >
             {noPromotions && <Text className="text-white text-xs">✓</Text>}
           </View>
-          <Text className="text-sm text-gray-700 flex-1">
+          <Text className="text-sm text-gray-700 flex-1 font-lufga">
             I don't want to receive updates and promotions via email
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Create Account Button */}
-      <TouchableOpacity
-        onPress={onSignUpPress}
-        className={`rounded-full py-4 mb-6 ${isLoading ? "bg-gray-600" : "bg-black"}`}
-        disabled={isLoading}
-      >
-        <Text className="text-white text-center font-semibold text-base">
-          {isLoading ? "Creating account..." : "Create account"}
-        </Text>
-      </TouchableOpacity>
-
-      {/* Terms Text */}
-      <Text className="text-xs text-gray-500 text-center mb-6">
-        Your email will be used to send you product and{"\n"}
-        marketing updates
-      </Text>
-
       {/* Back to SSO Button */}
       <TouchableOpacity
         onPress={() => router.back()}
-        className="bg-gray-50 rounded-full py-4 mb-8"
+        className="bg-gray-50 rounded-full py-4 mx-4 mb-8"
       >
         <Text className="text-gray-700 text-center font-semibold">
           ← Back to all sign-up options
         </Text>
       </TouchableOpacity>
+
+      {/* Android Navigation Bar Spacer */}
+      {Platform.OS === "android" && <View className="h-16" />}
     </KeyboardAwareScrollView>
   );
 }
