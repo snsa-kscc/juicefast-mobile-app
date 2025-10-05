@@ -309,7 +309,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
         </TouchableOpacity>
 
         {/* Challenge Banners */}
-        <TouchableOpacity className="w-full mb-4">
+        <TouchableOpacity className="w-full mb-4" onPress={() => router.push("/(tabs)/store")}>
           <Image
             source={require("../../assets/images/challenge.png")}
             className="w-full h-32 rounded-xl"
@@ -317,7 +317,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity className="w-full mb-20">
+        <TouchableOpacity className="w-full mb-20" onPress={() => router.push("/(tabs)/store")}>
           <Image
             source={require("../../assets/images/fasting.png")}
             className="w-full h-32 rounded-xl"

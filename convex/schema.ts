@@ -52,7 +52,6 @@ export default defineSchema({
     referralCode: v.string(),
     referredBy: v.optional(v.string()),
     referralCount: v.number(),
-    allow_promotion: v.optional(v.boolean()),
     updatedAt: v.number(),
   })
     .index("by_user_id", ["userID"])

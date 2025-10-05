@@ -93,6 +93,7 @@ export default function EmailSignUpScreen() {
         unsafeMetadata: {
           role: "user",
           onboardingCompleted: false,
+          disallow_promotion: noPromotions,
         },
       });
 
@@ -139,12 +140,6 @@ export default function EmailSignUpScreen() {
         if (referralCodeInput.trim()) {
           await ReferralStorage.storeReferralCode(referralCodeInput.trim());
         }
-
-        // Store promotion preference
-        await SecureStore.setItemAsync(
-          "allow_promotion",
-          JSON.stringify(!noPromotions)
-        );
 
         router.replace("/onboarding");
       } else {

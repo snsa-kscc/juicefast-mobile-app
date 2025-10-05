@@ -229,12 +229,6 @@ export function QuizQuestion({
           {question.type === "slider" && (
             <View className="mb-6">
               <View className="bg-gray-50 p-4 rounded-lg mb-4">
-                <Text
-                  className="text-center text-lg mb-2"
-                  style={{ color: "#6B7280" }}
-                >
-                  Select your {question.title.toLowerCase()}
-                </Text>
                 {question.unit === "kg" ? (
                   <WeightPicker
                     value={typeof answer === "number" ? answer : question.min || 0}
