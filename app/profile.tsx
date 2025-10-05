@@ -100,6 +100,13 @@ export default function ProfileScreen() {
   const [gender, setGender] = useState<string | undefined>();
   const [activityLevel, setActivityLevel] = useState<string | undefined>();
   const [showActivityPopup, setShowActivityPopup] = useState(false);
+  const [allowPromotion, setAllowPromotion] = useState(true);
+
+  useEffect(() => {
+    if (user?.unsafeMetadata) {
+      setAllowPromotion(!(user.unsafeMetadata.disallow_promotion ?? false));
+    }
+  }, [user?.unsafeMetadata?.disallow_promotion]);
 
   useEffect(() => {
     if (userProfile) {
@@ -599,19 +606,19 @@ export default function ProfileScreen() {
               Receive updates and promotions via email
             </Text>
             <Switch
-              value={!(user?.unsafeMetadata?.disallow_promotion ?? false)}
-              onValueChange={async (value) => {
-                try {
-                  await user?.update({
-                    unsafeMetadata: {
-                      ...user.unsafeMetadata,
-                      disallow_promotion: !value,
-                    },
-                  });
-                } catch (error) {
+              value={allowPromotion}
+              onValueChange={(value) => {
+                setAllowPromotion(value);
+                if (!user) return;
+                user.update({
+                  unsafeMetadata: {
+                    ...user.unsafeMetadata,
+                    disallow_promotion: !value,
+                  },
+                }).catch((error) => {
                   console.error("Failed to update preference:", error);
-                  Alert.alert("Error", "Failed to update promotion preference");
-                }
+                  setAllowPromotion(!value);
+                });
               }}
               trackColor={{ false: "#D1D5DB", true: "#3B82F6" }}
               thumbColor="#FFFFFF"
