@@ -12,7 +12,6 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSignUp } from "@clerk/clerk-expo";
 import { ReferralStorage } from "../../utils/referralStorage";
-import * as SecureStore from "expo-secure-store";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
@@ -103,6 +102,7 @@ export default function EmailSignUpScreen() {
         unsafeMetadata: {
           role: "user",
           onboardingCompleted: false,
+          disallow_promotion: noPromotions,
         },
       });
 
@@ -149,12 +149,6 @@ export default function EmailSignUpScreen() {
         if (referralCodeInput.trim()) {
           await ReferralStorage.storeReferralCode(referralCodeInput.trim());
         }
-
-        // Store promotion preference
-        await SecureStore.setItemAsync(
-          "allow_promotion",
-          JSON.stringify(!noPromotions)
-        );
 
         router.replace("/onboarding");
       } else {
@@ -212,7 +206,9 @@ export default function EmailSignUpScreen() {
         ) : null}
 
         <View className="mb-6 px-4">
-          <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} mb-4`}>
+          <View
+            className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} mb-4`}
+          >
             <TextInput
               value={code}
               placeholder="Enter your verification code"
@@ -270,7 +266,9 @@ export default function EmailSignUpScreen() {
 
       {/* Form */}
       <View className="mb-6 px-4">
-        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+        <View
+          className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}
+        >
           <View className="mr-3">
             <UserIcon />
           </View>
@@ -283,7 +281,9 @@ export default function EmailSignUpScreen() {
           />
         </View>
 
-        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+        <View
+          className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}
+        >
           <View className="mr-3">
             <UserIcon />
           </View>
@@ -296,7 +296,9 @@ export default function EmailSignUpScreen() {
           />
         </View>
 
-        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+        <View
+          className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}
+        >
           <View className="mr-3">
             <MailIcon />
           </View>
@@ -311,7 +313,9 @@ export default function EmailSignUpScreen() {
           />
         </View>
 
-        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+        <View
+          className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}
+        >
           <View className="mr-3">
             <LockIcon />
           </View>
@@ -325,7 +329,9 @@ export default function EmailSignUpScreen() {
           />
         </View>
 
-        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+        <View
+          className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}
+        >
           <View className="mr-3">
             <LockIcon />
           </View>
@@ -341,7 +347,9 @@ export default function EmailSignUpScreen() {
           />
         </View>
 
-        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+        <View
+          className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}
+        >
           <View className="mr-3">
             <LockIcon />
           </View>

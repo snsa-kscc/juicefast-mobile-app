@@ -9,8 +9,8 @@ export default function Meals() {
   return (
     <TrackerScreenWrapper>
       <AnimatedScreen>
-        <MealsTracker 
-          userId="user123" 
+        <MealsTracker
+          userId="user123"
           onBack={() => router.back()}
           onSettingsPress={() => router.push("/profile")}
         />

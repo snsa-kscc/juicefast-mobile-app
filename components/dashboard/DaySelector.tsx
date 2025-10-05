@@ -91,14 +91,14 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
               key={index}
               onPress={() => onDateSelect(new Date(date))}
               className={`flex-col items-center justify-center w-10 h-12 rounded-lg mr-4 ${
-                isSameDate(selectedDate, date)
-                  ? "bg-black"
-                  : ""
+                isSameDate(selectedDate, date) ? "bg-black" : ""
               }`}
             >
               <Text
                 className={`text-[10px] font-medium mb-1 ${
-                  isSameDate(selectedDate, date) ? "text-white" : "text-gray-500"
+                  isSameDate(selectedDate, date)
+                    ? "text-white"
+                    : "text-gray-500"
                 }`}
               >
                 {formatDay(date)}

@@ -11,7 +11,6 @@ export const createOrUpdate = mutation({
     referralCode: v.string(),
     referredBy: v.optional(v.string()),
     referralCount: v.optional(v.number()),
-    allow_promotion: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();

@@ -129,7 +129,8 @@ export default function TermsScreen() {
         <View className="mb-8">
           <Text className="text-lg font-bold mb-2">10. Contact Us</Text>
           <Text className="text-base text-gray-700 leading-6">
-            Questions about these terms? Reach out to us at support@juicefast.com
+            Questions about these terms? Reach out to us at
+            support@juicefast.com
           </Text>
         </View>
 

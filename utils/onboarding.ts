@@ -40,14 +40,6 @@ export const useOnboardingCompletion = () => {
       // Get stored referral code from SecureStore
       const storedReferralCode = await ReferralStorage.getReferralCode();
 
-      // Get stored promotion preference from SecureStore
-      const allowPromotionStr = await SecureStore.getItemAsync(
-        "allow_promotion"
-      );
-      const allowPromotion = allowPromotionStr
-        ? JSON.parse(allowPromotionStr)
-        : true;
-
       // Generate unique referral code for the new user
       const userFullName =
         `${user.firstName || ""} ${user.lastName || ""}`.trim();
@@ -58,7 +50,6 @@ export const useOnboardingCompletion = () => {
         referralCode: newReferralCode,
         referredBy: storedReferralCode || undefined,
         referralCount: 0,
-        allow_promotion: allowPromotion,
       });
 
       // Handle referral count increment if there was a referrer
@@ -75,11 +66,10 @@ export const useOnboardingCompletion = () => {
         }
       }
 
-      // Clear stored referral code and promotion preference after successful processing
+      // Clear stored referral code after successful processing
       if (storedReferralCode) {
         await ReferralStorage.removeReferralCode();
       }
-      await SecureStore.deleteItemAsync("allow_promotion");
 
       console.log("Onboarding completion processed successfully");
     } catch (error) {

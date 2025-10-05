@@ -103,6 +103,12 @@ export default function ProfileScreen() {
   const [allowPromotion, setAllowPromotion] = useState(true);
 
   useEffect(() => {
+    if (user?.unsafeMetadata) {
+      setAllowPromotion(!(user.unsafeMetadata.disallow_promotion ?? false));
+    }
+  }, [user?.unsafeMetadata?.disallow_promotion]);
+
+  useEffect(() => {
     if (userProfile) {
       const adaptedProfile: UserProfile = {
         id: userProfile.userID,
@@ -122,7 +128,6 @@ export default function ProfileScreen() {
       setAge(userProfile.age?.toString() || "");
       setGender(userProfile.gender);
       setActivityLevel(userProfile.activityLevel);
-      setAllowPromotion(userProfile.allow_promotion ?? true);
     }
   }, [userProfile]);
 
@@ -144,7 +149,6 @@ export default function ProfileScreen() {
         referralCode: profile.referralCode,
         referredBy: profile.referredBy,
         referralCount: profile.referralCount,
-        allow_promotion: allowPromotion,
       });
 
       setIsEditing(false);
@@ -603,25 +607,20 @@ export default function ProfileScreen() {
             </Text>
             <Switch
               value={allowPromotion}
-              onValueChange={async (value) => {
+              onValueChange={(value) => {
                 setAllowPromotion(value);
-                try {
-                  if (!profile?.referralCode) return;
-                  await updateUserProfile({
-                    height: height ? parseInt(height) : undefined,
-                    weight: weight ? parseInt(weight) : undefined,
-                    age: age ? parseInt(age) : undefined,
-                    gender: gender,
-                    activityLevel: activityLevel,
-                    referralCode: profile.referralCode,
-                    referredBy: profile.referredBy,
-                    referralCount: profile.referralCount,
-                    allow_promotion: value,
+                if (!user) return;
+                user
+                  .update({
+                    unsafeMetadata: {
+                      ...user.unsafeMetadata,
+                      disallow_promotion: !value,
+                    },
+                  })
+                  .catch((error) => {
+                    console.error("Failed to update preference:", error);
+                    setAllowPromotion(!value);
                   });
-                } catch (error) {
-                  console.error("Failed to update preference:", error);
-                  setAllowPromotion(!value);
-                }
               }}
               trackColor={{ false: "#D1D5DB", true: "#3B82F6" }}
               thumbColor="#FFFFFF"
