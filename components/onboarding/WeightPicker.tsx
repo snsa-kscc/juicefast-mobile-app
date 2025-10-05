@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 interface WeightPickerProps {
@@ -62,12 +69,28 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
         {/* Top gradient */}
         <LinearGradient
           colors={["rgba(255,255,255,1)", "rgba(255,255,255,0)"]}
-          style={{ position: "absolute", left: 0, right: 0, top: 0, height: 80, zIndex: 10, pointerEvents: "none" }}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 80,
+            zIndex: 10,
+            pointerEvents: "none",
+          }}
         />
         {/* Bottom gradient */}
         <LinearGradient
           colors={["rgba(255,255,255,0)", "rgba(255,255,255,1)"]}
-          style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 80, zIndex: 10, pointerEvents: "none" }}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 80,
+            zIndex: 10,
+            pointerEvents: "none",
+          }}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -77,8 +100,21 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
           contentContainerStyle={{ paddingVertical: 80 }}
         >
           {kgOptions.map((option) => (
-            <View key={option} style={{ height: ITEM_HEIGHT, justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ fontSize: 24, fontWeight: "500", color: option === selectedKg ? "#11B364" : "#9CA3AF" }}>
+            <View
+              key={option}
+              style={{
+                height: ITEM_HEIGHT,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: "500",
+                  color: option === selectedKg ? "#11B364" : "#9CA3AF",
+                }}
+              >
                 {option}
               </Text>
             </View>
@@ -87,7 +123,16 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
       </View>
 
       {/* KG Label */}
-      <Text style={{ fontSize: 16, fontWeight: "500", color: "#6B7280", marginHorizontal: 8 }}>kg</Text>
+      <Text
+        style={{
+          fontSize: 16,
+          fontWeight: "500",
+          color: "#6B7280",
+          marginHorizontal: 8,
+        }}
+      >
+        kg
+      </Text>
 
       {/* Grams Picker */}
       <View style={{ width: 96, height: 200, position: "relative" }}>
@@ -107,12 +152,28 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
         {/* Top gradient */}
         <LinearGradient
           colors={["rgba(255,255,255,1)", "rgba(255,255,255,0)"]}
-          style={{ position: "absolute", left: 0, right: 0, top: 0, height: 80, zIndex: 10, pointerEvents: "none" }}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 80,
+            zIndex: 10,
+            pointerEvents: "none",
+          }}
         />
         {/* Bottom gradient */}
         <LinearGradient
           colors={["rgba(255,255,255,0)", "rgba(255,255,255,1)"]}
-          style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 80, zIndex: 10, pointerEvents: "none" }}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 80,
+            zIndex: 10,
+            pointerEvents: "none",
+          }}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -122,8 +183,21 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
           contentContainerStyle={{ paddingVertical: 80 }}
         >
           {gramOptions.map((option) => (
-            <View key={option} style={{ height: ITEM_HEIGHT, justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ fontSize: 24, fontWeight: "500", color: option === selectedGrams ? "#11B364" : "#9CA3AF" }}>
+            <View
+              key={option}
+              style={{
+                height: ITEM_HEIGHT,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: "500",
+                  color: option === selectedGrams ? "#11B364" : "#9CA3AF",
+                }}
+              >
                 {option}
               </Text>
             </View>
@@ -132,7 +206,16 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
       </View>
 
       {/* Grams Label */}
-      <Text style={{ fontSize: 16, fontWeight: "500", color: "#6B7280", marginLeft: 8 }}>g</Text>
+      <Text
+        style={{
+          fontSize: 16,
+          fontWeight: "500",
+          color: "#6B7280",
+          marginLeft: 8,
+        }}
+      >
+        g
+      </Text>
     </View>
   );
 }

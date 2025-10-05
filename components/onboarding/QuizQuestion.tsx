@@ -48,7 +48,10 @@ export function QuizQuestion({
       setAnswer(currentAnswers.filter((a) => a !== value));
       return;
     }
-    if (question.maxSelections && currentAnswers.length >= question.maxSelections) {
+    if (
+      question.maxSelections &&
+      currentAnswers.length >= question.maxSelections
+    ) {
       return;
     }
     setAnswer([...currentAnswers, value]);
@@ -122,8 +125,12 @@ export function QuizQuestion({
             <Text className="text-sm" style={{ color: "#1A1A1A" }}>
               Question {question.questionNumber}/{question.totalQuestions}
               {question.type === "single" && " - pick one answer"}
-              {question.type === "multiple" && question.maxSelections && ` - pick up to ${question.maxSelections} ${question.maxSelections === 1 ? "answer" : "answers"}`}
-              {question.type === "multiple" && !question.maxSelections && " - pick all that apply"}
+              {question.type === "multiple" &&
+                question.maxSelections &&
+                ` - pick up to ${question.maxSelections} ${question.maxSelections === 1 ? "answer" : "answers"}`}
+              {question.type === "multiple" &&
+                !question.maxSelections &&
+                " - pick all that apply"}
             </Text>
           </View>
 
@@ -231,7 +238,9 @@ export function QuizQuestion({
               <View className="bg-gray-50 p-4 rounded-lg mb-4">
                 {question.unit === "kg" ? (
                   <WeightPicker
-                    value={typeof answer === "number" ? answer : question.min || 0}
+                    value={
+                      typeof answer === "number" ? answer : question.min || 0
+                    }
                     onChange={(value) => setAnswer(value)}
                     min={question.min || 40}
                     max={question.max || 150}
@@ -246,7 +255,9 @@ export function QuizQuestion({
                         className="text-2xl font-bold"
                         style={{ color: "#1A1A1A" }}
                       >
-                        {typeof answer === "number" ? answer : question.min || 0}{" "}
+                        {typeof answer === "number"
+                          ? answer
+                          : question.min || 0}{" "}
                         <Text className="text-lg">{question.unit}</Text>
                       </Text>
                     </View>
@@ -255,7 +266,9 @@ export function QuizQuestion({
                       minimumValue={question.min}
                       maximumValue={question.max}
                       step={question.step}
-                      value={typeof answer === "number" ? answer : question.min || 0}
+                      value={
+                        typeof answer === "number" ? answer : question.min || 0
+                      }
                       onValueChange={(value) => setAnswer(value)}
                       minimumTrackTintColor="#11B364"
                       maximumTrackTintColor="#d1d5db"

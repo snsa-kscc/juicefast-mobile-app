@@ -99,7 +99,11 @@ function formatAnswer(
 function getRecommendations(
   answers: Record<string, string | string[] | number>
 ): { title: string; description: string; icon: string }[] {
-  const recommendations: { title: string; description: string; icon: string }[] = [];
+  const recommendations: {
+    title: string;
+    description: string;
+    icon: string;
+  }[] = [];
 
   // Goal-based recommendation
   const goalAnswer = answers.goal;
@@ -107,25 +111,29 @@ function getRecommendations(
     if (goalAnswer.includes("lose_weight")) {
       recommendations.push({
         title: "Weight Loss Journey",
-        description: "Focus on creating a sustainable calorie deficit through balanced nutrition and regular exercise. Track your meals to stay on target.",
+        description:
+          "Focus on creating a sustainable calorie deficit through balanced nutrition and regular exercise. Track your meals to stay on target.",
         icon: "⬇️",
       });
     } else if (goalAnswer.includes("boost_energy")) {
       recommendations.push({
         title: "Energy Boost",
-        description: "Prioritize nutrient-dense foods, stay hydrated, and maintain consistent sleep patterns to naturally increase your energy levels.",
+        description:
+          "Prioritize nutrient-dense foods, stay hydrated, and maintain consistent sleep patterns to naturally increase your energy levels.",
         icon: "⚡",
       });
     } else if (goalAnswer.includes("build_healthy_habits")) {
       recommendations.push({
         title: "Healthy Habits",
-        description: "Start small and build consistency. We'll help you track daily habits that compound into lasting wellness transformation.",
+        description:
+          "Start small and build consistency. We'll help you track daily habits that compound into lasting wellness transformation.",
         icon: "🌱",
       });
     } else {
       recommendations.push({
         title: "Wellness Optimization",
-        description: "Focus on balanced nutrition, regular exercise, and consistent healthy habits to improve your overall well-being.",
+        description:
+          "Focus on balanced nutrition, regular exercise, and consistent healthy habits to improve your overall well-being.",
         icon: "❤️",
       });
     }
@@ -136,13 +144,15 @@ function getRecommendations(
   if (waterAnswer === "less_than_1l" || waterAnswer === "1_2l") {
     recommendations.push({
       title: "Hydration Boost",
-      description: "Aim for 2-3L of water daily. Set reminders or use our water tracking feature to build this healthy habit.",
+      description:
+        "Aim for 2-3L of water daily. Set reminders or use our water tracking feature to build this healthy habit.",
       icon: "💧",
     });
   } else if (waterAnswer === "2_3l" || waterAnswer === "3l_plus") {
     recommendations.push({
       title: "Great Hydration",
-      description: "You're maintaining excellent hydration levels! Keep up this healthy habit for optimal body function.",
+      description:
+        "You're maintaining excellent hydration levels! Keep up this healthy habit for optimal body function.",
       icon: "✨",
     });
   }
@@ -152,13 +162,15 @@ function getRecommendations(
   if (movementAnswer === "rarely" || movementAnswer === "never") {
     recommendations.push({
       title: "Movement Matters",
-      description: "Start with 150 minutes of moderate exercise per week. Even a 10-minute daily walk can make a significant difference!",
+      description:
+        "Start with 150 minutes of moderate exercise per week. Even a 10-minute daily walk can make a significant difference!",
       icon: "🚶",
     });
   } else if (movementAnswer === "daily" || movementAnswer === "few_times") {
     recommendations.push({
       title: "Active Lifestyle",
-      description: "You're maintaining an excellent activity level! Continue your current routine and consider varying your workouts.",
+      description:
+        "You're maintaining an excellent activity level! Continue your current routine and consider varying your workouts.",
       icon: "🏃",
     });
   }
@@ -172,7 +184,8 @@ function getRecommendations(
   ) {
     recommendations.push({
       title: "Mindful Eating",
-      description: "We'll help you develop a more structured eating routine and track your meals to build healthier patterns.",
+      description:
+        "We'll help you develop a more structured eating routine and track your meals to build healthier patterns.",
       icon: "🥗",
     });
   }
@@ -299,7 +312,12 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
         <TouchableOpacity
           onPress={handleContinue}
           className="flex-row items-center justify-center px-8 rounded-full self-center"
-          style={{ backgroundColor: "#1A1A1A", height: 56, width: "100%", maxWidth: 320 }}
+          style={{
+            backgroundColor: "#1A1A1A",
+            height: 56,
+            width: "100%",
+            maxWidth: 320,
+          }}
         >
           <Text className="text-white text-base font-semibold mr-2">
             Complete Setup

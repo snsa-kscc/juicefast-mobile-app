@@ -34,7 +34,7 @@ export function TrackerHeader({
           </TouchableOpacity>
         )}
         <Text className="text-xl font-bold">{title}</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           className="rounded-full bg-transparent h-10 w-10 items-center justify-center"
           onPress={onSettingsPress}
         >

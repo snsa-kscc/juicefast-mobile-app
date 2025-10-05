@@ -298,7 +298,9 @@ export default function EmailSignUpScreen() {
             placeholder="Confirm password"
             secureTextEntry={true}
             className="flex-1 text-base"
-            onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
+            onChangeText={(confirmPassword) =>
+              setConfirmPassword(confirmPassword)
+            }
           />
         </View>
 

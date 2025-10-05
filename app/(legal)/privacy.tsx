@@ -73,8 +73,8 @@ export default function PrivacyPolicyScreen() {
         <View className="mb-6">
           <Text className="text-lg font-bold mb-2">3. Data Sharing</Text>
           <Text className="text-base text-gray-700 leading-6 mb-2">
-            We respect your privacy and don't sell your personal information.
-            We may share data with:
+            We respect your privacy and don't sell your personal information. We
+            may share data with:
           </Text>
           <Text className="text-base text-gray-700 leading-6 ml-4 mb-2">
             <Text className="font-semibold">Service Providers:</Text> Third
@@ -128,9 +128,7 @@ export default function PrivacyPolicyScreen() {
 
         {/* Section 7 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">
-            7. Children's Privacy
-          </Text>
+          <Text className="text-lg font-bold mb-2">7. Children's Privacy</Text>
           <Text className="text-base text-gray-700 leading-6">
             JuiceFast is not intended for children under 13. We don't knowingly
             collect data from children. If you believe we've collected
@@ -140,7 +138,9 @@ export default function PrivacyPolicyScreen() {
 
         {/* Section 8 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">8. Cookies and Tracking</Text>
+          <Text className="text-lg font-bold mb-2">
+            8. Cookies and Tracking
+          </Text>
           <Text className="text-base text-gray-700 leading-6">
             We use cookies and similar technologies to improve your experience,
             analyze usage, and personalize content. You can control cookie

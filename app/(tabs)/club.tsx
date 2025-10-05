@@ -99,7 +99,7 @@ export default function JFClub() {
             <View style={styles.header}>
               <View style={styles.headerTop}>
                 <Text style={styles.headerTitle}>JF Club</Text>
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.settingsButton}
                   onPress={() => router.push("/profile")}
                 >

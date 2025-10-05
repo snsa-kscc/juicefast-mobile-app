@@ -18,7 +18,7 @@ export default function HydrationScreen() {
   return (
     <TrackerScreenWrapper>
       <AnimatedScreen>
-        <HydrationTracker 
+        <HydrationTracker
           onBack={handleBack}
           onSettingsPress={handleSettingsPress}
         />

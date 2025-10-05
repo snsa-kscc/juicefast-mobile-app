@@ -14,7 +14,9 @@ export default function TabLayout() {
     api.nutritionistChat.getActiveUserSessions,
     isSignedIn ? undefined : "skip"
   );
-  const unreadCount = sessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) || 0;
+  const unreadCount =
+    sessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) ||
+    0;
 
   return (
     <NativeTabs

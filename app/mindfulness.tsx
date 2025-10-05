@@ -17,7 +17,7 @@ export default function MindfulnessScreen() {
   return (
     <TrackerScreenWrapper>
       <AnimatedScreen>
-        <MindfulnessTracker 
+        <MindfulnessTracker
           onBack={handleBack}
           onSettingsPress={handleSettingsPress}
         />

@@ -610,15 +610,17 @@ export default function ProfileScreen() {
               onValueChange={(value) => {
                 setAllowPromotion(value);
                 if (!user) return;
-                user.update({
-                  unsafeMetadata: {
-                    ...user.unsafeMetadata,
-                    disallow_promotion: !value,
-                  },
-                }).catch((error) => {
-                  console.error("Failed to update preference:", error);
-                  setAllowPromotion(!value);
-                });
+                user
+                  .update({
+                    unsafeMetadata: {
+                      ...user.unsafeMetadata,
+                      disallow_promotion: !value,
+                    },
+                  })
+                  .catch((error) => {
+                    console.error("Failed to update preference:", error);
+                    setAllowPromotion(!value);
+                  });
               }}
               trackColor={{ false: "#D1D5DB", true: "#3B82F6" }}
               thumbColor="#FFFFFF"
