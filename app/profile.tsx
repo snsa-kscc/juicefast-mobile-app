@@ -9,6 +9,7 @@ import {
   Image,
   Share,
   Switch,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, Link } from "expo-router";
@@ -101,6 +102,7 @@ export default function ProfileScreen() {
   const [activityLevel, setActivityLevel] = useState<string | undefined>();
   const [showActivityPopup, setShowActivityPopup] = useState(false);
   const [allowPromotion, setAllowPromotion] = useState(true);
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
 
   useEffect(() => {
     if (user?.unsafeMetadata) {
@@ -161,7 +163,7 @@ export default function ProfileScreen() {
     }
   };
 
-  const { signOut } = useClerk();
+  const { signOut, user: clerkUser } = useClerk();
 
   const handleLogout = async () => {
     Alert.alert("Logout", "Are you sure you want to logout?", [
@@ -181,6 +183,34 @@ export default function ProfileScreen() {
         },
       },
     ]);
+  };
+
+  const handleDeleteAccount = async () => {
+    Alert.alert(
+      "Delete Account",
+      "This action cannot be undone. All your data will be permanently deleted.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              setIsDeletingAccount(true);
+              await clerkUser?.delete();
+              AuthService.clearToken();
+              await SecureStore.deleteItemAsync("REFERRAL_CODE");
+              router.replace("/(auth)/sso-signup");
+            } catch (error) {
+              console.error("Delete account error:", error);
+              Alert.alert("Error", "Failed to delete account. Please try again.");
+            } finally {
+              setIsDeletingAccount(false);
+            }
+          },
+        },
+      ]
+    );
   };
 
   const handleCopyReferralLink = async () => {
@@ -655,6 +685,30 @@ export default function ProfileScreen() {
           <Text className="text-xs text-gray-500 text-center mt-4">
             Respect, privacy, and good vibes only ✨
           </Text>
+        </View>
+
+        {/* Danger Zone */}
+        <View className="bg-white rounded-2xl border border-red-200 p-6 mb-6">
+          <Text className="font-lufga-bold text-lg text-red-600 mb-2">
+            Danger Zone
+          </Text>
+          <Text className="font-lufga text-sm text-gray-600 mb-4">
+            Once you delete your account, there is no going back. Please be certain.
+          </Text>
+
+          <TouchableOpacity
+            className="flex-row items-center justify-center bg-red-500 py-3 rounded-lg"
+            onPress={handleDeleteAccount}
+            disabled={isDeletingAccount}
+          >
+            {isDeletingAccount ? (
+              <ActivityIndicator color="#FFFFFF" />
+            ) : (
+              <Text className="font-lufga-semibold text-white">
+                Delete Account
+              </Text>
+            )}
+          </TouchableOpacity>
         </View>
 
         {/* Activity Level Popup */}
