@@ -39,6 +39,8 @@ import {
   getActivityLevelText,
 } from "../schemas/UserProfileSchema";
 import { ActivityLevelPopup } from "../components/ActivityLevelPopup";
+import { EditNameModal } from "../components/EditNameModal";
+import { EditPasswordModal } from "../components/EditPasswordModal";
 
 interface SelectProps {
   value: string | undefined;
@@ -103,12 +105,24 @@ export default function ProfileScreen() {
   const [showActivityPopup, setShowActivityPopup] = useState(false);
   const [allowPromotion, setAllowPromotion] = useState(true);
   const [isDeletingAccount, setIsDeletingAccount] = useState(false);
+  const [showEditNameModal, setShowEditNameModal] = useState(false);
+  const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
+  const [hasPassword, setHasPassword] = useState(false);
 
   useEffect(() => {
     if (user?.unsafeMetadata) {
       setAllowPromotion(!(user.unsafeMetadata.disallow_promotion ?? false));
     }
   }, [user?.unsafeMetadata?.disallow_promotion]);
+
+  useEffect(() => {
+    if (user) {
+      const passwordEnabled = user.passwordEnabled;
+      setHasPassword(passwordEnabled);
+    }
+  }, [user]);
+
+
 
   useEffect(() => {
     if (userProfile) {
@@ -213,6 +227,23 @@ export default function ProfileScreen() {
     );
   };
 
+  const handleSaveName = async (firstName: string, lastName: string) => {
+    await user?.update({
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+    });
+    await user?.reload();
+    Alert.alert("Success", "Name updated successfully!");
+  };
+
+  const handleSavePassword = async (currentPassword: string, newPassword: string) => {
+    await user?.updatePassword({
+      currentPassword,
+      newPassword,
+    });
+    Alert.alert("Success", "Password updated successfully!");
+  };
+
   const handleCopyReferralLink = async () => {
     if (!profile?.referralCode) return;
 
@@ -294,20 +325,32 @@ export default function ProfileScreen() {
           <View>
             <TouchableOpacity
               className="flex-row items-center p-3 bg-gray-50 rounded-lg mb-3"
-              onPress={() => setIsEditing(true)}
+              onPress={() => setShowEditNameModal(true)}
             >
-              <Settings size={20} color="#6B7280" />
-              <Text className="ml-3 text-gray-900 font-medium">
-                Edit Profile
+              <User size={20} color="#6B7280" />
+              <Text className="font-lufga-medium ml-3 text-gray-900">
+                Edit Name
               </Text>
             </TouchableOpacity>
+
+            {hasPassword && (
+              <TouchableOpacity
+                className="flex-row items-center p-3 bg-gray-50 rounded-lg mb-3"
+                onPress={() => setShowEditPasswordModal(true)}
+              >
+                <Settings size={20} color="#6B7280" />
+                <Text className="font-lufga-medium ml-3 text-gray-900">
+                  Change Password
+                </Text>
+              </TouchableOpacity>
+            )}
 
             <TouchableOpacity
               className="flex-row items-center p-3 bg-red-50 rounded-lg"
               onPress={handleLogout}
             >
               <LogOut size={20} color="#EF4444" />
-              <Text className="ml-3 text-red-500 font-medium">Log Out</Text>
+              <Text className="font-lufga-medium ml-3 text-red-500">Log Out</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -710,6 +753,22 @@ export default function ProfileScreen() {
             )}
           </TouchableOpacity>
         </View>
+
+        {/* Edit Name Modal */}
+        <EditNameModal
+          visible={showEditNameModal}
+          onClose={() => setShowEditNameModal(false)}
+          initialFirstName={user?.firstName || ""}
+          initialLastName={user?.lastName || ""}
+          onSave={handleSaveName}
+        />
+
+        {/* Edit Password Modal */}
+        <EditPasswordModal
+          visible={showEditPasswordModal}
+          onClose={() => setShowEditPasswordModal(false)}
+          onSave={handleSavePassword}
+        />
 
         {/* Activity Level Popup */}
         <ActivityLevelPopup
