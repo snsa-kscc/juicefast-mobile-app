@@ -110,17 +110,17 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  useEffect(() => {
-    Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
+  // useEffect(() => {
+  //   Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
-    if (Platform.OS === "ios") {
-      Purchases.configure({
-        apiKey: process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY!,
-      });
-      getCustomerInfo();
-      getOfferings();
-    }
-  }, []);
+  //   if (Platform.OS === "ios") {
+  //     Purchases.configure({
+  //       apiKey: process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY!,
+  //     });
+  //     getCustomerInfo();
+  //     getOfferings();
+  //   }
+  // }, []);
 
   async function getCustomerInfo() {
     try {
