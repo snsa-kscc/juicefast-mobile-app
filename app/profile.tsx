@@ -9,6 +9,7 @@ import {
   Image,
   Share,
   Switch,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, Link } from "expo-router";
@@ -38,6 +39,8 @@ import {
   getActivityLevelText,
 } from "../schemas/UserProfileSchema";
 import { ActivityLevelPopup } from "../components/ActivityLevelPopup";
+import { EditNameModal } from "../components/EditNameModal";
+import { EditPasswordModal } from "../components/EditPasswordModal";
 
 interface SelectProps {
   value: string | undefined;
@@ -101,12 +104,25 @@ export default function ProfileScreen() {
   const [activityLevel, setActivityLevel] = useState<string | undefined>();
   const [showActivityPopup, setShowActivityPopup] = useState(false);
   const [allowPromotion, setAllowPromotion] = useState(true);
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
+  const [showEditNameModal, setShowEditNameModal] = useState(false);
+  const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
+  const [hasPassword, setHasPassword] = useState(false);
 
   useEffect(() => {
     if (user?.unsafeMetadata) {
       setAllowPromotion(!(user.unsafeMetadata.disallow_promotion ?? false));
     }
   }, [user?.unsafeMetadata?.disallow_promotion]);
+
+  useEffect(() => {
+    if (user) {
+      const passwordEnabled = user.passwordEnabled;
+      setHasPassword(passwordEnabled);
+    }
+  }, [user]);
+
+
 
   useEffect(() => {
     if (userProfile) {
@@ -161,7 +177,7 @@ export default function ProfileScreen() {
     }
   };
 
-  const { signOut } = useClerk();
+  const { signOut, user: clerkUser } = useClerk();
 
   const handleLogout = async () => {
     Alert.alert("Logout", "Are you sure you want to logout?", [
@@ -181,6 +197,51 @@ export default function ProfileScreen() {
         },
       },
     ]);
+  };
+
+  const handleDeleteAccount = async () => {
+    Alert.alert(
+      "Delete Account",
+      "This action cannot be undone. All your data will be permanently deleted.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              setIsDeletingAccount(true);
+              await clerkUser?.delete();
+              AuthService.clearToken();
+              await SecureStore.deleteItemAsync("REFERRAL_CODE");
+              router.replace("/(auth)/sso-signup");
+            } catch (error) {
+              console.error("Delete account error:", error);
+              Alert.alert("Error", "Failed to delete account. Please try again.");
+            } finally {
+              setIsDeletingAccount(false);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const handleSaveName = async (firstName: string, lastName: string) => {
+    await user?.update({
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+    });
+    await user?.reload();
+    Alert.alert("Success", "Name updated successfully!");
+  };
+
+  const handleSavePassword = async (currentPassword: string, newPassword: string) => {
+    await user?.updatePassword({
+      currentPassword,
+      newPassword,
+    });
+    Alert.alert("Success", "Password updated successfully!");
   };
 
   const handleCopyReferralLink = async () => {
@@ -264,20 +325,32 @@ export default function ProfileScreen() {
           <View>
             <TouchableOpacity
               className="flex-row items-center p-3 bg-gray-50 rounded-lg mb-3"
-              onPress={() => setIsEditing(true)}
+              onPress={() => setShowEditNameModal(true)}
             >
-              <Settings size={20} color="#6B7280" />
-              <Text className="ml-3 text-gray-900 font-medium">
-                Edit Profile
+              <User size={20} color="#6B7280" />
+              <Text className="font-lufga-medium ml-3 text-gray-900">
+                Edit Name
               </Text>
             </TouchableOpacity>
+
+            {hasPassword && (
+              <TouchableOpacity
+                className="flex-row items-center p-3 bg-gray-50 rounded-lg mb-3"
+                onPress={() => setShowEditPasswordModal(true)}
+              >
+                <Settings size={20} color="#6B7280" />
+                <Text className="font-lufga-medium ml-3 text-gray-900">
+                  Change Password
+                </Text>
+              </TouchableOpacity>
+            )}
 
             <TouchableOpacity
               className="flex-row items-center p-3 bg-red-50 rounded-lg"
               onPress={handleLogout}
             >
               <LogOut size={20} color="#EF4444" />
-              <Text className="ml-3 text-red-500 font-medium">Log Out</Text>
+              <Text className="font-lufga-medium ml-3 text-red-500">Log Out</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -656,6 +729,46 @@ export default function ProfileScreen() {
             Respect, privacy, and good vibes only ✨
           </Text>
         </View>
+
+        {/* Danger Zone */}
+        <View className="bg-white rounded-2xl border border-red-200 p-6 mb-6">
+          <Text className="font-lufga-bold text-lg text-red-600 mb-2">
+            Danger Zone
+          </Text>
+          <Text className="font-lufga text-sm text-gray-600 mb-4">
+            Once you delete your account, there is no going back. Please be certain.
+          </Text>
+
+          <TouchableOpacity
+            className="flex-row items-center justify-center bg-red-500 py-3 rounded-lg"
+            onPress={handleDeleteAccount}
+            disabled={isDeletingAccount}
+          >
+            {isDeletingAccount ? (
+              <ActivityIndicator color="#FFFFFF" />
+            ) : (
+              <Text className="font-lufga-semibold text-white">
+                Delete Account
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
+
+        {/* Edit Name Modal */}
+        <EditNameModal
+          visible={showEditNameModal}
+          onClose={() => setShowEditNameModal(false)}
+          initialFirstName={user?.firstName || ""}
+          initialLastName={user?.lastName || ""}
+          onSave={handleSaveName}
+        />
+
+        {/* Edit Password Modal */}
+        <EditPasswordModal
+          visible={showEditPasswordModal}
+          onClose={() => setShowEditPasswordModal(false)}
+          onSave={handleSavePassword}
+        />
 
         {/* Activity Level Popup */}
         <ActivityLevelPopup
