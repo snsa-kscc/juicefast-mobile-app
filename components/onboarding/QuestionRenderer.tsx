@@ -63,11 +63,11 @@ export function QuestionRenderer({
   if (question.type === "slider") {
     return (
       <View className="mb-8">
-        <Text className="text-center text-xl mb-4">
+        <Text className="text-center text-xl mb-4 font-lufga-bold text-black">
           {sliderValue} {question.unit}
         </Text>
         <Slider
-          style={{ width: "100%", height: 40 }}
+          className="w-full h-10"
           minimumValue={question.min}
           maximumValue={question.max}
           step={question.step}
@@ -80,7 +80,7 @@ export function QuestionRenderer({
           onPress={handleSliderComplete}
           className="bg-green-600 px-6 py-3 rounded-lg mt-4"
         >
-          <Text className="text-white text-lg font-semibold text-center">
+          <Text className="text-white text-lg font-lufga-semibold text-center">
             {question.nextButtonText || "Next"}
           </Text>
         </TouchableOpacity>
@@ -111,7 +111,7 @@ export function QuestionRenderer({
             }`}
           >
             <Text
-              className={`text-lg text-center ${
+              className={`text-lg text-center font-lufga ${
                 isSelected ? "text-green-800" : "text-gray-800"
               }`}
             >
@@ -126,7 +126,7 @@ export function QuestionRenderer({
           onPress={handleMultipleNext}
           className="bg-green-600 px-6 py-3 rounded-lg mt-4"
         >
-          <Text className="text-white text-lg font-semibold text-center">
+          <Text className="text-white text-lg font-lufga-semibold text-center">
             {question.nextButtonText || "Next"}
           </Text>
         </TouchableOpacity>

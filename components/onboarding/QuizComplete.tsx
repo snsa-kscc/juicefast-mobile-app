@@ -215,29 +215,20 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
   };
 
   return (
-    <ScrollView className="flex-1" style={{ backgroundColor: "#F8F6F2" }}>
+    <ScrollView className="flex-1 bg-jf-gray">
       <View className="px-6 py-12">
         {/* Success icon */}
-        <View
-          className="w-20 h-20 rounded-full items-center justify-center mb-6 self-center"
-          style={{ backgroundColor: "#D1FAE5" }}
-        >
+        <View className="w-20 h-20 rounded-full items-center justify-center mb-6 self-center bg-green-100">
           <CheckCircle size={40} color="#10B981" />
         </View>
 
         {/* Title */}
-        <Text
-          className="text-4xl font-bold text-center mb-4"
-          style={{ color: "#1A1A1A", lineHeight: 44 }}
-        >
+        <Text className="text-4xl font-lufga-bold text-center mb-4 text-black leading-[44px]">
           Your Wellness Profile is Ready!
         </Text>
 
         {/* Description */}
-        <Text
-          className="text-xl text-center mb-12"
-          style={{ color: "#6B7280", lineHeight: 28 }}
-        >
+        <Text className="text-xl text-center mb-12 text-gray-500 leading-7 font-lufga">
           Based on your responses, we've created a personalized wellness plan
           just for you.
         </Text>
@@ -245,8 +236,8 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
         {/* Recommendations */}
         <View className="mb-8">
           <View className="flex-row items-center justify-center mb-6">
-            <Sparkles size={24} color="#1A1A1A" style={{ marginRight: 8 }} />
-            <Text className="text-2xl font-bold" style={{ color: "#1A1A1A" }}>
+            <Sparkles size={24} color="#1A1A1A" className="mr-2" />
+            <Text className="text-2xl font-lufga-bold text-black">
               Your Personalized Recommendations
             </Text>
           </View>
@@ -255,18 +246,14 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
             <View
               key={index}
               className="bg-white/50 rounded-2xl p-6 mb-4"
-              style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }}
             >
               <View className="flex-row items-center mb-3">
                 <Text className="text-2xl mr-3">{rec.icon}</Text>
-                <Text
-                  className="font-semibold text-lg flex-1"
-                  style={{ color: "#1A1A1A" }}
-                >
+                <Text className="font-lufga-semibold text-lg flex-1 text-black">
                   {rec.title}
                 </Text>
               </View>
-              <Text className="leading-relaxed" style={{ color: "#6B7280" }}>
+              <Text className="leading-relaxed text-gray-500 font-lufga">
                 {rec.description}
               </Text>
             </View>
@@ -275,29 +262,21 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
 
         {/* Summary of responses */}
         <View className="mb-8">
-          <Text
-            className="text-2xl font-bold text-center mb-6"
-            style={{ color: "#1A1A1A" }}
-          >
+          <Text className="text-2xl font-lufga-bold text-center mb-6 text-black">
             Your Responses Summary
           </Text>
           <View className="flex-row flex-wrap -mx-2">
             {answerEntries.map(([questionId, answer], index) => (
               <View key={index} className="w-1/2 px-2 mb-4">
-                <View
-                  className="bg-white/30 rounded-xl p-4"
-                  style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
-                >
+                <View className="bg-white/30 rounded-xl p-4">
                   <Text
-                    className="text-sm mb-2"
-                    style={{ color: "#6B7280" }}
+                    className="text-sm mb-2 text-gray-500 font-lufga"
                     numberOfLines={2}
                   >
                     {getQuestionTitle(questionId)}
                   </Text>
                   <Text
-                    className="font-semibold text-sm"
-                    style={{ color: "#1A1A1A" }}
+                    className="font-lufga-semibold text-sm text-black"
                     numberOfLines={2}
                   >
                     {formatAnswer(answer, questionId)}
@@ -311,13 +290,7 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
         {/* Continue button */}
         <TouchableOpacity
           onPress={handleContinue}
-          className="flex-row items-center justify-center px-8 rounded-full self-center"
-          style={{
-            backgroundColor: "#1A1A1A",
-            height: 56,
-            width: "100%",
-            maxWidth: 320,
-          }}
+          className="flex-row items-center justify-center px-8 rounded-full self-center bg-gray-900 h-14 w-full max-w-[320px]"
         >
           <Text className="text-white text-base font-semibold mr-2">
             Complete Setup

@@ -82,14 +82,15 @@ export function QuizQuestion({
   };
 
   return (
-    <View className="flex-1" style={{ backgroundColor: "#F8F6F2" }}>
+    <View className="flex-1 bg-jf-gray">
       {/* Header with back button and progress */}
       <View className="flex-row items-center px-6 pt-12 pb-4">
         <TouchableOpacity
           onPress={onPrevious}
           disabled={!canGoBack}
-          className="w-12 h-12 rounded-full items-center justify-center"
-          style={{ backgroundColor: canGoBack ? "#11B364" : "#9CA3AF" }}
+          className={`w-12 h-12 rounded-full items-center justify-center ${
+            canGoBack ? "bg-[#11B364]" : "bg-gray-400"
+          }`}
         >
           <ArrowLeft size={20} color="white" />
         </TouchableOpacity>
@@ -102,17 +103,11 @@ export function QuizQuestion({
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Title and Description - outside the card */}
         <View className="px-6 pt-4 pb-6">
-          <Text
-            className="text-3xl font-bold text-center mb-3"
-            style={{ color: "#1A1A1A", lineHeight: 38 }}
-          >
+          <Text className="text-3xl font-lufga-bold text-center mb-3 text-black leading-[38px]">
             {question.title}
           </Text>
           {question.description && (
-            <Text
-              className="text-base text-center leading-relaxed"
-              style={{ color: "#1A1A1A" }}
-            >
+            <Text className="text-base text-center leading-relaxed text-black font-lufga">
               {question.description}
             </Text>
           )}
@@ -122,7 +117,7 @@ export function QuizQuestion({
         <View className="mx-6 mb-6 bg-white rounded-3xl p-6">
           {/* Question indicator */}
           <View className="pb-4">
-            <Text className="text-sm" style={{ color: "#1A1A1A" }}>
+            <Text className="text-sm text-black font-lufga">
               Question {question.questionNumber}/{question.totalQuestions}
               {question.type === "single" && " - pick one answer"}
               {question.type === "multiple" &&
@@ -135,7 +130,7 @@ export function QuizQuestion({
           </View>
 
           {/* Divider */}
-          <View className="border-b mb-6" style={{ borderColor: "#F3F4F6" }} />
+          <View className="border-b mb-6 border-gray-100" />
 
           {/* Single choice options with radio buttons */}
           {question.type === "single" && question.options && (
@@ -146,32 +141,24 @@ export function QuizQuestion({
                   <TouchableOpacity
                     key={index}
                     onPress={() => handleSingleChoice(option.value)}
-                    className="flex-row items-center border rounded-lg p-4 mb-3 bg-white"
-                    style={{
-                      borderColor: isSelected ? "#11B364" : "#E5E7EB",
-                      height: 56,
-                    }}
+                    className={`flex-row items-center border rounded-lg p-4 mb-3 bg-white h-14 ${
+                      isSelected ? "border-[#11B364]" : "border-gray-200"
+                    }`}
                   >
                     {/* Radio button - circle with filled dot when selected */}
                     <View
-                      className="w-5 h-5 rounded-full items-center justify-center mr-3"
-                      style={{
-                        borderWidth: 2,
-                        borderColor: isSelected ? "#11B364" : "#D1D5DB",
-                      }}
+                      className={`w-5 h-5 rounded-full items-center justify-center mr-3 border-2 ${
+                        isSelected ? "border-[#11B364]" : "border-gray-300"
+                      }`}
                     >
                       {isSelected && (
-                        <View
-                          className="w-2.5 h-2.5 rounded-full"
-                          style={{ backgroundColor: "#11B364" }}
-                        />
+                        <View className="w-2.5 h-2.5 rounded-full bg-[#11B364]" />
                       )}
                     </View>
                     <Text
-                      style={{
-                        color: isSelected ? "#11B364" : "#1A1A1A",
-                        fontWeight: isSelected ? "500" : "400",
-                      }}
+                      className={`font-lufga ${
+                        isSelected ? "text-[#11B364] font-medium" : "text-black"
+                      }`}
                     >
                       {option.label}
                     </Text>
@@ -191,38 +178,28 @@ export function QuizQuestion({
                   <TouchableOpacity
                     key={index}
                     onPress={() => handleMultipleChoice(option.value)}
-                    className="flex-row items-center border rounded-lg p-4 mb-3 bg-white"
-                    style={{
-                      borderColor: isSelected ? "#11B364" : "#E5E7EB",
-                      height: 56,
-                    }}
+                    className={`flex-row items-center border rounded-lg p-4 mb-3 bg-white h-14 ${
+                      isSelected ? "border-[#11B364]" : "border-gray-200"
+                    }`}
                   >
                     {/* Checkbox - square with checkmark when selected */}
                     <View
-                      className="w-5 h-5 rounded items-center justify-center mr-3"
-                      style={{
-                        borderWidth: 2,
-                        borderColor: isSelected ? "#11B364" : "#D1D5DB",
-                        backgroundColor: isSelected ? "#11B364" : "transparent",
-                      }}
+                      className={`w-5 h-5 rounded items-center justify-center mr-3 border-2 ${
+                        isSelected
+                          ? "border-[#11B364] bg-[#11B364]"
+                          : "border-gray-300 bg-transparent"
+                      }`}
                     >
                       {isSelected && (
-                        <Text
-                          style={{
-                            color: "white",
-                            fontSize: 12,
-                            fontWeight: "bold",
-                          }}
-                        >
+                        <Text className="text-white text-xs font-bold">
                           ✓
                         </Text>
                       )}
                     </View>
                     <Text
-                      style={{
-                        color: isSelected ? "#11B364" : "#1A1A1A",
-                        fontWeight: isSelected ? "500" : "400",
-                      }}
+                      className={`font-lufga ${
+                        isSelected ? "text-[#11B364] font-medium" : "text-black"
+                      }`}
                     >
                       {option.label}
                     </Text>
@@ -247,22 +224,16 @@ export function QuizQuestion({
                   />
                 ) : (
                   <>
-                    <View
-                      className="items-center py-2 px-6 rounded-md self-center"
-                      style={{ backgroundColor: "#E7F6EF" }}
-                    >
-                      <Text
-                        className="text-2xl font-bold"
-                        style={{ color: "#1A1A1A" }}
-                      >
+                    <View className="items-center py-2 px-6 rounded-md self-center bg-[#E7F6EF]">
+                      <Text className="text-2xl font-lufga-bold text-black">
                         {typeof answer === "number"
                           ? answer
                           : question.min || 0}{" "}
-                        <Text className="text-lg">{question.unit}</Text>
+                        <Text className="text-lg font-lufga">{question.unit}</Text>
                       </Text>
                     </View>
                     <Slider
-                      style={{ width: "100%", height: 40, marginTop: 16 }}
+                      className="w-full h-10 mt-4"
                       minimumValue={question.min}
                       maximumValue={question.max}
                       step={question.step}
@@ -274,10 +245,10 @@ export function QuizQuestion({
                       maximumTrackTintColor="#d1d5db"
                     />
                     <View className="flex-row justify-between mt-2">
-                      <Text className="text-sm" style={{ color: "#6B7280" }}>
+                      <Text className="text-sm text-gray-500 font-lufga">
                         {question.min} {question.unit}
                       </Text>
-                      <Text className="text-sm" style={{ color: "#6B7280" }}>
+                      <Text className="text-sm text-gray-500 font-lufga">
                         {question.max} {question.unit}
                       </Text>
                     </View>
@@ -288,18 +259,16 @@ export function QuizQuestion({
           )}
 
           {/* Divider */}
-          <View className="border-b my-6" style={{ borderColor: "#F3F4F6" }} />
+          <View className="border-b my-6 border-gray-100" />
 
           {/* Next button */}
           <View className="items-center">
             <TouchableOpacity
               onPress={handleNext}
               disabled={!isAnswerValid()}
-              className="px-14 rounded-full"
-              style={{
-                backgroundColor: isAnswerValid() ? "#1A1A1A" : "#D1D5DB",
-                height: 56,
-              }}
+              className={`px-14 rounded-full h-14 ${
+                isAnswerValid() ? "bg-gray-900" : "bg-gray-300"
+              }`}
             >
               <View className="flex-1 justify-center">
                 <Text className="text-white text-base font-semibold text-center">
@@ -310,10 +279,7 @@ export function QuizQuestion({
 
             {/* Skip link */}
             <TouchableOpacity onPress={handleSkip} className="mt-4">
-              <Text
-                className="text-sm font-medium underline"
-                style={{ color: "#1A1A1A" }}
-              >
+              <Text className="text-sm font-medium underline text-black font-lufga">
                 Skip onboarding
               </Text>
             </TouchableOpacity>
