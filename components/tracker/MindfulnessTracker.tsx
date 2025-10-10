@@ -257,14 +257,16 @@ export function MindfulnessTracker({
             </Text>
             {mindfulnessEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);
+              const activity = ACTIVITIES.find(a => a.id === entry.activity);
+              const activityLabel = activity ? activity.label : entry.activity.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
               return (
                 <View
                   key={entry._id}
                   className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
                 >
-                  <View>
-                    <Text className="font-lufga text-sm font-medium">
-                      {entry.minutes} minutes - {entry.activity}
+                  <View className="flex-1 mr-2">
+                    <Text className="font-lufga text-sm font-medium" numberOfLines={2}>
+                      {entry.minutes} minutes - {activityLabel}
                     </Text>
                     <Text className="font-lufga text-xs text-gray-500">
                       {date.toLocaleDateString()} at{" "}

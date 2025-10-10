@@ -12,11 +12,17 @@ interface QuizStartProps {
 }
 
 export function QuizStart({ onStart }: QuizStartProps) {
+  const [isSkipping, setIsSkipping] = React.useState(false);
   const { markOnboardingCompleted } = useOnboardingCompletion();
 
   const handleSkip = async () => {
-    await markOnboardingCompleted();
-    router.replace("/(tabs)");
+    setIsSkipping(true);
+    try {
+      await markOnboardingCompleted();
+      router.replace("/(tabs)");
+    } finally {
+      setIsSkipping(false);
+    }
   };
 
   return (
