@@ -284,18 +284,9 @@ export function QuizQuestion({
             </TouchableOpacity>
 
             {/* Skip link */}
-<<<<<<< HEAD
             <TouchableOpacity onPress={handleSkip} className="mt-4">
               <Text className="text-sm font-medium underline text-black font-lufga">
                 Skip onboarding
-=======
-            <TouchableOpacity onPress={handleSkip} disabled={isSkipping} className="mt-4">
-              <Text
-                className="text-sm font-medium underline"
-                style={{ color: "#1A1A1A" }}
-              >
-                {isSkipping ? "Skipping..." : "Skip onboarding"}
->>>>>>> danger-zone
               </Text>
             </TouchableOpacity>
           </View>
