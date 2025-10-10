@@ -5,7 +5,6 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  ActivityIndicator,
   StyleSheet,
   Dimensions,
 } from "react-native";
@@ -130,11 +129,9 @@ export function EditPasswordModal({
                 onPress={handleSave}
                 disabled={isSaving || !isValid}
               >
-                {isSaving ? (
-                  <ActivityIndicator color="#FFFFFF" />
-                ) : (
-                  <Text style={styles.saveButtonText}>Save</Text>
-                )}
+                <Text style={styles.saveButtonText}>
+                  {isSaving ? "Saving..." : "Save"}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

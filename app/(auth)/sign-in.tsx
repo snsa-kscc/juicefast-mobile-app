@@ -166,7 +166,7 @@ export default function Page() {
             disabled={isLoading}
           >
             <Text className="text-white text-center font-semibold">
-              {isLoading ? "Signing in..." : "Log in"}
+              {isLoading ? "Logging in..." : "Log in"}
             </Text>
           </TouchableOpacity>
         </View>

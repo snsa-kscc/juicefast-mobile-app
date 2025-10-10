@@ -7,6 +7,8 @@ interface TrackerButtonProps {
   disabled?: boolean;
   variant?: "primary" | "secondary";
   backgroundColor?: string;
+  isLoading?: boolean;
+  loadingText?: string;
 }
 
 export function TrackerButton({
@@ -15,6 +17,8 @@ export function TrackerButton({
   disabled = false,
   variant = "primary",
   backgroundColor,
+  isLoading = false,
+  loadingText,
 }: TrackerButtonProps) {
   const getButtonStyle = () => {
     if (backgroundColor) {
@@ -32,9 +36,11 @@ export function TrackerButton({
       className={`w-full rounded-md py-3 items-center ${getButtonStyle()}`}
       style={backgroundColor ? { backgroundColor } : undefined}
       onPress={onPress}
-      disabled={disabled}
+      disabled={disabled || isLoading}
     >
-      <Text className={`font-medium ${getTextStyle()}`}>{title}</Text>
+      <Text className={`font-medium ${getTextStyle()}`}>
+        {isLoading ? (loadingText || `${title}...`) : title}
+      </Text>
     </TouchableOpacity>
   );
 }

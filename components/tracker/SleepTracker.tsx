@@ -48,6 +48,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
   const [sleepQuality, setSleepQuality] = useState<number>(3);
   const [bedTime, setBedTime] = useState<string>("22:00");
   const [wakeTime, setWakeTime] = useState<string>("06:00");
+  const [isAdding, setIsAdding] = useState(false);
 
   const createSleepEntry = useMutation(api.sleepEntry.create);
   const deleteSleepEntry = useMutation(
@@ -142,7 +143,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
   };
 
   const handleAddSleep = async () => {
-    if (!user?.id) return;
+    if (!user?.id || isAdding) return;
 
     const {
       hours,
@@ -150,6 +151,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
       endTime: sleepEndTime,
     } = calculateSleepHours();
 
+    setIsAdding(true);
     startTransition(() => {
       addOptimisticHours(hours);
     });
@@ -163,6 +165,8 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
       });
     } catch (error) {
       console.error("Failed to save sleep data:", error);
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -205,7 +209,6 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
           maxValue={DAILY_GOAL}
           color="#8B5CF6"
           backgroundColor="#EDE9FE"
-          displayValue={Math.round(displayedHours * 10) / 10}
         />
 
         <View className="mb-6" />
@@ -277,7 +280,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
           </View>
         </View>
 
-        <TrackerButton title="Add sleep" onPress={handleAddSleep} />
+        <TrackerButton title="Add sleep" onPress={handleAddSleep} isLoading={isAdding} loadingText="Adding..." />
       </View>
 
       {/* Sleep Entries List */}

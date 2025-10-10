@@ -7,7 +7,6 @@ import React, {
   useMemo,
 } from "react";
 import {
-  ActivityIndicator,
   Alert,
   Text,
   TextInput,
@@ -378,9 +377,8 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
             {activeEntryTab === "scan" ? (
               <View>
                 {isProcessingImage && (
-                  <View className="bg-emerald-50 rounded-lg p-4 mb-4 flex-row items-center">
-                    <ActivityIndicator size="small" color="#10B981" />
-                    <Text className="ml-3 text-emerald-700">
+                  <View className="bg-emerald-50 rounded-lg p-4 mb-4">
+                    <Text className="text-emerald-700 text-center">
                       Analyzing meal...
                     </Text>
                   </View>

@@ -53,6 +53,7 @@ export function MindfulnessTracker({
   const { user } = useUser() || {};
   const [minutes, setMinutes] = useState<number>(10);
   const [displayedMinutes, setDisplayedMinutes] = useState<number>(0);
+  const [isAdding, setIsAdding] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<string>(
     ACTIVITIES[0].id
   );
@@ -124,8 +125,9 @@ export function MindfulnessTracker({
   }, [optimisticMinutes]);
 
   const handleAddMindfulness = async () => {
-    if (minutes <= 0 || !user?.id) return;
+    if (minutes <= 0 || !user?.id || isAdding) return;
 
+    setIsAdding(true);
     startTransition(() => {
       addOptimisticMinutes(minutes);
     });
@@ -134,6 +136,8 @@ export function MindfulnessTracker({
       await createMindfulnessEntry({ minutes, activity: selectedActivity });
     } catch (error) {
       console.error("Failed to save mindfulness data:", error);
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -172,7 +176,6 @@ export function MindfulnessTracker({
           maxValue={DAILY_GOAL}
           color="#FE8E77"
           backgroundColor="#FFEFEB"
-          displayValue={Math.round(displayedMinutes)}
         />
 
         <View className="mb-6" />
@@ -242,7 +245,7 @@ export function MindfulnessTracker({
           </View>
         </View>
 
-        <TrackerButton title="Add session" onPress={handleAddMindfulness} />
+        <TrackerButton title="Add session" onPress={handleAddMindfulness} isLoading={isAdding} loadingText="Adding..." />
       </View>
 
       {/* Mindfulness Entries List */}
