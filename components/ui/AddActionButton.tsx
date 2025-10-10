@@ -13,6 +13,7 @@ import {
   Plus,
   Scale,
   Thermometer,
+  Utensils,
   X,
 } from "lucide-react-native";
 import React, { useCallback, useMemo, useRef } from "react";
@@ -53,6 +54,12 @@ export function AddActionButton() {
 
   const wellnessOptions: ActionOption[] = [
     {
+      id: "meals",
+      title: "Meals",
+      iconColor: "#0DC99B",
+      route: "/meals",
+    },
+    {
       id: "activity",
       title: "Activity",
       iconColor: "#FF6B6B",
@@ -73,33 +80,13 @@ export function AddActionButton() {
     { id: "sleep", title: "Sleep", iconColor: "#9B59B6", route: "/sleep" },
   ];
 
-  const diaryOptions: ActionOption[] = [
-    { id: "note", title: "Add note", iconColor: "#FF6B6B", route: "/notes" },
-    {
-      id: "moods",
-      title: "Log moods and symptoms",
-      iconColor: "#FF6B6B",
-      route: "/moods",
-    },
-    {
-      id: "weight",
-      title: "Add weight",
-      iconColor: "#FF6B6B",
-      route: "/weight",
-    },
-    {
-      id: "temperature",
-      title: "Add temperature",
-      iconColor: "#FF8C42",
-      route: "/temperature",
-    },
-  ];
+
 
   const handleOptionPress = (route: string) => {
     handleCloseBottomSheet();
 
     // Check if route exists, otherwise show alert or handle gracefully
-    const existingRoutes = ["/steps", "/mindfulness", "/hydration", "/sleep"];
+    const existingRoutes = ["/meals", "/steps", "/mindfulness", "/hydration", "/sleep"];
 
     if (existingRoutes.includes(route)) {
       router.push(route as any);
@@ -112,6 +99,8 @@ export function AddActionButton() {
 
   const renderIcon = (id: string, color: string) => {
     switch (id) {
+      case "meals":
+        return <Utensils size={20} color={color} />;
       case "activity":
         return <Activity size={20} color={color} />;
       case "mindfulness":
@@ -190,27 +179,7 @@ export function AddActionButton() {
             ))}
           </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>MY DIARY</Text>
-            {diaryOptions.map((option) => (
-              <TouchableOpacity
-                key={option.id}
-                style={styles.optionRow}
-                onPress={() => handleOptionPress(option.route)}
-                activeOpacity={0.7}
-              >
-                <Text style={styles.optionText}>{option.title}</Text>
-                <View
-                  style={[
-                    styles.iconCircle,
-                    { backgroundColor: option.iconColor },
-                  ]}
-                >
-                  {renderIcon(option.id, "#FFFFFF")}
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
+
 
           <Text style={styles.footerText}>
             For the most accurate insights,{"\n"}log daily.
