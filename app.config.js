@@ -1,28 +1,28 @@
-const IS_DEV = process.env.APP_VARIANT === "development";
-const IS_PREVIEW = process.env.APP_VARIANT === "preview";
+// const IS_DEV = process.env.APP_VARIANT === "development";
+// const IS_PREVIEW = process.env.APP_VARIANT === "preview";
 
-// Determine app variant
-const getAppName = () => {
-  if (IS_DEV) return "Juicefast (Dev)";
-  if (IS_PREVIEW) return "Juicefast (Preview)";
-  return "Juicefast Nutrition App";
-};
+// // Determine app variant
+// const getAppName = () => {
+//   if (IS_DEV) return "Juicefast (Dev)";
+//   if (IS_PREVIEW) return "Juicefast (Preview)";
+//   return "Juicefast Nutrition App";
+// };
 
-const getBundleIdentifier = () => {
-  if (IS_DEV) return "com.juicefastapp.juicefastnutritionapp.dev";
-  if (IS_PREVIEW) return "com.juicefastapp.juicefastnutritionapp.preview";
-  return "com.juicefastapp.juicefastnutritionapp";
-};
+// const getBundleIdentifier = () => {
+//   if (IS_DEV) return "com.juicefastapp.juicefastnutritionapp.dev";
+//   if (IS_PREVIEW) return "com.juicefastapp.juicefastnutritionapp.preview";
+//   return "com.juicefastapp.juicefastnutritionapp";
+// };
 
-const getAndroidPackage = () => {
-  if (IS_DEV) return "com.juicefastapp.juicefastnutritionapp.dev";
-  if (IS_PREVIEW) return "com.juicefastapp.juicefastnutritionapp.preview";
-  return "com.juicefastapp.juicefastnutritionapp";
-};
+// const getAndroidPackage = () => {
+//   if (IS_DEV) return "com.juicefastapp.juicefastnutritionapp.dev";
+//   if (IS_PREVIEW) return "com.juicefastapp.juicefastnutritionapp.preview";
+//   return "com.juicefastapp.juicefastnutritionapp";
+// };
 
 export default {
   expo: {
-    name: getAppName(),
+    name: "Juicefast Nutrition App",
     slug: "juicefast-nutrition-app",
     version: "1.0.0",
     orientation: "portrait",
@@ -32,12 +32,12 @@ export default {
     newArchEnabled: true,
     ios: {
       supportsTablet: true,
-      bundleIdentifier: getBundleIdentifier(),
+      bundleIdentifier: "com.juicefastapp.juicefastnutritionapp",
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
       entitlements: {
-        "aps-environment": IS_DEV ? "development" : "production",
+        "aps-environment": "production",
       },
     },
     android: {
@@ -46,7 +46,7 @@ export default {
         backgroundColor: "#2d2d2d",
       },
       edgeToEdgeEnabled: true,
-      package: getAndroidPackage(),
+      package: "com.juicefastapp.juicefastnutritionapp",
       permissions: [
         "android.permission.RECEIVE_BOOT_COMPLETED",
         "android.permission.VIBRATE",
