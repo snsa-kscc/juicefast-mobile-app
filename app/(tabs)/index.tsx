@@ -1,5 +1,4 @@
 import { HomeDashboard } from "@/components/dashboard";
-import { AddActionButton } from "@/components/ui/AddActionButton";
 import { useUser } from "@clerk/clerk-expo";
 import React, { useEffect } from "react";
 import { Platform, View } from "react-native";
@@ -40,7 +39,6 @@ export default function HomeScreen() {
     <Container className="flex-1">
       <Animated.View style={[{ flex: 1 }, animatedStyle]}>
         <HomeDashboard userName={user?.firstName || "User"} />
-        <AddActionButton />
       </Animated.View>
     </Container>
   );

@@ -3,7 +3,7 @@ import { tokenCache } from "@clerk/clerk-expo/token-cache";
 import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { useFonts } from "expo-font";
-import { Stack, useRouter } from "expo-router";
+import { Stack, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { LoadingProvider } from "../providers/LoadingProvider";
@@ -13,6 +13,7 @@ import "../styles/global.css";
 import { handleAppInstallWithReferral } from "../utils/appInstallHandler";
 import { Platform } from "react-native";
 import Purchases, { LOG_LEVEL } from "react-native-purchases";
+import { AddActionButton } from "../components/ui/AddActionButton";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
@@ -47,9 +48,12 @@ function AuthenticatedLayout() {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
   const router = useRouter();
+  const segments = useSegments();
 
   // Automatically store push token for all authenticated users
   usePushTokenStorage({ skip: !user });
+
+  const shouldShowAddButton = isSignedIn && !segments.includes("(auth)") && !segments.includes("onboarding");
 
   useEffect(() => {
     if (!isLoaded) return; // Wait for auth to load
@@ -74,21 +78,24 @@ function AuthenticatedLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="chat/nutritionist" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="test-push" options={SCREEN_OPTIONS} />
-      <Stack.Screen name="+not-found" />
-    </Stack>
+    <>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="chat/nutritionist" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="test-push" options={SCREEN_OPTIONS} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      {shouldShowAddButton && <AddActionButton />}
+    </>
   );
 }
 
