@@ -8,6 +8,7 @@ import {
   NativeScrollEvent,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { Lufga } from "@/constants/Fonts";
 
 interface WeightPickerProps {
   value: number;
@@ -111,7 +112,7 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
               <Text
                 style={{
                   fontSize: 24,
-                  fontWeight: "500",
+                  fontFamily: Lufga.semiBold,
                   color: option === selectedKg ? "#11B364" : "#9CA3AF",
                 }}
               >
@@ -126,7 +127,7 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
       <Text
         style={{
           fontSize: 16,
-          fontWeight: "500",
+          fontFamily: Lufga.medium,
           color: "#6B7280",
           marginHorizontal: 8,
         }}
@@ -194,7 +195,7 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
               <Text
                 style={{
                   fontSize: 24,
-                  fontWeight: "500",
+                  fontFamily: Lufga.semiBold,
                   color: option === selectedGrams ? "#11B364" : "#9CA3AF",
                 }}
               >
@@ -209,7 +210,7 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
       <Text
         style={{
           fontSize: 16,
-          fontWeight: "500",
+          fontFamily: Lufga.medium,
           color: "#6B7280",
           marginLeft: 8,
         }}

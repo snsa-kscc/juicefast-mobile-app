@@ -25,9 +25,10 @@ export function CircularProgress({
 }: CircularProgressProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const progressPercentage = Math.min(100, (value / maxValue) * 100);
+  const progressPercentage = Math.min(100, Math.max(0, (value / maxValue) * 100));
   const strokeDashoffset =
     circumference - (circumference * progressPercentage) / 100;
+  const percentageDisplay = Math.round(progressPercentage);
 
   return (
     <View
@@ -54,18 +55,16 @@ export function CircularProgress({
           strokeDashoffset={strokeDashoffset}
           transform={`rotate(-90 ${size / 2} ${size / 2})`}
         />
-        {displayValue !== undefined && (
-          <SvgText
-            x={size / 2}
-            y={size / 2 + 10}
-            textAnchor="middle"
-            fontSize="44"
-            fontWeight="bold"
-            fill="#000"
-          >
-            {displayValue}
-          </SvgText>
-        )}
+        <SvgText
+          x={size / 2}
+          y={size / 2 + 10}
+          textAnchor="middle"
+          fontSize="44"
+          fontWeight="bold"
+          fill="#000"
+        >
+          {percentageDisplay}
+        </SvgText>
       </Svg>
       {unit && <Text className="text-sm text-gray-500 mt-2">{unit}</Text>}
     </View>

@@ -44,9 +44,10 @@ export function HydrationTracker({
   onBack,
   onSettingsPress,
 }: HydrationTrackerProps) {
-  const { user } = useUser() || {};
+  const { user } = useUser();
   const [waterAmount, setWaterAmount] = useState<number>(250);
   const [displayedWater, setDisplayedWater] = useState<number>(0);
+  const [isAdding, setIsAdding] = useState(false);
 
   const createWaterEntry = useMutation(api.waterIntake.create);
   const deleteWaterEntry = useMutation(
@@ -115,8 +116,9 @@ export function HydrationTracker({
   }, [optimisticWater]);
 
   const handleAddWater = async () => {
-    if (waterAmount <= 0 || !user?.id) return;
+    if (waterAmount <= 0 || !user?.id || isAdding) return;
 
+    setIsAdding(true);
     startTransition(() => {
       addOptimisticWater(waterAmount);
     });
@@ -125,6 +127,8 @@ export function HydrationTracker({
       await createWaterEntry({ amount: waterAmount });
     } catch (error) {
       console.error("Failed to save water data:", error);
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -160,7 +164,6 @@ export function HydrationTracker({
           maxValue={DAILY_GOAL}
           color="#4FC3F7"
           backgroundColor="#E1F5FE"
-          displayValue={Math.round(displayedWater / 10) / 100}
         />
 
         <View className="mb-6" />
@@ -255,7 +258,7 @@ export function HydrationTracker({
           </TouchableOpacity>
         </View>
 
-        <TrackerButton title="Add water" onPress={handleAddWater} />
+        <TrackerButton title="Add water" onPress={handleAddWater} isLoading={isAdding} loadingText="Adding..." />
       </View>
 
       {/* Water Entries List */}

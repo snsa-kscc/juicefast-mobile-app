@@ -341,7 +341,6 @@ export function WellnessTracker({
               <TouchableOpacity
                 key={option.id}
                 className="rounded-xl mb-3 border border-transparent"
-                style={{ backgroundColor: option.color }}
                 onPress={handlePress}
                 activeOpacity={
                   option.id === "meals" ||
