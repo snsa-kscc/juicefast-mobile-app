@@ -25,8 +25,8 @@ const WellnessProgressBar = ({
 }: WellnessProgressBarProps) => (
   <View className="flex-col items-center">
     <View
-      className="w-12 h-16 rounded-2xl flex-col items-center justify-center mb-1 relative overflow-hidden"
-      style={{ backgroundColor }}
+      className="w-12 h-16 flex-col items-center justify-center mb-1 relative overflow-hidden"
+      style={{ backgroundColor, borderRadius: 24 }}
     >
       <View
         className="absolute bottom-0 left-0 right-0"
@@ -108,31 +108,31 @@ export function WellnessScoreCard({
         </Text>
         <View className="flex-row justify-around">
           <WellnessProgressBar
-            icon={<StepsIcon size={16} />}
+            icon={<StepsIcon size={16} color="#FFC856" />}
             value={dailyProgress.steps}
             backgroundColor="#FFF8E7"
             fillColor="#FFC856"
           />
           <WellnessProgressBar
-            icon={<MindfulnessIcon size={16} />}
+            icon={<MindfulnessIcon size={16} color="#FE8E77" />}
             value={dailyProgress.mindfulness}
             backgroundColor="#FFF0F0"
-            fillColor="#FF8080"
+            fillColor="#FE8E77"
           />
           <WellnessProgressBar
-            icon={<MealIcon size={16} />}
+            icon={<MealIcon size={16} color="#0DC99B" />}
             value={dailyProgress.meals}
             backgroundColor="#F0FFF4"
-            fillColor="#11B364"
+            fillColor="#0DC99B"
           />
           <WellnessProgressBar
-            icon={<SleepIcon size={16} />}
+            icon={<SleepIcon size={16} color="#625FD3" />}
             value={dailyProgress.sleep}
             backgroundColor="#EEEDFF"
             fillColor="#625FD3"
           />
           <WellnessProgressBar
-            icon={<WaterIcon size={16} />}
+            icon={<WaterIcon size={16} color="#4CC3FF" />}
             value={dailyProgress.water}
             backgroundColor="#EBF9FF"
             fillColor="#4CC3FF"

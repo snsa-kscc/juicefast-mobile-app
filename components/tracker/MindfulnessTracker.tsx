@@ -165,7 +165,7 @@ export function MindfulnessTracker({
       <WellnessHeader
         title="Mindfulness Tracker"
         subtitle="Mindfulness practice improves mental clarity and reduces stress."
-        accentColor="#FE8E77"
+        accentColor="rgb(254, 142, 119)"
         showBackButton={true}
         onBackPress={onBack}
         onSettingsPress={onSettingsPress}
@@ -178,8 +178,8 @@ export function MindfulnessTracker({
         <CircularProgress
           value={displayedMinutes}
           maxValue={DAILY_GOAL}
-          color="#FE8E77"
-          backgroundColor="#FFEFEB"
+          color="rgb(254, 142, 119)"
+          backgroundColor="rgba(254, 142, 119, 0.25)"
         />
 
         <View className="mb-6" />
@@ -187,8 +187,8 @@ export function MindfulnessTracker({
         <ProgressBar
           value={displayedMinutes}
           maxValue={DAILY_GOAL}
-          color="#FE8E77"
-          backgroundColor="#FFEFEB"
+          color="rgb(254, 142, 119)"
+          backgroundColor="rgba(254, 142, 119, 0.25)"
           showMarkers
           markers={["0", "5", "10", "15", "20"]}
         />
@@ -214,9 +214,9 @@ export function MindfulnessTracker({
             step={1}
             value={minutes}
             onValueChange={setMinutes}
-            minimumTrackTintColor="#FE8E77"
-            maximumTrackTintColor="#FFEFEB"
-            thumbTintColor="#FE8E77"
+            minimumTrackTintColor="rgb(254, 142, 119)"
+            maximumTrackTintColor="rgba(254, 142, 119, 0.25)"
+            thumbTintColor="rgb(254, 142, 119)"
           />
         </View>
 
@@ -230,7 +230,7 @@ export function MindfulnessTracker({
                 key={activity.id}
                 className={`border rounded-md px-3 py-2 ${
                   selectedActivity === activity.id
-                    ? "border-[#FE8E77] bg-[#FFEFEB]"
+                    ? "border-tracker-mindfulness bg-tracker-mindfulness/25"
                     : "border-gray-300"
                 }`}
                 onPress={() => setSelectedActivity(activity.id)}

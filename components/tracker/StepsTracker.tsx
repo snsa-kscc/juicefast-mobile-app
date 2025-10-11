@@ -148,7 +148,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
       <WellnessHeader
         title="Step Tracker"
         subtitle="Move your body, clear your mind — the rest will follow."
-        accentColor="#FFC856"
+        accentColor="rgb(255, 200, 86)"
         showBackButton={true}
         onBackPress={onBack}
       />
@@ -160,8 +160,8 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
         <CircularProgress
           value={displayedSteps}
           maxValue={DAILY_GOAL}
-          color="#FFC856"
-          backgroundColor="#FFF0D0"
+          color="rgb(255, 200, 86)"
+          backgroundColor="rgba(255, 200, 86, 0.25)"
         />
 
         <View className="mb-6" />
@@ -169,8 +169,8 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
         <ProgressBar
           value={displayedSteps}
           maxValue={DAILY_GOAL}
-          color="#FFC856"
-          backgroundColor="#FFF0D0"
+          color="rgb(255, 200, 86)"
+          backgroundColor="rgba(255, 200, 86, 0.25)"
           showMarkers
           markers={["0", "2.5k", "5k", "7.5k", "10k"]}
         />
@@ -197,9 +197,9 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
             step={100}
             value={stepCount}
             onValueChange={setStepCount}
-            minimumTrackTintColor="#FFC856"
-            maximumTrackTintColor="#FFF0D0"
-            thumbTintColor="#FFC856"
+            minimumTrackTintColor="rgb(255, 200, 86)"
+            maximumTrackTintColor="rgba(255, 200, 86, 0.25)"
+            thumbTintColor="rgb(255, 200, 86)"
           />
         </View>
 
@@ -208,7 +208,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
           <TouchableOpacity
             className={`border rounded-md px-3 py-2 ${
               stepCount === 1000
-                ? "border-[#FFC856] bg-[#FFF0D0]"
+                ? "border-tracker-steps bg-tracker-steps/25"
                 : "border-gray-300"
             }`}
             onPress={() => setStepCount(1000)}
@@ -225,7 +225,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
           <TouchableOpacity
             className={`border rounded-md px-3 py-2 ${
               stepCount === 2500
-                ? "border-[#FFC856] bg-[#FFF0D0]"
+                ? "border-tracker-steps bg-tracker-steps/25"
                 : "border-gray-300"
             }`}
             onPress={() => setStepCount(2500)}
@@ -242,7 +242,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
           <TouchableOpacity
             className={`border rounded-md px-3 py-2 ${
               stepCount === 5000
-                ? "border-[#FFC856] bg-[#FFF0D0]"
+                ? "border-tracker-steps bg-tracker-steps/25"
                 : "border-gray-300"
             }`}
             onPress={() => setStepCount(5000)}

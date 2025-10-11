@@ -320,7 +320,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
         <WellnessHeader
           title="Meal Tracker"
           subtitle="What you eat builds your energy, mood and body. Let's track it."
-          accentColor="#0DC99B"
+          accentColor="rgb(13, 201, 155)"
           showBackButton={true}
           onBackPress={onBack}
           onSettingsPress={onSettingsPress}

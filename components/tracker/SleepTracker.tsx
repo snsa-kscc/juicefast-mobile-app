@@ -198,7 +198,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
       <WellnessHeader
         title="Sleep Tracker"
         subtitle="Quality sleep improves focus, mood, and overall health."
-        accentColor="#8B5CF6"
+        accentColor="rgb(98, 95, 211)"
         showBackButton={true}
         onBackPress={onBack}
       />
@@ -210,8 +210,8 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
         <CircularProgress
           value={displayedHours}
           maxValue={DAILY_GOAL}
-          color="#8B5CF6"
-          backgroundColor="#EDE9FE"
+          color="rgb(98, 95, 211)"
+          backgroundColor="rgba(98, 95, 211, 0.25)"
         />
 
         <View className="mb-6" />
@@ -219,8 +219,8 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
         <ProgressBar
           value={displayedHours}
           maxValue={DAILY_GOAL}
-          color="#8B5CF6"
-          backgroundColor="#EDE9FE"
+          color="rgb(98, 95, 211)"
+          backgroundColor="rgba(98, 95, 211, 0.25)"
           showMarkers
           markers={["0h", "2h", "4h", "6h", "8h"]}
         />
@@ -277,9 +277,9 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
             step={1}
             value={sleepQuality}
             onValueChange={setSleepQuality}
-            minimumTrackTintColor="#8B5CF6"
-            maximumTrackTintColor="#EDE9FE"
-            thumbTintColor="#8B5CF6"
+            minimumTrackTintColor="rgb(98, 95, 211)"
+            maximumTrackTintColor="rgba(98, 95, 211, 0.25)"
+            thumbTintColor="rgb(98, 95, 211)"
           />
           <View className="flex-row justify-between">
             <Text className="text-xs text-gray-500">Poor</Text>
