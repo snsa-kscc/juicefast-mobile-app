@@ -153,7 +153,7 @@ export function HydrationTracker({
       <WellnessHeader
         title="Hydration Tracker"
         subtitle="Stay hydrated, stay healthy — every drop counts."
-        accentColor="#4FC3F7"
+        accentColor="rgb(76, 195, 255)"
         showBackButton={true}
         onBackPress={onBack}
         onSettingsPress={onSettingsPress}
@@ -166,8 +166,8 @@ export function HydrationTracker({
         <CircularProgress
           value={displayedWater}
           maxValue={DAILY_GOAL}
-          color="#4FC3F7"
-          backgroundColor="#E1F5FE"
+          color="rgb(76, 195, 255)"
+          backgroundColor="rgba(76, 195, 255, 0.25)"
         />
 
         <View className="mb-6" />
@@ -175,8 +175,8 @@ export function HydrationTracker({
         <ProgressBar
           value={displayedWater}
           maxValue={DAILY_GOAL}
-          color="#4FC3F7"
-          backgroundColor="#E1F5FE"
+          color="rgb(76, 195, 255)"
+          backgroundColor="rgba(76, 195, 255, 0.25)"
           showMarkers
           markers={["0", "500ml", "1L", "1.5L", "2L"]}
         />
@@ -202,9 +202,9 @@ export function HydrationTracker({
             step={50}
             value={waterAmount}
             onValueChange={setWaterAmount}
-            minimumTrackTintColor="#4FC3F7"
-            maximumTrackTintColor="#E1F5FE"
-            thumbTintColor="#4FC3F7"
+            minimumTrackTintColor="rgb(76, 195, 255)"
+            maximumTrackTintColor="rgba(76, 195, 255, 0.25)"
+            thumbTintColor="rgb(76, 195, 255)"
           />
         </View>
 
@@ -213,7 +213,7 @@ export function HydrationTracker({
           <TouchableOpacity
             className={`border rounded-md px-3 py-2 ${
               waterAmount === 250
-                ? "border-[#4FC3F7] bg-[#E1F5FE]"
+                ? "border-tracker-water bg-tracker-water/25"
                 : "border-gray-300"
             }`}
             onPress={() => setWaterAmount(250)}
@@ -230,7 +230,7 @@ export function HydrationTracker({
           <TouchableOpacity
             className={`border rounded-md px-3 py-2 ${
               waterAmount === 500
-                ? "border-[#4FC3F7] bg-[#E1F5FE]"
+                ? "border-tracker-water bg-tracker-water/25"
                 : "border-gray-300"
             }`}
             onPress={() => setWaterAmount(500)}
@@ -247,7 +247,7 @@ export function HydrationTracker({
           <TouchableOpacity
             className={`border rounded-md px-3 py-2 ${
               waterAmount === 750
-                ? "border-[#4FC3F7] bg-[#E1F5FE]"
+                ? "border-tracker-water bg-tracker-water/25"
                 : "border-gray-300"
             }`}
             onPress={() => setWaterAmount(750)}

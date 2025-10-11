@@ -7,7 +7,7 @@ interface IconProps {
 }
 
 export const MealIcon = ({ size = 24, color = "#000" }: IconProps) => (
-  <Svg width={size} height={size} viewBox="0 0 44 44" fill="none">
+  <Svg width={size} height={size} viewBox="0 0 44 44" fill="white">
     <Path
       d="M16.5 13.7497H5.5"
       stroke={color}
@@ -54,7 +54,7 @@ export const MealIcon = ({ size = 24, color = "#000" }: IconProps) => (
 );
 
 export const StepsIcon = ({ size = 24, color = "#000" }: IconProps) => (
-  <Svg width={size} height={size} viewBox="0 0 44 44" fill="none">
+  <Svg width={size} height={size} viewBox="0 0 44 44" fill="white">
     <Path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -95,25 +95,25 @@ export const StepsIcon = ({ size = 24, color = "#000" }: IconProps) => (
 );
 
 export const MindfulnessIcon = ({ size = 24, color = "#000" }: IconProps) => (
-  <Svg width={size} height={size} viewBox="0 0 44 44" fill="none">
+  <Svg width={size} height={size} viewBox="0 0 44 44" fill="white">
+    <Path
+      d="M33.6672 10.3327C40.1109 16.7764 40.1109 27.2236 33.6672 33.6672C27.2236 40.1109 16.7764 40.1109 10.3327 33.6672C3.88909 27.2236 3.88909 16.7764 10.3327 10.3327C16.7764 3.88909 27.2236 3.88909 33.6672 10.3327"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
     <Path
       d="M12.8333 18.3331C13.5574 17.4439 14.5474 16.9397 15.5833 16.9397C16.6191 16.9397 17.5816 17.4439 18.3333 18.3331"
       stroke={color}
-      strokeWidth="1.5"
+      strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <Path
       d="M25.6667 18.3331C26.3909 17.4439 27.3809 16.9397 28.4167 16.9397C29.4526 16.9397 30.4151 17.4439 31.1667 18.3331"
       stroke={color}
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M33.6672 10.3327C40.1109 16.7764 40.1109 27.2236 33.6672 33.6672C27.2236 40.1109 16.7764 40.1109 10.3327 33.6672C3.88909 27.2236 3.88909 16.7764 10.3327 10.3327C16.7764 3.88909 27.2236 3.88909 33.6672 10.3327"
-      stroke={color}
-      strokeWidth="1.5"
+      strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -128,7 +128,7 @@ export const MindfulnessIcon = ({ size = 24, color = "#000" }: IconProps) => (
 );
 
 export const SleepIcon = ({ size = 24, color = "#000" }: IconProps) => (
-  <Svg width={size} height={size} viewBox="0 0 44 44" fill="none">
+  <Svg width={size} height={size} viewBox="0 0 44 44" fill="white">
     <Path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -142,7 +142,7 @@ export const SleepIcon = ({ size = 24, color = "#000" }: IconProps) => (
 );
 
 export const WaterIcon = ({ size = 24, color = "#000" }: IconProps) => (
-  <Svg width={size} height={size} viewBox="0 0 44 44" fill="none">
+  <Svg width={size} height={size} viewBox="0 0 44 44" fill="white">
     <Path
       d="M30.5909 15.9248C35.3356 20.6695 35.3356 28.3621 30.5909 33.1086C25.8463 37.8551 18.1536 37.8533 13.4071 33.1086C8.66059 28.364 8.66242 20.6713 13.4071 15.9248"
       stroke={color}

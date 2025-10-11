@@ -14,7 +14,7 @@ interface WellnessHeaderProps {
 export function WellnessHeader({
   title,
   subtitle = "Today I'm going to....",
-  accentColor = "#4CC3FF",
+  accentColor = "rgb(76, 195, 255)",
   onSettingsPress,
   onBackPress,
   showBackButton = false,

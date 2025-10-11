@@ -282,6 +282,8 @@ const styles = StyleSheet.create({
     color: "#666",
     textAlign: "center",
     marginTop: 20,
+    marginBottom: 30,
     lineHeight: 20,
+    paddingBottom: 40,
   },
 });
