@@ -42,7 +42,7 @@ export function CircularProgress({
       className="items-center justify-center"
       style={{ width: size + 60, height: size + 80, paddingTop: 30, paddingHorizontal: 30, paddingBottom: 50 }}
     >
-      <Svg width={size + 40} height={size + 50} viewBox={`-20 -20 ${size + 40} ${size + 50}`}>
+      <Svg width={size + 20} height={size + 20} viewBox={`-10 -10 ${size + 20} ${size + 20}`}>
         <Defs>
           <LinearGradient id="circleGradient" x1="0%" y1="100%" x2="0%" y2="0%">
             <Stop offset="0%" stopColor="#FFFFFF" />
@@ -53,8 +53,8 @@ export function CircularProgress({
           </Filter>
         </Defs>
         <Circle
-          cx={size / 2 + 20}
-          cy={size / 2 + 20}
+          cx={size / 2}
+          cy={size / 2}
           r={radius}
           fill="white"
           stroke="url(#circleGradient)"
@@ -62,24 +62,24 @@ export function CircularProgress({
           filter="url(#shadow)"
         />
         <Circle
-          cx={iconX + 20}
-          cy={iconY + 20}
+          cx={iconX}
+          cy={iconY}
           r={12}
           fill="#000"
           stroke="white"
           strokeWidth={2}
         />
         <Circle
-          cx={iconX + 20}
-          cy={iconY + 20}
+          cx={iconX}
+          cy={iconY}
           r={6}
           fill="none"
           stroke="white"
           strokeWidth={1.5}
         />
         <SvgText
-          x={size / 2 + 20}
-          y={size / 2 + 30}
+          x={size / 2}
+          y={size / 2 + 10}
           textAnchor="middle"
           fontSize="44"
           fontWeight="bold"
