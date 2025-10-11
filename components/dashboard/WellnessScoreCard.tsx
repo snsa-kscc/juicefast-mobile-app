@@ -25,8 +25,8 @@ const WellnessProgressBar = ({
 }: WellnessProgressBarProps) => (
   <View className="flex-col items-center">
     <View
-      className="w-12 h-16 flex-col items-center justify-center mb-1 relative overflow-hidden"
-      style={{ backgroundColor, borderRadius: 24 }}
+      className="w-14 h-24 rounded-full border flex-col items-center justify-center mb-1 relative overflow-hidden"
+      style={{ backgroundColor, borderColor: fillColor }}
     >
       <View
         className="absolute bottom-0 left-0 right-0"
@@ -35,10 +35,10 @@ const WellnessProgressBar = ({
           backgroundColor: fillColor,
         }}
       />
-      <View className="flex-col items-center justify-center z-10 absolute inset-0">
+      <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
         <View className="mb-1">{icon}</View>
         <Text
-          className={`text-xs font-semibold ${value > 80 ? "text-white" : "text-black"}`}
+          className={`font-semibold ${value > 50 ? "text-white" : "text-black"}`}
         >
           {value}
         </Text>
@@ -106,33 +106,33 @@ export function WellnessScoreCard({
         <Text className="text-center font-semibold text-xs tracking-widest uppercase mb-4">
           DAILY PROGRESS SUMMARY (%)
         </Text>
-        <View className="flex-row justify-around">
+        <View className="flex-row justify-around gap-2">
           <WellnessProgressBar
-            icon={<StepsIcon size={16} color="#FFC856" />}
+            icon={<StepsIcon size={24} color="#FFC856" />}
             value={dailyProgress.steps}
             backgroundColor="#FFF8E7"
             fillColor="#FFC856"
           />
           <WellnessProgressBar
-            icon={<MindfulnessIcon size={16} color="#FE8E77" />}
+            icon={<MindfulnessIcon size={24} color="#FE8E77" />}
             value={dailyProgress.mindfulness}
             backgroundColor="#FFF0F0"
             fillColor="#FE8E77"
           />
           <WellnessProgressBar
-            icon={<MealIcon size={16} color="#0DC99B" />}
+            icon={<MealIcon size={24} color="#0DC99B" />}
             value={dailyProgress.meals}
             backgroundColor="#F0FFF4"
             fillColor="#0DC99B"
           />
           <WellnessProgressBar
-            icon={<SleepIcon size={16} color="#625FD3" />}
+            icon={<SleepIcon size={24} color="#625FD3" />}
             value={dailyProgress.sleep}
             backgroundColor="#EEEDFF"
             fillColor="#625FD3"
           />
           <WellnessProgressBar
-            icon={<WaterIcon size={16} color="#4CC3FF" />}
+            icon={<WaterIcon size={24} color="#4CC3FF" />}
             value={dailyProgress.water}
             backgroundColor="#EBF9FF"
             fillColor="#4CC3FF"

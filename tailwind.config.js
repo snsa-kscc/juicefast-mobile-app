@@ -22,12 +22,12 @@ module.exports = {
         "jf-gray": "#F8F6EB",
         // Tracker colors
         tracker: {
-          sleep: "rgba(98, 95, 211, 1)",        // #625FD3
-          water: "rgba(76, 195, 255, 1)",       // #4CC3FF
+          sleep: "rgba(98, 95, 211, 1)", // #625FD3
+          water: "rgba(76, 195, 255, 1)", // #4CC3FF
           mindfulness: "rgba(254, 142, 119, 1)", // #FE8E77
-          steps: "rgba(255, 200, 86, 1)",       // #FFC856
-          meals: "rgba(13, 201, 155, 1)",       // #0DC99B
-          wellness: "rgba(225, 213, 185, 1)",   // #E1D5B9
+          steps: "rgba(255, 200, 86, 1)", // #FFC856
+          meals: "rgba(13, 201, 155, 1)", // #0DC99B
+          wellness: "rgba(225, 213, 185, 1)", // #E1D5B9
         },
       },
       fontFamily: {
