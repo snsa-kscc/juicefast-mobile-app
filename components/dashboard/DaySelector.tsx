@@ -75,6 +75,7 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
           ref={scrollViewRef}
           horizontal
           showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingVertical: 4 }}
           onContentSizeChange={(width) => setContentWidth(width)}
           onLayout={(event: LayoutChangeEvent) =>
             setScrollViewWidth(event.nativeEvent.layout.width)
