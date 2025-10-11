@@ -99,13 +99,17 @@ export function AddActionButton() {
     { id: "sleep", title: "Sleep", iconColor: "#9B59B6", route: "/sleep" },
   ];
 
-
-
   const handleOptionPress = (route: string) => {
     handleCloseBottomSheet();
 
     // Check if route exists, otherwise show alert or handle gracefully
-    const existingRoutes = ["/meals", "/steps", "/mindfulness", "/hydration", "/sleep"];
+    const existingRoutes = [
+      "/meals",
+      "/steps",
+      "/mindfulness",
+      "/hydration",
+      "/sleep",
+    ];
 
     if (existingRoutes.includes(route)) {
       router.push(route as any);
@@ -144,7 +148,7 @@ export function AddActionButton() {
   return (
     <>
       {/* Floating Action Button */}
-      <View style={styles.fabContainer} pointerEvents="box-none">
+      <View style={styles.fabContainer} pointerEvents="auto">
         <TouchableOpacity
           style={styles.fab}
           onPress={isOpen ? handleCloseBottomSheet : handleOpenBottomSheet}
@@ -195,8 +199,6 @@ export function AddActionButton() {
               </TouchableOpacity>
             ))}
           </View>
-
-
 
           <Text style={styles.footerText}>
             For the most accurate insights,{"\n"}log daily.

@@ -95,7 +95,7 @@ export function WellnessScoreCard({
           color="#E8D5B0"
           backgroundColor="#F2E9D8"
           displayValue={displayedScore}
-          size={200}
+          size={250}
         />
         <Text className="text-xs text-gray-500 mt-3 text-center">
           One step and one goal at a time.
