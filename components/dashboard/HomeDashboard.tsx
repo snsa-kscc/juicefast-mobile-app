@@ -185,12 +185,13 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   // Calculate daily progress percentages based on goals
   const dailyProgress = useMemo(() => {
     if (!selectedDateData) {
-      return { steps: 0, mindfulness: 0, meals: 0, water: 0 };
+      return { steps: 0, mindfulness: 0, meals: 0, sleep: 0, water: 0 };
     }
 
     const stepGoal = 10000;
     const mindfulnessGoal = 20; // minutes
     const mealGoal = 2;
+    const sleepGoal = 8; // hours
     const waterGoal = 2200; // ml
 
     return {
@@ -205,6 +206,10 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
       meals: Math.min(
         100,
         Math.round((selectedDateData.healthyMeals / mealGoal) * 100)
+      ),
+      sleep: Math.min(
+        100,
+        Math.round((selectedDateData.sleep / sleepGoal) * 100)
       ),
       water: Math.min(
         100,
@@ -229,7 +234,11 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   }, [selectedDate]);
 
   return (
-    <ScrollView className="flex-1 bg-[#F8F9FA]">
+    <ScrollView 
+      className="flex-1 bg-[#F8F9FA]"
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+    >
       {/* Header */}
       <View className="px-6 pt-12 pb-4 flex-row justify-between items-start">
         <View>
@@ -264,6 +273,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
+            nestedScrollEnabled={true}
             className="flex-row"
           >
             <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3 bg-blue-200">

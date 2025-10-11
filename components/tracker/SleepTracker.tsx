@@ -11,7 +11,6 @@ import {
   Animated,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -26,6 +25,7 @@ import {
   WellnessHeader,
   TrackerStats,
 } from "./shared";
+import { SleepTimeModal } from "./SleepTimeModal";
 
 interface SleepEntry {
   hoursSlept: number;
@@ -46,8 +46,11 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
   const [hoursSlept, setHoursSlept] = useState<number>(8);
   const [displayedHours, setDisplayedHours] = useState<number>(0);
   const [sleepQuality, setSleepQuality] = useState<number>(3);
-  const [bedTime, setBedTime] = useState<string>("22:00");
-  const [wakeTime, setWakeTime] = useState<string>("06:00");
+  const [bedTime, setBedTime] = useState({ hours: 22, minutes: 0 });
+  const [wakeTime, setWakeTime] = useState({ hours: 6, minutes: 0 });
+  const [isAdding, setIsAdding] = useState(false);
+  const [showBedTimeModal, setShowBedTimeModal] = useState(false);
+  const [showWakeTimeModal, setShowWakeTimeModal] = useState(false);
 
   const createSleepEntry = useMutation(api.sleepEntry.create);
   const deleteSleepEntry = useMutation(
@@ -120,13 +123,11 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
 
-    const [bedHours, bedMinutes] = bedTime.split(":").map(Number);
     const bedDateTime = new Date(yesterday);
-    bedDateTime.setHours(bedHours, bedMinutes, 0, 0);
+    bedDateTime.setHours(bedTime.hours, bedTime.minutes, 0, 0);
 
-    const [wakeHours, wakeMinutes] = wakeTime.split(":").map(Number);
     const wakeDateTime = new Date(today);
-    wakeDateTime.setHours(wakeHours, wakeMinutes, 0, 0);
+    wakeDateTime.setHours(wakeTime.hours, wakeTime.minutes, 0, 0);
 
     if (bedDateTime >= wakeDateTime) {
       bedDateTime.setDate(bedDateTime.getDate() - 1);
@@ -142,7 +143,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
   };
 
   const handleAddSleep = async () => {
-    if (!user?.id) return;
+    if (!user?.id || isAdding) return;
 
     const {
       hours,
@@ -150,6 +151,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
       endTime: sleepEndTime,
     } = calculateSleepHours();
 
+    setIsAdding(true);
     startTransition(() => {
       addOptimisticHours(hours);
     });
@@ -163,6 +165,8 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
       });
     } catch (error) {
       console.error("Failed to save sleep data:", error);
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -187,6 +191,9 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
       className="flex-1 bg-[#FCFBF8]"
       enableOnAndroid={true}
       extraScrollHeight={20}
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
     >
       <WellnessHeader
         title="Sleep Tracker"
@@ -205,7 +212,6 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
           maxValue={DAILY_GOAL}
           color="#8B5CF6"
           backgroundColor="#EDE9FE"
-          displayValue={Math.round(displayedHours * 10) / 10}
         />
 
         <View className="mb-6" />
@@ -233,23 +239,27 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
             <Text className="font-lufga text-xs text-gray-500 mb-1">
               Bedtime
             </Text>
-            <TextInput
-              value={bedTime}
-              onChangeText={setBedTime}
-              className="border border-gray-300 rounded-md px-3 py-2"
-              placeholder="22:00"
-            />
+            <TouchableOpacity
+              onPress={() => setShowBedTimeModal(true)}
+              className="border border-gray-300 rounded-md px-3 py-2 bg-white"
+            >
+              <Text className="text-base">
+                {bedTime.hours.toString().padStart(2, "0")}:{bedTime.minutes.toString().padStart(2, "0")}
+              </Text>
+            </TouchableOpacity>
           </View>
           <View className="flex-1">
             <Text className="font-lufga text-xs text-gray-500 mb-1">
               Wake time
             </Text>
-            <TextInput
-              value={wakeTime}
-              onChangeText={setWakeTime}
-              className="border border-gray-300 rounded-md px-3 py-2"
-              placeholder="06:00"
-            />
+            <TouchableOpacity
+              onPress={() => setShowWakeTimeModal(true)}
+              className="border border-gray-300 rounded-md px-3 py-2 bg-white"
+            >
+              <Text className="text-base">
+                {wakeTime.hours.toString().padStart(2, "0")}:{wakeTime.minutes.toString().padStart(2, "0")}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -277,7 +287,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
           </View>
         </View>
 
-        <TrackerButton title="Add sleep" onPress={handleAddSleep} />
+        <TrackerButton title="Add sleep" onPress={handleAddSleep} isLoading={isAdding} loadingText="Adding..." />
       </View>
 
       {/* Sleep Entries List */}
@@ -339,6 +349,24 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
           </View>
         </View>
       </View>
+
+      <SleepTimeModal
+        visible={showBedTimeModal}
+        onClose={() => setShowBedTimeModal(false)}
+        onConfirm={(hours, minutes) => setBedTime({ hours, minutes })}
+        initialHours={bedTime.hours}
+        initialMinutes={bedTime.minutes}
+        title="Set Bedtime"
+      />
+
+      <SleepTimeModal
+        visible={showWakeTimeModal}
+        onClose={() => setShowWakeTimeModal(false)}
+        onConfirm={(hours, minutes) => setWakeTime({ hours, minutes })}
+        initialHours={wakeTime.hours}
+        initialMinutes={wakeTime.minutes}
+        title="Set Wake Time"
+      />
     </KeyboardAwareScrollView>
   );
 }

@@ -13,10 +13,16 @@ import {
   Plus,
   Scale,
   Thermometer,
+  Utensils,
   X,
 } from "lucide-react-native";
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 interface ActionOption {
   id: string;
@@ -28,14 +34,28 @@ interface ActionOption {
 export function AddActionButton() {
   const router = useRouter();
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const rotation = useSharedValue(0);
   const snapPoints = useMemo(() => ["75%"], []);
+
+  useEffect(() => {
+    rotation.value = withTiming(isOpen ? 90 : 0, { duration: 200 });
+  }, [isOpen]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ rotate: `${rotation.value}deg` }],
+    };
+  });
 
   const handleOpenBottomSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
+    setIsOpen(true);
   }, []);
 
   const handleCloseBottomSheet = useCallback(() => {
     bottomSheetRef.current?.close();
+    setIsOpen(false);
   }, []);
 
   const renderBackdrop = useCallback(
@@ -52,6 +72,12 @@ export function AddActionButton() {
   );
 
   const wellnessOptions: ActionOption[] = [
+    {
+      id: "meals",
+      title: "Meals",
+      iconColor: "#0DC99B",
+      route: "/meals",
+    },
     {
       id: "activity",
       title: "Activity",
@@ -73,33 +99,17 @@ export function AddActionButton() {
     { id: "sleep", title: "Sleep", iconColor: "#9B59B6", route: "/sleep" },
   ];
 
-  const diaryOptions: ActionOption[] = [
-    { id: "note", title: "Add note", iconColor: "#FF6B6B", route: "/notes" },
-    {
-      id: "moods",
-      title: "Log moods and symptoms",
-      iconColor: "#FF6B6B",
-      route: "/moods",
-    },
-    {
-      id: "weight",
-      title: "Add weight",
-      iconColor: "#FF6B6B",
-      route: "/weight",
-    },
-    {
-      id: "temperature",
-      title: "Add temperature",
-      iconColor: "#FF8C42",
-      route: "/temperature",
-    },
-  ];
-
   const handleOptionPress = (route: string) => {
     handleCloseBottomSheet();
 
     // Check if route exists, otherwise show alert or handle gracefully
-    const existingRoutes = ["/steps", "/mindfulness", "/hydration", "/sleep"];
+    const existingRoutes = [
+      "/meals",
+      "/steps",
+      "/mindfulness",
+      "/hydration",
+      "/sleep",
+    ];
 
     if (existingRoutes.includes(route)) {
       router.push(route as any);
@@ -112,6 +122,8 @@ export function AddActionButton() {
 
   const renderIcon = (id: string, color: string) => {
     switch (id) {
+      case "meals":
+        return <Utensils size={20} color={color} />;
       case "activity":
         return <Activity size={20} color={color} />;
       case "mindfulness":
@@ -136,13 +148,19 @@ export function AddActionButton() {
   return (
     <>
       {/* Floating Action Button */}
-      <View style={styles.fabContainer} pointerEvents="box-none">
+      <View style={styles.fabContainer} pointerEvents="auto">
         <TouchableOpacity
           style={styles.fab}
-          onPress={handleOpenBottomSheet}
+          onPress={isOpen ? handleCloseBottomSheet : handleOpenBottomSheet}
           activeOpacity={0.8}
         >
-          <Plus size={28} color="#000000" />
+          <Animated.View style={animatedStyle}>
+            {isOpen ? (
+              <X size={28} color="#000000" />
+            ) : (
+              <Plus size={28} color="#000000" />
+            )}
+          </Animated.View>
         </TouchableOpacity>
       </View>
 
@@ -157,42 +175,12 @@ export function AddActionButton() {
         backgroundStyle={styles.bottomSheetBackground}
         handleIndicatorStyle={styles.handleIndicator}
         android_keyboardInputMode="adjustResize"
+        onClose={() => setIsOpen(false)}
       >
         <BottomSheetView style={styles.contentContainer}>
-          <View style={styles.header}>
-            <TouchableOpacity
-              onPress={handleCloseBottomSheet}
-              style={styles.closeButton}
-            >
-              <X size={24} color="#666" />
-            </TouchableOpacity>
-          </View>
-
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>WELLNESS LOG</Text>
             {wellnessOptions.map((option) => (
-              <TouchableOpacity
-                key={option.id}
-                style={styles.optionRow}
-                onPress={() => handleOptionPress(option.route)}
-                activeOpacity={0.7}
-              >
-                <Text style={styles.optionText}>{option.title}</Text>
-                <View
-                  style={[
-                    styles.iconCircle,
-                    { backgroundColor: option.iconColor },
-                  ]}
-                >
-                  {renderIcon(option.id, "#FFFFFF")}
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>MY DIARY</Text>
-            {diaryOptions.map((option) => (
               <TouchableOpacity
                 key={option.id}
                 style={styles.optionRow}
@@ -254,21 +242,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     paddingHorizontal: 20,
-  },
-  header: {
-    alignItems: "flex-end",
-    paddingTop: 10,
-    paddingBottom: 20,
-  },
-  closeButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#FFF",
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
+    paddingTop: 20,
   },
   section: {
     marginBottom: 30,

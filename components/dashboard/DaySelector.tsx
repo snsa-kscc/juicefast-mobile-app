@@ -47,12 +47,6 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
       }, 50);
     }
   }, [contentWidth, scrollViewWidth]);
-  const formatDay = (date: Date) => {
-    return date
-      .toLocaleDateString("en-US", { weekday: "short" })
-      .substring(0, 1);
-  };
-
   const formatDate = (date: Date) => {
     return date.getDate();
   };
@@ -81,6 +75,7 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
           ref={scrollViewRef}
           horizontal
           showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingVertical: 4 }}
           onContentSizeChange={(width) => setContentWidth(width)}
           onLayout={(event: LayoutChangeEvent) =>
             setScrollViewWidth(event.nativeEvent.layout.width)
@@ -90,24 +85,18 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
             <TouchableOpacity
               key={index}
               onPress={() => onDateSelect(new Date(date))}
-              className={`flex-col items-center justify-center w-10 h-12 rounded-lg mr-4 ${
-                isSameDate(selectedDate, date) ? "bg-black" : ""
-              }`}
+              className="items-center justify-center w-12 h-12 rounded-full mr-3 bg-white"
+              style={{
+                borderWidth: isSameDate(selectedDate, date) ? 2 : 1,
+                borderColor: isSameDate(selectedDate, date) ? "#E8D5B0" : "#E5E7EB",
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.05,
+                shadowRadius: 2,
+                elevation: 1,
+              }}
             >
-              <Text
-                className={`text-[10px] font-medium mb-1 ${
-                  isSameDate(selectedDate, date)
-                    ? "text-white"
-                    : "text-gray-500"
-                }`}
-              >
-                {formatDay(date)}
-              </Text>
-              <Text
-                className={`text-sm font-semibold ${
-                  isSameDate(selectedDate, date) ? "text-white" : "text-black"
-                }`}
-              >
+              <Text className="text-base font-medium text-black">
                 {formatDate(date)}
               </Text>
             </TouchableOpacity>

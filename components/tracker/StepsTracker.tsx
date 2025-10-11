@@ -42,6 +42,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
   const { user } = useUser() || {};
   const [stepCount, setStepCount] = useState<number>(1000);
   const [displayedSteps, setDisplayedSteps] = useState<number>(0);
+  const [isAdding, setIsAdding] = useState(false);
 
   const createStepEntry = useMutation(api.stepEntry.create);
   const deleteStepEntry = useMutation(api.stepEntry.deleteByUserIdAndTimestamp);
@@ -108,8 +109,9 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
   }, [optimisticSteps]);
 
   const handleAddSteps = async () => {
-    if (stepCount <= 0 || !user?.id) return;
+    if (stepCount <= 0 || !user?.id || isAdding) return;
 
+    setIsAdding(true);
     startTransition(() => {
       addOptimisticStep(stepCount);
     });
@@ -118,6 +120,8 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
       await createStepEntry({ count: stepCount });
     } catch (error) {
       console.error("Failed to save steps data:", error);
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -136,7 +140,11 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
   // const strokeDashoffset = circumference - (circumference * progressPercentage) / 100;
 
   return (
-    <ScrollView className="flex-1 bg-[#FCFBF8]">
+    <ScrollView 
+      className="flex-1 bg-[#FCFBF8]"
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+    >
       <WellnessHeader
         title="Step Tracker"
         subtitle="Move your body, clear your mind — the rest will follow."
@@ -154,7 +162,6 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
           maxValue={DAILY_GOAL}
           color="#FFC856"
           backgroundColor="#FFF0D0"
-          displayValue={Math.round(displayedSteps / 100)}
         />
 
         <View className="mb-6" />
@@ -250,7 +257,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
           </TouchableOpacity>
         </View>
 
-        <TrackerButton title="Add steps" onPress={handleAddSteps} />
+        <TrackerButton title="Add steps" onPress={handleAddSteps} isLoading={isAdding} loadingText="Adding..." />
       </View>
 
       {/* Step Entries List */}

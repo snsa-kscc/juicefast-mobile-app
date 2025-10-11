@@ -9,7 +9,6 @@ import {
   Image,
   Share,
   Switch,
-  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, Link } from "expo-router";
@@ -459,7 +458,7 @@ export default function ProfileScreen() {
                   <Text className="text-gray-700 font-medium">Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  className="px-6 py-3 bg-blue-500 rounded-lg"
+                  className={`px-6 py-3 rounded-lg ${isLoading ? "bg-gray-400" : "bg-blue-500"}`}
                   onPress={handleSaveProfile}
                   disabled={isLoading}
                 >
@@ -744,13 +743,9 @@ export default function ProfileScreen() {
             onPress={handleDeleteAccount}
             disabled={isDeletingAccount}
           >
-            {isDeletingAccount ? (
-              <ActivityIndicator color="#FFFFFF" />
-            ) : (
-              <Text className="font-lufga-semibold text-white">
-                Delete Account
-              </Text>
-            )}
+            <Text className="font-lufga-semibold text-white">
+              {isDeletingAccount ? "Deleting..." : "Delete Account"}
+            </Text>
           </TouchableOpacity>
         </View>
 

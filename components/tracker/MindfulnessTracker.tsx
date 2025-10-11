@@ -53,6 +53,7 @@ export function MindfulnessTracker({
   const { user } = useUser() || {};
   const [minutes, setMinutes] = useState<number>(10);
   const [displayedMinutes, setDisplayedMinutes] = useState<number>(0);
+  const [isAdding, setIsAdding] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<string>(
     ACTIVITIES[0].id
   );
@@ -124,8 +125,9 @@ export function MindfulnessTracker({
   }, [optimisticMinutes]);
 
   const handleAddMindfulness = async () => {
-    if (minutes <= 0 || !user?.id) return;
+    if (minutes <= 0 || !user?.id || isAdding) return;
 
+    setIsAdding(true);
     startTransition(() => {
       addOptimisticMinutes(minutes);
     });
@@ -134,6 +136,8 @@ export function MindfulnessTracker({
       await createMindfulnessEntry({ minutes, activity: selectedActivity });
     } catch (error) {
       console.error("Failed to save mindfulness data:", error);
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -153,7 +157,11 @@ export function MindfulnessTracker({
   );
 
   return (
-    <ScrollView className="flex-1 bg-[#FCFBF8]">
+    <ScrollView 
+      className="flex-1 bg-[#FCFBF8]"
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+    >
       <WellnessHeader
         title="Mindfulness Tracker"
         subtitle="Mindfulness practice improves mental clarity and reduces stress."
@@ -172,7 +180,6 @@ export function MindfulnessTracker({
           maxValue={DAILY_GOAL}
           color="#FE8E77"
           backgroundColor="#FFEFEB"
-          displayValue={Math.round(displayedMinutes)}
         />
 
         <View className="mb-6" />
@@ -242,7 +249,7 @@ export function MindfulnessTracker({
           </View>
         </View>
 
-        <TrackerButton title="Add session" onPress={handleAddMindfulness} />
+        <TrackerButton title="Add session" onPress={handleAddMindfulness} isLoading={isAdding} loadingText="Adding..." />
       </View>
 
       {/* Mindfulness Entries List */}
@@ -254,14 +261,16 @@ export function MindfulnessTracker({
             </Text>
             {mindfulnessEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);
+              const activity = ACTIVITIES.find(a => a.id === entry.activity);
+              const activityLabel = activity ? activity.label : entry.activity.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
               return (
                 <View
                   key={entry._id}
                   className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
                 >
-                  <View>
-                    <Text className="font-lufga text-sm font-medium">
-                      {entry.minutes} minutes - {entry.activity}
+                  <View className="flex-1 mr-2">
+                    <Text className="font-lufga text-sm font-medium" numberOfLines={2}>
+                      {entry.minutes} minutes - {activityLabel}
                     </Text>
                     <Text className="font-lufga text-xs text-gray-500">
                       {date.toLocaleDateString()} at{" "}

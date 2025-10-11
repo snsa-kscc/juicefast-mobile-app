@@ -26,6 +26,7 @@ export function QuizQuestion({
     if (question.type === "slider") return question.min || 0;
     return "";
   });
+  const [isSkipping, setIsSkipping] = useState(false);
   const { markOnboardingCompleted } = useOnboardingCompletion();
 
   useEffect(() => {
@@ -64,8 +65,13 @@ export function QuizQuestion({
   };
 
   const handleSkip = async () => {
-    await markOnboardingCompleted();
-    router.replace("/(tabs)");
+    setIsSkipping(true);
+    try {
+      await markOnboardingCompleted();
+      router.replace("/(tabs)");
+    } finally {
+      setIsSkipping(false);
+    }
   };
 
   const isAnswerValid = () => {
@@ -278,9 +284,9 @@ export function QuizQuestion({
             </TouchableOpacity>
 
             {/* Skip link */}
-            <TouchableOpacity onPress={handleSkip} className="mt-4">
+            <TouchableOpacity onPress={handleSkip} className="mt-4" disabled={isSkipping}>
               <Text className="text-sm font-medium underline text-black font-lufga">
-                Skip onboarding
+                {isSkipping ? "Skipping..." : "Skip onboarding"}
               </Text>
             </TouchableOpacity>
           </View>

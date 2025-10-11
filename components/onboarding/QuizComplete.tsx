@@ -194,23 +194,29 @@ function getRecommendations(
 }
 
 export function QuizComplete({ answers }: QuizCompleteProps) {
+  const [isCompleting, setIsCompleting] = React.useState(false);
   const { markOnboardingCompleted } = useOnboardingCompletion();
   const recommendations = getRecommendations(answers);
   const answerEntries = Object.entries(answers);
 
   const handleContinue = async () => {
-    await markOnboardingCompleted();
+    setIsCompleting(true);
+    try {
+      await markOnboardingCompleted();
 
-    const selectedLink = getSelectedLink(answers);
+      const selectedLink = getSelectedLink(answers);
 
-    if (selectedLink) {
-      const encodedLink = encodeURIComponent(selectedLink);
-      router.replace({
-        pathname: "/(tabs)/store",
-        params: { link: encodedLink },
-      });
-    } else {
-      router.replace("/(tabs)");
+      if (selectedLink) {
+        const encodedLink = encodeURIComponent(selectedLink);
+        router.replace({
+          pathname: "/(tabs)/store",
+          params: { link: encodedLink },
+        });
+      } else {
+        router.replace("/(tabs)");
+      }
+    } finally {
+      setIsCompleting(false);
     }
   };
 
@@ -290,12 +296,18 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
         {/* Continue button */}
         <TouchableOpacity
           onPress={handleContinue}
-          className="flex-row items-center justify-center px-8 rounded-full self-center bg-gray-900 h-14 w-full max-w-[320px]"
+          className="flex-row items-center justify-center px-8 rounded-full self-center"
+          style={{
+            backgroundColor: "#1A1A1A",
+            height: 56,
+            width: "100%",
+            maxWidth: 320,
+          }}
         >
           <Text className="text-white text-base font-semibold mr-2">
-            Complete Setup
+            {isCompleting ? "Completing..." : "Complete Setup"}
           </Text>
-          <ArrowRight size={20} color="white" />
+          {!isCompleting && <ArrowRight size={20} color="white" />}
         </TouchableOpacity>
       </View>
     </ScrollView>

@@ -6,6 +6,7 @@ import {
   MealIcon,
   StepsIcon,
   MindfulnessIcon,
+  SleepIcon,
   WaterIcon,
 } from "./icons/TrackerIcons";
 
@@ -52,6 +53,7 @@ interface WellnessScoreCardProps {
     steps: number;
     mindfulness: number;
     meals: number;
+    sleep: number;
     water: number;
   };
 }
@@ -93,7 +95,7 @@ export function WellnessScoreCard({
           color="#E8D5B0"
           backgroundColor="#F2E9D8"
           displayValue={displayedScore}
-          size={200}
+          size={250}
         />
         <Text className="text-xs text-gray-500 mt-3 text-center">
           One step and one goal at a time.
@@ -122,6 +124,12 @@ export function WellnessScoreCard({
             value={dailyProgress.meals}
             backgroundColor="#F0FFF4"
             fillColor="#11B364"
+          />
+          <WellnessProgressBar
+            icon={<SleepIcon size={16} />}
+            value={dailyProgress.sleep}
+            backgroundColor="#EEEDFF"
+            fillColor="#625FD3"
           />
           <WellnessProgressBar
             icon={<WaterIcon size={16} />}

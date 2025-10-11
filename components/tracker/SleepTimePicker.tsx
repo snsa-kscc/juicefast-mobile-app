@@ -1,60 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Lufga } from "@/constants/Fonts";
 
-interface WeightPickerProps {
-  value: number;
-  onChange: (value: number) => void;
-  min: number;
-  max: number;
+interface SleepTimePickerProps {
+  hours: number;
+  minutes: number;
+  onChange: (hours: number, minutes: number) => void;
 }
 
 const ITEM_HEIGHT = 40;
 
-export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
-  const valueInGrams = value * 1000;
-  const initialKg = Math.floor(valueInGrams / 1000);
-  const initialGrams = Math.round((valueInGrams % 1000) / 100) * 100;
+export function SleepTimePicker({ hours, minutes, onChange }: SleepTimePickerProps) {
+  const [selectedHours, setSelectedHours] = useState(hours);
+  const [selectedMinutes, setSelectedMinutes] = useState(minutes);
+  const hourScrollRef = useRef<ScrollView>(null);
+  const minuteScrollRef = useRef<ScrollView>(null);
 
-  const [selectedKg, setSelectedKg] = useState(initialKg);
-  const [selectedGrams, setSelectedGrams] = useState(initialGrams);
+  const hourOptions = Array.from({ length: 24 }, (_, i) => i);
+  const minuteOptions = Array.from({ length: 60 }, (_, i) => i);
 
-  const kgOptions = Array.from({ length: max - min + 1 }, (_, i) => min + i);
-  const gramOptions = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+  useEffect(() => {
+    setTimeout(() => {
+      hourScrollRef.current?.scrollTo({ y: hours * ITEM_HEIGHT, animated: false });
+      minuteScrollRef.current?.scrollTo({ y: minutes * ITEM_HEIGHT, animated: false });
+    }, 100);
+  }, []);
 
-  const handleKgScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const handleHourScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     const index = Math.round(offsetY / ITEM_HEIGHT);
-    const newKg = kgOptions[index];
-    if (newKg !== undefined && newKg !== selectedKg) {
-      setSelectedKg(newKg);
-      onChange((newKg * 1000 + selectedGrams) / 1000);
+    const newHours = hourOptions[index];
+    if (newHours !== undefined && newHours !== selectedHours) {
+      setSelectedHours(newHours);
+      onChange(newHours, selectedMinutes);
     }
   };
 
-  const handleGramScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const handleMinuteScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     const index = Math.round(offsetY / ITEM_HEIGHT);
-    const newGrams = gramOptions[index];
-    if (newGrams !== undefined && newGrams !== selectedGrams) {
-      setSelectedGrams(newGrams);
-      onChange((selectedKg * 1000 + newGrams) / 1000);
+    const newMinutes = minuteOptions[index];
+    if (newMinutes !== undefined && newMinutes !== selectedMinutes) {
+      setSelectedMinutes(newMinutes);
+      onChange(selectedHours, newMinutes);
     }
   };
 
   return (
     <View className="flex-row justify-center items-center">
-      {/* KG Picker */}
+      {/* Hours Picker */}
       <View style={{ width: 96, height: 200, position: "relative" }}>
-        {/* Center highlight */}
         <View
           style={{
             position: "absolute",
@@ -62,12 +64,11 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
             right: 0,
             top: 80,
             height: ITEM_HEIGHT,
-            backgroundColor: "#E7F6EF",
+            backgroundColor: "#EDE9FE",
             borderRadius: 6,
             zIndex: 0,
           }}
         />
-        {/* Top gradient */}
         <LinearGradient
           colors={["rgba(255,255,255,1)", "rgba(255,255,255,0)"]}
           style={{
@@ -80,7 +81,6 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
             pointerEvents: "none",
           }}
         />
-        {/* Bottom gradient */}
         <LinearGradient
           colors={["rgba(255,255,255,0)", "rgba(255,255,255,1)"]}
           style={{
@@ -94,13 +94,14 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
           }}
         />
         <ScrollView
+          ref={hourScrollRef}
           showsVerticalScrollIndicator={false}
           snapToInterval={ITEM_HEIGHT}
           decelerationRate="fast"
-          onMomentumScrollEnd={handleKgScroll}
+          onMomentumScrollEnd={handleHourScroll}
           contentContainerStyle={{ paddingVertical: 80 }}
         >
-          {kgOptions.map((option) => (
+          {hourOptions.map((option) => (
             <View
               key={option}
               style={{
@@ -113,7 +114,7 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
                 style={{
                   fontSize: 24,
                   fontFamily: Lufga.semiBold,
-                  color: option === selectedKg ? "#11B364" : "#9CA3AF",
+                  color: option === selectedHours ? "#8B5CF6" : "#9CA3AF",
                 }}
               >
                 {option}
@@ -123,7 +124,6 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
         </ScrollView>
       </View>
 
-      {/* KG Label */}
       <Text
         style={{
           fontSize: 16,
@@ -132,12 +132,11 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
           marginHorizontal: 8,
         }}
       >
-        kg
+        h
       </Text>
 
-      {/* Grams Picker */}
+      {/* Minutes Picker */}
       <View style={{ width: 96, height: 200, position: "relative" }}>
-        {/* Center highlight */}
         <View
           style={{
             position: "absolute",
@@ -145,12 +144,11 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
             right: 0,
             top: 80,
             height: ITEM_HEIGHT,
-            backgroundColor: "#E7F6EF",
+            backgroundColor: "#EDE9FE",
             borderRadius: 6,
             zIndex: 0,
           }}
         />
-        {/* Top gradient */}
         <LinearGradient
           colors={["rgba(255,255,255,1)", "rgba(255,255,255,0)"]}
           style={{
@@ -163,7 +161,6 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
             pointerEvents: "none",
           }}
         />
-        {/* Bottom gradient */}
         <LinearGradient
           colors={["rgba(255,255,255,0)", "rgba(255,255,255,1)"]}
           style={{
@@ -177,13 +174,14 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
           }}
         />
         <ScrollView
+          ref={minuteScrollRef}
           showsVerticalScrollIndicator={false}
           snapToInterval={ITEM_HEIGHT}
           decelerationRate="fast"
-          onMomentumScrollEnd={handleGramScroll}
+          onMomentumScrollEnd={handleMinuteScroll}
           contentContainerStyle={{ paddingVertical: 80 }}
         >
-          {gramOptions.map((option) => (
+          {minuteOptions.map((option) => (
             <View
               key={option}
               style={{
@@ -196,17 +194,16 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
                 style={{
                   fontSize: 24,
                   fontFamily: Lufga.semiBold,
-                  color: option === selectedGrams ? "#11B364" : "#9CA3AF",
+                  color: option === selectedMinutes ? "#8B5CF6" : "#9CA3AF",
                 }}
               >
-                {option}
+                {option.toString().padStart(2, "0")}
               </Text>
             </View>
           ))}
         </ScrollView>
       </View>
 
-      {/* Grams Label */}
       <Text
         style={{
           fontSize: 16,
@@ -215,7 +212,7 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
           marginLeft: 8,
         }}
       >
-        g
+        min
       </Text>
     </View>
   );
