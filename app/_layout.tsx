@@ -48,12 +48,15 @@ function AuthenticatedLayout() {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
   const router = useRouter();
-  const segments = useSegments();
+  const segments = useSegments() as string[];
 
   // Automatically store push token for all authenticated users
   usePushTokenStorage({ skip: !user });
 
-  const shouldShowAddButton = isSignedIn && !segments.includes("(auth)") && !segments.includes("onboarding");
+  const shouldShowAddButton =
+    isSignedIn &&
+    !segments.includes("(auth)") &&
+    !segments.includes("onboarding");
 
   useEffect(() => {
     if (!isLoaded) return; // Wait for auth to load
