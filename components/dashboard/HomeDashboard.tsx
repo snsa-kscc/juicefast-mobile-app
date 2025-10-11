@@ -234,7 +234,11 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   }, [selectedDate]);
 
   return (
-    <ScrollView className="flex-1 bg-[#F8F9FA]">
+    <ScrollView 
+      className="flex-1 bg-[#F8F9FA]"
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+    >
       {/* Header */}
       <View className="px-6 pt-12 pb-4 flex-row justify-between items-start">
         <View>
@@ -269,6 +273,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
+            nestedScrollEnabled={true}
             className="flex-row"
           >
             <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3 bg-blue-200">

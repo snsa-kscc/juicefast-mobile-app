@@ -157,7 +157,11 @@ export function MindfulnessTracker({
   );
 
   return (
-    <ScrollView className="flex-1 bg-[#FCFBF8]">
+    <ScrollView 
+      className="flex-1 bg-[#FCFBF8]"
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+    >
       <WellnessHeader
         title="Mindfulness Tracker"
         subtitle="Mindfulness practice improves mental clarity and reduces stress."

@@ -191,6 +191,9 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
       className="flex-1 bg-[#FCFBF8]"
       enableOnAndroid={true}
       extraScrollHeight={20}
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
     >
       <WellnessHeader
         title="Sleep Tracker"

@@ -313,6 +313,9 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
         className="flex-1"
         enableOnAndroid={true}
         extraScrollHeight={20}
+        nestedScrollEnabled={true}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <WellnessHeader
           title="Meal Tracker"

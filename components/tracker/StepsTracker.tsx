@@ -140,7 +140,11 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
   // const strokeDashoffset = circumference - (circumference * progressPercentage) / 100;
 
   return (
-    <ScrollView className="flex-1 bg-[#FCFBF8]">
+    <ScrollView 
+      className="flex-1 bg-[#FCFBF8]"
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+    >
       <WellnessHeader
         title="Step Tracker"
         subtitle="Move your body, clear your mind — the rest will follow."

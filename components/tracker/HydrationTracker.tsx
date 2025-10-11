@@ -145,7 +145,11 @@ export function HydrationTracker({
   const progressPercentage = Math.min(100, (displayedWater / DAILY_GOAL) * 100);
 
   return (
-    <ScrollView className="flex-1 bg-[#FCFBF8]">
+    <ScrollView 
+      className="flex-1 bg-[#FCFBF8]"
+      nestedScrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+    >
       <WellnessHeader
         title="Hydration Tracker"
         subtitle="Stay hydrated, stay healthy — every drop counts."

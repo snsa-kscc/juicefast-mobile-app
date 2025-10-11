@@ -289,8 +289,12 @@ export function WellnessTracker({
   // const strokeDashoffset = circumference - (circumference * Math.min(100, weeklyAverageScore)) / 100;
 
   return (
-    <View style={{ flex: 1 }} pointerEvents="box-none">
-      <ScrollView className="flex-1 bg-[#FCFBF8]">
+    <View style={{ flex: 1 }}>
+      <ScrollView 
+        className="flex-1 bg-[#FCFBF8]"
+        nestedScrollEnabled={true}
+        showsVerticalScrollIndicator={false}
+      >
         <WellnessHeader title="Wellness Tracker" accentColor="#4CC3FF" />
 
         {/* Wellness Score */}
