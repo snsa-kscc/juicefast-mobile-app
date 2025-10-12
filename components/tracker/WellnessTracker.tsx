@@ -1,6 +1,8 @@
+import { useAuth } from "@clerk/clerk-expo";
+import { useQuery } from "convex/react";
 import { useRouter } from "expo-router";
 import { Plus } from "lucide-react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
   ScrollView,
@@ -9,6 +11,7 @@ import {
   View,
 } from "react-native";
 import { Path, Svg } from "react-native-svg";
+import { api } from "../../convex/_generated/api";
 import { Spinner } from "../Spinner";
 import { CircularProgress, WellnessHeader } from "./shared";
 
@@ -203,20 +206,91 @@ export function WellnessTracker({
   weeklyAverageScore = 71,
 }: TrackerClientProps) {
   const router = useRouter();
-  // const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { isSignedIn } = useAuth();
   const [displayedScore, setDisplayedScore] = useState<number>(0);
-
   const animatedValue = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    // Simulate loading profile
-    setTimeout(() => {
-      setLoading(false);
+  // Get today's date range
+  const { startTime, endTime } = useMemo(() => {
+    const today = new Date();
+    const start = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      0,
+      0,
+      0,
+      0
+    );
+    const end = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
+    return {
+      startTime: start.getTime(),
+      endTime: end.getTime(),
+    };
+  }, []);
 
-      // Animate wellness score
+  // Query all entries
+  const stepEntries = useQuery(
+    api.stepEntry.getByUserId,
+    isSignedIn ? { startTime, endTime } : "skip"
+  );
+  const waterEntries = useQuery(
+    api.waterIntake.getByUserId,
+    isSignedIn ? { startTime, endTime } : "skip"
+  );
+  const mealEntries = useQuery(
+    api.mealEntry.getByUserId,
+    isSignedIn ? { startTime, endTime } : "skip"
+  );
+  const mindfulnessEntries = useQuery(
+    api.mindfulnessEntry.getByUserId,
+    isSignedIn ? { startTime, endTime } : "skip"
+  );
+  const sleepEntries = useQuery(
+    api.sleepEntry.getByUserId,
+    isSignedIn ? { startTime, endTime } : "skip"
+  );
+
+  // Calculate totals
+  const todayData = useMemo(() => {
+    if (!stepEntries || !waterEntries || !mealEntries || !mindfulnessEntries || !sleepEntries) {
+      return null;
+    }
+
+    const totalSteps = stepEntries.reduce((sum, entry) => sum + entry.count, 0);
+    const totalWater = waterEntries.reduce((sum, entry) => sum + entry.amount, 0);
+    const totalMindfulness = mindfulnessEntries.reduce((sum, entry) => sum + entry.minutes, 0);
+    const totalSleep = sleepEntries.reduce((sum, entry) => sum + entry.hoursSlept, 0);
+    const healthyMeals = mealEntries.length;
+
+    const totalScore = Math.round(
+      (totalSteps / 10000 + totalWater / 2200 + healthyMeals / 2 + totalMindfulness / 20 + totalSleep / 8) * 20
+    );
+
+    return {
+      steps: totalSteps,
+      water: totalWater,
+      mindfulness: totalMindfulness,
+      sleep: totalSleep,
+      healthyMeals,
+      totalScore,
+    };
+  }, [stepEntries, waterEntries, mealEntries, mindfulnessEntries, sleepEntries]);
+
+  const loading = !todayData && isSignedIn;
+
+  useEffect(() => {
+    if (todayData) {
       Animated.timing(animatedValue, {
-        toValue: weeklyAverageScore,
+        toValue: todayData.totalScore,
         duration: 2000,
         useNativeDriver: false,
       }).start();
@@ -226,8 +300,8 @@ export function WellnessTracker({
       });
 
       return () => animatedValue.removeListener(listener);
-    }, 1000);
-  }, [weeklyAverageScore]);
+    }
+  }, [todayData]);
 
   const trackingOptions: TrackingOption[] = [
     {
@@ -236,7 +310,7 @@ export function WellnessTracker({
       target: "2",
       icon: <MealIcon />,
       color: "rgba(13, 201, 155, 0.25)",
-      progress: 1,
+      progress: todayData?.healthyMeals || 0,
       unit: "healthy meals today",
     },
     {
@@ -245,7 +319,7 @@ export function WellnessTracker({
       target: "10000",
       icon: <StepsIcon />,
       color: "rgba(255, 200, 86, 0.25)",
-      progress: 6500,
+      progress: todayData?.steps || 0,
       unit: "steps today",
     },
     {
@@ -254,7 +328,7 @@ export function WellnessTracker({
       target: "20",
       icon: <MindfulnessIcon />,
       color: "rgba(254, 142, 119, 0.25)",
-      progress: 15,
+      progress: todayData?.mindfulness || 0,
       unit: "minutes today",
     },
     {
@@ -263,7 +337,7 @@ export function WellnessTracker({
       target: "8",
       icon: <SleepIcon />,
       color: "rgba(98, 95, 211, 0.25)",
-      progress: 7.5,
+      progress: todayData?.sleep || 0,
       unit: "hours today",
     },
     {
@@ -272,7 +346,7 @@ export function WellnessTracker({
       target: "2.2",
       icon: <WaterIcon />,
       color: "rgba(76, 195, 255, 0.25)",
-      progress: 1.8,
+      progress: (todayData?.water || 0) / 1000,
       unit: "liters today",
     },
   ];
@@ -308,7 +382,7 @@ export function WellnessTracker({
             </View>
           </View>
           <Text className="font-lufga text-sm text-gray-500 mb-6">
-            Average wellness score for the last 7 days
+            Your wellness score for today
           </Text>
 
           <CircularProgress
