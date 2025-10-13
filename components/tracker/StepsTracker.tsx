@@ -24,6 +24,7 @@ import {
   WellnessHeader,
   TrackerStats,
 } from "./shared";
+import { router } from "expo-router";
 
 interface StepEntry {
   count: number;
@@ -140,7 +141,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
   // const strokeDashoffset = circumference - (circumference * progressPercentage) / 100;
 
   return (
-    <ScrollView 
+    <ScrollView
       className="flex-1 bg-[#FCFBF8]"
       nestedScrollEnabled={true}
       showsVerticalScrollIndicator={false}
@@ -151,6 +152,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
         accentColor="rgb(255, 200, 86)"
         showBackButton={true}
         onBackPress={onBack}
+        onSettingsPress={() => router.push("/profile")}
       />
 
       <TrackerStats
@@ -257,7 +259,12 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
           </TouchableOpacity>
         </View>
 
-        <TrackerButton title="Add steps" onPress={handleAddSteps} isLoading={isAdding} loadingText="Adding..." />
+        <TrackerButton
+          title="Add steps"
+          onPress={handleAddSteps}
+          isLoading={isAdding}
+          loadingText="Adding..."
+        />
       </View>
 
       {/* Step Entries List */}

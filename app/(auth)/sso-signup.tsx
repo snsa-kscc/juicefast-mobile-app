@@ -181,6 +181,7 @@ export default function SSOSignUpScreen() {
           </Text>
         </Link>
       </View>
+      <View className="h-24"></View>
     </KeyboardAwareScrollView>
   );
 }

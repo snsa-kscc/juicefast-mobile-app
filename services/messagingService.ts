@@ -34,7 +34,9 @@ export async function getPushToken(): Promise<string | null> {
       return null;
     }
 
-    const token = await Notifications.getExpoPushTokenAsync();
+    const token = await Notifications.getExpoPushTokenAsync({
+      projectId: "6e9c5757-7446-4974-80fa-fadd2ad8ebc4",
+    });
     console.log(
       "Push token obtained successfully:",
       token.data.substring(0, 20) + "..."

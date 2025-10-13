@@ -20,14 +20,7 @@ export function WellnessHeader({
   showBackButton = false,
 }: WellnessHeaderProps) {
   return (
-    <View className="relative py-6 overflow-hidden">
-      <View
-        className="absolute w-64 h-64 rounded-full -top-5 left-0 opacity-60"
-        style={{
-          backgroundColor: `${accentColor}40`,
-          filter: "blur(80px)",
-        }}
-      />
+    <View className="relative py-12 overflow-hidden">
       <View className="flex-row justify-between items-center px-6 z-10">
         <View className="flex-row items-center">
           {showBackButton && (

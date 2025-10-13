@@ -53,6 +53,7 @@ export default {
         "android.permission.WAKE_LOCK",
       ],
       softwareKeyboardLayoutMode: "resize",
+      useNextNotificationsApi: true,
     },
     web: {
       bundler: "metro",
@@ -80,7 +81,15 @@ export default {
           supportsPictureInPicture: true,
         },
       ],
-      "expo-notifications",
+      [
+        "expo-notifications",
+        {
+          icon: "./assets/images/jf-picto.png",
+          color: "#2d2d2d",
+          sounds: [],
+          mode: "production",
+        },
+      ],
     ],
     experiments: {
       typedRoutes: true,

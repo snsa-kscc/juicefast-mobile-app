@@ -33,13 +33,13 @@ export function TrackerButton({
 
   return (
     <TouchableOpacity
-      className={`w-full rounded-md py-3 items-center ${getButtonStyle()}`}
+      className={`w-full rounded-full py-3 items-center ${getButtonStyle()}`}
       style={backgroundColor ? { backgroundColor } : undefined}
       onPress={onPress}
       disabled={disabled || isLoading}
     >
       <Text className={`font-medium ${getTextStyle()}`}>
-        {isLoading ? (loadingText || `${title}...`) : title}
+        {isLoading ? loadingText || `${title}...` : title}
       </Text>
     </TouchableOpacity>
   );
