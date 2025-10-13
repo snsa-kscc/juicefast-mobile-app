@@ -9,6 +9,7 @@ interface WellnessHeaderProps {
   onSettingsPress?: () => void;
   onBackPress?: () => void;
   showBackButton?: boolean;
+  showSettings?: boolean;
 }
 
 export function WellnessHeader({
@@ -18,6 +19,7 @@ export function WellnessHeader({
   onSettingsPress,
   onBackPress,
   showBackButton = false,
+  showSettings = true,
 }: WellnessHeaderProps) {
   return (
     <View className="relative py-6 bg-jf-gray">
@@ -34,12 +36,14 @@ export function WellnessHeader({
           )}
           <Text className="text-xl font-bold">{title}</Text>
         </View>
-        <TouchableOpacity
-          className="w-10 h-10 rounded-full bg-transparent justify-center items-center"
-          onPress={onSettingsPress}
-        >
-          <Settings size={20} color="#9CA3AF" />
-        </TouchableOpacity>
+        {showSettings && (
+          <TouchableOpacity
+            className="w-10 h-10 rounded-full bg-transparent justify-center items-center"
+            onPress={onSettingsPress}
+          >
+            <Settings size={20} color="#9CA3AF" />
+          </TouchableOpacity>
+        )}
       </View>
       <View className="px-6 pb-4">
         <Text className="font-lufga text-sm text-gray-500">{subtitle}</Text>

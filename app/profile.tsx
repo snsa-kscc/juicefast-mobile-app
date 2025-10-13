@@ -294,6 +294,7 @@ export default function ProfileScreen() {
         subtitle="Manage your health profile"
         showBackButton
         onBackPress={() => router.back()}
+        showSettings={false}
       />
 
       <ScrollView className="flex-1">
