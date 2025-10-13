@@ -369,7 +369,11 @@ export function WellnessTracker({
         nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
       >
-        <WellnessHeader title="Wellness Tracker" accentColor="rgb(76, 195, 255)" />
+        <WellnessHeader 
+          title="Wellness Tracker" 
+          accentColor="rgb(76, 195, 255)" 
+          onSettingsPress={() => router.push('/profile')}
+        />
 
         {/* Wellness Score */}
         <View className="px-6 py-6 items-center">
@@ -418,7 +422,7 @@ export function WellnessTracker({
             return (
               <TouchableOpacity
                 key={option.id}
-                className="rounded-xl mb-3 border border-transparent"
+                className="rounded-xl mb-3 border border-transparent bg-white"
                 onPress={handlePress}
                 activeOpacity={
                   option.id === "meals" ||
@@ -436,6 +440,7 @@ export function WellnessTracker({
                     <Text className="text-base font-medium mb-1">
                       {option.name}
                     </Text>
+                    <View className="h-px bg-gray-200 my-1 w-[90%]" />
                     <Text className="font-lufga text-sm text-gray-500">
                       {option.progress} {option.unit}
                     </Text>
