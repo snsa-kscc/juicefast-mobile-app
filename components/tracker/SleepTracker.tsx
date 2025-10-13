@@ -37,11 +37,12 @@ interface SleepEntry {
 interface SleepTrackerProps {
   initialSleepData?: { sleep: SleepEntry[] } | null;
   onBack?: () => void;
+  onSettingsPress?: () => void;
 }
 
 const DAILY_GOAL = 8; // hours
 
-export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
+export function SleepTracker({ initialSleepData, onBack, onSettingsPress }: SleepTrackerProps) {
   const { user, isLoaded } = useUser() || {};
   const [hoursSlept, setHoursSlept] = useState<number>(8);
   const [displayedHours, setDisplayedHours] = useState<number>(0);
@@ -201,6 +202,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
         accentColor="rgb(98, 95, 211)"
         showBackButton={true}
         onBackPress={onBack}
+        onSettingsPress={onSettingsPress}
       />
 
       <TrackerStats

@@ -33,12 +33,13 @@ interface StepEntry {
 interface StepsTrackerProps {
   initialStepsData?: { steps: StepEntry[] } | null;
   onBack?: () => void;
+  onSettingsPress?: () => void;
 }
 
 const DAILY_GOAL = 10000;
 const CALORIES_PER_STEP = 0.04;
 
-export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
+export function StepsTracker({ initialStepsData, onBack, onSettingsPress }: StepsTrackerProps) {
   const { user } = useUser() || {};
   const [stepCount, setStepCount] = useState<number>(1000);
   const [displayedSteps, setDisplayedSteps] = useState<number>(0);
@@ -151,6 +152,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
         accentColor="rgb(255, 200, 86)"
         showBackButton={true}
         onBackPress={onBack}
+        onSettingsPress={onSettingsPress}
       />
 
       <TrackerStats
