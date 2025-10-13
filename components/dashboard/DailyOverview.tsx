@@ -35,11 +35,12 @@ const TaskItem = ({ icon, title, subtitle, onPress }: TaskItemProps) => (
     className="flex-row items-center bg-white rounded-xl p-4 mb-3"
     onPress={onPress}
   >
-    <View className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center mr-4">
+    <View className="mr-4">
       {icon}
     </View>
     <View className="flex-1">
       <Text className="text-sm font-medium text-black mb-1">{title}</Text>
+      <View className="h-[3px] bg-[#F8F9FA] mb-1 w-[60%]" />
       <Text className="text-xs text-gray-500">{subtitle}</Text>
     </View>
   </TouchableOpacity>
@@ -60,7 +61,7 @@ export function DailyOverview({ data, isToday }: DailyOverviewProps) {
 
       <View>
         <TaskItem
-          icon={<MealIcon size={20} />}
+          icon={<MealIcon size={28} />}
           title="Eat 2 healthy meals"
           subtitle={
             isToday
@@ -71,7 +72,7 @@ export function DailyOverview({ data, isToday }: DailyOverviewProps) {
         />
 
         <TaskItem
-          icon={<StepsIcon size={20} />}
+          icon={<StepsIcon size={28} />}
           title="Take 10,000 steps"
           subtitle={
             isToday
@@ -82,7 +83,7 @@ export function DailyOverview({ data, isToday }: DailyOverviewProps) {
         />
 
         <TaskItem
-          icon={<MindfulnessIcon size={20} />}
+          icon={<MindfulnessIcon size={28} />}
           title="Spend 20 quiet minutes"
           subtitle={
             isToday
@@ -93,7 +94,7 @@ export function DailyOverview({ data, isToday }: DailyOverviewProps) {
         />
 
         <TaskItem
-          icon={<SleepIcon size={20} />}
+          icon={<SleepIcon size={28} />}
           title="Sleep 8 hours"
           subtitle={
             isToday ? `${data.sleep} hours today` : `Logged ${data.sleep} hours`
@@ -102,7 +103,7 @@ export function DailyOverview({ data, isToday }: DailyOverviewProps) {
         />
 
         <TaskItem
-          icon={<WaterIcon size={20} />}
+          icon={<WaterIcon size={28} />}
           title="Drink 2.2L of water"
           subtitle={
             isToday
