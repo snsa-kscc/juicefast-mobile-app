@@ -273,8 +273,10 @@ export function StepsTracker({
       {/* Step Entries List */}
       {stepEntries && stepEntries.length > 0 && (
         <View className="px-6 mt-6">
-          <View className="bg-white rounded-lg p-4 shadow-sm">
-            <Text className="font-semibold mb-3">Today's Step Entries</Text>
+          <View className="bg-white rounded-lg p-4">
+            <Text className="font-lufga-semibold mb-3 text-xl">
+              Today's Step Entries
+            </Text>
             {stepEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);
               return (
@@ -310,7 +312,7 @@ export function StepsTracker({
       )}
 
       {/* Tips Card */}
-      <View className="px-4 mt-6 mb-20">
+      <View className="px-4 mt-6 mb-16">
         <View className="bg-white rounded-2xl p-4">
           <Text className="font-lufga-semibold text-xl mb-2">Step Tips</Text>
           <View>

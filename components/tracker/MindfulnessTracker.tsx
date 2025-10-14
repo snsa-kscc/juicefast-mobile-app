@@ -153,8 +153,8 @@ export function MindfulnessTracker({
   );
 
   return (
-    <ScrollView 
-      className="flex-1 bg-[#FCFBF8]"
+    <ScrollView
+      className="flex-1 bg-jf-gray"
       nestedScrollEnabled={true}
       showsVerticalScrollIndicator={false}
     >
@@ -196,10 +196,12 @@ export function MindfulnessTracker({
 
       {/* Add Mindfulness Form */}
       <View className="px-6">
-        <Text className="font-semibold mb-1">Add mindfulness session</Text>
+        <Text className="font-lufga-semibold mb-1 text-2xl">
+          Add mindfulness session
+        </Text>
         <View className="flex-row justify-between mb-1">
-          <Text className="font-lufga text-xs text-gray-500">Duration</Text>
-          <Text className="text-xs font-medium">{minutes} minutes</Text>
+          <Text className="font-lufga text-sm text-gray-500">Duration</Text>
+          <Text className="text-sm font-lufga-medium">{minutes} minutes</Text>
         </View>
 
         <View className="mb-4">
@@ -217,7 +219,7 @@ export function MindfulnessTracker({
         </View>
 
         <View className="mb-4">
-          <Text className="font-lufga text-xs text-gray-500 mb-2">
+          <Text className="font-lufga text-sm text-gray-500 mb-2">
             Activity type
           </Text>
           <View className="flex-row flex-wrap gap-2">
@@ -232,7 +234,7 @@ export function MindfulnessTracker({
                 onPress={() => setSelectedActivity(activity.id)}
               >
                 <Text
-                  className={`font-lufga text-sm ${
+                  className={`font-lufga ${
                     selectedActivity === activity.id
                       ? "text-[#D2691E]"
                       : "text-gray-700"
@@ -245,27 +247,40 @@ export function MindfulnessTracker({
           </View>
         </View>
 
-        <TrackerButton title="Add session" onPress={handleAddMindfulness} isLoading={isAdding} loadingText="Adding..." />
+        <TrackerButton
+          title="Add session"
+          onPress={handleAddMindfulness}
+          isLoading={isAdding}
+          loadingText="Adding..."
+        />
       </View>
 
       {/* Mindfulness Entries List */}
       {mindfulnessEntries && mindfulnessEntries.length > 0 && (
         <View className="px-6 mt-6">
-          <View className="bg-white rounded-lg p-4 shadow-sm">
-            <Text className="font-semibold mb-3">
+          <View className="bg-white rounded-lg p-4">
+            <Text className="font-lufga-semibold mb-3 text-xl">
               Today's Mindfulness Sessions
             </Text>
             {mindfulnessEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);
-              const activity = ACTIVITIES.find(a => a.id === entry.activity);
-              const activityLabel = activity ? activity.label : entry.activity.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+              const activity = ACTIVITIES.find((a) => a.id === entry.activity);
+              const activityLabel = activity
+                ? activity.label
+                : entry.activity
+                    .split("-")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ");
               return (
                 <View
                   key={entry._id}
                   className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
                 >
                   <View className="flex-1 mr-2">
-                    <Text className="font-lufga text-sm font-medium" numberOfLines={2}>
+                    <Text
+                      className="font-lufga text-sm font-medium"
+                      numberOfLines={2}
+                    >
                       {entry.minutes} minutes - {activityLabel}
                     </Text>
                     <Text className="font-lufga text-xs text-gray-500">
@@ -292,18 +307,23 @@ export function MindfulnessTracker({
       )}
 
       {/* Tips Card */}
-      <View className="px-6 mt-6 mb-20">
-        <View className="bg-white rounded-lg p-4 shadow-sm">
-          <Text className="font-semibold mb-2">Mindfulness Tips</Text>
-          <View className="space-y-2">
+      <View className="px-4 mt-6 mb-16">
+        <View className="bg-white rounded-2xl p-4">
+          <Text className="font-lufga-semibold text-xl mb-2">
+            Mindfulness Tips
+          </Text>
+          <View>
             {[
               "Start with just 5 minutes a day and gradually increase",
               "Focus on your breath when your mind wanders",
               "Practice at the same time each day to build a habit",
-            ].map((tip, index) => (
-              <View key={index} className="flex-row items-start">
+            ].map((tip, index, array) => (
+              <View
+                key={index}
+                className={`flex-row items-start ${index < array.length - 1 ? "mb-2" : ""}`}
+              >
                 <View className="bg-orange-100 rounded-full p-1 mr-2 mt-0.5">
-                  <View className="w-3 h-3" />
+                  <View className="w-2 h-2" />
                 </View>
                 <Text className="font-lufga text-sm flex-1">{tip}</Text>
               </View>

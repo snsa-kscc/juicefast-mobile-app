@@ -141,8 +141,8 @@ export function HydrationTracker({
   const progressPercentage = Math.min(100, (displayedWater / DAILY_GOAL) * 100);
 
   return (
-    <ScrollView 
-      className="flex-1 bg-[#FCFBF8]"
+    <ScrollView
+      className="flex-1 bg-jf-gray"
       nestedScrollEnabled={true}
       showsVerticalScrollIndicator={false}
     >
@@ -184,10 +184,12 @@ export function HydrationTracker({
 
       {/* Add Water Form */}
       <View className="px-6">
-        <Text className="font-semibold mb-1">Add water intake</Text>
+        <Text className="font-lufga-semibold mb-1 text-2xl">
+          Add water intake
+        </Text>
         <View className="flex-row justify-between mb-1">
-          <Text className="font-lufga text-xs text-gray-500">Amount</Text>
-          <Text className="text-xs font-medium">{waterAmount}ml</Text>
+          <Text className="font-lufga text-sm text-gray-500">Amount</Text>
+          <Text className="text-sm font-lufga-medium">{waterAmount}ml</Text>
         </View>
 
         <View className="mb-4">
@@ -215,7 +217,7 @@ export function HydrationTracker({
             onPress={() => setWaterAmount(250)}
           >
             <Text
-              className={`font-lufga text-sm ${
+              className={`font-lufga ${
                 waterAmount === 250 ? "text-[#0277BD]" : "text-gray-700"
               }`}
             >
@@ -232,7 +234,7 @@ export function HydrationTracker({
             onPress={() => setWaterAmount(500)}
           >
             <Text
-              className={`font-lufga text-sm ${
+              className={`font-lufga ${
                 waterAmount === 500 ? "text-[#0277BD]" : "text-gray-700"
               }`}
             >
@@ -249,7 +251,7 @@ export function HydrationTracker({
             onPress={() => setWaterAmount(750)}
           >
             <Text
-              className={`font-lufga text-sm ${
+              className={`font-lufga ${
                 waterAmount === 750 ? "text-[#0277BD]" : "text-gray-700"
               }`}
             >
@@ -258,14 +260,21 @@ export function HydrationTracker({
           </TouchableOpacity>
         </View>
 
-        <TrackerButton title="Add water" onPress={handleAddWater} isLoading={isAdding} loadingText="Adding..." />
+        <TrackerButton
+          title="Add water"
+          onPress={handleAddWater}
+          isLoading={isAdding}
+          loadingText="Adding..."
+        />
       </View>
 
       {/* Water Entries List */}
       {waterEntries && waterEntries.length > 0 && (
         <View className="px-6 mt-6">
-          <View className="bg-white rounded-lg p-4 shadow-sm">
-            <Text className="font-semibold mb-3">Today's Water Entries</Text>
+          <View className="bg-white rounded-lg p-4">
+            <Text className="font-lufga-semibold mb-3 text-xl">
+              Today's Water Entries
+            </Text>
             {waterEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);
               return (
@@ -301,18 +310,23 @@ export function HydrationTracker({
       )}
 
       {/* Tips Card */}
-      <View className="px-6 mt-6 mb-20">
-        <View className="bg-white rounded-lg p-4 shadow-sm">
-          <Text className="font-semibold mb-2">Hydration Tips</Text>
-          <View className="space-y-2">
+      <View className="px-4 mt-6 mb-16">
+        <View className="bg-white rounded-2xl p-4">
+          <Text className="font-lufga-semibold text-xl mb-2">
+            Hydration Tips
+          </Text>
+          <View>
             {[
               "Start your day with a glass of water",
               "Keep a water bottle with you at all times",
               "Set reminders to drink water every hour",
-            ].map((tip, index) => (
-              <View key={index} className="flex-row items-start">
+            ].map((tip, index, array) => (
+              <View
+                key={index}
+                className={`flex-row items-start ${index < array.length - 1 ? "mb-2" : ""}`}
+              >
                 <View className="bg-blue-100 rounded-full p-1 mr-2 mt-0.5">
-                  <View className="w-3 h-3" />
+                  <View className="w-2 h-2" />
                 </View>
                 <Text className="font-lufga text-sm flex-1">{tip}</Text>
               </View>

@@ -308,7 +308,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
   };
 
   return (
-    <View className="flex-1 bg-[#FCFBF8]">
+    <View className="flex-1 bg-jf-gray">
       <KeyboardAwareScrollView
         className="flex-1"
         enableOnAndroid={true}
@@ -327,8 +327,8 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
         />
 
         {!selectedMealType ? (
-          <View className="px-4 mb-6">
-            <Text className="text-xl font-bold mb-4">
+          <View className="px-6 mb-6">
+            <Text className="font-lufga-semibold text-2xl mb-4">
               What meal would you like to add?
             </Text>
 
@@ -375,8 +375,8 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
             </View>
           </View>
         ) : (
-          <View className="px-4 mb-6">
-            <Text className="text-xl font-bold mb-4">
+          <View className="px-6 mb-6">
+            <Text className="font-lufga-semibold text-2xl mb-4">
               Add {selectedMealType}
             </Text>
 
@@ -437,14 +437,14 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                 </View>
               </View>
             ) : (
-              <View className="bg-white rounded-lg p-4 border border-gray-200">
-                <Text className="text-lg font-semibold mb-4">
+              <View className="bg-white rounded-lg p-4">
+                <Text className="font-lufga-semibold text-xl mb-4">
                   Manual Meal Entry
                 </Text>
 
                 <View className="space-y-4">
                   <View>
-                    <Text className="text-sm font-medium mb-1">Meal Name</Text>
+                    <Text className="font-lufga text-sm text-gray-500 mb-1">Meal Name</Text>
                     <TextInput
                       className="border border-gray-300 rounded-md p-3 bg-white"
                       value={formData.name}
@@ -457,7 +457,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
 
                   <View className="flex-row gap-4">
                     <View className="flex-1">
-                      <Text className="text-sm font-medium mb-1">Calories</Text>
+                      <Text className="font-lufga text-sm text-gray-500 mb-1">Calories</Text>
                       <TextInput
                         className="border border-gray-300 rounded-md p-3 bg-white"
                         value={formData.calories}
@@ -470,7 +470,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                     </View>
 
                     <View className="flex-1">
-                      <Text className="text-sm font-medium mb-1">
+                      <Text className="font-lufga text-sm text-gray-500 mb-1">
                         Protein (g)
                       </Text>
                       <TextInput
@@ -487,7 +487,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
 
                   <View className="flex-row gap-4">
                     <View className="flex-1">
-                      <Text className="text-sm font-medium mb-1">
+                      <Text className="font-lufga text-sm text-gray-500 mb-1">
                         Carbs (g)
                       </Text>
                       <TextInput
@@ -502,7 +502,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                     </View>
 
                     <View className="flex-1">
-                      <Text className="text-sm font-medium mb-1">Fat (g)</Text>
+                      <Text className="font-lufga text-sm text-gray-500 mb-1">Fat (g)</Text>
                       <TextInput
                         className="border border-gray-300 rounded-md p-3 bg-white"
                         value={formData.fat}
@@ -516,7 +516,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                   </View>
 
                   <View>
-                    <Text className="text-sm font-medium mb-1">
+                    <Text className="font-lufga text-sm text-gray-500 mb-1">
                       Description (optional)
                     </Text>
                     <TextInput
@@ -545,8 +545,8 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
           </View>
         )}
 
-        <View className="px-4 mb-6">
-          <Text className="text-xl font-bold mb-4">Today's Meals</Text>
+        <View className="px-6 mb-6">
+          <Text className="font-lufga-semibold text-2xl mb-4">Today's Meals</Text>
 
           <View className="flex-row mb-4">
             {(["breakfast", "snack", "lunch", "dinner"] as const).map(
@@ -639,8 +639,8 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
           )}
         </View>
 
-        <View className="px-4 mb-20">
-          <Text className="text-xl font-bold mb-4">Daily nutrition totals</Text>
+        <View className="px-6 mb-16">
+          <Text className="font-lufga-semibold text-2xl mb-4">Daily nutrition totals</Text>
 
           <View className="flex-row gap-4">
             <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">

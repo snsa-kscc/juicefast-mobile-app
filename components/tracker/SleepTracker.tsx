@@ -42,7 +42,11 @@ interface SleepTrackerProps {
 
 const DAILY_GOAL = 8; // hours
 
-export function SleepTracker({ initialSleepData, onBack, onSettingsPress }: SleepTrackerProps) {
+export function SleepTracker({
+  initialSleepData,
+  onBack,
+  onSettingsPress,
+}: SleepTrackerProps) {
   const { user, isLoaded } = useUser() || {};
   const [hoursSlept, setHoursSlept] = useState<number>(8);
   const [displayedHours, setDisplayedHours] = useState<number>(0);
@@ -185,7 +189,7 @@ export function SleepTracker({ initialSleepData, onBack, onSettingsPress }: Slee
 
   return (
     <KeyboardAwareScrollView
-      className="flex-1 bg-[#FCFBF8]"
+      className="flex-1 bg-jf-gray"
       enableOnAndroid={true}
       extraScrollHeight={20}
       nestedScrollEnabled={true}
@@ -230,11 +234,13 @@ export function SleepTracker({ initialSleepData, onBack, onSettingsPress }: Slee
 
       {/* Add Sleep Form */}
       <View className="px-6">
-        <Text className="font-semibold mb-1">Log your sleep</Text>
+        <Text className="font-lufga-semibold mb-1 text-2xl">
+          Log your sleep
+        </Text>
 
         <View className="flex-row gap-4 mb-4">
           <View className="flex-1">
-            <Text className="font-lufga text-xs text-gray-500 mb-1">
+            <Text className="font-lufga text-sm text-gray-500 mb-1">
               Bedtime
             </Text>
             <TouchableOpacity
@@ -248,7 +254,7 @@ export function SleepTracker({ initialSleepData, onBack, onSettingsPress }: Slee
             </TouchableOpacity>
           </View>
           <View className="flex-1">
-            <Text className="font-lufga text-xs text-gray-500 mb-1">
+            <Text className="font-lufga text-sm text-gray-500 mb-1">
               Wake time
             </Text>
             <TouchableOpacity
@@ -265,10 +271,10 @@ export function SleepTracker({ initialSleepData, onBack, onSettingsPress }: Slee
 
         <View className="mb-4">
           <View className="flex-row justify-between mb-1">
-            <Text className="font-lufga text-xs text-gray-500">
+            <Text className="font-lufga text-sm text-gray-500">
               Sleep quality
             </Text>
-            <Text className="text-xs font-medium">{sleepQuality}/5</Text>
+            <Text className="text-sm font-lufga-medium">{sleepQuality}/5</Text>
           </View>
           <Slider
             style={{ width: "100%", height: 40 }}
@@ -298,8 +304,10 @@ export function SleepTracker({ initialSleepData, onBack, onSettingsPress }: Slee
       {/* Sleep Entries List */}
       {sleepEntries && sleepEntries.length > 0 && (
         <View className="px-6 mt-6">
-          <View className="bg-white rounded-lg p-4 shadow-sm">
-            <Text className="font-semibold mb-3">Today's Sleep Entries</Text>
+          <View className="bg-white rounded-lg p-4">
+            <Text className="font-lufga-semibold mb-3 text-xl">
+              Today's Sleep Entries
+            </Text>
             {sleepEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);
               return (
@@ -335,18 +343,21 @@ export function SleepTracker({ initialSleepData, onBack, onSettingsPress }: Slee
       )}
 
       {/* Tips Card */}
-      <View className="px-6 mt-6 mb-20">
-        <View className="bg-white rounded-lg p-4 shadow-sm">
-          <Text className="font-semibold mb-2">Sleep Tips</Text>
-          <View className="space-y-2">
+      <View className="px-4 mt-6 mb-16">
+        <View className="bg-white rounded-2xl p-4">
+          <Text className="font-lufga-semibold text-xl mb-2">Sleep Tips</Text>
+          <View>
             {[
               "Keep a consistent sleep schedule, even on weekends",
               "Avoid screens for at least 1 hour before bedtime",
               "Create a relaxing bedtime routine to signal it's time to sleep",
-            ].map((tip, index) => (
-              <View key={index} className="flex-row items-start">
+            ].map((tip, index, array) => (
+              <View
+                key={index}
+                className={`flex-row items-start ${index < array.length - 1 ? "mb-2" : ""}`}
+              >
                 <View className="bg-purple-100 rounded-full p-1 mr-2 mt-0.5">
-                  <View className="w-3 h-3" />
+                  <View className="w-2 h-2" />
                 </View>
                 <Text className="font-lufga text-sm flex-1">{tip}</Text>
               </View>
