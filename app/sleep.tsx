@@ -10,10 +10,14 @@ export default function Sleep() {
     router.back();
   };
 
+  const handleSettingsPress = () => {
+    router.push("/profile");
+  };
+
   return (
     <TrackerScreenWrapper>
       <AnimatedScreen>
-        <SleepTracker onBack={handleBack} />
+        <SleepTracker onBack={handleBack} onSettingsPress={handleSettingsPress} />
       </AnimatedScreen>
     </TrackerScreenWrapper>
   );

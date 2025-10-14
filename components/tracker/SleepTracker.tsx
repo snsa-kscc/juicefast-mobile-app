@@ -37,11 +37,12 @@ interface SleepEntry {
 interface SleepTrackerProps {
   initialSleepData?: { sleep: SleepEntry[] } | null;
   onBack?: () => void;
+  onSettingsPress?: () => void;
 }
 
 const DAILY_GOAL = 8; // hours
 
-export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
+export function SleepTracker({ initialSleepData, onBack, onSettingsPress }: SleepTrackerProps) {
   const { user, isLoaded } = useUser() || {};
   const [hoursSlept, setHoursSlept] = useState<number>(8);
   const [displayedHours, setDisplayedHours] = useState<number>(0);
@@ -93,29 +94,25 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (totalHours > 0) {
-      Animated.timing(animatedValue, {
-        toValue: totalHours,
-        duration: 1500,
-        useNativeDriver: false,
-      }).start();
+    Animated.timing(animatedValue, {
+      toValue: totalHours,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start();
 
-      const listener = animatedValue.addListener(({ value }) => {
-        setDisplayedHours(Math.round(value * 10) / 10);
-      });
+    const listener = animatedValue.addListener(({ value }) => {
+      setDisplayedHours(Math.round(value * 10) / 10);
+    });
 
-      return () => animatedValue.removeListener(listener);
-    }
+    return () => animatedValue.removeListener(listener);
   }, [totalHours]);
 
   useEffect(() => {
-    if (optimisticHours > 0) {
-      Animated.timing(animatedValue, {
-        toValue: optimisticHours,
-        duration: 1000,
-        useNativeDriver: false,
-      }).start();
-    }
+    Animated.timing(animatedValue, {
+      toValue: optimisticHours,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
   }, [optimisticHours]);
 
   const calculateSleepHours = () => {
@@ -201,6 +198,7 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
         accentColor="rgb(98, 95, 211)"
         showBackButton={true}
         onBackPress={onBack}
+        onSettingsPress={onSettingsPress}
       />
 
       <TrackerStats

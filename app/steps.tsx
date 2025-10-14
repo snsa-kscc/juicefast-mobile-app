@@ -27,10 +27,14 @@ export default function StepsScreen() {
     router.back();
   };
 
+  const handleSettingsPress = () => {
+    router.push("/profile");
+  };
+
   return (
     <TrackerScreenWrapper>
       <AnimatedScreen>
-        <StepsTracker onBack={handleBack} />
+        <StepsTracker onBack={handleBack} onSettingsPress={handleSettingsPress} />
       </AnimatedScreen>
     </TrackerScreenWrapper>
   );

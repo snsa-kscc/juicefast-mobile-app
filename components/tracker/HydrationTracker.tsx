@@ -90,29 +90,25 @@ export function HydrationTracker({
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (totalWater > 0) {
-      Animated.timing(animatedValue, {
-        toValue: totalWater,
-        duration: 1500,
-        useNativeDriver: false,
-      }).start();
+    Animated.timing(animatedValue, {
+      toValue: totalWater,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start();
 
-      const listener = animatedValue.addListener(({ value }) => {
-        setDisplayedWater(Math.round(value));
-      });
+    const listener = animatedValue.addListener(({ value }) => {
+      setDisplayedWater(Math.round(value));
+    });
 
-      return () => animatedValue.removeListener(listener);
-    }
+    return () => animatedValue.removeListener(listener);
   }, [totalWater]);
 
   useEffect(() => {
-    if (optimisticWater > 0) {
-      Animated.timing(animatedValue, {
-        toValue: optimisticWater,
-        duration: 1000,
-        useNativeDriver: false,
-      }).start();
-    }
+    Animated.timing(animatedValue, {
+      toValue: optimisticWater,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
   }, [optimisticWater]);
 
   const handleAddWater = async () => {

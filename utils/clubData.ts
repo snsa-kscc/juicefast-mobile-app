@@ -12,7 +12,6 @@ export const WELLNESS_CATEGORIES: WellnessCategory[] = [
   { id: "mind", name: "Mind" },
   { id: "workouts", name: "Workouts" },
   { id: "nutrition", name: "Nutrition" },
-  { id: "beauty", name: "Beauty" },
 ];
 
 // Process raw club data
@@ -105,7 +104,9 @@ export const getSubcategoryData = (category: string) => {
 export const getSubcategoryDetail = (
   subcategory: string
 ): SubcategoryData | null => {
-  const items = getItemsBySubcategory(subcategory);
+  // Convert kebab-case back to original format (e.g., "postpartum-nutrition" -> "postpartum nutrition")
+  const normalizedSubcategory = subcategory.replace(/-/g, " ");
+  const items = getItemsBySubcategory(normalizedSubcategory);
   if (items.length === 0) return null;
 
   const subcategoryMap: Record<string, Omit<SubcategoryData, "items">> = {
@@ -143,8 +144,8 @@ export const getSubcategoryDetail = (
     },
   };
 
-  const subcategoryInfo = subcategoryMap[subcategory] || {
-    title: subcategory.charAt(0).toUpperCase() + subcategory.slice(1),
+  const subcategoryInfo = subcategoryMap[normalizedSubcategory] || {
+    title: normalizedSubcategory.charAt(0).toUpperCase() + normalizedSubcategory.slice(1),
     subtitle: `${items.length} items`,
     description: "Wellness content to support your journey.",
     featuredImageUrl:

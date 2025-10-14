@@ -2,7 +2,7 @@ import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { useRouter } from "expo-router";
+import { usePathname, useRouter } from "expo-router";
 import {
   Activity,
   Brain,
@@ -33,6 +33,7 @@ interface ActionOption {
 
 export function AddActionButton() {
   const router = useRouter();
+  const pathname = usePathname();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const rotation = useSharedValue(0);
@@ -100,9 +101,9 @@ export function AddActionButton() {
   ];
 
   const handleOptionPress = (route: string) => {
+    if (pathname === route) return;
     handleCloseBottomSheet();
 
-    // Check if route exists, otherwise show alert or handle gracefully
     const existingRoutes = [
       "/meals",
       "/steps",
@@ -114,9 +115,7 @@ export function AddActionButton() {
     if (existingRoutes.includes(route)) {
       router.push(route as any);
     } else {
-      // For now, just log - you can implement these routes later
       console.log(`Route ${route} not implemented yet`);
-      // Optionally show an alert or navigate to a placeholder
     }
   };
 
@@ -180,24 +179,42 @@ export function AddActionButton() {
         <BottomSheetView style={styles.contentContainer}>
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>WELLNESS LOG</Text>
-            {wellnessOptions.map((option) => (
-              <TouchableOpacity
-                key={option.id}
-                style={styles.optionRow}
-                onPress={() => handleOptionPress(option.route)}
-                activeOpacity={0.7}
-              >
-                <Text style={styles.optionText}>{option.title}</Text>
-                <View
+            {wellnessOptions.map((option) => {
+              const isCurrentScreen = pathname === option.route;
+              return (
+                <TouchableOpacity
+                  key={option.id}
                   style={[
-                    styles.iconCircle,
-                    { backgroundColor: option.iconColor },
+                    styles.optionRow,
+                    isCurrentScreen && styles.optionRowDisabled,
                   ]}
+                  onPress={() => handleOptionPress(option.route)}
+                  activeOpacity={isCurrentScreen ? 1 : 0.7}
+                  disabled={isCurrentScreen}
                 >
-                  {renderIcon(option.id, "#FFFFFF")}
-                </View>
-              </TouchableOpacity>
-            ))}
+                  <Text
+                    style={[
+                      styles.optionText,
+                      isCurrentScreen && styles.optionTextDisabled,
+                    ]}
+                  >
+                    {option.title}
+                  </Text>
+                  <View
+                    style={[
+                      styles.iconCircle,
+                      {
+                        backgroundColor: isCurrentScreen
+                          ? "#CCC"
+                          : option.iconColor,
+                      },
+                    ]}
+                  >
+                    {renderIcon(option.id, "#FFFFFF")}
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
           </View>
 
           <Text style={styles.footerText}>
@@ -265,10 +282,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     borderRadius: 12,
   },
+  optionRowDisabled: {
+    backgroundColor: "#F0F0F0",
+    opacity: 0.6,
+  },
   optionText: {
     fontSize: 16,
     color: "#000",
     fontWeight: "500",
+  },
+  optionTextDisabled: {
+    color: "#999",
   },
   iconCircle: {
     width: 32,

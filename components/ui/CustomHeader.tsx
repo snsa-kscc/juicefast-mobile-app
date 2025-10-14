@@ -9,6 +9,7 @@ interface WellnessHeaderProps {
   onSettingsPress?: () => void;
   onBackPress?: () => void;
   showBackButton?: boolean;
+  showSettings?: boolean;
 }
 
 export function WellnessHeader({
@@ -18,6 +19,7 @@ export function WellnessHeader({
   onSettingsPress,
   onBackPress,
   showBackButton = false,
+  showSettings = true,
 }: WellnessHeaderProps) {
   return (
     <View className="relative py-8 overflow-hidden">

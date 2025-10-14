@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import { Camera, Image } from "lucide-react-native";
+import { Camera, Image, Coffee, Sandwich, UtensilsCrossed, Cookie } from "lucide-react-native";
 import React, {
   useOptimistic,
   useState,
@@ -332,20 +332,46 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
               What meal would you like to add?
             </Text>
 
-            <View>
-              {(["breakfast", "lunch", "dinner", "snack"] as const).map(
-                (mealType, index) => (
-                  <TouchableOpacity
-                    key={mealType}
-                    className={`bg-emerald-500 rounded-lg p-4 ${index < 3 ? "mb-3" : ""}`}
-                    onPress={() => handleAddMealByType(mealType)}
-                  >
-                    <Text className="text-lg font-medium capitalize text-center text-white">
-                      {mealType}
-                    </Text>
-                  </TouchableOpacity>
-                )
-              )}
+            <View className="flex-row flex-wrap gap-3">
+              <TouchableOpacity
+                className="bg-emerald-500 rounded-lg p-4 flex-1 min-w-[45%] items-center justify-center h-28"
+                onPress={() => handleAddMealByType("breakfast")}
+              >
+                <Coffee size={32} color="white" />
+                <Text className="text-lg font-medium text-white mt-2">
+                  Breakfast
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className="bg-emerald-500 rounded-lg p-4 flex-1 min-w-[45%] items-center justify-center h-28"
+                onPress={() => handleAddMealByType("lunch")}
+              >
+                <Sandwich size={32} color="white" />
+                <Text className="text-lg font-medium text-white mt-2">
+                  Lunch
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className="bg-emerald-500 rounded-lg p-4 flex-1 min-w-[45%] items-center justify-center h-28"
+                onPress={() => handleAddMealByType("dinner")}
+              >
+                <UtensilsCrossed size={32} color="white" />
+                <Text className="text-lg font-medium text-white mt-2">
+                  Dinner
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                className="bg-emerald-500 rounded-lg p-4 flex-1 min-w-[45%] items-center justify-center h-28"
+                onPress={() => handleAddMealByType("snack")}
+              >
+                <Cookie size={32} color="white" />
+                <Text className="text-lg font-medium text-white mt-2">
+                  Snack
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         ) : (
