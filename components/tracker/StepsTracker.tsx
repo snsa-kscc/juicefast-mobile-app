@@ -84,29 +84,25 @@ export function StepsTracker({ initialStepsData, onBack, onSettingsPress }: Step
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (totalSteps > 0) {
-      Animated.timing(animatedValue, {
-        toValue: totalSteps,
-        duration: 1500,
-        useNativeDriver: false,
-      }).start();
+    Animated.timing(animatedValue, {
+      toValue: totalSteps,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start();
 
-      const listener = animatedValue.addListener(({ value }) => {
-        setDisplayedSteps(Math.round(value));
-      });
+    const listener = animatedValue.addListener(({ value }) => {
+      setDisplayedSteps(Math.round(value));
+    });
 
-      return () => animatedValue.removeListener(listener);
-    }
+    return () => animatedValue.removeListener(listener);
   }, [totalSteps]);
 
   useEffect(() => {
-    if (optimisticSteps > 0) {
-      Animated.timing(animatedValue, {
-        toValue: optimisticSteps,
-        duration: 1000,
-        useNativeDriver: false,
-      }).start();
-    }
+    Animated.timing(animatedValue, {
+      toValue: optimisticSteps,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
   }, [optimisticSteps]);
 
   const handleAddSteps = async () => {

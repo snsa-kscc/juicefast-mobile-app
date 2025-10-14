@@ -94,29 +94,25 @@ export function SleepTracker({ initialSleepData, onBack, onSettingsPress }: Slee
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (totalHours > 0) {
-      Animated.timing(animatedValue, {
-        toValue: totalHours,
-        duration: 1500,
-        useNativeDriver: false,
-      }).start();
+    Animated.timing(animatedValue, {
+      toValue: totalHours,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start();
 
-      const listener = animatedValue.addListener(({ value }) => {
-        setDisplayedHours(Math.round(value * 10) / 10);
-      });
+    const listener = animatedValue.addListener(({ value }) => {
+      setDisplayedHours(Math.round(value * 10) / 10);
+    });
 
-      return () => animatedValue.removeListener(listener);
-    }
+    return () => animatedValue.removeListener(listener);
   }, [totalHours]);
 
   useEffect(() => {
-    if (optimisticHours > 0) {
-      Animated.timing(animatedValue, {
-        toValue: optimisticHours,
-        duration: 1000,
-        useNativeDriver: false,
-      }).start();
-    }
+    Animated.timing(animatedValue, {
+      toValue: optimisticHours,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
   }, [optimisticHours]);
 
   const calculateSleepHours = () => {

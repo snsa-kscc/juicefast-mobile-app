@@ -288,7 +288,7 @@ export function WellnessTracker({
   const loading = !todayData && isSignedIn;
 
   useEffect(() => {
-    if (todayData) {
+    if (todayData !== null) {
       Animated.timing(animatedValue, {
         toValue: todayData.totalScore,
         duration: 2000,

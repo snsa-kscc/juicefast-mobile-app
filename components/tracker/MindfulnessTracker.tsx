@@ -99,29 +99,25 @@ export function MindfulnessTracker({
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (totalMinutes > 0) {
-      Animated.timing(animatedValue, {
-        toValue: totalMinutes,
-        duration: 1500,
-        useNativeDriver: false,
-      }).start();
+    Animated.timing(animatedValue, {
+      toValue: totalMinutes,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start();
 
-      const listener = animatedValue.addListener(({ value }) => {
-        setDisplayedMinutes(Math.round(value));
-      });
+    const listener = animatedValue.addListener(({ value }) => {
+      setDisplayedMinutes(Math.round(value));
+    });
 
-      return () => animatedValue.removeListener(listener);
-    }
+    return () => animatedValue.removeListener(listener);
   }, [totalMinutes]);
 
   useEffect(() => {
-    if (optimisticMinutes > 0) {
-      Animated.timing(animatedValue, {
-        toValue: optimisticMinutes,
-        duration: 1000,
-        useNativeDriver: false,
-      }).start();
-    }
+    Animated.timing(animatedValue, {
+      toValue: optimisticMinutes,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
   }, [optimisticMinutes]);
 
   const handleAddMindfulness = async () => {
