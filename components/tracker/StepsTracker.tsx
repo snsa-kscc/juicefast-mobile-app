@@ -142,13 +142,13 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
 
   return (
     <ScrollView
-      className="flex-1 bg-[#FCFBF8]"
+      className="flex-1 bg-jf-gray"
       nestedScrollEnabled={true}
       showsVerticalScrollIndicator={false}
     >
       <WellnessHeader
         title="Step Tracker"
-        subtitle="Move your body, clear your mind — the rest will follow."
+        subtitle="Move your body, clear your mind - the rest will follow."
         accentColor="rgb(255, 200, 86)"
         showBackButton={true}
         onBackPress={onBack}

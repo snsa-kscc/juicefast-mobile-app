@@ -244,7 +244,8 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
               className="border border-gray-300 rounded-md px-3 py-2 bg-white"
             >
               <Text className="text-base">
-                {bedTime.hours.toString().padStart(2, "0")}:{bedTime.minutes.toString().padStart(2, "0")}
+                {bedTime.hours.toString().padStart(2, "0")}:
+                {bedTime.minutes.toString().padStart(2, "0")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -257,7 +258,8 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
               className="border border-gray-300 rounded-md px-3 py-2 bg-white"
             >
               <Text className="text-base">
-                {wakeTime.hours.toString().padStart(2, "0")}:{wakeTime.minutes.toString().padStart(2, "0")}
+                {wakeTime.hours.toString().padStart(2, "0")}:
+                {wakeTime.minutes.toString().padStart(2, "0")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -287,7 +289,12 @@ export function SleepTracker({ initialSleepData, onBack }: SleepTrackerProps) {
           </View>
         </View>
 
-        <TrackerButton title="Add sleep" onPress={handleAddSleep} isLoading={isAdding} loadingText="Adding..." />
+        <TrackerButton
+          title="Add sleep"
+          onPress={handleAddSleep}
+          isLoading={isAdding}
+          loadingText="Adding..."
+        />
       </View>
 
       {/* Sleep Entries List */}
