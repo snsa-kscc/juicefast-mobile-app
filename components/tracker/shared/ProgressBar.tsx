@@ -22,8 +22,17 @@ export function ProgressBar({
 
   return (
     <View className="w-full max-w-xs">
+      <View className="rounded-full h-4" style={{ backgroundColor }}>
+        <View
+          className="h-4 rounded-full"
+          style={{
+            width: `${progressPercentage}%`,
+            backgroundColor: color,
+          }}
+        />
+      </View>
       {showMarkers && markers.length > 0 && (
-        <View className="flex-row justify-between items-center mb-4">
+        <View className="flex-row justify-between items-center mt-4">
           {markers.map((marker, index) => (
             <Text key={index} className="text-xs text-gray-500">
               {marker}
@@ -31,15 +40,6 @@ export function ProgressBar({
           ))}
         </View>
       )}
-      <View className="rounded-full h-2" style={{ backgroundColor }}>
-        <View
-          className="h-2 rounded-full"
-          style={{
-            width: `${progressPercentage}%`,
-            backgroundColor: color,
-          }}
-        />
-      </View>
     </View>
   );
 }

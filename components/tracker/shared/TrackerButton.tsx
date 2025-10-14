@@ -38,7 +38,7 @@ export function TrackerButton({
       onPress={onPress}
       disabled={disabled || isLoading}
     >
-      <Text className={`font-medium ${getTextStyle()}`}>
+      <Text className={`font-lufga-semibold text-xl ${getTextStyle()}`}>
         {isLoading ? loadingText || `${title}...` : title}
       </Text>
     </TouchableOpacity>

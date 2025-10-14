@@ -234,7 +234,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   }, [selectedDate]);
 
   return (
-    <ScrollView 
+    <ScrollView
       className="flex-1 bg-[#F8F9FA]"
       nestedScrollEnabled={true}
       showsVerticalScrollIndicator={false}
@@ -261,7 +261,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
       <DaySelector selectedDate={selectedDate} onDateSelect={setSelectedDate} />
 
       {/* Main Content */}
-      <View className="px-6">
+      <View className="px-4">
         {/* Wellness Score Card */}
         <WellnessScoreCard
           averageScore={selectedDateData?.totalScore || 0}

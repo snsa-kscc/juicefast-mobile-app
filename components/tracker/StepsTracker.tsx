@@ -179,16 +179,18 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
 
         <Text className="font-lufga text-sm text-center text-gray-600 mb-8 mt-6">
           Estimated calories burned:{" "}
-          {Math.round(displayedSteps * CALORIES_PER_STEP)} kcal
+          <Text className="text-black">
+            {Math.round(displayedSteps * CALORIES_PER_STEP)} kcal
+          </Text>
         </Text>
       </TrackerStats>
 
       {/* Add Steps Form */}
       <View className="px-6">
-        <Text className="font-semibold mb-1">Add steps</Text>
+        <Text className="font-lufga-semibold mb-1 text-2xl">Add steps</Text>
         <View className="flex-row justify-between mb-1">
-          <Text className="font-lufga text-xs text-gray-500">Step count</Text>
-          <Text className="text-xs font-medium">{stepCount} steps</Text>
+          <Text className="font-lufga text-sm text-gray-500">Step count</Text>
+          <Text className="text-sm font-lufga-medium">{stepCount} steps</Text>
         </View>
 
         <View className="mb-4">
@@ -216,7 +218,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
             onPress={() => setStepCount(1000)}
           >
             <Text
-              className={`font-lufga text-sm ${
+              className={`font-lufga ${
                 stepCount === 1000 ? "text-[#B8860B]" : "text-gray-700"
               }`}
             >
@@ -233,7 +235,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
             onPress={() => setStepCount(2500)}
           >
             <Text
-              className={`font-lufga text-sm ${
+              className={`font-lufga ${
                 stepCount === 2500 ? "text-[#B8860B]" : "text-gray-700"
               }`}
             >
@@ -250,7 +252,7 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
             onPress={() => setStepCount(5000)}
           >
             <Text
-              className={`font-lufga text-sm ${
+              className={`font-lufga ${
                 stepCount === 5000 ? "text-[#B8860B]" : "text-gray-700"
               }`}
             >
@@ -307,18 +309,21 @@ export function StepsTracker({ initialStepsData, onBack }: StepsTrackerProps) {
       )}
 
       {/* Tips Card */}
-      <View className="px-6 mt-6 mb-20">
-        <View className="bg-white rounded-lg p-4 shadow-sm">
-          <Text className="font-semibold mb-2">Step Tips</Text>
-          <View className="space-y-2">
+      <View className="px-4 mt-6 mb-20">
+        <View className="bg-white rounded-2xl p-4">
+          <Text className="font-lufga-semibold text-xl mb-2">Step Tips</Text>
+          <View>
             {[
               "Take the stairs instead of the elevator",
               "Park farther away from your destination",
               "Set a reminder to walk for 5 minutes every hour",
-            ].map((tip, index) => (
-              <View key={index} className="flex-row items-start">
+            ].map((tip, index, array) => (
+              <View
+                key={index}
+                className={`flex-row items-start ${index < array.length - 1 ? "mb-2" : ""}`}
+              >
                 <View className="bg-amber-100 rounded-full p-1 mr-2 mt-0.5">
-                  <View className="w-3 h-3" />
+                  <View className="w-2 h-2" />
                 </View>
                 <Text className="font-lufga text-sm flex-1">{tip}</Text>
               </View>
