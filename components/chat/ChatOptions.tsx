@@ -197,11 +197,11 @@ export function ChatOptions({
         showsVerticalScrollIndicator={false}
         contentContainerClassName="items-center pb-8"
       >
-        <View className="w-full max-w-md space-y-4">
-          {displayOptions.map((option) => (
+        <View className="w-full max-w-md">
+          {displayOptions.map((option, index) => (
             <TouchableOpacity
               key={option.id}
-              className="bg-white rounded-xl shadow-sm"
+              className={`bg-white rounded-xl shadow-sm ${index < displayOptions.length - 1 ? 'mb-4' : ''}`}
               onPress={() => handleOptionPress(option.route)}
               activeOpacity={0.7}
             >

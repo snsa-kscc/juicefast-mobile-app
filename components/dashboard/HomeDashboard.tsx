@@ -3,7 +3,14 @@ import { useQuery } from "convex/react";
 import { Link, router } from "expo-router";
 import { Plus } from "lucide-react-native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Animated, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { api } from "../../convex/_generated/api";
 import { Spinner } from "../Spinner";
 import { CircularProgress, WellnessHeader } from "../tracker/shared";
@@ -281,12 +288,15 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
         />
 
         {/* Day Selector */}
-        <DaySelector selectedDate={selectedDate} onDateSelect={setSelectedDate} />
+        <DaySelector
+          selectedDate={selectedDate}
+          onDateSelect={setSelectedDate}
+        />
 
         {/* Wellness Score */}
         <View className="px-6 py-6 items-center">
-          <View className="flex-row justify-between items-center w-full mb-2">
-            <Text className="text-lg font-semibold tracking-widest">
+          <View className="flex-row justify-center gap-2 items-center w-full mb-6">
+            <Text className="text-2xl font-semibold tracking-widest">
               WELLNESS SCORE
             </Text>
             <View className="w-8 h-8 rounded-full bg-gray-100 justify-center items-center">
@@ -294,7 +304,9 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
             </View>
           </View>
           <Text className="font-lufga text-sm text-gray-500 mb-6">
-            {isToday ? "Your wellness score for today" : "Your wellness score for this day"}
+            {isToday
+              ? "Your wellness score for today"
+              : "Your wellness score for this day"}
           </Text>
 
           <CircularProgress
@@ -456,7 +468,8 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 </Text>
                 <View className="h-px bg-gray-200 my-1 w-[90%]" />
                 <Text className="font-lufga text-sm text-gray-500">
-                  {displayData.healthyMeals} healthy meals {isToday ? "today" : "logged"}
+                  {displayData.healthyMeals} healthy meals{" "}
+                  {isToday ? "today" : "logged"}
                 </Text>
               </View>
               <View className="ml-2 w-12 h-12 rounded-full bg-white/20 items-center justify-center">
@@ -504,7 +517,8 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 </Text>
                 <View className="h-px bg-gray-200 my-1 w-[90%]" />
                 <Text className="font-lufga text-sm text-gray-500">
-                  {displayData.mindfulness} minutes {isToday ? "today" : "logged"}
+                  {displayData.mindfulness} minutes{" "}
+                  {isToday ? "today" : "logged"}
                 </Text>
               </View>
               <View className="ml-2 w-12 h-12 rounded-full bg-white/20 items-center justify-center">
@@ -552,7 +566,8 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 </Text>
                 <View className="h-px bg-gray-200 my-1 w-[90%]" />
                 <Text className="font-lufga text-sm text-gray-500">
-                  {(displayData.water / 1000).toFixed(1)} liters {isToday ? "today" : "logged"}
+                  {(displayData.water / 1000).toFixed(1)} liters{" "}
+                  {isToday ? "today" : "logged"}
                 </Text>
               </View>
               <View className="ml-2 w-12 h-12 rounded-full bg-white/20 items-center justify-center">

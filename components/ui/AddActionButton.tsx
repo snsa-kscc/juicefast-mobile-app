@@ -5,7 +5,7 @@ import BottomSheet, {
 import { usePathname, useRouter } from "expo-router";
 import { Plus, X } from "lucide-react-native";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -68,11 +68,36 @@ export function AddActionButton() {
   );
 
   const wellnessOptions: ActionOption[] = [
-    { id: "meals", title: "Meals", iconColor: "rgba(13, 201, 155, 1)", route: "/meals" },
-    { id: "activity", title: "Steps", iconColor: "rgba(255, 200, 86, 1)", route: "/steps" },
-    { id: "mindfulness", title: "Mindfulness", iconColor: "rgba(254, 142, 119, 1)", route: "/mindfulness" },
-    { id: "sleep", title: "Sleep", iconColor: "rgba(98, 95, 211, 1)", route: "/sleep" },
-    { id: "hydration", title: "Water", iconColor: "rgba(76, 195, 255, 1)", route: "/hydration" },
+    {
+      id: "meals",
+      title: "Meals",
+      iconColor: "rgba(13, 201, 155, 1)",
+      route: "/meals",
+    },
+    {
+      id: "activity",
+      title: "Steps",
+      iconColor: "rgba(255, 200, 86, 1)",
+      route: "/steps",
+    },
+    {
+      id: "mindfulness",
+      title: "Mindfulness",
+      iconColor: "rgba(254, 142, 119, 1)",
+      route: "/mindfulness",
+    },
+    {
+      id: "sleep",
+      title: "Sleep",
+      iconColor: "rgba(98, 95, 211, 1)",
+      route: "/sleep",
+    },
+    {
+      id: "hydration",
+      title: "Water",
+      iconColor: "rgba(76, 195, 255, 1)",
+      route: "/hydration",
+    },
   ];
 
   const handleOptionPress = (route: string) => {
@@ -114,9 +139,12 @@ export function AddActionButton() {
   return (
     <>
       {/* Floating Action Button */}
-      <View style={styles.fabContainer} pointerEvents="auto">
+      <View
+        className="absolute bottom-[100px] right-5 z-[999]"
+        pointerEvents="auto"
+      >
         <TouchableOpacity
-          style={styles.fab}
+          className="w-14 h-14 rounded-full bg-white justify-center items-center shadow-lg"
           onPress={isOpen ? handleCloseBottomSheet : handleOpenBottomSheet}
           activeOpacity={0.8}
         >
@@ -138,35 +166,39 @@ export function AddActionButton() {
         enablePanDownToClose
         enableOverDrag={false}
         backdropComponent={renderBackdrop}
-        backgroundStyle={styles.bottomSheetBackground}
-        handleIndicatorStyle={styles.handleIndicator}
+        backgroundStyle={{
+          backgroundColor: "#F5F5F5",
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+        }}
+        handleIndicatorStyle={{ backgroundColor: "#000", width: 40, height: 4 }}
         android_keyboardInputMode="adjustResize"
         onClose={() => setIsOpen(false)}
       >
-        <BottomSheetView style={styles.contentContainer}>
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>WELLNESS LOG</Text>
+        <BottomSheetView className="flex-1 px-5 pt-10">
+          <View className="mb-[30px]">
+            <Text className="text-2xl font-lufga-bold text-black text-center mb-10 tracking-wider">
+              WELLNESS LOG
+            </Text>
             {wellnessOptions.map((option) => {
               const isCurrentScreen = pathname === option.route;
               return (
                 <TouchableOpacity
                   key={option.id}
-                  style={[
-                    styles.optionRow,
-                    isCurrentScreen && styles.optionRowDisabled,
-                  ]}
+                  className={`flex-row items-center py-4 px-5 mb-2 rounded-xl ${
+                    isCurrentScreen ? "bg-[#F0F0F0] opacity-60" : "bg-white"
+                  }`}
                   onPress={() => handleOptionPress(option.route)}
                   activeOpacity={isCurrentScreen ? 1 : 0.7}
                   disabled={isCurrentScreen}
                 >
-                  <View style={styles.iconContainer}>
+                  <View className="justify-center items-center mr-9">
                     {renderIcon(option.id, option.iconColor)}
                   </View>
                   <Text
-                    style={[
-                      styles.optionText,
-                      isCurrentScreen && styles.optionTextDisabled,
-                    ]}
+                    className={`text-base font-medium ${
+                      isCurrentScreen ? "text-[#999]" : "text-black"
+                    }`}
                   >
                     {option.title}
                   </Text>
@@ -175,7 +207,7 @@ export function AddActionButton() {
             })}
           </View>
 
-          <Text style={styles.footerText}>
+          <Text className="text-sm text-[#666] text-center mt-5 mb-[30px] leading-5 pb-10 font-lufga">
             For the most accurate insights,{"\n"}log daily.
           </Text>
         </BottomSheetView>
@@ -183,86 +215,3 @@ export function AddActionButton() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  fabContainer: {
-    position: "absolute",
-    bottom: 100,
-    right: 20,
-    zIndex: 999,
-  },
-  fab: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: "#FFFFFF",
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-  },
-  bottomSheetBackground: {
-    backgroundColor: "#F5F5F5",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  handleIndicator: {
-    backgroundColor: "#000",
-    width: 40,
-    height: 4,
-  },
-  contentContainer: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  section: {
-    marginBottom: 30,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: "#000",
-    textAlign: "center",
-    marginBottom: 20,
-    letterSpacing: 1,
-  },
-  optionRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#FFF",
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    marginBottom: 8,
-    borderRadius: 12,
-  },
-  optionRowDisabled: {
-    backgroundColor: "#F0F0F0",
-    opacity: 0.6,
-  },
-  optionText: {
-    fontSize: 16,
-    color: "#000",
-    fontWeight: "500",
-  },
-  optionTextDisabled: {
-    color: "#999",
-  },
-  iconContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 36,
-  },
-  footerText: {
-    fontSize: 14,
-    color: "#666",
-    textAlign: "center",
-    marginTop: 20,
-    marginBottom: 30,
-    lineHeight: 20,
-    paddingBottom: 40,
-  },
-});

@@ -66,7 +66,7 @@ function Select({ value, onValueChange, placeholder, options }: SelectProps) {
       </TouchableOpacity>
 
       {isOpen && (
-        <View className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg mt-1 z-50 shadow-lg">
+        <View className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg mt-1 z-50">
           {options.map((option) => (
             <TouchableOpacity
               key={option.value}
@@ -299,7 +299,7 @@ export default function ProfileScreen() {
 
       <ScrollView className="flex-1">
         {/* Profile Card */}
-        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
+        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
           <Text className="text-xl font-bold mb-4">Your Profile</Text>
 
           <View className="items-center mb-6">
@@ -356,7 +356,7 @@ export default function ProfileScreen() {
         </View>
 
         {/* Profile Details */}
-        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
+        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
           <Text className="text-xl font-bold mb-4">
             {isEditing ? "Edit Your Details" : "Your Details"}
           </Text>
@@ -556,7 +556,7 @@ export default function ProfileScreen() {
         </View>
 
         {/* Health Metrics Summary */}
-        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
+        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
           <Text className="text-lg font-bold mb-4">Health Metrics</Text>
 
           <View className="flex-row flex-wrap -mx-2">
@@ -622,7 +622,7 @@ export default function ProfileScreen() {
 
         {/* Referral Section */}
         {profile?.referralCode && (
-          <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
+          <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
             <Text className="text-lg font-bold mb-4">Referral Program</Text>
 
             <View className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 mb-4">
@@ -671,7 +671,7 @@ export default function ProfileScreen() {
         )}
 
         {/* Preferences Section */}
-        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
+        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
           <Text className="text-lg font-bold mb-4">Preferences</Text>
 
           <View className="flex-row items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -702,7 +702,7 @@ export default function ProfileScreen() {
         </View>
 
         {/* Legal Section */}
-        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 shadow-sm">
+        <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
           <Text className="text-lg font-bold mb-4">Legal</Text>
 
           <View>
