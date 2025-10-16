@@ -3,19 +3,7 @@ import BottomSheet, {
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { usePathname, useRouter } from "expo-router";
-import {
-  Activity,
-  Brain,
-  Droplets,
-  FileText,
-  Heart,
-  Moon,
-  Plus,
-  Scale,
-  Thermometer,
-  Utensils,
-  X,
-} from "lucide-react-native";
+import { Plus, X } from "lucide-react-native";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
@@ -23,6 +11,13 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import {
+  MealIcon,
+  MindfulnessIcon,
+  SleepIcon,
+  StepsIcon,
+  WaterIcon,
+} from "../icons/TrackerIcons";
 
 interface ActionOption {
   id: string;
@@ -73,31 +68,11 @@ export function AddActionButton() {
   );
 
   const wellnessOptions: ActionOption[] = [
-    {
-      id: "meals",
-      title: "Meals",
-      iconColor: "#0DC99B",
-      route: "/meals",
-    },
-    {
-      id: "activity",
-      title: "Activity",
-      iconColor: "#FF6B6B",
-      route: "/steps",
-    },
-    {
-      id: "mindfulness",
-      title: "Mindfulness",
-      iconColor: "#4ECDC4",
-      route: "/mindfulness",
-    },
-    {
-      id: "hydration",
-      title: "Hydration",
-      iconColor: "#45B7D1",
-      route: "/hydration",
-    },
-    { id: "sleep", title: "Sleep", iconColor: "#9B59B6", route: "/sleep" },
+    { id: "meals", title: "Meals", iconColor: "rgba(13, 201, 155, 1)", route: "/meals" },
+    { id: "activity", title: "Steps", iconColor: "rgba(255, 200, 86, 1)", route: "/steps" },
+    { id: "mindfulness", title: "Mindfulness", iconColor: "rgba(254, 142, 119, 1)", route: "/mindfulness" },
+    { id: "sleep", title: "Sleep", iconColor: "rgba(98, 95, 211, 1)", route: "/sleep" },
+    { id: "hydration", title: "Water", iconColor: "rgba(76, 195, 255, 1)", route: "/hydration" },
   ];
 
   const handleOptionPress = (route: string) => {
@@ -122,25 +97,17 @@ export function AddActionButton() {
   const renderIcon = (id: string, color: string) => {
     switch (id) {
       case "meals":
-        return <Utensils size={20} color={color} />;
+        return <MealIcon color={color} />;
       case "activity":
-        return <Activity size={20} color={color} />;
+        return <StepsIcon color={color} />;
       case "mindfulness":
-        return <Brain size={20} color={color} />;
+        return <MindfulnessIcon color={color} />;
       case "hydration":
-        return <Droplets size={20} color={color} />;
+        return <WaterIcon color={color} />;
       case "sleep":
-        return <Moon size={20} color={color} />;
-      case "note":
-        return <FileText size={20} color={color} />;
-      case "moods":
-        return <Heart size={20} color={color} />;
-      case "weight":
-        return <Scale size={20} color={color} />;
-      case "temperature":
-        return <Thermometer size={20} color={color} />;
+        return <SleepIcon color={color} />;
       default:
-        return <Activity size={20} color={color} />;
+        return <StepsIcon color={color} />;
     }
   };
 
@@ -192,6 +159,9 @@ export function AddActionButton() {
                   activeOpacity={isCurrentScreen ? 1 : 0.7}
                   disabled={isCurrentScreen}
                 >
+                  <View style={styles.iconContainer}>
+                    {renderIcon(option.id, option.iconColor)}
+                  </View>
                   <Text
                     style={[
                       styles.optionText,
@@ -200,18 +170,6 @@ export function AddActionButton() {
                   >
                     {option.title}
                   </Text>
-                  <View
-                    style={[
-                      styles.iconCircle,
-                      {
-                        backgroundColor: isCurrentScreen
-                          ? "#CCC"
-                          : option.iconColor,
-                      },
-                    ]}
-                  >
-                    {renderIcon(option.id, "#FFFFFF")}
-                  </View>
                 </TouchableOpacity>
               );
             })}
@@ -274,7 +232,6 @@ const styles = StyleSheet.create({
   },
   optionRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#FFF",
     paddingVertical: 16,
@@ -294,12 +251,10 @@ const styles = StyleSheet.create({
   optionTextDisabled: {
     color: "#999",
   },
-  iconCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+  iconContainer: {
     justifyContent: "center",
     alignItems: "center",
+    marginRight: 36,
   },
   footerText: {
     fontSize: 14,
