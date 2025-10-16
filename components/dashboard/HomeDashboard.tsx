@@ -1,14 +1,20 @@
 import { useAuth } from "@clerk/clerk-expo";
 import { useQuery } from "convex/react";
 import { Link, router } from "expo-router";
-import { Settings } from "lucide-react-native";
-import React, { useEffect, useMemo, useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Plus } from "lucide-react-native";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Animated, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { api } from "../../convex/_generated/api";
 import { Spinner } from "../Spinner";
-import { DailyOverview } from "./DailyOverview";
+import { CircularProgress, WellnessHeader } from "../tracker/shared";
 import { DaySelector } from "./DaySelector";
-import { WellnessScoreCard } from "./WellnessScoreCard";
+import {
+  MealIcon,
+  StepsIcon,
+  MindfulnessIcon,
+  SleepIcon,
+  WaterIcon,
+} from "./icons/TrackerIcons";
 
 interface DailyMetrics {
   steps: number;
@@ -27,6 +33,8 @@ interface HomeDashboardProps {
 export function HomeDashboard({ userName }: HomeDashboardProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [displayedScore, setDisplayedScore] = useState<number>(0);
+  const animatedValue = useRef(new Animated.Value(0)).current;
   const { isSignedIn } = useAuth();
 
   // Calculate start and end timestamps for selected date
@@ -182,6 +190,23 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
     sleepEntries,
   ]);
 
+  // Animate score
+  useEffect(() => {
+    if (selectedDateData !== null) {
+      Animated.timing(animatedValue, {
+        toValue: selectedDateData.totalScore,
+        duration: 1500,
+        useNativeDriver: false,
+      }).start();
+
+      const listener = animatedValue.addListener(({ value }) => {
+        setDisplayedScore(Math.round(value));
+      });
+
+      return () => animatedValue.removeListener(listener);
+    }
+  }, [selectedDateData]);
+
   // Calculate daily progress percentages based on goals
   const dailyProgress = useMemo(() => {
     if (!selectedDateData) {
@@ -233,134 +258,353 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
     return selectedDate.toDateString() === today.toDateString();
   }, [selectedDate]);
 
-  return (
-    <ScrollView
-      className="flex-1 bg-[#F8F9FA]"
-      nestedScrollEnabled={true}
-      showsVerticalScrollIndicator={false}
-    >
-      {/* Header */}
-      <View className="px-6 pt-12 pb-4 flex-row justify-between items-start">
-        <View>
-          <Text className="text-lg font-medium text-black">
-            Hi, {userName ? userName.split(" ")[0] : "David"}!
-          </Text>
-          <Text className="text-gray-500 text-sm mt-1">
-            What are we doing today?
-          </Text>
-        </View>
-        <TouchableOpacity
-          className="p-2"
-          onPress={() => router.push("/profile" as any)}
-        >
-          <Settings size={20} color="#9CA3AF" />
-        </TouchableOpacity>
+  if (isLoading && isSignedIn) {
+    return (
+      <View className="flex-1 bg-[#FCFBF8] justify-center items-center">
+        <Spinner size={32} color="rgb(76, 195, 255)" />
       </View>
+    );
+  }
 
-      {/* Day Selector */}
-      <DaySelector selectedDate={selectedDate} onDateSelect={setSelectedDate} />
-
-      {/* Main Content */}
-      <View className="px-4">
-        {/* Wellness Score Card */}
-        <WellnessScoreCard
-          averageScore={selectedDateData?.totalScore || 0}
-          dailyProgress={dailyProgress}
+  return (
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        className="flex-1 bg-[#FCFBF8]"
+        nestedScrollEnabled={true}
+        showsVerticalScrollIndicator={false}
+      >
+        <WellnessHeader
+          title={`Hi, ${userName ? userName.split(" ")[0] : "David"}!`}
+          subtitle="What are we doing today?"
+          accentColor="rgb(76, 195, 255)"
+          onSettingsPress={() => router.push("/profile" as any)}
         />
 
-        {/* Wellness Cards - Horizontal Scrollable */}
-        <View className="mb-6">
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            nestedScrollEnabled={true}
-            className="flex-row"
-          >
-            <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3 bg-blue-200">
-              <View className="absolute inset-0 bg-gradient-to-br from-blue-300 to-blue-400 justify-end p-3">
-                <Text className="text-white text-xs font-medium">
-                  Guided{"\n"}meditations
-                </Text>
-              </View>
-            </TouchableOpacity>
+        {/* Day Selector */}
+        <DaySelector selectedDate={selectedDate} onDateSelect={setSelectedDate} />
 
-            <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden mr-3 bg-green-200">
-              <View className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-400 justify-end p-3">
-                <Text className="text-white text-xs font-medium">
-                  Guided{"\n"}affirmations
-                </Text>
-              </View>
-            </TouchableOpacity>
+        {/* Wellness Score */}
+        <View className="px-6 py-6 items-center">
+          <View className="flex-row justify-between items-center w-full mb-2">
+            <Text className="text-lg font-semibold tracking-widest">
+              WELLNESS SCORE
+            </Text>
+            <View className="w-8 h-8 rounded-full bg-gray-100 justify-center items-center">
+              <Text className="text-base text-slate-600 font-bold">i</Text>
+            </View>
+          </View>
+          <Text className="font-lufga text-sm text-gray-500 mb-6">
+            {isToday ? "Your wellness score for today" : "Your wellness score for this day"}
+          </Text>
 
-            <TouchableOpacity className="w-28 h-20 rounded-xl overflow-hidden bg-pink-200">
-              <View className="absolute inset-0 bg-gradient-to-br from-pink-300 to-pink-400 justify-end p-3">
-                <Text className="text-white text-xs font-medium">
-                  Strength{"\n"}exercises
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </ScrollView>
+          <CircularProgress
+            value={displayedScore}
+            maxValue={100}
+            color="#E8D5B0"
+            backgroundColor="#F2E9D8"
+            displayValue={displayedScore}
+          />
         </View>
 
-        {/* Daily Overview */}
-        {!isSignedIn ? (
-          <View className="items-center py-8">
-            <Text className="text-gray-500">
-              Please sign in to view your wellness data
+        {/* Daily Progress Summary */}
+        <View className="px-6 py-4">
+          <Text className="text-center font-semibold text-xs tracking-widest uppercase mb-4">
+            DAILY PROGRESS SUMMARY (%)
+          </Text>
+          <View className="flex-row justify-around gap-2 mb-6">
+            <View className="flex-col items-center">
+              <View
+                className="w-14 h-24 rounded-full border flex-col items-center justify-center mb-1 relative overflow-hidden"
+                style={{ backgroundColor: "#FFF8E7", borderColor: "#FFC856" }}
+              >
+                <View
+                  className="absolute bottom-0 left-0 right-0"
+                  style={{
+                    height: `${Math.min(100, dailyProgress.steps)}%`,
+                    backgroundColor: "#FFC856",
+                  }}
+                />
+                <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
+                  <View className="mb-1">
+                    <StepsIcon size={24} color="#FFC856" />
+                  </View>
+                  <Text
+                    className={`font-semibold ${dailyProgress.steps > 50 ? "text-white" : "text-black"}`}
+                  >
+                    {dailyProgress.steps}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View className="flex-col items-center">
+              <View
+                className="w-14 h-24 rounded-full border flex-col items-center justify-center mb-1 relative overflow-hidden"
+                style={{ backgroundColor: "#FFF0F0", borderColor: "#FE8E77" }}
+              >
+                <View
+                  className="absolute bottom-0 left-0 right-0"
+                  style={{
+                    height: `${Math.min(100, dailyProgress.mindfulness)}%`,
+                    backgroundColor: "#FE8E77",
+                  }}
+                />
+                <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
+                  <View className="mb-1">
+                    <MindfulnessIcon size={24} color="#FE8E77" />
+                  </View>
+                  <Text
+                    className={`font-semibold ${dailyProgress.mindfulness > 50 ? "text-white" : "text-black"}`}
+                  >
+                    {dailyProgress.mindfulness}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View className="flex-col items-center">
+              <View
+                className="w-14 h-24 rounded-full border flex-col items-center justify-center mb-1 relative overflow-hidden"
+                style={{ backgroundColor: "#F0FFF4", borderColor: "#0DC99B" }}
+              >
+                <View
+                  className="absolute bottom-0 left-0 right-0"
+                  style={{
+                    height: `${Math.min(100, dailyProgress.meals)}%`,
+                    backgroundColor: "#0DC99B",
+                  }}
+                />
+                <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
+                  <View className="mb-1">
+                    <MealIcon size={24} color="#0DC99B" />
+                  </View>
+                  <Text
+                    className={`font-semibold ${dailyProgress.meals > 50 ? "text-white" : "text-black"}`}
+                  >
+                    {dailyProgress.meals}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View className="flex-col items-center">
+              <View
+                className="w-14 h-24 rounded-full border flex-col items-center justify-center mb-1 relative overflow-hidden"
+                style={{ backgroundColor: "#EEEDFF", borderColor: "#625FD3" }}
+              >
+                <View
+                  className="absolute bottom-0 left-0 right-0"
+                  style={{
+                    height: `${Math.min(100, dailyProgress.sleep)}%`,
+                    backgroundColor: "#625FD3",
+                  }}
+                />
+                <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
+                  <View className="mb-1">
+                    <SleepIcon size={24} color="#625FD3" />
+                  </View>
+                  <Text
+                    className={`font-semibold ${dailyProgress.sleep > 50 ? "text-white" : "text-black"}`}
+                  >
+                    {dailyProgress.sleep}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View className="flex-col items-center">
+              <View
+                className="w-14 h-24 rounded-full border flex-col items-center justify-center mb-1 relative overflow-hidden"
+                style={{ backgroundColor: "#EBF9FF", borderColor: "#4CC3FF" }}
+              >
+                <View
+                  className="absolute bottom-0 left-0 right-0"
+                  style={{
+                    height: `${Math.min(100, dailyProgress.water)}%`,
+                    backgroundColor: "#4CC3FF",
+                  }}
+                />
+                <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
+                  <View className="mb-1">
+                    <WaterIcon size={24} color="#4CC3FF" />
+                  </View>
+                  <Text
+                    className={`font-semibold ${dailyProgress.water > 50 ? "text-white" : "text-black"}`}
+                  >
+                    {dailyProgress.water}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* Tracking Options */}
+        <View className="px-6 py-6">
+          <Text className="text-base font-medium text-center mb-4">
+            What would you like to track {isToday ? "today" : "for this day"}?
+          </Text>
+
+          <TouchableOpacity
+            className="rounded-xl mb-3 border border-transparent bg-white"
+            onPress={() => router.push("/meals" as any)}
+            activeOpacity={0.7}
+          >
+            <View className="flex-row items-center p-4">
+              <View className="mr-3">
+                <MealIcon size={36} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-base font-medium mb-1">
+                  Eat 2 healthy meals
+                </Text>
+                <View className="h-px bg-gray-200 my-1 w-[90%]" />
+                <Text className="font-lufga text-sm text-gray-500">
+                  {displayData.healthyMeals} healthy meals {isToday ? "today" : "logged"}
+                </Text>
+              </View>
+              <View className="ml-2 w-12 h-12 rounded-full bg-white/20 items-center justify-center">
+                <Plus size={32} color="#6B7280" />
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="rounded-xl mb-3 border border-transparent bg-white"
+            onPress={() => router.push("/steps" as any)}
+            activeOpacity={0.7}
+          >
+            <View className="flex-row items-center p-4">
+              <View className="mr-3">
+                <StepsIcon size={36} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-base font-medium mb-1">
+                  Take 10 000 steps
+                </Text>
+                <View className="h-px bg-gray-200 my-1 w-[90%]" />
+                <Text className="font-lufga text-sm text-gray-500">
+                  {displayData.steps} steps {isToday ? "today" : "logged"}
+                </Text>
+              </View>
+              <View className="ml-2 w-12 h-12 rounded-full bg-white/20 items-center justify-center">
+                <Plus size={32} color="#6B7280" />
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="rounded-xl mb-3 border border-transparent bg-white"
+            onPress={() => router.push("/mindfulness" as any)}
+            activeOpacity={0.7}
+          >
+            <View className="flex-row items-center p-4">
+              <View className="mr-3">
+                <MindfulnessIcon size={36} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-base font-medium mb-1">
+                  Spend 20 quiet minutes
+                </Text>
+                <View className="h-px bg-gray-200 my-1 w-[90%]" />
+                <Text className="font-lufga text-sm text-gray-500">
+                  {displayData.mindfulness} minutes {isToday ? "today" : "logged"}
+                </Text>
+              </View>
+              <View className="ml-2 w-12 h-12 rounded-full bg-white/20 items-center justify-center">
+                <Plus size={32} color="#6B7280" />
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="rounded-xl mb-3 border border-transparent bg-white"
+            onPress={() => router.push("/sleep" as any)}
+            activeOpacity={0.7}
+          >
+            <View className="flex-row items-center p-4">
+              <View className="mr-3">
+                <SleepIcon size={36} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-base font-medium mb-1">
+                  Sleep 8 hours
+                </Text>
+                <View className="h-px bg-gray-200 my-1 w-[90%]" />
+                <Text className="font-lufga text-sm text-gray-500">
+                  {displayData.sleep} hours {isToday ? "today" : "logged"}
+                </Text>
+              </View>
+              <View className="ml-2 w-12 h-12 rounded-full bg-white/20 items-center justify-center">
+                <Plus size={32} color="#6B7280" />
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="rounded-xl mb-3 border border-transparent bg-white"
+            onPress={() => router.push("/hydration" as any)}
+            activeOpacity={0.7}
+          >
+            <View className="flex-row items-center p-4">
+              <View className="mr-3">
+                <WaterIcon size={36} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-base font-medium mb-1">
+                  Drink 2.2L of water
+                </Text>
+                <View className="h-px bg-gray-200 my-1 w-[90%]" />
+                <Text className="font-lufga text-sm text-gray-500">
+                  {(displayData.water / 1000).toFixed(1)} liters {isToday ? "today" : "logged"}
+                </Text>
+              </View>
+              <View className="ml-2 w-12 h-12 rounded-full bg-white/20 items-center justify-center">
+                <Plus size={32} color="#6B7280" />
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        {/* Additional Actions */}
+        <View className="px-6">
+          <TouchableOpacity
+            className="bg-green-600 px-6 py-4 rounded-xl mb-4"
+            onPress={() => router.push("/onboarding?retake=true")}
+          >
+            <Text className="text-white text-lg font-semibold text-center">
+              Take Onboarding Quiz
             </Text>
-          </View>
-        ) : isLoading ? (
-          <View className="items-center py-8">
-            <Spinner size={32} />
-            <Text className="text-gray-500 mt-2">Loading daily data...</Text>
-          </View>
-        ) : (
-          <DailyOverview data={displayData} isToday={isToday} />
-        )}
+          </TouchableOpacity>
 
-        {/* Onboarding Button */}
-        <TouchableOpacity
-          className="bg-green-600 px-6 py-4 rounded-xl mb-4"
-          onPress={() => router.push("/onboarding?retake=true")}
-        >
-          <Text className="text-white text-lg font-semibold text-center">
-            Take Onboarding Quiz
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            className="bg-blue-600 px-6 py-4 rounded-xl mb-4"
+            onPress={() => router.push("/test-notifications")}
+          >
+            <Text className="text-white text-lg font-semibold text-center">
+              Test Push Notifications
+            </Text>
+          </TouchableOpacity>
 
-        {/* Test Push Notifications */}
-        <TouchableOpacity
-          className="bg-blue-600 px-6 py-4 rounded-xl mb-4"
-          onPress={() => router.push("/test-notifications")}
-        >
-          <Text className="text-white text-lg font-semibold text-center">
-            Test Push Notifications
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            className="w-full mb-4"
+            onPress={() => router.push("/(tabs)/store")}
+          >
+            <Image
+              source={require("../../assets/images/challenge.png")}
+              className="w-full h-32 rounded-xl"
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
 
-        {/* Challenge Banners */}
-        <TouchableOpacity
-          className="w-full mb-4"
-          onPress={() => router.push("/(tabs)/store")}
-        >
-          <Image
-            source={require("../../assets/images/challenge.png")}
-            className="w-full h-32 rounded-xl"
-            resizeMode="cover"
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className="w-full mb-20"
-          onPress={() => router.push("/(tabs)/store")}
-        >
-          <Image
-            source={require("../../assets/images/fasting.png")}
-            className="w-full h-32 rounded-xl"
-            resizeMode="cover"
-          />
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+          <TouchableOpacity
+            className="w-full mb-20"
+            onPress={() => router.push("/(tabs)/store")}
+          >
+            <Image
+              source={require("../../assets/images/fasting.png")}
+              className="w-full h-32 rounded-xl"
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
