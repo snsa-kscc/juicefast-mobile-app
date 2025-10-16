@@ -4,13 +4,12 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  StyleSheet,
-  SafeAreaView,
 } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 // Using View with backgroundColor instead of LinearGradient
 import { AnimatedScreen } from "@/components/AnimatedScreen";
+import { PaywallGuard } from "@/components/paywall/PaywallGuard";
 import { CategorySelector } from "@/components/club/CategorySelector";
 import { ContentGrid } from "@/components/club/ContentGrid";
 import { DailyContent } from "@/components/club/DailyContent";
@@ -23,6 +22,7 @@ import {
   getSubcategoryData,
 } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function JFClub() {
   const [activeTab, setActiveTab] = useState<string>("trending");
@@ -91,269 +91,150 @@ export default function JFClub() {
   };
 
   return (
-    <AnimatedScreen>
-      <SafeAreaView style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {/* Header */}
-          <View style={styles.headerGradient}>
-            <View style={styles.header}>
-              <View style={styles.headerTop}>
-                <Text style={styles.headerTitle}>JF Club</Text>
+    <PaywallGuard>
+      <AnimatedScreen>
+        <SafeAreaView className="flex-1 bg-[#FCFBF8]">
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {/* Header */}
+            <View className="bg-[#E0F7FA] pb-8">
+              <View className="px-4 pt-4">
+                <View className="flex-row justify-between items-center mb-2">
+                  <Text className="text-xl font-bold text-gray-900">JF Club</Text>
+                  <TouchableOpacity
+                    className="p-2"
+                    onPress={() => router.push("/profile")}
+                  >
+                    <Ionicons
+                      name="settings-outline"
+                      size={20}
+                      color="#374151"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <Text className="text-sm text-gray-500 leading-5">
+                  Workouts, recipes and relevant articles come to you every day,
+                  and are all based on your current state, logged results and
+                  overall wellness goals.
+                </Text>
+              </View>
+            </View>
+
+            {/* Tab Navigation */}
+            <View className="border-b border-gray-200">
+              <View className="flex-row">
                 <TouchableOpacity
-                  style={styles.settingsButton}
-                  onPress={() => router.push("/profile")}
+                  onPress={() => handleTabChange("trending")}
+                  className={`px-6 py-3 ${
+                    activeTab === "trending" ? "border-b-2 border-gray-900" : ""
+                  }`}
                 >
-                  <Ionicons name="settings-outline" size={20} color="#374151" />
+                  <Text
+                    className={`text-sm font-medium ${
+                      activeTab === "trending" ? "text-gray-900" : "text-gray-400"
+                    }`}
+                  >
+                    Trending
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleTabChange("discover")}
+                  className={`px-6 py-3 ${
+                    activeTab === "discover" ? "border-b-2 border-gray-900" : ""
+                  }`}
+                >
+                  <Text
+                    className={`text-sm font-medium ${
+                      activeTab === "discover" ? "text-gray-900" : "text-gray-400"
+                    }`}
+                  >
+                    Discover
+                  </Text>
                 </TouchableOpacity>
               </View>
-              <Text style={styles.headerDescription}>
-                Workouts, recipes and relevant articles come to you every day,
-                and are all based on your current state, logged results and
-                overall wellness goals.
+            </View>
+
+            {/* Category Selector */}
+            <CategorySelector
+              categories={WELLNESS_CATEGORIES}
+              selectedCategory={selectedCategory}
+              onSelectCategory={handleCategorySelect}
+            />
+
+            {/* Content Section */}
+            <View className="px-4">
+              <Text className="text-2xl font-bold text-gray-900 mb-4 mt-4">
+                {selectedCategory === "trending"
+                  ? "Trending"
+                  : WELLNESS_CATEGORIES.find((c) => c.id === selectedCategory)
+                      ?.name}
               </Text>
-            </View>
-          </View>
 
-          {/* Tab Navigation */}
-          <View style={styles.tabContainer}>
-            <View style={styles.tabNavigation}>
-              <TouchableOpacity
-                onPress={() => handleTabChange("trending")}
-                style={[
-                  styles.tabButton,
-                  activeTab === "trending" && styles.activeTabButton,
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.tabText,
-                    activeTab === "trending" && styles.activeTabText,
-                  ]}
-                >
-                  Trending
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => handleTabChange("discover")}
-                style={[
-                  styles.tabButton,
-                  activeTab === "discover" && styles.activeTabButton,
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.tabText,
-                    activeTab === "discover" && styles.activeTabText,
-                  ]}
-                >
-                  Discover
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          {/* Category Selector */}
-          <CategorySelector
-            categories={WELLNESS_CATEGORIES}
-            selectedCategory={selectedCategory}
-            onSelectCategory={handleCategorySelect}
-          />
-
-          {/* Content Section */}
-          <View style={styles.contentSection}>
-            <Text style={styles.sectionTitle}>
-              {selectedCategory === "trending"
-                ? "Trending"
-                : WELLNESS_CATEGORIES.find((c) => c.id === selectedCategory)
-                    ?.name}
-            </Text>
-
-            {/* Content Grid or Subcategories */}
-            {selectedCategory === "trending" ? (
-              <ContentGrid
-                items={getContentForCategory()}
-                columns={2}
-                onItemPress={handleItemClick}
-              />
-            ) : (
-              <View style={styles.subcategoriesGrid}>
-                {getSubcategoriesForCategory().map((subcategory) => (
-                  <TouchableOpacity
-                    key={subcategory.id}
-                    style={styles.subcategoryCard}
-                    onPress={() => handleSubcategoryClick(subcategory.id)}
-                  >
-                    <View style={styles.subcategoryImageContainer}>
-                      <Ionicons
-                        name="musical-notes"
-                        size={40}
-                        color="#6B7280"
-                      />
-                    </View>
-                    <View style={styles.subcategoryContent}>
-                      <Text style={styles.subcategoryName}>
-                        {subcategory.name}
-                      </Text>
-                      {subcategory.count && (
-                        <Text style={styles.subcategoryCount}>
-                          {subcategory.count}{" "}
-                          {subcategory.countLabel || "items"}
+              {/* Content Grid or Subcategories */}
+              {selectedCategory === "trending" ? (
+                <ContentGrid
+                  items={getContentForCategory()}
+                  columns={2}
+                  onItemPress={handleItemClick}
+                />
+              ) : (
+                <View className="flex-row flex-wrap justify-between mb-8">
+                  {getSubcategoriesForCategory().map((subcategory) => (
+                    <TouchableOpacity
+                      key={subcategory.id}
+                      className="w-[48%] mb-4"
+                      onPress={() => handleSubcategoryClick(subcategory.id)}
+                    >
+                      <View className="aspect-square bg-gray-100 rounded-xl items-center justify-center mb-2">
+                        <Ionicons
+                          name="musical-notes"
+                          size={40}
+                          color="#6B7280"
+                        />
+                      </View>
+                      <View className="mt-2">
+                        <Text className="text-base font-semibold text-gray-900">
+                          {subcategory.name}
                         </Text>
-                      )}
+                        {subcategory.count && (
+                          <Text className="text-xs text-gray-500 mt-0.5">
+                            {subcategory.count}{" "}
+                            {subcategory.countLabel || "items"}
+                          </Text>
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+
+              {/* Premium Banner - Only show on trending */}
+              {selectedCategory === "trending" && (
+                <View className="mb-8">
+                  <Text className="text-xs text-gray-500 text-center mb-2">
+                    *Premium also includes detail analytics, premium insights,
+                    PDF data export and better wellness predictions
+                  </Text>
+                  <PremiumSubscriptionDrawer>
+                    <View className="bg-blue-500 py-3 rounded-[25px] items-center">
+                      <Text className="text-base font-bold text-white">GO PREMIUM</Text>
                     </View>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
+                  </PremiumSubscriptionDrawer>
+                </View>
+              )}
 
-            {/* Premium Banner - Only show on trending */}
-            {selectedCategory === "trending" && (
-              <View style={styles.premiumSection}>
-                <Text style={styles.premiumDisclaimer}>
-                  *Premium also includes detail analytics, premium insights, PDF
-                  data export and better wellness predictions
-                </Text>
-                <PremiumSubscriptionDrawer>
-                  <View style={styles.premiumButton}>
-                    <Text style={styles.premiumButtonText}>GO PREMIUM</Text>
-                  </View>
-                </PremiumSubscriptionDrawer>
-              </View>
-            )}
+              {/* Daily Content - Only show on trending */}
+              {selectedCategory === "trending" && (
+                <DailyContent
+                  items={getDailyContent()}
+                  onItemPress={handleItemClick}
+                />
+              )}
 
-            {/* Daily Content - Only show on trending */}
-            {selectedCategory === "trending" && (
-              <DailyContent
-                items={getDailyContent()}
-                onItemPress={handleItemClick}
-              />
-            )}
-
-            <View style={styles.bottomSpacer} />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </AnimatedScreen>
+              <View className="h-[100px]" />
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      </AnimatedScreen>
+    </PaywallGuard>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FCFBF8",
-  },
-  headerGradient: {
-    backgroundColor: "#E0F7FA",
-    paddingBottom: 32,
-  },
-  header: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-  },
-  headerTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#111827",
-  },
-  settingsButton: {
-    padding: 8,
-  },
-  headerDescription: {
-    fontSize: 14,
-    color: "#6B7280",
-    lineHeight: 20,
-  },
-  tabContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#E5E7EB",
-  },
-  tabNavigation: {
-    flexDirection: "row",
-  },
-  tabButton: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-  },
-  activeTabButton: {
-    borderBottomWidth: 2,
-    borderBottomColor: "#111827",
-  },
-  tabText: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#9CA3AF",
-  },
-  activeTabText: {
-    color: "#111827",
-  },
-  contentSection: {
-    paddingHorizontal: 16,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 16,
-    marginTop: 16,
-  },
-  subcategoriesGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginBottom: 32,
-  },
-  subcategoryCard: {
-    width: "48%",
-    marginBottom: 16,
-  },
-  subcategoryImageContainer: {
-    aspectRatio: 1,
-    backgroundColor: "#F3F4F6",
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
-  },
-  subcategoryContent: {
-    marginTop: 8,
-  },
-  subcategoryName: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#111827",
-  },
-  subcategoryCount: {
-    fontSize: 12,
-    color: "#6B7280",
-    marginTop: 2,
-  },
-  premiumSection: {
-    marginBottom: 32,
-  },
-  premiumDisclaimer: {
-    fontSize: 12,
-    color: "#6B7280",
-    textAlign: "center",
-    marginBottom: 8,
-  },
-  premiumButton: {
-    backgroundColor: "#3B82F6",
-    paddingVertical: 12,
-    borderRadius: 25,
-    alignItems: "center",
-  },
-  premiumButtonText: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: "#FFFFFF",
-  },
-  bottomSpacer: {
-    height: 100,
-  },
-});

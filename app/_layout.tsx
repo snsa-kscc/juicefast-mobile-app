@@ -8,11 +8,10 @@ import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { LoadingProvider } from "../providers/LoadingProvider";
 import { QueryProvider } from "../providers/QueryProvider";
+import { RevenueCatProvider } from "../providers/RevenueCatProvider";
 import { usePushTokenStorage } from "../hooks/usePushTokenStorage";
 import "../styles/global.css";
 import { handleAppInstallWithReferral } from "../utils/appInstallHandler";
-import { Platform } from "react-native";
-import Purchases, { LOG_LEVEL } from "react-native-purchases";
 import { AddActionButton } from "../components/ui/AddActionButton";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
@@ -120,39 +119,6 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  useEffect(() => {
-    if (Platform.OS === "ios") {
-      Purchases.configure({
-        apiKey: process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY!,
-      });
-      getCustomerInfo();
-      getOfferings();
-    }
-  }, []);
-
-  async function getCustomerInfo() {
-    try {
-      const customerInfo = await Purchases.getCustomerInfo();
-      console.log("Customer info:", customerInfo);
-    } catch (error) {
-      console.error("Error getting customer info:", error);
-    }
-  }
-
-  async function getOfferings() {
-    try {
-      const offerings = await Purchases.getOfferings();
-      if (
-        offerings.current !== null &&
-        offerings.current.availablePackages.length > 0
-      ) {
-        console.log("Offerings:", JSON.stringify(offerings, null, 2));
-      }
-    } catch (error) {
-      console.error("Error getting offerings:", error);
-    }
-  }
-
   if (!loaded) {
     return null;
   }
@@ -160,13 +126,15 @@ export default function RootLayout() {
   return (
     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <LoadingProvider>
-            <QueryProvider>
-              <AuthenticatedLayout />
-            </QueryProvider>
-          </LoadingProvider>
-        </GestureHandlerRootView>
+        <RevenueCatProvider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <LoadingProvider>
+              <QueryProvider>
+                <AuthenticatedLayout />
+              </QueryProvider>
+            </LoadingProvider>
+          </GestureHandlerRootView>
+        </RevenueCatProvider>
       </ConvexProviderWithClerk>
     </ClerkProvider>
   );
