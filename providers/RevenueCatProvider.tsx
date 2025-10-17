@@ -1,10 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import Purchases, { CustomerInfo, PurchasesOfferings, PurchasesPackage, LOG_LEVEL } from "react-native-purchases";
+import Purchases, {
+  CustomerInfo,
+  PurchasesOfferings,
+  PurchasesPackage,
+  LOG_LEVEL,
+} from "react-native-purchases";
 import { Platform } from "react-native";
 import { useUser } from "@clerk/clerk-expo";
 
 // DEBUG: Set to true to bypass subscription check and always have premium access
-const FORCE_PREMIUM_ACCESS = false;
+const FORCE_PREMIUM_ACCESS = true;
 
 interface RevenueCatContextType {
   isSubscribed: boolean;
@@ -12,7 +17,9 @@ interface RevenueCatContextType {
   isLoading: boolean;
   offerings: PurchasesOfferings | null;
   restorePurchases: () => Promise<void>;
-  purchasePackage: (pkg: PurchasesPackage) => Promise<{ customerInfo: CustomerInfo; success: boolean }>;
+  purchasePackage: (
+    pkg: PurchasesPackage
+  ) => Promise<{ customerInfo: CustomerInfo; success: boolean }>;
   simulateNoSubscription: () => void; // Debug helper
 }
 
@@ -41,7 +48,7 @@ export function RevenueCatProvider({
       if (Platform.OS === "ios") {
         // Set log level to reduce verbose logging
         Purchases.setLogLevel(LOG_LEVEL.ERROR); // Only show errors, not debug/info logs
-        
+
         await Purchases.configure({
           apiKey: process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY!,
         });
@@ -63,7 +70,10 @@ export function RevenueCatProvider({
         // Get offerings
         const fetchedOfferings = await Purchases.getOfferings();
         setOfferings(fetchedOfferings);
-        console.log("RevenueCat Offerings loaded:", fetchedOfferings.current?.identifier);
+        console.log(
+          "RevenueCat Offerings loaded:",
+          fetchedOfferings.current?.identifier
+        );
       } else {
         // For Android and other platforms, just mark as not subscribed
         console.log("RevenueCat not configured for this platform");
@@ -80,10 +90,12 @@ export function RevenueCatProvider({
     // Check if user has any active entitlements
     const hasActiveSubscription =
       Object.keys(info.entitlements.active).length > 0;
-    
+
     // DEBUG: Force premium access in development if flag is enabled
     if (__DEV__ && FORCE_PREMIUM_ACCESS) {
-      console.log("[DEBUG] Forcing premium access (FORCE_PREMIUM_ACCESS = true)");
+      console.log(
+        "[DEBUG] Forcing premium access (FORCE_PREMIUM_ACCESS = true)"
+      );
       setIsSubscribed(true);
     } else {
       setIsSubscribed(hasActiveSubscription);
@@ -130,7 +142,15 @@ export function RevenueCatProvider({
 
   return (
     <RevenueCatContext.Provider
-      value={{ isSubscribed, customerInfo, isLoading, offerings, restorePurchases, purchasePackage, simulateNoSubscription }}
+      value={{
+        isSubscribed,
+        customerInfo,
+        isLoading,
+        offerings,
+        restorePurchases,
+        purchasePackage,
+        simulateNoSubscription,
+      }}
     >
       {children}
     </RevenueCatContext.Provider>
