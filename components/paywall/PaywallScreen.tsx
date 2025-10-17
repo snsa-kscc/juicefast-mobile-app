@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { PurchasesPackage } from "react-native-purchases";
 
 export function PaywallScreen() {
-  const { offerings, purchasePackage, restorePurchases } = useRevenueCat();
+  const { offerings, purchasePackage, restorePurchases, simulateNoSubscription } = useRevenueCat();
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<PurchasesPackage | null>(null);
 
@@ -61,6 +61,29 @@ export function PaywallScreen() {
     } finally {
       setIsPurchasing(false);
     }
+  };
+
+  // Debug function to test restore flow
+  const handleDebugRestore = () => {
+    Alert.alert(
+      "Test Restore Flow",
+      "This will simulate losing your subscription so you can test the restore functionality.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Simulate",
+          style: "destructive",
+          onPress: () => {
+            simulateNoSubscription();
+            Alert.alert(
+              "Debug Mode",
+              "Subscription state cleared. The paywall should now appear. Tap 'Restore Purchases' to test the restore flow.",
+              [{ text: "OK" }]
+            );
+          },
+        },
+      ]
+    );
   };
 
   const getPackageTitle = (pkg: PurchasesPackage) => {
@@ -190,6 +213,16 @@ export function PaywallScreen() {
         >
           <Text className="text-base text-blue-500 font-semibold">Restore Purchases</Text>
         </TouchableOpacity>
+
+        {/* Debug Button - Only in development */}
+        {__DEV__ && (
+          <TouchableOpacity
+            className="py-3 items-center mb-4 bg-orange-100 rounded-lg"
+            onPress={handleDebugRestore}
+          >
+            <Text className="text-sm text-orange-600 font-semibold">🧪 Test Restore Flow (Debug)</Text>
+          </TouchableOpacity>
+        )}
 
         {/* Footer */}
         <Text className="text-xs text-gray-400 text-center leading-[18px]">

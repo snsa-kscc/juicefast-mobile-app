@@ -9,6 +9,8 @@ import {
   Image,
   Share,
   Switch,
+  Linking,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, Link } from "expo-router";
@@ -30,6 +32,7 @@ import {
   Users,
   ChevronDown,
   Copy,
+  CreditCard,
 } from "lucide-react-native";
 import { WellnessHeader } from "../components/ui/CustomHeader";
 import {
@@ -40,6 +43,7 @@ import {
 import { ActivityLevelPopup } from "../components/ActivityLevelPopup";
 import { EditNameModal } from "../components/EditNameModal";
 import { EditPasswordModal } from "../components/EditPasswordModal";
+import { useRevenueCat } from "@/providers/RevenueCatProvider";
 
 interface SelectProps {
   value: string | undefined;
@@ -92,6 +96,7 @@ function Select({ value, onValueChange, placeholder, options }: SelectProps) {
 export default function ProfileScreen() {
   const router = useRouter();
   const { user } = useUser();
+  const { isSubscribed } = useRevenueCat();
   const userProfile = useQuery(api.userProfile.getByUserId);
   const updateUserProfile = useMutation(api.userProfile.createOrUpdate);
 
@@ -282,6 +287,37 @@ export default function ProfileScreen() {
     }
   };
 
+  const handleManageSubscription = async () => {
+    try {
+      let url = "";
+
+      if (Platform.OS === "ios") {
+        // iOS deep link to subscription management in Settings
+        url = "itms-apps://apps.apple.com/account/subscriptions";
+      } else if (Platform.OS === "android") {
+        // Android deep link to Play Store subscriptions
+        url = "https://play.google.com/store/account/subscriptions";
+      } else {
+        Alert.alert(
+          "Not Available",
+          "Subscription management is only available on mobile devices."
+        );
+        return;
+      }
+
+      const supported = await Linking.canOpenURL(url);
+
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert("Error", "Unable to open subscription management.");
+      }
+    } catch (error) {
+      console.error("Failed to open subscription management:", error);
+      Alert.alert("Error", "Failed to open subscription management.");
+    }
+  };
+
   const genderOptions = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
@@ -351,6 +387,18 @@ export default function ProfileScreen() {
                 <Settings size={20} color="#6B7280" />
                 <Text className="font-lufga-medium ml-3 text-gray-900">
                   Change Password
+                </Text>
+              </TouchableOpacity>
+            )}
+
+            {isSubscribed && (
+              <TouchableOpacity
+                className="flex-row items-center p-3 bg-gray-50 rounded-lg mb-3"
+                onPress={handleManageSubscription}
+              >
+                <CreditCard size={20} color="#6B7280" />
+                <Text className="font-lufga-medium ml-3 text-gray-900">
+                  Manage Subscription
                 </Text>
               </TouchableOpacity>
             )}
