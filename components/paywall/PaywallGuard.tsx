@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { usePaywall } from "@/hooks/usePaywall";
 import { PaywallScreen } from "./PaywallScreen";
 
@@ -11,7 +11,12 @@ interface PaywallGuardProps {
 export function PaywallGuard({ children, fallback }: PaywallGuardProps) {
   const { isSubscribed, isLoading } = usePaywall();
 
-  // Show loading state
+  // On Android, always show the content (no paywall)
+  if (Platform.OS === "android") {
+    return <>{children}</>;
+  }
+
+  // Show loading state (iOS only)
   if (isLoading) {
     return (
       <View className="flex-1 bg-[#FCFBF8] justify-center items-center p-6">

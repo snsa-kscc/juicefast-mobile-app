@@ -43,7 +43,13 @@ export async function getPushToken(): Promise<string | null> {
     );
     return token.data;
   } catch (error) {
-    console.error("Failed to get push token:", error);
+    // Suppress Firebase initialization errors - push notifications are optional
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    if (errorMessage.includes("FirebaseApp") || errorMessage.includes("FCM")) {
+      console.log("Push notifications unavailable: Firebase not configured");
+    } else {
+      console.error("Failed to get push token:", error);
+    }
     return null;
   }
 }
