@@ -393,7 +393,7 @@ export default function ProfileScreen() {
 
             {isSubscribed && (
               <TouchableOpacity
-                className="flex-row items-center p-3 bg-gray-50 rounded-lg mb-3"
+                className="flex-row items-center p-4 bg-gray-50 rounded-[25px] mb-3"
                 onPress={handleManageSubscription}
               >
                 <CreditCard size={20} color="#6B7280" />
