@@ -3,6 +3,9 @@ import Purchases, { CustomerInfo, PurchasesOfferings, PurchasesPackage, LOG_LEVE
 import { Platform } from "react-native";
 import { useUser } from "@clerk/clerk-expo";
 
+// DEBUG: Set to true to bypass subscription check and always have premium access
+const FORCE_PREMIUM_ACCESS = false;
+
 interface RevenueCatContextType {
   isSubscribed: boolean;
   customerInfo: CustomerInfo | null;
@@ -77,7 +80,14 @@ export function RevenueCatProvider({
     // Check if user has any active entitlements
     const hasActiveSubscription =
       Object.keys(info.entitlements.active).length > 0;
-    setIsSubscribed(hasActiveSubscription);
+    
+    // DEBUG: Force premium access in development if flag is enabled
+    if (__DEV__ && FORCE_PREMIUM_ACCESS) {
+      console.log("[DEBUG] Forcing premium access (FORCE_PREMIUM_ACCESS = true)");
+      setIsSubscribed(true);
+    } else {
+      setIsSubscribed(hasActiveSubscription);
+    }
   };
 
   const restorePurchases = async () => {

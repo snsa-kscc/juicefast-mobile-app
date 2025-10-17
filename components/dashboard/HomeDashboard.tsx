@@ -4,6 +4,7 @@ import { Link, router } from "expo-router";
 import { Plus } from "lucide-react-native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
+  Alert,
   Animated,
   Image,
   ScrollView,
@@ -22,6 +23,7 @@ import {
   SleepIcon,
   WaterIcon,
 } from "./icons/TrackerIcons";
+import { useRevenueCat } from "@/providers/RevenueCatProvider";
 
 interface DailyMetrics {
   steps: number;
@@ -43,6 +45,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   const [displayedScore, setDisplayedScore] = useState<number>(0);
   const animatedValue = useRef(new Animated.Value(0)).current;
   const { isSignedIn } = useAuth();
+  const { simulateNoSubscription, restorePurchases } = useRevenueCat();
 
   // Calculate start and end timestamps for selected date
   const { startTime, endTime } = useMemo(() => {
@@ -596,6 +599,38 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
               Test Push Notifications
             </Text>
           </TouchableOpacity>
+
+          {/* Debug: Test Restore Purchases Flow */}
+          {__DEV__ && (
+            <TouchableOpacity
+              className="bg-orange-500 px-6 py-4 rounded-xl mb-4"
+              onPress={() => {
+                Alert.alert(
+                  "Test Restore Flow",
+                  "This will simulate losing your subscription so you can test the restore functionality.",
+                  [
+                    { text: "Cancel", style: "cancel" },
+                    {
+                      text: "Simulate",
+                      style: "destructive",
+                      onPress: () => {
+                        simulateNoSubscription();
+                        Alert.alert(
+                          "Debug Mode",
+                          "Subscription state cleared. Navigate to the Club tab to see the paywall, then tap 'Restore Purchases' to test the restore flow.",
+                          [{ text: "OK" }]
+                        );
+                      },
+                    },
+                  ]
+                );
+              }}
+            >
+              <Text className="text-white text-lg font-semibold text-center">
+                🧪 Test Restore Purchases
+              </Text>
+            </TouchableOpacity>
+          )}
 
           <TouchableOpacity
             className="w-full mb-4"

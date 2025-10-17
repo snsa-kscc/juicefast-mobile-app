@@ -82,21 +82,16 @@ Install the build on your device via TestFlight or direct installation.
 This method uses a built-in debug function that simulates losing your subscription locally.
 
 1. After purchasing a subscription, you should have access to the Club tab
-2. To access the debug button, you need to trigger the paywall screen:
-   - **Option A:** Use the debug function from anywhere in the app (see "Quick Debug Access" below)
-   - **Option B:** If you can still see the paywall screen, scroll down to find the debug button
-3. Tap the "🧪 Test Restore Flow (Debug)" button (only visible in development mode)
-4. Confirm the simulation in the alert dialog
-5. The app will clear the local subscription state - paywall should now appear
-6. Tap "Restore Purchases" button
-7. Your subscription should be restored from RevenueCat and paywall should disappear
+2. Navigate to the **Home tab** (Dashboard)
+3. Scroll down to the "Additional Actions" section
+4. Tap the orange "🧪 Test Restore Purchases" button (only visible in development mode)
+5. Confirm the simulation in the alert dialog
+6. The app will clear the local subscription state
+7. Navigate to the **Club tab** - the paywall should now appear
+8. Tap "Restore Purchases" button on the paywall
+9. Your subscription should be restored from RevenueCat and paywall should disappear
 
-**Quick Debug Access (From Anywhere):**
-You can also test this from the React Native debugger console:
-```javascript
-// In your browser console (when React Native debugger is connected):
-// This will clear the subscription state
-```
+**Note:** The debug button is also available on the paywall screen itself if you can still see it.
 
 **Method 2: Full App Reinstall (Tests Complete Flow)**
 
@@ -118,6 +113,62 @@ You can also force a refresh of customer info without any deletion:
 2. Reopen the app
 3. RevenueCat automatically syncs customer info on app launch
 4. This tests that the subscription persists across app sessions
+
+## Long-Term Premium Access for Development
+
+If you need to work on premium features without dealing with sandbox subscription renewals, you have several options:
+
+### Option 1: Force Premium Access (Quickest)
+
+In `providers/RevenueCatProvider.tsx`, set the debug flag to `true`:
+
+```typescript
+// DEBUG: Set to true to bypass subscription check and always have premium access
+const FORCE_PREMIUM_ACCESS = true;
+```
+
+**Pros:**
+- Instant premium access
+- No subscription needed
+- Works offline
+- Perfect for UI/feature development
+
+**Cons:**
+- Doesn't test actual RevenueCat integration
+- Remember to set back to `false` before production
+
+### Option 2: RevenueCat Promotional Entitlement (Best for Real Testing)
+
+1. Go to [RevenueCat Dashboard](https://app.revenuecat.com/)
+2. Navigate to **Customers**
+3. Find your test user (search by Clerk user ID)
+4. Click **Grant Promotional Entitlement**
+5. Select your entitlement (e.g., "premium")
+6. Set duration (can be months or indefinite)
+
+**Pros:**
+- Tests real RevenueCat integration
+- Long-lasting (months or forever)
+- No App Store sandbox needed
+
+**Cons:**
+- Requires RevenueCat dashboard access
+- Need to set up for each test user
+
+### Option 3: Annual Sandbox Subscription
+
+Use an annual subscription in sandbox testing:
+- Monthly subscriptions renew every **5 minutes**
+- Annual subscriptions renew every **1 hour**
+- Gives you more stable testing time
+
+**Sandbox Renewal Rates:**
+- 1 week subscription = 3 minutes
+- 1 month subscription = 5 minutes
+- 2 months subscription = 10 minutes
+- 3 months subscription = 15 minutes
+- 6 months subscription = 30 minutes
+- 1 year subscription = 1 hour
 
 ## Testing Different Scenarios
 
