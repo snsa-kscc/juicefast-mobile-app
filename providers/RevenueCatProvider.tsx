@@ -10,6 +10,7 @@ interface RevenueCatContextType {
   offerings: PurchasesOfferings | null;
   restorePurchases: () => Promise<void>;
   purchasePackage: (pkg: PurchasesPackage) => Promise<{ customerInfo: CustomerInfo; success: boolean }>;
+  simulateNoSubscription: () => void; // Debug helper
 }
 
 const RevenueCatContext = createContext<RevenueCatContextType | undefined>(
@@ -111,9 +112,15 @@ export function RevenueCatProvider({
     }
   };
 
+  // Debug helper to simulate no subscription state
+  const simulateNoSubscription = () => {
+    console.log("[DEBUG] Simulating no subscription state");
+    setIsSubscribed(false);
+  };
+
   return (
     <RevenueCatContext.Provider
-      value={{ isSubscribed, customerInfo, isLoading, offerings, restorePurchases, purchasePackage }}
+      value={{ isSubscribed, customerInfo, isLoading, offerings, restorePurchases, purchasePackage, simulateNoSubscription }}
     >
       {children}
     </RevenueCatContext.Provider>

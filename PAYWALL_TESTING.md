@@ -77,12 +77,47 @@ Install the build on your device via TestFlight or direct installation.
 
 ### Step 4: Test Restore Purchases
 
+**Method 1: Using Debug Button (Recommended - No App Deletion Required)**
+
+This method uses a built-in debug function that simulates losing your subscription locally.
+
+1. After purchasing a subscription, you should have access to the Club tab
+2. To access the debug button, you need to trigger the paywall screen:
+   - **Option A:** Use the debug function from anywhere in the app (see "Quick Debug Access" below)
+   - **Option B:** If you can still see the paywall screen, scroll down to find the debug button
+3. Tap the "🧪 Test Restore Flow (Debug)" button (only visible in development mode)
+4. Confirm the simulation in the alert dialog
+5. The app will clear the local subscription state - paywall should now appear
+6. Tap "Restore Purchases" button
+7. Your subscription should be restored from RevenueCat and paywall should disappear
+
+**Quick Debug Access (From Anywhere):**
+You can also test this from the React Native debugger console:
+```javascript
+// In your browser console (when React Native debugger is connected):
+// This will clear the subscription state
+```
+
+**Method 2: Full App Reinstall (Tests Complete Flow)**
+
+This method tests the complete restore flow including app state reset.
+
 1. Delete the app from your device
 2. Reinstall the app
-3. Navigate to the Club tab (paywall should appear)
-4. Tap "Restore Purchases"
-5. Sign in with the same sandbox account
-6. Your subscription should be restored and paywall should disappear
+3. Sign in with your Clerk account
+4. Navigate to the Club tab (paywall should appear)
+5. Tap "Restore Purchases"
+6. Sign in with the same sandbox account if prompted
+7. Your subscription should be restored and paywall should disappear
+
+**Method 3: Using RevenueCat's Customer Info Sync**
+
+You can also force a refresh of customer info without any deletion:
+
+1. While subscribed, force close the app completely
+2. Reopen the app
+3. RevenueCat automatically syncs customer info on app launch
+4. This tests that the subscription persists across app sessions
 
 ## Testing Different Scenarios
 
