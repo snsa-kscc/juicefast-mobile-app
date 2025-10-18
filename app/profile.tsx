@@ -491,7 +491,9 @@ export default function ProfileScreen() {
 
         {/* Health Metrics Summary */}
         <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 mx-6">
-          <Text className="text-lg font-lufga-bold mb-4">Health Metrics</Text>
+          <Text className="text-lg font-lufga-bold mb-4">
+            Health Metrics and Goals
+          </Text>
 
           <View className="flex-row flex-wrap -mx-2">
             <View className="w-1/3 px-2 mb-4">
@@ -533,7 +535,7 @@ export default function ProfileScreen() {
                   </Text>
                 </View>
                 <Text className="text-sm font-lufga-medium text-gray-600">
-                  Daily Calories
+                  Calories
                 </Text>
               </View>
             </View>
@@ -549,7 +551,7 @@ export default function ProfileScreen() {
                   </Text>
                 </View>
                 <Text className="text-sm font-lufga-medium text-gray-600">
-                  Water Goal
+                  Water
                 </Text>
               </View>
             </View>
