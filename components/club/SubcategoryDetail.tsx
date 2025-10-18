@@ -87,8 +87,7 @@ export function SubcategoryDetail({
           <Image source={{ uri: headerImageUrl }} style={styles.headerImage} />
           <View style={styles.headerOverlay}>
             <TouchableOpacity onPress={onBack} style={styles.backButton}>
-              <Ionicons name="arrow-back" size={20} color="#FFFFFF" />
-              <Text style={styles.backText}>Back</Text>
+              <Ionicons name="arrow-back" size={28} color="#FFFFFF" />
             </TouchableOpacity>
             <View style={styles.headerTextContainer}>
               <Text style={styles.headerTitle}>{title}</Text>
@@ -151,6 +150,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     alignSelf: "flex-start",
+    marginTop: 16,
   },
   backText: {
     color: "#FFFFFF",
