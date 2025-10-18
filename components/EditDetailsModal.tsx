@@ -19,7 +19,6 @@ import {
   Scale,
   Calendar,
   User,
-  Activity,
 } from "lucide-react-native";
 
 interface EditDetailsModalProps {
@@ -39,7 +38,6 @@ interface EditDetailsModalProps {
     gender: string | undefined,
     activityLevel: string | undefined
   ) => Promise<void>;
-  onShowActivityPopup: () => void;
 }
 
 interface SelectProps {
@@ -76,11 +74,11 @@ function Select({ value, onValueChange, placeholder, options }: SelectProps) {
       </TouchableOpacity>
 
       {isOpen && (
-        <View className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-xl mt-1 z-[1000]">
+        <View className="absolute bottom-full left-0 right-0 bg-white border border-gray-200 rounded-xl mb-1 z-[9999] shadow-lg">
           {options.map((option) => (
             <TouchableOpacity
               key={option.value}
-              className="px-4 py-3 border-b border-gray-100"
+              className="px-4 py-3 border-b border-gray-100 last:border-b-0"
               onPress={() => {
                 onValueChange(option.value);
                 setIsOpen(false);
@@ -111,7 +109,6 @@ export function EditDetailsModal({
   genderOptions,
   activityOptions,
   onSave,
-  onShowActivityPopup,
 }: EditDetailsModalProps) {
   const [height, setHeight] = useState(initialHeight);
   const [weight, setWeight] = useState(initialWeight);
@@ -179,6 +176,7 @@ export function EditDetailsModal({
               <ScrollView
                 className="gap-5"
                 showsVerticalScrollIndicator={false}
+                style={{ overflow: 'visible' }}
               >
                 <View className="flex-row gap-3">
                   <View className="flex-1 gap-2">
@@ -254,26 +252,12 @@ export function EditDetailsModal({
                   <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
                     Activity Level
                   </Text>
-                  <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-3">
-                    <Activity size={16} color="#9CA3AF" />
-                    <TouchableOpacity
-                      className="flex-1 ml-2 py-3"
-                      onPress={onShowActivityPopup}
-                      disabled={isSaving}
-                    >
-                      <Text
-                        className={`text-base font-lufga ${
-                          activityLevel ? "text-gray-900" : "text-gray-400"
-                        }`}
-                      >
-                        {activityLevel
-                          ? activityOptions.find(
-                              (opt) => opt.value === activityLevel
-                            )?.label
-                          : "Select activity level"}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                  <Select
+                    value={activityLevel}
+                    onValueChange={setActivityLevel}
+                    placeholder="Select activity level"
+                    options={activityOptions}
+                  />
                 </View>
 
                 <View className="flex-row gap-3 mt-2">
