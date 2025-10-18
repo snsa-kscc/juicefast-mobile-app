@@ -5,8 +5,12 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  StyleSheet,
   Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { X } from "lucide-react-native";
 
@@ -18,7 +22,7 @@ interface EditNameModalProps {
   onSave: (firstName: string, lastName: string) => Promise<void>;
 }
 
-const { height } = Dimensions.get("window");
+const { height: windowHeight } = Dimensions.get("window");
 
 export function EditNameModal({
   visible,
@@ -57,20 +61,30 @@ export function EditNameModal({
       animationType="slide"
       onRequestClose={onClose}
     >
-      <View style={styles.overlay}>
-        <View style={styles.modalContainer}>
-          <View style={styles.header}>
-            <Text style={styles.title}>Edit Name</Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <X size={24} color="#6B7280" />
-            </TouchableOpacity>
-          </View>
+      <KeyboardAvoidingView
+        behavior="padding"
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View className="flex-1 bg-transparent justify-end">
+          <View className="bg-white rounded-t-[20px] p-5" style={{ maxHeight: windowHeight * 0.5 }}>
+            <View className="flex-row justify-between items-center mb-6">
+              <Text className="text-xl font-bold text-gray-800 font-[Lufga-Bold]">
+                Edit Name
+              </Text>
+              <TouchableOpacity onPress={onClose} className="p-1">
+                <X size={24} color="#6B7280" />
+              </TouchableOpacity>
+            </View>
 
-          <View style={styles.formContainer}>
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>First Name</Text>
+            <ScrollView className="gap-4" showsVerticalScrollIndicator={false}>
+            <View className="gap-2">
+              <Text className="text-sm font-medium text-gray-700 font-[Lufga-Medium]">
+                First Name
+              </Text>
               <TextInput
-                style={styles.input}
+                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-[Lufga-Regular]"
                 value={firstName}
                 onChangeText={setFirstName}
                 placeholder="Enter first name"
@@ -79,10 +93,12 @@ export function EditNameModal({
               />
             </View>
 
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Last Name</Text>
+            <View className="gap-2">
+              <Text className="text-sm font-medium text-gray-700 font-[Lufga-Medium]">
+                Last Name
+              </Text>
               <TextInput
-                style={styles.input}
+                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-[Lufga-Regular]"
                 value={lastName}
                 onChangeText={setLastName}
                 placeholder="Enter last name"
@@ -91,111 +107,31 @@ export function EditNameModal({
               />
             </View>
 
-            <View style={styles.buttonContainer}>
+            <View className="flex-row gap-3 mt-2">
               <TouchableOpacity
-                style={styles.cancelButton}
+                className="flex-1 bg-gray-100 rounded-xl py-3.5 items-center"
                 onPress={onClose}
                 disabled={isSaving}
               >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text className="text-base font-semibold text-gray-700 font-[Lufga-SemiBold]">
+                  Cancel
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.saveButton}
+                className="flex-1 bg-blue-500 rounded-xl py-3.5 items-center"
                 onPress={handleSave}
                 disabled={isSaving}
               >
-                <Text style={styles.saveButtonText}>
+                <Text className="text-base font-semibold text-white font-[Lufga-SemiBold]">
                   {isSaving ? "Saving..." : "Save"}
                 </Text>
               </TouchableOpacity>
             </View>
+            </ScrollView>
           </View>
-        </View>
-      </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: "transparent",
-    justifyContent: "flex-end",
-  },
-  modalContainer: {
-    backgroundColor: "white",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-    maxHeight: height * 0.5,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#1F2937",
-    fontFamily: "Lufga-Bold",
-  },
-  closeButton: {
-    padding: 4,
-  },
-  formContainer: {
-    gap: 16,
-  },
-  inputGroup: {
-    gap: 8,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#374151",
-    fontFamily: "Lufga-Medium",
-  },
-  input: {
-    backgroundColor: "#F9FAFB",
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: "#111827",
-    fontFamily: "Lufga-Regular",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    gap: 12,
-    marginTop: 8,
-  },
-  cancelButton: {
-    flex: 1,
-    backgroundColor: "#F3F4F6",
-    borderRadius: 12,
-    paddingVertical: 14,
-    alignItems: "center",
-  },
-  cancelButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#374151",
-    fontFamily: "Lufga-SemiBold",
-  },
-  saveButton: {
-    flex: 1,
-    backgroundColor: "#3B82F6",
-    borderRadius: 12,
-    paddingVertical: 14,
-    alignItems: "center",
-  },
-  saveButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#FFFFFF",
-    fontFamily: "Lufga-SemiBold",
-  },
-});

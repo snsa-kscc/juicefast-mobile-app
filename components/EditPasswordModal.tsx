@@ -5,8 +5,12 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  StyleSheet,
   Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { X } from "lucide-react-native";
 
@@ -16,7 +20,7 @@ interface EditPasswordModalProps {
   onSave: (currentPassword: string, newPassword: string) => Promise<void>;
 }
 
-const { height } = Dimensions.get("window");
+const { height: windowHeight } = Dimensions.get("window");
 
 export function EditPasswordModal({
   visible,
@@ -55,7 +59,11 @@ export function EditPasswordModal({
     }
   };
 
-  const isValid = currentPassword && newPassword && confirmPassword && newPassword === confirmPassword;
+  const isValid =
+    currentPassword &&
+    newPassword &&
+    confirmPassword &&
+    newPassword === confirmPassword;
 
   return (
     <Modal
@@ -64,171 +72,107 @@ export function EditPasswordModal({
       animationType="slide"
       onRequestClose={handleClose}
     >
-      <View style={styles.overlay}>
-        <View style={styles.modalContainer}>
-          <View style={styles.header}>
-            <Text style={styles.title}>Change Password</Text>
-            <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
-              <X size={24} color="#6B7280" />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.formContainer}>
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Current Password</Text>
-              <TextInput
-                style={styles.input}
-                value={currentPassword}
-                onChangeText={setCurrentPassword}
-                placeholder="Enter current password"
-                placeholderTextColor="#9CA3AF"
-                secureTextEntry
-                editable={!isSaving}
-              />
-            </View>
-
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>New Password</Text>
-              <TextInput
-                style={styles.input}
-                value={newPassword}
-                onChangeText={setNewPassword}
-                placeholder="Enter new password"
-                placeholderTextColor="#9CA3AF"
-                secureTextEntry
-                editable={!isSaving}
-              />
-            </View>
-
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Confirm New Password</Text>
-              <TextInput
-                style={styles.input}
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                placeholder="Confirm new password"
-                placeholderTextColor="#9CA3AF"
-                secureTextEntry
-                editable={!isSaving}
-              />
-              {confirmPassword && newPassword !== confirmPassword && (
-                <Text style={styles.errorText}>Passwords do not match</Text>
-              )}
-            </View>
-
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.cancelButton}
-                onPress={handleClose}
-                disabled={isSaving}
-              >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.saveButton, !isValid && styles.saveButtonDisabled]}
-                onPress={handleSave}
-                disabled={isSaving || !isValid}
-              >
-                <Text style={styles.saveButtonText}>
-                  {isSaving ? "Saving..." : "Save"}
+      <KeyboardAvoidingView
+        behavior="padding"
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View className="flex-1 bg-transparent justify-end">
+            <View
+              className="bg-white rounded-t-[20px] p-5"
+              style={{ maxHeight: windowHeight * 0.7 }}
+            >
+              <View className="flex-row justify-between items-center mb-6">
+                <Text className="text-xl font-bold text-gray-800 font-lufga-bold">
+                  Change Password
                 </Text>
-              </TouchableOpacity>
+                <TouchableOpacity onPress={handleClose} className="p-1">
+                  <X size={24} color="#6B7280" />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView
+                className="gap-4"
+                showsVerticalScrollIndicator={false}
+              >
+                <View className="gap-2">
+                  <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                    Current Password
+                  </Text>
+                  <TextInput
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-lufga"
+                    value={currentPassword}
+                    onChangeText={setCurrentPassword}
+                    placeholder="Enter current password"
+                    placeholderTextColor="#9CA3AF"
+                    secureTextEntry
+                    editable={!isSaving}
+                  />
+                </View>
+
+                <View className="gap-2">
+                  <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                    New Password
+                  </Text>
+                  <TextInput
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-lufga"
+                    value={newPassword}
+                    onChangeText={setNewPassword}
+                    placeholder="Enter new password"
+                    placeholderTextColor="#9CA3AF"
+                    secureTextEntry
+                    editable={!isSaving}
+                  />
+                </View>
+
+                <View className="gap-2">
+                  <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                    Confirm New Password
+                  </Text>
+                  <TextInput
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-lufga"
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
+                    placeholder="Confirm new password"
+                    placeholderTextColor="#9CA3AF"
+                    secureTextEntry
+                    editable={!isSaving}
+                  />
+                  {confirmPassword && newPassword !== confirmPassword && (
+                    <Text className="text-xs text-red-500 font-lufga">
+                      Passwords do not match
+                    </Text>
+                  )}
+                </View>
+
+                <View className="flex-row gap-3 mt-2">
+                  <TouchableOpacity
+                    className="flex-1 bg-gray-100 rounded-xl py-3.5 items-center"
+                    onPress={handleClose}
+                    disabled={isSaving}
+                  >
+                    <Text className="text-base font-semibold text-gray-700 font-lufga-semibold">
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className={`flex-1 rounded-xl py-3.5 items-center ${
+                      !isValid ? "bg-gray-400" : "bg-blue-500"
+                    }`}
+                    onPress={handleSave}
+                    disabled={isSaving || !isValid}
+                  >
+                    <Text className="text-base font-semibold text-white font-lufga-semibold">
+                      {isSaving ? "Saving..." : "Save"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
             </View>
           </View>
-        </View>
-      </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: "transparent",
-    justifyContent: "flex-end",
-  },
-  modalContainer: {
-    backgroundColor: "white",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-    maxHeight: height * 0.7,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#1F2937",
-    fontFamily: "Lufga-Bold",
-  },
-  closeButton: {
-    padding: 4,
-  },
-  formContainer: {
-    gap: 16,
-  },
-  inputGroup: {
-    gap: 8,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#374151",
-    fontFamily: "Lufga-Medium",
-  },
-  input: {
-    backgroundColor: "#F9FAFB",
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: "#111827",
-    fontFamily: "Lufga-Regular",
-  },
-  errorText: {
-    fontSize: 12,
-    color: "#EF4444",
-    fontFamily: "Lufga-Regular",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    gap: 12,
-    marginTop: 8,
-  },
-  cancelButton: {
-    flex: 1,
-    backgroundColor: "#F3F4F6",
-    borderRadius: 12,
-    paddingVertical: 14,
-    alignItems: "center",
-  },
-  cancelButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#374151",
-    fontFamily: "Lufga-SemiBold",
-  },
-  saveButton: {
-    flex: 1,
-    backgroundColor: "#3B82F6",
-    borderRadius: 12,
-    paddingVertical: 14,
-    alignItems: "center",
-  },
-  saveButtonDisabled: {
-    backgroundColor: "#9CA3AF",
-  },
-  saveButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#FFFFFF",
-    fontFamily: "Lufga-SemiBold",
-  },
-});

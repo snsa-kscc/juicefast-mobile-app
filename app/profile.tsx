@@ -45,7 +45,6 @@ import { EditPasswordModal } from "../components/EditPasswordModal";
 import { EditDetailsModal } from "../components/EditDetailsModal";
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
 
-
 export default function ProfileScreen() {
   const router = useRouter();
   const { user } = useUser();
@@ -137,14 +136,18 @@ export default function ProfileScreen() {
       setActivityLevel(modalActivityLevel);
 
       // Update the profile state as well
-      setProfile(prev => prev ? {
-        ...prev,
-        height: modalHeight ? parseInt(modalHeight) : undefined,
-        weight: modalWeight ? parseInt(modalWeight) : undefined,
-        age: modalAge ? parseInt(modalAge) : undefined,
-        gender: modalGender,
-        activityLevel: modalActivityLevel as any,
-      } : null);
+      setProfile((prev) =>
+        prev
+          ? {
+              ...prev,
+              height: modalHeight ? parseInt(modalHeight) : undefined,
+              weight: modalWeight ? parseInt(modalWeight) : undefined,
+              age: modalAge ? parseInt(modalAge) : undefined,
+              gender: modalGender,
+              activityLevel: modalActivityLevel as any,
+            }
+          : null
+      );
 
       Alert.alert("Success", "Profile updated successfully!");
     } catch (error) {
@@ -180,34 +183,27 @@ export default function ProfileScreen() {
       ? "⚠️ You have an active subscription!\n\nYou can still delete your account, but please remember to cancel your subscription separately through your device's app store settings (App Store/Google Play) to avoid future charges.\n\nAre you sure you want to delete your account? This action cannot be undone. All your data will be permanently deleted."
       : "This action cannot be undone. All your data will be permanently deleted.";
 
-    Alert.alert(
-      "Delete Account",
-      warningMessage,
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              setIsDeletingAccount(true);
-              await clerkUser?.delete();
-              AuthService.clearToken();
-              await SecureStore.deleteItemAsync("REFERRAL_CODE");
-              router.replace("/(auth)/sso-signup");
-            } catch (error) {
-              console.error("Delete account error:", error);
-              Alert.alert(
-                "Error",
-                "Failed to delete account. Please try again."
-              );
-            } finally {
-              setIsDeletingAccount(false);
-            }
-          },
+    Alert.alert("Delete Account", warningMessage, [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            setIsDeletingAccount(true);
+            await clerkUser?.delete();
+            AuthService.clearToken();
+            await SecureStore.deleteItemAsync("REFERRAL_CODE");
+            router.replace("/(auth)/sso-signup");
+          } catch (error) {
+            console.error("Delete account error:", error);
+            Alert.alert("Error", "Failed to delete account. Please try again.");
+          } finally {
+            setIsDeletingAccount(false);
+          }
         },
-      ]
-    );
+      },
+    ]);
   };
 
   const handleSaveName = async (firstName: string, lastName: string) => {
@@ -488,9 +484,7 @@ export default function ProfileScreen() {
               onPress={() => setShowEditDetailsModal(true)}
               activeOpacity={0.7}
             >
-              <Text className="text-white font-lufga-medium">
-                Edit Details
-              </Text>
+              <Text className="text-white font-lufga-medium">Edit Details</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -502,9 +496,9 @@ export default function ProfileScreen() {
           <View className="flex-row flex-wrap -mx-2">
             <View className="w-1/3 px-2 mb-4">
               <View className="bg-red-50 rounded-xl p-4">
-                <View className="flex-row items-center justify-between mb-2">
+                <View className="flex-row items-center justify-between mb-2 gap-1">
                   <Heart size={20} color="#EF4444" />
-                  <Text className="text-lg font-lufga-bold">
+                  <Text className="font-lufga-bold mx-2">
                     {profile?.weight && profile?.height
                       ? (
                           profile.weight / Math.pow(profile.height / 100, 2)
@@ -520,9 +514,9 @@ export default function ProfileScreen() {
 
             <View className="w-1/3 px-2 mb-4">
               <View className="bg-green-50 rounded-xl p-4">
-                <View className="flex-row items-center justify-between mb-2">
+                <View className="flex-row items-center justify-between mb-2 gap-1">
                   <Heart size={20} color="#10B981" />
-                  <Text className="text-sm font-lufga-bold">
+                  <Text className=" font-lufga-bold mx-2">
                     {profile?.weight &&
                     profile?.height &&
                     profile?.age &&
@@ -546,9 +540,9 @@ export default function ProfileScreen() {
 
             <View className="w-1/3 px-2 mb-4">
               <View className="bg-blue-50 rounded-xl p-4">
-                <View className="flex-row items-center justify-between mb-2">
+                <View className="flex-row items-center justify-between mb-2 gap-1">
                   <Heart size={20} color="#3B82F6" />
-                  <Text className="text-sm font-lufga-bold">
+                  <Text className="font-lufga-bold mx-2">
                     {profile?.weight
                       ? `${Math.round(profile.weight * 30)} ml`
                       : "-"}
@@ -655,9 +649,10 @@ export default function ProfileScreen() {
           <Text className="font-lufga text-sm text-gray-600 mb-4">
             Once you delete your account, there is no going back. Please be
             certain.
-            {isSubscribed && (
+            {!isSubscribed && (
               <Text className="text-orange-600 font-lufga-medium">
-                {"\n"}⚠️ You have an active subscription. Remember to cancel it separately to avoid future charges.
+                {"\n"}⚠️ You have an active subscription. Remember to cancel it
+                separately to avoid future charges.
               </Text>
             )}
           </Text>

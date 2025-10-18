@@ -5,10 +5,22 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  StyleSheet,
   Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
-import { X, ChevronDown, Ruler, Scale, Calendar, User, Activity } from "lucide-react-native";
+import {
+  X,
+  ChevronDown,
+  Ruler,
+  Scale,
+  Calendar,
+  User,
+  Activity,
+} from "lucide-react-native";
 
 interface EditDetailsModalProps {
   visible: boolean;
@@ -41,17 +53,16 @@ function Select({ value, onValueChange, placeholder, options }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <View style={styles.selectContainer}>
+    <View className="relative">
       <TouchableOpacity
-        style={styles.selectButton}
+        className="flex-row items-center justify-between bg-gray-50 border border-gray-200 rounded-xl px-4 py-3"
         onPress={() => setIsOpen(!isOpen)}
         activeOpacity={0.7}
       >
         <Text
-          style={[
-            styles.selectText,
-            value ? styles.selectTextValue : styles.selectTextPlaceholder,
-          ]}
+          className={`text-base font-lufga ${
+            value ? "text-gray-900" : "text-gray-400"
+          }`}
         >
           {value
             ? options.find((opt) => opt.value === value)?.label
@@ -65,18 +76,20 @@ function Select({ value, onValueChange, placeholder, options }: SelectProps) {
       </TouchableOpacity>
 
       {isOpen && (
-        <View style={styles.dropdown}>
+        <View className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-xl mt-1 z-[1000]">
           {options.map((option) => (
             <TouchableOpacity
               key={option.value}
-              style={styles.dropdownItem}
+              className="px-4 py-3 border-b border-gray-100"
               onPress={() => {
                 onValueChange(option.value);
                 setIsOpen(false);
               }}
               activeOpacity={0.7}
             >
-              <Text style={styles.dropdownItemText}>{option.label}</Text>
+              <Text className="text-base text-gray-900 font-lufga">
+                {option.label}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -85,7 +98,7 @@ function Select({ value, onValueChange, placeholder, options }: SelectProps) {
   );
 }
 
-const { height } = Dimensions.get("window");
+const { height: windowHeight } = Dimensions.get("window");
 
 export function EditDetailsModal({
   visible,
@@ -143,286 +156,151 @@ export function EditDetailsModal({
       animationType="slide"
       onRequestClose={onClose}
     >
-      <View style={styles.overlay}>
-        <View style={styles.modalContainer}>
-          <View style={styles.header}>
-            <Text style={styles.title}>Edit Your Details</Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <X size={24} color="#6B7280" />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.formContainer}>
-            <View style={styles.row}>
-              <View style={[styles.inputGroup, styles.flex1]}>
-                <Text style={styles.label}>Height (cm)</Text>
-                <View style={styles.inputContainer}>
-                  <Ruler size={16} color="#9CA3AF" />
-                  <TextInput
-                    style={styles.input}
-                    value={height}
-                    onChangeText={setHeight}
-                    placeholder="170"
-                    placeholderTextColor="#9CA3AF"
-                    keyboardType="numeric"
-                    editable={!isSaving}
-                  />
-                </View>
-              </View>
-
-              <View style={[styles.inputGroup, styles.flex1, styles.ml3]}>
-                <Text style={styles.label}>Weight (kg)</Text>
-                <View style={styles.inputContainer}>
-                  <Scale size={16} color="#9CA3AF" />
-                  <TextInput
-                    style={styles.input}
-                    value={weight}
-                    onChangeText={setWeight}
-                    placeholder="70"
-                    placeholderTextColor="#9CA3AF"
-                    keyboardType="numeric"
-                    editable={!isSaving}
-                  />
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.row}>
-              <View style={[styles.inputGroup, styles.flex1]}>
-                <Text style={styles.label}>Age</Text>
-                <View style={styles.inputContainer}>
-                  <Calendar size={16} color="#9CA3AF" />
-                  <TextInput
-                    style={styles.input}
-                    value={age}
-                    onChangeText={setAge}
-                    placeholder="30"
-                    placeholderTextColor="#9CA3AF"
-                    keyboardType="numeric"
-                    editable={!isSaving}
-                  />
-                </View>
-              </View>
-
-              <View style={[styles.inputGroup, styles.flex1, styles.ml3]}>
-                <Text style={styles.label}>Gender</Text>
-                <Select
-                  value={gender}
-                  onValueChange={setGender}
-                  placeholder="Select gender"
-                  options={genderOptions}
-                />
-              </View>
-            </View>
-
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Activity Level</Text>
-              <View style={styles.inputContainer}>
-                <Activity size={16} color="#9CA3AF" />
-                <TouchableOpacity
-                  style={styles.activitySelectButton}
-                  onPress={onShowActivityPopup}
-                  disabled={isSaving}
-                >
-                  <Text
-                    style={
-                      activityLevel
-                        ? styles.activitySelectText
-                        : styles.activitySelectPlaceholder
-                    }
-                  >
-                    {activityLevel
-                      ? activityOptions.find((opt) => opt.value === activityLevel)
-                          ?.label
-                      : "Select activity level"}
-                  </Text>
+      <KeyboardAvoidingView
+        behavior="padding"
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View className="flex-1 bg-transparent justify-end">
+            <View
+              className="bg-white rounded-t-[20px] p-5"
+              style={{ maxHeight: windowHeight * 0.7 }}
+            >
+              <View className="flex-row justify-between items-center mb-6">
+                <Text className="text-xl font-bold text-gray-800 font-[Lufga-Bold]">
+                  Edit Your Details
+                </Text>
+                <TouchableOpacity onPress={onClose} className="p-1">
+                  <X size={24} color="#6B7280" />
                 </TouchableOpacity>
               </View>
-            </View>
 
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.cancelButton}
-                onPress={onClose}
-                disabled={isSaving}
+              <ScrollView
+                className="gap-5"
+                showsVerticalScrollIndicator={false}
               >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.saveButton}
-                onPress={handleSave}
-                disabled={isSaving}
-              >
-                <Text style={styles.saveButtonText}>
-                  {isSaving ? "Saving..." : "Save"}
-                </Text>
-              </TouchableOpacity>
+                <View className="flex-row gap-3">
+                  <View className="flex-1 gap-2">
+                    <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                      Height (cm)
+                    </Text>
+                    <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-3">
+                      <Ruler size={16} color="#9CA3AF" />
+                      <TextInput
+                        className="flex-1 ml-2 text-base text-gray-900 font-lufga py-3"
+                        value={height}
+                        onChangeText={setHeight}
+                        placeholder="170"
+                        placeholderTextColor="#9CA3AF"
+                        keyboardType="numeric"
+                        editable={!isSaving}
+                      />
+                    </View>
+                  </View>
+
+                  <View className="flex-1 gap-2">
+                    <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                      Weight (kg)
+                    </Text>
+                    <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-3">
+                      <Scale size={16} color="#9CA3AF" />
+                      <TextInput
+                        className="flex-1 ml-2 text-base text-gray-900 font-lufga py-3"
+                        value={weight}
+                        onChangeText={setWeight}
+                        placeholder="70"
+                        placeholderTextColor="#9CA3AF"
+                        keyboardType="numeric"
+                        editable={!isSaving}
+                      />
+                    </View>
+                  </View>
+                </View>
+
+                <View className="flex-row gap-3">
+                  <View className="flex-1 gap-2">
+                    <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                      Age
+                    </Text>
+                    <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-3">
+                      <Calendar size={16} color="#9CA3AF" />
+                      <TextInput
+                        className="flex-1 ml-2 text-base text-gray-900 font-lufga py-3"
+                        value={age}
+                        onChangeText={setAge}
+                        placeholder="30"
+                        placeholderTextColor="#9CA3AF"
+                        keyboardType="numeric"
+                        editable={!isSaving}
+                      />
+                    </View>
+                  </View>
+
+                  <View className="flex-1 gap-2">
+                    <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                      Gender
+                    </Text>
+                    <Select
+                      value={gender}
+                      onValueChange={setGender}
+                      placeholder="Select gender"
+                      options={genderOptions}
+                    />
+                  </View>
+                </View>
+
+                <View className="gap-2">
+                  <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                    Activity Level
+                  </Text>
+                  <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-3">
+                    <Activity size={16} color="#9CA3AF" />
+                    <TouchableOpacity
+                      className="flex-1 ml-2 py-3"
+                      onPress={onShowActivityPopup}
+                      disabled={isSaving}
+                    >
+                      <Text
+                        className={`text-base font-lufga ${
+                          activityLevel ? "text-gray-900" : "text-gray-400"
+                        }`}
+                      >
+                        {activityLevel
+                          ? activityOptions.find(
+                              (opt) => opt.value === activityLevel
+                            )?.label
+                          : "Select activity level"}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View className="flex-row gap-3 mt-2">
+                  <TouchableOpacity
+                    className="flex-1 bg-gray-100 rounded-xl py-3.5 items-center"
+                    onPress={onClose}
+                    disabled={isSaving}
+                  >
+                    <Text className="text-base font-semibold text-gray-700 font-lufga-semibold">
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="flex-1 bg-blue-500 rounded-xl py-3.5 items-center"
+                    onPress={handleSave}
+                    disabled={isSaving}
+                  >
+                    <Text className="text-base font-semibold text-white font-lufga-semibold">
+                      {isSaving ? "Saving..." : "Save"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
             </View>
           </View>
-        </View>
-      </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: "transparent",
-    justifyContent: "flex-end",
-  },
-  modalContainer: {
-    backgroundColor: "white",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-    maxHeight: height * 0.7,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#1F2937",
-    fontFamily: "Lufga-Bold",
-  },
-  closeButton: {
-    padding: 4,
-  },
-  formContainer: {
-    gap: 20,
-  },
-  row: {
-    flexDirection: "row",
-    gap: 12,
-  },
-  flex1: {
-    flex: 1,
-  },
-  ml3: {
-    marginLeft: 12,
-  },
-  inputGroup: {
-    gap: 8,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#374151",
-    fontFamily: "Lufga-Medium",
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F9FAFB",
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    paddingHorizontal: 12,
-  },
-  input: {
-    flex: 1,
-    marginLeft: 8,
-    fontSize: 16,
-    color: "#111827",
-    fontFamily: "Lufga-Regular",
-    paddingVertical: 12,
-  },
-  activitySelectButton: {
-    flex: 1,
-    marginLeft: 8,
-    paddingVertical: 12,
-  },
-  activitySelectText: {
-    fontSize: 16,
-    color: "#111827",
-    fontFamily: "Lufga-Regular",
-  },
-  activitySelectPlaceholder: {
-    fontSize: 16,
-    color: "#9CA3AF",
-    fontFamily: "Lufga-Regular",
-  },
-  selectContainer: {
-    position: "relative",
-  },
-  selectButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#F9FAFB",
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  selectText: {
-    fontSize: 16,
-    fontFamily: "Lufga-Regular",
-  },
-  selectTextValue: {
-    color: "#111827",
-  },
-  selectTextPlaceholder: {
-    color: "#9CA3AF",
-  },
-  dropdown: {
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    right: 0,
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    marginTop: 4,
-    zIndex: 1000,
-  },
-  dropdownItem: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F3F4F6",
-  },
-  dropdownItemText: {
-    fontSize: 16,
-    color: "#111827",
-    fontFamily: "Lufga-Regular",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    gap: 12,
-    marginTop: 8,
-  },
-  cancelButton: {
-    flex: 1,
-    backgroundColor: "#F3F4F6",
-    borderRadius: 12,
-    paddingVertical: 14,
-    alignItems: "center",
-  },
-  cancelButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#374151",
-    fontFamily: "Lufga-SemiBold",
-  },
-  saveButton: {
-    flex: 1,
-    backgroundColor: "#3B82F6",
-    borderRadius: 12,
-    paddingVertical: 14,
-    alignItems: "center",
-  },
-  saveButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#FFFFFF",
-    fontFamily: "Lufga-SemiBold",
-  },
-});

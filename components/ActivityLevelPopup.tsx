@@ -4,7 +4,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   Dimensions,
 } from "react-native";
 import { X } from "lucide-react-native";
@@ -24,7 +23,7 @@ const activityOptions = [
   { label: "Very Active\n(professional athlete level)", value: "very_active" },
 ];
 
-const { height } = Dimensions.get("window");
+const { height: windowHeight } = Dimensions.get("window");
 
 export function ActivityLevelPopup({
   visible,
@@ -39,33 +38,40 @@ export function ActivityLevelPopup({
       animationType="slide"
       onRequestClose={onClose}
     >
-      <View style={styles.overlay}>
-        <View style={styles.popupContainer}>
-          <View style={styles.header}>
-            <Text style={styles.title}>Select Activity Level</Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+      <View className="flex-1 bg-transparent justify-end">
+        <View
+          className="bg-white rounded-t-[20px] p-5"
+          style={{ maxHeight: windowHeight * 0.7 }}
+        >
+          <View className="flex-row justify-between items-center mb-5">
+            <Text className="text-xl font-bold text-gray-800 font-lufga-bold">
+              Select Activity Level
+            </Text>
+            <TouchableOpacity onPress={onClose} className="p-1">
               <X size={24} color="#6B7280" />
             </TouchableOpacity>
           </View>
 
-          <View style={styles.optionsContainer}>
+          <View className="gap-3">
             {activityOptions.map((option) => (
               <TouchableOpacity
                 key={option.value}
-                style={[
-                  styles.optionButton,
-                  selectedValue === option.value && styles.selectedOptionButton,
-                ]}
+                className={`border rounded-xl p-4 min-h-[80px] justify-center ${
+                  selectedValue === option.value
+                    ? "bg-blue-50 border-blue-500"
+                    : "bg-gray-50 border-gray-200"
+                }`}
                 onPress={() => {
                   onSelect(option.value);
                   onClose();
                 }}
               >
                 <Text
-                  style={[
-                    styles.optionText,
-                    selectedValue === option.value && styles.selectedOptionText,
-                  ]}
+                  className={`text-base text-center leading-[22px] ${
+                    selectedValue === option.value
+                      ? "text-blue-800 font-semibold font-lufga-semibold"
+                      : "text-gray-700 font-lufga"
+                  }`}
                 >
                   {option.label}
                 </Text>
@@ -77,58 +83,3 @@ export function ActivityLevelPopup({
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: "transparent",
-    justifyContent: "flex-end",
-  },
-  popupContainer: {
-    backgroundColor: "white",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-    maxHeight: height * 0.7,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#1F2937",
-  },
-  closeButton: {
-    padding: 4,
-  },
-  optionsContainer: {
-    gap: 12,
-  },
-  optionButton: {
-    backgroundColor: "#F9FAFB",
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 12,
-    padding: 16,
-    minHeight: 80,
-    justifyContent: "center",
-  },
-  selectedOptionButton: {
-    backgroundColor: "#EFF6FF",
-    borderColor: "#3B82F6",
-  },
-  optionText: {
-    fontSize: 16,
-    color: "#374151",
-    textAlign: "center",
-    lineHeight: 22,
-  },
-  selectedOptionText: {
-    color: "#1E40AF",
-    fontWeight: "600",
-  },
-});
