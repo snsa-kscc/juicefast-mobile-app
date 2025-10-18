@@ -734,7 +734,6 @@ export default function ProfileScreen() {
           genderOptions={genderOptions}
           activityOptions={activityOptions}
           onSave={handleSaveProfile}
-          onShowActivityPopup={handleShowActivityPopup}
         />
 
         {/* Activity Level Popup */}
