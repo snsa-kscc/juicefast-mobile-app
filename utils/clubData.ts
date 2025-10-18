@@ -12,6 +12,7 @@ export const WELLNESS_CATEGORIES: WellnessCategory[] = [
   { id: "mind", name: "Mind" },
   { id: "workouts", name: "Workouts" },
   { id: "nutrition", name: "Nutrition" },
+  { id: "beauty", name: "Beauty" },
 ];
 
 // Process raw club data
@@ -181,4 +182,51 @@ export const getTrendingContent = (): ProcessedClubItem[] => {
 export const getDailyContent = (): ProcessedClubItem[] => {
   // Return a selection of items for daily recommendations
   return CLUB_DATA.slice(0, 6);
+};
+
+// Get subcategory image mapping
+export const getSubcategoryImage = (subcategory: string) => {
+  const imageMap: Record<string, any> = {
+    // Mind category
+    "guided meditations": require("@/assets/images/jf-club/guided-meditation.jpg"),
+    "guided affirmations": require("@/assets/images/jf-club/affirmations.jpg"),
+    "better sleep": require("@/assets/images/jf-club/better-sleep.jpg"),
+    "binaural beats": require("@/assets/images/jf-club/binaural.jpg"),
+    "relaxation music": require("@/assets/images/jf-club/relaxation.jpg"),
+    "breathing techniques": require("@/assets/images/jf-club/breathing.jpg"),
+    "sounds of nature": require("@/assets/images/jf-club/nature-sounds.jpg"),
+
+    // Workouts category
+    "cardio and fat burn": require("@/assets/images/jf-club/cardio-fat-burn.jpg"),
+    "mobility & stretching": require("@/assets/images/jf-club/mobility-stretching.jpg"),
+    "pilates": require("@/assets/images/jf-club/pilates.jpg"),
+    "yoga": require("@/assets/images/jf-club/yoga.jpg"),
+    "fitness": require("@/assets/images/jf-club/workouts.jpg"),
+    "weight loss fitness": require("@/assets/images/jf-club/weight-loss-fitness.jpg"),
+
+    // Nutrition category
+    "snacks": require("@/assets/images/jf-club/snacks.jpg"),
+    "smoothies": require("@/assets/images/jf-club/smoothies.jpg"),
+    "mocktails": require("@/assets/images/jf-club/mocktails.jpg"),
+    "oven baked": require("@/assets/images/jf-club/oven-baked.jpg"),
+    "apple cider": require("@/assets/images/jf-club/apple-cider.jpg"),
+    "postpartum nutrition": require("@/assets/images/jf-club/postpartum-nutrition.jpg"),
+    "recipes": require("@/assets/images/jf-club/recipes.jpg"),
+    "bowls": require("@/assets/images/jf-club/bowls.jpg"),
+
+    // Beauty category
+    "face yoga": require("@/assets/images/jf-club/face-yoga.jpg"),
+    "face masks": require("@/assets/images/jf-club/face-masks.jpg"),
+    "hair masks": require("@/assets/images/jf-club/hair-masks.jpg"),
+    "bath bombs": require("@/assets/images/jf-club/bath-bombs.jpg"),
+
+    // General fallback
+    "articles": require("@/assets/images/jf-club/articles.jpg"),
+    "challenge": require("@/assets/images/jf-club/challenge.jpg"),
+    "easy flow": require("@/assets/images/jf-club/easy-flow.jpg"),
+    "neck shoulder": require("@/assets/images/jf-club/neck-shoulder.jpg"),
+  };
+
+  // Return mapped image or fallback to placeholder
+  return imageMap[subcategory] || require("@/assets/images/jf-club/placeholder.jpg");
 };

@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -20,6 +21,7 @@ import {
   getDailyContent,
   getItemsByCategory,
   getSubcategoryData,
+  getSubcategoryImage,
 } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -184,11 +186,11 @@ export default function JFClub() {
                       className="w-[48%] mb-4"
                       onPress={() => handleSubcategoryClick(subcategory.id)}
                     >
-                      <View className="aspect-square bg-gray-100 rounded-xl items-center justify-center mb-2">
-                        <Ionicons
-                          name="musical-notes"
-                          size={40}
-                          color="#6B7280"
+                      <View className="aspect-square rounded-xl overflow-hidden mb-2">
+                        <Image
+                          source={getSubcategoryImage(subcategory.name.toLowerCase())}
+                          className="w-full h-full"
+                          resizeMode="cover"
                         />
                       </View>
                       <View className="mt-2">
