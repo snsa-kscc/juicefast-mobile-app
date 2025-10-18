@@ -176,9 +176,13 @@ export default function ProfileScreen() {
   };
 
   const handleDeleteAccount = async () => {
+    const warningMessage = isSubscribed
+      ? "⚠️ You have an active subscription!\n\nYou can still delete your account, but please remember to cancel your subscription separately through your device's app store settings (App Store/Google Play) to avoid future charges.\n\nAre you sure you want to delete your account? This action cannot be undone. All your data will be permanently deleted."
+      : "This action cannot be undone. All your data will be permanently deleted.";
+
     Alert.alert(
       "Delete Account",
-      "This action cannot be undone. All your data will be permanently deleted.",
+      warningMessage,
       [
         { text: "Cancel", style: "cancel" },
         {
@@ -651,6 +655,11 @@ export default function ProfileScreen() {
           <Text className="font-lufga text-sm text-gray-600 mb-4">
             Once you delete your account, there is no going back. Please be
             certain.
+            {isSubscribed && (
+              <Text className="text-orange-600 font-lufga-medium">
+                {"\n"}⚠️ You have an active subscription. Remember to cancel it separately to avoid future charges.
+              </Text>
+            )}
           </Text>
 
           <TouchableOpacity
