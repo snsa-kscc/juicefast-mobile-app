@@ -30,7 +30,6 @@ import {
   Settings,
   Heart,
   Users,
-  ChevronDown,
   Copy,
   CreditCard,
 } from "lucide-react-native";
@@ -43,55 +42,9 @@ import {
 import { ActivityLevelPopup } from "../components/ActivityLevelPopup";
 import { EditNameModal } from "../components/EditNameModal";
 import { EditPasswordModal } from "../components/EditPasswordModal";
+import { EditDetailsModal } from "../components/EditDetailsModal";
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
 
-interface SelectProps {
-  value: string | undefined;
-  onValueChange: (value: string) => void;
-  placeholder: string;
-  options: { label: string; value: string }[];
-}
-
-function Select({ value, onValueChange, placeholder, options }: SelectProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <View className="relative">
-      <TouchableOpacity
-        className="flex-row items-center justify-between bg-gray-50 border border-gray-200 rounded-xl px-4 py-3"
-        onPress={() => setIsOpen(!isOpen)}
-        activeOpacity={0.7}
-      >
-        <Text
-          className={`flex-1 font-lufga ${value ? "text-gray-900" : "text-gray-500"}`}
-        >
-          {value
-            ? options.find((opt) => opt.value === value)?.label
-            : placeholder}
-        </Text>
-        <ChevronDown size={20} color="#9CA3AF" />
-      </TouchableOpacity>
-
-      {isOpen && (
-        <View className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-xl mt-1 z-50">
-          {options.map((option) => (
-            <TouchableOpacity
-              key={option.value}
-              className="px-4 py-3 border-b border-gray-100 last:border-b-0"
-              onPress={() => {
-                onValueChange(option.value);
-                setIsOpen(false);
-              }}
-              activeOpacity={0.7}
-            >
-              <Text className="text-gray-900 font-lufga">{option.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      )}
-    </View>
-  );
-}
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -101,8 +54,6 @@ export default function ProfileScreen() {
   const updateUserProfile = useMutation(api.userProfile.createOrUpdate);
 
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   // Form state
   const [height, setHeight] = useState<string>("");
@@ -115,6 +66,7 @@ export default function ProfileScreen() {
   const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const [showEditNameModal, setShowEditNameModal] = useState(false);
   const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
+  const [showEditDetailsModal, setShowEditDetailsModal] = useState(false);
   const [hasPassword, setHasPassword] = useState(false);
 
   useEffect(() => {
@@ -153,33 +105,51 @@ export default function ProfileScreen() {
     }
   }, [userProfile]);
 
-  const handleSaveProfile = async () => {
+  const handleSaveProfile = async (
+    modalHeight: string,
+    modalWeight: string,
+    modalAge: string,
+    modalGender: string | undefined,
+    modalActivityLevel: string | undefined
+  ) => {
     try {
-      setIsLoading(true);
-
       if (!profile?.referralCode) {
         Alert.alert("Error", "Referral code is required");
         return;
       }
 
       await updateUserProfile({
-        height: height ? parseInt(height) : undefined,
-        weight: weight ? parseInt(weight) : undefined,
-        age: age ? parseInt(age) : undefined,
-        gender: gender,
-        activityLevel: activityLevel,
+        height: modalHeight ? parseInt(modalHeight) : undefined,
+        weight: modalWeight ? parseInt(modalWeight) : undefined,
+        age: modalAge ? parseInt(modalAge) : undefined,
+        gender: modalGender,
+        activityLevel: modalActivityLevel,
         referralCode: profile.referralCode,
         referredBy: profile.referredBy,
         referralCount: profile.referralCount,
       });
 
-      setIsEditing(false);
+      // Update local state to reflect changes immediately
+      setHeight(modalHeight);
+      setWeight(modalWeight);
+      setAge(modalAge);
+      setGender(modalGender);
+      setActivityLevel(modalActivityLevel);
+
+      // Update the profile state as well
+      setProfile(prev => prev ? {
+        ...prev,
+        height: modalHeight ? parseInt(modalHeight) : undefined,
+        weight: modalWeight ? parseInt(modalWeight) : undefined,
+        age: modalAge ? parseInt(modalAge) : undefined,
+        gender: modalGender,
+        activityLevel: modalActivityLevel as any,
+      } : null);
+
       Alert.alert("Success", "Profile updated successfully!");
     } catch (error) {
       console.error("Failed to save profile:", error);
       Alert.alert("Error", "Failed to save profile");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -254,6 +224,10 @@ export default function ProfileScreen() {
       newPassword,
     });
     Alert.alert("Success", "Password updated successfully!");
+  };
+
+  const handleShowActivityPopup = () => {
+    setShowActivityPopup(true);
   };
 
   const handleCopyReferralLink = async () => {
@@ -418,219 +392,103 @@ export default function ProfileScreen() {
 
         {/* Profile Details */}
         <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 mx-6">
-          <Text className="text-xl font-lufga-bold mb-4">
-            {isEditing ? "Edit Your Details" : "Your Details"}
-          </Text>
+          <Text className="text-xl font-lufga-bold mb-4">Your Details</Text>
 
-          {isEditing ? (
-            <View>
-              <View className="flex-row space-x-4 mb-4">
-                <View className="flex-1">
-                  <Text className="font-lufga text-sm text-gray-500 mb-2">
-                    Height (cm)
-                  </Text>
-                  <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3">
-                    <Ruler size={16} color="#9CA3AF" />
-                    <TextInput
-                      className="flex-1 ml-2 text-gray-900 font-lufga"
-                      value={height}
-                      onChangeText={setHeight}
-                      keyboardType="numeric"
-                      placeholder="170"
-                    />
-                  </View>
-                </View>
-
-                <View className="flex-1">
-                  <Text className="font-lufga text-sm text-gray-500 mb-2">
-                    Weight (kg)
-                  </Text>
-                  <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3">
-                    <Scale size={16} color="#9CA3AF" />
-                    <TextInput
-                      className="flex-1 ml-2 text-gray-900 font-lufga"
-                      value={weight}
-                      onChangeText={setWeight}
-                      keyboardType="numeric"
-                      placeholder="70"
-                    />
-                  </View>
-                </View>
-              </View>
-
-              <View className="flex-row space-x-4 mb-4">
-                <View className="flex-1">
-                  <Text className="font-lufga text-sm text-gray-500 mb-2">
-                    Age
-                  </Text>
-                  <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-3">
-                    <Calendar size={16} color="#9CA3AF" />
-                    <TextInput
-                      className="flex-1 ml-2 text-gray-900 font-lufga"
-                      value={age}
-                      onChangeText={setAge}
-                      keyboardType="numeric"
-                      placeholder="30"
-                    />
-                  </View>
-                </View>
-
-                <View className="flex-1">
-                  <Text className="font-lufga text-sm text-gray-500 mb-2">
-                    Gender
-                  </Text>
-                  <Select
-                    value={gender}
-                    onValueChange={setGender}
-                    placeholder="Select gender"
-                    options={genderOptions}
-                  />
-                </View>
-              </View>
-
-              <View>
-                <Text className="font-lufga text-sm text-gray-500 mb-2">
-                  Activity Level
-                </Text>
+          <View>
+            <View className="flex-row flex-wrap mb-6">
+              <View className="w-1/2 pr-2 mb-4">
                 <View className="flex-row items-center">
-                  <Activity size={16} color="#9CA3AF" />
-                  <TouchableOpacity
-                    className="flex-1 ml-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3"
-                    onPress={() => setShowActivityPopup(true)}
-                  >
-                    <Text
-                      className={`text-gray-900 font-lufga ${activityLevel ? "" : "text-gray-500"}`}
-                    >
-                      {activityLevel
-                        ? activityOptions.find(
-                            (opt) => opt.value === activityLevel
-                          )?.label
-                        : "Select activity level"}
+                  <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
+                    <Ruler size={20} color="#3B82F6" />
+                  </View>
+                  <View>
+                    <Text className="font-lufga text-sm text-gray-500">
+                      Height
                     </Text>
-                  </TouchableOpacity>
+                    <Text className="font-lufga-medium">
+                      {profile?.height ?? "-"}
+                    </Text>
+                  </View>
                 </View>
               </View>
 
-              <View className="flex-row justify-end space-x-3 pt-6">
-                <TouchableOpacity
-                  className="px-6 py-3 bg-gray-100 rounded-[25px]"
-                  onPress={() => setIsEditing(false)}
-                  disabled={isLoading}
-                  activeOpacity={0.7}
-                >
-                  <Text className="text-gray-700 font-lufga-medium">
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className={`px-6 py-3 rounded-[25px] ${isLoading ? "bg-gray-400" : "bg-blue-500"}`}
-                  onPress={handleSaveProfile}
-                  disabled={isLoading}
-                  activeOpacity={0.7}
-                >
-                  <Text className="text-white font-lufga-medium">
-                    {isLoading ? "Saving..." : "Save Changes"}
-                  </Text>
-                </TouchableOpacity>
+              <View className="w-1/2 pl-2 mb-4">
+                <View className="flex-row items-center">
+                  <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
+                    <Scale size={20} color="#3B82F6" />
+                  </View>
+                  <View>
+                    <Text className="font-lufga text-sm text-gray-500">
+                      Weight
+                    </Text>
+                    <Text className="font-lufga-medium">
+                      {profile?.weight ?? "-"} kg
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              <View className="w-1/2 pr-2 mb-4">
+                <View className="flex-row items-center">
+                  <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
+                    <Calendar size={20} color="#3B82F6" />
+                  </View>
+                  <View>
+                    <Text className="font-lufga text-sm text-gray-500">
+                      Age
+                    </Text>
+                    <Text className="font-lufga-medium">
+                      {profile?.age ?? "-"}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              <View className="w-1/2 pl-2 mb-4">
+                <View className="flex-row items-center">
+                  <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
+                    <User size={20} color="#3B82F6" />
+                  </View>
+                  <View>
+                    <Text className="font-lufga text-sm text-gray-500">
+                      Gender
+                    </Text>
+                    <Text className="font-lufga-medium">
+                      {profile?.gender ?? "-"}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              <View className="w-full mb-4">
+                <View className="flex-row items-center">
+                  <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
+                    <Activity size={20} color="#3B82F6" />
+                  </View>
+                  <View className="flex-1">
+                    <Text className="font-lufga text-sm text-gray-500">
+                      Activity Level
+                    </Text>
+                    <Text className="font-lufga-medium">
+                      {profile?.activityLevel
+                        ? getActivityLevelText(profile.activityLevel)
+                        : "-"}
+                    </Text>
+                  </View>
+                </View>
               </View>
             </View>
-          ) : (
-            <View>
-              <View className="flex-row flex-wrap mb-6">
-                <View className="w-1/2 pr-2 mb-4">
-                  <View className="flex-row items-center">
-                    <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
-                      <Ruler size={20} color="#3B82F6" />
-                    </View>
-                    <View>
-                      <Text className="font-lufga text-sm text-gray-500">
-                        Height
-                      </Text>
-                      <Text className="font-lufga-medium">
-                        {profile?.height ?? "-"}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
 
-                <View className="w-1/2 pl-2 mb-4">
-                  <View className="flex-row items-center">
-                    <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
-                      <Scale size={20} color="#3B82F6" />
-                    </View>
-                    <View>
-                      <Text className="font-lufga text-sm text-gray-500">
-                        Weight
-                      </Text>
-                      <Text className="font-lufga-medium">
-                        {profile?.weight ?? "-"} kg
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View className="w-1/2 pr-2 mb-4">
-                  <View className="flex-row items-center">
-                    <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
-                      <Calendar size={20} color="#3B82F6" />
-                    </View>
-                    <View>
-                      <Text className="font-lufga text-sm text-gray-500">
-                        Age
-                      </Text>
-                      <Text className="font-lufga-medium">
-                        {profile?.age ?? "-"}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View className="w-1/2 pl-2 mb-4">
-                  <View className="flex-row items-center">
-                    <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
-                      <User size={20} color="#3B82F6" />
-                    </View>
-                    <View>
-                      <Text className="font-lufga text-sm text-gray-500">
-                        Gender
-                      </Text>
-                      <Text className="font-lufga-medium">
-                        {profile?.gender ?? "-"}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View className="w-full mb-4">
-                  <View className="flex-row items-center">
-                    <View className="w-10 h-10 rounded-full bg-blue-50 items-center justify-center mr-3">
-                      <Activity size={20} color="#3B82F6" />
-                    </View>
-                    <View className="flex-1">
-                      <Text className="font-lufga text-sm text-gray-500">
-                        Activity Level
-                      </Text>
-                      <Text className="font-lufga-medium">
-                        {profile?.activityLevel
-                          ? getActivityLevelText(profile.activityLevel)
-                          : "-"}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-
-              <TouchableOpacity
-                className="bg-blue-500 py-3 rounded-[25px] items-center"
-                onPress={() => setIsEditing(true)}
-                activeOpacity={0.7}
-              >
-                <Text className="text-white font-lufga-medium">
-                  Edit Details
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
+            <TouchableOpacity
+              className="bg-blue-500 py-3 rounded-[25px] items-center"
+              onPress={() => setShowEditDetailsModal(true)}
+              activeOpacity={0.7}
+            >
+              <Text className="text-white font-lufga-medium">
+                Edit Details
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Health Metrics Summary */}
@@ -856,6 +714,21 @@ export default function ProfileScreen() {
           visible={showEditPasswordModal}
           onClose={() => setShowEditPasswordModal(false)}
           onSave={handleSavePassword}
+        />
+
+        {/* Edit Details Modal */}
+        <EditDetailsModal
+          visible={showEditDetailsModal}
+          onClose={() => setShowEditDetailsModal(false)}
+          initialHeight={height}
+          initialWeight={weight}
+          initialAge={age}
+          initialGender={gender}
+          initialActivityLevel={activityLevel}
+          genderOptions={genderOptions}
+          activityOptions={activityOptions}
+          onSave={handleSaveProfile}
+          onShowActivityPopup={handleShowActivityPopup}
         />
 
         {/* Activity Level Popup */}
