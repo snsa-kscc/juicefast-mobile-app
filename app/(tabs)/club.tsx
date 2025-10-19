@@ -95,7 +95,7 @@ export default function JFClub() {
   return (
     <PaywallGuard>
       <AnimatedScreen>
-        <SafeAreaView className="flex-1 bg-[#FCFBF8]">
+        <SafeAreaView className="flex-1 bg-jf-gray">
           <ScrollView showsVerticalScrollIndicator={false}>
             {/* Header */}
             <View className="bg-[#E0F7FA] pb-8">

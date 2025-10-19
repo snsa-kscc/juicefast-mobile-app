@@ -364,8 +364,8 @@ export function WellnessTracker({
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView 
-        className="flex-1 bg-[#FCFBF8]"
+      <ScrollView
+        className="flex-1 bg-jf-gray"
         nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
       >
