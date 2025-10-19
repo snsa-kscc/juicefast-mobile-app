@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,24 +20,41 @@ import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
 export default function ClubContentDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [showVideo, setShowVideo] = useState(false);
+  const [showAudio, setShowAudio] = useState(false);
+  const [audioPosition, setAudioPosition] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(0);
 
   // Find the item from club data
   const item = CLUB_DATA.find((item: ProcessedClubItem) => item.id === id);
 
-  // Create video player - always call hook but conditionally use it
-  const player = useVideoPlayer(
-    item?.type === "video" && item.url ? item.url : "",
-    (player) => {
-      if (player) {
-        player.loop = false;
-      }
-    }
-  );
+  // Create video/audio player - always call hook but conditionally use it
+  const mediaUrl = (item?.type === "video" || item?.type === "audio" || item?.type === "meditation" || item?.type === "track") && item.url ? item.url : "";
 
-  // Track playing state - only use if we have a valid video
+  const player = useVideoPlayer(mediaUrl, (player) => {
+    if (player) {
+      player.loop = false;
+      player.showNowPlayingNotification = item?.type !== "video";
+    }
+  });
+
+  // Track playing state
   const { isPlaying } = useEvent(player, "playingChange", {
     isPlaying: player?.playing || false,
   });
+
+  // Track audio progress
+  useEffect(() => {
+    if ((item?.type === "audio" || item?.type === "meditation" || item?.type === "track") && player) {
+      const interval = setInterval(() => {
+        if (player.playing) {
+          setAudioPosition(player.currentTime || 0);
+          setAudioDuration(player.duration || 0);
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [player, isPlaying, item?.type]);
 
   if (!item) {
     return (
@@ -60,12 +77,27 @@ export default function ClubContentDetail() {
     );
   }
 
+  const formatTime = (milliseconds: number) => {
+    const seconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
   const getActionText = () => {
     switch (item.type) {
       case "meditation":
-        return "Start Meditation";
+        return showAudio
+          ? isPlaying
+            ? "Pause Meditation"
+            : "Resume Meditation"
+          : "Start Meditation";
       case "track":
-        return "Play Track";
+        return showAudio
+          ? isPlaying
+            ? "Pause Track"
+            : "Resume Track"
+          : "Play Track";
       case "video":
         return showVideo
           ? isPlaying
@@ -73,7 +105,11 @@ export default function ClubContentDetail() {
             : "Resume Video"
           : "Watch Video";
       case "audio":
-        return "Play Audio";
+        return showAudio
+          ? isPlaying
+            ? "Pause Audio"
+            : "Resume Audio"
+          : "Play Audio";
       default:
         return "Start Content";
     }
@@ -119,11 +155,51 @@ export default function ClubContentDetail() {
           );
         }
       }
+    } else if (item.type === "audio" || item.type === "meditation" || item.type === "track") {
+      // Handle audio content types
+      if (!item.url) {
+        Alert.alert("Error", "Audio URL is not available for this content.");
+        return;
+      }
+
+      if (!player) {
+        Alert.alert("Error", "Audio player is not available.");
+        return;
+      }
+
+      if (!showAudio) {
+        // Show audio player for the first time
+        setShowAudio(true);
+        try {
+          player.play();
+        } catch (error) {
+          console.error("Audio play error:", error);
+          Alert.alert(
+            "Playback Error",
+            "Unable to start audio playback. Please try again."
+          );
+        }
+      } else {
+        // Toggle play/pause
+        try {
+          if (isPlaying) {
+            player.pause();
+          } else {
+            player.play();
+          }
+        } catch (error) {
+          console.error("Audio playback error:", error);
+          Alert.alert(
+            "Playback Error",
+            "Unable to control audio playback. Please try again."
+          );
+        }
+      }
     } else {
       // Handle other content types
       Alert.alert(
-        "Coming Soon",
-        "Audio playback functionality will be available soon."
+        "Content Not Supported",
+        "This content type is not yet supported."
       );
     }
   };
@@ -140,7 +216,7 @@ export default function ClubContentDetail() {
       />
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Video or Image Container */}
+        {/* Video or Audio Container */}
         <View className="relative w-full aspect-video bg-black">
           {showVideo && item.type === "video" && player ? (
             <VideoView
@@ -150,13 +226,74 @@ export default function ClubContentDetail() {
               fullscreenOptions={{ enable: true }}
               allowsPictureInPicture={true}
             />
+          ) : showAudio && (item.type === "audio" || item.type === "meditation" || item.type === "track") && player ? (
+            // Audio player interface
+            <View className="w-full h-full bg-gradient-to-b from-gray-900 to-black flex flex-col justify-center items-center px-6">
+              {/* Audio Icon */}
+              <View className="bg-white/20 rounded-full p-8 mb-6">
+                <Ionicons
+                  name={
+                    item.type === "meditation" ? "flower" :
+                    item.type === "track" ? "radio" : "volume-high"
+                  }
+                  size={48}
+                  color="#FFFFFF"
+                />
+              </View>
+
+              {/* Audio Title */}
+              <Text className="text-white text-xl font-lufga-bold text-center mb-2">
+                {item.title}
+              </Text>
+              <Text className="text-white/80 text-sm font-lufga-regular text-center mb-8">
+                {item.subcategory} • {item.duration}
+              </Text>
+
+              {/* Progress Bar */}
+              <View className="w-full mb-6">
+                <View className="flex-row items-center justify-between mb-2">
+                  <Text className="text-white/60 text-xs font-lufga-regular">
+                    {formatTime(audioPosition)}
+                  </Text>
+                  <Text className="text-white/60 text-xs font-lufga-regular">
+                    {formatTime(audioDuration)}
+                  </Text>
+                </View>
+                <View className="h-1 bg-white/20 rounded-full">
+                  <View
+                    className="h-full bg-white rounded-full"
+                    style={{ width: `${audioDuration > 0 ? (audioPosition / audioDuration) * 100 : 0}%` }}
+                  />
+                </View>
+              </View>
+
+              {/* Play Controls */}
+              <View className="flex-row items-center gap-6">
+                <TouchableOpacity>
+                  <Ionicons name="play-skip-back" size={24} color="#FFFFFF" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handlePlayPress}
+                  className="bg-white rounded-full p-4"
+                >
+                  <Ionicons
+                    name={isPlaying ? "pause" : "play"}
+                    size={24}
+                    color="#000000"
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Ionicons name="play-skip-forward" size={24} color="#FFFFFF" />
+                </TouchableOpacity>
+              </View>
+            </View>
           ) : (
             <>
               <Image
                 source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
                 className="w-full h-full"
               />
-              {/* Video overlay controls (only show when video is not playing) */}
+              {/* Video overlay controls */}
               {item.type === "video" && !showVideo && (
                 <TouchableOpacity
                   onPress={handlePlayPress}
@@ -164,6 +301,31 @@ export default function ClubContentDetail() {
                 >
                   <View className="bg-black/60 rounded-full p-4">
                     <Ionicons name="play" size={32} color="#FFFFFF" />
+                  </View>
+                </TouchableOpacity>
+              )}
+
+              {/* Audio overlay controls */}
+              {(item.type === "audio" || item.type === "meditation" || item.type === "track") && !showAudio && (
+                <TouchableOpacity
+                  onPress={handlePlayPress}
+                  className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center bg-black/30"
+                >
+                  <View className="bg-black/60 rounded-full p-6">
+                    <Ionicons
+                      name={
+                        item.type === "meditation" ? "flower" :
+                        item.type === "track" ? "radio" : "volume-high"
+                      }
+                      size={40}
+                      color="#FFFFFF"
+                    />
+                  </View>
+                  <View className="mt-4">
+                    <Text className="text-white text-lg font-lufga-bold">
+                      {item.type === "meditation" ? "Start Meditation" :
+                       item.type === "track" ? "Play Track" : "Play Audio"}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               )}
