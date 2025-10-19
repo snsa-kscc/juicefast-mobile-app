@@ -11,13 +11,6 @@ export default function ClubLayout() {
         }}
       />
       <Stack.Screen
-        name="categories/[category]"
-        options={{
-          title: "Category",
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
         name="categories/[category]/[subcategory]"
         options={{
           title: "Subcategory",

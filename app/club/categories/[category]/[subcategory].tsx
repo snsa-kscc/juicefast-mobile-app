@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { SubcategoryDetail } from "@/components/club/SubcategoryDetail";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
@@ -31,14 +31,14 @@ export default function SubcategoryPage() {
       <SafeAreaView className="flex-1 bg-jf-gray">
         <WellnessHeader
           title="Subcategory Not Found"
-          subtitle="The wellness subcategory you&apos;re looking for doesn&apos;t exist"
+          subtitle="The wellness subcategory you're looking for doesn't exist"
           showBackButton={true}
           onBackPress={handleBack}
           showSettings={false}
         />
         <SubcategoryDetail
           title="Subcategory Not Found"
-          description="The wellness subcategory you&apos;re looking for doesn&apos;t exist."
+          description="The wellness subcategory you're looking for doesn't exist."
           items={[]}
           onItemPress={handleItemClick}
         />
@@ -51,7 +51,10 @@ export default function SubcategoryPage() {
       <WellnessHeader
         title={subcategoryData.title}
         subtitle={subcategoryData.description || subcategoryData.subtitle}
-        backgroundImage={subcategoryData.featuredImageUrl || getSubcategoryImage(subcategoryData.title.toLowerCase())}
+        backgroundImage={
+          subcategoryData.featuredImageUrl ||
+          getSubcategoryImage(subcategoryData.title.toLowerCase())
+        }
         itemCount={subcategoryData.items.length}
         itemCountLabel="meditations"
         showBackButton={true}
@@ -69,4 +72,3 @@ export default function SubcategoryPage() {
     </SafeAreaView>
   );
 }
-

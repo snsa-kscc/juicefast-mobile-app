@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 // Using View with backgroundColor instead of LinearGradient
@@ -57,7 +51,6 @@ export default function JFClub() {
     }
   };
 
-  
   // Determine which content to show based on selected category
   const getContentForCategory = () => {
     switch (selectedCategory) {
@@ -88,9 +81,13 @@ export default function JFClub() {
             accentColor="#1A1A1A"
             backgroundColor="#E0F7FA"
             showBackButton={true}
-            onBackPress={() => router.back()}
+            onBackPress={() => {
+              router.back();
+            }}
             showSettings={true}
-            onSettingsPress={() => router.push("/profile")}
+            onSettingsPress={() => {
+              router.push("/profile");
+            }}
           />
           <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
             {/* Tab Navigation */}
@@ -104,7 +101,9 @@ export default function JFClub() {
                 >
                   <Text
                     className={`text-sm font-lufga-medium ${
-                      activeTab === "trending" ? "text-gray-900" : "text-gray-400"
+                      activeTab === "trending"
+                        ? "text-gray-900"
+                        : "text-gray-400"
                     }`}
                   >
                     Trending
@@ -118,7 +117,9 @@ export default function JFClub() {
                 >
                   <Text
                     className={`text-sm font-lufga-medium ${
-                      activeTab === "discover" ? "text-gray-900" : "text-gray-400"
+                      activeTab === "discover"
+                        ? "text-gray-900"
+                        : "text-gray-400"
                     }`}
                   >
                     Discover
@@ -164,19 +165,25 @@ export default function JFClub() {
                       }
 
                       // Full width if it's the 5th item in original position
-                      const isFullWidth = (index + 1) % 5 === 0 ||
+                      const isFullWidth =
+                        (index + 1) % 5 === 0 ||
                         // Or if it's the last item and the current group has odd number of items
-                        (index === subcategories.length - 1 && groupPosition % 2 === 1);
+                        (index === subcategories.length - 1 &&
+                          groupPosition % 2 === 1);
 
                       return (
                         <TouchableOpacity
                           key={subcategory.id}
-                          className={`${isFullWidth ? 'w-full' : 'w-[48%]'} mb-4`}
+                          className={`${isFullWidth ? "w-full" : "w-[48%]"} mb-4`}
                           onPress={() => handleSubcategoryClick(subcategory.id)}
                         >
-                          <View className={`${isFullWidth ? 'w-full' : ''} ${isFullWidth ? 'h-48' : 'aspect-square'} rounded-xl overflow-hidden mb-2`}>
+                          <View
+                            className={`${isFullWidth ? "w-full" : ""} ${isFullWidth ? "h-48" : "aspect-square"} rounded-xl overflow-hidden mb-2`}
+                          >
                             <Image
-                              source={getSubcategoryImage(subcategory.name.toLowerCase())}
+                              source={getSubcategoryImage(
+                                subcategory.name.toLowerCase()
+                              )}
                               className="w-full h-full"
                               resizeMode="cover"
                             />
@@ -208,7 +215,9 @@ export default function JFClub() {
                   </Text>
                   <PremiumSubscriptionDrawer>
                     <View className="bg-blue-500 py-3 rounded-[25px] items-center">
-                      <Text className="text-base font-lufga-bold text-white">GO PREMIUM</Text>
+                      <Text className="text-base font-lufga-bold text-white">
+                        GO PREMIUM
+                      </Text>
                     </View>
                   </PremiumSubscriptionDrawer>
                 </View>

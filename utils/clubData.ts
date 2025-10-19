@@ -15,6 +15,38 @@ export const WELLNESS_CATEGORIES: WellnessCategory[] = [
   { id: "beauty", name: "Beauty" },
 ];
 
+// Subcategory sort order by category
+const SUBCATEGORY_SORT_ORDER: Record<string, string[]> = {
+  mind: [
+    "guided affirmations",
+    "guided meditations",
+    "better sleep",
+    "binaural beats",
+    "relaxation music",
+    "breathing techniques",
+    "sounds of nature",
+  ],
+  workouts: [
+    "cardio and fat burn",
+    "mobility & stretching",
+    "pilates",
+    "yoga",
+    "fitness",
+    "weight loss fitness",
+  ],
+  nutrition: [
+    "smoothies",
+    "bowls",
+    "snacks",
+    "recipes",
+    "mocktails",
+    "oven baked",
+    "apple cider",
+    "postpartum nutrition",
+  ],
+  beauty: ["face yoga", "face masks", "hair masks", "DIY Bath Bombs"],
+};
+
 // Process raw club data
 const processClubData = (rawData: ClubItem[]): ProcessedClubItem[] => {
   return rawData.map((item, index) => ({
@@ -89,7 +121,9 @@ export const getSubcategoriesForCategory = (category: string): string[] => {
 // Get subcategory data with counts
 export const getSubcategoryData = (category: string) => {
   const subcategories = getSubcategoriesForCategory(category);
-  return subcategories.map((subcategory) => {
+  const sortOrder = SUBCATEGORY_SORT_ORDER[category] || [];
+
+  const subcategoryData = subcategories.map((subcategory) => {
     const items = getItemsBySubcategory(subcategory);
     return {
       id: subcategory.toLowerCase().replace(/\s+/g, "-"),
@@ -97,11 +131,29 @@ export const getSubcategoryData = (category: string) => {
       count: items.length,
       countLabel: "tracks",
       imageUrl: items[0]?.imageUrl,
+      _originalName: subcategory, // Keep for sorting
     };
+  });
+
+  // Sort by defined order, then alphabetically for any not in the list
+  return subcategoryData.sort((a, b) => {
+    const indexA = sortOrder.indexOf(a._originalName);
+    const indexB = sortOrder.indexOf(b._originalName);
+
+    // Both in sort order - use defined order
+    if (indexA !== -1 && indexB !== -1) {
+      return indexA - indexB;
+    }
+    // Only A in sort order - A comes first
+    if (indexA !== -1) return -1;
+    // Only B in sort order - B comes first
+    if (indexB !== -1) return 1;
+    // Neither in sort order - alphabetical
+    return a.name.localeCompare(b.name);
   });
 };
 
-// Get detailed subcategory information
+// Get detailed subcategory information, po meni nebitno
 export const getSubcategoryDetail = (
   subcategory: string
 ): SubcategoryData | null => {
@@ -146,7 +198,9 @@ export const getSubcategoryDetail = (
   };
 
   const subcategoryInfo = subcategoryMap[normalizedSubcategory] || {
-    title: normalizedSubcategory.charAt(0).toUpperCase() + normalizedSubcategory.slice(1),
+    title:
+      normalizedSubcategory.charAt(0).toUpperCase() +
+      normalizedSubcategory.slice(1),
     subtitle: `${items.length} items`,
     description: "Wellness content to support your journey.",
     featuredImageUrl:
@@ -199,34 +253,36 @@ export const getSubcategoryImage = (subcategory: string) => {
     // Workouts category
     "cardio and fat burn": require("@/assets/images/jf-club/cardio-fat-burn.jpg"),
     "mobility & stretching": require("@/assets/images/jf-club/mobility-stretching.jpg"),
-    "pilates": require("@/assets/images/jf-club/pilates.jpg"),
-    "yoga": require("@/assets/images/jf-club/yoga.jpg"),
-    "fitness": require("@/assets/images/jf-club/workouts.jpg"),
+    pilates: require("@/assets/images/jf-club/pilates.jpg"),
+    yoga: require("@/assets/images/jf-club/yoga.jpg"),
+    fitness: require("@/assets/images/jf-club/workouts.jpg"),
     "weight loss fitness": require("@/assets/images/jf-club/weight-loss-fitness.jpg"),
 
     // Nutrition category
-    "snacks": require("@/assets/images/jf-club/snacks.jpg"),
-    "smoothies": require("@/assets/images/jf-club/smoothies.jpg"),
-    "mocktails": require("@/assets/images/jf-club/mocktails.jpg"),
+    snacks: require("@/assets/images/jf-club/snacks.jpg"),
+    smoothies: require("@/assets/images/jf-club/smoothies.jpg"),
+    mocktails: require("@/assets/images/jf-club/mocktails.jpg"),
     "oven baked": require("@/assets/images/jf-club/oven-baked.jpg"),
     "apple cider": require("@/assets/images/jf-club/apple-cider.jpg"),
     "postpartum nutrition": require("@/assets/images/jf-club/postpartum-nutrition.jpg"),
-    "recipes": require("@/assets/images/jf-club/recipes.jpg"),
-    "bowls": require("@/assets/images/jf-club/bowls.jpg"),
+    recipes: require("@/assets/images/jf-club/recipes.jpg"),
+    bowls: require("@/assets/images/jf-club/bowls.jpg"),
 
     // Beauty category
     "face yoga": require("@/assets/images/jf-club/face-yoga.jpg"),
     "face masks": require("@/assets/images/jf-club/face-masks.jpg"),
     "hair masks": require("@/assets/images/jf-club/hair-masks.jpg"),
-    "bath bombs": require("@/assets/images/jf-club/bath-bombs.jpg"),
+    "diy bath bombs": require("@/assets/images/jf-club/bath-bombs.jpg"),
 
     // General fallback
-    "articles": require("@/assets/images/jf-club/articles.jpg"),
-    "challenge": require("@/assets/images/jf-club/challenge.jpg"),
+    articles: require("@/assets/images/jf-club/articles.jpg"),
+    challenge: require("@/assets/images/jf-club/challenge.jpg"),
     "easy flow": require("@/assets/images/jf-club/easy-flow.jpg"),
     "neck shoulder": require("@/assets/images/jf-club/neck-shoulder.jpg"),
   };
 
   // Return mapped image or fallback to placeholder
-  return imageMap[subcategory] || require("@/assets/images/jf-club/placeholder.jpg");
+  return (
+    imageMap[subcategory] || require("@/assets/images/jf-club/placeholder.jpg")
+  );
 };
