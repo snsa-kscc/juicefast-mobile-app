@@ -651,7 +651,7 @@ export default function ProfileScreen() {
           <Text className="font-lufga text-sm text-gray-600 mb-4">
             Once you delete your account, there is no going back. Please be
             certain.
-            {!isSubscribed && (
+            {isSubscribed && (
               <Text className="text-orange-600 font-lufga-medium">
                 {"\n"}⚠️ You have an active subscription. Remember to cancel it
                 separately to avoid future charges.

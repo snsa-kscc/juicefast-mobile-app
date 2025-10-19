@@ -19,7 +19,7 @@ interface ChatOptionsProps {
 }
 
 const NutritionistIcon = () => (
-  <Svg width={54} height={54} viewBox="0 0 44 44" fill="none">
+  <Svg width={64} height={64} viewBox="0 0 44 44" fill="none">
     <Path
       d="M7 12H17"
       stroke="#E1D5B9"
@@ -52,7 +52,7 @@ const NutritionistIcon = () => (
 );
 
 const DashboardIcon = () => (
-  <Svg width={54} height={54} viewBox="0 0 44 44" fill="none">
+  <Svg width={64} height={64} viewBox="0 0 44 44" fill="none">
     <Path
       d="M4 9H18"
       stroke="#8B7355"
@@ -103,7 +103,7 @@ const DashboardIcon = () => (
 );
 
 const AIIcon = () => (
-  <Svg width={54} height={54} viewBox="0 0 44 44" fill="none">
+  <Svg width={64} height={64} viewBox="0 0 44 44" fill="none">
     <Path
       d="M7 10.0001C7.395 9.51512 7.935 9.24012 8.5 9.24012C9.065 9.24012 9.59 9.51512 10 10.0001"
       stroke="#FE8E77"
@@ -180,7 +180,7 @@ export function ChatOptions({
   };
 
   return (
-    <View className="flex-1 bg-[#FCFBF8]">
+    <View className="flex-1 bg-jf-gray">
       <WellnessHeader
         title={isNutritionist ? "Nutritionist Portal" : "Talk to us"}
         subtitle={
@@ -201,11 +201,11 @@ export function ChatOptions({
           {displayOptions.map((option, index) => (
             <TouchableOpacity
               key={option.id}
-              className={`bg-white rounded-xl shadow-sm ${index < displayOptions.length - 1 ? 'mb-4' : ''}`}
+              className={`bg-white rounded-xl ${index < displayOptions.length - 1 ? "mb-4" : ""}`}
               onPress={() => handleOptionPress(option.route)}
               activeOpacity={0.7}
             >
-              <View className="p-6 flex-row items-start">
+              <View className="p-6 flex-row items-center">
                 <View className="mr-4">{option.icon}</View>
                 <View className="flex-1">
                   <Text className="text-lg font-lufga-medium text-black mb-4">
