@@ -15,6 +15,7 @@ import { CLUB_DATA } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
+import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
 
 export default function ClubContentDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -23,20 +24,20 @@ export default function ClubContentDetail() {
   // Find the item from club data
   const item = CLUB_DATA.find((item: ProcessedClubItem) => item.id === id);
 
-  // Create video player only for video content
-  const player =
-    item?.type === "video" && item.url
-      ? useVideoPlayer(item.url, (player) => {
-          player.loop = false;
-        })
-      : null;
+  // Create video player - always call hook but conditionally use it
+  const player = useVideoPlayer(
+    item?.type === "video" && item.url ? item.url : "",
+    (player) => {
+      if (player) {
+        player.loop = false;
+      }
+    }
+  );
 
-  // Track playing state - only for video content with valid player
-  const { isPlaying } = player
-    ? useEvent(player, "playingChange", {
-        isPlaying: player.playing,
-      })
-    : { isPlaying: false };
+  // Track playing state - only use if we have a valid video
+  const { isPlaying } = useEvent(player, "playingChange", {
+    isPlaying: player?.playing || false,
+  });
 
   if (!item) {
     return (
@@ -152,9 +153,8 @@ export default function ClubContentDetail() {
           ) : (
             <>
               <Image
-                source={{ uri: item.imageUrl }}
+                source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
                 className="w-full h-full"
-                defaultSource={require("@/assets/images/icon.png")}
               />
               {/* Video overlay controls (only show when video is not playing) */}
               {item.type === "video" && !showVideo && (

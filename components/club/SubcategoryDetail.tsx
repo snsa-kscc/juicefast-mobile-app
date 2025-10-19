@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProcessedClubItem } from "@/types/club";
+import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
 
 interface SubcategoryDetailProps {
   title: string;
@@ -52,9 +53,8 @@ export function SubcategoryDetail({
     >
       <View className="w-10 h-10 rounded-md overflow-hidden mr-3">
         <Image
-          source={{ uri: item.imageUrl }}
+          source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
           className="w-full h-full"
-          defaultSource={require("@/assets/images/icon.png")}
           resizeMode="cover"
         />
       </View>

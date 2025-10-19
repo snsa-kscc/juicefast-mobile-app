@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProcessedClubItem } from "@/types/club";
+import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
 
 interface ContentCardProps {
   item: ProcessedClubItem;
@@ -32,9 +33,8 @@ export function ContentCard({
         style={{ aspectRatio: getAspectRatio() }}
       >
         <Image
-          source={{ uri: item.imageUrl }}
+          source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
           className="w-full h-full"
-          defaultSource={require("@/assets/images/icon.png")}
           resizeMode="cover"
         />
       </View>

@@ -1,76 +1,29 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
+import React from "react";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-// Using View with backgroundColor instead of LinearGradient
+import { WELLNESS_CATEGORIES, getDailyContent } from "@/utils/clubData";
 import { AnimatedScreen } from "@/components/AnimatedScreen";
 import { PaywallGuard } from "@/components/paywall/PaywallGuard";
 import { CategorySelector } from "@/components/club/CategorySelector";
 import { ContentGrid } from "@/components/club/ContentGrid";
 import { DailyContent } from "@/components/club/DailyContent";
 import { PremiumSubscriptionDrawer } from "@/components/club/PremiumSubscriptionDrawer";
+import { SubcategoryGrid } from "@/components/club/SubcategoryGrid";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
-import {
-  WELLNESS_CATEGORIES,
-  getTrendingContent,
-  getDailyContent,
-  getItemsByCategory,
-  getSubcategoryData,
-  getSubcategoryImage,
-  formatSubcategoryTitle,
-} from "@/utils/clubData";
-import { ProcessedClubItem } from "@/types/club";
+import { useClubLogic } from "@/hooks/useClubLogic";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function JFClub() {
-  const [activeTab, setActiveTab] = useState<string>("trending");
-  const [selectedCategory, setSelectedCategory] = useState<string>("trending");
-
-  // Handle tab change
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    setSelectedCategory(tab === "trending" ? "trending" : selectedCategory);
-  };
-
-  // Handle item click
-  const handleItemClick = (item: ProcessedClubItem) => {
-    // Navigate to content detail page
-    router.push(`/club/content/${item.id}`);
-  };
-
-  // Handle category selection
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
-
-    // If we're in discover tab and selecting trending, switch to trending tab
-    if (activeTab === "discover" && category === "trending") {
-      setActiveTab("trending");
-    }
-    // If we're in trending tab and selecting non-trending, switch to discover tab
-    else if (activeTab === "trending" && category !== "trending") {
-      setActiveTab("discover");
-    }
-  };
-
-  // Determine which content to show based on selected category
-  const getContentForCategory = () => {
-    switch (selectedCategory) {
-      case "trending":
-        return getTrendingContent();
-      default:
-        return getItemsByCategory(selectedCategory);
-    }
-  };
-
-  // Get subcategories for the selected category
-  const getSubcategoriesForCategory = () => {
-    if (selectedCategory === "trending") return [];
-    return getSubcategoryData(selectedCategory);
-  };
-
-  const handleSubcategoryClick = (subcategoryId: string) => {
-    router.push(`/club/categories/${selectedCategory}/${subcategoryId}`);
-  };
+  const {
+    activeTab,
+    selectedCategory,
+    handleTabChange,
+    handleItemClick,
+    handleCategorySelect,
+    getContentForCategory,
+    getSubcategoriesForCategory,
+    handleSubcategoryClick,
+  } = useClubLogic();
 
   return (
     <PaywallGuard>
@@ -149,75 +102,10 @@ export default function JFClub() {
                   onItemPress={handleItemClick}
                 />
               ) : (
-                <View className="flex-row flex-wrap justify-between mb-8">
-                  {(() => {
-                    const subcategories = getSubcategoriesForCategory();
-                    return subcategories.map((subcategory, index) => {
-                      // Calculate the position within the current group (ignoring previous full-width items)
-                      let groupPosition = index + 1;
-                      for (let i = 0; i < index; i++) {
-                        if ((i + 1) % 5 === 0) {
-                          groupPosition--;
-                        }
-                      }
-
-                      // Full width if it's the 5th item in original position
-                      const isFullWidth =
-                        (index + 1) % 5 === 0 ||
-                        // Or if it's the last item and the current group has odd number of items
-                        (index === subcategories.length - 1 &&
-                          groupPosition % 2 === 1);
-
-                      return (
-                        <TouchableOpacity
-                          key={subcategory.id}
-                          className={`${isFullWidth ? "w-full" : "w-[48%]"} mb-4`}
-                          onPress={() => handleSubcategoryClick(subcategory.id)}
-                        >
-                          <View
-                            className={`${isFullWidth ? "w-full" : ""} ${isFullWidth ? "h-48" : "aspect-square"} rounded-xl overflow-hidden mb-2 relative`}
-                          >
-                            <Image
-                              source={getSubcategoryImage(
-                                subcategory.name.toLowerCase()
-                              )}
-                              className="w-full h-full"
-                              resizeMode="cover"
-                            />
-                            {/* Overlay text for large images */}
-                            {isFullWidth && (
-                              <View className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white/80 to-transparent">
-                                <Text className="text-black text-lg font-lufga-bold mb-1">
-                                  {formatSubcategoryTitle(subcategory.name)}
-                                </Text>
-                                {subcategory.count && (
-                                  <Text className="text-black/80 text-sm font-lufga-regular">
-                                    {subcategory.count}{" "}
-                                    {subcategory.countLabel || "items"}
-                                  </Text>
-                                )}
-                              </View>
-                            )}
-                          </View>
-                          {/* Text below small images */}
-                          {!isFullWidth && (
-                            <View className="mt-2">
-                              <Text className="text-base font-lufga-semibold text-gray-900">
-                                {formatSubcategoryTitle(subcategory.name)}
-                              </Text>
-                              {subcategory.count && (
-                                <Text className="text-xs font-lufga-regular text-gray-500 mt-0.5">
-                                  {subcategory.count}{" "}
-                                  {subcategory.countLabel || "items"}
-                                </Text>
-                              )}
-                            </View>
-                          )}
-                        </TouchableOpacity>
-                      );
-                    });
-                  })()}
-                </View>
+                <SubcategoryGrid
+                  category={selectedCategory}
+                  onSubcategoryClick={handleSubcategoryClick}
+                />
               )}
 
               {/* Premium Banner - Only show on trending */}

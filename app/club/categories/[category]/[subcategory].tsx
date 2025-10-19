@@ -3,11 +3,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { SubcategoryDetail } from "@/components/club/SubcategoryDetail";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
-import { getSubcategoryDetail, getSubcategoryImage } from "@/utils/clubData";
+import { getSubcategoryDetail, getSubcategoryInfo } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 
 export default function SubcategoryPage() {
-  const { category, subcategory } = useLocalSearchParams<{
+  const { subcategory } = useLocalSearchParams<{
     category: string;
     subcategory: string;
   }>();
@@ -16,6 +16,9 @@ export default function SubcategoryPage() {
 
   // Get the original subcategory name for image lookup (convert kebab-case back to spaces)
   const originalSubcategory = subcategory?.replace(/-/g, " ") || "";
+
+  // Get subcategory info from unified data structure
+  const subcategoryInfo = getSubcategoryInfo(originalSubcategory);
 
   const handleItemClick = (item: ProcessedClubItem) => {
     router.push({
@@ -62,7 +65,7 @@ export default function SubcategoryPage() {
           <WellnessHeader
             title={subcategoryData.title}
             subtitle={subcategoryData.description || subcategoryData.subtitle}
-            backgroundImage={getSubcategoryImage(originalSubcategory)}
+            backgroundImage={subcategoryInfo?.image || require("@/assets/images/jf-club/placeholder.jpg")}
             itemCount={subcategoryData.items.length}
             itemCountLabel="meditations"
             showBackButton={true}
