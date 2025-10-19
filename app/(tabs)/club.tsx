@@ -101,7 +101,19 @@ export default function JFClub() {
             <View className="bg-[#E0F7FA] pb-8">
               <View className="px-4 pt-4">
                 <View className="flex-row justify-between items-center mb-2">
-                  <Text className="text-xl font-bold text-gray-900">JF Club</Text>
+                  <View className="flex-row items-center">
+                    <TouchableOpacity
+                      className="p-2 mr-2"
+                      onPress={() => router.back()}
+                    >
+                      <Ionicons
+                        name="arrow-back"
+                        size={20}
+                        color="#374151"
+                      />
+                    </TouchableOpacity>
+                    <Text className="text-xl font-bold text-gray-900">JF Club</Text>
+                  </View>
                   <TouchableOpacity
                     className="p-2"
                     onPress={() => router.push("/profile")}
