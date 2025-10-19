@@ -17,6 +17,7 @@ import {
   getItemsByCategory,
   getSubcategoryData,
   getSubcategoryImage,
+  formatSubcategoryTitle,
 } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -174,7 +175,7 @@ export default function JFClub() {
                           onPress={() => handleSubcategoryClick(subcategory.id)}
                         >
                           <View
-                            className={`${isFullWidth ? "w-full" : ""} ${isFullWidth ? "h-48" : "aspect-square"} rounded-xl overflow-hidden mb-2`}
+                            className={`${isFullWidth ? "w-full" : ""} ${isFullWidth ? "h-48" : "aspect-square"} rounded-xl overflow-hidden mb-2 relative`}
                           >
                             <Image
                               source={getSubcategoryImage(
@@ -183,18 +184,35 @@ export default function JFClub() {
                               className="w-full h-full"
                               resizeMode="cover"
                             />
-                          </View>
-                          <View className="mt-2">
-                            <Text className="text-base font-lufga-semibold text-gray-900">
-                              {subcategory.name}
-                            </Text>
-                            {subcategory.count && (
-                              <Text className="text-xs font-lufga-regular text-gray-500 mt-0.5">
-                                {subcategory.count}{" "}
-                                {subcategory.countLabel || "items"}
-                              </Text>
+                            {/* Overlay text for large images */}
+                            {isFullWidth && (
+                              <View className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white/80 to-transparent">
+                                <Text className="text-black text-lg font-lufga-bold mb-1">
+                                  {formatSubcategoryTitle(subcategory.name)}
+                                </Text>
+                                {subcategory.count && (
+                                  <Text className="text-black/80 text-sm font-lufga-regular">
+                                    {subcategory.count}{" "}
+                                    {subcategory.countLabel || "items"}
+                                  </Text>
+                                )}
+                              </View>
                             )}
                           </View>
+                          {/* Text below small images */}
+                          {!isFullWidth && (
+                            <View className="mt-2">
+                              <Text className="text-base font-lufga-semibold text-gray-900">
+                                {formatSubcategoryTitle(subcategory.name)}
+                              </Text>
+                              {subcategory.count && (
+                                <Text className="text-xs font-lufga-regular text-gray-500 mt-0.5">
+                                  {subcategory.count}{" "}
+                                  {subcategory.countLabel || "items"}
+                                </Text>
+                              )}
+                            </View>
+                          )}
                         </TouchableOpacity>
                       );
                     });

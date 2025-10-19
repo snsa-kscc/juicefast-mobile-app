@@ -215,6 +215,25 @@ export const getDailyContent = (): ProcessedClubItem[] => {
   return CLUB_DATA.slice(0, 6);
 };
 
+// Format subcategory title with proper capitalization and symbols
+export const formatSubcategoryTitle = (title: string): string => {
+  return title
+    .split(' ')
+    .map(word => {
+      // Make DIY completely uppercase
+      if (word.toLowerCase() === 'diy') {
+        return 'DIY';
+      }
+      // Replace "and" with "&"
+      if (word.toLowerCase() === 'and') {
+        return '&';
+      }
+      // Capitalize first letter of each word
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+};
+
 // Get subcategory image mapping
 export const getSubcategoryImage = (subcategory: string) => {
   const imageMap: Record<string, any> = {
