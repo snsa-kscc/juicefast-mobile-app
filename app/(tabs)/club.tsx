@@ -75,21 +75,17 @@ export default function JFClub() {
     <PaywallGuard>
       <AnimatedScreen>
         <SafeAreaView className="flex-1 bg-jf-gray">
-          <WellnessHeader
-            title="JF Club"
-            subtitle="Workouts, recipes and relevant articles come to you every day, and are all based on your current state, logged results and overall wellness goals."
-            accentColor="#1A1A1A"
-            backgroundColor="#E0F7FA"
-            showBackButton={true}
-            onBackPress={() => {
-              router.back();
-            }}
-            showSettings={true}
-            onSettingsPress={() => {
-              router.push("/profile");
-            }}
-          />
           <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+            <WellnessHeader
+              title="JF Club"
+              subtitle="Workouts, recipes and relevant articles come to you every day, and are all based on your current state, logged results and overall wellness goals."
+              accentColor="#1A1A1A"
+              backgroundColor="#E0F7FA"
+              showSettings={true}
+              onSettingsPress={() => {
+                router.push("/profile");
+              }}
+            />
             {/* Tab Navigation */}
             <View className="border-b border-gray-200">
               <View className="flex-row">

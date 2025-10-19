@@ -17,6 +17,7 @@ interface SubcategoryDetailProps {
   items: ProcessedClubItem[];
   onItemPress?: (item: ProcessedClubItem) => void;
   featuredImageUrl?: string;
+  headerComponent?: React.ReactNode;
 }
 
 export function SubcategoryDetail({
@@ -26,6 +27,7 @@ export function SubcategoryDetail({
   items,
   onItemPress,
   featuredImageUrl,
+  headerComponent,
 }: SubcategoryDetailProps) {
   // Group items by their subcategory for sections
   const groupedItems = items.reduce<Record<string, ProcessedClubItem[]>>(
@@ -79,6 +81,9 @@ export function SubcategoryDetail({
 
   return (
     <ScrollView className="flex-1 bg-jf-gray" showsVerticalScrollIndicator={false}>
+      {/* Custom Header Component */}
+      {headerComponent}
+
       {/* Featured Image Header */}
       {headerImageUrl && title && (
         <View className="relative h-56 mb-4">

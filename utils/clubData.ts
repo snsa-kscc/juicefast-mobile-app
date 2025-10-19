@@ -18,33 +18,33 @@ export const WELLNESS_CATEGORIES: WellnessCategory[] = [
 // Subcategory sort order by category
 const SUBCATEGORY_SORT_ORDER: Record<string, string[]> = {
   mind: [
-    "guided affirmations",
-    "guided meditations",
     "better sleep",
+    "breathing techniques",
+    "guided meditations",
+    "guided affirmations",
     "binaural beats",
     "relaxation music",
-    "breathing techniques",
     "sounds of nature",
   ],
   workouts: [
-    "cardio and fat burn",
-    "mobility & stretching",
     "pilates",
     "yoga",
-    "fitness",
+    "mobility & stretching",
+    "cardio and fat burn",
     "weight loss fitness",
+    "fitness",
   ],
   nutrition: [
-    "smoothies",
-    "bowls",
-    "snacks",
-    "recipes",
-    "mocktails",
-    "oven baked",
-    "apple cider",
     "postpartum nutrition",
+    "smoothies",
+    "snacks",
+    "bowls",
+    "oven baked",
+    "mocktails",
+    "recipes",
+    "apple cider",
   ],
-  beauty: ["face yoga", "face masks", "hair masks", "DIY Bath Bombs"],
+  beauty: ["face yoga mini class", "diy hair masks", "diy face masks", "diy bath bombs"],
 };
 
 // Process raw club data
@@ -72,24 +72,11 @@ const determineItemType = (
   return "audio";
 };
 
-// Generate placeholder image URL based on category and subcategory
-const generateImageUrl = (item: ClubItem): string => {
-  // Map subcategories to appropriate Unsplash images
-  const imageMap: Record<string, string> = {
-    "guided meditations":
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop&crop=center",
-    "better sleep":
-      "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=400&fit=crop&crop=center",
-    "binaural beats":
-      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&crop=center",
-    "relaxation music":
-      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&crop=center",
-  };
-
-  return (
-    imageMap[item.subcategory] ||
-    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop&crop=center"
-  );
+// Generate placeholder image URL for individual items
+const generateImageUrl = (_item: ClubItem): string => {
+  // Use a generic placeholder for all individual items
+  // Headers will use local images via getSubcategoryImage
+  return "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop&crop=center";
 };
 
 // Process and export all club data
@@ -168,32 +155,24 @@ export const getSubcategoryDetail = (
       subtitle: `${items.length} meditations`,
       description:
         "Through these meditations, you can achieve a mental, physical and emotional balance and reset. Find your inner peace with our guided meditation tracks.",
-      featuredImageUrl:
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
     },
     "better sleep": {
       title: "Better Sleep",
       subtitle: `${items.length} sleep tracks`,
       description:
         "Catch the z's you need to with the help of these sleep tracks. Play them in the background, focus on the sound, and slip into a slumber.",
-      featuredImageUrl:
-        "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=300&fit=crop&crop=center",
     },
     "binaural beats": {
       title: "Binaural Beats",
       subtitle: `${items.length} tracks`,
       description:
         "These specially designed audio tracks use different frequencies in each ear to help you focus, relax, or sleep. For best results, listen with headphones.",
-      featuredImageUrl:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center",
     },
     "relaxation music": {
       title: "Relaxation Music",
       subtitle: `${items.length} tracks`,
       description:
         "Here you'll find relaxing music that can help lower your heart rate, reduce stress and induce calmness. Take 20 minutes to relax and focus inwards.",
-      featuredImageUrl:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center",
     },
   };
 
@@ -203,8 +182,6 @@ export const getSubcategoryDetail = (
       normalizedSubcategory.slice(1),
     subtitle: `${items.length} items`,
     description: "Wellness content to support your journey.",
-    featuredImageUrl:
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
   };
 
   return {
@@ -241,44 +218,38 @@ export const getDailyContent = (): ProcessedClubItem[] => {
 // Get subcategory image mapping
 export const getSubcategoryImage = (subcategory: string) => {
   const imageMap: Record<string, any> = {
-    // Mind category
+    // Mind category - matching SUBCATEGORY_SORT_ORDER
+    "better sleep": require("@/assets/images/jf-club/better-sleep.jpg"),
+    "breathing techniques": require("@/assets/images/jf-club/breathing.jpg"),
     "guided meditations": require("@/assets/images/jf-club/guided-meditation.jpg"),
     "guided affirmations": require("@/assets/images/jf-club/affirmations.jpg"),
-    "better sleep": require("@/assets/images/jf-club/better-sleep.jpg"),
     "binaural beats": require("@/assets/images/jf-club/binaural.jpg"),
     "relaxation music": require("@/assets/images/jf-club/relaxation.jpg"),
-    "breathing techniques": require("@/assets/images/jf-club/breathing.jpg"),
     "sounds of nature": require("@/assets/images/jf-club/nature-sounds.jpg"),
 
-    // Workouts category
-    "cardio and fat burn": require("@/assets/images/jf-club/cardio-fat-burn.jpg"),
-    "mobility & stretching": require("@/assets/images/jf-club/mobility-stretching.jpg"),
+    // Workouts category - matching SUBCATEGORY_SORT_ORDER
     pilates: require("@/assets/images/jf-club/pilates.jpg"),
     yoga: require("@/assets/images/jf-club/yoga.jpg"),
-    fitness: require("@/assets/images/jf-club/workouts.jpg"),
+    "mobility & stretching": require("@/assets/images/jf-club/mobility-stretching.jpg"),
+    "cardio and fat burn": require("@/assets/images/jf-club/cardio-fat-burn.jpg"),
     "weight loss fitness": require("@/assets/images/jf-club/weight-loss-fitness.jpg"),
+    fitness: require("@/assets/images/jf-club/workouts.jpg"),
 
-    // Nutrition category
-    snacks: require("@/assets/images/jf-club/snacks.jpg"),
-    smoothies: require("@/assets/images/jf-club/smoothies.jpg"),
-    mocktails: require("@/assets/images/jf-club/mocktails.jpg"),
-    "oven baked": require("@/assets/images/jf-club/oven-baked.jpg"),
-    "apple cider": require("@/assets/images/jf-club/apple-cider.jpg"),
+    // Nutrition category - matching SUBCATEGORY_SORT_ORDER
     "postpartum nutrition": require("@/assets/images/jf-club/postpartum-nutrition.jpg"),
-    recipes: require("@/assets/images/jf-club/recipes.jpg"),
+    smoothies: require("@/assets/images/jf-club/smoothies.jpg"),
+    snacks: require("@/assets/images/jf-club/snacks.jpg"),
     bowls: require("@/assets/images/jf-club/bowls.jpg"),
+    "oven baked": require("@/assets/images/jf-club/oven-baked.jpg"),
+    mocktails: require("@/assets/images/jf-club/mocktails.jpg"),
+    recipes: require("@/assets/images/jf-club/recipes.jpg"),
+    "apple cider": require("@/assets/images/jf-club/apple-cider.jpg"),
 
-    // Beauty category
-    "face yoga": require("@/assets/images/jf-club/face-yoga.jpg"),
-    "face masks": require("@/assets/images/jf-club/face-masks.jpg"),
-    "hair masks": require("@/assets/images/jf-club/hair-masks.jpg"),
+    // Beauty category - matching SUBCATEGORY_SORT_ORDER
+    "face yoga mini class": require("@/assets/images/jf-club/face-yoga.jpg"),
+    "diy hair masks": require("@/assets/images/jf-club/hair-masks.jpg"),
+    "diy face masks": require("@/assets/images/jf-club/face-masks.jpg"),
     "diy bath bombs": require("@/assets/images/jf-club/bath-bombs.jpg"),
-
-    // General fallback
-    articles: require("@/assets/images/jf-club/articles.jpg"),
-    challenge: require("@/assets/images/jf-club/challenge.jpg"),
-    "easy flow": require("@/assets/images/jf-club/easy-flow.jpg"),
-    "neck shoulder": require("@/assets/images/jf-club/neck-shoulder.jpg"),
   };
 
   // Return mapped image or fallback to placeholder

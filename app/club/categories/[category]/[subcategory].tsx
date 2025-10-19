@@ -3,8 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { SubcategoryDetail } from "@/components/club/SubcategoryDetail";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
-import { getSubcategoryDetail } from "@/utils/clubData";
-import { getSubcategoryImage } from "@/utils/clubData";
+import { getSubcategoryDetail, getSubcategoryImage } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 
 export default function SubcategoryPage() {
@@ -14,6 +13,9 @@ export default function SubcategoryPage() {
   }>();
 
   const subcategoryData = getSubcategoryDetail(subcategory || "");
+
+  // Get the original subcategory name for image lookup (convert kebab-case back to spaces)
+  const originalSubcategory = subcategory?.replace(/-/g, " ") || "";
 
   const handleItemClick = (item: ProcessedClubItem) => {
     router.push({
@@ -29,18 +31,20 @@ export default function SubcategoryPage() {
   if (!subcategoryData) {
     return (
       <SafeAreaView className="flex-1 bg-jf-gray">
-        <WellnessHeader
-          title="Subcategory Not Found"
-          subtitle="The wellness subcategory you're looking for doesn't exist"
-          showBackButton={true}
-          onBackPress={handleBack}
-          showSettings={false}
-        />
         <SubcategoryDetail
           title="Subcategory Not Found"
           description="The wellness subcategory you're looking for doesn't exist."
           items={[]}
           onItemPress={handleItemClick}
+          headerComponent={
+            <WellnessHeader
+              title="Subcategory Not Found"
+              subtitle="The wellness subcategory you're looking for doesn't exist"
+              showBackButton={true}
+              onBackPress={handleBack}
+              showSettings={false}
+            />
+          }
         />
       </SafeAreaView>
     );
@@ -48,26 +52,25 @@ export default function SubcategoryPage() {
 
   return (
     <SafeAreaView className="flex-1 bg-jf-gray">
-      <WellnessHeader
-        title={subcategoryData.title}
-        subtitle={subcategoryData.description || subcategoryData.subtitle}
-        backgroundImage={
-          subcategoryData.featuredImageUrl ||
-          getSubcategoryImage(subcategoryData.title.toLowerCase())
-        }
-        itemCount={subcategoryData.items.length}
-        itemCountLabel="meditations"
-        showBackButton={true}
-        onBackPress={handleBack}
-        showSettings={true}
-        onSettingsPress={() => router.push("/profile")}
-      />
       <SubcategoryDetail
         title=""
         subtitle=""
         description=""
         items={subcategoryData.items}
         onItemPress={handleItemClick}
+        headerComponent={
+          <WellnessHeader
+            title={subcategoryData.title}
+            subtitle={subcategoryData.description || subcategoryData.subtitle}
+            backgroundImage={getSubcategoryImage(originalSubcategory)}
+            itemCount={subcategoryData.items.length}
+            itemCountLabel="meditations"
+            showBackButton={true}
+            onBackPress={handleBack}
+            showSettings={true}
+            onSettingsPress={() => router.push("/profile")}
+          />
+        }
       />
     </SafeAreaView>
   );
