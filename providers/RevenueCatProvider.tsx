@@ -9,7 +9,7 @@ import { Platform } from "react-native";
 import { useUser } from "@clerk/clerk-expo";
 
 // DEBUG: Set to true to bypass subscription check and always have premium access
-const FORCE_PREMIUM_ACCESS = true;
+const FORCE_PREMIUM_ACCESS = false;
 
 interface RevenueCatContextType {
   isSubscribed: boolean;
