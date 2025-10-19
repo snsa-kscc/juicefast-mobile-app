@@ -165,7 +165,7 @@ export function EditDetailsModal({
               style={{ maxHeight: windowHeight * 0.7 }}
             >
               <View className="flex-row justify-between items-center mb-6">
-                <Text className="text-xl font-bold text-gray-800 font-[Lufga-Bold]">
+                <Text className="text-xl text-gray-800 font-lufga-bold">
                   Edit Your Details
                 </Text>
                 <TouchableOpacity onPress={onClose} className="p-1">
@@ -176,10 +176,11 @@ export function EditDetailsModal({
               <ScrollView
                 className="gap-5"
                 showsVerticalScrollIndicator={false}
-                style={{ overflow: 'visible' }}
+                style={{ overflow: "visible" }}
               >
                 <View className="flex-row gap-3">
                   <View className="flex-1 gap-2">
+                    {/* ispravi duple fontove */}
                     <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
                       Height (cm)
                     </Text>
