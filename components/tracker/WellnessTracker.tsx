@@ -261,18 +261,38 @@ export function WellnessTracker({
 
   // Calculate totals
   const todayData = useMemo(() => {
-    if (!stepEntries || !waterEntries || !mealEntries || !mindfulnessEntries || !sleepEntries) {
+    if (
+      !stepEntries ||
+      !waterEntries ||
+      !mealEntries ||
+      !mindfulnessEntries ||
+      !sleepEntries
+    ) {
       return null;
     }
 
     const totalSteps = stepEntries.reduce((sum, entry) => sum + entry.count, 0);
-    const totalWater = waterEntries.reduce((sum, entry) => sum + entry.amount, 0);
-    const totalMindfulness = mindfulnessEntries.reduce((sum, entry) => sum + entry.minutes, 0);
-    const totalSleep = sleepEntries.reduce((sum, entry) => sum + entry.hoursSlept, 0);
+    const totalWater = waterEntries.reduce(
+      (sum, entry) => sum + entry.amount,
+      0
+    );
+    const totalMindfulness = mindfulnessEntries.reduce(
+      (sum, entry) => sum + entry.minutes,
+      0
+    );
+    const totalSleep = sleepEntries.reduce(
+      (sum, entry) => sum + entry.hoursSlept,
+      0
+    );
     const healthyMeals = mealEntries.length;
 
     const totalScore = Math.round(
-      (totalSteps / 10000 + totalWater / 2200 + healthyMeals / 2 + totalMindfulness / 20 + totalSleep / 8) * 20
+      (totalSteps / 10000 +
+        totalWater / 2200 +
+        healthyMeals / 2 +
+        totalMindfulness / 20 +
+        totalSleep / 8) *
+        20
     );
 
     return {
@@ -283,7 +303,13 @@ export function WellnessTracker({
       healthyMeals,
       totalScore,
     };
-  }, [stepEntries, waterEntries, mealEntries, mindfulnessEntries, sleepEntries]);
+  }, [
+    stepEntries,
+    waterEntries,
+    mealEntries,
+    mindfulnessEntries,
+    sleepEntries,
+  ]);
 
   const loading = !todayData && isSignedIn;
 
@@ -369,10 +395,10 @@ export function WellnessTracker({
         nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
       >
-        <WellnessHeader 
-          title="Wellness Tracker" 
-          accentColor="rgb(76, 195, 255)" 
-          onSettingsPress={() => router.push('/profile')}
+        <WellnessHeader
+          title="Wellness Tracker"
+          accentColor="rgb(76, 195, 255)"
+          onSettingsPress={() => router.push("/profile")}
         />
 
         {/* Wellness Score */}
