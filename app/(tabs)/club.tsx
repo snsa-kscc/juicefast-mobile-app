@@ -15,6 +15,7 @@ import { CategorySelector } from "@/components/club/CategorySelector";
 import { ContentGrid } from "@/components/club/ContentGrid";
 import { DailyContent } from "@/components/club/DailyContent";
 import { PremiumSubscriptionDrawer } from "@/components/club/PremiumSubscriptionDrawer";
+import { WellnessHeader } from "@/components/ui/CustomHeader";
 import {
   WELLNESS_CATEGORIES,
   getTrendingContent,
@@ -81,43 +82,17 @@ export default function JFClub() {
     <PaywallGuard>
       <AnimatedScreen>
         <SafeAreaView className="flex-1 bg-jf-gray">
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {/* Header */}
-            <View className="bg-[#E0F7FA] pb-8">
-              <View className="px-4 pt-4">
-                <View className="flex-row justify-between items-center mb-2">
-                  <View className="flex-row items-center">
-                    <TouchableOpacity
-                      className="p-2 mr-2"
-                      onPress={() => router.back()}
-                    >
-                      <Ionicons
-                        name="arrow-back"
-                        size={20}
-                        color="#374151"
-                      />
-                    </TouchableOpacity>
-                    <Text className="text-xl font-lufga-bold text-gray-900">JF Club</Text>
-                  </View>
-                  <TouchableOpacity
-                    className="p-2"
-                    onPress={() => router.push("/profile")}
-                  >
-                    <Ionicons
-                      name="settings-outline"
-                      size={20}
-                      color="#374151"
-                    />
-                  </TouchableOpacity>
-                </View>
-                <Text className="text-sm font-lufga-regular text-gray-500 leading-5">
-                  Workouts, recipes and relevant articles come to you every day,
-                  and are all based on your current state, logged results and
-                  overall wellness goals.
-                </Text>
-              </View>
-            </View>
-
+          <WellnessHeader
+            title="JF Club"
+            subtitle="Workouts, recipes and relevant articles come to you every day, and are all based on your current state, logged results and overall wellness goals."
+            accentColor="#1A1A1A"
+            backgroundColor="#E0F7FA"
+            showBackButton={true}
+            onBackPress={() => router.back()}
+            showSettings={true}
+            onSettingsPress={() => router.push("/profile")}
+          />
+          <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
             {/* Tab Navigation */}
             <View className="border-b border-gray-200">
               <View className="flex-row">
@@ -177,32 +152,50 @@ export default function JFClub() {
                 />
               ) : (
                 <View className="flex-row flex-wrap justify-between mb-8">
-                  {getSubcategoriesForCategory().map((subcategory) => (
-                    <TouchableOpacity
-                      key={subcategory.id}
-                      className="w-[48%] mb-4"
-                      onPress={() => handleSubcategoryClick(subcategory.id)}
-                    >
-                      <View className="aspect-square rounded-xl overflow-hidden mb-2">
-                        <Image
-                          source={getSubcategoryImage(subcategory.name.toLowerCase())}
-                          className="w-full h-full"
-                          resizeMode="cover"
-                        />
-                      </View>
-                      <View className="mt-2">
-                        <Text className="text-base font-lufga-semibold text-gray-900">
-                          {subcategory.name}
-                        </Text>
-                        {subcategory.count && (
-                          <Text className="text-xs font-lufga-regular text-gray-500 mt-0.5">
-                            {subcategory.count}{" "}
-                            {subcategory.countLabel || "items"}
-                          </Text>
-                        )}
-                      </View>
-                    </TouchableOpacity>
-                  ))}
+                  {(() => {
+                    const subcategories = getSubcategoriesForCategory();
+                    return subcategories.map((subcategory, index) => {
+                      // Calculate the position within the current group (ignoring previous full-width items)
+                      let groupPosition = index + 1;
+                      for (let i = 0; i < index; i++) {
+                        if ((i + 1) % 5 === 0) {
+                          groupPosition--;
+                        }
+                      }
+
+                      // Full width if it's the 5th item in original position
+                      const isFullWidth = (index + 1) % 5 === 0 ||
+                        // Or if it's the last item and the current group has odd number of items
+                        (index === subcategories.length - 1 && groupPosition % 2 === 1);
+
+                      return (
+                        <TouchableOpacity
+                          key={subcategory.id}
+                          className={`${isFullWidth ? 'w-full' : 'w-[48%]'} mb-4`}
+                          onPress={() => handleSubcategoryClick(subcategory.id)}
+                        >
+                          <View className={`${isFullWidth ? 'w-full' : ''} ${isFullWidth ? 'h-48' : 'aspect-square'} rounded-xl overflow-hidden mb-2`}>
+                            <Image
+                              source={getSubcategoryImage(subcategory.name.toLowerCase())}
+                              className="w-full h-full"
+                              resizeMode="cover"
+                            />
+                          </View>
+                          <View className="mt-2">
+                            <Text className="text-base font-lufga-semibold text-gray-900">
+                              {subcategory.name}
+                            </Text>
+                            {subcategory.count && (
+                              <Text className="text-xs font-lufga-regular text-gray-500 mt-0.5">
+                                {subcategory.count}{" "}
+                                {subcategory.countLabel || "items"}
+                              </Text>
+                            )}
+                          </View>
+                        </TouchableOpacity>
+                      );
+                    });
+                  })()}
                 </View>
               )}
 

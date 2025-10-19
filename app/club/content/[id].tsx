@@ -14,6 +14,7 @@ import { VideoView, useVideoPlayer } from "expo-video";
 import { CLUB_DATA } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { WellnessHeader } from "@/components/ui/CustomHeader";
 
 export default function ClubContentDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -39,19 +40,20 @@ export default function ClubContentDetail() {
 
   if (!item) {
     return (
-      <SafeAreaView className="flex-1 bg-white">
+      <SafeAreaView className="flex-1 bg-jf-gray">
+        <WellnessHeader
+          title="Content Not Found"
+          subtitle="The wellness content you&apos;re looking for doesn&apos;t exist"
+          showBackButton={true}
+          onBackPress={() => router.back()}
+          showSettings={true}
+          onSettingsPress={() => router.push("/profile")}
+        />
         <View className="flex-1 justify-center items-center px-6">
           <Text className="text-2xl font-lufga-bold text-gray-900 mb-4">Content Not Found</Text>
           <Text className="text-base font-lufga-regular text-gray-500 text-center mb-6">
-            The wellness content you're looking for doesn't exist.
+            The wellness content you&apos;re looking for doesn&apos;t exist.
           </Text>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            className="flex-row items-center bg-gray-100 px-4 py-2 rounded-lg"
-          >
-            <Ionicons name="arrow-back" size={16} color="#374151" />
-            <Text className="ml-2 text-base font-lufga-medium text-gray-700">Back to Club</Text>
-          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
@@ -126,34 +128,15 @@ export default function ClubContentDetail() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      {/* Fixed header with back button and content info */}
-      <View className="bg-white px-4 py-3 border-b border-gray-100">
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="self-start bg-gray-100 rounded-full p-2"
-        >
-          <Ionicons name="arrow-back" size={20} color="#111827" />
-        </TouchableOpacity>
-
-        <View className="mt-2">
-          <Text className="text-[22px] font-lufga-bold text-gray-900 leading-7">{item.title}</Text>
-          <View className="flex-row items-center mt-1 gap-3">
-            {item.subcategory && (
-              <Text className="text-sm text-gray-500 font-lufga-medium">
-                {item.subcategory.charAt(0).toUpperCase() +
-                  item.subcategory.slice(1)}
-              </Text>
-            )}
-            {item.duration && (
-              <View className="flex-row items-center gap-1">
-                <Ionicons name="time-outline" size={14} color="#6B7280" />
-                <Text className="text-sm text-gray-500 font-lufga-medium">{item.duration}</Text>
-              </View>
-            )}
-          </View>
-        </View>
-      </View>
+    <SafeAreaView className="flex-1 bg-jf-gray">
+      <WellnessHeader
+        title={item.title}
+        subtitle={item.subcategory ? `${item.subcategory.charAt(0).toUpperCase() + item.subcategory.slice(1)}${item.duration ? ` • ${item.duration}` : ''}` : item.duration || ''}
+        showBackButton={true}
+        onBackPress={() => router.back()}
+        showSettings={true}
+        onSettingsPress={() => router.push("/profile")}
+      />
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Video or Image Container */}

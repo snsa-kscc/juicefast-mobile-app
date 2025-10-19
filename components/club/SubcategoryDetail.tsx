@@ -15,7 +15,6 @@ interface SubcategoryDetailProps {
   subtitle?: string;
   description?: string;
   items: ProcessedClubItem[];
-  onBack?: () => void;
   onItemPress?: (item: ProcessedClubItem) => void;
   featuredImageUrl?: string;
 }
@@ -25,7 +24,6 @@ export function SubcategoryDetail({
   subtitle,
   description,
   items,
-  onBack,
   onItemPress,
   featuredImageUrl,
 }: SubcategoryDetailProps) {
@@ -47,7 +45,7 @@ export function SubcategoryDetail({
 
   const renderItem = ({ item }: { item: ProcessedClubItem }) => (
     <TouchableOpacity
-      className="flex-row items-center bg-white px-4 py-3 mb-2 rounded-lg border border-gray-200"
+      className="flex-row items-center bg-jf-gray px-4 py-3 mb-2 rounded-lg border border-gray-200"
       onPress={() => onItemPress?.(item)}
     >
       <View className="w-10 h-10 rounded-md overflow-hidden mr-3">
@@ -80,15 +78,12 @@ export function SubcategoryDetail({
   );
 
   return (
-    <ScrollView className="flex-1 bg-gray-50" showsVerticalScrollIndicator={false}>
+    <ScrollView className="flex-1 bg-jf-gray" showsVerticalScrollIndicator={false}>
       {/* Featured Image Header */}
-      {headerImageUrl && (
+      {headerImageUrl && title && (
         <View className="relative h-56 mb-4">
           <Image source={{ uri: headerImageUrl }} className="w-full h-full" />
-          <View className="absolute top-0 left-0 right-0 bottom-0 bg-black/30 justify-between p-6">
-            <TouchableOpacity onPress={onBack} className="flex-row items-center self-start mt-4">
-              <Ionicons name="arrow-back" size={28} color="#FFFFFF" />
-            </TouchableOpacity>
+          <View className="absolute bottom-0 left-0 right-0 bg-black/30 p-6">
             <View className="self-start">
               <Text className="text-2xl font-lufga-bold text-white mb-1">{title}</Text>
               {subtitle && (

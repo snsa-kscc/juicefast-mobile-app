@@ -8,6 +8,7 @@ import {
 import { useLocalSearchParams, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { ContentGrid } from "@/components/club/ContentGrid";
+import { WellnessHeader } from "@/components/ui/CustomHeader";
 import {
   getItemsByCategory,
   getSubcategoryData,
@@ -24,19 +25,19 @@ export default function CategoryPage() {
 
   if (!categoryData) {
     return (
-      <SafeAreaView className="flex-1 bg-white">
+      <SafeAreaView className="flex-1 bg-jf-gray">
+        <WellnessHeader
+          title="Category Not Found"
+          subtitle="The wellness category you&apos;re looking for doesn&apos;t exist"
+          showBackButton={true}
+          onBackPress={() => router.back()}
+          showSettings={false}
+        />
         <View className="flex-1 justify-center items-center px-6">
           <Text className="text-2xl font-lufga-bold text-gray-900 mb-4">Category Not Found</Text>
           <Text className="text-base font-lufga-regular text-gray-500 text-center mb-6">
-            The wellness category you're looking for doesn't exist.
+            The wellness category you&apos;re looking for doesn&apos;t exist.
           </Text>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            className="flex-row items-center bg-gray-100 px-4 py-2 rounded-lg"
-          >
-            <Ionicons name="arrow-back" size={16} color="#374151" />
-            <Text className="ml-2 text-base font-lufga-medium text-gray-700">Back to Club</Text>
-          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
@@ -60,21 +61,17 @@ export default function CategoryPage() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-200">
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="p-2"
-        >
-          <Ionicons name="arrow-back" size={20} color="#374151" />
-        </TouchableOpacity>
-        <Text className="text-lg font-lufga-semibold text-gray-900">{categoryData.name}</Text>
-        <View className="w-10" />
-      </View>
+    <SafeAreaView className="flex-1 bg-jf-gray">
+      <WellnessHeader
+        title={categoryData.name}
+        subtitle={`Explore ${categoryData.name}`}
+        showBackButton={true}
+        onBackPress={() => router.back()}
+        showSettings={false}
+      />
 
       {/* Subcategories Grid */}
       <View className="flex-1 px-4 pt-4">
-        <Text className="text-2xl font-lufga-bold text-gray-900 mb-4">Explore {categoryData.name}</Text>
 
         <View className="flex-row flex-wrap justify-between mb-8">
           {subcategories.map((subcategory) => (
