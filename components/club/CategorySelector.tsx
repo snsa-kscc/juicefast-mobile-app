@@ -1,10 +1,8 @@
 import React from "react";
 import {
-  View,
   Text,
   TouchableOpacity,
   ScrollView,
-  StyleSheet,
 } from "react-native";
 import { WellnessCategory } from "@/types/club";
 
@@ -23,26 +21,24 @@ export function CategorySelector({
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.container}
+      contentContainerClassName="px-4 py-2"
     >
       {categories.map((category) => (
         <TouchableOpacity
           key={category.id}
           onPress={() => onSelectCategory(category.id)}
-          style={[
-            styles.categoryButton,
+          className={`px-4 py-2 rounded-full mr-2 border ${
             selectedCategory === category.id
-              ? styles.selectedButton
-              : styles.unselectedButton,
-          ]}
+              ? "bg-white border-gray-200"
+              : "bg-gray-100 border-gray-300"
+          }`}
         >
           <Text
-            style={[
-              styles.categoryText,
+            className={`text-sm font-lufga-medium ${
               selectedCategory === category.id
-                ? styles.selectedText
-                : styles.unselectedText,
-            ]}
+                ? "text-black"
+                : "text-gray-500"
+            }`}
           >
             {category.name}
           </Text>
@@ -52,34 +48,3 @@ export function CategorySelector({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  categoryButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    marginRight: 8,
-    borderWidth: 1,
-  },
-  selectedButton: {
-    backgroundColor: "#FFFFFF",
-    borderColor: "#E5E7EB",
-  },
-  unselectedButton: {
-    backgroundColor: "#F3F4F6",
-    borderColor: "#D1D5DB",
-  },
-  categoryText: {
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  selectedText: {
-    color: "#000000",
-  },
-  unselectedText: {
-    color: "#6B7280",
-  },
-});

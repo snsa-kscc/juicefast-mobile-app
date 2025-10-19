@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProcessedClubItem } from "@/types/club";
 
@@ -26,24 +26,28 @@ export function ContentCard({
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <View style={[styles.imageContainer, { aspectRatio: getAspectRatio() }]}>
+    <TouchableOpacity className="flex-1 mb-4" onPress={onPress}>
+      <View
+        className="rounded-xl overflow-hidden bg-gray-100"
+        style={{ aspectRatio: getAspectRatio() }}
+      >
         <Image
           source={{ uri: item.imageUrl }}
-          style={styles.image}
+          className="w-full h-full"
           defaultSource={require("@/assets/images/icon.png")}
+          resizeMode="cover"
         />
       </View>
 
-      <View style={styles.contentContainer}>
-        <Text style={styles.title} numberOfLines={2}>
+      <View className="mt-2">
+        <Text className="text-sm font-lufga-semibold text-gray-900 leading-[18px]" numberOfLines={2}>
           {item.title}
         </Text>
 
         {item.duration && (
-          <View style={styles.durationContainer}>
+          <View className="flex-row items-center mt-1">
             <Ionicons name="time-outline" size={12} color="#F59E0B" />
-            <Text style={styles.duration}>{item.duration}</Text>
+            <Text className="text-xs font-lufga-regular text-amber-500 ml-1">{item.duration}</Text>
           </View>
         )}
       </View>
@@ -51,37 +55,3 @@ export function ContentCard({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginBottom: 16,
-  },
-  imageContainer: {
-    borderRadius: 12,
-    overflow: "hidden",
-    backgroundColor: "#F3F4F6",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-  contentContainer: {
-    marginTop: 8,
-  },
-  title: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#111827",
-    lineHeight: 18,
-  },
-  durationContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 4,
-  },
-  duration: {
-    fontSize: 12,
-    color: "#F59E0B",
-    marginLeft: 4,
-  },
-});

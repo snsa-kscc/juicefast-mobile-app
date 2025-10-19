@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { ProcessedClubItem } from "@/types/club";
 import { ContentCard } from "./ContentCard";
 
@@ -10,7 +10,7 @@ interface DailyContentProps {
 
 export function DailyContent({ items, onItemPress }: DailyContentProps) {
   const renderItem = ({ item }: { item: ProcessedClubItem }) => (
-    <View style={styles.itemContainer}>
+    <View className="w-40 mr-3">
       <ContentCard
         item={item}
         onPress={() => onItemPress?.(item)}
@@ -20,9 +20,9 @@ export function DailyContent({ items, onItemPress }: DailyContentProps) {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Daily Recommendations</Text>
-      <Text style={styles.subtitle}>
+    <View className="mb-8">
+      <Text className="text-xl font-lufga-bold text-gray-900 mb-1">Daily Recommendations</Text>
+      <Text className="text-sm font-lufga-regular text-gray-500 mb-4">
         Curated content for your wellness journey
       </Text>
 
@@ -31,32 +31,9 @@ export function DailyContent({ items, onItemPress }: DailyContentProps) {
         renderItem={renderItem}
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.listContainer}
+        contentContainerClassName="pr-4"
       />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 32,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: "#6B7280",
-    marginBottom: 16,
-  },
-  listContainer: {
-    paddingRight: 16,
-  },
-  itemContainer: {
-    width: 160,
-    marginRight: 12,
-  },
-});

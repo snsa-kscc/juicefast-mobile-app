@@ -26,7 +26,7 @@ export default function SubcategoryPage() {
 
   if (!subcategoryData) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView className="flex-1 bg-white">
         <SubcategoryDetail
           title="Subcategory Not Found"
           description="The wellness subcategory you're looking for doesn't exist."
@@ -39,7 +39,7 @@ export default function SubcategoryPage() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-white">
       <SubcategoryDetail
         title={subcategoryData.title}
         subtitle={subcategoryData.subtitle}
@@ -53,9 +53,3 @@ export default function SubcategoryPage() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-});

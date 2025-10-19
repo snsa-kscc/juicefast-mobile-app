@@ -56,22 +56,7 @@ export default function JFClub() {
     }
   };
 
-  // Handle category click for navigation
-  const handleCategoryClick = (category: string) => {
-    if (category === "trending") {
-      setActiveTab("trending");
-      setSelectedCategory("trending");
-    } else {
-      // Navigate to category page for Mind, Workouts, Nutrition, Beauty
-      if (["mind", "workouts", "nutrition", "beauty"].includes(category)) {
-        router.push(`/club/categories/${category.toLowerCase()}`);
-      } else {
-        setActiveTab("discover");
-        setSelectedCategory(category);
-      }
-    }
-  };
-
+  
   // Determine which content to show based on selected category
   const getContentForCategory = () => {
     switch (selectedCategory) {
@@ -112,7 +97,7 @@ export default function JFClub() {
                         color="#374151"
                       />
                     </TouchableOpacity>
-                    <Text className="text-xl font-bold text-gray-900">JF Club</Text>
+                    <Text className="text-xl font-lufga-bold text-gray-900">JF Club</Text>
                   </View>
                   <TouchableOpacity
                     className="p-2"
@@ -125,7 +110,7 @@ export default function JFClub() {
                     />
                   </TouchableOpacity>
                 </View>
-                <Text className="text-sm text-gray-500 leading-5">
+                <Text className="text-sm font-lufga-regular text-gray-500 leading-5">
                   Workouts, recipes and relevant articles come to you every day,
                   and are all based on your current state, logged results and
                   overall wellness goals.
@@ -143,7 +128,7 @@ export default function JFClub() {
                   }`}
                 >
                   <Text
-                    className={`text-sm font-medium ${
+                    className={`text-sm font-lufga-medium ${
                       activeTab === "trending" ? "text-gray-900" : "text-gray-400"
                     }`}
                   >
@@ -157,7 +142,7 @@ export default function JFClub() {
                   }`}
                 >
                   <Text
-                    className={`text-sm font-medium ${
+                    className={`text-sm font-lufga-medium ${
                       activeTab === "discover" ? "text-gray-900" : "text-gray-400"
                     }`}
                   >
@@ -176,7 +161,7 @@ export default function JFClub() {
 
             {/* Content Section */}
             <View className="px-4">
-              <Text className="text-2xl font-bold text-gray-900 mb-4 mt-4">
+              <Text className="text-2xl font-lufga-bold text-gray-900 mb-4 mt-4">
                 {selectedCategory === "trending"
                   ? "Trending"
                   : WELLNESS_CATEGORIES.find((c) => c.id === selectedCategory)
@@ -206,11 +191,11 @@ export default function JFClub() {
                         />
                       </View>
                       <View className="mt-2">
-                        <Text className="text-base font-semibold text-gray-900">
+                        <Text className="text-base font-lufga-semibold text-gray-900">
                           {subcategory.name}
                         </Text>
                         {subcategory.count && (
-                          <Text className="text-xs text-gray-500 mt-0.5">
+                          <Text className="text-xs font-lufga-regular text-gray-500 mt-0.5">
                             {subcategory.count}{" "}
                             {subcategory.countLabel || "items"}
                           </Text>
@@ -224,13 +209,13 @@ export default function JFClub() {
               {/* Premium Banner - Only show on trending */}
               {selectedCategory === "trending" && (
                 <View className="mb-8">
-                  <Text className="text-xs text-gray-500 text-center mb-2">
+                  <Text className="text-xs font-lufga-regular text-gray-500 text-center mb-2">
                     *Premium also includes detail analytics, premium insights,
                     PDF data export and better wellness predictions
                   </Text>
                   <PremiumSubscriptionDrawer>
                     <View className="bg-blue-500 py-3 rounded-[25px] items-center">
-                      <Text className="text-base font-bold text-white">GO PREMIUM</Text>
+                      <Text className="text-base font-lufga-bold text-white">GO PREMIUM</Text>
                     </View>
                   </PremiumSubscriptionDrawer>
                 </View>

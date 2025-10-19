@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  StyleSheet,
   ScrollView,
   Alert,
 } from "react-native";
@@ -40,18 +39,18 @@ export default function ClubContentDetail() {
 
   if (!item) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorTitle}>Content Not Found</Text>
-          <Text style={styles.errorText}>
+      <SafeAreaView className="flex-1 bg-white">
+        <View className="flex-1 justify-center items-center px-6">
+          <Text className="text-2xl font-lufga-bold text-gray-900 mb-4">Content Not Found</Text>
+          <Text className="text-base font-lufga-regular text-gray-500 text-center mb-6">
             The wellness content you're looking for doesn't exist.
           </Text>
           <TouchableOpacity
             onPress={() => router.back()}
-            style={styles.backButton}
+            className="flex-row items-center bg-gray-100 px-4 py-2 rounded-lg"
           >
             <Ionicons name="arrow-back" size={16} color="#374151" />
-            <Text style={styles.backButtonText}>Back to Club</Text>
+            <Text className="ml-2 text-base font-lufga-medium text-gray-700">Back to Club</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -127,29 +126,29 @@ export default function ClubContentDetail() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-white">
       {/* Fixed header with back button and content info */}
-      <View style={styles.fixedHeader}>
+      <View className="bg-white px-4 py-3 border-b border-gray-100">
         <TouchableOpacity
           onPress={() => router.back()}
-          style={styles.headerBackButton}
+          className="self-start bg-gray-100 rounded-full p-2"
         >
           <Ionicons name="arrow-back" size={20} color="#111827" />
         </TouchableOpacity>
 
-        <View style={styles.headerInfo}>
-          <Text style={styles.headerTitle}>{item.title}</Text>
-          <View style={styles.headerMeta}>
+        <View className="mt-2">
+          <Text className="text-[22px] font-lufga-bold text-gray-900 leading-7">{item.title}</Text>
+          <View className="flex-row items-center mt-1 gap-3">
             {item.subcategory && (
-              <Text style={styles.headerSubtitle}>
+              <Text className="text-sm text-gray-500 font-lufga-medium">
                 {item.subcategory.charAt(0).toUpperCase() +
                   item.subcategory.slice(1)}
               </Text>
             )}
             {item.duration && (
-              <View style={styles.durationBadge}>
+              <View className="flex-row items-center gap-1">
                 <Ionicons name="time-outline" size={14} color="#6B7280" />
-                <Text style={styles.durationText}>{item.duration}</Text>
+                <Text className="text-sm text-gray-500 font-lufga-medium">{item.duration}</Text>
               </View>
             )}
           </View>
@@ -158,11 +157,11 @@ export default function ClubContentDetail() {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Video or Image Container */}
-        <View style={styles.mediaContainer}>
+        <View className="relative w-full aspect-video bg-black">
           {showVideo && item.type === "video" && player ? (
             <VideoView
               player={player}
-              style={styles.videoPlayer}
+              className="w-full h-full"
               nativeControls={true}
               fullscreenOptions={{ enable: true }}
               allowsPictureInPicture={true}
@@ -171,16 +170,16 @@ export default function ClubContentDetail() {
             <>
               <Image
                 source={{ uri: item.imageUrl }}
-                style={styles.mediaImage}
+                className="w-full h-full"
                 defaultSource={require("@/assets/images/icon.png")}
               />
               {/* Video overlay controls (only show when video is not playing) */}
               {item.type === "video" && !showVideo && (
                 <TouchableOpacity
                   onPress={handlePlayPress}
-                  style={styles.videoPlayOverlay}
+                  className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center bg-black/30"
                 >
-                  <View style={styles.playIconContainer}>
+                  <View className="bg-black/60 rounded-full p-4">
                     <Ionicons name="play" size={32} color="#FFFFFF" />
                   </View>
                 </TouchableOpacity>
@@ -190,9 +189,9 @@ export default function ClubContentDetail() {
         </View>
 
         {/* Content actions */}
-        <View style={styles.actionsContainer}>
+        <View className="p-4">
           {/* Play button */}
-          <TouchableOpacity style={styles.playButton} onPress={handlePlayPress}>
+          <TouchableOpacity className="bg-green-500 flex-row items-center justify-center py-3 rounded-[25px] mb-4" onPress={handlePlayPress}>
             <Ionicons
               name={
                 item.type === "video" && showVideo && isPlaying
@@ -202,30 +201,30 @@ export default function ClubContentDetail() {
               size={20}
               color="#FFFFFF"
             />
-            <Text style={styles.playButtonText}>{getActionText()}</Text>
+            <Text className="text-white text-base font-lufga-semibold ml-2">{getActionText()}</Text>
           </TouchableOpacity>
 
           {/* Secondary actions */}
-          <View style={styles.secondaryActions}>
-            <TouchableOpacity style={styles.actionButton}>
+          <View className="flex-row justify-between">
+            <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="bookmark-outline" size={16} color="#374151" />
-              <Text style={styles.actionButtonText}>Save</Text>
+              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">Save</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="share-outline" size={16} color="#374151" />
-              <Text style={styles.actionButtonText}>Share</Text>
+              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">Share</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="heart-outline" size={16} color="#374151" />
-              <Text style={styles.actionButtonText}>Like</Text>
+              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">Like</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Description */}
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionTitle}>About</Text>
-          <Text style={styles.descriptionText}>
+        <View className="px-4 pb-8">
+          <Text className="text-lg font-lufga-bold text-gray-900 mb-2">About</Text>
+          <Text className="text-base font-lufga-regular text-gray-500 leading-6">
             {getDescriptionForType(item.type)}
           </Text>
         </View>
@@ -249,165 +248,3 @@ const getDescriptionForType = (type: string): string => {
   }
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  fixedHeader: {
-    backgroundColor: "#FFFFFF",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F3F4F6",
-  },
-  headerInfo: {
-    marginTop: 8,
-  },
-  headerMeta: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 4,
-    gap: 12,
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 24,
-  },
-  errorTitle: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 16,
-  },
-  errorText: {
-    fontSize: 16,
-    color: "#6B7280",
-    textAlign: "center",
-    marginBottom: 24,
-  },
-  backButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F3F4F6",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  backButtonText: {
-    marginLeft: 8,
-    fontSize: 16,
-    color: "#374151",
-  },
-  mediaContainer: {
-    position: "relative",
-    width: "100%",
-    aspectRatio: 16 / 9,
-    backgroundColor: "#000000",
-  },
-  mediaImage: {
-    width: "100%",
-    height: "100%",
-  },
-  videoPlayer: {
-    width: "100%",
-    height: "100%",
-  },
-  videoPlayOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-  },
-  playIconContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    borderRadius: 40,
-    padding: 16,
-  },
-  headerBackButton: {
-    alignSelf: "flex-start",
-    backgroundColor: "#F3F4F6",
-    borderRadius: 20,
-    padding: 8,
-  },
-  headerTitle: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#111827",
-    lineHeight: 28,
-  },
-  headerSubtitle: {
-    fontSize: 14,
-    color: "#6B7280",
-    fontWeight: "500",
-  },
-  durationBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  durationText: {
-    color: "#6B7280",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  actionsContainer: {
-    padding: 16,
-  },
-  playButton: {
-    backgroundColor: "#10B981",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 12,
-    borderRadius: 25,
-    marginBottom: 16,
-  },
-  playButtonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "600",
-    marginLeft: 8,
-  },
-  secondaryActions: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  actionButton: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 8,
-    marginHorizontal: 4,
-  },
-  actionButtonText: {
-    color: "#374151",
-    fontSize: 14,
-    marginLeft: 4,
-  },
-  descriptionContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 32,
-  },
-  descriptionTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 8,
-  },
-  descriptionText: {
-    fontSize: 16,
-    color: "#6B7280",
-    lineHeight: 24,
-  },
-});

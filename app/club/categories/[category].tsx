@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   SafeAreaView,
 } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
@@ -25,18 +24,18 @@ export default function CategoryPage() {
 
   if (!categoryData) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorTitle}>Category Not Found</Text>
-          <Text style={styles.errorText}>
+      <SafeAreaView className="flex-1 bg-white">
+        <View className="flex-1 justify-center items-center px-6">
+          <Text className="text-2xl font-lufga-bold text-gray-900 mb-4">Category Not Found</Text>
+          <Text className="text-base font-lufga-regular text-gray-500 text-center mb-6">
             The wellness category you're looking for doesn't exist.
           </Text>
           <TouchableOpacity
             onPress={() => router.back()}
-            style={styles.backButton}
+            className="flex-row items-center bg-gray-100 px-4 py-2 rounded-lg"
           >
             <Ionicons name="arrow-back" size={16} color="#374151" />
-            <Text style={styles.backButtonText}>Back to Club</Text>
+            <Text className="ml-2 text-base font-lufga-medium text-gray-700">Back to Club</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -61,36 +60,36 @@ export default function CategoryPage() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-200">
         <TouchableOpacity
           onPress={() => router.back()}
-          style={styles.headerBackButton}
+          className="p-2"
         >
           <Ionicons name="arrow-back" size={20} color="#374151" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>{categoryData.name}</Text>
-        <View style={styles.placeholder} />
+        <Text className="text-lg font-lufga-semibold text-gray-900">{categoryData.name}</Text>
+        <View className="w-10" />
       </View>
 
       {/* Subcategories Grid */}
-      <View style={styles.content}>
-        <Text style={styles.sectionTitle}>Explore {categoryData.name}</Text>
+      <View className="flex-1 px-4 pt-4">
+        <Text className="text-2xl font-lufga-bold text-gray-900 mb-4">Explore {categoryData.name}</Text>
 
-        <View style={styles.subcategoriesGrid}>
+        <View className="flex-row flex-wrap justify-between mb-8">
           {subcategories.map((subcategory) => (
             <TouchableOpacity
               key={subcategory.id}
-              style={styles.subcategoryCard}
+              className="w-[48%] mb-4"
               onPress={() => handleSubcategoryClick(subcategory.id)}
             >
-              <View style={styles.subcategoryImageContainer}>
+              <View className="aspect-square bg-gray-100 rounded-xl items-center justify-center mb-2">
                 <Ionicons name="musical-notes" size={40} color="#6B7280" />
               </View>
-              <View style={styles.subcategoryContent}>
-                <Text style={styles.subcategoryName}>{subcategory.name}</Text>
+              <View className="mt-2">
+                <Text className="text-base font-lufga-semibold text-gray-900">{subcategory.name}</Text>
                 {subcategory.count && (
-                  <Text style={styles.subcategoryCount}>
+                  <Text className="text-xs font-lufga-regular text-gray-500 mt-1">
                     {subcategory.count} {subcategory.countLabel || "items"}
                   </Text>
                 )}
@@ -113,102 +112,3 @@ export default function CategoryPage() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 24,
-  },
-  errorTitle: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 16,
-  },
-  errorText: {
-    fontSize: 16,
-    color: "#6B7280",
-    textAlign: "center",
-    marginBottom: 24,
-  },
-  backButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F3F4F6",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  backButtonText: {
-    marginLeft: 8,
-    fontSize: 16,
-    color: "#374151",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E5E7EB",
-  },
-  headerBackButton: {
-    padding: 8,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#111827",
-  },
-  placeholder: {
-    width: 40,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 16,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 16,
-  },
-  subcategoriesGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginBottom: 32,
-  },
-  subcategoryCard: {
-    width: "48%",
-    marginBottom: 16,
-  },
-  subcategoryImageContainer: {
-    aspectRatio: 1,
-    backgroundColor: "#F3F4F6",
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
-  },
-  subcategoryContent: {
-    marginTop: 8,
-  },
-  subcategoryName: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#111827",
-  },
-  subcategoryCount: {
-    fontSize: 12,
-    color: "#6B7280",
-    marginTop: 2,
-  },
-});
