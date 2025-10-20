@@ -21,8 +21,6 @@ export default function ClubContentDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [showVideo, setShowVideo] = useState(false);
   const [showAudio, setShowAudio] = useState(false);
-  const [audioPosition, setAudioPosition] = useState(0);
-  const [audioDuration, setAudioDuration] = useState(0);
 
   // Find the item from club data
   const item = CLUB_DATA.find((item: ProcessedClubItem) => item.id === id);
@@ -42,20 +40,9 @@ export default function ClubContentDetail() {
     isPlaying: player?.playing || false,
   });
 
-  // Track audio progress
-  useEffect(() => {
-    if ((item?.type === "audio" || item?.type === "meditation" || item?.type === "track") && player) {
-      const interval = setInterval(() => {
-        if (player.playing) {
-          setAudioPosition(player.currentTime || 0);
-          setAudioDuration(player.duration || 0);
-        }
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [player, isPlaying, item?.type]);
-
+  
+  
+  
   if (!item) {
     return (
       <SafeAreaView className="flex-1 bg-jf-gray">
@@ -77,13 +64,7 @@ export default function ClubContentDetail() {
     );
   }
 
-  const formatTime = (milliseconds: number) => {
-    const seconds = Math.floor(milliseconds / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
-
+  
   const getActionText = () => {
     switch (item.type) {
       case "meditation":
@@ -133,10 +114,9 @@ export default function ClubContentDetail() {
         try {
           player.play();
         } catch (error) {
-          console.error("Video play error:", error);
           Alert.alert(
             "Playback Error",
-            "Unable to start video playback. Please try again."
+            "Unable to load video. The stream may be unavailable."
           );
         }
       } else {
@@ -148,7 +128,6 @@ export default function ClubContentDetail() {
             player.play();
           }
         } catch (error) {
-          console.error("Video playback error:", error);
           Alert.alert(
             "Playback Error",
             "Unable to control video playback. Please try again."
@@ -173,7 +152,6 @@ export default function ClubContentDetail() {
         try {
           player.play();
         } catch (error) {
-          console.error("Audio play error:", error);
           Alert.alert(
             "Playback Error",
             "Unable to start audio playback. Please try again."
@@ -188,7 +166,6 @@ export default function ClubContentDetail() {
             player.play();
           }
         } catch (error) {
-          console.error("Audio playback error:", error);
           Alert.alert(
             "Playback Error",
             "Unable to control audio playback. Please try again."
@@ -219,73 +196,31 @@ export default function ClubContentDetail() {
         {/* Video or Audio Container */}
         <View className="relative w-full aspect-video bg-black">
           {showVideo && item.type === "video" && player ? (
-            <VideoView
-              player={player}
-              className="w-full h-full"
-              nativeControls={true}
-              fullscreenOptions={{ enable: true }}
-              allowsPictureInPicture={true}
-            />
+            <>
+              <VideoView
+                player={player}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+                nativeControls={true}
+                fullscreenOptions={{ enable: true }}
+                allowsPictureInPicture={true}
+              />
+            </>
           ) : showAudio && (item.type === "audio" || item.type === "meditation" || item.type === "track") && player ? (
-            // Audio player interface
-            <View className="w-full h-full bg-gradient-to-b from-gray-900 to-black flex flex-col justify-center items-center px-6">
-              {/* Audio Icon */}
-              <View className="bg-white/20 rounded-full p-8 mb-6">
-                <Ionicons
-                  name={
-                    item.type === "meditation" ? "flower" :
-                    item.type === "track" ? "radio" : "volume-high"
-                  }
-                  size={48}
-                  color="#FFFFFF"
-                />
-              </View>
-
-              {/* Audio Title */}
-              <Text className="text-white text-xl font-lufga-bold text-center mb-2">
-                {item.title}
-              </Text>
-              <Text className="text-white/80 text-sm font-lufga-regular text-center mb-8">
-                {item.subcategory} • {item.duration}
-              </Text>
-
-              {/* Progress Bar */}
-              <View className="w-full mb-6">
-                <View className="flex-row items-center justify-between mb-2">
-                  <Text className="text-white/60 text-xs font-lufga-regular">
-                    {formatTime(audioPosition)}
-                  </Text>
-                  <Text className="text-white/60 text-xs font-lufga-regular">
-                    {formatTime(audioDuration)}
-                  </Text>
-                </View>
-                <View className="h-1 bg-white/20 rounded-full">
-                  <View
-                    className="h-full bg-white rounded-full"
-                    style={{ width: `${audioDuration > 0 ? (audioPosition / audioDuration) * 100 : 0}%` }}
-                  />
-                </View>
-              </View>
-
-              {/* Play Controls */}
-              <View className="flex-row items-center gap-6">
-                <TouchableOpacity>
-                  <Ionicons name="play-skip-back" size={24} color="#FFFFFF" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={handlePlayPress}
-                  className="bg-white rounded-full p-4"
-                >
-                  <Ionicons
-                    name={isPlaying ? "pause" : "play"}
-                    size={24}
-                    color="#000000"
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Ionicons name="play-skip-forward" size={24} color="#FFFFFF" />
-                </TouchableOpacity>
-              </View>
+            // Audio player - simple like video
+            <View className="w-full h-full bg-black">
+              <VideoView
+                player={player}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+                nativeControls={true}
+                fullscreenOptions={{ enable: true }}
+                allowsPictureInPicture={true}
+              />
             </View>
           ) : (
             <>
@@ -339,7 +274,10 @@ export default function ClubContentDetail() {
           <TouchableOpacity className="bg-green-500 flex-row items-center justify-center py-3 rounded-[25px] mb-4" onPress={handlePlayPress}>
             <Ionicons
               name={
-                item.type === "video" && showVideo && isPlaying
+                (item.type === "video" && showVideo && isPlaying) ||
+                (item.type === "audio" && showAudio && isPlaying) ||
+                (item.type === "meditation" && showAudio && isPlaying) ||
+                (item.type === "track" && showAudio && isPlaying)
                   ? "pause"
                   : "play"
               }
