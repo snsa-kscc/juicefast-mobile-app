@@ -16,7 +16,6 @@ import { ProcessedClubItem } from "@/types/club";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
 import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
-import { PaywallGuard } from "@/components/paywall/PaywallGuard";
 
 export default function ClubContentDetail() {
   const { id, isFree } = useLocalSearchParams<{
@@ -227,7 +226,7 @@ export default function ClubContentDetail() {
     }
   };
 
-  const content = (
+  return (
     <SafeAreaView className="flex-1 bg-jf-gray">
       <WellnessHeader
         title={item.title}
@@ -441,9 +440,6 @@ export default function ClubContentDetail() {
       </ScrollView>
     </SafeAreaView>
   );
-
-  // Wrap with PaywallGuard only if item is not free
-  return isItemFree ? content : <PaywallGuard>{content}</PaywallGuard>;
 }
 
 const getDescriptionForType = (type: string): string => {

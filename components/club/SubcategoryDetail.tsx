@@ -19,6 +19,13 @@ interface SubcategoryDetailProps {
   onItemPress?: (item: ProcessedClubItem, index: number) => void;
   featuredImageUrl?: string;
   headerComponent?: React.ReactNode;
+  itemWrapper?: (
+    item: ProcessedClubItem,
+    index: number,
+    children: React.ReactNode
+  ) => React.ReactNode;
+  shouldDisablePress?: (item: ProcessedClubItem, index: number) => boolean;
+  isSubscribed?: boolean;
 }
 
 export function SubcategoryDetail({
@@ -29,6 +36,9 @@ export function SubcategoryDetail({
   onItemPress,
   featuredImageUrl,
   headerComponent,
+  itemWrapper,
+  shouldDisablePress,
+  isSubscribed = false,
 }: SubcategoryDetailProps) {
   // Group items by their subcategory for sections
   const groupedItems = items.reduce<Record<string, ProcessedClubItem[]>>(
@@ -52,43 +62,62 @@ export function SubcategoryDetail({
   }: {
     item: ProcessedClubItem;
     index: number;
-  }) => (
-    <TouchableOpacity
-      className="flex-row items-center bg-jf-gray px-4 py-3 mb-2 rounded-lg border border-gray-200"
-      onPress={() => onItemPress?.(item, index)}
-    >
-      <View className="w-10 h-10 rounded-md overflow-hidden mr-3">
-        <Image
-          source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
-          className="w-full h-full"
-          resizeMode="cover"
-        />
-      </View>
+  }) => {
+    const isPremium = index >= 2;
+    const showLock = isPremium && !isSubscribed;
 
-      <View className="flex-1">
-        {item.duration && (
-          <View className="flex-row items-center mb-1">
-            <Ionicons name="time-outline" size={12} color="#F59E0B" />
-            <Text className="text-xs text-amber-500 ml-1 font-lufga-medium">
-              {item.duration}
-            </Text>
-          </View>
-        )}
-        <Text
-          className="text-sm font-lufga-medium text-gray-900 leading-[18px]"
-          numberOfLines={2}
-        >
-          {item.title}
-        </Text>
-      </View>
+    const isDisabled = shouldDisablePress?.(item, index) ?? false;
 
-      {item.type === "track" && (
-        <View className="ml-2">
-          <Ionicons name="play-circle-outline" size={24} color="#D1D5DB" />
+    const itemContent = (
+      <TouchableOpacity
+        className="flex-row items-center bg-jf-gray px-4 py-3 mb-2 rounded-lg border border-gray-200"
+        onPress={() => !isDisabled && onItemPress?.(item, index)}
+        disabled={isDisabled}
+      >
+        <View className="w-10 h-10 rounded-md overflow-hidden mr-3">
+          <Image
+            source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
+            className="w-full h-full"
+            resizeMode="cover"
+          />
         </View>
-      )}
-    </TouchableOpacity>
-  );
+
+        <View className="flex-1">
+          {item.duration && (
+            <View className="flex-row items-center mb-1">
+              <Ionicons name="time-outline" size={12} color="#F59E0B" />
+              <Text className="text-xs text-amber-500 ml-1 font-lufga-medium">
+                {item.duration}
+              </Text>
+            </View>
+          )}
+          <Text
+            className="text-sm font-lufga-medium text-gray-900 leading-[18px]"
+            numberOfLines={2}
+          >
+            {item.title}
+          </Text>
+        </View>
+
+        {showLock ? (
+          <View className="ml-2">
+            <Ionicons name="lock-closed" size={20} color="#F59E0B" />
+          </View>
+        ) : item.type === "track" ? (
+          <View className="ml-2">
+            <Ionicons name="play-circle-outline" size={24} color="#D1D5DB" />
+          </View>
+        ) : null}
+      </TouchableOpacity>
+    );
+
+    // If itemWrapper is provided, wrap the item
+    if (itemWrapper) {
+      return itemWrapper(item, index, itemContent);
+    }
+
+    return itemContent;
+  };
 
   return (
     <ScrollView
@@ -134,7 +163,14 @@ export function SubcategoryDetail({
             </Text>
             <FlatList
               data={groupItems}
-              renderItem={renderItem}
+              renderItem={({ item, index }) => {
+                // Calculate global index across all items
+                const globalIndex = items.findIndex((i) => i.id === item.id);
+                return renderItem({
+                  item,
+                  index: globalIndex,
+                }) as React.ReactElement;
+              }}
               scrollEnabled={false}
               showsVerticalScrollIndicator={false}
             />
