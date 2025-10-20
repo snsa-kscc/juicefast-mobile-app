@@ -6,9 +6,12 @@ import {
   Modal,
   Alert,
   ActivityIndicator,
+  ImageBackground,
+  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { usePaywall } from "@/hooks/usePaywall";
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
 
@@ -21,6 +24,9 @@ export function PremiumSubscriptionDrawer({
 }: PremiumSubscriptionDrawerProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<"trial" | "monthly">(
+    "trial"
+  );
   const { isSubscribed } = usePaywall();
   const { offerings, purchasePackage } = useRevenueCat();
 
@@ -103,81 +109,193 @@ export function PremiumSubscriptionDrawer({
         onRequestClose={closeDrawer}
       >
         <SafeAreaView className="flex-1 bg-white">
-          <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-200">
-            <TouchableOpacity onPress={closeDrawer} className="p-2">
-              <Ionicons name="close" size={24} color="#6B7280" />
-            </TouchableOpacity>
-            <Text className="text-lg font-semibold text-gray-900">
-              Go Premium
-            </Text>
-            <View className="w-10" />
-          </View>
+          <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+            {/* Hero Section with Image */}
+            <View className="relative h-64">
+              <ImageBackground
+                source={require("@/assets/images/jf-club/cardio-fat-burn.jpg")}
+                className="w-full h-full"
+                resizeMode="cover"
+              >
+                <LinearGradient
+                  colors={["rgba(0,0,0,0.3)", "rgba(0,0,0,0.1)"]}
+                  className="w-full h-full justify-center items-center"
+                >
+                  {/* Close Button */}
+                  <TouchableOpacity
+                    onPress={closeDrawer}
+                    className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/30 items-center justify-center"
+                  >
+                    <Ionicons name="close" size={24} color="#FFFFFF" />
+                  </TouchableOpacity>
 
-          <View className="flex-1 px-6 pt-8 items-center">
-            <View className="w-20 h-20 rounded-full bg-amber-100 items-center justify-center mb-6">
-              <Ionicons name="star" size={48} color="#F59E0B" />
+                  {/* Title */}
+                  <Text className="text-3xl font-bold text-white text-center mb-2">
+                    Juicefast Club
+                  </Text>
+                  <Text className="text-sm text-white/90 text-center px-8 leading-5">
+                    Start your journey today and enjoy premium &{"\n"}
+                    personalized access to a vibrant wellness{"\n"}community
+                  </Text>
+                </LinearGradient>
+              </ImageBackground>
             </View>
 
-            <Text className="text-2xl font-bold text-gray-900 text-center mb-3">
-              Unlock Premium
-            </Text>
-            <Text className="text-base text-gray-500 text-center leading-6 mb-8">
-              Get unlimited access to all premium features
-            </Text>
+            {/* Content Section */}
+            <View className="px-5 pt-6 pb-8">
+              {/* Section Title */}
+              <Text className="text-base font-semibold text-gray-900 text-center mb-4">
+                Choose your plan & start your journey
+              </Text>
 
-            <View className="w-full mb-8">
-              <View className="flex-row items-center mb-4">
-                <Ionicons name="checkmark-circle" size={24} color="#10B981" />
-                <Text className="text-base text-gray-700 ml-3">
-                  Access to JF Club exclusive content
-                </Text>
+              {/* Plan Cards */}
+              <View className="mb-6">
+                {/* 7-Day Free Trial Card */}
+                <TouchableOpacity
+                  onPress={() => setSelectedPlan("trial")}
+                  className={`border-2 rounded-2xl p-4 mb-3 ${
+                    selectedPlan === "trial"
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200 bg-white"
+                  }`}
+                >
+                  <View className="flex-row items-center justify-between mb-2">
+                    <View>
+                      <Text className="text-xl font-bold text-gray-900">
+                        {primaryPackage?.product.priceString || "11.28 €"}
+                      </Text>
+                      <Text className="text-xs text-gray-500 mt-0.5">
+                        {primaryPackage?.product.priceString
+                          ? `${primaryPackage.product.priceString} / month`
+                          : "9.40 € / month"}
+                      </Text>
+                    </View>
+                    <View className="bg-blue-500 px-3 py-1.5 rounded-full">
+                      <Text className="text-xs font-semibold text-white">
+                        7 days for free
+                      </Text>
+                    </View>
+                  </View>
+                  <Text className="text-xs text-gray-500 leading-4">
+                    Then {primaryPackage?.product.priceString || "11.28€"} every
+                    month until you cancel. Cancel anytime.
+                  </Text>
+                </TouchableOpacity>
+
+                {/* 1 Month Card */}
+                <TouchableOpacity
+                  onPress={() => setSelectedPlan("monthly")}
+                  className={`border-2 rounded-2xl p-4 ${
+                    selectedPlan === "monthly"
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200 bg-white"
+                  }`}
+                >
+                  <View className="flex-row items-center justify-between mb-2">
+                    <View>
+                      <Text className="text-xl font-bold text-gray-900">
+                        {primaryPackage?.product.priceString || "11.28 €"}
+                      </Text>
+                      <Text className="text-xs text-gray-500 mt-0.5">
+                        {primaryPackage?.product.priceString
+                          ? `${primaryPackage.product.priceString} / month`
+                          : "9.40 € / month"}
+                      </Text>
+                    </View>
+                    <View className="bg-gray-100 px-3 py-1.5 rounded-full">
+                      <Text className="text-xs font-semibold text-gray-600">
+                        1 month
+                      </Text>
+                    </View>
+                  </View>
+                  <Text className="text-xs text-gray-500 leading-4">
+                    Billed monthly. Get started right away without trial period.
+                  </Text>
+                </TouchableOpacity>
               </View>
-              <View className="flex-row items-center mb-4">
-                <Ionicons name="checkmark-circle" size={24} color="#10B981" />
-                <Text className="text-base text-gray-700 ml-3">
-                  Detailed analytics and insights
-                </Text>
+
+              {/* Benefits List */}
+              <View className="mb-6">
+                <View className="flex-row items-start mb-3">
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={20}
+                    color="#10B981"
+                    style={{ marginTop: 2 }}
+                  />
+                  <Text className="text-sm text-gray-700 ml-3 flex-1 leading-5">
+                    Special discount on all Juicefast products
+                  </Text>
+                </View>
+                <View className="flex-row items-start mb-3">
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={20}
+                    color="#10B981"
+                    style={{ marginTop: 2 }}
+                  />
+                  <Text className="text-sm text-gray-700 ml-3 flex-1 leading-5">
+                    VIP offerings on new products
+                  </Text>
+                </View>
+                <View className="flex-row items-start mb-3">
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={20}
+                    color="#10B981"
+                    style={{ marginTop: 2 }}
+                  />
+                  <Text className="text-sm text-gray-700 ml-3 flex-1 leading-5">
+                    All - Inclusive personalized and curated programs
+                  </Text>
+                </View>
+                <View className="flex-row items-start mb-3">
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={20}
+                    color="#10B981"
+                    style={{ marginTop: 2 }}
+                  />
+                  <Text className="text-sm text-gray-700 ml-3 flex-1 leading-5">
+                    1:1 talks with our nutritionist and health experts
+                  </Text>
+                </View>
+                <View className="flex-row items-start mb-3">
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={20}
+                    color="#10B981"
+                    style={{ marginTop: 2 }}
+                  />
+                  <Text className="text-sm text-gray-700 ml-3 flex-1 leading-5">
+                    Free gifts on every delivery
+                  </Text>
+                </View>
               </View>
-              <View className="flex-row items-center mb-4">
-                <Ionicons name="checkmark-circle" size={24} color="#10B981" />
-                <Text className="text-base text-gray-700 ml-3">
-                  Premium wellness predictions
+
+              {/* See Prices Link */}
+              <TouchableOpacity className="items-center mb-6">
+                <Text className="text-sm text-blue-500 font-medium">
+                  See prices
                 </Text>
-              </View>
-              <View className="flex-row items-center mb-4">
-                <Ionicons name="checkmark-circle" size={24} color="#10B981" />
-                <Text className="text-base text-gray-700 ml-3">
-                  PDF data export
-                </Text>
-              </View>
-              <View className="flex-row items-center mb-4">
-                <Ionicons name="checkmark-circle" size={24} color="#10B981" />
-                <Text className="text-base text-gray-700 ml-3">
-                  Ad-free experience
-                </Text>
-              </View>
+              </TouchableOpacity>
+
+              {/* CTA Button */}
+              <TouchableOpacity
+                className="w-full bg-black py-4 rounded-full items-center"
+                onPress={handleSubscribe}
+                disabled={isPurchasing || !primaryPackage}
+              >
+                {isPurchasing ? (
+                  <ActivityIndicator color="#FFFFFF" />
+                ) : (
+                  <Text className="text-base font-semibold text-white uppercase tracking-wide">
+                    Start Free Trial & Subscribe
+                  </Text>
+                )}
+              </TouchableOpacity>
             </View>
-
-            <TouchableOpacity
-              className="w-full bg-blue-500 py-4 rounded-xl items-center mb-4"
-              onPress={handleSubscribe}
-              disabled={isPurchasing || !primaryPackage}
-            >
-              {isPurchasing ? (
-                <ActivityIndicator color="#FFFFFF" />
-              ) : (
-                <Text className="text-base font-semibold text-white">
-                  {primaryPackage?.product.introPrice
-                    ? "Start Free Trial"
-                    : "Subscribe Now"}
-                </Text>
-              )}
-            </TouchableOpacity>
-
-            <Text className="text-sm text-gray-500 text-center leading-5">
-              {getPricingText()}
-            </Text>
-          </View>
+          </ScrollView>
         </SafeAreaView>
       </Modal>
     </>

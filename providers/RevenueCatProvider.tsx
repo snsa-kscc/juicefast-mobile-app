@@ -10,7 +10,7 @@ import { useUser } from "@clerk/clerk-expo";
 
 // DEBUG: Set to true to bypass subscription check and always have premium access (iOS and Android)
 const IOS_PREMIUM_ACCESS = false;
-const ANDROID_PREMIUM_ACCESS = true;
+const ANDROID_PREMIUM_ACCESS = false;
 
 interface RevenueCatContextType {
   isSubscribed: boolean;
