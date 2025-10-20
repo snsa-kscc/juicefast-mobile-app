@@ -1,11 +1,7 @@
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
 import { usePathname, useRouter } from "expo-router";
 import { Plus, X } from "lucide-react-native";
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect } from "react";
+import { Dimensions, Modal, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -29,10 +25,10 @@ interface ActionOption {
 export function AddActionButton() {
   const router = useRouter();
   const pathname = usePathname();
-  const bottomSheetRef = useRef<BottomSheet>(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const rotation = useSharedValue(0);
-  const snapPoints = useMemo(() => ["75%"], []);
+  const screenHeight = Dimensions.get("window").height;
+  const fabBottom = screenHeight * 0.17;
 
   useEffect(() => {
     rotation.value = withTiming(isOpen ? 90 : 0, { duration: 200 });
@@ -44,28 +40,13 @@ export function AddActionButton() {
     };
   });
 
-  const handleOpenBottomSheet = useCallback(() => {
-    bottomSheetRef.current?.expand();
+  const handleOpenModal = () => {
     setIsOpen(true);
-  }, []);
+  };
 
-  const handleCloseBottomSheet = useCallback(() => {
-    bottomSheetRef.current?.close();
+  const handleCloseModal = () => {
     setIsOpen(false);
-  }, []);
-
-  const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        opacity={0.5}
-        onPress={handleCloseBottomSheet}
-      />
-    ),
-    []
-  );
+  };
 
   const wellnessOptions: ActionOption[] = [
     {
@@ -102,7 +83,7 @@ export function AddActionButton() {
 
   const handleOptionPress = (route: string) => {
     if (pathname === route) return;
-    handleCloseBottomSheet();
+    handleCloseModal();
 
     const existingRoutes = [
       "/meals",
@@ -138,80 +119,94 @@ export function AddActionButton() {
 
   return (
     <>
-      {/* Floating Action Button */}
-      <View
-        className="absolute bottom-[100px] right-5 z-[999]"
-        pointerEvents="auto"
-      >
-        <TouchableOpacity
-          className="w-14 h-14 rounded-full bg-white justify-center items-center shadow-lg"
-          onPress={isOpen ? handleCloseBottomSheet : handleOpenBottomSheet}
-          activeOpacity={0.8}
+      {/* Floating Action Button - Outside Modal */}
+      {!isOpen && (
+        <View
+          className="absolute right-6"
+          style={{ bottom: fabBottom, zIndex: 9999, elevation: 9999 }}
+          pointerEvents="auto"
         >
-          <Animated.View style={animatedStyle}>
-            {isOpen ? (
-              <X size={28} color="#000000" />
-            ) : (
+          <TouchableOpacity
+            className="w-14 h-14 rounded-full bg-white justify-center items-center shadow-lg"
+            onPress={handleOpenModal}
+            activeOpacity={0.8}
+          >
+            <Animated.View style={animatedStyle}>
               <Plus size={28} color="#000000" />
-            )}
-          </Animated.View>
-        </TouchableOpacity>
-      </View>
+            </Animated.View>
+          </TouchableOpacity>
+        </View>
+      )}
 
-      {/* Bottom Sheet */}
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={-1}
-        snapPoints={snapPoints}
-        enablePanDownToClose
-        enableOverDrag={false}
-        backdropComponent={renderBackdrop}
-        backgroundStyle={{
-          backgroundColor: "#F5F5F5",
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-        }}
-        handleIndicatorStyle={{ backgroundColor: "#000", width: 40, height: 4 }}
-        android_keyboardInputMode="adjustResize"
-        onClose={() => setIsOpen(false)}
+      {/* Modal */}
+      <Modal
+        visible={isOpen}
+        transparent
+        animationType="slide"
+        onRequestClose={handleCloseModal}
       >
-        <BottomSheetView className="flex-1 px-5 pt-10">
-          <View className="mb-[30px]">
-            <Text className="text-2xl font-lufga-bold text-black text-center mb-10 tracking-wider">
-              WELLNESS LOG
-            </Text>
-            {wellnessOptions.map((option) => {
-              const isCurrentScreen = pathname === option.route;
-              return (
-                <TouchableOpacity
-                  key={option.id}
-                  className={`flex-row items-center py-4 px-5 mb-2 rounded-xl ${
-                    isCurrentScreen ? "bg-[#F0F0F0] opacity-60" : "bg-white"
-                  }`}
-                  onPress={() => handleOptionPress(option.route)}
-                  activeOpacity={isCurrentScreen ? 1 : 0.7}
-                  disabled={isCurrentScreen}
-                >
-                  <View className="justify-center items-center mr-9">
-                    {renderIcon(option.id, option.iconColor)}
-                  </View>
-                  <Text
-                    className={`text-base font-medium ${
-                      isCurrentScreen ? "text-[#999]" : "text-black"
-                    }`}
-                  >
-                    {option.title}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+        {/* Floating Action Button - Inside Modal */}
+        <View
+          className="absolute right-6"
+          style={{ bottom: fabBottom, zIndex: 9999, elevation: 9999 }}
+          pointerEvents="auto"
+        >
+          <TouchableOpacity
+            className="w-14 h-14 rounded-full bg-white justify-center items-center shadow-lg"
+            onPress={handleCloseModal}
+            activeOpacity={0.8}
+          >
+            <Animated.View style={animatedStyle}>
+              <X size={28} color="#000000" />
+            </Animated.View>
+          </TouchableOpacity>
+        </View>
 
-          <Text className="text-sm text-[#666] text-center mt-5 mb-[30px] leading-5 pb-10 font-lufga">
-            For the most accurate insights,{"\n"}log daily.
-          </Text>
-        </BottomSheetView>
-      </BottomSheet>
+        {/* Modal Content */}
+        <View className="flex-1 justify-end">
+          <View className="bg-[#F5F5F5] rounded-t-[20px] px-5 pt-3 pb-5">
+            {/* Handle Indicator */}
+            <View className="items-center mb-7">
+              <View className="w-10 h-1 bg-black rounded-full" />
+            </View>
+
+            <View className="mb-5">
+              <Text className="text-2xl font-lufga-bold text-black text-center mb-10 tracking-wider">
+                WELLNESS LOG
+              </Text>
+              {wellnessOptions.map((option) => {
+                const isCurrentScreen = pathname === option.route;
+                return (
+                  <TouchableOpacity
+                    key={option.id}
+                    className={`flex-row items-center py-4 px-5 mb-2 rounded-xl ${
+                      isCurrentScreen ? "bg-[#F0F0F0] opacity-60" : "bg-white"
+                    }`}
+                    onPress={() => handleOptionPress(option.route)}
+                    activeOpacity={isCurrentScreen ? 1 : 0.7}
+                    disabled={isCurrentScreen}
+                  >
+                    <View className="justify-center items-center mr-9">
+                      {renderIcon(option.id, option.iconColor)}
+                    </View>
+                    <Text
+                      className={`text-base font-medium ${
+                        isCurrentScreen ? "text-[#999]" : "text-black"
+                      }`}
+                    >
+                      {option.title}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+
+            <Text className="text-sm text-[#666] text-center mt-5 leading-5 pb-10 font-lufga">
+              For the most accurate insights,{"\n"}log daily.
+            </Text>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }

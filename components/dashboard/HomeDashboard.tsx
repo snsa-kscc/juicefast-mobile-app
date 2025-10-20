@@ -279,7 +279,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
-        className="flex-1 bg-[#FCFBF8]"
+        className="flex-1 bg-jf-gray"
         nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
       >
