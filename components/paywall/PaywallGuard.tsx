@@ -11,12 +11,7 @@ interface PaywallGuardProps {
 export function PaywallGuard({ children, fallback }: PaywallGuardProps) {
   const { isSubscribed, isLoading } = usePaywall();
 
-  // On Android, always show the content (no paywall)
-  if (Platform.OS === "android") {
-    return <>{children}</>;
-  }
-
-  // Show loading state (iOS only)
+  // Show loading state
   if (isLoading) {
     return (
       <View className="flex-1 bg-[#FCFBF8] justify-center items-center p-6">

@@ -7,14 +7,22 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
 import { Ionicons } from "@expo/vector-icons";
 import { PurchasesPackage } from "react-native-purchases";
 
 export function PaywallScreen() {
-  const { offerings, purchasePackage, restorePurchases, simulateNoSubscription } = useRevenueCat();
+  const {
+    offerings,
+    purchasePackage,
+    restorePurchases,
+    simulateNoSubscription,
+  } = useRevenueCat();
   const [isPurchasing, setIsPurchasing] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<PurchasesPackage | null>(null);
+  const [selectedPackage, setSelectedPackage] =
+    useState<PurchasesPackage | null>(null);
 
   const currentOffering = offerings?.current;
   const availablePackages = currentOffering?.availablePackages || [];
@@ -115,9 +123,22 @@ export function PaywallScreen() {
   };
 
   return (
-    <View className="flex-1 bg-[#FCFBF8]">
+    <SafeAreaView className="flex-1 bg-[#FCFBF8]">
+      {/* Back Button */}
+      <View className="px-6 pt-2 pb-4">
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="flex-row items-center"
+        >
+          <Ionicons name="arrow-back" size={24} color="#374151" />
+          <Text className="text-base font-lufga-medium text-gray-700 ml-2">
+            Back
+          </Text>
+        </TouchableOpacity>
+      </View>
+
       <ScrollView
-        contentContainerClassName="p-6"
+        contentContainerClassName="px-6 pb-6"
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
@@ -147,14 +168,8 @@ export function PaywallScreen() {
             icon="checkmark-circle"
             text="Premium wellness predictions"
           />
-          <FeatureItem
-            icon="checkmark-circle"
-            text="PDF data export"
-          />
-          <FeatureItem
-            icon="checkmark-circle"
-            text="Ad-free experience"
-          />
+          <FeatureItem icon="checkmark-circle" text="PDF data export" />
+          <FeatureItem icon="checkmark-circle" text="Ad-free experience" />
         </View>
 
         {/* Packages */}
@@ -173,7 +188,9 @@ export function PaywallScreen() {
                   </Text>
                   {pkg.product.introPrice && (
                     <View className="bg-emerald-500 px-2 py-1 rounded">
-                      <Text className="text-[10px] font-bold text-white">FREE TRIAL</Text>
+                      <Text className="text-[10px] font-bold text-white">
+                        FREE TRIAL
+                      </Text>
                     </View>
                   )}
                 </View>
@@ -188,12 +205,10 @@ export function PaywallScreen() {
                     Then {pkg.product.priceString}/{getPackageDuration(pkg)}
                   </Text>
                 )}
-                {isPurchasing && selectedPackage?.identifier === pkg.identifier && (
-                  <ActivityIndicator
-                    className="mt-3"
-                    color="#3B82F6"
-                  />
-                )}
+                {isPurchasing &&
+                  selectedPackage?.identifier === pkg.identifier && (
+                    <ActivityIndicator className="mt-3" color="#3B82F6" />
+                  )}
               </TouchableOpacity>
             ))}
           </View>
@@ -211,7 +226,9 @@ export function PaywallScreen() {
           onPress={handleRestore}
           disabled={isPurchasing}
         >
-          <Text className="text-base text-blue-500 font-semibold">Restore Purchases</Text>
+          <Text className="text-base text-blue-500 font-semibold">
+            Restore Purchases
+          </Text>
         </TouchableOpacity>
 
         {/* Debug Button - Only in development */}
@@ -220,7 +237,9 @@ export function PaywallScreen() {
             className="py-3 items-center mb-4 bg-orange-100 rounded-lg"
             onPress={handleDebugRestore}
           >
-            <Text className="text-sm text-orange-600 font-semibold">🧪 Test Restore Flow (Debug)</Text>
+            <Text className="text-sm text-orange-600 font-semibold">
+              🧪 Test Restore Flow (Debug)
+            </Text>
           </TouchableOpacity>
         )}
 
@@ -230,7 +249,7 @@ export function PaywallScreen() {
           before the end of the current period.
         </Text>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -242,4 +261,3 @@ function FeatureItem({ icon, text }: { icon: any; text: string }) {
     </View>
   );
 }
-

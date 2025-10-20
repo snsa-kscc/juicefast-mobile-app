@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -26,7 +26,14 @@ export default function ClubContentDetail() {
   const item = CLUB_DATA.find((item: ProcessedClubItem) => item.id === id);
 
   // Create video/audio player - always call hook but conditionally use it
-  const mediaUrl = (item?.type === "video" || item?.type === "audio" || item?.type === "meditation" || item?.type === "track") && item.url ? item.url : "";
+  const mediaUrl =
+    (item?.type === "video" ||
+      item?.type === "audio" ||
+      item?.type === "meditation" ||
+      item?.type === "track") &&
+    item.url
+      ? item.url
+      : "";
 
   const player = useVideoPlayer(mediaUrl, (player) => {
     if (player) {
@@ -40,22 +47,21 @@ export default function ClubContentDetail() {
     isPlaying: player?.playing || false,
   });
 
-  
-  
-  
   if (!item) {
     return (
       <SafeAreaView className="flex-1 bg-jf-gray">
         <WellnessHeader
           title="Content Not Found"
-          subtitle="The wellness content you&apos;re looking for doesn&apos;t exist"
+          subtitle="The wellness content you're looking for doesn't exist"
           showBackButton={true}
           onBackPress={() => router.back()}
           showSettings={true}
           onSettingsPress={() => router.push("/profile")}
         />
         <View className="flex-1 justify-center items-center px-6">
-          <Text className="text-2xl font-lufga-bold text-gray-900 mb-4">Content Not Found</Text>
+          <Text className="text-2xl font-lufga-bold text-gray-900 mb-4">
+            Content Not Found
+          </Text>
           <Text className="text-base font-lufga-regular text-gray-500 text-center mb-6">
             The wellness content you&apos;re looking for doesn&apos;t exist.
           </Text>
@@ -64,7 +70,6 @@ export default function ClubContentDetail() {
     );
   }
 
-  
   const getActionText = () => {
     switch (item.type) {
       case "meditation":
@@ -134,7 +139,11 @@ export default function ClubContentDetail() {
           );
         }
       }
-    } else if (item.type === "audio" || item.type === "meditation" || item.type === "track") {
+    } else if (
+      item.type === "audio" ||
+      item.type === "meditation" ||
+      item.type === "track"
+    ) {
       // Handle audio content types
       if (!item.url) {
         Alert.alert("Error", "Audio URL is not available for this content.");
@@ -185,7 +194,11 @@ export default function ClubContentDetail() {
     <SafeAreaView className="flex-1 bg-jf-gray">
       <WellnessHeader
         title={item.title}
-        subtitle={item.subcategory ? `${item.subcategory.charAt(0).toUpperCase() + item.subcategory.slice(1)}${item.duration ? ` • ${item.duration}` : ''}` : item.duration || ''}
+        subtitle={
+          item.subcategory
+            ? `${item.subcategory.charAt(0).toUpperCase() + item.subcategory.slice(1)}${item.duration ? ` • ${item.duration}` : ""}`
+            : item.duration || ""
+        }
         showBackButton={true}
         onBackPress={() => router.back()}
         showSettings={true}
@@ -208,7 +221,11 @@ export default function ClubContentDetail() {
                 allowsPictureInPicture={true}
               />
             </>
-          ) : showAudio && (item.type === "audio" || item.type === "meditation" || item.type === "track") && player ? (
+          ) : showAudio &&
+            (item.type === "audio" ||
+              item.type === "meditation" ||
+              item.type === "track") &&
+            player ? (
             // Audio player - simple like video
             <View className="w-full h-full bg-black">
               <VideoView
@@ -225,7 +242,10 @@ export default function ClubContentDetail() {
           ) : (
             <>
               <Image
-                source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
+                source={getImageWithFallback(
+                  item.imageUrl,
+                  DEFAULT_IMAGES.icon
+                )}
                 className="w-full h-full"
               />
               {/* Video overlay controls */}
@@ -241,29 +261,38 @@ export default function ClubContentDetail() {
               )}
 
               {/* Audio overlay controls */}
-              {(item.type === "audio" || item.type === "meditation" || item.type === "track") && !showAudio && (
-                <TouchableOpacity
-                  onPress={handlePlayPress}
-                  className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center bg-black/30"
-                >
-                  <View className="bg-black/60 rounded-full p-6">
-                    <Ionicons
-                      name={
-                        item.type === "meditation" ? "flower" :
-                        item.type === "track" ? "radio" : "volume-high"
-                      }
-                      size={40}
-                      color="#FFFFFF"
-                    />
-                  </View>
-                  <View className="mt-4">
-                    <Text className="text-white text-lg font-lufga-bold">
-                      {item.type === "meditation" ? "Start Meditation" :
-                       item.type === "track" ? "Play Track" : "Play Audio"}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              )}
+              {(item.type === "audio" ||
+                item.type === "meditation" ||
+                item.type === "track") &&
+                !showAudio && (
+                  <TouchableOpacity
+                    onPress={handlePlayPress}
+                    className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center bg-black/30"
+                  >
+                    <View className="bg-black/60 rounded-full p-6">
+                      <Ionicons
+                        name={
+                          item.type === "meditation"
+                            ? "flower"
+                            : item.type === "track"
+                              ? "radio"
+                              : "volume-high"
+                        }
+                        size={40}
+                        color="#FFFFFF"
+                      />
+                    </View>
+                    <View className="mt-4">
+                      <Text className="text-white text-lg font-lufga-bold">
+                        {item.type === "meditation"
+                          ? "Start Meditation"
+                          : item.type === "track"
+                            ? "Play Track"
+                            : "Play Audio"}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
             </>
           )}
         </View>
@@ -271,7 +300,10 @@ export default function ClubContentDetail() {
         {/* Content actions */}
         <View className="p-4">
           {/* Play button */}
-          <TouchableOpacity className="bg-green-500 flex-row items-center justify-center py-3 rounded-[25px] mb-4" onPress={handlePlayPress}>
+          <TouchableOpacity
+            className="bg-green-500 flex-row items-center justify-center py-3 rounded-[25px] mb-4"
+            onPress={handlePlayPress}
+          >
             <Ionicons
               name={
                 (item.type === "video" && showVideo && isPlaying) ||
@@ -284,29 +316,39 @@ export default function ClubContentDetail() {
               size={20}
               color="#FFFFFF"
             />
-            <Text className="text-white text-base font-lufga-semibold ml-2">{getActionText()}</Text>
+            <Text className="text-white text-base font-lufga-semibold ml-2">
+              {getActionText()}
+            </Text>
           </TouchableOpacity>
 
           {/* Secondary actions */}
           <View className="flex-row justify-between">
             <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="bookmark-outline" size={16} color="#374151" />
-              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">Save</Text>
+              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">
+                Save
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="share-outline" size={16} color="#374151" />
-              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">Share</Text>
+              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">
+                Share
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="heart-outline" size={16} color="#374151" />
-              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">Like</Text>
+              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">
+                Like
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Description */}
         <View className="px-4 pb-8">
-          <Text className="text-lg font-lufga-bold text-gray-900 mb-2">About</Text>
+          <Text className="text-lg font-lufga-bold text-gray-900 mb-2">
+            About
+          </Text>
           <Text className="text-base font-lufga-regular text-gray-500 leading-6">
             {getDescriptionForType(item.type)}
           </Text>
@@ -330,4 +372,3 @@ const getDescriptionForType = (type: string): string => {
       return "This wellness content is designed to support your health and mindfulness journey.";
   }
 };
-
