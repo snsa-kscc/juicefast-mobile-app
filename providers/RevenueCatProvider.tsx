@@ -8,8 +8,9 @@ import Purchases, {
 import { Platform } from "react-native";
 import { useUser } from "@clerk/clerk-expo";
 
-// DEBUG: Set to true to bypass subscription check and always have premium access
-const FORCE_PREMIUM_ACCESS = false;
+// DEBUG: Set to true to bypass subscription check and always have premium access (iOS and Android)
+const IOS_PREMIUM_ACCESS = false;
+const ANDROID_PREMIUM_ACCESS = true;
 
 interface RevenueCatContextType {
   isSubscribed: boolean;
@@ -74,8 +75,19 @@ export function RevenueCatProvider({
           "RevenueCat Offerings loaded:",
           fetchedOfferings.current?.identifier
         );
+      } else if (Platform.OS === "android") {
+        // For Android, use feature flag (no RevenueCat API)
+        console.log("Android: Using feature flag for subscription status");
+        if (__DEV__ && ANDROID_PREMIUM_ACCESS) {
+          console.log(
+            "[DEBUG] Android premium access enabled (ANDROID_PREMIUM_ACCESS = true)"
+          );
+          setIsSubscribed(true);
+        } else {
+          setIsSubscribed(false);
+        }
       } else {
-        // For Android and other platforms, just mark as not subscribed
+        // For other platforms, just mark as not subscribed
         console.log("RevenueCat not configured for this platform");
       }
     } catch (error) {
@@ -92,10 +104,8 @@ export function RevenueCatProvider({
       Object.keys(info.entitlements.active).length > 0;
 
     // DEBUG: Force premium access in development if flag is enabled
-    if (__DEV__ && FORCE_PREMIUM_ACCESS) {
-      console.log(
-        "[DEBUG] Forcing premium access (FORCE_PREMIUM_ACCESS = true)"
-      );
+    if (__DEV__ && IOS_PREMIUM_ACCESS) {
+      console.log("[DEBUG] Forcing premium access (IOS_PREMIUM_ACCESS = true)");
       setIsSubscribed(true);
     } else {
       setIsSubscribed(hasActiveSubscription);
