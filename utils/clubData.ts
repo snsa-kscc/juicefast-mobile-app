@@ -3,6 +3,7 @@ import {
   ProcessedClubItem,
   WellnessCategory,
   SubcategoryData,
+  SubcategorySummary,
 } from "@/types/club";
 import clubDataRaw from "@/data/jf-club.json";
 
@@ -12,7 +13,226 @@ export const WELLNESS_CATEGORIES: WellnessCategory[] = [
   { id: "mind", name: "Mind" },
   { id: "workouts", name: "Workouts" },
   { id: "nutrition", name: "Nutrition" },
+  { id: "beauty", name: "Beauty" },
 ];
+
+// Comprehensive subcategory data structure
+const SUBCATEGORY_DATA: Record<string, {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  image: any;
+  sortIndex: number;
+}> = {
+  // Mind category
+  "better sleep": {
+    id: "better-sleep",
+    name: "Better Sleep",
+    category: "mind",
+    description: "Catch the z's you need to with the help of these sleep tracks. Play them in the background, focus on the sound, and slip into a slumber.",
+    image: require("@/assets/images/jf-club/better-sleep.jpg"),
+    sortIndex: 0,
+  },
+  "breathing techniques": {
+    id: "breathing-techniques",
+    name: "Breathing Techniques",
+    category: "mind",
+    description: "Learn various breathing techniques to calm your mind, reduce stress, and improve your overall well-being through mindful breathing practices.",
+    image: require("@/assets/images/jf-club/breathing.jpg"),
+    sortIndex: 1,
+  },
+  "guided meditations": {
+    id: "guided-meditations",
+    name: "Guided Meditations",
+    category: "mind",
+    description: "Through these meditations, you can achieve a mental, physical and emotional balance and reset. Find your inner peace with our guided meditation tracks.",
+    image: require("@/assets/images/jf-club/guided-meditation.jpg"),
+    sortIndex: 2,
+  },
+  "guided affirmations": {
+    id: "guided-affirmations",
+    name: "Guided Affirmations",
+    category: "mind",
+    description: "Transform your mindset with positive affirmations that help build confidence, reduce anxiety, and cultivate a more positive outlook on life.",
+    image: require("@/assets/images/jf-club/affirmations.jpg"),
+    sortIndex: 3,
+  },
+  "binaural beats": {
+    id: "binaural-beats",
+    name: "Binaural Beats",
+    category: "mind",
+    description: "These specially designed audio tracks use different frequencies in each ear to help you focus, relax, or sleep. For best results, listen with headphones.",
+    image: require("@/assets/images/jf-club/binaural.jpg"),
+    sortIndex: 4,
+  },
+  "relaxation music": {
+    id: "relaxation-music",
+    name: "Relaxation Music",
+    category: "mind",
+    description: "Here you'll find relaxing music that can help lower your heart rate, reduce stress and induce calmness. Take 20 minutes to relax and focus inwards.",
+    image: require("@/assets/images/jf-club/relaxation.jpg"),
+    sortIndex: 5,
+  },
+  "sounds of nature": {
+    id: "sounds-of-nature",
+    name: "Sounds of Nature",
+    category: "mind",
+    description: "Immerse yourself in the calming sounds of nature. From ocean waves to forest rain, these tracks help you connect with natural environments.",
+    image: require("@/assets/images/jf-club/nature-sounds.jpg"),
+    sortIndex: 6,
+  },
+
+  // Workouts category
+  pilates: {
+    id: "pilates",
+    name: "Pilates",
+    category: "workouts",
+    description: "Strengthen your core, improve flexibility, and build lean muscle with our guided Pilates workouts suitable for all fitness levels.",
+    image: require("@/assets/images/jf-club/pilates.jpg"),
+    sortIndex: 0,
+  },
+  yoga: {
+    id: "yoga",
+    name: "Yoga",
+    category: "workouts",
+    description: "Find balance, flexibility, and inner peace through our yoga practices. From beginner flows to advanced poses, there's something for everyone.",
+    image: require("@/assets/images/jf-club/yoga.jpg"),
+    sortIndex: 1,
+  },
+  "mobility & stretching": {
+    id: "mobility-stretching",
+    name: "Mobility & Stretching",
+    category: "workouts",
+    description: "Improve your range of motion, prevent injury, and feel more flexible with our targeted mobility and stretching routines.",
+    image: require("@/assets/images/jf-club/mobility-stretching.jpg"),
+    sortIndex: 2,
+  },
+  "cardio and fat burn": {
+    id: "cardio-fat-burn",
+    name: "Cardio and Fat Burn",
+    category: "workouts",
+    description: "Get your heart pumping and burn calories with our effective cardio workouts designed to boost your metabolism and improve endurance.",
+    image: require("@/assets/images/jf-club/cardio-fat-burn.jpg"),
+    sortIndex: 3,
+  },
+  "weight loss fitness": {
+    id: "weight-loss-fitness",
+    name: "Weight Loss Fitness",
+    category: "workouts",
+    description: "Achieve your weight loss goals with our targeted fitness programs that combine strength training and cardio for maximum results.",
+    image: require("@/assets/images/jf-club/weight-loss-fitness.jpg"),
+    sortIndex: 4,
+  },
+  fitness: {
+    id: "fitness",
+    name: "Fitness",
+    category: "workouts",
+    description: "General fitness workouts to improve your overall health, strength, and endurance with a variety of exercise styles and intensities.",
+    image: require("@/assets/images/jf-club/workouts.jpg"),
+    sortIndex: 5,
+  },
+
+  // Nutrition category
+  "postpartum nutrition": {
+    id: "postpartum-nutrition",
+    name: "Postpartum Nutrition",
+    category: "nutrition",
+    description: "Nourish your body during the postpartum period with nutrient-dense recipes and nutritional guidance designed to support recovery and lactation.",
+    image: require("@/assets/images/jf-club/postpartum-nutrition.jpg"),
+    sortIndex: 0,
+  },
+  smoothies: {
+    id: "smoothies",
+    name: "Smoothies",
+    category: "nutrition",
+    description: "Delicious and nutritious smoothie recipes packed with vitamins, minerals, and antioxidants to support your health and wellness goals.",
+    image: require("@/assets/images/jf-club/smoothies.jpg"),
+    sortIndex: 1,
+  },
+  snacks: {
+    id: "snacks",
+    name: "Snacks",
+    category: "nutrition",
+    description: "Healthy and satisfying snack options that keep you energized throughout the day without compromising your nutrition goals.",
+    image: require("@/assets/images/jf-club/snacks.jpg"),
+    sortIndex: 2,
+  },
+  bowls: {
+    id: "bowls",
+    name: "Bowls",
+    category: "nutrition",
+    description: "Nutritious and colorful bowl recipes that combine wholesome ingredients for balanced meals that are as beautiful as they are delicious.",
+    image: require("@/assets/images/jf-club/bowls.jpg"),
+    sortIndex: 3,
+  },
+  "oven baked": {
+    id: "oven-baked",
+    name: "Oven Baked",
+    category: "nutrition",
+    description: "Healthy oven-baked recipes that bring out the best flavors in whole foods while maintaining their nutritional value.",
+    image: require("@/assets/images/jf-club/oven-baked.jpg"),
+    sortIndex: 4,
+  },
+  mocktails: {
+    id: "mocktails",
+    name: "Mocktails",
+    category: "nutrition",
+    description: "Refreshing non-alcoholic beverages packed with nutrients and natural flavors to hydrate and delight your senses.",
+    image: require("@/assets/images/jf-club/mocktails.jpg"),
+    sortIndex: 5,
+  },
+  recipes: {
+    id: "recipes",
+    name: "Recipes",
+    category: "nutrition",
+    description: "A collection of healthy, delicious recipes designed to support your wellness journey with balanced nutrition and amazing flavors.",
+    image: require("@/assets/images/jf-club/recipes.jpg"),
+    sortIndex: 6,
+  },
+  "apple cider": {
+    id: "apple-cider",
+    name: "Apple Cider",
+    category: "nutrition",
+    description: "Discover the health benefits and creative uses of apple cider in various wellness recipes and remedies.",
+    image: require("@/assets/images/jf-club/apple-cider.jpg"),
+    sortIndex: 7,
+  },
+
+  // Beauty category
+  "face yoga mini class": {
+    id: "face-yoga-mini-class",
+    name: "Face Yoga Mini Class",
+    category: "beauty",
+    description: "Learn facial exercises and techniques to tone your facial muscles, improve circulation, and achieve a natural, youthful glow.",
+    image: require("@/assets/images/jf-club/face-yoga.jpg"),
+    sortIndex: 0,
+  },
+  "diy hair masks": {
+    id: "diy-hair-masks",
+    name: "DIY Hair Masks",
+    category: "beauty",
+    description: "Natural hair mask recipes using simple ingredients to nourish, strengthen, and revitalize your hair at home.",
+    image: require("@/assets/images/jf-club/hair-masks.jpg"),
+    sortIndex: 1,
+  },
+  "diy face masks": {
+    id: "diy-face-masks",
+    name: "DIY Face Masks",
+    category: "beauty",
+    description: "Create your own natural face masks with ingredients from your kitchen to address various skin concerns and achieve a radiant complexion.",
+    image: require("@/assets/images/jf-club/face-masks.jpg"),
+    sortIndex: 2,
+  },
+  "diy bath bombs": {
+    id: "diy-bath-bombs",
+    name: "DIY Bath Bombs",
+    category: "beauty",
+    description: "Learn to make luxurious bath bombs with natural ingredients that transform your bath time into a spa-like experience.",
+    image: require("@/assets/images/jf-club/bath-bombs.jpg"),
+    sortIndex: 3,
+  },
+};
 
 // Process raw club data
 const processClubData = (rawData: ClubItem[]): ProcessedClubItem[] => {
@@ -39,24 +259,11 @@ const determineItemType = (
   return "audio";
 };
 
-// Generate placeholder image URL based on category and subcategory
-const generateImageUrl = (item: ClubItem): string => {
-  // Map subcategories to appropriate Unsplash images
-  const imageMap: Record<string, string> = {
-    "guided meditations":
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop&crop=center",
-    "better sleep":
-      "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=400&fit=crop&crop=center",
-    "binaural beats":
-      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&crop=center",
-    "relaxation music":
-      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&crop=center",
-  };
-
-  return (
-    imageMap[item.subcategory] ||
-    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop&crop=center"
-  );
+// Generate placeholder image URL for individual items
+const generateImageUrl = (_item: ClubItem): string => {
+  // Use a generic placeholder for all individual items
+  // Headers will use local images via getSubcategoryImage
+  return "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop&crop=center";
 };
 
 // Process and export all club data
@@ -78,25 +285,41 @@ export const getItemsBySubcategory = (
   return CLUB_DATA.filter((item) => item.subcategory === subcategory);
 };
 
-// Get unique subcategories for a category
-export const getSubcategoriesForCategory = (category: string): string[] => {
-  const items = getItemsByCategory(category);
-  const subcategories = [...new Set(items.map((item) => item.subcategory))];
-  return subcategories;
-};
 
-// Get subcategory data with counts
-export const getSubcategoryData = (category: string) => {
-  const subcategories = getSubcategoriesForCategory(category);
-  return subcategories.map((subcategory) => {
-    const items = getItemsBySubcategory(subcategory);
+// Get subcategory data with counts (legacy function for backward compatibility)
+export const getSubcategoryData = (category: string): SubcategorySummary[] => {
+  const items = getItemsByCategory(category);
+  const uniqueSubcategories = [...new Set(items.map((item) => item.subcategory))];
+
+  const subcategoryData = uniqueSubcategories.map((subcategory) => {
+    const subcategoryItems = getItemsBySubcategory(subcategory);
+    const subcategoryInfo = SUBCATEGORY_DATA[subcategory];
+
     return {
-      id: subcategory.toLowerCase().replace(/\s+/g, "-"),
-      name: subcategory.charAt(0).toUpperCase() + subcategory.slice(1),
-      count: items.length,
-      countLabel: "tracks",
-      imageUrl: items[0]?.imageUrl,
+      id: subcategoryInfo?.id || subcategory.toLowerCase().replace(/\s+/g, "-"),
+      name: subcategoryInfo?.name || subcategory.charAt(0).toUpperCase() + subcategory.slice(1),
+      count: subcategoryItems.length,
+      countLabel: subcategoryItems.length === 1 ? "track" : "tracks",
+      imageUrl: subcategoryItems[0]?.imageUrl,
+      _originalName: subcategory, // Keep for compatibility
     };
+  });
+
+  // Sort by defined order in SUBCATEGORY_DATA, then alphabetically for any not in the list
+  return subcategoryData.sort((a, b) => {
+    const subcategoryInfoA = SUBCATEGORY_DATA[a._originalName];
+    const subcategoryInfoB = SUBCATEGORY_DATA[b._originalName];
+
+    // Both have defined sort order - use defined order
+    if (subcategoryInfoA && subcategoryInfoB) {
+      return subcategoryInfoA.sortIndex - subcategoryInfoB.sortIndex;
+    }
+    // Only A has defined order - A comes first
+    if (subcategoryInfoA) return -1;
+    // Only B has defined order - B comes first
+    if (subcategoryInfoB) return 1;
+    // Neither in defined data - alphabetical
+    return a.name.localeCompare(b.name);
   });
 };
 
@@ -109,51 +332,24 @@ export const getSubcategoryDetail = (
   const items = getItemsBySubcategory(normalizedSubcategory);
   if (items.length === 0) return null;
 
-  const subcategoryMap: Record<string, Omit<SubcategoryData, "items">> = {
-    "guided meditations": {
-      title: "Guided Meditations",
-      subtitle: `${items.length} meditations`,
-      description:
-        "Through these meditations, you can achieve a mental, physical and emotional balance and reset. Find your inner peace with our guided meditation tracks.",
-      featuredImageUrl:
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
-    },
-    "better sleep": {
-      title: "Better Sleep",
-      subtitle: `${items.length} sleep tracks`,
-      description:
-        "Catch the z's you need to with the help of these sleep tracks. Play them in the background, focus on the sound, and slip into a slumber.",
-      featuredImageUrl:
-        "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=300&fit=crop&crop=center",
-    },
-    "binaural beats": {
-      title: "Binaural Beats",
-      subtitle: `${items.length} tracks`,
-      description:
-        "These specially designed audio tracks use different frequencies in each ear to help you focus, relax, or sleep. For best results, listen with headphones.",
-      featuredImageUrl:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center",
-    },
-    "relaxation music": {
-      title: "Relaxation Music",
-      subtitle: `${items.length} tracks`,
-      description:
-        "Here you'll find relaxing music that can help lower your heart rate, reduce stress and induce calmness. Take 20 minutes to relax and focus inwards.",
-      featuredImageUrl:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&crop=center",
-    },
+  const subcategoryInfo = SUBCATEGORY_DATA[normalizedSubcategory];
+
+  const defaultInfo = {
+    title:
+      normalizedSubcategory.charAt(0).toUpperCase() +
+      normalizedSubcategory.slice(1),
+    subtitle: `${items.length} ${items.length === 1 ? 'item' : 'items'}`,
+    description: "Wellness content to support your journey.",
   };
 
-  const subcategoryInfo = subcategoryMap[normalizedSubcategory] || {
-    title: normalizedSubcategory.charAt(0).toUpperCase() + normalizedSubcategory.slice(1),
-    subtitle: `${items.length} items`,
-    description: "Wellness content to support your journey.",
-    featuredImageUrl:
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
-  };
+  const finalInfo = subcategoryInfo ? {
+    title: subcategoryInfo.name,
+    subtitle: `${items.length} ${items.length === 1 ? 'item' : 'items'}`,
+    description: subcategoryInfo.description,
+  } : defaultInfo;
 
   return {
-    ...subcategoryInfo,
+    ...finalInfo,
     items,
   };
 };
@@ -182,3 +378,49 @@ export const getDailyContent = (): ProcessedClubItem[] => {
   // Return a selection of items for daily recommendations
   return CLUB_DATA.slice(0, 6);
 };
+
+// Format subcategory title with proper capitalization and symbols
+export const formatSubcategoryTitle = (title: string): string => {
+  return title
+    .split(' ')
+    .map(word => {
+      // Make DIY completely uppercase
+      if (word.toLowerCase() === 'diy') {
+        return 'DIY';
+      }
+      // Replace "and" with "&"
+      if (word.toLowerCase() === 'and') {
+        return '&';
+      }
+      // Capitalize first letter of each word
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+};
+
+// Get subcategory image from unified data structure
+export const getSubcategoryImage = (subcategory: string) => {
+  const subcategoryInfo = SUBCATEGORY_DATA[subcategory];
+
+  // Return mapped image or fallback to placeholder
+  return (
+    subcategoryInfo?.image || require("@/assets/images/jf-club/placeholder.jpg")
+  );
+};
+
+// Get subcategory info from unified data structure
+export const getSubcategoryInfo = (subcategory: string) => {
+  return SUBCATEGORY_DATA[subcategory];
+};
+
+// Get all subcategories for a category, ordered by defined sort order
+export const getOrderedSubcategoriesForCategory = (category: string) => {
+  const allSubcategories = Object.values(SUBCATEGORY_DATA)
+    .filter(subcategory => subcategory.category === category)
+    .sort((a, b) => a.sortIndex - b.sortIndex);
+
+  return allSubcategories;
+};
+
+// Export the comprehensive subcategory data structure for use throughout the app
+export { SUBCATEGORY_DATA };

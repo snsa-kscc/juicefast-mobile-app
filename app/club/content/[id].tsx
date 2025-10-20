@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   Image,
-  StyleSheet,
   ScrollView,
   Alert,
 } from "react-native";
@@ -15,55 +14,71 @@ import { VideoView, useVideoPlayer } from "expo-video";
 import { CLUB_DATA } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { WellnessHeader } from "@/components/ui/CustomHeader";
+import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
 
 export default function ClubContentDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [showVideo, setShowVideo] = useState(false);
+  const [showAudio, setShowAudio] = useState(false);
 
   // Find the item from club data
   const item = CLUB_DATA.find((item: ProcessedClubItem) => item.id === id);
 
-  // Create video player only for video content
-  const player =
-    item?.type === "video" && item.url
-      ? useVideoPlayer(item.url, (player) => {
-          player.loop = false;
-        })
-      : null;
+  // Create video/audio player - always call hook but conditionally use it
+  const mediaUrl = (item?.type === "video" || item?.type === "audio" || item?.type === "meditation" || item?.type === "track") && item.url ? item.url : "";
 
-  // Track playing state - only for video content with valid player
-  const { isPlaying } = player
-    ? useEvent(player, "playingChange", {
-        isPlaying: player.playing,
-      })
-    : { isPlaying: false };
+  const player = useVideoPlayer(mediaUrl, (player) => {
+    if (player) {
+      player.loop = false;
+      player.showNowPlayingNotification = item?.type !== "video";
+    }
+  });
 
+  // Track playing state
+  const { isPlaying } = useEvent(player, "playingChange", {
+    isPlaying: player?.playing || false,
+  });
+
+  
+  
+  
   if (!item) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorTitle}>Content Not Found</Text>
-          <Text style={styles.errorText}>
-            The wellness content you're looking for doesn't exist.
+      <SafeAreaView className="flex-1 bg-jf-gray">
+        <WellnessHeader
+          title="Content Not Found"
+          subtitle="The wellness content you&apos;re looking for doesn&apos;t exist"
+          showBackButton={true}
+          onBackPress={() => router.back()}
+          showSettings={true}
+          onSettingsPress={() => router.push("/profile")}
+        />
+        <View className="flex-1 justify-center items-center px-6">
+          <Text className="text-2xl font-lufga-bold text-gray-900 mb-4">Content Not Found</Text>
+          <Text className="text-base font-lufga-regular text-gray-500 text-center mb-6">
+            The wellness content you&apos;re looking for doesn&apos;t exist.
           </Text>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.backButton}
-          >
-            <Ionicons name="arrow-back" size={16} color="#374151" />
-            <Text style={styles.backButtonText}>Back to Club</Text>
-          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
   }
 
+  
   const getActionText = () => {
     switch (item.type) {
       case "meditation":
-        return "Start Meditation";
+        return showAudio
+          ? isPlaying
+            ? "Pause Meditation"
+            : "Resume Meditation"
+          : "Start Meditation";
       case "track":
-        return "Play Track";
+        return showAudio
+          ? isPlaying
+            ? "Pause Track"
+            : "Resume Track"
+          : "Play Track";
       case "video":
         return showVideo
           ? isPlaying
@@ -71,7 +86,11 @@ export default function ClubContentDetail() {
             : "Resume Video"
           : "Watch Video";
       case "audio":
-        return "Play Audio";
+        return showAudio
+          ? isPlaying
+            ? "Pause Audio"
+            : "Resume Audio"
+          : "Play Audio";
       default:
         return "Start Content";
     }
@@ -95,10 +114,9 @@ export default function ClubContentDetail() {
         try {
           player.play();
         } catch (error) {
-          console.error("Video play error:", error);
           Alert.alert(
             "Playback Error",
-            "Unable to start video playback. Please try again."
+            "Unable to load video. The stream may be unavailable."
           );
         }
       } else {
@@ -110,78 +128,139 @@ export default function ClubContentDetail() {
             player.play();
           }
         } catch (error) {
-          console.error("Video playback error:", error);
           Alert.alert(
             "Playback Error",
             "Unable to control video playback. Please try again."
           );
         }
       }
+    } else if (item.type === "audio" || item.type === "meditation" || item.type === "track") {
+      // Handle audio content types
+      if (!item.url) {
+        Alert.alert("Error", "Audio URL is not available for this content.");
+        return;
+      }
+
+      if (!player) {
+        Alert.alert("Error", "Audio player is not available.");
+        return;
+      }
+
+      if (!showAudio) {
+        // Show audio player for the first time
+        setShowAudio(true);
+        try {
+          player.play();
+        } catch (error) {
+          Alert.alert(
+            "Playback Error",
+            "Unable to start audio playback. Please try again."
+          );
+        }
+      } else {
+        // Toggle play/pause
+        try {
+          if (isPlaying) {
+            player.pause();
+          } else {
+            player.play();
+          }
+        } catch (error) {
+          Alert.alert(
+            "Playback Error",
+            "Unable to control audio playback. Please try again."
+          );
+        }
+      }
     } else {
       // Handle other content types
       Alert.alert(
-        "Coming Soon",
-        "Audio playback functionality will be available soon."
+        "Content Not Supported",
+        "This content type is not yet supported."
       );
     }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Fixed header with back button and content info */}
-      <View style={styles.fixedHeader}>
-        <TouchableOpacity
-          onPress={() => router.back()}
-          style={styles.headerBackButton}
-        >
-          <Ionicons name="arrow-back" size={20} color="#111827" />
-        </TouchableOpacity>
-
-        <View style={styles.headerInfo}>
-          <Text style={styles.headerTitle}>{item.title}</Text>
-          <View style={styles.headerMeta}>
-            {item.subcategory && (
-              <Text style={styles.headerSubtitle}>
-                {item.subcategory.charAt(0).toUpperCase() +
-                  item.subcategory.slice(1)}
-              </Text>
-            )}
-            {item.duration && (
-              <View style={styles.durationBadge}>
-                <Ionicons name="time-outline" size={14} color="#6B7280" />
-                <Text style={styles.durationText}>{item.duration}</Text>
-              </View>
-            )}
-          </View>
-        </View>
-      </View>
+    <SafeAreaView className="flex-1 bg-jf-gray">
+      <WellnessHeader
+        title={item.title}
+        subtitle={item.subcategory ? `${item.subcategory.charAt(0).toUpperCase() + item.subcategory.slice(1)}${item.duration ? ` • ${item.duration}` : ''}` : item.duration || ''}
+        showBackButton={true}
+        onBackPress={() => router.back()}
+        showSettings={true}
+        onSettingsPress={() => router.push("/profile")}
+      />
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Video or Image Container */}
-        <View style={styles.mediaContainer}>
+        {/* Video or Audio Container */}
+        <View className="relative w-full aspect-video bg-black">
           {showVideo && item.type === "video" && player ? (
-            <VideoView
-              player={player}
-              style={styles.videoPlayer}
-              nativeControls={true}
-              fullscreenOptions={{ enable: true }}
-              allowsPictureInPicture={true}
-            />
+            <>
+              <VideoView
+                player={player}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+                nativeControls={true}
+                fullscreenOptions={{ enable: true }}
+                allowsPictureInPicture={true}
+              />
+            </>
+          ) : showAudio && (item.type === "audio" || item.type === "meditation" || item.type === "track") && player ? (
+            // Audio player - simple like video
+            <View className="w-full h-full bg-black">
+              <VideoView
+                player={player}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+                nativeControls={true}
+                fullscreenOptions={{ enable: true }}
+                allowsPictureInPicture={true}
+              />
+            </View>
           ) : (
             <>
               <Image
-                source={{ uri: item.imageUrl }}
-                style={styles.mediaImage}
-                defaultSource={require("@/assets/images/icon.png")}
+                source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
+                className="w-full h-full"
               />
-              {/* Video overlay controls (only show when video is not playing) */}
+              {/* Video overlay controls */}
               {item.type === "video" && !showVideo && (
                 <TouchableOpacity
                   onPress={handlePlayPress}
-                  style={styles.videoPlayOverlay}
+                  className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center bg-black/30"
                 >
-                  <View style={styles.playIconContainer}>
+                  <View className="bg-black/60 rounded-full p-4">
                     <Ionicons name="play" size={32} color="#FFFFFF" />
+                  </View>
+                </TouchableOpacity>
+              )}
+
+              {/* Audio overlay controls */}
+              {(item.type === "audio" || item.type === "meditation" || item.type === "track") && !showAudio && (
+                <TouchableOpacity
+                  onPress={handlePlayPress}
+                  className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center bg-black/30"
+                >
+                  <View className="bg-black/60 rounded-full p-6">
+                    <Ionicons
+                      name={
+                        item.type === "meditation" ? "flower" :
+                        item.type === "track" ? "radio" : "volume-high"
+                      }
+                      size={40}
+                      color="#FFFFFF"
+                    />
+                  </View>
+                  <View className="mt-4">
+                    <Text className="text-white text-lg font-lufga-bold">
+                      {item.type === "meditation" ? "Start Meditation" :
+                       item.type === "track" ? "Play Track" : "Play Audio"}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               )}
@@ -190,42 +269,45 @@ export default function ClubContentDetail() {
         </View>
 
         {/* Content actions */}
-        <View style={styles.actionsContainer}>
+        <View className="p-4">
           {/* Play button */}
-          <TouchableOpacity style={styles.playButton} onPress={handlePlayPress}>
+          <TouchableOpacity className="bg-green-500 flex-row items-center justify-center py-3 rounded-[25px] mb-4" onPress={handlePlayPress}>
             <Ionicons
               name={
-                item.type === "video" && showVideo && isPlaying
+                (item.type === "video" && showVideo && isPlaying) ||
+                (item.type === "audio" && showAudio && isPlaying) ||
+                (item.type === "meditation" && showAudio && isPlaying) ||
+                (item.type === "track" && showAudio && isPlaying)
                   ? "pause"
                   : "play"
               }
               size={20}
               color="#FFFFFF"
             />
-            <Text style={styles.playButtonText}>{getActionText()}</Text>
+            <Text className="text-white text-base font-lufga-semibold ml-2">{getActionText()}</Text>
           </TouchableOpacity>
 
           {/* Secondary actions */}
-          <View style={styles.secondaryActions}>
-            <TouchableOpacity style={styles.actionButton}>
+          <View className="flex-row justify-between">
+            <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="bookmark-outline" size={16} color="#374151" />
-              <Text style={styles.actionButtonText}>Save</Text>
+              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">Save</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="share-outline" size={16} color="#374151" />
-              <Text style={styles.actionButtonText}>Share</Text>
+              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">Share</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="heart-outline" size={16} color="#374151" />
-              <Text style={styles.actionButtonText}>Like</Text>
+              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">Like</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Description */}
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionTitle}>About</Text>
-          <Text style={styles.descriptionText}>
+        <View className="px-4 pb-8">
+          <Text className="text-lg font-lufga-bold text-gray-900 mb-2">About</Text>
+          <Text className="text-base font-lufga-regular text-gray-500 leading-6">
             {getDescriptionForType(item.type)}
           </Text>
         </View>
@@ -249,165 +331,3 @@ const getDescriptionForType = (type: string): string => {
   }
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  fixedHeader: {
-    backgroundColor: "#FFFFFF",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F3F4F6",
-  },
-  headerInfo: {
-    marginTop: 8,
-  },
-  headerMeta: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 4,
-    gap: 12,
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 24,
-  },
-  errorTitle: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 16,
-  },
-  errorText: {
-    fontSize: 16,
-    color: "#6B7280",
-    textAlign: "center",
-    marginBottom: 24,
-  },
-  backButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F3F4F6",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  backButtonText: {
-    marginLeft: 8,
-    fontSize: 16,
-    color: "#374151",
-  },
-  mediaContainer: {
-    position: "relative",
-    width: "100%",
-    aspectRatio: 16 / 9,
-    backgroundColor: "#000000",
-  },
-  mediaImage: {
-    width: "100%",
-    height: "100%",
-  },
-  videoPlayer: {
-    width: "100%",
-    height: "100%",
-  },
-  videoPlayOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-  },
-  playIconContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    borderRadius: 40,
-    padding: 16,
-  },
-  headerBackButton: {
-    alignSelf: "flex-start",
-    backgroundColor: "#F3F4F6",
-    borderRadius: 20,
-    padding: 8,
-  },
-  headerTitle: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#111827",
-    lineHeight: 28,
-  },
-  headerSubtitle: {
-    fontSize: 14,
-    color: "#6B7280",
-    fontWeight: "500",
-  },
-  durationBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  durationText: {
-    color: "#6B7280",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  actionsContainer: {
-    padding: 16,
-  },
-  playButton: {
-    backgroundColor: "#10B981",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 12,
-    borderRadius: 25,
-    marginBottom: 16,
-  },
-  playButtonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "600",
-    marginLeft: 8,
-  },
-  secondaryActions: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  actionButton: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    borderRadius: 8,
-    marginHorizontal: 4,
-  },
-  actionButtonText: {
-    color: "#374151",
-    fontSize: 14,
-    marginLeft: 4,
-  },
-  descriptionContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 32,
-  },
-  descriptionTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 8,
-  },
-  descriptionText: {
-    fontSize: 16,
-    color: "#6B7280",
-    lineHeight: 24,
-  },
-});

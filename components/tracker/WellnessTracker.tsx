@@ -403,8 +403,8 @@ export function WellnessTracker({
 
         {/* Wellness Score */}
         <View className="px-6 py-6 items-center">
-          <View className="flex-row justify-between items-center w-full mb-2">
-            <Text className="text-lg font-semibold tracking-widest">
+          <View className="flex-row justify-center gap-2 items-center w-full mb-6">
+            <Text className="text-2xl font-semibold tracking-widest">
               WELLNESS SCORE
             </Text>
             <View className="w-8 h-8 rounded-full bg-gray-100 justify-center items-center">

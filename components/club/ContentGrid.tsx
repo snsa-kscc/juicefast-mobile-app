@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { ProcessedClubItem } from "@/types/club";
 import { ContentCard } from "./ContentCard";
 
@@ -19,17 +19,17 @@ export function ContentGrid({
   onItemPress,
 }: ContentGridProps) {
   const renderItem = ({ item }: { item: ProcessedClubItem }) => (
-    <View style={[styles.itemContainer, { width: `${100 / columns - 2}%` }]}>
+    <View className="mx-[0.5%]" style={{ width: `${100 / columns - 2}%` }}>
       <ContentCard item={item} onPress={() => onItemPress?.(item)} />
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <View className="mb-8">
       {title && (
-        <View style={styles.headerContainer}>
-          <Text style={styles.title}>{title}</Text>
-          {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+        <View className="mb-4">
+          <Text className="text-xl font-lufga-bold text-gray-900 mb-1">{title}</Text>
+          {subtitle && <Text className="text-sm font-lufga-regular text-gray-500">{subtitle}</Text>}
         </View>
       )}
 
@@ -37,7 +37,7 @@ export function ContentGrid({
         data={items}
         renderItem={renderItem}
         numColumns={columns}
-        columnWrapperStyle={columns > 1 ? styles.row : undefined}
+        columnWrapperStyle={columns > 1 ? { justifyContent: "space-between" } : undefined}
         showsVerticalScrollIndicator={false}
         scrollEnabled={false}
       />
@@ -45,27 +45,3 @@ export function ContentGrid({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 32,
-  },
-  headerContainer: {
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#111827",
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: "#6B7280",
-  },
-  row: {
-    justifyContent: "space-between",
-  },
-  itemContainer: {
-    marginHorizontal: "1%",
-  },
-});

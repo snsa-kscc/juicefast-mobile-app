@@ -25,3 +25,12 @@ export interface SubcategoryData {
   items: ProcessedClubItem[];
   featuredImageUrl?: string;
 }
+
+export interface SubcategorySummary {
+  id: string;
+  name: string;
+  count: number;
+  countLabel: string;
+  imageUrl?: string;
+  _originalName: string;
+}

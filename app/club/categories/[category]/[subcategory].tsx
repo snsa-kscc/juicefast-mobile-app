@@ -1,17 +1,24 @@
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { SubcategoryDetail } from "@/components/club/SubcategoryDetail";
-import { getSubcategoryDetail } from "@/utils/clubData";
+import { WellnessHeader } from "@/components/ui/CustomHeader";
+import { getSubcategoryDetail, getSubcategoryInfo } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 
 export default function SubcategoryPage() {
-  const { category, subcategory } = useLocalSearchParams<{
+  const { subcategory } = useLocalSearchParams<{
     category: string;
     subcategory: string;
   }>();
 
   const subcategoryData = getSubcategoryDetail(subcategory || "");
+
+  // Get the original subcategory name for image lookup (convert kebab-case back to spaces)
+  const originalSubcategory = subcategory?.replace(/-/g, " ") || "";
+
+  // Get subcategory info from unified data structure
+  const subcategoryInfo = getSubcategoryInfo(originalSubcategory);
 
   const handleItemClick = (item: ProcessedClubItem) => {
     router.push({
@@ -26,36 +33,48 @@ export default function SubcategoryPage() {
 
   if (!subcategoryData) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView className="flex-1 bg-jf-gray">
         <SubcategoryDetail
           title="Subcategory Not Found"
           description="The wellness subcategory you're looking for doesn't exist."
           items={[]}
-          onBack={handleBack}
           onItemPress={handleItemClick}
+          headerComponent={
+            <WellnessHeader
+              title="Subcategory Not Found"
+              subtitle="The wellness subcategory you're looking for doesn't exist"
+              showBackButton={true}
+              onBackPress={handleBack}
+              showSettings={false}
+            />
+          }
         />
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-jf-gray">
       <SubcategoryDetail
-        title={subcategoryData.title}
-        subtitle={subcategoryData.subtitle}
-        description={subcategoryData.description}
+        title=""
+        subtitle=""
+        description=""
         items={subcategoryData.items}
-        featuredImageUrl={subcategoryData.featuredImageUrl}
-        onBack={handleBack}
         onItemPress={handleItemClick}
+        headerComponent={
+          <WellnessHeader
+            title={subcategoryData.title}
+            subtitle={subcategoryData.description || subcategoryData.subtitle}
+            backgroundImage={subcategoryInfo?.image || require("@/assets/images/jf-club/placeholder.jpg")}
+            itemCount={subcategoryData.items.length}
+            itemCountLabel="meditations"
+            showBackButton={true}
+            onBackPress={handleBack}
+            showSettings={true}
+            onSettingsPress={() => router.push("/profile")}
+          />
+        }
       />
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-});

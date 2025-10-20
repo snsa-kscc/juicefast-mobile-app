@@ -83,7 +83,7 @@ export default function PushNotificationTest() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-gray-50">
+    <ScrollView className="flex-1 bg-jf-gray">
       <View className="p-4 pt-12">
         <Text className="text-xl font-bold mb-4">Test Push Notifications</Text>
 
