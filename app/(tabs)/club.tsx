@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { router } from "expo-router";
-import { WELLNESS_CATEGORIES, getDailyContent } from "@/utils/clubData";
+import { WELLNESS_CATEGORIES, getDailyContent, getCategoryImages } from "@/utils/clubData";
 import { AnimatedScreen } from "@/components/AnimatedScreen";
 import { CategorySelector } from "@/components/club/CategorySelector";
-import { ContentGrid } from "@/components/club/ContentGrid";
+import { CategoryGrid } from "@/components/club/CategoryGrid";
 import { DailyContent } from "@/components/club/DailyContent";
 import { PremiumSubscriptionDrawer } from "@/components/club/PremiumSubscriptionDrawer";
 import { SubcategoryGrid } from "@/components/club/SubcategoryGrid";
@@ -19,9 +19,8 @@ export default function JFClub() {
     handleTabChange,
     handleItemClick,
     handleCategorySelect,
-    getContentForCategory,
-    getSubcategoriesForCategory,
     handleSubcategoryClick,
+    handleCategoryGridClick,
   } = useClubLogic();
 
   return (
@@ -90,10 +89,9 @@ export default function JFClub() {
 
             {/* Content Grid or Subcategories */}
             {selectedCategory === "trending" ? (
-              <ContentGrid
-                items={getContentForCategory()}
-                columns={2}
-                onItemPress={handleItemClick}
+              <CategoryGrid
+                categories={getCategoryImages()}
+                onCategoryPress={handleCategoryGridClick}
               />
             ) : (
               <SubcategoryGrid

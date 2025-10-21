@@ -58,6 +58,12 @@ export function useClubLogic() {
     router.push(`/club/categories/${selectedCategory}/${subcategoryId}`);
   }, [router, selectedCategory]);
 
+  // Handle category grid click in trending section
+  const handleCategoryGridClick = useCallback((categoryId: string) => {
+    setSelectedCategory(categoryId);
+    setActiveTab("discover");
+  }, []);
+
   return {
     activeTab,
     selectedCategory,
@@ -67,5 +73,6 @@ export function useClubLogic() {
     getContentForCategory,
     getSubcategoriesForCategory,
     handleSubcategoryClick,
+    handleCategoryGridClick,
   };
 }

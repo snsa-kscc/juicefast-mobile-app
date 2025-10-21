@@ -422,5 +422,38 @@ export const getOrderedSubcategoriesForCategory = (category: string) => {
   return allSubcategories;
 };
 
+// Category images for the trending section
+export const CATEGORY_IMAGES = {
+  mind: {
+    id: "mind",
+    name: "Mind",
+    image: require("@/assets/images/jf-club/meditation.jpg"),
+    categoryId: "mind",
+  },
+  workouts: {
+    id: "workouts",
+    name: "Workouts",
+    image: require("@/assets/images/jf-club/workouts.jpg"),
+    categoryId: "workouts",
+  },
+  nutrition: {
+    id: "nutrition",
+    name: "Nutrition",
+    image: require("@/assets/images/jf-club/recipes.jpg"),
+    categoryId: "nutrition",
+  },
+  beauty: {
+    id: "beauty",
+    name: "Beauty",
+    image: require("@/assets/images/jf-club/articles.jpg"),
+    categoryId: "beauty",
+  },
+};
+
+// Get category images for trending section
+export const getCategoryImages = () => {
+  return Object.values(CATEGORY_IMAGES);
+};
+
 // Export the comprehensive subcategory data structure for use throughout the app
 export { SUBCATEGORY_DATA };
