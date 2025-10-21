@@ -39,8 +39,8 @@ export function ContentCard({
           resizeMode="cover"
         />
         {/* Subcategory overlay in upper left */}
-        <View className="absolute top-2 left-2 bg-white/90 px-2 py-1 rounded-md">
-          <Text className="text-xs font-lufga-bold text-black">
+        <View className="absolute top-2 left-2 bg-white/90 px-3 py-1.5 rounded-full">
+          <Text className="text-xs font-lufga text-black text-center">
             {formatSubcategoryTitle(item.subcategory)}
           </Text>
         </View>
