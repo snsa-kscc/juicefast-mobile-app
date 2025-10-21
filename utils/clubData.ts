@@ -375,8 +375,47 @@ export const getTrendingContent = (): ProcessedClubItem[] => {
 
 // Daily content (featured items for today)
 export const getDailyContent = (): ProcessedClubItem[] => {
-  // Return a selection of items for daily recommendations
-  return CLUB_DATA.slice(0, 6);
+  // Return a diverse selection of items from ALL subcategories for daily recommendations
+  // Get items from each subcategory to ensure maximum diversity
+  const guidedMeditations = getItemsBySubcategory("guided meditations").slice(0, 2);
+  const betterSleep = getItemsBySubcategory("better sleep").slice(0, 2);
+  const binauralBeats = getItemsBySubcategory("binaural beats").slice(0, 2);
+  const breathingTechniques = getItemsBySubcategory("breathing techniques").slice(0, 2);
+  const cardioFatBurn = getItemsBySubcategory("cardio and fat burn").slice(0, 2);
+  const diyBathBombs = getItemsBySubcategory("diy bath bombs").slice(0, 2);
+  const diyFaceMasks = getItemsBySubcategory("diy face masks").slice(0, 2);
+  const diyHairMasks = getItemsBySubcategory("diy hair masks").slice(0, 2);
+  const faceYoga = getItemsBySubcategory("face yoga mini class").slice(0, 2);
+  const fitness = getItemsBySubcategory("fitness").slice(0, 2);
+  const guidedAffirmations = getItemsBySubcategory("guided affirmations").slice(0, 2);
+  const mobilityStretching = getItemsBySubcategory("mobility & stretching").slice(0, 2);
+  const pilates = getItemsBySubcategory("pilates").slice(0, 2);
+  const postpartumNutrition = getItemsBySubcategory("postpartum nutrition").slice(0, 2);
+  const relaxationMusic = getItemsBySubcategory("relaxation music").slice(0, 2);
+  const snacks = getItemsBySubcategory("snacks").slice(0, 2);
+  const soundsOfNature = getItemsBySubcategory("sounds of nature").slice(0, 2);
+  const yoga = getItemsBySubcategory("yoga").slice(0, 2);
+
+  return [
+    ...guidedMeditations,
+    ...betterSleep,
+    ...binauralBeats,
+    ...breathingTechniques,
+    ...cardioFatBurn,
+    ...diyBathBombs,
+    ...diyFaceMasks,
+    ...diyHairMasks,
+    ...faceYoga,
+    ...fitness,
+    ...guidedAffirmations,
+    ...mobilityStretching,
+    ...pilates,
+    ...postpartumNutrition,
+    ...relaxationMusic,
+    ...snacks,
+    ...soundsOfNature,
+    ...yoga,
+  ];
 };
 
 // Format subcategory title with proper capitalization and symbols

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProcessedClubItem } from "@/types/club";
 import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
+import { formatSubcategoryTitle } from "@/utils/clubData";
 
 interface ContentCardProps {
   item: ProcessedClubItem;
@@ -29,7 +30,7 @@ export function ContentCard({
   return (
     <TouchableOpacity className="flex-1 mb-4" onPress={onPress}>
       <View
-        className="rounded-xl overflow-hidden bg-gray-100"
+        className="rounded-xl overflow-hidden bg-gray-100 relative"
         style={{ aspectRatio: getAspectRatio() }}
       >
         <Image
@@ -37,6 +38,12 @@ export function ContentCard({
           className="w-full h-full"
           resizeMode="cover"
         />
+        {/* Subcategory overlay in upper left */}
+        <View className="absolute top-2 left-2 bg-white/90 px-2 py-1 rounded-md">
+          <Text className="text-xs font-lufga-bold text-black">
+            {formatSubcategoryTitle(item.subcategory)}
+          </Text>
+        </View>
       </View>
 
       <View className="mt-2">
