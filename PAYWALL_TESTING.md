@@ -128,12 +128,14 @@ const FORCE_PREMIUM_ACCESS = true;
 ```
 
 **Pros:**
+
 - Instant premium access
 - No subscription needed
 - Works offline
 - Perfect for UI/feature development
 
 **Cons:**
+
 - Doesn't test actual RevenueCat integration
 - Remember to set back to `false` before production
 
@@ -147,22 +149,26 @@ const FORCE_PREMIUM_ACCESS = true;
 6. Set duration (can be months or indefinite)
 
 **Pros:**
+
 - Tests real RevenueCat integration
 - Long-lasting (months or forever)
 - No App Store sandbox needed
 
 **Cons:**
+
 - Requires RevenueCat dashboard access
 - Need to set up for each test user
 
 ### Option 3: Annual Sandbox Subscription
 
 Use an annual subscription in sandbox testing:
+
 - Monthly subscriptions renew every **5 minutes**
 - Annual subscriptions renew every **1 hour**
 - Gives you more stable testing time
 
 **Sandbox Renewal Rates:**
+
 - 1 week subscription = 3 minutes
 - 1 month subscription = 5 minutes
 - 2 months subscription = 10 minutes
@@ -177,10 +183,12 @@ Use an annual subscription in sandbox testing:
 **Note:** Sandbox subscriptions don't appear in regular iOS Settings. To test cancellation:
 
 **Option 1: Let it Auto-Cancel (Recommended)**
+
 - Sandbox subscriptions auto-renew up to 6 times, then cancel automatically
 - Just wait for it to expire (see accelerated renewal rates below)
 
 **Option 2: Manual Testing**
+
 1. On your iOS device, open the native **Settings** app (gear icon)
 2. Tap your **Apple ID name** at the very top (shows your profile picture)
 3. Tap **Subscriptions**
@@ -189,12 +197,14 @@ Use an annual subscription in sandbox testing:
 6. If not, use Option 1 instead
 
 **What to Expect:**
+
 - After cancellation, you should still have access until the period ends
 - Then the paywall should reappear when subscription expires
 
 ### Test Expired Subscription
 
 Sandbox subscriptions have accelerated renewal rates:
+
 - 1 week subscription = 3 minutes
 - 1 month subscription = 5 minutes
 - 2 months subscription = 10 minutes
@@ -207,6 +217,7 @@ Wait for the subscription to expire and verify the paywall reappears.
 ### Test Multiple Packages
 
 If you have multiple subscription tiers:
+
 1. Purchase the basic tier
 2. Verify access
 3. Upgrade to a higher tier
@@ -237,17 +248,21 @@ if (__DEV__) {
 ### Common Issues
 
 **Issue:** "Cannot connect to iTunes Store"
+
 - **Solution:** Make sure you're signed out of your real Apple ID in Settings → App Store
 
 **Issue:** Paywall doesn't disappear after purchase
+
 - **Solution:** Check RevenueCat dashboard to verify the entitlement is active
 - Check that your entitlement identifier matches in RevenueCat
 
 **Issue:** No packages showing
+
 - **Solution:** Verify your offering is set as "current" in RevenueCat
 - Check that products are properly linked in RevenueCat
 
 **Issue:** "This In-App Purchase has already been bought"
+
 - **Solution:** This is normal for sandbox testing. Use "Restore Purchases" or create a new sandbox account
 
 ## Production Testing Checklist
@@ -274,6 +289,7 @@ EXPO_PUBLIC_REVENUECAT_IOS_API_KEY=your_ios_api_key_here
 ```
 
 Android support can be added later by:
+
 1. Getting your Android API key from RevenueCat
 2. Adding `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY` to `.env.local`
 3. Updating the `initializeRevenueCat()` function in `RevenueCatProvider.tsx`

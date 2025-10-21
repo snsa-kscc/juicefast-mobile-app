@@ -17,7 +17,10 @@ export default function Sleep() {
   return (
     <TrackerScreenWrapper>
       <AnimatedScreen>
-        <SleepTracker onBack={handleBack} onSettingsPress={handleSettingsPress} />
+        <SleepTracker
+          onBack={handleBack}
+          onSettingsPress={handleSettingsPress}
+        />
       </AnimatedScreen>
     </TrackerScreenWrapper>
   );

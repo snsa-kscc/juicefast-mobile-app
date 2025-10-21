@@ -143,7 +143,7 @@ export function SubcategoryDetail({
               )}
               {description && (
                 <Text
-                  className="text-sm font-lufga-regular text-white leading-5 max-w-[280px]"
+                  className="text-sm font-lufga text-white leading-5 max-w-[280px]"
                   numberOfLines={3}
                 >
                   {description}

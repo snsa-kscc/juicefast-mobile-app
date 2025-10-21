@@ -13,7 +13,10 @@ interface CategoryGridProps {
   onCategoryPress: (categoryId: string) => void;
 }
 
-export function CategoryGrid({ categories, onCategoryPress }: CategoryGridProps) {
+export function CategoryGrid({
+  categories,
+  onCategoryPress,
+}: CategoryGridProps) {
   return (
     <ScrollView
       horizontal={true}

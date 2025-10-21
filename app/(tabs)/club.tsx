@@ -1,7 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { router } from "expo-router";
-import { WELLNESS_CATEGORIES, getDailyContent, getCategoryImages } from "@/utils/clubData";
+import {
+  WELLNESS_CATEGORIES,
+  getDailyContent,
+  getCategoryImages,
+} from "@/utils/clubData";
 import { AnimatedScreen } from "@/components/AnimatedScreen";
 import { CategorySelector } from "@/components/club/CategorySelector";
 import { CategoryGrid } from "@/components/club/CategoryGrid";
@@ -103,7 +107,7 @@ export default function JFClub() {
             {/* Premium Banner - Only show on trending */}
             {selectedCategory === "trending" && (
               <View className="mb-8">
-                <Text className="text-xs font-lufga-regular text-gray-500 text-center mb-2">
+                <Text className="text-xs font-lufga text-gray-500 text-center mb-2">
                   *Premium also includes detail analytics, premium insights, PDF
                   data export and better wellness predictions
                 </Text>
@@ -125,7 +129,7 @@ export default function JFClub() {
               />
             )}
 
-            <View className="h-[100px]" />
+            <View className="h-24" />
           </View>
         </ScrollView>
       </SafeAreaView>

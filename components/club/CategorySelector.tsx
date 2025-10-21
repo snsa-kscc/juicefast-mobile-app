@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { Text, TouchableOpacity, ScrollView } from "react-native";
 import { WellnessCategory } from "@/types/club";
 
 interface CategorySelectorProps {
@@ -35,9 +31,7 @@ export function CategorySelector({
         >
           <Text
             className={`text-sm font-lufga-medium ${
-              selectedCategory === category.id
-                ? "text-black"
-                : "text-gray-500"
+              selectedCategory === category.id ? "text-black" : "text-gray-500"
             }`}
           >
             {category.name}
@@ -47,4 +41,3 @@ export function CategorySelector({
     </ScrollView>
   );
 }
-

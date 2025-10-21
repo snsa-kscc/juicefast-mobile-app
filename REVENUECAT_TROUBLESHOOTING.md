@@ -10,6 +10,7 @@
 ### How to Check if It's Working:
 
 1. **Check Console Logs** when you open the app:
+
    ```
    Logging in RevenueCat user: user_xxxxx
    RevenueCat Customer Info: { userId: 'user_xxxxx', entitlements: [] }
@@ -25,17 +26,20 @@
 ### Steps to Verify in RevenueCat Dashboard:
 
 #### 1. Check Customer Exists
+
 1. Go to [RevenueCat Dashboard](https://app.revenuecat.com/)
 2. Navigate to **Customers** in the left sidebar
 3. Search for your Clerk user ID (starts with `user_`)
 4. You should see the customer with purchase history
 
 #### 2. Check Transactions
+
 1. In the customer detail page, look for **Transactions** tab
 2. You should see sandbox purchases listed
 3. Check the **Status** column - should show "Active" for valid subscriptions
 
 #### 3. Check Entitlements
+
 1. In the customer detail page, look for **Entitlements** section
 2. Active entitlements should be listed here
 3. If empty, the entitlement might not be configured
@@ -43,17 +47,21 @@
 ### Common Issues & Solutions:
 
 #### Issue 1: Customer Not Found
+
 **Problem:** User ID not being set correctly
 
 **Solution:**
+
 - Check console logs for "Logging in RevenueCat user: ..."
 - Make sure you're logged into the app with Clerk
 - User ID should match between Clerk and RevenueCat
 
 #### Issue 2: Purchase Completes but No Entitlement
+
 **Problem:** Product not linked to entitlement in RevenueCat
 
 **Solution:**
+
 1. Go to RevenueCat Dashboard → **Products**
 2. Find your iOS subscription product
 3. Click on it and check **Entitlements** section
@@ -61,18 +69,22 @@
 5. If not, click **Add Entitlement** and create/link one
 
 #### Issue 3: Sandbox Purchase Not Showing
+
 **Problem:** Sandbox purchases take a moment to sync
 
 **Solution:**
+
 - Wait 10-30 seconds after purchase
 - Refresh the RevenueCat dashboard
 - Check the **Sandbox** filter is enabled in dashboard
 - Verify you're using a sandbox Apple ID
 
 #### Issue 4: Multiple Anonymous Users
+
 **Problem:** RevenueCat created anonymous users before login
 
 **Solution:**
+
 - This is normal for the first run
 - After the fix, new purchases will be under the correct user ID
 - Old anonymous users can be ignored
@@ -80,28 +92,37 @@
 ### Verify Your Setup:
 
 #### 1. Check Product Configuration
+
 ```
 RevenueCat Dashboard → Products → [Your Product]
 ```
+
 Verify:
+
 - ✅ Product ID matches App Store Connect
 - ✅ Linked to an entitlement
 - ✅ Entitlement is active
 
 #### 2. Check Offering Configuration
+
 ```
 RevenueCat Dashboard → Offerings → Current
 ```
+
 Verify:
+
 - ✅ "Current" offering exists
 - ✅ Your subscription package is in the offering
 - ✅ Package is available
 
 #### 3. Check App Configuration
+
 ```
 RevenueCat Dashboard → Apps → [Your App]
 ```
+
 Verify:
+
 - ✅ iOS bundle ID matches your app
 - ✅ App Store Connect integration is active
 - ✅ Shared secret is configured (if using)

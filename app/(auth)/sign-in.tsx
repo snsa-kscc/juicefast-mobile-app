@@ -1,7 +1,14 @@
 import { useSignIn, useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View, Image, Platform } from "react-native";
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Image,
+  Platform,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "../../hooks/useSocialSignIn";
 import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
@@ -122,7 +129,9 @@ export default function Page() {
 
       {/* Form */}
       <View className="mb-6 px-4">
-        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+        <View
+          className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}
+        >
           <View className="mr-3">
             <MailIcon />
           </View>
@@ -136,7 +145,9 @@ export default function Page() {
           />
         </View>
 
-        <View className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}>
+        <View
+          className={`bg-white rounded-2xl border border-gray-200 px-4 ${getInputFieldPadding()} flex-row items-center mb-4`}
+        >
           <View className="mr-3">
             <LockIcon />
           </View>

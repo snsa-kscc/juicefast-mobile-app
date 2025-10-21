@@ -35,9 +35,7 @@ const TaskItem = ({ icon, title, subtitle, onPress }: TaskItemProps) => (
     className="flex-row items-center bg-white rounded-xl p-4 mb-3"
     onPress={onPress}
   >
-    <View className="mr-4">
-      {icon}
-    </View>
+    <View className="mr-4">{icon}</View>
     <View className="flex-1">
       <Text className="text-sm font-medium text-black mb-1">{title}</Text>
       <View className="h-[3px] bg-[#F8F9FA] mb-1 w-[60%]" />

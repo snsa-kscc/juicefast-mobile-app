@@ -34,7 +34,10 @@ export default function StepsScreen() {
   return (
     <TrackerScreenWrapper>
       <AnimatedScreen>
-        <StepsTracker onBack={handleBack} onSettingsPress={handleSettingsPress} />
+        <StepsTracker
+          onBack={handleBack}
+          onSettingsPress={handleSettingsPress}
+        />
       </AnimatedScreen>
     </TrackerScreenWrapper>
   );

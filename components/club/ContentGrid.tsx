@@ -28,8 +28,12 @@ export function ContentGrid({
     <View className="mb-8">
       {title && (
         <View className="mb-4">
-          <Text className="text-xl font-lufga-bold text-gray-900 mb-1">{title}</Text>
-          {subtitle && <Text className="text-sm font-lufga-regular text-gray-500">{subtitle}</Text>}
+          <Text className="text-xl font-lufga-bold text-gray-900 mb-1">
+            {title}
+          </Text>
+          {subtitle && (
+            <Text className="text-sm font-lufga text-gray-500">{subtitle}</Text>
+          )}
         </View>
       )}
 
@@ -37,11 +41,12 @@ export function ContentGrid({
         data={items}
         renderItem={renderItem}
         numColumns={columns}
-        columnWrapperStyle={columns > 1 ? { justifyContent: "space-between" } : undefined}
+        columnWrapperStyle={
+          columns > 1 ? { justifyContent: "space-between" } : undefined
+        }
         showsVerticalScrollIndicator={false}
         scrollEnabled={false}
       />
     </View>
   );
 }
-

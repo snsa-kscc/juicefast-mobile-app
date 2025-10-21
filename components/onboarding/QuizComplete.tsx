@@ -249,10 +249,7 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
           </View>
 
           {recommendations.map((rec, index) => (
-            <View
-              key={index}
-              className="bg-white/50 rounded-2xl p-6 mb-4"
-            >
+            <View key={index} className="bg-white/50 rounded-2xl p-6 mb-4">
               <View className="flex-row items-center mb-3">
                 <Text className="text-2xl mr-3">{rec.icon}</Text>
                 <Text className="font-lufga-semibold text-lg flex-1 text-black">

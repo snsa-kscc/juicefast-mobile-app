@@ -54,14 +54,16 @@ export function QuizStart({ onStart }: QuizStartProps) {
               <Text className="font-lufga-bold text-xl text-black">
                 30.000+
               </Text>
-              <Text className="text-sm text-gray-700 font-lufga">Transformations</Text>
+              <Text className="text-sm text-gray-700 font-lufga">
+                Transformations
+              </Text>
             </View>
             <View className="flex-1 items-center ml-3">
               <Scale />
-              <Text className="font-lufga-bold text-xl text-black">
-                4.2kg
+              <Text className="font-lufga-bold text-xl text-black">4.2kg</Text>
+              <Text className="text-sm text-gray-700 font-lufga">
+                Avg. weightloss
               </Text>
-              <Text className="text-sm text-gray-700 font-lufga">Avg. weightloss</Text>
             </View>
           </View>
           <View className="flex-row">
@@ -70,7 +72,9 @@ export function QuizStart({ onStart }: QuizStartProps) {
               <Text className="font-lufga-bold text-xl text-black">
                 4.000.000+
               </Text>
-              <Text className="text-sm text-gray-700 font-lufga">Sold products</Text>
+              <Text className="text-sm text-gray-700 font-lufga">
+                Sold products
+              </Text>
             </View>
             <View className="flex-1 items-center ml-3">
               <Dumbbell />

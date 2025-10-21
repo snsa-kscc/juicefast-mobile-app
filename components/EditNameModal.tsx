@@ -68,67 +68,73 @@ export function EditNameModal({
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View className="flex-1 bg-transparent justify-end">
-          <View className="bg-white rounded-t-[20px] p-5" style={{ maxHeight: windowHeight * 0.5 }}>
-            <View className="flex-row justify-between items-center mb-6">
-              <Text className="text-xl font-bold text-gray-800 font-[Lufga-Bold]">
-                Edit Name
-              </Text>
-              <TouchableOpacity onPress={onClose} className="p-1">
-                <X size={24} color="#6B7280" />
-              </TouchableOpacity>
-            </View>
-
-            <ScrollView className="gap-4" showsVerticalScrollIndicator={false}>
-            <View className="gap-2">
-              <Text className="text-sm font-medium text-gray-700 font-[Lufga-Medium]">
-                First Name
-              </Text>
-              <TextInput
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-[Lufga-Regular]"
-                value={firstName}
-                onChangeText={setFirstName}
-                placeholder="Enter first name"
-                placeholderTextColor="#9CA3AF"
-                editable={!isSaving}
-              />
-            </View>
-
-            <View className="gap-2">
-              <Text className="text-sm font-medium text-gray-700 font-[Lufga-Medium]">
-                Last Name
-              </Text>
-              <TextInput
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-[Lufga-Regular]"
-                value={lastName}
-                onChangeText={setLastName}
-                placeholder="Enter last name"
-                placeholderTextColor="#9CA3AF"
-                editable={!isSaving}
-              />
-            </View>
-
-            <View className="flex-row gap-3 mt-2">
-              <TouchableOpacity
-                className="flex-1 bg-gray-100 rounded-xl py-3.5 items-center"
-                onPress={onClose}
-                disabled={isSaving}
-              >
-                <Text className="text-base font-semibold text-gray-700 font-[Lufga-SemiBold]">
-                  Cancel
+            <View
+              className="bg-white rounded-t-[20px] p-5"
+              style={{ maxHeight: windowHeight * 0.5 }}
+            >
+              <View className="flex-row justify-between items-center mb-6">
+                <Text className="text-xl font-bold text-gray-800 font-[Lufga-Bold]">
+                  Edit Name
                 </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="flex-1 bg-blue-500 rounded-xl py-3.5 items-center"
-                onPress={handleSave}
-                disabled={isSaving}
+                <TouchableOpacity onPress={onClose} className="p-1">
+                  <X size={24} color="#6B7280" />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView
+                className="gap-4"
+                showsVerticalScrollIndicator={false}
               >
-                <Text className="text-base font-semibold text-white font-[Lufga-SemiBold]">
-                  {isSaving ? "Saving..." : "Save"}
-                </Text>
-              </TouchableOpacity>
+                <View className="gap-2">
+                  <Text className="text-sm font-medium text-gray-700 font-[Lufga-Medium]">
+                    First Name
+                  </Text>
+                  <TextInput
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-[Lufga-Regular]"
+                    value={firstName}
+                    onChangeText={setFirstName}
+                    placeholder="Enter first name"
+                    placeholderTextColor="#9CA3AF"
+                    editable={!isSaving}
+                  />
+                </View>
+
+                <View className="gap-2">
+                  <Text className="text-sm font-medium text-gray-700 font-[Lufga-Medium]">
+                    Last Name
+                  </Text>
+                  <TextInput
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-[Lufga-Regular]"
+                    value={lastName}
+                    onChangeText={setLastName}
+                    placeholder="Enter last name"
+                    placeholderTextColor="#9CA3AF"
+                    editable={!isSaving}
+                  />
+                </View>
+
+                <View className="flex-row gap-3 mt-2">
+                  <TouchableOpacity
+                    className="flex-1 bg-gray-100 rounded-xl py-3.5 items-center"
+                    onPress={onClose}
+                    disabled={isSaving}
+                  >
+                    <Text className="text-base font-semibold text-gray-700 font-[Lufga-SemiBold]">
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="flex-1 bg-blue-500 rounded-xl py-3.5 items-center"
+                    onPress={handleSave}
+                    disabled={isSaving}
+                  >
+                    <Text className="text-base font-semibold text-white font-[Lufga-SemiBold]">
+                      {isSaving ? "Saving..." : "Save"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
             </View>
-            </ScrollView>
-          </View>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

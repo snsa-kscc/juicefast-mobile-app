@@ -21,7 +21,13 @@ export default function Scale() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <Path d="M14.4995 15.0001L15.75 12.499" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <Path
+        d="M14.4995 15.0001L15.75 12.499"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </Svg>
   );
 }

@@ -17,20 +17,24 @@ export const WELLNESS_CATEGORIES: WellnessCategory[] = [
 ];
 
 // Comprehensive subcategory data structure
-const SUBCATEGORY_DATA: Record<string, {
-  id: string;
-  name: string;
-  category: string;
-  description: string;
-  image: any;
-  sortIndex: number;
-}> = {
+const SUBCATEGORY_DATA: Record<
+  string,
+  {
+    id: string;
+    name: string;
+    category: string;
+    description: string;
+    image: any;
+    sortIndex: number;
+  }
+> = {
   // Mind category
   "better sleep": {
     id: "better-sleep",
     name: "Better Sleep",
     category: "mind",
-    description: "Catch the z's you need to with the help of these sleep tracks. Play them in the background, focus on the sound, and slip into a slumber.",
+    description:
+      "Catch the z's you need to with the help of these sleep tracks. Play them in the background, focus on the sound, and slip into a slumber.",
     image: require("@/assets/images/jf-club/better-sleep.jpg"),
     sortIndex: 0,
   },
@@ -38,7 +42,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "breathing-techniques",
     name: "Breathing Techniques",
     category: "mind",
-    description: "Learn various breathing techniques to calm your mind, reduce stress, and improve your overall well-being through mindful breathing practices.",
+    description:
+      "Learn various breathing techniques to calm your mind, reduce stress, and improve your overall well-being through mindful breathing practices.",
     image: require("@/assets/images/jf-club/breathing.jpg"),
     sortIndex: 1,
   },
@@ -46,7 +51,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "guided-meditations",
     name: "Guided Meditations",
     category: "mind",
-    description: "Through these meditations, you can achieve a mental, physical and emotional balance and reset. Find your inner peace with our guided meditation tracks.",
+    description:
+      "Through these meditations, you can achieve a mental, physical and emotional balance and reset. Find your inner peace with our guided meditation tracks.",
     image: require("@/assets/images/jf-club/guided-meditation.jpg"),
     sortIndex: 2,
   },
@@ -54,7 +60,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "guided-affirmations",
     name: "Guided Affirmations",
     category: "mind",
-    description: "Transform your mindset with positive affirmations that help build confidence, reduce anxiety, and cultivate a more positive outlook on life.",
+    description:
+      "Transform your mindset with positive affirmations that help build confidence, reduce anxiety, and cultivate a more positive outlook on life.",
     image: require("@/assets/images/jf-club/affirmations.jpg"),
     sortIndex: 3,
   },
@@ -62,7 +69,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "binaural-beats",
     name: "Binaural Beats",
     category: "mind",
-    description: "These specially designed audio tracks use different frequencies in each ear to help you focus, relax, or sleep. For best results, listen with headphones.",
+    description:
+      "These specially designed audio tracks use different frequencies in each ear to help you focus, relax, or sleep. For best results, listen with headphones.",
     image: require("@/assets/images/jf-club/binaural.jpg"),
     sortIndex: 4,
   },
@@ -70,7 +78,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "relaxation-music",
     name: "Relaxation Music",
     category: "mind",
-    description: "Here you'll find relaxing music that can help lower your heart rate, reduce stress and induce calmness. Take 20 minutes to relax and focus inwards.",
+    description:
+      "Here you'll find relaxing music that can help lower your heart rate, reduce stress and induce calmness. Take 20 minutes to relax and focus inwards.",
     image: require("@/assets/images/jf-club/relaxation.jpg"),
     sortIndex: 5,
   },
@@ -78,7 +87,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "sounds-of-nature",
     name: "Sounds of Nature",
     category: "mind",
-    description: "Immerse yourself in the calming sounds of nature. From ocean waves to forest rain, these tracks help you connect with natural environments.",
+    description:
+      "Immerse yourself in the calming sounds of nature. From ocean waves to forest rain, these tracks help you connect with natural environments.",
     image: require("@/assets/images/jf-club/nature-sounds.jpg"),
     sortIndex: 6,
   },
@@ -88,7 +98,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "pilates",
     name: "Pilates",
     category: "workouts",
-    description: "Strengthen your core, improve flexibility, and build lean muscle with our guided Pilates workouts suitable for all fitness levels.",
+    description:
+      "Strengthen your core, improve flexibility, and build lean muscle with our guided Pilates workouts suitable for all fitness levels.",
     image: require("@/assets/images/jf-club/pilates.jpg"),
     sortIndex: 0,
   },
@@ -96,7 +107,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "yoga",
     name: "Yoga",
     category: "workouts",
-    description: "Find balance, flexibility, and inner peace through our yoga practices. From beginner flows to advanced poses, there's something for everyone.",
+    description:
+      "Find balance, flexibility, and inner peace through our yoga practices. From beginner flows to advanced poses, there's something for everyone.",
     image: require("@/assets/images/jf-club/yoga.jpg"),
     sortIndex: 1,
   },
@@ -104,7 +116,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "mobility-stretching",
     name: "Mobility & Stretching",
     category: "workouts",
-    description: "Improve your range of motion, prevent injury, and feel more flexible with our targeted mobility and stretching routines.",
+    description:
+      "Improve your range of motion, prevent injury, and feel more flexible with our targeted mobility and stretching routines.",
     image: require("@/assets/images/jf-club/mobility-stretching.jpg"),
     sortIndex: 2,
   },
@@ -112,7 +125,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "cardio-fat-burn",
     name: "Cardio and Fat Burn",
     category: "workouts",
-    description: "Get your heart pumping and burn calories with our effective cardio workouts designed to boost your metabolism and improve endurance.",
+    description:
+      "Get your heart pumping and burn calories with our effective cardio workouts designed to boost your metabolism and improve endurance.",
     image: require("@/assets/images/jf-club/cardio-fat-burn.jpg"),
     sortIndex: 3,
   },
@@ -120,7 +134,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "weight-loss-fitness",
     name: "Weight Loss Fitness",
     category: "workouts",
-    description: "Achieve your weight loss goals with our targeted fitness programs that combine strength training and cardio for maximum results.",
+    description:
+      "Achieve your weight loss goals with our targeted fitness programs that combine strength training and cardio for maximum results.",
     image: require("@/assets/images/jf-club/weight-loss-fitness.jpg"),
     sortIndex: 4,
   },
@@ -128,7 +143,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "fitness",
     name: "Fitness",
     category: "workouts",
-    description: "General fitness workouts to improve your overall health, strength, and endurance with a variety of exercise styles and intensities.",
+    description:
+      "General fitness workouts to improve your overall health, strength, and endurance with a variety of exercise styles and intensities.",
     image: require("@/assets/images/jf-club/workouts.jpg"),
     sortIndex: 5,
   },
@@ -138,7 +154,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "postpartum-nutrition",
     name: "Postpartum Nutrition",
     category: "nutrition",
-    description: "Nourish your body during the postpartum period with nutrient-dense recipes and nutritional guidance designed to support recovery and lactation.",
+    description:
+      "Nourish your body during the postpartum period with nutrient-dense recipes and nutritional guidance designed to support recovery and lactation.",
     image: require("@/assets/images/jf-club/postpartum-nutrition.jpg"),
     sortIndex: 0,
   },
@@ -146,7 +163,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "smoothies",
     name: "Smoothies",
     category: "nutrition",
-    description: "Delicious and nutritious smoothie recipes packed with vitamins, minerals, and antioxidants to support your health and wellness goals.",
+    description:
+      "Delicious and nutritious smoothie recipes packed with vitamins, minerals, and antioxidants to support your health and wellness goals.",
     image: require("@/assets/images/jf-club/smoothies.jpg"),
     sortIndex: 1,
   },
@@ -154,7 +172,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "snacks",
     name: "Snacks",
     category: "nutrition",
-    description: "Healthy and satisfying snack options that keep you energized throughout the day without compromising your nutrition goals.",
+    description:
+      "Healthy and satisfying snack options that keep you energized throughout the day without compromising your nutrition goals.",
     image: require("@/assets/images/jf-club/snacks.jpg"),
     sortIndex: 2,
   },
@@ -162,7 +181,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "bowls",
     name: "Bowls",
     category: "nutrition",
-    description: "Nutritious and colorful bowl recipes that combine wholesome ingredients for balanced meals that are as beautiful as they are delicious.",
+    description:
+      "Nutritious and colorful bowl recipes that combine wholesome ingredients for balanced meals that are as beautiful as they are delicious.",
     image: require("@/assets/images/jf-club/bowls.jpg"),
     sortIndex: 3,
   },
@@ -170,7 +190,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "oven-baked",
     name: "Oven Baked",
     category: "nutrition",
-    description: "Healthy oven-baked recipes that bring out the best flavors in whole foods while maintaining their nutritional value.",
+    description:
+      "Healthy oven-baked recipes that bring out the best flavors in whole foods while maintaining their nutritional value.",
     image: require("@/assets/images/jf-club/oven-baked.jpg"),
     sortIndex: 4,
   },
@@ -178,7 +199,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "mocktails",
     name: "Mocktails",
     category: "nutrition",
-    description: "Refreshing non-alcoholic beverages packed with nutrients and natural flavors to hydrate and delight your senses.",
+    description:
+      "Refreshing non-alcoholic beverages packed with nutrients and natural flavors to hydrate and delight your senses.",
     image: require("@/assets/images/jf-club/mocktails.jpg"),
     sortIndex: 5,
   },
@@ -186,7 +208,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "recipes",
     name: "Recipes",
     category: "nutrition",
-    description: "A collection of healthy, delicious recipes designed to support your wellness journey with balanced nutrition and amazing flavors.",
+    description:
+      "A collection of healthy, delicious recipes designed to support your wellness journey with balanced nutrition and amazing flavors.",
     image: require("@/assets/images/jf-club/recipes.jpg"),
     sortIndex: 6,
   },
@@ -194,7 +217,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "apple-cider",
     name: "Apple Cider",
     category: "nutrition",
-    description: "Discover the health benefits and creative uses of apple cider in various wellness recipes and remedies.",
+    description:
+      "Discover the health benefits and creative uses of apple cider in various wellness recipes and remedies.",
     image: require("@/assets/images/jf-club/apple-cider.jpg"),
     sortIndex: 7,
   },
@@ -204,7 +228,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "face-yoga-mini-class",
     name: "Face Yoga Mini Class",
     category: "beauty",
-    description: "Learn facial exercises and techniques to tone your facial muscles, improve circulation, and achieve a natural, youthful glow.",
+    description:
+      "Learn facial exercises and techniques to tone your facial muscles, improve circulation, and achieve a natural, youthful glow.",
     image: require("@/assets/images/jf-club/face-yoga.jpg"),
     sortIndex: 0,
   },
@@ -212,7 +237,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "diy-hair-masks",
     name: "DIY Hair Masks",
     category: "beauty",
-    description: "Natural hair mask recipes using simple ingredients to nourish, strengthen, and revitalize your hair at home.",
+    description:
+      "Natural hair mask recipes using simple ingredients to nourish, strengthen, and revitalize your hair at home.",
     image: require("@/assets/images/jf-club/hair-masks.jpg"),
     sortIndex: 1,
   },
@@ -220,7 +246,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "diy-face-masks",
     name: "DIY Face Masks",
     category: "beauty",
-    description: "Create your own natural face masks with ingredients from your kitchen to address various skin concerns and achieve a radiant complexion.",
+    description:
+      "Create your own natural face masks with ingredients from your kitchen to address various skin concerns and achieve a radiant complexion.",
     image: require("@/assets/images/jf-club/face-masks.jpg"),
     sortIndex: 2,
   },
@@ -228,7 +255,8 @@ const SUBCATEGORY_DATA: Record<string, {
     id: "diy-bath-bombs",
     name: "DIY Bath Bombs",
     category: "beauty",
-    description: "Learn to make luxurious bath bombs with natural ingredients that transform your bath time into a spa-like experience.",
+    description:
+      "Learn to make luxurious bath bombs with natural ingredients that transform your bath time into a spa-like experience.",
     image: require("@/assets/images/jf-club/bath-bombs.jpg"),
     sortIndex: 3,
   },
@@ -285,11 +313,12 @@ export const getItemsBySubcategory = (
   return CLUB_DATA.filter((item) => item.subcategory === subcategory);
 };
 
-
 // Get subcategory data with counts (legacy function for backward compatibility)
 export const getSubcategoryData = (category: string): SubcategorySummary[] => {
   const items = getItemsByCategory(category);
-  const uniqueSubcategories = [...new Set(items.map((item) => item.subcategory))];
+  const uniqueSubcategories = [
+    ...new Set(items.map((item) => item.subcategory)),
+  ];
 
   const subcategoryData = uniqueSubcategories.map((subcategory) => {
     const subcategoryItems = getItemsBySubcategory(subcategory);
@@ -297,7 +326,9 @@ export const getSubcategoryData = (category: string): SubcategorySummary[] => {
 
     return {
       id: subcategoryInfo?.id || subcategory.toLowerCase().replace(/\s+/g, "-"),
-      name: subcategoryInfo?.name || subcategory.charAt(0).toUpperCase() + subcategory.slice(1),
+      name:
+        subcategoryInfo?.name ||
+        subcategory.charAt(0).toUpperCase() + subcategory.slice(1),
       count: subcategoryItems.length,
       countLabel: subcategoryItems.length === 1 ? "track" : "tracks",
       imageUrl: subcategoryItems[0]?.imageUrl,
@@ -338,15 +369,17 @@ export const getSubcategoryDetail = (
     title:
       normalizedSubcategory.charAt(0).toUpperCase() +
       normalizedSubcategory.slice(1),
-    subtitle: `${items.length} ${items.length === 1 ? 'item' : 'items'}`,
+    subtitle: `${items.length} ${items.length === 1 ? "item" : "items"}`,
     description: "Wellness content to support your journey.",
   };
 
-  const finalInfo = subcategoryInfo ? {
-    title: subcategoryInfo.name,
-    subtitle: `${items.length} ${items.length === 1 ? 'item' : 'items'}`,
-    description: subcategoryInfo.description,
-  } : defaultInfo;
+  const finalInfo = subcategoryInfo
+    ? {
+        title: subcategoryInfo.name,
+        subtitle: `${items.length} ${items.length === 1 ? "item" : "items"}`,
+        description: subcategoryInfo.description,
+      }
+    : defaultInfo;
 
   return {
     ...finalInfo,
@@ -377,20 +410,35 @@ export const getTrendingContent = (): ProcessedClubItem[] => {
 export const getDailyContent = (): ProcessedClubItem[] => {
   // Return a diverse selection of items from ALL subcategories for daily recommendations
   // Get items from each subcategory to ensure maximum diversity
-  const guidedMeditations = getItemsBySubcategory("guided meditations").slice(0, 2);
+  const guidedMeditations = getItemsBySubcategory("guided meditations").slice(
+    0,
+    2
+  );
   const betterSleep = getItemsBySubcategory("better sleep").slice(0, 2);
   const binauralBeats = getItemsBySubcategory("binaural beats").slice(0, 2);
-  const breathingTechniques = getItemsBySubcategory("breathing techniques").slice(0, 2);
-  const cardioFatBurn = getItemsBySubcategory("cardio and fat burn").slice(0, 2);
+  const breathingTechniques = getItemsBySubcategory(
+    "breathing techniques"
+  ).slice(0, 2);
+  const cardioFatBurn = getItemsBySubcategory("cardio and fat burn").slice(
+    0,
+    2
+  );
   const diyBathBombs = getItemsBySubcategory("diy bath bombs").slice(0, 2);
   const diyFaceMasks = getItemsBySubcategory("diy face masks").slice(0, 2);
   const diyHairMasks = getItemsBySubcategory("diy hair masks").slice(0, 2);
   const faceYoga = getItemsBySubcategory("face yoga mini class").slice(0, 2);
   const fitness = getItemsBySubcategory("fitness").slice(0, 2);
-  const guidedAffirmations = getItemsBySubcategory("guided affirmations").slice(0, 2);
-  const mobilityStretching = getItemsBySubcategory("mobility & stretching").slice(0, 2);
+  const guidedAffirmations = getItemsBySubcategory("guided affirmations").slice(
+    0,
+    2
+  );
+  const mobilityStretching = getItemsBySubcategory(
+    "mobility & stretching"
+  ).slice(0, 2);
   const pilates = getItemsBySubcategory("pilates").slice(0, 2);
-  const postpartumNutrition = getItemsBySubcategory("postpartum nutrition").slice(0, 2);
+  const postpartumNutrition = getItemsBySubcategory(
+    "postpartum nutrition"
+  ).slice(0, 2);
   const relaxationMusic = getItemsBySubcategory("relaxation music").slice(0, 2);
   const snacks = getItemsBySubcategory("snacks").slice(0, 2);
   const soundsOfNature = getItemsBySubcategory("sounds of nature").slice(0, 2);
@@ -421,20 +469,20 @@ export const getDailyContent = (): ProcessedClubItem[] => {
 // Format subcategory title with proper capitalization and symbols
 export const formatSubcategoryTitle = (title: string): string => {
   return title
-    .split(' ')
-    .map(word => {
+    .split(" ")
+    .map((word) => {
       // Make DIY completely uppercase
-      if (word.toLowerCase() === 'diy') {
-        return 'DIY';
+      if (word.toLowerCase() === "diy") {
+        return "DIY";
       }
       // Replace "and" with "&"
-      if (word.toLowerCase() === 'and') {
-        return '&';
+      if (word.toLowerCase() === "and") {
+        return "&";
       }
       // Capitalize first letter of each word
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     })
-    .join(' ');
+    .join(" ");
 };
 
 // Get subcategory image from unified data structure
@@ -455,7 +503,7 @@ export const getSubcategoryInfo = (subcategory: string) => {
 // Get all subcategories for a category, ordered by defined sort order
 export const getOrderedSubcategoriesForCategory = (category: string) => {
   const allSubcategories = Object.values(SUBCATEGORY_DATA)
-    .filter(subcategory => subcategory.category === category)
+    .filter((subcategory) => subcategory.category === category)
     .sort((a, b) => a.sortIndex - b.sortIndex);
 
   return allSubcategories;

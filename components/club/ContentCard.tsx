@@ -47,18 +47,22 @@ export function ContentCard({
       </View>
 
       <View className="mt-2">
-        <Text className="text-sm font-lufga-semibold text-gray-900 leading-[18px]" numberOfLines={2}>
+        <Text
+          className="text-sm font-lufga-semibold text-gray-900 leading-[18px]"
+          numberOfLines={2}
+        >
           {item.title}
         </Text>
 
         {item.duration && (
           <View className="flex-row items-center mt-1">
             <Ionicons name="time-outline" size={12} color="#F59E0B" />
-            <Text className="text-xs font-lufga-regular text-amber-500 ml-1">{item.duration}</Text>
+            <Text className="text-xs font-lufga text-amber-500 ml-1">
+              {item.duration}
+            </Text>
           </View>
         )}
       </View>
     </TouchableOpacity>
   );
 }
-

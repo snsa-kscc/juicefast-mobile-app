@@ -88,7 +88,9 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
               className="items-center justify-center w-12 h-12 rounded-full mr-3 bg-white"
               style={{
                 borderWidth: isSameDate(selectedDate, date) ? 2 : 1,
-                borderColor: isSameDate(selectedDate, date) ? "#E8D5B0" : "#E5E7EB",
+                borderColor: isSameDate(selectedDate, date)
+                  ? "#E8D5B0"
+                  : "#E5E7EB",
                 shadowColor: "#000",
                 shadowOffset: { width: 0, height: 1 },
                 shadowOpacity: 0.05,

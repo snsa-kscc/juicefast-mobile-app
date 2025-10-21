@@ -17,7 +17,11 @@ interface SleepTimePickerProps {
 
 const ITEM_HEIGHT = 40;
 
-export function SleepTimePicker({ hours, minutes, onChange }: SleepTimePickerProps) {
+export function SleepTimePicker({
+  hours,
+  minutes,
+  onChange,
+}: SleepTimePickerProps) {
   const [selectedHours, setSelectedHours] = useState(hours);
   const [selectedMinutes, setSelectedMinutes] = useState(minutes);
   const hourScrollRef = useRef<ScrollView>(null);
@@ -28,8 +32,14 @@ export function SleepTimePicker({ hours, minutes, onChange }: SleepTimePickerPro
 
   useEffect(() => {
     setTimeout(() => {
-      hourScrollRef.current?.scrollTo({ y: hours * ITEM_HEIGHT, animated: false });
-      minuteScrollRef.current?.scrollTo({ y: minutes * ITEM_HEIGHT, animated: false });
+      hourScrollRef.current?.scrollTo({
+        y: hours * ITEM_HEIGHT,
+        animated: false,
+      });
+      minuteScrollRef.current?.scrollTo({
+        y: minutes * ITEM_HEIGHT,
+        animated: false,
+      });
     }, 100);
   }, []);
 
@@ -43,7 +53,9 @@ export function SleepTimePicker({ hours, minutes, onChange }: SleepTimePickerPro
     }
   };
 
-  const handleMinuteScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const handleMinuteScroll = (
+    event: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     const index = Math.round(offsetY / ITEM_HEIGHT);
     const newMinutes = minuteOptions[index];

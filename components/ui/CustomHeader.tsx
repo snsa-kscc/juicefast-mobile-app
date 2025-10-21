@@ -30,20 +30,25 @@ export function WellnessHeader({
   showSettings = true,
 }: WellnessHeaderProps) {
   return (
-    <View className="relative overflow-hidden" style={{ backgroundColor: backgroundColor || 'transparent' }}>
+    <View
+      className="relative overflow-hidden"
+      style={{ backgroundColor: backgroundColor || "transparent" }}
+    >
       {/* Background Image */}
       {backgroundImage && (
         <Image
-          source={typeof backgroundImage === 'string' ? { uri: backgroundImage } : backgroundImage}
+          source={
+            typeof backgroundImage === "string"
+              ? { uri: backgroundImage }
+              : backgroundImage
+          }
           className="absolute inset-0 w-full h-full"
-          style={{ resizeMode: 'cover' }}
+          style={{ resizeMode: "cover" }}
         />
       )}
 
       {/* Overlay for better text visibility */}
-      {backgroundImage && (
-        <View className="absolute inset-0 bg-black/30" />
-      )}
+      {backgroundImage && <View className="absolute inset-0 bg-black/30" />}
 
       <View className="px-6 z-10" style={{ paddingTop: 32, paddingBottom: 24 }}>
         {showBackButton ? (
@@ -63,7 +68,10 @@ export function WellnessHeader({
                   className="w-10 h-10 rounded-full bg-transparent justify-center items-center"
                   onPress={onSettingsPress}
                 >
-                  <Settings size={24} color={backgroundImage ? "white" : "#1A1A1A"} />
+                  <Settings
+                    size={24}
+                    color={backgroundImage ? "white" : "#1A1A1A"}
+                  />
                 </TouchableOpacity>
               )}
             </View>
@@ -71,18 +79,38 @@ export function WellnessHeader({
             {/* Second row: Title and Subtitle */}
             <View className="mb-4">
               {title && (
-                <Text className="text-xl font-lufga-medium mb-2" style={{ color: backgroundImage ? 'white' : '#111827' }}>
+                <Text
+                  className="text-xl font-lufga-medium mb-2"
+                  style={{ color: backgroundImage ? "white" : "#111827" }}
+                >
                   {title}
                 </Text>
               )}
               {subtitle && (
-                <Text className="text-sm font-lufga-regular leading-5 mb-2" style={{ color: backgroundImage ? 'rgba(255,255,255,0.9)' : '#374151' }}>
+                <Text
+                  className="text-sm font-lufga leading-5 mb-2"
+                  style={{
+                    color: backgroundImage
+                      ? "rgba(255,255,255,0.9)"
+                      : "#374151",
+                  }}
+                >
                   {subtitle}
                 </Text>
               )}
               {itemCount !== undefined && itemCount !== null && (
-                <Text className="text-xs font-lufga-medium" style={{ color: backgroundImage ? 'rgba(255,255,255,0.8)' : '#6B7280' }}>
-                  {itemCount} {itemCount === 1 ? (itemCountLabel || 'item') : (itemCountLabel || 'items')}
+                <Text
+                  className="text-xs font-lufga-medium"
+                  style={{
+                    color: backgroundImage
+                      ? "rgba(255,255,255,0.8)"
+                      : "#6B7280",
+                  }}
+                >
+                  {itemCount}{" "}
+                  {itemCount === 1
+                    ? itemCountLabel || "item"
+                    : itemCountLabel || "items"}
                 </Text>
               )}
             </View>
@@ -92,18 +120,38 @@ export function WellnessHeader({
           <View className="flex-row justify-between items-center mb-4">
             <View className="flex-1 mr-4">
               {title && (
-                <Text className="text-xl font-lufga-medium mb-2" style={{ color: backgroundImage ? 'white' : '#111827' }}>
+                <Text
+                  className="text-xl font-lufga-medium mb-2"
+                  style={{ color: backgroundImage ? "white" : "#111827" }}
+                >
                   {title}
                 </Text>
               )}
               {subtitle && (
-                <Text className="text-sm font-lufga-regular leading-5 mb-2" style={{ color: backgroundImage ? 'rgba(255,255,255,0.9)' : '#374151' }}>
+                <Text
+                  className="text-sm font-lufga leading-5 mb-2"
+                  style={{
+                    color: backgroundImage
+                      ? "rgba(255,255,255,0.9)"
+                      : "#374151",
+                  }}
+                >
                   {subtitle}
                 </Text>
               )}
               {itemCount !== undefined && itemCount !== null && (
-                <Text className="text-xs font-lufga-medium" style={{ color: backgroundImage ? 'rgba(255,255,255,0.8)' : '#6B7280' }}>
-                  {itemCount} {itemCount === 1 ? (itemCountLabel || 'item') : (itemCountLabel || 'items')}
+                <Text
+                  className="text-xs font-lufga-medium"
+                  style={{
+                    color: backgroundImage
+                      ? "rgba(255,255,255,0.8)"
+                      : "#6B7280",
+                  }}
+                >
+                  {itemCount}{" "}
+                  {itemCount === 1
+                    ? itemCountLabel || "item"
+                    : itemCountLabel || "items"}
                 </Text>
               )}
             </View>
@@ -112,7 +160,10 @@ export function WellnessHeader({
                 className="w-10 h-10 rounded-full bg-transparent justify-center items-center"
                 onPress={onSettingsPress}
               >
-                <Settings size={24} color={backgroundImage ? "white" : "#1A1A1A"} />
+                <Settings
+                  size={24}
+                  color={backgroundImage ? "white" : "#1A1A1A"}
+                />
               </TouchableOpacity>
             )}
           </View>

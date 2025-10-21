@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Modal,
-  View,
-  Text,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { Modal, View, Text, TouchableOpacity, Dimensions } from "react-native";
 import { X } from "lucide-react-native";
 
 interface ActivityLevelPopupProps {

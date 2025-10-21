@@ -62,7 +62,7 @@ export default function ClubContentDetail() {
           <Text className="text-2xl font-lufga-bold text-gray-900 mb-4">
             Content Not Found
           </Text>
-          <Text className="text-base font-lufga-regular text-gray-500 text-center mb-6">
+          <Text className="text-base font-lufga text-gray-500 text-center mb-6">
             The wellness content you&apos;re looking for doesn&apos;t exist.
           </Text>
         </View>
@@ -325,19 +325,19 @@ export default function ClubContentDetail() {
           <View className="flex-row justify-between">
             <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="bookmark-outline" size={16} color="#374151" />
-              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">
+              <Text className="text-gray-700 text-sm font-lufga ml-1">
                 Save
               </Text>
             </TouchableOpacity>
             <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="share-outline" size={16} color="#374151" />
-              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">
+              <Text className="text-gray-700 text-sm font-lufga ml-1">
                 Share
               </Text>
             </TouchableOpacity>
             <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="heart-outline" size={16} color="#374151" />
-              <Text className="text-gray-700 text-sm font-lufga-regular ml-1">
+              <Text className="text-gray-700 text-sm font-lufga ml-1">
                 Like
               </Text>
             </TouchableOpacity>
@@ -349,7 +349,7 @@ export default function ClubContentDetail() {
           <Text className="text-lg font-lufga-bold text-gray-900 mb-2">
             About
           </Text>
-          <Text className="text-base font-lufga-regular text-gray-500 leading-6">
+          <Text className="text-base font-lufga text-gray-500 leading-6">
             {getDescriptionForType(item.type)}
           </Text>
         </View>

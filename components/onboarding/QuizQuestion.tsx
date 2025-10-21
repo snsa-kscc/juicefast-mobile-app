@@ -197,9 +197,7 @@ export function QuizQuestion({
                       }`}
                     >
                       {isSelected && (
-                        <Text className="text-white text-xs font-bold">
-                          ✓
-                        </Text>
+                        <Text className="text-white text-xs font-bold">✓</Text>
                       )}
                     </View>
                     <Text
@@ -235,7 +233,9 @@ export function QuizQuestion({
                         {typeof answer === "number"
                           ? answer
                           : question.min || 0}{" "}
-                        <Text className="text-lg font-lufga">{question.unit}</Text>
+                        <Text className="text-lg font-lufga">
+                          {question.unit}
+                        </Text>
                       </Text>
                     </View>
                     <Slider
@@ -284,7 +284,11 @@ export function QuizQuestion({
             </TouchableOpacity>
 
             {/* Skip link */}
-            <TouchableOpacity onPress={handleSkip} className="mt-4" disabled={isSkipping}>
+            <TouchableOpacity
+              onPress={handleSkip}
+              className="mt-4"
+              disabled={isSkipping}
+            >
               <Text className="text-sm font-medium underline text-black font-lufga">
                 {isSkipping ? "Skipping..." : "Skip onboarding"}
               </Text>

@@ -1,18 +1,19 @@
 import * as ImagePicker from "expo-image-picker";
-import { Camera, Image, Coffee, Sandwich, UtensilsCrossed, Cookie } from "lucide-react-native";
+import {
+  Camera,
+  Image,
+  Coffee,
+  Sandwich,
+  UtensilsCrossed,
+  Cookie,
+} from "lucide-react-native";
 import React, {
   useOptimistic,
   useState,
   startTransition,
   useMemo,
 } from "react";
-import {
-  Alert,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
 import { useAuth } from "@clerk/clerk-expo";
@@ -444,7 +445,9 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
 
                 <View className="space-y-4">
                   <View>
-                    <Text className="font-lufga text-sm text-gray-500 mb-1">Meal Name</Text>
+                    <Text className="font-lufga text-sm text-gray-500 mb-1">
+                      Meal Name
+                    </Text>
                     <TextInput
                       className="border border-gray-300 rounded-md p-3 bg-white"
                       value={formData.name}
@@ -457,7 +460,9 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
 
                   <View className="flex-row gap-4">
                     <View className="flex-1">
-                      <Text className="font-lufga text-sm text-gray-500 mb-1">Calories</Text>
+                      <Text className="font-lufga text-sm text-gray-500 mb-1">
+                        Calories
+                      </Text>
                       <TextInput
                         className="border border-gray-300 rounded-md p-3 bg-white"
                         value={formData.calories}
@@ -502,7 +507,9 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                     </View>
 
                     <View className="flex-1">
-                      <Text className="font-lufga text-sm text-gray-500 mb-1">Fat (g)</Text>
+                      <Text className="font-lufga text-sm text-gray-500 mb-1">
+                        Fat (g)
+                      </Text>
                       <TextInput
                         className="border border-gray-300 rounded-md p-3 bg-white"
                         value={formData.fat}
@@ -546,7 +553,9 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
         )}
 
         <View className="px-6 mb-6">
-          <Text className="font-lufga-semibold text-2xl mb-4">Today's Meals</Text>
+          <Text className="font-lufga-semibold text-2xl mb-4">
+            Today's Meals
+          </Text>
 
           <View className="flex-row mb-4">
             {(["breakfast", "snack", "lunch", "dinner"] as const).map(
@@ -640,7 +649,9 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
         </View>
 
         <View className="px-6 mb-16">
-          <Text className="font-lufga-semibold text-2xl mb-4">Daily nutrition totals</Text>
+          <Text className="font-lufga-semibold text-2xl mb-4">
+            Daily nutrition totals
+          </Text>
 
           <View className="flex-row gap-4">
             <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">

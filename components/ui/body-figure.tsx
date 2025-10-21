@@ -24,10 +24,34 @@ export default function BodyFigure() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <Path d="M24.0037 10.6233H27.7552" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <Path d="M25.8794 12.4991L24.0037 10.6233L25.8794 8.74756" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <Path d="M6.49644 10.6233H2.74487" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <Path d="M4.62061 8.74756L6.49639 10.6233L4.62061 12.4991" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <Path
+        d="M24.0037 10.6233H27.7552"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M25.8794 12.4991L24.0037 10.6233L25.8794 8.74756"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M6.49644 10.6233H2.74487"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M4.62061 8.74756L6.49639 10.6233L4.62061 12.4991"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
       <Path
         d="M22.198 2.49512L21.4477 4.56848C20.1547 8.12381 20.3808 12.0544 22.0729 15.438V15.438C23.9132 19.1198 24.0109 23.4316 22.3393 27.1929L22.2017 27.5043"
         stroke="#0C0C0D"
@@ -42,7 +66,13 @@ export default function BodyFigure() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <Path d="M9.63647 6.66286H20.8637" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <Path
+        d="M9.63647 6.66286H20.8637"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </Svg>
   );
 }

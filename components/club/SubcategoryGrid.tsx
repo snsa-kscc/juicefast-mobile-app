@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import {
   getOrderedSubcategoriesForCategory,
   getItemsBySubcategory,
-  formatSubcategoryTitle
+  formatSubcategoryTitle,
 } from "@/utils/clubData";
 
 interface SubcategoryGridProps {
@@ -11,7 +11,10 @@ interface SubcategoryGridProps {
   onSubcategoryClick: (subcategoryId: string) => void;
 }
 
-export function SubcategoryGrid({ category, onSubcategoryClick }: SubcategoryGridProps) {
+export function SubcategoryGrid({
+  category,
+  onSubcategoryClick,
+}: SubcategoryGridProps) {
   const subcategories = getOrderedSubcategoriesForCategory(category);
   return (
     <View className="flex-row flex-wrap justify-between mb-8">
@@ -28,8 +31,7 @@ export function SubcategoryGrid({ category, onSubcategoryClick }: SubcategoryGri
         const isFullWidth =
           (index + 1) % 5 === 0 ||
           // Or if it's the last item and the current group has odd number of items
-          (index === subcategories.length - 1 &&
-            groupPosition % 2 === 1);
+          (index === subcategories.length - 1 && groupPosition % 2 === 1);
 
         // Get item count for this subcategory
         const items = getItemsBySubcategory(subcategory.name.toLowerCase());
@@ -56,8 +58,8 @@ export function SubcategoryGrid({ category, onSubcategoryClick }: SubcategoryGri
                     {subcategory.name}
                   </Text>
                   {count > 0 && (
-                    <Text className="text-black/80 text-sm font-lufga-regular">
-                      {count} {count === 1 ? 'item' : 'items'}
+                    <Text className="text-black/80 text-sm font-lufga">
+                      {count} {count === 1 ? "item" : "items"}
                     </Text>
                   )}
                 </View>
@@ -70,8 +72,8 @@ export function SubcategoryGrid({ category, onSubcategoryClick }: SubcategoryGri
                   {subcategory.name}
                 </Text>
                 {count > 0 && (
-                  <Text className="text-xs font-lufga-regular text-gray-500 mt-0.5">
-                    {count} {count === 1 ? 'item' : 'items'}
+                  <Text className="text-xs font-lufga text-gray-500 mt-0.5">
+                    {count} {count === 1 ? "item" : "items"}
                   </Text>
                 )}
               </View>

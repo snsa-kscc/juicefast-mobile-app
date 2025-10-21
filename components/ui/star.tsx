@@ -12,14 +12,62 @@ export default function Star() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <Path d="M27.125 15H25.75" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <Path d="M4.75 15H3.375" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <Path d="M23.825 6.4248L22.5125 7.7373" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <Path d="M6.69995 23.6126L8.02495 22.2876" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <Path d="M6.67505 6.4502L7.98755 7.7752" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <Path d="M23.8626 23.5752L22.5376 22.2627" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <Path d="M15.25 25.5498V26.8748" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <Path d="M15.25 3.125V4.45" stroke="#0C0C0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <Path
+        d="M27.125 15H25.75"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M4.75 15H3.375"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M23.825 6.4248L22.5125 7.7373"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M6.69995 23.6126L8.02495 22.2876"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M6.67505 6.4502L7.98755 7.7752"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M23.8626 23.5752L22.5376 22.2627"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M15.25 25.5498V26.8748"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M15.25 3.125V4.45"
+        stroke="#0C0C0D"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </Svg>
   );
 }
