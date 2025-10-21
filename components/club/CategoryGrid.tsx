@@ -19,7 +19,7 @@ export function CategoryGrid({ categories, onCategoryPress }: CategoryGridProps)
       horizontal={true}
       showsHorizontalScrollIndicator={false}
       className="flex-1 mb-6"
-      contentContainerStyle={{ paddingHorizontal: 16, gap: 16 }}
+      contentContainerStyle={{ paddingLeft: 16, paddingRight: 16, gap: 16 }}
     >
       {categories.map((category) => (
         <TouchableOpacity
@@ -27,8 +27,8 @@ export function CategoryGrid({ categories, onCategoryPress }: CategoryGridProps)
           onPress={() => onCategoryPress(category.categoryId)}
           className="rounded-2xl overflow-hidden"
           style={{
-            width: 160,
-            height: 160,
+            width: 120,
+            height: 120,
           }}
         >
           <View className="relative">
