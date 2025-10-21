@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   ImageBackground,
   ScrollView,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -104,8 +105,9 @@ export function PremiumSubscriptionDrawer({
 
       <Modal
         visible={isVisible}
+        transparent={Platform.OS === "android"}
         animationType="slide"
-        presentationStyle="pageSheet"
+        presentationStyle={Platform.OS === "ios" ? "pageSheet" : undefined}
         onRequestClose={closeDrawer}
       >
         <SafeAreaView className="flex-1 bg-white">

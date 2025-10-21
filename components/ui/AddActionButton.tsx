@@ -1,7 +1,7 @@
 import { usePathname, useRouter } from "expo-router";
 import { Plus, X } from "lucide-react-native";
 import React, { useEffect } from "react";
-import { Dimensions, Modal, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Modal, Platform, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -141,8 +141,9 @@ export function AddActionButton() {
       {/* Modal */}
       <Modal
         visible={isOpen}
-        transparent
+        transparent={Platform.OS === "android"}
         animationType="slide"
+        presentationStyle={Platform.OS === "ios" ? "pageSheet" : undefined}
         onRequestClose={handleCloseModal}
       >
         {/* Floating Action Button - Inside Modal */}
