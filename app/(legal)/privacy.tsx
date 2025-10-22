@@ -12,7 +12,7 @@ export default function PrivacyPolicyScreen() {
         <TouchableOpacity onPress={() => router.back()} className="mb-4">
           <Text className="text-lg">← Back</Text>
         </TouchableOpacity>
-        <Text className="text-2xl font-bold">Privacy Policy</Text>
+        <Text className="text-2xl font-lufga-bold">Privacy Policy</Text>
         <Text className="text-sm text-gray-500 mt-1">
           Last updated: January 2025
         </Text>
@@ -29,33 +29,33 @@ export default function PrivacyPolicyScreen() {
 
         {/* Section 1 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">
+          <Text className="text-lg font-lufga-bold mb-2">
             1. Information We Collect
           </Text>
           <Text className="text-base text-gray-700 leading-6 mb-2">
             We collect information to provide you with a better experience:
           </Text>
           <Text className="text-base text-gray-700 leading-6 ml-4 mb-2">
-            <Text className="font-semibold">Account Information:</Text> Name,
-            email address, and profile details when you sign up.
+            <Text className="font-lufga-semibold">Account Information:</Text>{" "}
+            Name, email address, and profile details when you sign up.
           </Text>
           <Text className="text-base text-gray-700 leading-6 ml-4 mb-2">
-            <Text className="font-semibold">Health Data:</Text> Meal logs,
+            <Text className="font-lufga-semibold">Health Data:</Text> Meal logs,
             fasting schedules, and wellness goals you track in the app.
           </Text>
           <Text className="text-base text-gray-700 leading-6 ml-4 mb-2">
-            <Text className="font-semibold">Usage Data:</Text> How you interact
-            with the app, features you use, and app performance data.
+            <Text className="font-lufga-semibold">Usage Data:</Text> How you
+            interact with the app, features you use, and app performance data.
           </Text>
           <Text className="text-base text-gray-700 leading-6 ml-4">
-            <Text className="font-semibold">Device Information:</Text> Device
-            type, operating system, and unique device identifiers.
+            <Text className="font-lufga-semibold">Device Information:</Text>{" "}
+            Device type, operating system, and unique device identifiers.
           </Text>
         </View>
 
         {/* Section 2 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">
+          <Text className="text-lg font-lufga-bold mb-2">
             2. How We Use Your Information
           </Text>
           <Text className="text-base text-gray-700 leading-6 mb-2">
@@ -71,29 +71,29 @@ export default function PrivacyPolicyScreen() {
 
         {/* Section 3 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">3. Data Sharing</Text>
+          <Text className="text-lg font-lufga-bold mb-2">3. Data Sharing</Text>
           <Text className="text-base text-gray-700 leading-6 mb-2">
             We respect your privacy and don't sell your personal information. We
             may share data with:
           </Text>
           <Text className="text-base text-gray-700 leading-6 ml-4 mb-2">
-            <Text className="font-semibold">Service Providers:</Text> Third
-            parties who help us operate the app (e.g., cloud hosting,
+            <Text className="font-lufga-semibold">Service Providers:</Text>{" "}
+            Third parties who help us operate the app (e.g., cloud hosting,
             analytics).
           </Text>
           <Text className="text-base text-gray-700 leading-6 ml-4 mb-2">
-            <Text className="font-semibold">Legal Requirements:</Text> When
-            required by law or to protect our rights.
+            <Text className="font-lufga-semibold">Legal Requirements:</Text>{" "}
+            When required by law or to protect our rights.
           </Text>
           <Text className="text-base text-gray-700 leading-6 ml-4">
-            <Text className="font-semibold">Business Transfers:</Text> In the
-            event of a merger or acquisition.
+            <Text className="font-lufga-semibold">Business Transfers:</Text> In
+            the event of a merger or acquisition.
           </Text>
         </View>
 
         {/* Section 4 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">4. Data Security</Text>
+          <Text className="text-lg font-lufga-bold mb-2">4. Data Security</Text>
           <Text className="text-base text-gray-700 leading-6">
             We use industry-standard security measures to protect your data,
             including encryption and secure servers. However, no method of
@@ -104,7 +104,7 @@ export default function PrivacyPolicyScreen() {
 
         {/* Section 5 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">5. Your Rights</Text>
+          <Text className="text-lg font-lufga-bold mb-2">5. Your Rights</Text>
           <Text className="text-base text-gray-700 leading-6 mb-2">
             You have control over your data:
           </Text>
@@ -117,7 +117,9 @@ export default function PrivacyPolicyScreen() {
 
         {/* Section 6 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">6. Data Retention</Text>
+          <Text className="text-lg font-lufga-bold mb-2">
+            6. Data Retention
+          </Text>
           <Text className="text-base text-gray-700 leading-6">
             We keep your data as long as your account is active or as needed to
             provide services. When you delete your account, we'll delete your
@@ -128,7 +130,9 @@ export default function PrivacyPolicyScreen() {
 
         {/* Section 7 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">7. Children's Privacy</Text>
+          <Text className="text-lg font-lufga-bold mb-2">
+            7. Children's Privacy
+          </Text>
           <Text className="text-base text-gray-700 leading-6">
             JuiceFast is not intended for children under 13. We don't knowingly
             collect data from children. If you believe we've collected
@@ -138,7 +142,7 @@ export default function PrivacyPolicyScreen() {
 
         {/* Section 8 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">
+          <Text className="text-lg font-lufga-bold mb-2">
             8. Cookies and Tracking
           </Text>
           <Text className="text-base text-gray-700 leading-6">
@@ -150,7 +154,7 @@ export default function PrivacyPolicyScreen() {
 
         {/* Section 9 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">
+          <Text className="text-lg font-lufga-bold mb-2">
             9. Third-Party Services
           </Text>
           <Text className="text-base text-gray-700 leading-6">
@@ -162,7 +166,7 @@ export default function PrivacyPolicyScreen() {
 
         {/* Section 10 */}
         <View className="mb-6">
-          <Text className="text-lg font-bold mb-2">
+          <Text className="text-lg font-lufga-bold mb-2">
             10. Changes to This Policy
           </Text>
           <Text className="text-base text-gray-700 leading-6">
@@ -174,7 +178,7 @@ export default function PrivacyPolicyScreen() {
 
         {/* Contact */}
         <View className="mb-8">
-          <Text className="text-lg font-bold mb-2">11. Contact Us</Text>
+          <Text className="text-lg font-lufga-bold mb-2">11. Contact Us</Text>
           <Text className="text-base text-gray-700 leading-6">
             Questions or concerns about your privacy? Contact us at
             privacy@juicefast.com or through the app's support section.

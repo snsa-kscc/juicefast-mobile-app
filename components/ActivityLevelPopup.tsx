@@ -38,7 +38,7 @@ export function ActivityLevelPopup({
           style={{ maxHeight: windowHeight * 0.7 }}
         >
           <View className="flex-row justify-between items-center mb-5">
-            <Text className="text-xl font-bold text-gray-800 font-lufga-bold">
+            <Text className="text-xl font-lufga-bold text-gray-800 font-lufga-bold">
               Select Activity Level
             </Text>
             <TouchableOpacity onPress={onClose} className="p-1">
@@ -63,7 +63,7 @@ export function ActivityLevelPopup({
                 <Text
                   className={`text-base text-center leading-[22px] ${
                     selectedValue === option.value
-                      ? "text-blue-800 font-semibold font-lufga-semibold"
+                      ? "text-blue-800 font-lufga-semibold font-lufga-semibold"
                       : "text-gray-700 font-lufga"
                   }`}
                 >

@@ -101,7 +101,7 @@ export function QuizStart({ onStart }: QuizStartProps) {
           onPress={onStart}
           className="px-8 py-4 rounded-full w-full mb-4 bg-gray-900 h-14"
         >
-          <Text className="text-white text-base font-semibold text-center">
+          <Text className="text-white text-base font-lufga-semibold text-center">
             Start your journey
           </Text>
         </TouchableOpacity>

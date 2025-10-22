@@ -132,10 +132,10 @@ export function PremiumSubscriptionDrawer({
                   </TouchableOpacity>
 
                   {/* Title */}
-                  <Text className="text-3xl font-bold text-white text-center mb-2">
+                  <Text className="text-3xl font-lufga-bold text-white text-center mb-2">
                     Juicefast Club
                   </Text>
-                  <Text className="text-sm text-white/90 text-center px-8 leading-5">
+                  <Text className="text-sm font-lufga text-white/90 text-center px-8 leading-5">
                     Start your journey today and enjoy premium &{"\n"}
                     personalized access to a vibrant wellness{"\n"}community
                   </Text>
@@ -146,7 +146,7 @@ export function PremiumSubscriptionDrawer({
             {/* Content Section */}
             <View className="px-5 pt-6 pb-8">
               {/* Section Title */}
-              <Text className="text-base font-semibold text-gray-900 text-center mb-4">
+              <Text className="text-base font-lufga-semibold text-gray-900 text-center mb-4">
                 Choose your plan & start your journey
               </Text>
 
@@ -163,22 +163,22 @@ export function PremiumSubscriptionDrawer({
                 >
                   <View className="flex-row items-center justify-between mb-2">
                     <View>
-                      <Text className="text-xl font-bold text-gray-900">
+                      <Text className="text-xl font-lufga-bold text-gray-900">
                         {primaryPackage?.product.priceString || "11.28 €"}
                       </Text>
-                      <Text className="text-xs text-gray-500 mt-0.5">
+                      <Text className="text-xs font-lufga text-gray-500 mt-0.5">
                         {primaryPackage?.product.priceString
                           ? `${primaryPackage.product.priceString} / month`
                           : "9.40 € / month"}
                       </Text>
                     </View>
                     <View className="bg-blue-500 px-3 py-1.5 rounded-full">
-                      <Text className="text-xs font-semibold text-white">
+                      <Text className="text-xs font-lufga-semibold text-white">
                         7 days for free
                       </Text>
                     </View>
                   </View>
-                  <Text className="text-xs text-gray-500 leading-4">
+                  <Text className="text-xs font-lufga text-gray-500 leading-4">
                     Then {primaryPackage?.product.priceString || "11.28€"} every
                     month until you cancel. Cancel anytime.
                   </Text>
@@ -195,22 +195,22 @@ export function PremiumSubscriptionDrawer({
                 >
                   <View className="flex-row items-center justify-between mb-2">
                     <View>
-                      <Text className="text-xl font-bold text-gray-900">
+                      <Text className="text-xl font-lufga-bold text-gray-900">
                         {primaryPackage?.product.priceString || "11.28 €"}
                       </Text>
-                      <Text className="text-xs text-gray-500 mt-0.5">
+                      <Text className="text-xs font-lufga text-gray-500 mt-0.5">
                         {primaryPackage?.product.priceString
                           ? `${primaryPackage.product.priceString} / month`
                           : "9.40 € / month"}
                       </Text>
                     </View>
                     <View className="bg-gray-100 px-3 py-1.5 rounded-full">
-                      <Text className="text-xs font-semibold text-gray-600">
+                      <Text className="text-xs font-lufga-semibold text-gray-600">
                         1 month
                       </Text>
                     </View>
                   </View>
-                  <Text className="text-xs text-gray-500 leading-4">
+                  <Text className="text-xs font-lufga text-gray-500 leading-4">
                     Billed monthly. Get started right away without trial period.
                   </Text>
                 </TouchableOpacity>
@@ -225,7 +225,7 @@ export function PremiumSubscriptionDrawer({
                     color="#10B981"
                     style={{ marginTop: 2 }}
                   />
-                  <Text className="text-sm text-gray-700 ml-3 flex-1 leading-5">
+                  <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
                     Special discount on all Juicefast products
                   </Text>
                 </View>
@@ -236,7 +236,7 @@ export function PremiumSubscriptionDrawer({
                     color="#10B981"
                     style={{ marginTop: 2 }}
                   />
-                  <Text className="text-sm text-gray-700 ml-3 flex-1 leading-5">
+                  <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
                     VIP offerings on new products
                   </Text>
                 </View>
@@ -247,7 +247,7 @@ export function PremiumSubscriptionDrawer({
                     color="#10B981"
                     style={{ marginTop: 2 }}
                   />
-                  <Text className="text-sm text-gray-700 ml-3 flex-1 leading-5">
+                  <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
                     All - Inclusive personalized and curated programs
                   </Text>
                 </View>
@@ -258,7 +258,7 @@ export function PremiumSubscriptionDrawer({
                     color="#10B981"
                     style={{ marginTop: 2 }}
                   />
-                  <Text className="text-sm text-gray-700 ml-3 flex-1 leading-5">
+                  <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
                     1:1 talks with our nutritionist and health experts
                   </Text>
                 </View>
@@ -269,7 +269,7 @@ export function PremiumSubscriptionDrawer({
                     color="#10B981"
                     style={{ marginTop: 2 }}
                   />
-                  <Text className="text-sm text-gray-700 ml-3 flex-1 leading-5">
+                  <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
                     Free gifts on every delivery
                   </Text>
                 </View>
@@ -277,7 +277,7 @@ export function PremiumSubscriptionDrawer({
 
               {/* See Prices Link */}
               <TouchableOpacity className="items-center mb-6">
-                <Text className="text-sm text-blue-500 font-medium">
+                <Text className="text-sm text-blue-500 font-lufga-medium">
                   See prices
                 </Text>
               </TouchableOpacity>
@@ -291,7 +291,7 @@ export function PremiumSubscriptionDrawer({
                 {isPurchasing ? (
                   <ActivityIndicator color="#FFFFFF" />
                 ) : (
-                  <Text className="text-base font-semibold text-white uppercase tracking-wide">
+                  <Text className="text-base font-lufga-semibold text-white uppercase tracking-wide">
                     Start Free Trial & Subscribe
                   </Text>
                 )}

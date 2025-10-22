@@ -103,7 +103,7 @@ export default function SSOSignUpScreen() {
         onPress={() => router.push("/(auth)/email-signup")}
         className="mb-4"
       >
-        <Text className="text-gray-900 text-center font-semibold underline">
+        <Text className="text-gray-900 text-center font-lufga-semibold underline">
           Sign up with email
         </Text>
       </TouchableOpacity>
@@ -120,7 +120,7 @@ export default function SSOSignUpScreen() {
             source={require("@/assets/images/socials/apple.png")}
             className="w-6 h-6 ml-14"
           />
-          <Text className="text-white font-semibold ml-8">
+          <Text className="text-white font-lufga-semibold ml-8">
             Continue with Apple
           </Text>
         </TouchableOpacity>
@@ -133,7 +133,7 @@ export default function SSOSignUpScreen() {
             source={require("@/assets/images/socials/google.png")}
             className="w-6 h-6 ml-14"
           />
-          <Text className="text-white font-semibold ml-8">
+          <Text className="text-white font-lufga-semibold ml-8">
             Continue with Google
           </Text>
         </TouchableOpacity>
@@ -146,7 +146,7 @@ export default function SSOSignUpScreen() {
             source={require("@/assets/images/socials/fb.png")}
             className="w-6 h-6 ml-14"
           />
-          <Text className="text-white font-semibold ml-8">
+          <Text className="text-white font-lufga-semibold ml-8">
             Continue with Facebook
           </Text>
         </TouchableOpacity>

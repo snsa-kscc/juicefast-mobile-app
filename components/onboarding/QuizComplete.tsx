@@ -301,7 +301,7 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
             maxWidth: 320,
           }}
         >
-          <Text className="text-white text-base font-semibold mr-2">
+          <Text className="text-white text-base font-lufga-semibold mr-2">
             {isCompleting ? "Completing..." : "Complete Setup"}
           </Text>
           {!isCompleting && <ArrowRight size={20} color="white" />}

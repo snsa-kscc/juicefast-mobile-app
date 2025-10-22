@@ -176,7 +176,7 @@ export default function Page() {
             className={`rounded-full px-14 py-4 ${isLoading ? "bg-gray-600" : "bg-gray-900"}`}
             disabled={isLoading}
           >
-            <Text className="text-white text-center font-semibold">
+            <Text className="text-white text-center font-lufga-semibold">
               {isLoading ? "Logging in..." : "Log in"}
             </Text>
           </TouchableOpacity>
@@ -195,7 +195,7 @@ export default function Page() {
             source={require("@/assets/images/socials/apple.png")}
             className="w-6 h-6 ml-14"
           />
-          <Text className="text-white font-semibold ml-8">
+          <Text className="text-white font-lufga-semibold ml-8">
             Continue with Apple
           </Text>
         </TouchableOpacity>
@@ -208,7 +208,7 @@ export default function Page() {
             source={require("@/assets/images/socials/google.png")}
             className="w-6 h-6 ml-14"
           />
-          <Text className="text-white font-semibold ml-8">
+          <Text className="text-white font-lufga-semibold ml-8">
             Continue with Google
           </Text>
         </TouchableOpacity>
@@ -221,7 +221,7 @@ export default function Page() {
             source={require("@/assets/images/socials/fb.png")}
             className="w-6 h-6 ml-14"
           />
-          <Text className="text-white font-semibold ml-8">
+          <Text className="text-white font-lufga-semibold ml-8">
             Continue with Facebook
           </Text>
         </TouchableOpacity>

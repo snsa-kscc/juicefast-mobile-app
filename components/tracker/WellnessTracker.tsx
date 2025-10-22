@@ -404,11 +404,13 @@ export function WellnessTracker({
         {/* Wellness Score */}
         <View className="px-6 py-6 items-center">
           <View className="flex-row justify-center gap-2 items-center w-full mb-6">
-            <Text className="text-2xl font-semibold tracking-widest">
+            <Text className="text-2xl font-lufga-semibold tracking-widest">
               WELLNESS SCORE
             </Text>
             <View className="w-8 h-8 rounded-full bg-gray-100 justify-center items-center">
-              <Text className="text-base text-slate-600 font-bold">i</Text>
+              <Text className="text-base text-slate-600 font-lufga-bold">
+                i
+              </Text>
             </View>
           </View>
           <Text className="font-lufga text-sm text-gray-500 mb-6">
@@ -426,7 +428,7 @@ export function WellnessTracker({
 
         {/* Tracking Options */}
         <View className="px-6 py-6">
-          <Text className="text-base font-medium text-center mb-4">
+          <Text className="text-base font-lufga-medium text-center mb-4">
             What would you like to track today?
           </Text>
 
@@ -463,7 +465,7 @@ export function WellnessTracker({
                 <View className="flex-row items-center p-4">
                   <View className="mr-3">{option.icon}</View>
                   <View className="flex-1">
-                    <Text className="text-base font-medium mb-1">
+                    <Text className="text-base font-lufga-medium mb-1">
                       {option.name}
                     </Text>
                     <View className="h-px bg-gray-200 my-1 w-[90%]" />

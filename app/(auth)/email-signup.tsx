@@ -224,7 +224,7 @@ export default function EmailSignUpScreen() {
             className={`rounded-full px-14 py-4 ${isVerifying ? "bg-gray-600" : "bg-gray-900"}`}
             disabled={isVerifying}
           >
-            <Text className="text-white text-center font-semibold">
+            <Text className="text-white text-center font-lufga-semibold">
               {isVerifying ? "Verifying..." : "Verify"}
             </Text>
           </TouchableOpacity>
@@ -367,7 +367,7 @@ export default function EmailSignUpScreen() {
           className={`rounded-full py-4 mt-12 mb-6 ${isLoading ? "bg-gray-600" : "bg-gray-900"}`}
           disabled={isLoading}
         >
-          <Text className="text-white text-center font-semibold">
+          <Text className="text-white text-center font-lufga-semibold">
             {isLoading ? "Creating account..." : "Create account"}
           </Text>
         </TouchableOpacity>
@@ -399,7 +399,7 @@ export default function EmailSignUpScreen() {
         onPress={() => router.back()}
         className="bg-gray-50 rounded-full py-4 mx-4 mb-8"
       >
-        <Text className="text-gray-700 text-center font-semibold">
+        <Text className="text-gray-700 text-center font-lufga-semibold">
           ← Back to all sign-up options
         </Text>
       </TouchableOpacity>

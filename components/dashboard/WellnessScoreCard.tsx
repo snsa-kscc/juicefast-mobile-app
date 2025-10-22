@@ -38,7 +38,7 @@ const WellnessProgressBar = ({
       <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
         <View className="mb-1">{icon}</View>
         <Text
-          className={`font-semibold ${value > 50 ? "text-white" : "text-black"}`}
+          className={`font-lufga-semibold ${value > 50 ? "text-white" : "text-black"}`}
         >
           {value}
         </Text>
@@ -82,7 +82,7 @@ export function WellnessScoreCard({
   return (
     <View className="bg-white rounded-2xl p-6 mb-6">
       <View className="flex-row items-center justify-center mb-4">
-        <Text className="text-sm font-semibold tracking-widest uppercase">
+        <Text className="text-sm font-lufga-semibold tracking-widest uppercase">
           WELLNESS SCORE
         </Text>
         <Info size={16} color="#9CA3AF" className="ml-2" />
@@ -103,7 +103,7 @@ export function WellnessScoreCard({
       </View>
 
       <View className="mb-4">
-        <Text className="text-center font-semibold text-xs tracking-widest uppercase mb-4">
+        <Text className="text-center font-lufga-semibold text-xs tracking-widest uppercase mb-4">
           DAILY PROGRESS SUMMARY (%)
         </Text>
         <View className="flex-row justify-around gap-2">

@@ -146,7 +146,7 @@ export function PaywallScreen() {
           <View className="mb-4">
             <Ionicons name="star" size={48} color="#F59E0B" />
           </View>
-          <Text className="text-[32px] font-bold text-gray-900 mb-2 text-center">
+          <Text className="text-[32px] font-lufga-bold text-gray-900 mb-2 text-center">
             Unlock Premium
           </Text>
           <Text className="text-base text-gray-500 text-center">
@@ -183,18 +183,18 @@ export function PaywallScreen() {
                 disabled={isPurchasing}
               >
                 <View className="flex-row justify-between items-center mb-2">
-                  <Text className="text-xl font-bold text-gray-900">
+                  <Text className="text-xl font-lufga-bold text-gray-900">
                     {getPackageTitle(pkg)}
                   </Text>
                   {pkg.product.introPrice && (
                     <View className="bg-emerald-500 px-2 py-1 rounded">
-                      <Text className="text-[10px] font-bold text-white">
+                      <Text className="text-[10px] font-lufga-bold text-white">
                         FREE TRIAL
                       </Text>
                     </View>
                   )}
                 </View>
-                <Text className="text-[28px] font-bold text-blue-500 mb-1">
+                <Text className="text-[28px] font-lufga-bold text-blue-500 mb-1">
                   {pkg.product.priceString}
                 </Text>
                 <Text className="text-sm text-gray-500">
@@ -226,7 +226,7 @@ export function PaywallScreen() {
           onPress={handleRestore}
           disabled={isPurchasing}
         >
-          <Text className="text-base text-blue-500 font-semibold">
+          <Text className="text-base text-blue-500 font-lufga-semibold">
             Restore Purchases
           </Text>
         </TouchableOpacity>
@@ -237,7 +237,7 @@ export function PaywallScreen() {
             className="py-3 items-center mb-4 bg-orange-100 rounded-lg"
             onPress={handleDebugRestore}
           >
-            <Text className="text-sm text-orange-600 font-semibold">
+            <Text className="text-sm text-orange-600 font-lufga-semibold">
               🧪 Test Restore Flow (Debug)
             </Text>
           </TouchableOpacity>

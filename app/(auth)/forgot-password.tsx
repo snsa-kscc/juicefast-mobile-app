@@ -156,7 +156,7 @@ export default function ForgotPasswordPage() {
               className={`rounded-full py-4 ${isLoading ? "bg-gray-600" : "bg-gray-900"}`}
               disabled={isLoading}
             >
-              <Text className="text-white text-center font-semibold">
+              <Text className="text-white text-center font-lufga-semibold">
                 {isLoading ? "Sending..." : "Send Reset Code"}
               </Text>
             </TouchableOpacity>
@@ -203,7 +203,7 @@ export default function ForgotPasswordPage() {
               className={`rounded-full py-4 ${isLoading ? "bg-gray-600" : "bg-gray-900"}`}
               disabled={isLoading}
             >
-              <Text className="text-white text-center font-semibold">
+              <Text className="text-white text-center font-lufga-semibold">
                 {isLoading ? "Resetting..." : "Reset Password"}
               </Text>
             </TouchableOpacity>

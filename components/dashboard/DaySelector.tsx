@@ -98,7 +98,7 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
                 elevation: 1,
               }}
             >
-              <Text className="text-base font-medium text-black">
+              <Text className="text-base font-lufga-medium text-black">
                 {formatDate(date)}
               </Text>
             </TouchableOpacity>

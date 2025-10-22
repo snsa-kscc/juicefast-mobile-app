@@ -60,7 +60,7 @@ export function SleepTimeModal({
               onPress={onClose}
               className="flex-1 px-6 py-3 rounded-full border border-gray-300"
             >
-              <Text className="text-black text-base font-semibold text-center">
+              <Text className="text-black text-base font-lufga-semibold text-center">
                 Cancel
               </Text>
             </TouchableOpacity>
@@ -68,7 +68,7 @@ export function SleepTimeModal({
               onPress={handleConfirm}
               className="flex-1 px-6 py-3 rounded-full bg-gray-900"
             >
-              <Text className="text-white text-base font-semibold text-center">
+              <Text className="text-white text-base font-lufga-semibold text-center">
                 Confirm
               </Text>
             </TouchableOpacity>

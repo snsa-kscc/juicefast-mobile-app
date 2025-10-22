@@ -339,7 +339,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                 onPress={() => handleAddMealByType("breakfast")}
               >
                 <Coffee size={32} color="white" />
-                <Text className="text-lg font-medium text-white mt-2">
+                <Text className="text-lg font-lufga-medium text-white mt-2">
                   Breakfast
                 </Text>
               </TouchableOpacity>
@@ -349,7 +349,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                 onPress={() => handleAddMealByType("lunch")}
               >
                 <Sandwich size={32} color="white" />
-                <Text className="text-lg font-medium text-white mt-2">
+                <Text className="text-lg font-lufga-medium text-white mt-2">
                   Lunch
                 </Text>
               </TouchableOpacity>
@@ -359,7 +359,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                 onPress={() => handleAddMealByType("dinner")}
               >
                 <UtensilsCrossed size={32} color="white" />
-                <Text className="text-lg font-medium text-white mt-2">
+                <Text className="text-lg font-lufga-medium text-white mt-2">
                   Dinner
                 </Text>
               </TouchableOpacity>
@@ -369,7 +369,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                 onPress={() => handleAddMealByType("snack")}
               >
                 <Cookie size={32} color="white" />
-                <Text className="text-lg font-medium text-white mt-2">
+                <Text className="text-lg font-lufga-medium text-white mt-2">
                   Snack
                 </Text>
               </TouchableOpacity>
@@ -387,7 +387,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                 onPress={() => setActiveEntryTab("scan")}
               >
                 <Text
-                  className={`font-medium ${activeEntryTab === "scan" ? "text-white" : "text-black"}`}
+                  className={`font-lufga-medium ${activeEntryTab === "scan" ? "text-white" : "text-black"}`}
                 >
                   Upload image
                 </Text>
@@ -397,7 +397,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                 onPress={() => setActiveEntryTab("manual")}
               >
                 <Text
-                  className={`font-medium ${activeEntryTab === "manual" ? "text-white" : "text-black"}`}
+                  className={`font-lufga-medium ${activeEntryTab === "manual" ? "text-white" : "text-black"}`}
                 >
                   Manual entry
                 </Text>
@@ -566,7 +566,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                   onPress={() => setActiveTab(mealType)}
                 >
                   <Text
-                    className={`text-sm text-center capitalize ${activeTab === mealType ? "font-medium text-black" : "text-gray-500 font-lufga"}`}
+                    className={`text-sm text-center capitalize ${activeTab === mealType ? "font-lufga-medium text-black" : "text-gray-500 font-lufga"}`}
                   >
                     {mealType}
                   </Text>
@@ -591,12 +591,12 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                     className="bg-white rounded-lg p-4 shadow-sm border border-gray-100"
                   >
                     <View className="flex-row justify-between items-start mb-2">
-                      <Text className="font-medium text-gray-900 flex-1">
+                      <Text className="font-lufga-medium text-gray-900 flex-1">
                         {meal.name || "Meal"}
                       </Text>
                       <View className="flex-row items-center gap-2">
                         <View className="bg-emerald-100 px-2 py-1 rounded-full">
-                          <Text className="text-sm font-bold text-emerald-700">
+                          <Text className="text-sm font-lufga-bold text-emerald-700">
                             {meal.calories} kcal
                           </Text>
                         </View>
@@ -617,7 +617,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
 
                     <View className="flex-row gap-2">
                       <View className="flex-1 bg-blue-50 p-2 rounded items-center">
-                        <Text className="font-medium text-blue-700">
+                        <Text className="font-lufga-medium text-blue-700">
                           {meal.protein}g
                         </Text>
                         <Text className="text-xs font-lufga text-gray-600">
@@ -625,7 +625,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                         </Text>
                       </View>
                       <View className="flex-1 bg-amber-50 p-2 rounded items-center">
-                        <Text className="font-medium text-amber-700">
+                        <Text className="font-lufga-medium text-amber-700">
                           {meal.carbs}g
                         </Text>
                         <Text className="text-xs font-lufga text-gray-600">
@@ -633,7 +633,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                         </Text>
                       </View>
                       <View className="flex-1 bg-orange-50 p-2 rounded items-center">
-                        <Text className="font-medium text-orange-700">
+                        <Text className="font-lufga-medium text-orange-700">
                           {meal.fat}g
                         </Text>
                         <Text className="text-xs font-lufga text-gray-600">

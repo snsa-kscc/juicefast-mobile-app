@@ -283,7 +283,7 @@ export function HydrationTracker({
                   className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
                 >
                   <View>
-                    <Text className="font-lufga text-sm font-medium">
+                    <Text className="font-lufga text-sm font-lufga-medium">
                       {entry.amount}ml
                     </Text>
                     <Text className="font-lufga text-xs text-gray-500">

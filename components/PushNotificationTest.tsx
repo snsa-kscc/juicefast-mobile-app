@@ -85,12 +85,14 @@ export default function PushNotificationTest() {
   return (
     <ScrollView className="flex-1 bg-jf-gray">
       <View className="p-4 pt-12">
-        <Text className="text-xl font-bold mb-4">Test Push Notifications</Text>
+        <Text className="text-xl font-lufga-bold mb-4">
+          Test Push Notifications
+        </Text>
 
-        <Text className="text-sm font-medium mb-2">
+        <Text className="text-sm font-lufga-medium mb-2">
           Platform: {Platform.OS}
         </Text>
-        <Text className="text-sm font-medium mb-2">
+        <Text className="text-sm font-lufga-medium mb-2">
           Device:{" "}
           {Platform.OS === "ios"
             ? (Platform as any).isPad
@@ -100,13 +102,15 @@ export default function PushNotificationTest() {
         </Text>
 
         {/* Device info */}
-        <Text className="text-sm font-medium mb-2">My Token:</Text>
+        <Text className="text-sm font-lufga-medium mb-2">My Token:</Text>
         <Text className="text-xs bg-gray-100 p-3 mb-4 rounded-md" selectable>
           {myToken || "Loading... (Make sure you are on a physical device)"}
         </Text>
 
         {/* Input for other device's token */}
-        <Text className="text-sm font-medium mb-2">Other Device Token:</Text>
+        <Text className="text-sm font-lufga-medium mb-2">
+          Other Device Token:
+        </Text>
         <TextInput
           className="border border-gray-300 p-3 mb-4 rounded-md text-sm"
           value={otherToken}
@@ -116,7 +120,7 @@ export default function PushNotificationTest() {
         />
 
         {/* Message to send */}
-        <Text className="text-sm font-medium mb-2">Message:</Text>
+        <Text className="text-sm font-lufga-medium mb-2">Message:</Text>
         <TextInput
           className="border border-gray-300 p-3 mb-4 rounded-md text-sm"
           value={message}
@@ -140,7 +144,7 @@ export default function PushNotificationTest() {
 
         {/* Instructions */}
         <View className="mt-6 p-4 bg-blue-50 rounded-md">
-          <Text className="text-sm font-medium mb-2">Instructions:</Text>
+          <Text className="text-sm font-lufga-medium mb-2">Instructions:</Text>
           <Text className="text-xs text-gray-700 mb-1">
             • Must be on physical device (not simulator)
           </Text>

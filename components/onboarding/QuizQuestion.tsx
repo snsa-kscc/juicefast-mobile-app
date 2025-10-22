@@ -163,7 +163,9 @@ export function QuizQuestion({
                     </View>
                     <Text
                       className={`font-lufga ${
-                        isSelected ? "text-[#11B364] font-medium" : "text-black"
+                        isSelected
+                          ? "text-[#11B364] font-lufga-medium"
+                          : "text-black"
                       }`}
                     >
                       {option.label}
@@ -197,12 +199,16 @@ export function QuizQuestion({
                       }`}
                     >
                       {isSelected && (
-                        <Text className="text-white text-xs font-bold">✓</Text>
+                        <Text className="text-white text-xs font-lufga-bold">
+                          ✓
+                        </Text>
                       )}
                     </View>
                     <Text
                       className={`font-lufga ${
-                        isSelected ? "text-[#11B364] font-medium" : "text-black"
+                        isSelected
+                          ? "text-[#11B364] font-lufga-medium"
+                          : "text-black"
                       }`}
                     >
                       {option.label}
@@ -277,7 +283,7 @@ export function QuizQuestion({
               }`}
             >
               <View className="flex-1 justify-center">
-                <Text className="text-white text-base font-semibold text-center">
+                <Text className="text-white text-base font-lufga-semibold text-center">
                   {question.nextButtonText || "Continue"}
                 </Text>
               </View>
@@ -289,7 +295,7 @@ export function QuizQuestion({
               className="mt-4"
               disabled={isSkipping}
             >
-              <Text className="text-sm font-medium underline text-black font-lufga">
+              <Text className="text-sm font-lufga-medium underline text-black font-lufga">
                 {isSkipping ? "Skipping..." : "Skip onboarding"}
               </Text>
             </TouchableOpacity>

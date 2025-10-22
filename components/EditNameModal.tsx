@@ -73,7 +73,7 @@ export function EditNameModal({
               style={{ maxHeight: windowHeight * 0.5 }}
             >
               <View className="flex-row justify-between items-center mb-6">
-                <Text className="text-xl font-bold text-gray-800 font-[Lufga-Bold]">
+                <Text className="text-xl font-lufga-bold text-gray-800 font-[Lufga-Bold]">
                   Edit Name
                 </Text>
                 <TouchableOpacity onPress={onClose} className="p-1">
@@ -86,7 +86,7 @@ export function EditNameModal({
                 showsVerticalScrollIndicator={false}
               >
                 <View className="gap-2">
-                  <Text className="text-sm font-medium text-gray-700 font-[Lufga-Medium]">
+                  <Text className="text-sm font-lufga-medium text-gray-700 font-[Lufga-Medium]">
                     First Name
                   </Text>
                   <TextInput
@@ -100,7 +100,7 @@ export function EditNameModal({
                 </View>
 
                 <View className="gap-2">
-                  <Text className="text-sm font-medium text-gray-700 font-[Lufga-Medium]">
+                  <Text className="text-sm font-lufga-medium text-gray-700 font-[Lufga-Medium]">
                     Last Name
                   </Text>
                   <TextInput
@@ -119,7 +119,7 @@ export function EditNameModal({
                     onPress={onClose}
                     disabled={isSaving}
                   >
-                    <Text className="text-base font-semibold text-gray-700 font-[Lufga-SemiBold]">
+                    <Text className="text-base font-lufga-semibold text-gray-700 font-[Lufga-SemiBold]">
                       Cancel
                     </Text>
                   </TouchableOpacity>
@@ -128,7 +128,7 @@ export function EditNameModal({
                     onPress={handleSave}
                     disabled={isSaving}
                   >
-                    <Text className="text-base font-semibold text-white font-[Lufga-SemiBold]">
+                    <Text className="text-base font-lufga-semibold text-white font-[Lufga-SemiBold]">
                       {isSaving ? "Saving..." : "Save"}
                     </Text>
                   </TouchableOpacity>

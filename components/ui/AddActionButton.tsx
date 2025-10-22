@@ -198,7 +198,7 @@ export function AddActionButton() {
                       {renderIcon(option.id, option.iconColor)}
                     </View>
                     <Text
-                      className={`text-base font-medium ${
+                      className={`text-base font-lufga-medium ${
                         isCurrentScreen ? "text-[#999]" : "text-black"
                       }`}
                     >

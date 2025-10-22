@@ -37,7 +37,7 @@ const TaskItem = ({ icon, title, subtitle, onPress }: TaskItemProps) => (
   >
     <View className="mr-4">{icon}</View>
     <View className="flex-1">
-      <Text className="text-sm font-medium text-black mb-1">{title}</Text>
+      <Text className="text-sm font-lufga-medium text-black mb-1">{title}</Text>
       <View className="h-[3px] bg-[#F8F9FA] mb-1 w-[60%]" />
       <Text className="text-xs text-gray-500">{subtitle}</Text>
     </View>
@@ -53,7 +53,7 @@ export function DailyOverview({ data, isToday }: DailyOverviewProps) {
 
   return (
     <View className="mb-6">
-      <Text className="font-semibold text-center mb-4 text-xs tracking-widest uppercase">
+      <Text className="font-lufga-semibold text-center mb-4 text-xs tracking-widest uppercase">
         DAILY OVERVIEW
       </Text>
 

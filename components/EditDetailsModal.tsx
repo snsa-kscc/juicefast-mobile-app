@@ -181,7 +181,7 @@ export function EditDetailsModal({
                 <View className="flex-row gap-3">
                   <View className="flex-1 gap-2">
                     {/* ispravi duple fontove */}
-                    <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                    <Text className="text-sm font-lufga-medium text-gray-700 font-lufga-medium">
                       Height (cm)
                     </Text>
                     <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-3">
@@ -199,7 +199,7 @@ export function EditDetailsModal({
                   </View>
 
                   <View className="flex-1 gap-2">
-                    <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                    <Text className="text-sm font-lufga-medium text-gray-700 font-lufga-medium">
                       Weight (kg)
                     </Text>
                     <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-3">
@@ -219,7 +219,7 @@ export function EditDetailsModal({
 
                 <View className="flex-row gap-3">
                   <View className="flex-1 gap-2">
-                    <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                    <Text className="text-sm font-lufga-medium text-gray-700 font-lufga-medium">
                       Age
                     </Text>
                     <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-3">
@@ -237,7 +237,7 @@ export function EditDetailsModal({
                   </View>
 
                   <View className="flex-1 gap-2">
-                    <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                    <Text className="text-sm font-lufga-medium text-gray-700 font-lufga-medium">
                       Gender
                     </Text>
                     <Select
@@ -250,7 +250,7 @@ export function EditDetailsModal({
                 </View>
 
                 <View className="gap-2">
-                  <Text className="text-sm font-medium text-gray-700 font-lufga-medium">
+                  <Text className="text-sm font-lufga-medium text-gray-700 font-lufga-medium">
                     Activity Level
                   </Text>
                   <Select
@@ -267,7 +267,7 @@ export function EditDetailsModal({
                     onPress={onClose}
                     disabled={isSaving}
                   >
-                    <Text className="text-base font-semibold text-gray-700 font-lufga-semibold">
+                    <Text className="text-base font-lufga-semibold text-gray-700 font-lufga-semibold">
                       Cancel
                     </Text>
                   </TouchableOpacity>
@@ -276,7 +276,7 @@ export function EditDetailsModal({
                     onPress={handleSave}
                     disabled={isSaving}
                   >
-                    <Text className="text-base font-semibold text-white font-lufga-semibold">
+                    <Text className="text-base font-lufga-semibold text-white font-lufga-semibold">
                       {isSaving ? "Saving..." : "Save"}
                     </Text>
                   </TouchableOpacity>

@@ -299,11 +299,13 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
         {/* Wellness Score */}
         <View className="px-6 py-6 items-center">
           <View className="flex-row justify-center gap-2 items-center w-full mb-6">
-            <Text className="text-2xl font-semibold tracking-widest">
+            <Text className="text-2xl font-lufga-semibold tracking-widest">
               WELLNESS SCORE
             </Text>
             <View className="w-8 h-8 rounded-full bg-gray-100 justify-center items-center">
-              <Text className="text-base text-slate-600 font-bold">i</Text>
+              <Text className="text-base text-slate-600 font-lufga-bold">
+                i
+              </Text>
             </View>
           </View>
           <Text className="font-lufga text-sm text-gray-500 mb-6">
@@ -323,7 +325,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
 
         {/* Daily Progress Summary */}
         <View className="px-6 py-4">
-          <Text className="text-center font-semibold text-xs tracking-widest uppercase mb-4">
+          <Text className="text-center font-lufga-semibold text-xs tracking-widest uppercase mb-4">
             DAILY PROGRESS SUMMARY (%)
           </Text>
           <View className="flex-row justify-around gap-2 mb-6">
@@ -344,7 +346,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                     <StepsIcon size={24} color="#FFC856" />
                   </View>
                   <Text
-                    className={`font-semibold ${dailyProgress.steps > 50 ? "text-white" : "text-black"}`}
+                    className={`font-lufga-semibold ${dailyProgress.steps > 50 ? "text-white" : "text-black"}`}
                   >
                     {dailyProgress.steps}
                   </Text>
@@ -368,7 +370,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                     <MindfulnessIcon size={24} color="#FE8E77" />
                   </View>
                   <Text
-                    className={`font-semibold ${dailyProgress.mindfulness > 50 ? "text-white" : "text-black"}`}
+                    className={`font-lufga-semibold ${dailyProgress.mindfulness > 50 ? "text-white" : "text-black"}`}
                   >
                     {dailyProgress.mindfulness}
                   </Text>
@@ -392,7 +394,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                     <MealIcon size={24} color="#0DC99B" />
                   </View>
                   <Text
-                    className={`font-semibold ${dailyProgress.meals > 50 ? "text-white" : "text-black"}`}
+                    className={`font-lufga-semibold ${dailyProgress.meals > 50 ? "text-white" : "text-black"}`}
                   >
                     {dailyProgress.meals}
                   </Text>
@@ -416,7 +418,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                     <SleepIcon size={24} color="#625FD3" />
                   </View>
                   <Text
-                    className={`font-semibold ${dailyProgress.sleep > 50 ? "text-white" : "text-black"}`}
+                    className={`font-lufga-semibold ${dailyProgress.sleep > 50 ? "text-white" : "text-black"}`}
                   >
                     {dailyProgress.sleep}
                   </Text>
@@ -440,7 +442,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                     <WaterIcon size={24} color="#4CC3FF" />
                   </View>
                   <Text
-                    className={`font-semibold ${dailyProgress.water > 50 ? "text-white" : "text-black"}`}
+                    className={`font-lufga-semibold ${dailyProgress.water > 50 ? "text-white" : "text-black"}`}
                   >
                     {dailyProgress.water}
                   </Text>
@@ -452,7 +454,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
 
         {/* Tracking Options */}
         <View className="px-6 py-6">
-          <Text className="text-base font-medium text-center mb-4">
+          <Text className="text-base font-lufga-medium text-center mb-4">
             What would you like to track {isToday ? "today" : "for this day"}?
           </Text>
 
@@ -466,7 +468,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 <MealIcon size={36} />
               </View>
               <View className="flex-1">
-                <Text className="text-base font-medium mb-1">
+                <Text className="text-base font-lufga-medium mb-1">
                   Eat 2 healthy meals
                 </Text>
                 <View className="h-px bg-gray-200 my-1 w-[90%]" />
@@ -491,7 +493,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 <StepsIcon size={36} />
               </View>
               <View className="flex-1">
-                <Text className="text-base font-medium mb-1">
+                <Text className="text-base font-lufga-medium mb-1">
                   Take 10 000 steps
                 </Text>
                 <View className="h-px bg-gray-200 my-1 w-[90%]" />
@@ -515,7 +517,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 <MindfulnessIcon size={36} />
               </View>
               <View className="flex-1">
-                <Text className="text-base font-medium mb-1">
+                <Text className="text-base font-lufga-medium mb-1">
                   Spend 20 quiet minutes
                 </Text>
                 <View className="h-px bg-gray-200 my-1 w-[90%]" />
@@ -540,7 +542,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 <SleepIcon size={36} />
               </View>
               <View className="flex-1">
-                <Text className="text-base font-medium mb-1">
+                <Text className="text-base font-lufga-medium mb-1">
                   Sleep 8 hours
                 </Text>
                 <View className="h-px bg-gray-200 my-1 w-[90%]" />
@@ -564,7 +566,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 <WaterIcon size={36} />
               </View>
               <View className="flex-1">
-                <Text className="text-base font-medium mb-1">
+                <Text className="text-base font-lufga-medium mb-1">
                   Drink 2.2L of water
                 </Text>
                 <View className="h-px bg-gray-200 my-1 w-[90%]" />
@@ -589,7 +591,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 className="bg-green-600 px-6 py-4 rounded-xl mb-4"
                 onPress={() => router.push("/onboarding?retake=true")}
               >
-                <Text className="text-white text-lg font-semibold text-center">
+                <Text className="text-white text-lg font-lufga-semibold text-center">
                   Take Onboarding Quiz
                 </Text>
               </TouchableOpacity>
@@ -598,7 +600,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 className="bg-blue-600 px-6 py-4 rounded-xl mb-4"
                 onPress={() => router.push("/test-notifications")}
               >
-                <Text className="text-white text-lg font-semibold text-center">
+                <Text className="text-white text-lg font-lufga-semibold text-center">
                   Test Push Notifications
                 </Text>
               </TouchableOpacity>
@@ -627,7 +629,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                   );
                 }}
               >
-                <Text className="text-white text-lg font-semibold text-center">
+                <Text className="text-white text-lg font-lufga-semibold text-center">
                   🧪 Test Restore Purchases
                 </Text>
               </TouchableOpacity>

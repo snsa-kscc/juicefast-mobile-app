@@ -285,7 +285,7 @@ export function StepsTracker({
                   className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
                 >
                   <View>
-                    <Text className="font-lufga text-sm font-medium">
+                    <Text className="font-lufga text-sm font-lufga-medium">
                       {entry.count.toLocaleString()} steps
                     </Text>
                     <Text className="font-lufga text-xs text-gray-500">
