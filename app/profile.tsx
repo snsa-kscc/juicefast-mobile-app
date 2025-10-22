@@ -33,16 +33,16 @@ import {
   Copy,
   CreditCard,
 } from "lucide-react-native";
-import { WellnessHeader } from "../components/ui/CustomHeader";
+import { WellnessHeader } from "@/components/ui/CustomHeader";
 import {
   UserProfile,
   calculateDailyCalories,
   getActivityLevelText,
-} from "../schemas/UserProfileSchema";
-import { ActivityLevelPopup } from "../components/ActivityLevelPopup";
-import { EditNameModal } from "../components/EditNameModal";
-import { EditPasswordModal } from "../components/EditPasswordModal";
-import { EditDetailsModal } from "../components/EditDetailsModal";
+} from "@/schemas/UserProfileSchema";
+import { ActivityLevelPopup } from "@/components/ActivityLevelPopup";
+import { EditNameModal } from "@/components/EditNameModal";
+import { EditPasswordModal } from "@/components/EditPasswordModal";
+import { EditDetailsModal } from "@/components/EditDetailsModal";
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
 
 export default function ProfileScreen() {

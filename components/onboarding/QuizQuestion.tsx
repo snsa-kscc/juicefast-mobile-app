@@ -1,12 +1,12 @@
 import Slider from "@react-native-community/slider";
 import React, { useState, useEffect } from "react";
 import { Text, TouchableOpacity, View, ScrollView } from "react-native";
-import { QuizQuestionType } from "../../data/onboarding/quizQuestions";
-import { QuizProgress } from "./QuizProgress";
+import { QuizQuestionType } from "@/data/onboarding/quizQuestions";
+import { QuizProgress } from "@/components/onboarding/QuizProgress";
 import { ArrowLeft } from "lucide-react-native";
 import { router } from "expo-router";
-import { useOnboardingCompletion } from "../../utils/onboarding";
-import { WeightPicker } from "./WeightPicker";
+import { useOnboardingCompletion } from "@/utils/onboarding";
+import { WeightPicker } from "@/components/onboarding/WeightPicker";
 
 interface QuizQuestionProps {
   question: QuizQuestionType;

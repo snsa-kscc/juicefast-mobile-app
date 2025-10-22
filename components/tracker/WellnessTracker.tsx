@@ -11,9 +11,9 @@ import {
   View,
 } from "react-native";
 import { Path, Svg } from "react-native-svg";
-import { api } from "../../convex/_generated/api";
-import { Spinner } from "../Spinner";
-import { CircularProgress, WellnessHeader } from "./shared";
+import { api } from "@/convex/_generated/api";
+import { Spinner } from "@/components/Spinner";
+import { CircularProgress, WellnessHeader } from "@/components/tracker/shared";
 
 interface UserProfile {
   id: string;

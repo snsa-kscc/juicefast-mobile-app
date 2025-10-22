@@ -73,7 +73,7 @@ export function EditNameModal({
               style={{ maxHeight: windowHeight * 0.5 }}
             >
               <View className="flex-row justify-between items-center mb-6">
-                <Text className="text-xl font-lufga-bold text-gray-800 font-[Lufga-Bold]">
+                <Text className="text-xl font-lufga-bold text-gray-800">
                   Edit Name
                 </Text>
                 <TouchableOpacity onPress={onClose} className="p-1">
@@ -86,11 +86,11 @@ export function EditNameModal({
                 showsVerticalScrollIndicator={false}
               >
                 <View className="gap-2">
-                  <Text className="text-sm font-lufga-medium text-gray-700 font-[Lufga-Medium]">
+                  <Text className="text-sm font-lufga-medium text-gray-700">
                     First Name
                   </Text>
                   <TextInput
-                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-[Lufga-Regular]"
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-lufga"
                     value={firstName}
                     onChangeText={setFirstName}
                     placeholder="Enter first name"
@@ -100,11 +100,11 @@ export function EditNameModal({
                 </View>
 
                 <View className="gap-2">
-                  <Text className="text-sm font-lufga-medium text-gray-700 font-[Lufga-Medium]">
+                  <Text className="text-sm font-lufga-medium text-gray-700">
                     Last Name
                   </Text>
                   <TextInput
-                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-[Lufga-Regular]"
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-base text-gray-900 font-lufga"
                     value={lastName}
                     onChangeText={setLastName}
                     placeholder="Enter last name"
@@ -119,7 +119,7 @@ export function EditNameModal({
                     onPress={onClose}
                     disabled={isSaving}
                   >
-                    <Text className="text-base font-lufga-semibold text-gray-700 font-[Lufga-SemiBold]">
+                    <Text className="text-base font-lufga-semibold text-gray-700">
                       Cancel
                     </Text>
                   </TouchableOpacity>
@@ -128,7 +128,7 @@ export function EditNameModal({
                     onPress={handleSave}
                     disabled={isSaving}
                   >
-                    <Text className="text-base font-lufga-semibold text-white font-[Lufga-SemiBold]">
+                    <Text className="text-base font-lufga-semibold text-white">
                       {isSaving ? "Saving..." : "Save"}
                     </Text>
                   </TouchableOpacity>

@@ -1,7 +1,7 @@
 import Slider from "@react-native-community/slider";
 import React, { useState, useEffect } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { QuizQuestionType } from "../../data/onboarding/quizQuestions";
+import { QuizQuestionType } from "@/data/onboarding/quizQuestions";
 
 interface QuestionRendererProps {
   question: QuizQuestionType;

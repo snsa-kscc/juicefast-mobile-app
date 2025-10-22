@@ -84,7 +84,7 @@ export function EditPasswordModal({
               style={{ maxHeight: windowHeight * 0.7 }}
             >
               <View className="flex-row justify-between items-center mb-6">
-                <Text className="text-xl font-lufga-bold text-gray-800 font-lufga-bold">
+                <Text className="text-xl font-lufga-bold text-gray-800">
                   Change Password
                 </Text>
                 <TouchableOpacity onPress={handleClose} className="p-1">
@@ -97,7 +97,7 @@ export function EditPasswordModal({
                 showsVerticalScrollIndicator={false}
               >
                 <View className="gap-2">
-                  <Text className="text-sm font-lufga-medium text-gray-700 font-lufga-medium">
+                  <Text className="text-sm font-lufga-medium text-gray-700">
                     Current Password
                   </Text>
                   <TextInput
@@ -112,7 +112,7 @@ export function EditPasswordModal({
                 </View>
 
                 <View className="gap-2">
-                  <Text className="text-sm font-lufga-medium text-gray-700 font-lufga-medium">
+                  <Text className="text-sm font-lufga-medium text-gray-700">
                     New Password
                   </Text>
                   <TextInput
@@ -127,7 +127,7 @@ export function EditPasswordModal({
                 </View>
 
                 <View className="gap-2">
-                  <Text className="text-sm font-lufga-medium text-gray-700 font-lufga-medium">
+                  <Text className="text-sm font-lufga-medium text-gray-700">
                     Confirm New Password
                   </Text>
                   <TextInput
@@ -152,7 +152,7 @@ export function EditPasswordModal({
                     onPress={handleClose}
                     disabled={isSaving}
                   >
-                    <Text className="text-base font-lufga-semibold text-gray-700 font-lufga-semibold">
+                    <Text className="text-base font-lufga-semibold text-gray-700">
                       Cancel
                     </Text>
                   </TouchableOpacity>
@@ -163,7 +163,7 @@ export function EditPasswordModal({
                     onPress={handleSave}
                     disabled={isSaving || !isValid}
                   >
-                    <Text className="text-base font-lufga-semibold text-white font-lufga-semibold">
+                    <Text className="text-base font-lufga-semibold text-white">
                       {isSaving ? "Saving..." : "Save"}
                     </Text>
                   </TouchableOpacity>

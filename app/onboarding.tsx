@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useUser } from "@clerk/clerk-expo";
-import { OnboardingQuiz } from "../components/onboarding/OnboardingQuiz";
+import { OnboardingQuiz } from "@/components/onboarding/OnboardingQuiz";
 
 export default function OnboardingScreen() {
   const { user, isLoaded } = useUser();

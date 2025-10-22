@@ -12,17 +12,17 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { api } from "../../convex/_generated/api";
-import { Spinner } from "../Spinner";
-import { CircularProgress, WellnessHeader } from "../tracker/shared";
-import { DaySelector } from "./DaySelector";
+import { api } from "@/convex/_generated/api";
+import { Spinner } from "@/components/Spinner";
+import { CircularProgress, WellnessHeader } from "@/components/tracker/shared";
+import { DaySelector } from "@/components/dashboard/DaySelector";
 import {
   MealIcon,
   StepsIcon,
   MindfulnessIcon,
   SleepIcon,
   WaterIcon,
-} from "./icons/TrackerIcons";
+} from "@/components/dashboard/icons/TrackerIcons";
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
 
 interface DailyMetrics {
@@ -641,7 +641,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
             onPress={() => router.push("/(tabs)/store")}
           >
             <Image
-              source={require("../../assets/images/challenge.png")}
+              source={require("@/assets/images/challenge.png")}
               className="w-full h-32 rounded-xl"
               resizeMode="cover"
             />
@@ -652,7 +652,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
             onPress={() => router.push("/(tabs)/store")}
           >
             <Image
-              source={require("../../assets/images/fasting.png")}
+              source={require("@/assets/images/fasting.png")}
               className="w-full h-32 rounded-xl"
               resizeMode="cover"
             />

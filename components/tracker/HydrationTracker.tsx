@@ -16,14 +16,14 @@ import {
 } from "react-native";
 import { useMutation, useQuery } from "convex/react";
 import { useUser } from "@clerk/clerk-expo";
-import { api } from "../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import {
   CircularProgress,
   ProgressBar,
   TrackerButton,
   WellnessHeader,
   TrackerStats,
-} from "./shared";
+} from "@/components/tracker/shared";
 
 interface WaterEntry {
   amount: number;
@@ -283,7 +283,7 @@ export function HydrationTracker({
                   className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
                 >
                   <View>
-                    <Text className="font-lufga text-sm font-lufga-medium">
+                    <Text className="text-sm font-lufga-medium">
                       {entry.amount}ml
                     </Text>
                     <Text className="font-lufga text-xs text-gray-500">

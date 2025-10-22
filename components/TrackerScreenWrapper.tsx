@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { CustomBottomNavigation } from "./ui/CustomBottomNavigation";
+import { CustomBottomNavigation } from "@/components/ui/CustomBottomNavigation";
 
 interface TrackerScreenWrapperProps {
   children: React.ReactNode;

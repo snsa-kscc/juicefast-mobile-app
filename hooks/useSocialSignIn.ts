@@ -2,7 +2,7 @@ import { useSSO } from "@clerk/clerk-expo";
 import * as AuthSession from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 import { useCallback, useEffect, useState } from "react";
-import { getPushToken } from "../services/messagingService";
+import { getPushToken } from "@/services/messagingService";
 
 WebBrowser.maybeCompleteAuthSession();
 

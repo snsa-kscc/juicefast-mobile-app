@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { router } from "expo-router";
-import { useOnboardingCompletion } from "../../utils/onboarding";
+import { useOnboardingCompletion } from "@/utils/onboarding";
 import { CheckCircle, ArrowRight, Sparkles } from "lucide-react-native";
-import { quizQuestions } from "../../data/onboarding/quizQuestions";
+import { quizQuestions } from "@/data/onboarding/quizQuestions";
 
 interface QuizCompleteProps {
   answers: Record<string, string | string[] | number>;

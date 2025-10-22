@@ -1,7 +1,7 @@
 import React from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
-import { ThemedView } from "../../components/ThemedView";
+import { ThemedView } from "@/components/ThemedView";
 import { useLocalSearchParams } from "expo-router";
 
 export default function StoreScreen() {

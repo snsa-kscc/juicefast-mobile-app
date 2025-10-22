@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Platform } from "react-native";
 import { usePaywall } from "@/hooks/usePaywall";
-import { PaywallScreen } from "./PaywallScreen";
+import { PaywallScreen } from "@/components/paywall/PaywallScreen";
 
 interface PaywallGuardProps {
   children: React.ReactNode;

@@ -2,7 +2,6 @@ import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { ConvexHttpClient } from "convex/browser";
-import { api } from "../../convex/_generated/api";
 
 const MacroSchema = z.object({
   name: z.string().describe("Name of the dish/food"),

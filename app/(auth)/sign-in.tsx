@@ -10,9 +10,9 @@ import {
   Platform,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useSocialSignIn } from "../../hooks/useSocialSignIn";
-import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
-import { ReferralStorage } from "../../utils/referralStorage";
+import { useSocialSignIn } from "@/hooks/useSocialSignIn";
+import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
+import { ReferralStorage } from "@/utils/referralStorage";
 import { MailIcon, LockIcon } from "@/components/icons/AuthIcons";
 import { getInputFieldPadding } from "@/utils/platformStyles";
 

@@ -7,7 +7,7 @@ import {
   SleepIcon,
   StepsIcon,
   WaterIcon,
-} from "./icons/TrackerIcons";
+} from "@/components/dashboard/icons/TrackerIcons";
 
 interface DailyData {
   steps: number;

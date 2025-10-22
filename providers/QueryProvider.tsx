@@ -4,7 +4,7 @@ import {
   useIsFetching,
 } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
-import { useLoading } from "./LoadingProvider";
+import { useLoading } from "@/providers/LoadingProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {

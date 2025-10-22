@@ -1,4 +1,4 @@
-import { ReferralStorage } from "./referralStorage";
+import { ReferralStorage } from "@/utils/referralStorage";
 import * as Linking from "expo-linking";
 
 /**

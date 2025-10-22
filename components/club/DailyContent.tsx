@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { View, Text, FlatList } from "react-native";
 import { ProcessedClubItem } from "@/types/club";
-import { ContentCard } from "./ContentCard";
+import { ContentCard } from "@/components/club/ContentCard";
 
 interface DailyContentProps {
   items: ProcessedClubItem[];

@@ -1,5 +1,5 @@
-export { HomeDashboard } from "./HomeDashboard";
-export { WellnessScoreCard } from "./WellnessScoreCard";
-export { DaySelector } from "./DaySelector";
-export { DailyOverview } from "./DailyOverview";
-export * from "./icons/TrackerIcons";
+export { HomeDashboard } from "@/components/dashboard/HomeDashboard";
+export { WellnessScoreCard } from "@/components/dashboard/WellnessScoreCard";
+export { DaySelector } from "@/components/dashboard/DaySelector";
+export { DailyOverview } from "@/components/dashboard/DailyOverview";
+export * from "@/components/dashboard/icons/TrackerIcons";

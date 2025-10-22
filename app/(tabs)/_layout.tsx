@@ -5,7 +5,7 @@ import {
   NativeTabs,
 } from "expo-router/unstable-native-tabs";
 import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import { useAuth } from "@clerk/clerk-expo";
 
 export default function TabLayout() {

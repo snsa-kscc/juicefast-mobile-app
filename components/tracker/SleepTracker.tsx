@@ -17,15 +17,15 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
 import { useUser } from "@clerk/clerk-expo";
-import { api } from "../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import {
   CircularProgress,
   ProgressBar,
   TrackerButton,
   WellnessHeader,
   TrackerStats,
-} from "./shared";
-import { SleepTimeModal } from "./SleepTimeModal";
+} from "@/components/tracker/shared";
+import { SleepTimeModal } from "@/components/tracker/SleepTimeModal";
 
 interface SleepEntry {
   hoursSlept: number;
@@ -316,7 +316,7 @@ export function SleepTracker({
                   className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
                 >
                   <View>
-                    <Text className="font-lufga text-sm font-lufga-medium">
+                    <Text className="text-sm font-lufga-medium">
                       {entry.hoursSlept}h - Quality: {entry.quality}/5
                     </Text>
                     <Text className="font-lufga text-xs text-gray-500">

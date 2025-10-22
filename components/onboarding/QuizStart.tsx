@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { router } from "expo-router";
-import { useOnboardingCompletion } from "../../utils/onboarding";
-import Star from "../ui/star";
-import BodyFigure from "../ui/body-figure";
-import Scale from "../ui/scale";
-import Dumbbell from "../ui/dumbbell";
+import { useOnboardingCompletion } from "@/utils/onboarding";
+import Star from "@/components/ui/star";
+import BodyFigure from "@/components/ui/body-figure";
+import Scale from "@/components/ui/scale";
+import Dumbbell from "@/components/ui/dumbbell";
 
 interface QuizStartProps {
   onStart: () => void;

@@ -11,10 +11,10 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSignUp } from "@clerk/clerk-expo";
-import { ReferralStorage } from "../../utils/referralStorage";
+import { ReferralStorage } from "@/utils/referralStorage";
 import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { usePushTokenStorage } from "../../hooks/usePushTokenStorage";
+import { api } from "@/convex/_generated/api";
+import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
 import { MailIcon, LockIcon, UserIcon } from "@/components/icons/AuthIcons";
 import { getInputFieldPadding } from "@/utils/platformStyles";
 

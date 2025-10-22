@@ -8,7 +8,7 @@ import {
   MindfulnessIcon,
   SleepIcon,
   WaterIcon,
-} from "./icons/TrackerIcons";
+} from "@/components/dashboard/icons/TrackerIcons";
 
 interface WellnessProgressBarProps {
   icon: React.ReactNode;

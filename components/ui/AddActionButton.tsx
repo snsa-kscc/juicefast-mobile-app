@@ -20,7 +20,7 @@ import {
   SleepIcon,
   StepsIcon,
   WaterIcon,
-} from "../icons/TrackerIcons";
+} from "@/components/icons/TrackerIcons";
 
 interface ActionOption {
   id: string;

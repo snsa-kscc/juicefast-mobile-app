@@ -17,9 +17,9 @@ import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
 import { useAuth } from "@clerk/clerk-expo";
-import { api } from "../../convex/_generated/api";
-import { Id } from "../../convex/_generated/dataModel";
-import { TrackerButton, WellnessHeader } from "./shared";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import { TrackerButton, WellnessHeader } from "@/components/tracker/shared";
 import { generateAPIUrl } from "@/utils";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";

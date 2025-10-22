@@ -16,14 +16,14 @@ import {
 } from "react-native";
 import { useMutation, useQuery } from "convex/react";
 import { useUser } from "@clerk/clerk-expo";
-import { api } from "../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import {
   CircularProgress,
   ProgressBar,
   TrackerButton,
   WellnessHeader,
   TrackerStats,
-} from "./shared";
+} from "@/components/tracker/shared";
 
 interface MindfulnessEntry {
   minutes: number;
