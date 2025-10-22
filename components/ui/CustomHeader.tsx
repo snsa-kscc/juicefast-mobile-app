@@ -121,7 +121,7 @@ export function WellnessHeader({
             <View className="flex-1 mr-4">
               {title && (
                 <Text
-                  className="text-xl font-lufga-medium mb-2"
+                  className="text-xl font-lufga-bold mb-2"
                   style={{ color: backgroundImage ? "white" : "#111827" }}
                 >
                   {title}

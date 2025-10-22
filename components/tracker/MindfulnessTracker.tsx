@@ -278,7 +278,7 @@ export function MindfulnessTracker({
                 >
                   <View className="flex-1 mr-2">
                     <Text
-                      className="font-lufga text-sm font-lufga-medium"
+                      className="text-sm font-lufga-medium"
                       numberOfLines={2}
                     >
                       {entry.minutes} minutes - {activityLabel}

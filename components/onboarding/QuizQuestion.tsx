@@ -295,7 +295,7 @@ export function QuizQuestion({
               className="mt-4"
               disabled={isSkipping}
             >
-              <Text className="text-sm font-lufga-medium underline text-black font-lufga">
+              <Text className="text-sm font-lufga-medium underline text-black">
                 {isSkipping ? "Skipping..." : "Skip onboarding"}
               </Text>
             </TouchableOpacity>
