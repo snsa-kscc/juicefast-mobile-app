@@ -1,6 +1,5 @@
 import { AnimatedScreen } from "@/components/AnimatedScreen";
 import { MindfulnessTracker } from "@/components/tracker/MindfulnessTracker";
-import { TrackerScreenWrapper } from "@/components/TrackerScreenWrapper";
 import { useRouter } from "expo-router";
 
 export default function MindfulnessScreen() {
@@ -15,13 +14,11 @@ export default function MindfulnessScreen() {
   };
 
   return (
-    <TrackerScreenWrapper>
-      <AnimatedScreen>
-        <MindfulnessTracker
-          onBack={handleBack}
-          onSettingsPress={handleSettingsPress}
-        />
-      </AnimatedScreen>
-    </TrackerScreenWrapper>
+    <AnimatedScreen>
+      <MindfulnessTracker
+        onBack={handleBack}
+        onSettingsPress={handleSettingsPress}
+      />
+    </AnimatedScreen>
   );
 }

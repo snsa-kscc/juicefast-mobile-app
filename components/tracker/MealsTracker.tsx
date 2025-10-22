@@ -566,7 +566,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                   onPress={() => setActiveTab(mealType)}
                 >
                   <Text
-                    className={`text-sm text-center capitalize ${activeTab === mealType ? "font-medium text-black" : "text-gray-500"}`}
+                    className={`text-sm text-center capitalize ${activeTab === mealType ? "font-medium text-black" : "text-gray-500 font-lufga"}`}
                   >
                     {mealType}
                   </Text>
@@ -577,7 +577,9 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
 
           {currentMeals.length === 0 ? (
             <View className="flex items-center justify-center py-8">
-              <Text className="text-gray-500">No {activeTab} logged yet</Text>
+              <Text className="text-gray-500 font-lufga">
+                No {activeTab} logged yet
+              </Text>
             </View>
           ) : (
             <View className="space-y-3 mb-4">
@@ -608,7 +610,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                     </View>
 
                     {meal.description && (
-                      <Text className="text-sm text-gray-600 mb-3">
+                      <Text className="text-sm font-lufga text-gray-600 mb-3">
                         {meal.description}
                       </Text>
                     )}
@@ -618,23 +620,29 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                         <Text className="font-medium text-blue-700">
                           {meal.protein}g
                         </Text>
-                        <Text className="text-xs text-gray-600">Protein</Text>
+                        <Text className="text-xs font-lufga text-gray-600">
+                          Protein
+                        </Text>
                       </View>
                       <View className="flex-1 bg-amber-50 p-2 rounded items-center">
                         <Text className="font-medium text-amber-700">
                           {meal.carbs}g
                         </Text>
-                        <Text className="text-xs text-gray-600">Carbs</Text>
+                        <Text className="text-xs font-lufga text-gray-600">
+                          Carbs
+                        </Text>
                       </View>
                       <View className="flex-1 bg-orange-50 p-2 rounded items-center">
                         <Text className="font-medium text-orange-700">
                           {meal.fat}g
                         </Text>
-                        <Text className="text-xs text-gray-600">Fat</Text>
+                        <Text className="text-xs font-lufga text-gray-600">
+                          Fat
+                        </Text>
                       </View>
                     </View>
 
-                    <Text className="text-xs text-gray-500 mt-2 text-right">
+                    <Text className="text-xs font-lufga text-gray-500 mt-2 text-right">
                       {date.toLocaleDateString()} at{" "}
                       {date.toLocaleTimeString([], {
                         hour: "2-digit",
@@ -655,28 +663,28 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
 
           <View className="flex-row gap-4">
             <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
-              <Text className="text-2xl font-bold text-emerald-500">
+              <Text className="text-2xl font-lufga-bold text-emerald-500">
                 {Math.round(dailyTotals.calories)}
               </Text>
-              <Text className="text-xs text-gray-500">Calories</Text>
+              <Text className="text-xs font-lufga text-gray-500">Calories</Text>
             </View>
             <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
-              <Text className="text-2xl font-bold text-emerald-500">
+              <Text className="text-2xl font-lufga-bold text-emerald-500">
                 {Math.round(dailyTotals.protein)}g
               </Text>
-              <Text className="text-xs text-gray-500">Protein</Text>
+              <Text className="text-xs font-lufga text-gray-500">Protein</Text>
             </View>
             <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
-              <Text className="text-2xl font-bold text-emerald-500">
+              <Text className="text-2xl font-lufga-bold text-emerald-500">
                 {Math.round(dailyTotals.carbs)}g
               </Text>
-              <Text className="text-xs text-gray-500">Carbs</Text>
+              <Text className="text-xs font-lufga text-gray-500">Carbs</Text>
             </View>
             <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
-              <Text className="text-2xl font-bold text-emerald-500">
+              <Text className="text-2xl font-lufga-bold text-emerald-500">
                 {Math.round(dailyTotals.fat)}g
               </Text>
-              <Text className="text-xs text-gray-500">Fat</Text>
+              <Text className="text-xs font-lufga text-gray-500">Fat</Text>
             </View>
           </View>
         </View>

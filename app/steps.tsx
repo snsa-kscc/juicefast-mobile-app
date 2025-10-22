@@ -1,6 +1,5 @@
 import { AnimatedScreen } from "@/components/AnimatedScreen";
 import { StepsTracker } from "@/components/tracker/StepsTracker";
-import { TrackerScreenWrapper } from "@/components/TrackerScreenWrapper";
 import { useRouter } from "expo-router";
 
 const MOCK_STEPS_DATA = {
@@ -32,13 +31,8 @@ export default function StepsScreen() {
   };
 
   return (
-    <TrackerScreenWrapper>
-      <AnimatedScreen>
-        <StepsTracker
-          onBack={handleBack}
-          onSettingsPress={handleSettingsPress}
-        />
-      </AnimatedScreen>
-    </TrackerScreenWrapper>
+    <AnimatedScreen>
+      <StepsTracker onBack={handleBack} onSettingsPress={handleSettingsPress} />
+    </AnimatedScreen>
   );
 }

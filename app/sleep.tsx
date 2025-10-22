@@ -1,6 +1,5 @@
 import { AnimatedScreen } from "@/components/AnimatedScreen";
 import { SleepTracker } from "@/components/tracker/SleepTracker";
-import { TrackerScreenWrapper } from "@/components/TrackerScreenWrapper";
 import { useRouter } from "expo-router";
 
 export default function Sleep() {
@@ -15,13 +14,8 @@ export default function Sleep() {
   };
 
   return (
-    <TrackerScreenWrapper>
-      <AnimatedScreen>
-        <SleepTracker
-          onBack={handleBack}
-          onSettingsPress={handleSettingsPress}
-        />
-      </AnimatedScreen>
-    </TrackerScreenWrapper>
+    <AnimatedScreen>
+      <SleepTracker onBack={handleBack} onSettingsPress={handleSettingsPress} />
+    </AnimatedScreen>
   );
 }
