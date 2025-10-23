@@ -21,6 +21,7 @@ import {
   LogOut,
 } from "lucide-react-native";
 import { Spinner } from "@/components/Spinner";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ChatSession {
   id: Id<"chatSessions">;
@@ -160,7 +161,7 @@ export default function NutritionistDashboard() {
   }
 
   return (
-    <View className="flex-1 bg-[#FCFBF8]">
+    <SafeAreaView className="flex-1 bg-jf-gray">
       {/* Header */}
       <View className="bg-white px-4 py-4 border-b border-gray-100">
         <View className="flex-row items-center justify-between">
@@ -211,7 +212,7 @@ export default function NutritionistDashboard() {
         </View>
 
         {/* Filter buttons */}
-        <View className="flex-row space-x-2 mb-4">
+        <View className="flex-row gap-2 mb-4">
           <TouchableOpacity
             className={`flex-1 py-2 px-4 rounded-lg ${
               filter === "all" ? "bg-[#8B7355]" : "bg-gray-200"
@@ -272,7 +273,7 @@ export default function NutritionistDashboard() {
               return (
                 <TouchableOpacity
                   key={chat.id}
-                  className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100"
+                  className="bg-white rounded-xl p-4 mb-3 border border-gray-100"
                   onPress={() => handleChatPress(chat.id)}
                 >
                   <View className="flex-row items-start justify-between">
@@ -353,6 +354,6 @@ export default function NutritionistDashboard() {
           )}
         </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

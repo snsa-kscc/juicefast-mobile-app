@@ -20,6 +20,7 @@ import {
   addNotificationListener,
   addForegroundNotificationListener,
 } from "@/services/messagingService";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Message {
   id: Id<"chatMessages">;
@@ -30,15 +31,6 @@ interface Message {
   timestamp: number;
   isRead: boolean;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  inner: {
-    flex: 1,
-  },
-});
 
 export default function NutritionistChatSession() {
   const { user } = useUser();
@@ -65,6 +57,7 @@ export default function NutritionistChatSession() {
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
       setKeyboardHeight(e.endCoordinates.height);
+      scrollToBottom();
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardHeight(0);
@@ -229,24 +222,21 @@ export default function NutritionistChatSession() {
     !currentSession
   ) {
     return (
-      <View
-        style={[styles.container, { backgroundColor: "#FCFBF8" }]}
-        className="items-center justify-center"
-      >
+      <View className="items-center justify-center flex-1 bg-jf-gray">
         <Spinner size={32} color="#8B7355" />
       </View>
     );
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: "#FCFBF8" }]}>
-      <View style={[styles.inner, { paddingBottom: keyboardHeight }]}>
+    <SafeAreaView className="flex-1 bg-jf-gray">
+      <View className="flex-1" style={{ paddingBottom: keyboardHeight }}>
         {/* Chat header */}
         <View className="bg-white px-4 py-3 border-b border-gray-100">
           <View className="flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <TouchableOpacity onPress={handleBack} className="mr-3">
-                <ArrowLeft size={20} color="#8B7355" />
+              <TouchableOpacity onPress={handleBack} className="mr-3 p-2">
+                <ArrowLeft size={24} color="#8B7355" />
               </TouchableOpacity>
               <View className="w-10 h-10 bg-[#E1D5B9] rounded-full items-center justify-center mr-3">
                 <User size={20} color="#8B7355" />
@@ -295,7 +285,7 @@ export default function NutritionistChatSession() {
                 className={`max-w-[80%] px-4 py-3 rounded-2xl ${
                   message.senderType === "nutritionist"
                     ? "bg-[#8B7355] rounded-br-md"
-                    : "bg-white rounded-bl-md shadow-sm"
+                    : "bg-white rounded-bl-md"
                 }`}
               >
                 <Text
@@ -334,7 +324,7 @@ export default function NutritionistChatSession() {
 
         {/* Input */}
         <View className="px-4 py-3 bg-white border-t border-gray-100">
-          <View className="flex-row items-end bg-white rounded-2xl shadow-sm border border-gray-100">
+          <View className="flex-row items-end bg-white rounded-2xl border border-gray-100">
             <TextInput
               className="flex-1 px-4 py-3 text-base font-lufga text-gray-800 max-h-24"
               placeholder="Type your response..."
@@ -344,6 +334,7 @@ export default function NutritionistChatSession() {
               multiline
               textAlignVertical="top"
               onSubmitEditing={handleSend}
+              onFocus={scrollToBottom}
               editable={currentSession.status === "active"}
             />
             <TouchableOpacity
@@ -381,6 +372,6 @@ export default function NutritionistChatSession() {
           )}
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
