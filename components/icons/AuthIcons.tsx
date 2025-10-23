@@ -110,3 +110,70 @@ export const UserIcon: React.FC<IconProps> = ({
     />
   </Svg>
 );
+
+export const EyeIcon: React.FC<IconProps> = ({
+  width = 20,
+  height = 20,
+  color = "#929292",
+}) => (
+  <Svg width={width} height={height} viewBox="0 0 20 20" fill="none">
+    <Path
+      d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M17.5 10C17.5 10 14.5833 15 10 15C5.41667 15 2.5 10 2.5 10C2.5 10 5.41667 5 10 5C14.5833 5 17.5 10 17.5 10Z"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const EyeOffIcon: React.FC<IconProps> = ({
+  width = 20,
+  height = 20,
+  color = "#929292",
+}) => (
+  <Svg width={width} height={height} viewBox="0 0 20 20" fill="none">
+    <Path
+      d="M8.81665 8.81665C8.46907 9.16423 8.26665 9.63805 8.26665 10.1583C8.26665 11.2189 9.12608 12.0783 10.1867 12.0783C10.7069 12.0783 11.1807 11.8759 11.5283 11.5283"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12.975 7.34167C12.0917 6.75833 11.0667 6.425 10 6.425C7.05833 6.425 4.56667 8.35 2.91667 10.1583C2.36667 10.7833 2.36667 11.5333 2.91667 12.1583C3.58333 12.9167 4.35 13.6083 5.19167 14.2"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8.26665 15.2667C8.82498 15.4583 9.40831 15.575 10 15.575C12.9417 15.575 15.4333 13.65 17.0833 11.8417C17.6333 11.2167 17.6333 10.4667 17.0833 9.84167C16.7833 9.49167 16.4667 9.15834 16.1333 8.84167"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M13.025 10.5917L17.5 6.11667"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M2.5 17.5L6.975 13.025"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);

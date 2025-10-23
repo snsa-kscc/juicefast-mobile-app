@@ -13,7 +13,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useSocialSignIn } from "@/hooks/useSocialSignIn";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
 import { ReferralStorage } from "@/utils/referralStorage";
-import { MailIcon, LockIcon } from "@/components/icons/AuthIcons";
+import { MailIcon, LockIcon, EyeIcon, EyeOffIcon } from "@/components/icons/AuthIcons";
 import { getInputFieldPadding } from "@/utils/platformStyles";
 
 export default function Page() {
@@ -48,6 +48,7 @@ export default function Page() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // Handle the submission of the sign-in form
   const onSignInPress = async () => {
@@ -155,10 +156,16 @@ export default function Page() {
             value={password}
             placeholder="Password"
             placeholderTextColor="#9CA3AF"
-            secureTextEntry={true}
+            secureTextEntry={!showPassword}
             className="flex-1 text-base text-gray-500 font-lufga"
             onChangeText={(password) => setPassword(password)}
           />
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            className="ml-2"
+          >
+            {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+          </TouchableOpacity>
         </View>
 
         {/* Forgot Password and Log In Button */}
@@ -237,8 +244,7 @@ export default function Page() {
         </Link>
       </View>
 
-      {/* Android Navigation Bar Spacer */}
-      {Platform.OS === "android" && <View className="h-16" />}
+      <View className="h-16" />
     </KeyboardAwareScrollView>
   );
 }
