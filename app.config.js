@@ -100,7 +100,7 @@ export default {
         projectId: "6e9c5757-7446-4974-80fa-fadd2ad8ebc4",
       },
     },
-    owner: "juicefast-app",
+    owner: "juicefast",
     runtimeVersion: "1.0.0",
     updates: {
       url: "https://u.expo.dev/6e9c5757-7446-4974-80fa-fadd2ad8ebc4",
