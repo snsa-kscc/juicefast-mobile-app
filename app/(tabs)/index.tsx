@@ -1,7 +1,6 @@
 import { HomeDashboard } from "@/components/dashboard";
 import { useUser } from "@clerk/clerk-expo";
 import React, { useEffect } from "react";
-import { Platform, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -33,13 +32,11 @@ export default function HomeScreen() {
     };
   });
 
-  const Container = Platform.OS === "android" ? SafeAreaView : View;
-
   return (
-    <Container className="flex-1">
-      <Animated.View style={[{ flex: 1 }, animatedStyle]}>
+    <SafeAreaView className="flex-1">
+      <Animated.View className="flex-1" style={animatedStyle}>
         <HomeDashboard userName={user?.firstName || "User"} />
       </Animated.View>
-    </Container>
+    </SafeAreaView>
   );
 }
