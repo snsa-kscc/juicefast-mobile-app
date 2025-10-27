@@ -165,3 +165,43 @@ export const WaterIcon = ({ color = "#000000" }: IconProps) => (
     />
   </Svg>
 );
+
+export const NoteIcon = ({ color = "#000000" }: IconProps) => (
+  <Svg width="36" height="36" viewBox="0 0 44 44" fill="none">
+    <Path
+      d="M27.5 5.5H9.16667C7.14162 5.5 5.5 7.14162 5.5 9.16667V34.8333C5.5 36.8584 7.14162 38.5 9.16667 38.5H34.8333C36.8584 38.5 38.5 36.8584 38.5 34.8333V16.5L27.5 5.5Z"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M27.5 5.5V16.5H38.5"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M29.3333 23.8333H14.6667"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M29.3333 30.25H14.6667"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M18.3333 17.4167H16.5H14.6667"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);

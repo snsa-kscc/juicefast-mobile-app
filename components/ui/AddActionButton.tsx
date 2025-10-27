@@ -17,6 +17,7 @@ import Animated, {
 import {
   MealIcon,
   MindfulnessIcon,
+  NoteIcon,
   SleepIcon,
   StepsIcon,
   WaterIcon,
@@ -86,6 +87,12 @@ export function AddActionButton() {
       iconColor: "rgba(76, 195, 255, 1)",
       route: "/hydration",
     },
+    {
+      id: "notes",
+      title: "Notes",
+      iconColor: "rgba(255, 159, 64, 1)",
+      route: "/notes",
+    },
   ];
 
   const handleOptionPress = (route: string) => {
@@ -98,6 +105,7 @@ export function AddActionButton() {
       "/mindfulness",
       "/hydration",
       "/sleep",
+      "/notes",
     ];
 
     if (existingRoutes.includes(route)) {
@@ -119,6 +127,8 @@ export function AddActionButton() {
         return <WaterIcon color={color} />;
       case "sleep":
         return <SleepIcon color={color} />;
+      case "notes":
+        return <NoteIcon color={color} />;
       default:
         return <StepsIcon color={color} />;
     }

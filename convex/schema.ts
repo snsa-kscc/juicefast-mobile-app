@@ -42,6 +42,15 @@ export default defineSchema({
     timestamp: v.number(),
   }).index("by_user_id", ["userID"]),
 
+  noteEntry: defineTable({
+    userID: v.string(),
+    content: v.string(),
+    date: v.string(), // Format: YYYY-MM-DD for easy daily lookup
+    timestamp: v.number(), // When note was last updated
+  })
+    .index("by_user_id", ["userID"])
+    .index("by_user_and_date", ["userID", "date"]),
+
   userProfile: defineTable({
     userID: v.string(),
     height: v.optional(v.number()),
