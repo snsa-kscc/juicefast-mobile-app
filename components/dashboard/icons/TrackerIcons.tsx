@@ -166,3 +166,29 @@ export const WaterIcon = ({ size = 24, color = "#000" }: IconProps) => (
     />
   </Svg>
 );
+
+export const FocusIcon = ({ size = 24, color = "#000" }: IconProps) => (
+  <Svg width={size} height={size} viewBox="0 0 44 44" fill="white">
+    <Path
+      d="M22 38.5C31.1127 38.5 38.5 31.1127 38.5 22C38.5 12.8873 31.1127 5.5 22 5.5C12.8873 5.5 5.5 12.8873 5.5 22C5.5 31.1127 12.8873 38.5 22 38.5Z"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M22 29.3333C26.0501 29.3333 29.3333 26.0501 29.3333 22C29.3333 17.9499 26.0501 14.6667 22 14.6667C17.9499 14.6667 14.6667 17.9499 14.6667 22C14.6667 26.0501 17.9499 29.3333 22 29.3333Z"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M22 25.6667C24.0251 25.6667 25.6667 24.0251 25.6667 22C25.6667 19.9749 24.0251 18.3333 22 18.3333C19.9749 18.3333 18.3333 19.9749 18.3333 22C18.3333 24.0251 19.9749 25.6667 22 25.6667Z"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);

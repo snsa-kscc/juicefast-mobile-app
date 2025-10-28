@@ -1,6 +1,6 @@
 import { useAuth } from "@clerk/clerk-expo";
 import { useQuery } from "convex/react";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { Plus } from "lucide-react-native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -16,6 +16,7 @@ import { api } from "@/convex/_generated/api";
 import { Spinner } from "@/components/Spinner";
 import { CircularProgress, WellnessHeader } from "@/components/tracker/shared";
 import { DaySelector } from "@/components/dashboard/DaySelector";
+import { DailyFocusCard } from "@/components/dashboard/DailyFocusCard";
 import {
   MealIcon,
   StepsIcon,
@@ -46,6 +47,11 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const { isSignedIn } = useAuth();
   const { simulateNoSubscription, restorePurchases } = useRevenueCat();
+
+  // Get selected date in YYYY-MM-DD format for note query
+  const selectedDateString = useMemo(() => {
+    return selectedDate.toISOString().split("T")[0];
+  }, [selectedDate]);
 
   // Calculate start and end timestamps for selected date
   const { startTime, endTime } = useMemo(() => {
@@ -126,6 +132,12 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           endTime,
         }
       : "skip"
+  );
+
+  // Query note entry for selected date
+  const noteEntry = useQuery(
+    api.noteEntry.getByDate,
+    isSignedIn ? { date: selectedDateString } : "skip"
   );
 
   // Calculate aggregated data from queries
@@ -451,6 +463,9 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
             </View>
           </View>
         </View>
+
+        {/* Daily Focus Card */}
+        <DailyFocusCard note={noteEntry} isToday={isToday} />
 
         {/* Tracking Options */}
         <View className="px-6 py-6">

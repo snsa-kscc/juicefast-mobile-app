@@ -100,16 +100,6 @@ export function NotesTracker({ onBack, onSettingsPress }: NotesTrackerProps) {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString + "T00:00:00");
-    return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
   const characterCount = noteContent.length;
   const maxCharacters = 5000;
 
@@ -125,7 +115,7 @@ export function NotesTracker({ onBack, onSettingsPress }: NotesTrackerProps) {
         showsVerticalScrollIndicator={false}
       >
         <WellnessHeader
-          title="Daily Notes"
+          title="Daily Focus"
           subtitle="Capture your thoughts, track your progress."
           accentColor="rgba(255, 159, 64, 1)"
           showBackButton={true}
@@ -133,26 +123,25 @@ export function NotesTracker({ onBack, onSettingsPress }: NotesTrackerProps) {
           onSettingsPress={onSettingsPress}
         />
 
-        {/* Note Info Card */}
-        <View className="px-6 mb-4">
-          <View className="bg-white rounded-2xl p-4">
-            <Text className="font-lufga-semibold text-xl mb-2">
-              {formatDate(todayDate)}
-            </Text>
-            <Text className="font-lufga text-sm text-gray-600">
-              {existingNote
-                ? `Last updated: ${new Date(existingNote.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
-                : "No note for today yet"}
-            </Text>
-          </View>
-        </View>
-
         {/* Note Editor */}
         <View className="px-6">
-          <View className="flex-row justify-between items-center mb-2">
-            <Text className="font-lufga-semibold text-2xl">Today's Note</Text>
+          <View className="mb-2">
+            <Text className="font-lufga-semibold text-2xl mb-1">
+              Today's Priority
+            </Text>
+            {existingNote && (
+              <Text className="font-lufga text-xs text-gray-500">
+                Last updated:{" "}
+                {new Date(existingNote.timestamp).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
+            )}
+          </View>
+          <View className="flex-row justify-end items-center mb-2">
             <Text
-              className={`font-lufga text-sm ${
+              className={`font-lufga text-xs ${
                 characterCount > maxCharacters * 0.9
                   ? "text-red-500"
                   : "text-gray-500"
@@ -165,7 +154,7 @@ export function NotesTracker({ onBack, onSettingsPress }: NotesTrackerProps) {
           <View className="bg-white rounded-2xl p-4 mb-4">
             <TextInput
               className="font-lufga text-base min-h-24 text-gray-800"
-              placeholder="Write your thoughts here..."
+              placeholder="Today I choose to..."
               placeholderTextColor="#999"
               multiline
               textAlignVertical="top"
@@ -184,10 +173,10 @@ export function NotesTracker({ onBack, onSettingsPress }: NotesTrackerProps) {
           )}
 
           <TrackerButton
-            title={existingNote ? "Update Note" : "Save Note"}
+            title={"Lock it in"}
             onPress={handleSaveNote}
             isLoading={isSaving}
-            loadingText="Saving..."
+            loadingText="Locking in..."
             disabled={!hasUnsavedChanges || noteContent.trim() === ""}
           />
 
@@ -197,7 +186,7 @@ export function NotesTracker({ onBack, onSettingsPress }: NotesTrackerProps) {
               className="mt-3 p-4 bg-red-100 rounded-full active:bg-red-200"
             >
               <Text className="font-lufga-medium text-center text-red-600">
-                Delete Note
+                Delete Focus
               </Text>
             </TouchableOpacity>
           )}
@@ -206,14 +195,12 @@ export function NotesTracker({ onBack, onSettingsPress }: NotesTrackerProps) {
         {/* Tips Card */}
         <View className="px-6 mt-6 mb-16">
           <View className="bg-white rounded-2xl p-4">
-            <Text className="font-lufga-semibold text-xl mb-2">
-              Note-Taking Tips
-            </Text>
+            <Text className="font-lufga-semibold text-xl mb-2">Focus Tips</Text>
             <View>
               {[
                 "Reflect on your day's achievements and challenges",
                 "Track your mood and energy levels",
-                "Set intentions for tomorrow",
+                "Set intentions for today",
                 "Note any patterns in your wellness journey",
               ].map((tip, index, array) => (
                 <View
