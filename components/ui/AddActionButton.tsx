@@ -89,7 +89,7 @@ export function AddActionButton() {
     },
     {
       id: "notes",
-      title: "Notes",
+      title: "Daily Focus",
       iconColor: "rgba(255, 159, 64, 1)",
       route: "/notes",
     },
