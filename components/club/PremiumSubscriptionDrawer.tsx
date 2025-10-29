@@ -99,6 +99,14 @@ export function PremiumSubscriptionDrawer({
     return `${price}/month. Cancel anytime.`;
   };
 
+  const benefits = [
+    "Special discount on all Juicefast products",
+    "VIP offerings on new products",
+    "All - Inclusive personalized and curated programs",
+    "1:1 talks with our nutritionist and health experts",
+    "Free gifts on every delivery",
+  ];
+
   return (
     <>
       <TouchableOpacity onPress={openDrawer}>{children}</TouchableOpacity>
@@ -113,15 +121,24 @@ export function PremiumSubscriptionDrawer({
         <SafeAreaView className="flex-1 bg-white">
           <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
             {/* Hero Section with Image */}
-            <View className="relative h-64">
+            <View className="relative h-80">
               <ImageBackground
                 source={require("@/assets/images/jf-club/cardio-fat-burn.jpg")}
                 className="w-full h-full"
                 resizeMode="cover"
               >
                 <LinearGradient
-                  colors={["rgba(0,0,0,0.3)", "rgba(0,0,0,0.1)"]}
-                  className="w-full h-full justify-center items-center"
+                  colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.4)"]}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                    paddingBottom: 16,
+                  }}
                 >
                   {/* Close Button */}
                   <TouchableOpacity
@@ -218,61 +235,19 @@ export function PremiumSubscriptionDrawer({
 
               {/* Benefits List */}
               <View className="mb-6">
-                <View className="flex-row items-start mb-3">
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={20}
-                    color="#10B981"
-                    style={{ marginTop: 2 }}
-                  />
-                  <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
-                    Special discount on all Juicefast products
-                  </Text>
-                </View>
-                <View className="flex-row items-start mb-3">
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={20}
-                    color="#10B981"
-                    style={{ marginTop: 2 }}
-                  />
-                  <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
-                    VIP offerings on new products
-                  </Text>
-                </View>
-                <View className="flex-row items-start mb-3">
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={20}
-                    color="#10B981"
-                    style={{ marginTop: 2 }}
-                  />
-                  <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
-                    All - Inclusive personalized and curated programs
-                  </Text>
-                </View>
-                <View className="flex-row items-start mb-3">
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={20}
-                    color="#10B981"
-                    style={{ marginTop: 2 }}
-                  />
-                  <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
-                    1:1 talks with our nutritionist and health experts
-                  </Text>
-                </View>
-                <View className="flex-row items-start mb-3">
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={20}
-                    color="#10B981"
-                    style={{ marginTop: 2 }}
-                  />
-                  <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
-                    Free gifts on every delivery
-                  </Text>
-                </View>
+                {benefits.map((benefit, index) => (
+                  <View key={index} className="flex-row items-center mb-3">
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={20}
+                      color="#10B981"
+                      style={{ marginTop: 3 }}
+                    />
+                    <Text className="text-sm font-lufga text-gray-700 ml-3 flex-1 leading-5">
+                      {benefit}
+                    </Text>
+                  </View>
+                ))}
               </View>
 
               {/* See Prices Link */}
