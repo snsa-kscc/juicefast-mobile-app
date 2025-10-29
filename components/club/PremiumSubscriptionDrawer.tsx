@@ -250,13 +250,6 @@ export function PremiumSubscriptionDrawer({
                 ))}
               </View>
 
-              {/* See Prices Link */}
-              <TouchableOpacity className="items-center mb-6">
-                <Text className="text-sm text-blue-500 font-lufga-medium">
-                  See prices
-                </Text>
-              </TouchableOpacity>
-
               {/* CTA Button */}
               <TouchableOpacity
                 className="w-full bg-black py-4 rounded-full items-center"
