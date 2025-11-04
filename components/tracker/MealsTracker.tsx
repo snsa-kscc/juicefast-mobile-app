@@ -21,6 +21,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { TrackerButton, WellnessHeader } from "@/components/tracker/shared";
 import { generateAPIUrl } from "@/utils";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
@@ -309,7 +310,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
   };
 
   return (
-    <View className="flex-1 bg-jf-gray">
+    <SafeAreaView className="flex-1 bg-jf-gray">
       <KeyboardAwareScrollView
         className="flex-1"
         enableOnAndroid={true}
@@ -582,13 +583,13 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
               </Text>
             </View>
           ) : (
-            <View className="space-y-3 mb-4">
+            <View className="mb-4">
               {currentMeals.map((meal, index) => {
                 const date = new Date(meal.timestamp);
                 return (
                   <View
                     key={meal._id || index}
-                    className="bg-white rounded-lg p-4 shadow-sm border border-gray-100"
+                    className={`bg-white rounded-lg p-4 border border-gray-100 ${index < currentMeals.length - 1 ? "mb-2" : ""}`}
                   >
                     <View className="flex-row justify-between items-start mb-2">
                       <Text className="font-lufga-medium text-gray-900 flex-1">
@@ -662,25 +663,25 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
           </Text>
 
           <View className="flex-row gap-4">
-            <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
+            <View className="flex-1 bg-white rounded-lg p-4 items-center">
               <Text className="text-2xl font-lufga-bold text-emerald-500">
                 {Math.round(dailyTotals.calories)}
               </Text>
               <Text className="text-xs font-lufga text-gray-500">Calories</Text>
             </View>
-            <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
+            <View className="flex-1 bg-white rounded-lg p-4 items-center">
               <Text className="text-2xl font-lufga-bold text-emerald-500">
                 {Math.round(dailyTotals.protein)}g
               </Text>
               <Text className="text-xs font-lufga text-gray-500">Protein</Text>
             </View>
-            <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
+            <View className="flex-1 bg-white rounded-lg p-4 items-center">
               <Text className="text-2xl font-lufga-bold text-emerald-500">
                 {Math.round(dailyTotals.carbs)}g
               </Text>
               <Text className="text-xs font-lufga text-gray-500">Carbs</Text>
             </View>
-            <View className="flex-1 bg-white rounded-lg p-4 items-center shadow-sm">
+            <View className="flex-1 bg-white rounded-lg p-4 items-center">
               <Text className="text-2xl font-lufga-bold text-emerald-500">
                 {Math.round(dailyTotals.fat)}g
               </Text>
@@ -689,6 +690,6 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
           </View>
         </View>
       </KeyboardAwareScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
