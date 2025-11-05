@@ -1,12 +1,9 @@
-import {
-  Badge,
-  Icon,
-  Label,
-  NativeTabs,
-} from "expo-router/unstable-native-tabs";
+import { Tabs } from "expo-router";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuth } from "@clerk/clerk-expo";
+import { Home, Heart, Store, MessageCircle, Users } from "lucide-react-native";
+import { BlurView } from "expo-blur";
 
 export default function TabLayout() {
   const { isSignedIn } = useAuth();
@@ -19,85 +16,105 @@ export default function TabLayout() {
     0;
 
   return (
-    <NativeTabs
-    // screenOptions={{
-    //   headerShown: false,
-    //   tabBarStyle: {
-    //     backgroundColor: "#ffffff",
-    //     borderTopWidth: 1,
-    //     borderTopColor: "#e5e5e5",
-    //     height: Platform.OS === "ios" ? 80 + insets.bottom : 70,
-    //     paddingBottom: Platform.OS === "ios" ? insets.bottom + 10 : 10,
-    //     paddingTop: 10,
-    //   },
-    //   tabBarActiveTintColor: "#000000",
-    //   tabBarInactiveTintColor: "#9ca3af",
-    //   tabBarLabelStyle: {
-    //     fontSize: 12,
-    //     fontFamily: "Lufga-Medium",
-    //   },
-    // }}
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          position: "absolute",
+          backgroundColor: "transparent",
+          borderTopWidth: 0,
+          borderRadius: 20,
+          height: 70,
+          marginHorizontal: 20,
+          marginBottom: 45,
+          paddingBottom: 10,
+          paddingTop: 10,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 8,
+          },
+          shadowOpacity: 0.12,
+          shadowRadius: 16,
+          elevation: 12,
+          borderWidth: 1.5,
+          borderColor: "rgba(0, 0, 0, 0.2)",
+        },
+        tabBarBackground: () => (
+          <BlurView
+            intensity={80}
+            tint="light"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              borderRadius: 20,
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              overflow: "hidden",
+            }}
+          />
+        ),
+        tabBarActiveTintColor: "#000000",
+        tabBarInactiveTintColor: "#9ca3af",
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontFamily: "Lufga-Medium",
+        },
+      }}
     >
-      <NativeTabs.Trigger name="index">
-        <Label>Home</Label>
-        <Icon
-          sf={{ default: "house", selected: "house.fill" }}
-          drawable="ic_menu_home"
-        />
-      </NativeTabs.Trigger>
-      {/* options={{
+      <Tabs.Screen
+        name="index"
+        options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
-        }} */}
+        }}
+      />
 
-      <NativeTabs.Trigger name="tracker">
-        <Label>Tracker</Label>
-        <Icon
-          sf={{ default: "heart", selected: "heart.fill" }}
-          drawable="ic_menu_home"
-        />
-      </NativeTabs.Trigger>
-      {/* options={{
+      <Tabs.Screen
+        name="tracker"
+        options={{
           title: "Tracker",
           tabBarIcon: ({ color, size }) => <Heart size={size} color={color} />,
-         }} */}
+        }}
+      />
 
-      <NativeTabs.Trigger name="store">
-        <Label>Store</Label>
-        <Icon
-          sf={{ default: "bag", selected: "bag.fill" }}
-          drawable="stat_notify_chat"
-        />
-      </NativeTabs.Trigger>
-      {/* options={{
+      <Tabs.Screen
+        name="store"
+        options={{
           title: "Store",
           tabBarIcon: ({ color, size }) => <Store size={size} color={color} />,
-         }} */}
+        }}
+      />
 
-      <NativeTabs.Trigger name="chat">
-        <Label>Chat</Label>
-        <Icon
-          sf={{ default: "message", selected: "message.fill" }}
-          drawable="ic_dialog_email"
-        />
-        {unreadCount > 0 && <Badge>{unreadCount.toString()}</Badge>}
-      </NativeTabs.Trigger>
-      {/* options={{
+      <Tabs.Screen
+        name="chat"
+        options={{
           title: "Chat",
-          tabBarIcon: ({ color, size }) => <MessageCircle size={size} color={color} />,
-         }} */}
+          tabBarIcon: ({ color, size }) => (
+            <MessageCircle size={size} color={color} />
+          ),
+          tabBarBadge: unreadCount > 0 ? unreadCount : undefined,
+          tabBarBadgeStyle: {
+            backgroundColor: "#000",
+            color: "#ffffff",
+            fontSize: 10,
+            fontFamily: "Lufga-Medium",
+            minWidth: 18,
+            height: 18,
+            borderRadius: 9,
+          },
+        }}
+      />
 
-      <NativeTabs.Trigger name="club">
-        <Label>JF Club</Label>
-        <Icon
-          sf={{ default: "person.2", selected: "person.2.fill" }}
-          drawable="ic_dialog_email"
-        />
-      </NativeTabs.Trigger>
-      {/* options={{
+      <Tabs.Screen
+        name="club"
+        options={{
           title: "JF Club",
           tabBarIcon: ({ color, size }) => <Users size={size} color={color} />,
-        }} */}
-    </NativeTabs>
+        }}
+      />
+    </Tabs>
   );
 }
