@@ -33,7 +33,7 @@ export default function HomeScreen() {
   });
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-jf-gray">
       <Animated.View className="flex-1" style={animatedStyle}>
         <HomeDashboard userName={user?.firstName || "User"} />
       </Animated.View>
