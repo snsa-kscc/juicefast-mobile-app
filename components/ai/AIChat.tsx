@@ -145,7 +145,7 @@ export function AIChat({ userId: _userId }: AIChatProps) {
         </ScrollView>
 
         <View className="px-4 pb-4 bg-[#FCFBF8]">
-          <View className="flex-row items-end bg-white rounded-2xl shadow-sm border border-gray-100">
+          <View className="flex-row items-end bg-white rounded-2xl border-gray-100">
             <TextInput
               className="flex-1 px-4 py-3 text-base font-lufga text-gray-800 max-h-24"
               placeholder="Ask me about nutrition, fasting, or wellness..."

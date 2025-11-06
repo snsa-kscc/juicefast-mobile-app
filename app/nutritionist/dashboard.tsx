@@ -21,7 +21,6 @@ import {
   LogOut,
 } from "lucide-react-native";
 import { Spinner } from "@/components/Spinner";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ChatSession {
   id: Id<"chatSessions">;
@@ -161,7 +160,7 @@ export default function NutritionistDashboard() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-jf-gray">
+    <View className="flex-1 bg-jf-gray pt-4">
       {/* Header */}
       <View className="bg-white px-4 py-4 border-b border-gray-100">
         <View className="flex-row items-center justify-between">
@@ -354,6 +353,6 @@ export default function NutritionistDashboard() {
           )}
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

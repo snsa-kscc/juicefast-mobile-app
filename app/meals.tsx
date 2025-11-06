@@ -6,7 +6,7 @@ export default function Meals() {
   const router = useRouter();
 
   return (
-    <AnimatedScreen>
+    <AnimatedScreen className="bg-jf-gray">
       <MealsTracker
         onBack={() => router.back()}
         onSettingsPress={() => router.push("/profile")}

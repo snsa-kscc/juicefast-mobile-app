@@ -4,8 +4,29 @@ import { api } from "@/convex/_generated/api";
 import { useAuth } from "@clerk/clerk-expo";
 import { Home, Heart, Store, MessageCircle, Users } from "lucide-react-native";
 import { BlurView } from "expo-blur";
+import { Platform } from "react-native";
+import {
+  Badge,
+  Icon,
+  Label,
+  NativeTabs,
+} from "expo-router/unstable-native-tabs";
 
 export default function TabLayout() {
+  // Check if iOS 26 or later
+  const isIOS26OrLater =
+    Platform.OS === "ios" && parseInt(Platform.Version as string, 10) >= 26;
+
+  // If iOS 26+, use native tabs
+  if (isIOS26OrLater) {
+    return <IOSNativeTabLayout />;
+  }
+
+  // Otherwise use regular tabs
+  return <RegularTabLayout />;
+}
+
+function RegularTabLayout() {
   const { isSignedIn } = useAuth();
   const sessions = useQuery(
     api.nutritionistChat.getActiveUserSessions,
@@ -26,7 +47,7 @@ export default function TabLayout() {
           borderRadius: 20,
           height: 70,
           marginHorizontal: 20,
-          marginBottom: 45,
+          marginBottom: 25,
           paddingBottom: 10,
           paddingTop: 10,
           shadowColor: "#000",
@@ -116,5 +137,52 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+  );
+}
+
+function IOSNativeTabLayout() {
+  const { isSignedIn } = useAuth();
+  const sessions = useQuery(
+    api.nutritionistChat.getActiveUserSessions,
+    isSignedIn ? undefined : "skip"
+  );
+  const unreadCount =
+    sessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) ||
+    0;
+
+  return (
+    <NativeTabs
+      iconColor={{ default: "#9ca3af", selected: "#000000" }}
+      indicatorColor="#000000"
+      shadowColor="#000000"
+      badgeBackgroundColor="#000"
+      badgeTextColor="#ffffff"
+    >
+      <NativeTabs.Trigger name="index">
+        <Label>Home</Label>
+        <Icon sf={{ default: "house", selected: "house.fill" }} />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="tracker">
+        <Label>Tracker</Label>
+        <Icon sf={{ default: "heart", selected: "heart.fill" }} />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="store">
+        <Label>Store</Label>
+        <Icon sf={{ default: "bag", selected: "bag.fill" }} />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="chat">
+        <Label>Chat</Label>
+        <Icon sf={{ default: "message", selected: "message.fill" }} />
+        {unreadCount > 0 && <Badge>{unreadCount.toString()}</Badge>}
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="club">
+        <Label>JF Club</Label>
+        <Icon sf={{ default: "person.2", selected: "person.2.fill" }} />
+      </NativeTabs.Trigger>
+    </NativeTabs>
   );
 }

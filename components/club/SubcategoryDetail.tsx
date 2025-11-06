@@ -158,8 +158,8 @@ export function SubcategoryDetail({
       <View className="px-4 pt-2 pb-24">
         {Object.entries(groupedItems).map(([group, groupItems]) => (
           <View key={group} className="mb-6">
-            <Text className="text-base font-lufga-semibold text-amber-500 mb-2 px-4">
-              {group}
+            <Text className="text-lg font-lufga-semibold text-amber-500 mb-2 p-4">
+              {group.replace(/\b\w/g, (char) => char.toUpperCase())}
             </Text>
             <FlatList
               data={groupItems}

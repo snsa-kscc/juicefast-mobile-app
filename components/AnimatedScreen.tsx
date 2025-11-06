@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { ViewProps } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -6,11 +7,11 @@ import Animated, {
   Easing,
 } from "react-native-reanimated";
 
-interface AnimatedScreenProps {
+interface AnimatedScreenProps extends ViewProps {
   children: React.ReactNode;
 }
 
-export function AnimatedScreen({ children }: AnimatedScreenProps) {
+export function AnimatedScreen({ children, style, ...props }: AnimatedScreenProps) {
   const translateX = useSharedValue(300);
   const opacity = useSharedValue(0);
 
@@ -33,7 +34,7 @@ export function AnimatedScreen({ children }: AnimatedScreenProps) {
   });
 
   return (
-    <Animated.View style={[{ flex: 1 }, animatedStyle]}>
+    <Animated.View style={[{ flex: 1 }, animatedStyle, style]} {...props}>
       {children}
     </Animated.View>
   );

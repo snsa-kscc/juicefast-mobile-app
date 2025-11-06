@@ -13,7 +13,6 @@ import { useEvent } from "expo";
 import { VideoView, useVideoPlayer } from "expo-video";
 import { CLUB_DATA } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
 import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
 
@@ -49,7 +48,7 @@ export default function ClubContentDetail() {
 
   if (!item) {
     return (
-      <SafeAreaView className="flex-1 bg-jf-gray">
+      <View className="flex-1 bg-jf-gray">
         <WellnessHeader
           title="Content Not Found"
           subtitle="The wellness content you're looking for doesn't exist"
@@ -66,7 +65,7 @@ export default function ClubContentDetail() {
             The wellness content you&apos;re looking for doesn&apos;t exist.
           </Text>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -191,7 +190,7 @@ export default function ClubContentDetail() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-jf-gray">
+    <View className="flex-1 bg-jf-gray">
       <WellnessHeader
         title={item.title}
         subtitle={
@@ -354,7 +353,7 @@ export default function ClubContentDetail() {
           </Text>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

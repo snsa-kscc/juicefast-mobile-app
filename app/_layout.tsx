@@ -14,6 +14,7 @@ import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
 import "@/styles/global.css";
 import { handleAppInstallWithReferral } from "@/utils/appInstallHandler";
 import { AddActionButton } from "@/components/ui/AddActionButton";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
@@ -87,22 +88,24 @@ function AuthenticatedLayout() {
         backgroundColor="transparent"
         translucent
       />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
-        <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
-        <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
-        <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
-        <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
-        <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
-        <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
-        <Stack.Screen name="chat/nutritionist" options={SCREEN_OPTIONS} />
-        <Stack.Screen name="test-push" options={SCREEN_OPTIONS} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      {shouldShowAddButton && <AddActionButton />}
+      <SafeAreaView className="flex-1 bg-jf-gray">
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="meals" options={SCREEN_OPTIONS} />
+          <Stack.Screen name="steps" options={SCREEN_OPTIONS} />
+          <Stack.Screen name="hydration" options={SCREEN_OPTIONS} />
+          <Stack.Screen name="mindfulness" options={SCREEN_OPTIONS} />
+          <Stack.Screen name="sleep" options={SCREEN_OPTIONS} />
+          <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
+          <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
+          <Stack.Screen name="chat/nutritionist" options={SCREEN_OPTIONS} />
+          <Stack.Screen name="test-push" options={SCREEN_OPTIONS} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        {shouldShowAddButton && <AddActionButton />}
+      </SafeAreaView>
     </>
   );
 }

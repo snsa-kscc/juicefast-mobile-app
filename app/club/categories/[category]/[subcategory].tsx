@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { SubcategoryDetail } from "@/components/club/SubcategoryDetail";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
@@ -60,7 +60,7 @@ export default function SubcategoryPage() {
 
   if (!subcategoryData) {
     return (
-      <SafeAreaView className="flex-1 bg-jf-gray">
+      <View className="flex-1 bg-jf-gray">
         <SubcategoryDetail
           title="Subcategory Not Found"
           description="The wellness subcategory you're looking for doesn't exist."
@@ -79,12 +79,12 @@ export default function SubcategoryPage() {
             />
           }
         />
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-jf-gray">
+    <View className="flex-1 bg-jf-gray">
       <SubcategoryDetail
         title=""
         subtitle=""
@@ -111,6 +111,6 @@ export default function SubcategoryPage() {
           />
         }
       />
-    </SafeAreaView>
+    </View>
   );
 }

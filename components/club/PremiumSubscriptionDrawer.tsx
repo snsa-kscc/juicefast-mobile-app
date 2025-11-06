@@ -118,7 +118,7 @@ export function PremiumSubscriptionDrawer({
         presentationStyle={Platform.OS === "ios" ? "pageSheet" : undefined}
         onRequestClose={closeDrawer}
       >
-        <SafeAreaView className="flex-1 bg-white">
+        <SafeAreaView className="flex-1 bg-jf-gray">
           <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
             {/* Hero Section with Image */}
             <View className="relative h-80">

@@ -12,7 +12,6 @@ import {
   Linking,
   Platform,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, Link } from "expo-router";
 import { useClerk, useUser } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";

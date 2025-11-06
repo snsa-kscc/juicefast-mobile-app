@@ -20,7 +20,6 @@ import {
   addNotificationListener,
   addForegroundNotificationListener,
 } from "@/services/messagingService";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Message {
   id: Id<"chatMessages">;
@@ -229,149 +228,150 @@ export default function NutritionistChatSession() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-jf-gray">
-      <View className="flex-1" style={{ paddingBottom: keyboardHeight }}>
-        {/* Chat header */}
-        <View className="bg-white px-4 py-3 border-b border-gray-100">
-          <View className="flex-row items-center justify-between">
-            <View className="flex-row items-center">
-              <TouchableOpacity onPress={handleBack} className="mr-3 p-2">
-                <ArrowLeft size={24} color="#8B7355" />
-              </TouchableOpacity>
-              <View className="w-10 h-10 bg-[#E1D5B9] rounded-full items-center justify-center mr-3">
-                <User size={20} color="#8B7355" />
-              </View>
-              <View>
-                <Text className="font-lufga-medium text-gray-900">
-                  {currentSession.userName || "Client"}
-                </Text>
-                <Text className="text-xs font-lufga text-gray-600">
-                  {currentSession.status === "active"
-                    ? "Active chat"
-                    : "Chat ended"}
-                </Text>
-              </View>
-            </View>
-
-            {currentSession.status === "active" && (
-              <TouchableOpacity
-                className="bg-red-100 px-3 py-2 rounded-full"
-                onPress={handleEndSession}
-              >
-                <View className="flex-row items-center">
-                  <X size={14} color="#dc2626" />
-                  <Text className="text-red-600 text-xs font-lufga-medium ml-1">
-                    End Chat
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-
-        {/* Messages */}
-        <ScrollView
-          ref={scrollViewRef}
-          className="flex-1 px-4 py-2"
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 20 }}
-        >
-          {messages.map((message) => (
-            <View
-              key={message.id}
-              className={`mb-4 ${message.senderType === "nutritionist" ? "items-end" : "items-start"}`}
-            >
-              <View
-                className={`max-w-[80%] px-4 py-3 rounded-2xl ${
-                  message.senderType === "nutritionist"
-                    ? "bg-[#8B7355] rounded-br-md"
-                    : "bg-white rounded-bl-md"
-                }`}
-              >
-                <Text
-                  className={`text-base font-lufga leading-5 ${
-                    message.senderType === "nutritionist"
-                      ? "text-white"
-                      : "text-gray-800"
-                  }`}
-                >
-                  {message.content}
-                </Text>
-              </View>
-              <View className="flex-row items-center mt-1 px-2">
-                <Text className="text-xs font-lufga text-gray-400">
-                  {formatTime(message.timestamp)}
-                </Text>
-                {message.senderType === "nutritionist" && (
-                  <View
-                    className={`ml-2 w-2 h-2 rounded-full ${
-                      message.isRead ? "bg-green-500" : "bg-gray-400"
-                    }`}
-                  />
-                )}
-              </View>
-            </View>
-          ))}
-
-          {isLoading && (
-            <View className="items-end mb-4">
-              <View className="bg-[#8B7355] px-4 py-3 rounded-2xl rounded-br-md">
-                <Spinner size={20} color="white" />
-              </View>
-            </View>
-          )}
-        </ScrollView>
-
-        {/* Input */}
-        <View className="px-4 py-3 bg-white border-t border-gray-100">
-          <View className="flex-row items-end bg-white rounded-2xl border border-gray-100">
-            <TextInput
-              className="flex-1 px-4 py-3 text-base font-lufga text-gray-800 max-h-24"
-              placeholder="Type your response..."
-              placeholderTextColor="#9CA3AF"
-              value={inputText}
-              onChangeText={setInputText}
-              multiline
-              textAlignVertical="top"
-              onSubmitEditing={handleSend}
-              onFocus={scrollToBottom}
-              editable={currentSession.status === "active"}
-            />
-            <TouchableOpacity
-              className={`p-3 m-1 rounded-xl ${
-                inputText.trim() &&
-                !isLoading &&
-                currentSession.status === "active"
-                  ? "bg-[#8B7355]"
-                  : "bg-gray-200"
-              }`}
-              onPress={handleSend}
-              disabled={
-                !inputText.trim() ||
-                isLoading ||
-                currentSession.status !== "active"
-              }
-            >
-              <Send
-                size={20}
-                color={
-                  inputText.trim() &&
-                  !isLoading &&
-                  currentSession.status === "active"
-                    ? "white"
-                    : "#9CA3AF"
-                }
-              />
+    <View
+      className="flex-1 bg-jf-gray"
+      style={{ paddingBottom: keyboardHeight }}
+    >
+      {/* Chat header */}
+      <View className="bg-white px-4 py-3 border-b border-gray-100">
+        <View className="flex-row items-center justify-between">
+          <View className="flex-row items-center">
+            <TouchableOpacity onPress={handleBack} className="mr-3 p-2">
+              <ArrowLeft size={24} color="#8B7355" />
             </TouchableOpacity>
+            <View className="w-10 h-10 bg-[#E1D5B9] rounded-full items-center justify-center mr-3">
+              <User size={20} color="#8B7355" />
+            </View>
+            <View>
+              <Text className="font-lufga-medium text-gray-900">
+                {currentSession.userName || "Client"}
+              </Text>
+              <Text className="text-xs font-lufga text-gray-600">
+                {currentSession.status === "active"
+                  ? "Active chat"
+                  : "Chat ended"}
+              </Text>
+            </View>
           </View>
 
-          {currentSession.status !== "active" && (
-            <Text className="text-xs font-lufga text-gray-500 text-center mt-2">
-              This chat has ended. You cannot send new messages.
-            </Text>
+          {currentSession.status === "active" && (
+            <TouchableOpacity
+              className="bg-red-100 px-3 py-2 rounded-full"
+              onPress={handleEndSession}
+            >
+              <View className="flex-row items-center">
+                <X size={14} color="#dc2626" />
+                <Text className="text-red-600 text-xs font-lufga-medium ml-1">
+                  End Chat
+                </Text>
+              </View>
+            </TouchableOpacity>
           )}
         </View>
       </View>
-    </SafeAreaView>
+
+      {/* Messages */}
+      <ScrollView
+        ref={scrollViewRef}
+        className="flex-1 px-4 py-2"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      >
+        {messages.map((message) => (
+          <View
+            key={message.id}
+            className={`mb-4 ${message.senderType === "nutritionist" ? "items-end" : "items-start"}`}
+          >
+            <View
+              className={`max-w-[80%] px-4 py-3 rounded-2xl ${
+                message.senderType === "nutritionist"
+                  ? "bg-[#8B7355] rounded-br-md"
+                  : "bg-white rounded-bl-md"
+              }`}
+            >
+              <Text
+                className={`text-base font-lufga leading-5 ${
+                  message.senderType === "nutritionist"
+                    ? "text-white"
+                    : "text-gray-800"
+                }`}
+              >
+                {message.content}
+              </Text>
+            </View>
+            <View className="flex-row items-center mt-1 px-2">
+              <Text className="text-xs font-lufga text-gray-400">
+                {formatTime(message.timestamp)}
+              </Text>
+              {message.senderType === "nutritionist" && (
+                <View
+                  className={`ml-2 w-2 h-2 rounded-full ${
+                    message.isRead ? "bg-green-500" : "bg-gray-400"
+                  }`}
+                />
+              )}
+            </View>
+          </View>
+        ))}
+
+        {isLoading && (
+          <View className="items-end mb-4">
+            <View className="bg-[#8B7355] px-4 py-3 rounded-2xl rounded-br-md">
+              <Spinner size={20} color="white" />
+            </View>
+          </View>
+        )}
+      </ScrollView>
+
+      {/* Input */}
+      <View className="px-4 py-3 bg-white border-t border-gray-100">
+        <View className="flex-row items-end bg-white rounded-2xl border border-gray-100">
+          <TextInput
+            className="flex-1 px-4 py-3 text-base font-lufga text-gray-800 max-h-24"
+            placeholder="Type your response..."
+            placeholderTextColor="#9CA3AF"
+            value={inputText}
+            onChangeText={setInputText}
+            multiline
+            textAlignVertical="top"
+            onSubmitEditing={handleSend}
+            onFocus={scrollToBottom}
+            editable={currentSession.status === "active"}
+          />
+          <TouchableOpacity
+            className={`p-3 m-1 rounded-xl ${
+              inputText.trim() &&
+              !isLoading &&
+              currentSession.status === "active"
+                ? "bg-[#8B7355]"
+                : "bg-gray-200"
+            }`}
+            onPress={handleSend}
+            disabled={
+              !inputText.trim() ||
+              isLoading ||
+              currentSession.status !== "active"
+            }
+          >
+            <Send
+              size={20}
+              color={
+                inputText.trim() &&
+                !isLoading &&
+                currentSession.status === "active"
+                  ? "white"
+                  : "#9CA3AF"
+              }
+            />
+          </TouchableOpacity>
+        </View>
+
+        {currentSession.status !== "active" && (
+          <Text className="text-xs font-lufga text-gray-500 text-center mt-2">
+            This chat has ended. You cannot send new messages.
+          </Text>
+        )}
+      </View>
+    </View>
   );
 }
