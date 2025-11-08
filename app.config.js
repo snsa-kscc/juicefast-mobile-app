@@ -22,7 +22,7 @@
 
 export default {
   expo: {
-    name: "Juicefast Nutrition App",
+    name: "Juicefast AI",
     slug: "juicefast-nutrition-app",
     version: "1.0.0",
     orientation: "portrait",
