@@ -41,7 +41,6 @@ export function IconSymbol({
 }) {
   const iconName = MAPPING[name];
   if (!iconName) {
-    console.warn(`Icon mapping not found for: ${name}`);
     return null;
   }
   return (

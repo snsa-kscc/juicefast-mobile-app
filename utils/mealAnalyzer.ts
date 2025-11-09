@@ -75,7 +75,6 @@ Respond with ONLY the JSON object, no additional text.`;
       try {
         parsedData = JSON.parse(cleanText);
       } catch (parseError) {
-        console.error("Failed to parse JSON response:", cleanText);
         return {
           success: false,
           error: "Failed to parse AI response",
@@ -85,7 +84,6 @@ Respond with ONLY the JSON object, no additional text.`;
       // Validate with Zod schema
       const validatedData = MealAnalysisSchema.safeParse(parsedData);
       if (!validatedData.success) {
-        console.error("Validation error:", validatedData.error);
         return {
           success: false,
           error: "Invalid response format from AI",
@@ -97,7 +95,6 @@ Respond with ONLY the JSON object, no additional text.`;
         data: validatedData.data,
       };
     } catch (error) {
-      console.error("Error analyzing meal:", error);
       return {
         success: false,
         error:

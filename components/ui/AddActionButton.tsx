@@ -110,8 +110,6 @@ export function AddActionButton() {
 
     if (existingRoutes.includes(route)) {
       router.push(route as any);
-    } else {
-      console.log(`Route ${route} not implemented yet`);
     }
   };
 

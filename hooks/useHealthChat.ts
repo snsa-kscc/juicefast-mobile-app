@@ -88,18 +88,8 @@ export function useHealthChat(): UseHealthChatReturn {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Debug: Log response headers and type
-      console.log("Response type:", response.type);
-      console.log(
-        "Response headers:",
-        Object.fromEntries(response.headers.entries())
-      );
-      console.log("Response body:", response.body);
-      console.log("Response body used:", response.bodyUsed);
-
       if (!response.body) {
-        // Fallback: try to get response as text since content-type is text/plain
-        console.log("No response body, trying text fallback");
+        // Fallback: try to get response as text
         try {
           const text = await response.text();
           const aiChatMessage: ChatMessage = {
@@ -114,7 +104,6 @@ export function useHealthChat(): UseHealthChatReturn {
           );
           return;
         } catch (textError) {
-          console.error("Text fallback failed:", textError);
           try {
             const data = await response.json();
             const aiChatMessage: ChatMessage = {
@@ -146,7 +135,6 @@ export function useHealthChat(): UseHealthChatReturn {
         if (done) break;
 
         const chunk = decoder.decode(value, { stream: true });
-        console.log("Received chunk:", chunk);
 
         // AI SDK 5 sends text chunks directly, no special parsing needed
         accumulatedText += chunk;
@@ -166,7 +154,6 @@ export function useHealthChat(): UseHealthChatReturn {
         )
       );
     } catch (err) {
-      console.error("Error sending message:", err);
       setError("Failed to get response from AI. Please try again.");
 
       // Remove the streaming message and add error message
