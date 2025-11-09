@@ -37,11 +37,9 @@ export async function getPushToken(): Promise<string | null> {
     const token = await Notifications.getExpoPushTokenAsync({
       projectId: "6e9c5757-7446-4974-80fa-fadd2ad8ebc4",
     });
-    console.log(
-      "Push token obtained successfully:",
-      token.data.substring(0, 20) + "..."
-    );
+
     return token.data;
+    
   } catch (error) {
     // Suppress Firebase initialization errors - push notifications are optional
     const errorMessage = error instanceof Error ? error.message : String(error);

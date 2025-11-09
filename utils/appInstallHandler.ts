@@ -47,8 +47,6 @@ export const handleAppInstallWithReferral = async (): Promise<void> => {
       );
       return;
     }
-
-    console.log("No referral code found from app install sources");
   } catch (error) {
     console.error("Error handling app install with referral:", error);
   }

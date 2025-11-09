@@ -60,7 +60,6 @@ export function usePushTokenStorage(options: UsePushTokenStorageOptions = {}) {
                   ? "nutritionist"
                   : "user",
             });
-            console.log("Push token stored for user:", user.id);
           }
         } catch (error) {
           console.error("Failed to store push token:", error);
