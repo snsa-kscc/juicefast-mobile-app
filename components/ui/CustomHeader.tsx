@@ -51,123 +51,65 @@ export function WellnessHeader({
       {backgroundImage && <View className="absolute inset-0 bg-black/30" />}
 
       <View className="px-6 z-10" style={{ paddingTop: 32, paddingBottom: 24 }}>
-        {showBackButton ? (
-          // Two-row layout when back button is visible
-          <>
-            {/* First row: Back button and Settings */}
-            <View className="flex-row justify-between items-start mb-6">
-              <TouchableOpacity
-                className="w-14 h-14 rounded-full justify-center items-center"
-                style={{ backgroundColor: accentColor }}
-                onPress={onBackPress}
+        <View className="flex-row justify-between items-start mb-4">
+          {showBackButton && (
+            <TouchableOpacity
+              className="w-10 h-10 rounded-full justify-center items-center mr-3"
+              style={{ backgroundColor: accentColor }}
+              onPress={onBackPress}
+            >
+              <ArrowLeft size={20} color="white" />
+            </TouchableOpacity>
+          )}
+          <View className="flex-1 mr-4">
+            {title && (
+              <Text
+                className="text-xl font-lufga-bold mb-2"
+                style={{ color: backgroundImage ? "white" : "#111827" }}
               >
-                <ArrowLeft size={24} color="white" />
-              </TouchableOpacity>
-              {showSettings && (
-                <TouchableOpacity
-                  className="w-10 h-10 rounded-full bg-transparent justify-center items-center"
-                  onPress={onSettingsPress}
-                >
-                  <Settings
-                    size={24}
-                    color={backgroundImage ? "white" : "#1A1A1A"}
-                  />
-                </TouchableOpacity>
-              )}
-            </View>
-
-            {/* Second row: Title and Subtitle */}
-            <View className="mb-4">
-              {title && (
-                <Text
-                  className="text-xl font-lufga-medium mb-2"
-                  style={{ color: backgroundImage ? "white" : "#111827" }}
-                >
-                  {title}
-                </Text>
-              )}
-              {subtitle && (
-                <Text
-                  className="text-sm font-lufga leading-5 mb-2"
-                  style={{
-                    color: backgroundImage
-                      ? "rgba(255,255,255,0.9)"
-                      : "#374151",
-                  }}
-                >
-                  {subtitle}
-                </Text>
-              )}
-              {itemCount !== undefined && itemCount !== null && (
-                <Text
-                  className="text-xs font-lufga-medium"
-                  style={{
-                    color: backgroundImage
-                      ? "rgba(255,255,255,0.8)"
-                      : "#6B7280",
-                  }}
-                >
-                  {itemCount}{" "}
-                  {itemCount === 1
-                    ? itemCountLabel || "item"
-                    : itemCountLabel || "items"}
-                </Text>
-              )}
-            </View>
-          </>
-        ) : (
-          // Single-row layout when no back button
-          <View className="flex-row justify-between items-center mb-4">
-            <View className="flex-1 mr-4">
-              {title && (
-                <Text
-                  className="text-xl font-lufga-bold mb-2"
-                  style={{ color: backgroundImage ? "white" : "#111827" }}
-                >
-                  {title}
-                </Text>
-              )}
-              {subtitle && (
-                <Text
-                  className="text-sm font-lufga leading-5 mb-2"
-                  style={{
-                    color: backgroundImage
-                      ? "rgba(255,255,255,0.9)"
-                      : "#374151",
-                  }}
-                >
-                  {subtitle}
-                </Text>
-              )}
-              {itemCount !== undefined && itemCount !== null && (
-                <Text
-                  className="text-xs font-lufga-medium"
-                  style={{
-                    color: backgroundImage
-                      ? "rgba(255,255,255,0.8)"
-                      : "#6B7280",
-                  }}
-                >
-                  {itemCount}{" "}
-                  {itemCount === 1
-                    ? itemCountLabel || "item"
-                    : itemCountLabel || "items"}
-                </Text>
-              )}
-            </View>
-            {showSettings && (
-              <TouchableOpacity
-                className="w-10 h-10 rounded-full bg-transparent justify-center items-center"
-                onPress={onSettingsPress}
+                {title}
+              </Text>
+            )}
+            {subtitle && (
+              <Text
+                className="text-sm font-lufga leading-5 mb-2"
+                style={{
+                  color: backgroundImage
+                    ? "rgba(255,255,255,0.9)"
+                    : "#374151",
+                }}
               >
-                <Settings
-                  size={24}
-                  color={backgroundImage ? "white" : "#1A1A1A"}
-                />
-              </TouchableOpacity>
+                {subtitle}
+              </Text>
+            )}
+            {itemCount !== undefined && itemCount !== null && (
+              <Text
+                className="text-xs font-lufga-medium"
+                style={{
+                  color: backgroundImage
+                    ? "rgba(255,255,255,0.8)"
+                    : "#6B7280",
+                }}
+              >
+                {itemCount}{" "}
+                {itemCount === 1
+                  ? itemCountLabel || "item"
+                  : itemCountLabel || "items"}
+              </Text>
             )}
           </View>
-        )}
+          {showSettings && (
+            <TouchableOpacity
+              className="w-10 h-10 rounded-full bg-transparent justify-center items-center"
+              onPress={onSettingsPress}
+            >
+              <Settings
+                size={24}
+                color={backgroundImage ? "white" : "#1A1A1A"}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </View>
   );
