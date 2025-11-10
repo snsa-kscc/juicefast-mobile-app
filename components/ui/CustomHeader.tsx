@@ -51,10 +51,10 @@ export function WellnessHeader({
       {backgroundImage && <View className="absolute inset-0 bg-black/30" />}
 
       <View className="px-6 z-10" style={{ paddingTop: 32, paddingBottom: 24 }}>
-        <View className="flex-row justify-between items-start mb-4">
+        <View className="flex-row justify-between items-center mb-4">
           {showBackButton && (
             <TouchableOpacity
-              className="w-10 h-10 rounded-full justify-center items-center mr-3"
+              className="w-14 h-14 rounded-full justify-center items-center mr-6"
               style={{ backgroundColor: accentColor }}
               onPress={onBackPress}
             >
@@ -74,9 +74,7 @@ export function WellnessHeader({
               <Text
                 className="text-sm font-lufga leading-5 mb-2"
                 style={{
-                  color: backgroundImage
-                    ? "rgba(255,255,255,0.9)"
-                    : "#374151",
+                  color: backgroundImage ? "rgba(255,255,255,0.9)" : "#374151",
                 }}
               >
                 {subtitle}
@@ -86,9 +84,7 @@ export function WellnessHeader({
               <Text
                 className="text-xs font-lufga-medium"
                 style={{
-                  color: backgroundImage
-                    ? "rgba(255,255,255,0.8)"
-                    : "#6B7280",
+                  color: backgroundImage ? "rgba(255,255,255,0.8)" : "#6B7280",
                 }}
               >
                 {itemCount}{" "}
@@ -100,11 +96,11 @@ export function WellnessHeader({
           </View>
           {showSettings && (
             <TouchableOpacity
-              className="w-10 h-10 rounded-full bg-transparent justify-center items-center"
+              className="w-14 h-14 rounded-full bg-transparent justify-center items-center"
               onPress={onSettingsPress}
             >
               <Settings
-                size={24}
+                size={28}
                 color={backgroundImage ? "white" : "#1A1A1A"}
               />
             </TouchableOpacity>
