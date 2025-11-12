@@ -4,7 +4,7 @@ export const removeAllowPromotionField = internalMutation({
   args: {},
   handler: async (ctx) => {
     const profiles = await ctx.db.query("userProfile").collect();
-    
+
     let updated = 0;
     for (const profile of profiles) {
       // @ts-ignore - accessing field that's not in schema
@@ -15,7 +15,7 @@ export const removeAllowPromotionField = internalMutation({
         updated++;
       }
     }
-    
+
     console.log(`Removed allow_promotion field from ${updated} user profiles`);
     return { updated };
   },

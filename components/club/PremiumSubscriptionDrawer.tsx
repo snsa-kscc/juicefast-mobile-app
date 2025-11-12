@@ -126,7 +126,7 @@ export function PremiumSubscriptionDrawer({
                 source={require("@/assets/images/jf-club/cardio-fat-burn.jpg")}
                 className="w-full h-full"
                 resizeMode="cover"
-                imageStyle={{ resizeMode: 'cover' }}
+                imageStyle={{ resizeMode: "cover" }}
               >
                 <LinearGradient
                   colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.4)"]}

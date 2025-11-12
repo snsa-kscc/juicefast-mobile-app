@@ -27,7 +27,7 @@ export default {
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/jf-picto.png",
-    scheme: "juicefast-nutrition-app",
+    scheme: "juicefast-ai",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     ios: {

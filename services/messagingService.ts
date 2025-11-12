@@ -39,7 +39,6 @@ export async function getPushToken(): Promise<string | null> {
     });
 
     return token.data;
-    
   } catch (error) {
     // Suppress Firebase initialization errors - push notifications are optional
     const errorMessage = error instanceof Error ? error.message : String(error);

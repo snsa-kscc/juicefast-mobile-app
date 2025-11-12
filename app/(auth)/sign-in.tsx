@@ -13,7 +13,12 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useSocialSignIn } from "@/hooks/useSocialSignIn";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
 import { ReferralStorage } from "@/utils/referralStorage";
-import { MailIcon, LockIcon, EyeIcon, EyeOffIcon } from "@/components/icons/AuthIcons";
+import {
+  MailIcon,
+  LockIcon,
+  EyeIcon,
+  EyeOffIcon,
+} from "@/components/icons/AuthIcons";
 import { getInputFieldPadding } from "@/utils/platformStyles";
 
 export default function Page() {

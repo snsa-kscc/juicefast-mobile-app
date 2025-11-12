@@ -11,7 +11,11 @@ interface AnimatedScreenProps extends ViewProps {
   children: React.ReactNode;
 }
 
-export function AnimatedScreen({ children, style, ...props }: AnimatedScreenProps) {
+export function AnimatedScreen({
+  children,
+  style,
+  ...props
+}: AnimatedScreenProps) {
   const translateX = useSharedValue(300);
   const opacity = useSharedValue(0);
 

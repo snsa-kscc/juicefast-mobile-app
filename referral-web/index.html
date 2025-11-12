@@ -1,202 +1,204 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Juicefast - Download App</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
-        Cantarell, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-    }
-
-    .container {
-      text-align: center;
-      max-width: 400px;
-      padding: 2rem;
-    }
-
-    .logo {
-      font-size: 3rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .title {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .subtitle {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      opacity: 0.9;
-    }
-
-    .store-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-
-    .store-button {
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      padding: 1rem 2rem;
-      text-decoration: none;
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .store-button:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.5);
-      transform: translateY(-2px);
-    }
-
-    .store-icon {
-      width: 24px;
-      height: 24px;
-    }
-
-    .info {
-      font-size: 0.9rem;
-      opacity: 0.8;
-      margin-top: 2rem;
-    }
-
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 1s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <div class="logo">🥤</div>
-    <h1 class="title">Juicefast</h1>
-    <p class="subtitle">Your wellness journey starts here</p>
-
-    <div id="loading" class="loading"></div>
-
-    <div id="store-buttons" class="store-buttons" style="display: none">
-      <a href="#" id="ios-button" class="store-button">
-        <svg class="store-icon" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
-        </svg>
-        Download for iOS
-      </a>
-
-      <a href="#" id="android-button" class="store-button">
-        <svg class="store-icon" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" />
-        </svg>
-        Download for Android
-      </a>
-    </div>
-
-    <div class="info">
-      <p>You'll be redirected to your device's app store shortly...</p>
-    </div>
-  </div>
-
-  <script>
-    function getReferralCode() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get("code");
-    }
-
-    function getAppStoreUrl(referralCode) {
-      const baseUrl = "https://apps.apple.com/app/id";
-      if (referralCode) {
-        return `${baseUrl}?referral_code=${referralCode}`;
-      }
-      return baseUrl;
-    }
-
-    function getPlayStoreUrl(referralCode) {
-      const baseUrl =
-        "https://play.google.com/store/apps/details?id=com.juicefastapp.juicefastnutritionapp";
-      if (referralCode) {
-        return `${baseUrl}&referrer=${referralCode}`;
-      }
-      return baseUrl;
-    }
-
-    function detectDevice() {
-      const userAgent = navigator.userAgent.toLowerCase();
-
-      if (
-        userAgent.indexOf("iphone") > -1 ||
-        userAgent.indexOf("ipad") > -1 ||
-        userAgent.indexOf("ipod") > -1
-      ) {
-        return "ios";
-      } else if (userAgent.indexOf("android") > -1) {
-        return "android";
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juicefast - Download App</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
       }
 
-      return "unknown";
-    }
+      .container {
+        text-align: center;
+        max-width: 400px;
+        padding: 2rem;
+      }
 
-    function redirectToStore() {
-      const referralCode = getReferralCode();
-      const device = detectDevice();
+      .logo {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
 
-      const iosButton = document.getElementById("ios-button");
-      const androidButton = document.getElementById("android-button");
-      const loading = document.getElementById("loading");
-      const storeButtons = document.getElementById("store-buttons");
+      .title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
 
-      const iosUrl = getAppStoreUrl(referralCode);
-      const androidUrl = getPlayStoreUrl(referralCode);
+      .subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
 
-      iosButton.href = iosUrl;
-      androidButton.href = androidUrl;
+      .store-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
 
-      setTimeout(() => {
-        loading.style.display = "none";
-        storeButtons.style.display = "flex";
+      .store-button {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        padding: 1rem 2rem;
+        text-decoration: none;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
 
-        if (device === "ios") {
-          window.location.href = iosUrl;
-        } else if (device === "android") {
-          window.location.href = androidUrl;
+      .store-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .store-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .info {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        margin-top: 2rem;
+      }
+
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
         }
-      }, 1500);
-    }
+      }
+    </style>
+  </head>
 
-    document.addEventListener("DOMContentLoaded", redirectToStore);
-  </script>
-</body>
+  <body>
+    <div class="container">
+      <div class="logo">🥤</div>
+      <h1 class="title">Juicefast</h1>
+      <p class="subtitle">Your wellness journey starts here</p>
 
+      <div id="loading" class="loading"></div>
+
+      <div id="store-buttons" class="store-buttons" style="display: none">
+        <a href="#" id="ios-button" class="store-button">
+          <svg class="store-icon" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"
+            />
+          </svg>
+          Download for iOS
+        </a>
+
+        <a href="#" id="android-button" class="store-button">
+          <svg class="store-icon" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"
+            />
+          </svg>
+          Download for Android
+        </a>
+      </div>
+
+      <div class="info">
+        <p>You'll be redirected to your device's app store shortly...</p>
+      </div>
+    </div>
+
+    <script>
+      function getReferralCode() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get("code");
+      }
+
+      function getAppStoreUrl(referralCode) {
+        const baseUrl = "https://apps.apple.com/app/id";
+        if (referralCode) {
+          return `${baseUrl}?referral_code=${referralCode}`;
+        }
+        return baseUrl;
+      }
+
+      function getPlayStoreUrl(referralCode) {
+        const baseUrl =
+          "https://play.google.com/store/apps/details?id=com.juicefastapp.juicefastnutritionapp";
+        if (referralCode) {
+          return `${baseUrl}&referrer=${referralCode}`;
+        }
+        return baseUrl;
+      }
+
+      function detectDevice() {
+        const userAgent = navigator.userAgent.toLowerCase();
+
+        if (
+          userAgent.indexOf("iphone") > -1 ||
+          userAgent.indexOf("ipad") > -1 ||
+          userAgent.indexOf("ipod") > -1
+        ) {
+          return "ios";
+        } else if (userAgent.indexOf("android") > -1) {
+          return "android";
+        }
+
+        return "unknown";
+      }
+
+      function redirectToStore() {
+        const referralCode = getReferralCode();
+        const device = detectDevice();
+
+        const iosButton = document.getElementById("ios-button");
+        const androidButton = document.getElementById("android-button");
+        const loading = document.getElementById("loading");
+        const storeButtons = document.getElementById("store-buttons");
+
+        const iosUrl = getAppStoreUrl(referralCode);
+        const androidUrl = getPlayStoreUrl(referralCode);
+
+        iosButton.href = iosUrl;
+        androidButton.href = androidUrl;
+
+        setTimeout(() => {
+          loading.style.display = "none";
+          storeButtons.style.display = "flex";
+
+          if (device === "ios") {
+            window.location.href = iosUrl;
+          } else if (device === "android") {
+            window.location.href = androidUrl;
+          }
+        }, 1500);
+      }
+
+      document.addEventListener("DOMContentLoaded", redirectToStore);
+    </script>
+  </body>
 </html>
