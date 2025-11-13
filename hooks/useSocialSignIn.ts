@@ -43,7 +43,7 @@ export const useSocialSignIn = () => {
 
         const { createdSessionId, setActive, signUp } = await startSSOFlow({
           strategy: provider,
-          redirectUrl: AuthSession.makeRedirectUri(),
+          redirectUrl: `${AuthSession.makeRedirectUri()}sso-callback`,
         });
 
         // redundant block

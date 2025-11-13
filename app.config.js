@@ -1,25 +1,3 @@
-// const IS_DEV = process.env.APP_VARIANT === "development";
-// const IS_PREVIEW = process.env.APP_VARIANT === "preview";
-
-// // Determine app variant
-// const getAppName = () => {
-//   if (IS_DEV) return "Juicefast (Dev)";
-//   if (IS_PREVIEW) return "Juicefast (Preview)";
-//   return "Juicefast Nutrition App";
-// };
-
-// const getBundleIdentifier = () => {
-//   if (IS_DEV) return "com.juicefastapp.juicefastnutritionapp.dev";
-//   if (IS_PREVIEW) return "com.juicefastapp.juicefastnutritionapp.preview";
-//   return "com.juicefastapp.juicefastnutritionapp";
-// };
-
-// const getAndroidPackage = () => {
-//   if (IS_DEV) return "com.juicefastapp.juicefastnutritionapp.dev";
-//   if (IS_PREVIEW) return "com.juicefastapp.juicefastnutritionapp.preview";
-//   return "com.juicefastapp.juicefastnutritionapp";
-// };
-
 export default {
   expo: {
     name: "Juicefast AI",
