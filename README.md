@@ -254,7 +254,7 @@ This project is private and proprietary to Juicefast App.
 - [ ] Expo web bug and max width
 - [ ] Android messaging service - ja
 - [ ] WooCommerce integration
-- [ ] Edit HTML and URL for referrals - ja
 - [ ] Styling
 - [ ] Testing
 - [ ] Code cleanup
+- [ ] Upload html for referrals and set store urls - ja

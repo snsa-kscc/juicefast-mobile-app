@@ -587,7 +587,7 @@ export default function ProfileScreen() {
                     numberOfLines={2}
                   >
                     {profile?.referralCode
-                      ? `https://juicefast.app/referral?code=${profile.referralCode}`
+                      ? `https://juicefast.com/referral?code=${profile.referralCode}`
                       : "-"}
                   </Text>
                   <TouchableOpacity
