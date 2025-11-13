@@ -244,16 +244,17 @@ This project is private and proprietary to Juicefast App.
 
 ## 2DO
 
-- [ ] Apple OAuth
-- [ ] Facebook OAuth
-- [ ] Google OAuth after login screen
-- [ ] Setup Google app store
-- [ ] Setup RevenueCat for Android
+- [ ] Apple OAuth - ja
+- [ ] Facebook OAuth - ja
+- [ ] Google OAuth after login screen route not found
+- [ ] Setup Google app store - ja
+- [ ] Setup RevenueCat for Android - ja
 - [ ] Drawer hydration from revenuecat
-- [ ] Setup RevenueCat for Web
-- [ ] Expo web bug
-- [ ] Android messaging service
+- [ ] Setup RevenueCat for Web - ??? otom potom
+- [ ] Expo web bug and max width
+- [ ] Android messaging service - ja
 - [ ] WooCommerce integration
-- [ ] Edit HTML and URL for referrals
+- [ ] Edit HTML and URL for referrals - ja
 - [ ] Styling
 - [ ] Testing
+- [ ] Code cleanup
