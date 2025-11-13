@@ -1,8 +1,18 @@
-export function generateAPIUrl(path: string): string {
-  let baseURL = "https://juicefast-nutrition-app.expo.app";
+import Constants from "expo-constants";
+
+export const generateAPIUrl = (relativePath: string) => {
+  const origin = Constants.expoConfig?.hostUri!;
+  const path = relativePath.startsWith("/") ? relativePath : `/${relativePath}`;
 
   if (process.env.NODE_ENV === "development") {
-    baseURL = `http://${process.env.EXPO_PUBLIC_DEV_IP}:8081`;
+    return `http://${origin.concat(path)}`;
   }
-  return `${baseURL}${path}`;
-}
+
+  if (!process.env.EXPO_PUBLIC_API_BASE_URL) {
+    throw new Error(
+      "EXPO_PUBLIC_API_BASE_URL environment variable is not defined"
+    );
+  }
+
+  return process.env.EXPO_PUBLIC_API_BASE_URL.concat(path);
+};
