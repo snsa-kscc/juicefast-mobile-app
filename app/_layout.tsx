@@ -15,6 +15,7 @@ import "@/styles/global.css";
 import { handleAppInstallWithReferral } from "@/utils/appInstallHandler";
 import { AddActionButton } from "@/components/ui/AddActionButton";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { WebContainer } from "@/components/ui/WebContainer";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
@@ -82,7 +83,7 @@ function AuthenticatedLayout() {
   }
 
   return (
-    <>
+    <WebContainer>
       <StatusBar
         barStyle="dark-content"
         backgroundColor="transparent"
@@ -106,7 +107,7 @@ function AuthenticatedLayout() {
         </Stack>
         {shouldShowAddButton && <AddActionButton />}
       </SafeAreaView>
-    </>
+    </WebContainer>
   );
 }
 
