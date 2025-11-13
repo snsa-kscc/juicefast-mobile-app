@@ -11,6 +11,7 @@ import {
   Switch,
   Linking,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { useRouter, Link } from "expo-router";
 import { useClerk, useUser } from "@clerk/clerk-expo";
@@ -70,6 +71,7 @@ export default function ProfileScreen() {
   const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
   const [showEditDetailsModal, setShowEditDetailsModal] = useState(false);
   const [hasPassword, setHasPassword] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
     if (user?.unsafeMetadata) {
@@ -169,12 +171,14 @@ export default function ProfileScreen() {
         style: "destructive",
         onPress: async () => {
           try {
+            setIsLoggingOut(true);
             await signOut();
             AuthService.clearToken();
             await SecureStore.deleteItemAsync("REFERRAL_CODE");
             router.replace("/(auth)/sso-signup");
           } catch (error) {
             console.error("Sign out error:", error);
+            setIsLoggingOut(false);
           }
         },
       },
@@ -194,10 +198,10 @@ export default function ProfileScreen() {
         onPress: async () => {
           try {
             setIsDeletingAccount(true);
+            router.replace("/(auth)/sso-signup");
             await clerkUser?.delete();
             AuthService.clearToken();
             await SecureStore.deleteItemAsync("REFERRAL_CODE");
-            router.replace("/(auth)/sso-signup");
           } catch (error) {
             console.error("Delete account error:", error);
             Alert.alert("Error", "Failed to delete account. Please try again.");
@@ -307,6 +311,15 @@ export default function ProfileScreen() {
     { label: "Active (exercise 6-7 days/week)", value: "active" },
     { label: "Very Active (professional athlete level)", value: "very_active" },
   ];
+
+  if (isLoggingOut) {
+    return (
+      <View className="flex-1 bg-jf-gray items-center justify-center">
+        <ActivityIndicator size="large" color="#3B82F6" />
+        <Text className="font-lufga-medium text-gray-600 mt-4">Logging out...</Text>
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-jf-gray">
