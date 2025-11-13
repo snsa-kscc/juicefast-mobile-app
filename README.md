@@ -241,3 +241,19 @@ This project is private and proprietary to Juicefast App.
 ---
 
 **Built with ❤️ using Expo and React Native**
+
+## 2DO
+
+- [ ] Apple OAuth
+- [ ] Facebook OAuth
+- [ ] Google OAuth after login screen
+- [ ] Setup Google app store
+- [ ] Setup RevenueCat for Android
+- [ ] Drawer hydration from revenuecat
+- [ ] Setup RevenueCat for Web
+- [ ] Expo web bug
+- [ ] Android messaging service
+- [ ] WooCommerce integration
+- [ ] Edit HTML and URL for referrals
+- [ ] Styling
+- [ ] Testing
