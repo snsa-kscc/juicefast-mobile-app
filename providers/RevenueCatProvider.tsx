@@ -8,9 +8,8 @@ import Purchases, {
 import { Platform } from "react-native";
 import { useUser } from "@clerk/clerk-expo";
 
-// DEBUG: Set to true to bypass subscription check and always have premium access (iOS and Android)
-const IOS_PREMIUM_ACCESS = false;
-const ANDROID_PREMIUM_ACCESS = false;
+// DEBUG: Set to true to bypass subscription check and always have premium access
+const PREMIUM_ACCESS_DEBUG = false;
 
 interface RevenueCatContextType {
   isSubscribed: boolean;
@@ -45,51 +44,52 @@ export function RevenueCatProvider({
 
   const initializeRevenueCat = async () => {
     try {
-      // Only initialize for iOS
-      if (Platform.OS === "ios") {
-        // Set log level to reduce verbose logging
-        Purchases.setLogLevel(LOG_LEVEL.ERROR); // Only show errors, not debug/info logs
+      Purchases.setLogLevel(LOG_LEVEL.ERROR); // Only show errors, not debug/info logs
 
-        await Purchases.configure({
-          apiKey: process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY!,
-        });
-
-        // Login user with Clerk ID if available
-        if (user?.id) {
-          console.log("Logging in RevenueCat user:", user.id);
-          await Purchases.logIn(user.id);
-        }
-
-        // Get initial customer info
-        const info = await Purchases.getCustomerInfo();
-        updateCustomerInfo(info);
-        console.log("RevenueCat Customer Info:", {
-          userId: info.originalAppUserId,
-          entitlements: Object.keys(info.entitlements.active),
-        });
-
-        // Get offerings
-        const fetchedOfferings = await Purchases.getOfferings();
-        setOfferings(fetchedOfferings);
-        console.log(
-          "RevenueCat Offerings loaded:",
-          fetchedOfferings.current?.identifier
-        );
-      } else if (Platform.OS === "android") {
-        // For Android, use feature flag (no RevenueCat API)
-        console.log("Android: Using feature flag for subscription status");
-        if (__DEV__ && ANDROID_PREMIUM_ACCESS) {
-          console.log(
-            "[DEBUG] Android premium access enabled (ANDROID_PREMIUM_ACCESS = true)"
-          );
-          setIsSubscribed(true);
-        } else {
-          setIsSubscribed(false);
-        }
-      } else {
-        // For other platforms, just mark as not subscribed
-        console.log("RevenueCat not configured for this platform");
+      // Get the appropriate API key for the platform
+      let apiKey: string | null = null;
+      switch (Platform.OS) {
+        case "ios":
+          apiKey = process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY ?? null;
+          break;
+        case "android":
+          apiKey = process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY ?? null;
+          break;
+        default:
+          apiKey = null;
+          break;
       }
+
+      if (!apiKey) {
+        console.log("RevenueCat not configured for this platform");
+        setIsLoading(false);
+        return;
+      }
+
+      // Configure RevenueCat
+      Purchases.configure({ apiKey });
+
+      // Login user with Clerk ID if available
+      if (user?.id) {
+        console.log("Logging in RevenueCat user:", user.id);
+        await Purchases.logIn(user.id);
+      }
+
+      // Get initial customer info
+      const info = await Purchases.getCustomerInfo();
+      updateCustomerInfo(info);
+      console.log("RevenueCat Customer Info:", {
+        userId: info.originalAppUserId,
+        entitlements: Object.keys(info.entitlements.active),
+      });
+
+      // Get offerings
+      const fetchedOfferings = await Purchases.getOfferings();
+      setOfferings(fetchedOfferings);
+      console.log(
+        "RevenueCat Offerings loaded:",
+        fetchedOfferings.current?.identifier
+      );
     } catch (error) {
       console.error("Error initializing RevenueCat:", error);
     } finally {
@@ -104,8 +104,10 @@ export function RevenueCatProvider({
       Object.keys(info.entitlements.active).length > 0;
 
     // DEBUG: Force premium access in development if flag is enabled
-    if (__DEV__ && IOS_PREMIUM_ACCESS) {
-      console.log("[DEBUG] Forcing premium access (IOS_PREMIUM_ACCESS = true)");
+    if (__DEV__ && PREMIUM_ACCESS_DEBUG) {
+      console.log(
+        "[DEBUG] Forcing premium access (PREMIUM_ACCESS_DEBUG = true)"
+      );
       setIsSubscribed(true);
     } else {
       setIsSubscribed(hasActiveSubscription);
