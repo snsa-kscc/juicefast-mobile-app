@@ -156,7 +156,7 @@ export function AddActionButton() {
       {/* Modal */}
       <Modal
         visible={isOpen}
-        transparent={true}
+        transparent={Platform.OS === "android"}
         animationType="slide"
         presentationStyle={Platform.OS === "ios" ? "pageSheet" : undefined}
         onRequestClose={handleCloseModal}

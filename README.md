@@ -250,7 +250,7 @@ This project is private and proprietary to Juicefast App.
 - [ ] Drawer hydration from revenuecat
 - [ ] Setup RevenueCat for Web - ??? otom potom
 - [ ] Expo web bug and max width
-- [ ] Android messaging service - ja
+- [ ] Android messaging service image not showing - ja
 - [ ] WooCommerce integration
 - [ ] Styling
 - [ ] Testing

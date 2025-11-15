@@ -32,6 +32,7 @@ export default {
       ],
       softwareKeyboardLayoutMode: "resize",
       useNextNotificationsApi: true,
+      googleServicesFile: "./google-services.json",
     },
     web: {
       bundler: "metro",

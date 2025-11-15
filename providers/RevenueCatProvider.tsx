@@ -71,25 +71,16 @@ export function RevenueCatProvider({
 
       // Login user with Clerk ID if available
       if (user?.id) {
-        console.log("Logging in RevenueCat user:", user.id);
         await Purchases.logIn(user.id);
       }
 
       // Get initial customer info
       const info = await Purchases.getCustomerInfo();
       updateCustomerInfo(info);
-      console.log("RevenueCat Customer Info:", {
-        userId: info.originalAppUserId,
-        entitlements: Object.keys(info.entitlements.active),
-      });
 
       // Get offerings
       const fetchedOfferings = await Purchases.getOfferings();
       setOfferings(fetchedOfferings);
-      console.log(
-        "RevenueCat Offerings loaded:",
-        fetchedOfferings.current?.identifier
-      );
     } catch (error) {
       console.error("Error initializing RevenueCat:", error);
     } finally {

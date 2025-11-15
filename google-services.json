@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "764548293590",
+    "project_id": "juicefast-ai",
+    "storage_bucket": "juicefast-ai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764548293590:android:8ea0e59cde1320506aba77",
+        "android_client_info": {
+          "package_name": "com.juicefastapp.juicefastnutritionapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwF14uEp9JXglw9pR9xYFYc4VBMY-FVvM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
