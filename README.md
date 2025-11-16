@@ -244,7 +244,6 @@ This project is private and proprietary to Juicefast App.
 
 ## 2DO
 
-- [ ] Setup stores - ja
 - [ ] Setup RevenueCat for Web - ??? otom potom
 - [ ] Expo web bug and max width
 - [ ] WooCommerce integration
