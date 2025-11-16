@@ -246,7 +246,7 @@ This project is private and proprietary to Juicefast App.
 
 - [ ] Facebook OAuth - ja
 - [ ] Setup Google app store - ja
-- [ ] Drawer hydration from revenuecat
+- [ ] Drawer hydration from revenuecat - ja
 - [ ] Setup RevenueCat for Web - ??? otom potom
 - [ ] Expo web bug and max width
 - [ ] WooCommerce integration
@@ -254,4 +254,3 @@ This project is private and proprietary to Juicefast App.
 - [ ] Testing
 - [ ] Code cleanup
 - [ ] Upload html for referrals and set store urls - ja
-- [ ] Notifications - nutritionist chat badge not showing, ordinary chat badge showing
