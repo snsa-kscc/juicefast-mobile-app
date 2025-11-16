@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useAuth } from "@clerk/clerk-expo";
+import { useAuth, useUser } from "@clerk/clerk-expo";
 import { Home, Heart, Store, MessageCircle, Users } from "lucide-react-native";
 import { BlurView } from "expo-blur";
 import { Platform } from "react-native";
@@ -28,13 +28,21 @@ export default function TabLayout() {
 
 function RegularTabLayout() {
   const { isSignedIn } = useAuth();
-  const sessions = useQuery(
+  const { user } = useUser();
+  const isNutritionist = user?.unsafeMetadata?.role === "nutritionist";
+  
+  const userSessions = useQuery(
     api.nutritionistChat.getActiveUserSessions,
-    isSignedIn ? undefined : "skip"
+    isSignedIn && !isNutritionist ? undefined : "skip"
   );
-  const unreadCount =
-    sessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) ||
-    0;
+  const nutritionistSessions = useQuery(
+    api.nutritionistChat.getNutritionistSessions,
+    isSignedIn && isNutritionist ? undefined : "skip"
+  );
+  
+  const unreadCount = isNutritionist
+    ? nutritionistSessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) || 0
+    : userSessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) || 0;
 
   return (
     <Tabs
@@ -142,13 +150,21 @@ function RegularTabLayout() {
 
 function IOSNativeTabLayout() {
   const { isSignedIn } = useAuth();
-  const sessions = useQuery(
+  const { user } = useUser();
+  const isNutritionist = user?.unsafeMetadata?.role === "nutritionist";
+  
+  const userSessions = useQuery(
     api.nutritionistChat.getActiveUserSessions,
-    isSignedIn ? undefined : "skip"
+    isSignedIn && !isNutritionist ? undefined : "skip"
   );
-  const unreadCount =
-    sessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) ||
-    0;
+  const nutritionistSessions = useQuery(
+    api.nutritionistChat.getNutritionistSessions,
+    isSignedIn && isNutritionist ? undefined : "skip"
+  );
+  
+  const unreadCount = isNutritionist
+    ? nutritionistSessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) || 0
+    : userSessions?.reduce((sum, session) => sum + (session.unreadCount || 0), 0) || 0;
 
   return (
     <NativeTabs
