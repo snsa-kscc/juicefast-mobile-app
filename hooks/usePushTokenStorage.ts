@@ -28,10 +28,6 @@ export function usePushTokenStorage(options: UsePushTokenStorageOptions = {}) {
         try {
           if (previousUserId.current) {
             await clearPushToken({ userId: previousUserId.current });
-            console.log(
-              "Push token cleared for previous user:",
-              previousUserId.current
-            );
           }
         } catch (error) {
           console.error("Failed to clear previous push token:", error);

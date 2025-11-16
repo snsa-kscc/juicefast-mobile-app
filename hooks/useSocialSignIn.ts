@@ -6,12 +6,6 @@ import { getPushToken } from "@/services/messagingService";
 
 WebBrowser.maybeCompleteAuthSession();
 
-// const useWarmUpBrowser = () =>
-//   useEffect(() => {
-//     void WebBrowser.warmUpAsync();
-//     return () => void WebBrowser.coolDownAsync();
-//   }, []);
-
 type SocialProvider = "oauth_google" | "oauth_facebook" | "oauth_apple";
 type SignInState = "idle" | "loading" | "success" | "error";
 
@@ -25,7 +19,6 @@ export const useSocialSignIn = () => {
   const { startSSOFlow } = useSSO();
   const [state, setState] = useState<SignInState>("idle");
   const [error, setError] = useState<SignInError | null>(null);
-  // useWarmUpBrowser();
 
   const resetState = useCallback(() => {
     setState("idle");

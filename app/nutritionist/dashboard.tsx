@@ -6,6 +6,7 @@ import {
   ScrollView,
   RefreshControl,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -20,7 +21,6 @@ import {
   XCircle,
   LogOut,
 } from "lucide-react-native";
-import { Spinner } from "@/components/Spinner";
 
 interface ChatSession {
   id: Id<"chatSessions">;
@@ -154,7 +154,7 @@ export default function NutritionistDashboard() {
   if (!user || user.unsafeMetadata?.role !== "nutritionist") {
     return (
       <View className="flex-1 bg-[#FCFBF8] items-center justify-center">
-        <Spinner size={32} color="#8B7355" />
+        <ActivityIndicator size="large" color="#2d2d2d" />
       </View>
     );
   }

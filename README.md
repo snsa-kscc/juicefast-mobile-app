@@ -245,7 +245,6 @@ This project is private and proprietary to Juicefast App.
 ## 2DO
 
 - [ ] Facebook OAuth - ja
-- [ ] Google OAuth after login screen route not found
 - [ ] Setup Google app store - ja
 - [ ] Drawer hydration from revenuecat
 - [ ] Setup RevenueCat for Web - ??? otom potom

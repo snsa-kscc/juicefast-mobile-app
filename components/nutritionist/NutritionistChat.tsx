@@ -8,6 +8,7 @@ import {
   Alert,
   Keyboard,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { Send, User, Users } from "lucide-react-native";
 import { useQuery, useMutation } from "convex/react";
@@ -15,7 +16,6 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { Spinner } from "@/components/Spinner";
 import {
   addNotificationListener,
   addForegroundNotificationListener,
@@ -627,7 +627,7 @@ export function NutritionistChat() {
         {isLoading && (
           <View className="items-start mb-4">
             <View className="bg-white px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
-              <Spinner size={20} color="#E1D5B9" />
+              <ActivityIndicator size="small" color="#E1D5B9" />
             </View>
           </View>
         )}

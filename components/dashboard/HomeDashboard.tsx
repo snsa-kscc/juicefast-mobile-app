@@ -2,18 +2,18 @@ import { useAuth } from "@clerk/clerk-expo";
 import { useQuery } from "convex/react";
 import { router } from "expo-router";
 import { Plus } from "lucide-react-native";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  Alert,
-  Animated,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
   View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+  TouchableOpacity,
+  Animated,
+  Alert,
+  Image,
 } from "react-native";
 import { api } from "@/convex/_generated/api";
-import { Spinner } from "@/components/Spinner";
 import { CircularProgress, WellnessHeader } from "@/components/tracker/shared";
 import { DaySelector } from "@/components/dashboard/DaySelector";
 import { DailyFocusCard } from "@/components/dashboard/DailyFocusCard";
@@ -283,7 +283,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   if (isLoading && isSignedIn) {
     return (
       <View className="flex-1 bg-[#FCFBF8] justify-center items-center">
-        <Spinner size={32} color="rgb(76, 195, 255)" />
+        <ActivityIndicator size="large" color="#2d2d2d" />
       </View>
     );
   }

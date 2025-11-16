@@ -13,6 +13,8 @@ interface SpinnerProps {
   color?: string;
 }
 
+// no longer used - replaced with ActivityIndicator
+
 export function Spinner({ size = 24, color = "#10B981" }: SpinnerProps) {
   const rotation = useSharedValue(0);
 

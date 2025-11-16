@@ -9,10 +9,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
 import { Path, Svg } from "react-native-svg";
 import { api } from "@/convex/_generated/api";
-import { Spinner } from "@/components/Spinner";
 import { CircularProgress, WellnessHeader } from "@/components/tracker/shared";
 
 interface UserProfile {
@@ -380,7 +380,7 @@ export function WellnessTracker({
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center py-6">
-        <Spinner size={32} color="rgb(76, 195, 255)" />
+        <ActivityIndicator size="large" color="#2d2d2d" />
       </View>
     );
   }
