@@ -63,7 +63,7 @@ export default {
       [
         "expo-notifications",
         {
-          icon: "./assets/images/jf-picto.png",
+          icon: "./assets/images/notification-icon.png",
           color: "#2d2d2d",
           sounds: [],
           mode: "production",

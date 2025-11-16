@@ -68,10 +68,7 @@ export const useSocialSignIn = () => {
 
         // Store push token after successful authentication
         try {
-          const token = await getPushToken();
-          if (token) {
-            console.log("Push token obtained after social sign-in");
-          }
+          await getPushToken();
         } catch (error) {
           console.warn("Failed to get push token after social sign-in:", error);
         }
