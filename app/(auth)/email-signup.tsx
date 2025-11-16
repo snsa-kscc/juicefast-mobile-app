@@ -15,7 +15,13 @@ import { ReferralStorage } from "@/utils/referralStorage";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
-import { MailIcon, LockIcon, UserIcon } from "@/components/icons/AuthIcons";
+import {
+  MailIcon,
+  LockIcon,
+  UserIcon,
+  EyeIcon,
+  EyeOffIcon,
+} from "@/components/icons/AuthIcons";
 import { getInputFieldPadding } from "@/utils/platformStyles";
 
 export default function EmailSignUpScreen() {
@@ -44,6 +50,8 @@ export default function EmailSignUpScreen() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [verificationError, setVerificationError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Load referral code from secure storage on component mount
   useEffect(() => {
@@ -323,10 +331,16 @@ export default function EmailSignUpScreen() {
             value={password}
             placeholder="Create a password"
             placeholderTextColor="#9CA3AF"
-            secureTextEntry={true}
+            secureTextEntry={!showPassword}
             className="flex-1 text-base text-gray-500 font-lufga"
             onChangeText={(password) => setPassword(password)}
           />
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            className="ml-2"
+          >
+            {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+          </TouchableOpacity>
         </View>
 
         <View
@@ -339,12 +353,18 @@ export default function EmailSignUpScreen() {
             value={confirmPassword}
             placeholder="Confirm password"
             placeholderTextColor="#9CA3AF"
-            secureTextEntry={true}
+            secureTextEntry={!showConfirmPassword}
             className="flex-1 text-base text-gray-500 font-lufga"
             onChangeText={(confirmPassword) =>
               setConfirmPassword(confirmPassword)
             }
           />
+          <TouchableOpacity
+            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="ml-2"
+          >
+            {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+          </TouchableOpacity>
         </View>
 
         <View
