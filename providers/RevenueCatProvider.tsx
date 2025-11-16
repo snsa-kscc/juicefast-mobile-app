@@ -117,13 +117,7 @@ export function RevenueCatProvider({
 
   const purchasePackage = async (pkg: PurchasesPackage) => {
     try {
-      console.log("Starting purchase for package:", pkg.identifier);
       const { customerInfo: info } = await Purchases.purchasePackage(pkg);
-      console.log("Purchase successful!", {
-        userId: info.originalAppUserId,
-        entitlements: Object.keys(info.entitlements.active),
-        activeSubscriptions: info.activeSubscriptions,
-      });
       updateCustomerInfo(info);
       return { customerInfo: info, success: true };
     } catch (error: any) {
