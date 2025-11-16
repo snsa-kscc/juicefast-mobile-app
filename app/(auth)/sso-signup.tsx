@@ -138,7 +138,8 @@ export default function SSOSignUpScreen() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* Facebook sign-in - commented out */}
+        {/* <TouchableOpacity
           onPress={() => signInWithFacebook()}
           className="bg-gray-900 rounded-xl py-4 flex-row items-center"
         >
@@ -149,7 +150,7 @@ export default function SSOSignUpScreen() {
           <Text className="text-white font-lufga-semibold ml-8">
             Continue with Facebook
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* Terms Text */}

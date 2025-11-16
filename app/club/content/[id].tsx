@@ -320,8 +320,8 @@ export default function ClubContentDetail() {
             </Text>
           </TouchableOpacity>
 
-          {/* Secondary actions */}
-          <View className="flex-row justify-between">
+          {/* Secondary actions - commented out */}
+          {/* <View className="flex-row justify-between">
             <TouchableOpacity className="flex-1 flex-row items-center justify-center py-2 border border-gray-200 rounded-lg mx-1">
               <Ionicons name="bookmark-outline" size={16} color="#374151" />
               <Text className="text-gray-700 text-sm font-lufga ml-1">
@@ -340,10 +340,8 @@ export default function ClubContentDetail() {
                 Like
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
-
-        {/* Description */}
         <View className="px-4 pb-8">
           <Text className="text-lg font-lufga-bold text-gray-900 mb-2">
             About

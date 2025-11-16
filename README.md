@@ -244,9 +244,7 @@ This project is private and proprietary to Juicefast App.
 
 ## 2DO
 
-- [ ] Facebook OAuth - ja
-- [ ] Setup Google app store - ja
-- [ ] Drawer hydration from revenuecat - ja
+- [ ] Setup stores - ja
 - [ ] Setup RevenueCat for Web - ??? otom potom
 - [ ] Expo web bug and max width
 - [ ] WooCommerce integration
@@ -254,3 +252,4 @@ This project is private and proprietary to Juicefast App.
 - [ ] Testing
 - [ ] Code cleanup
 - [ ] Upload html for referrals and set store urls - ja
+- [ ] Facebook OAuth - ja

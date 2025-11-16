@@ -225,7 +225,8 @@ export default function Page() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* Facebook sign-in - commented out */}
+        {/* <TouchableOpacity
           onPress={() => signInWithFacebook(handleSocialSignInComplete)}
           className="bg-gray-900 rounded-xl py-4 flex-row items-center"
         >
@@ -236,7 +237,7 @@ export default function Page() {
           <Text className="text-white font-lufga-semibold ml-8">
             Continue with Facebook
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* Sign Up Link */}

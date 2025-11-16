@@ -1,10 +1,12 @@
-# Paywall Testing Guide (iOS Only)
+# Paywall Testing Guide (iOS & Android)
 
-> **Note:** This implementation currently supports iOS only. Android support can be added later when you have the Android API key.
+> **Note:** This implementation supports both iOS and Android. Ensure you have the appropriate API keys configured for each platform.
 
 ## Prerequisites
 
 Before testing, ensure you have:
+
+**For iOS:**
 
 1. ✅ Created a subscription in App Store Connect
 2. ✅ Configured RevenueCat with your App Store subscription
@@ -12,9 +14,19 @@ Before testing, ensure you have:
 4. ✅ Set `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY` in your `.env.local` file
 5. ✅ Testing on an **iOS physical device** (required for purchases)
 
+**For Android:**
+
+1. ✅ Created a subscription in Google Play Console
+2. ✅ Configured RevenueCat with your Google Play subscription
+3. ✅ Added the subscription to a RevenueCat offering (ideally named "default")
+4. ✅ Set `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY` in your `.env.local` file
+5. ✅ Testing on an **Android physical device** (required for purchases)
+
 ## Setting Up Sandbox Testing
 
-### 1. Create Sandbox Test Account
+### iOS Sandbox Testing
+
+#### 1. Create Sandbox Test Account
 
 1. Go to [App Store Connect](https://appstoreconnect.apple.com/)
 2. Navigate to **Users and Access** → **Sandbox Testers**
@@ -27,7 +39,7 @@ Before testing, ensure you have:
 
 **Important:** Don't verify the email - sandbox accounts don't need verification.
 
-### 2. Configure Your iOS Device
+#### 2. Configure Your iOS Device
 
 1. **Sign out of App Store ONLY** (NOT iCloud):
    - Go to **Settings** → Scroll down to **App Store**
@@ -37,17 +49,48 @@ Before testing, ensure you have:
 2. **Do NOT sign in with the sandbox account yet** - wait until you make your first purchase
 3. Make sure you're testing on a **physical device** (not simulator for real purchases)
 
+### Android Sandbox Testing
+
+#### 1. Set Up Google Play Testing
+
+1. Go to [Google Play Console](https://play.google.com/console)
+2. Navigate to your app
+3. Go to **Monetize** → **Subscriptions**
+4. Create your subscription products
+5. Add test accounts:
+   - Go to **Settings** → **License testing**
+   - Add the Gmail addresses of your test accounts
+   - Select "Testing" license response
+
+#### 2. Configure Your Android Device
+
+1. **Add a Google Account** to your device:
+   - Go to **Settings** → **Accounts** → **Add account** → **Google**
+   - Use one of your test accounts added in Google Play Console
+2. **Enable Play Store testing**:
+   - Open Play Store app
+   - Tap menu → **Account** → **Sign out** (if signed in with production account)
+   - Sign in with your test account
+3. Make sure you're testing on a **physical device** (not emulator for real purchases)
+4. Ensure **Google Play Services** are up to date
+
 ### 3. Build and Install the App
 
 ```bash
-# For development build
+# For iOS development build
 eas build --profile development --platform ios
 
-# Or for preview build
+# For iOS preview build
 eas build --profile preview --platform ios
+
+# For Android development build
+eas build --profile development --platform android
+
+# For Android preview build
+eas build --profile preview --platform android
 ```
 
-Install the build on your device via TestFlight or direct installation.
+Install the build on your device via TestFlight (iOS) or direct installation (Android).
 
 ## Testing the Purchase Flow
 
@@ -62,11 +105,21 @@ Install the build on your device via TestFlight or direct installation.
 
 ### Step 2: Make a Test Purchase
 
+**For iOS:**
+
 1. Tap on a subscription package
 2. The iOS purchase dialog will appear
 3. **Now sign in with your sandbox account** when prompted
 4. Complete the purchase flow
 5. The purchase should complete instantly (no actual charge)
+
+**For Android:**
+
+1. Tap on a subscription package
+2. The Google Play purchase dialog will appear
+3. Complete the purchase flow with your test account
+4. The purchase should complete instantly (no actual charge)
+5. You may see "TEST" indicators in the purchase flow
 
 ### Step 3: Verify Access
 
@@ -180,6 +233,8 @@ Use an annual subscription in sandbox testing:
 
 ### Test Subscription Cancellation
 
+**iOS Cancellation:**
+
 **Note:** Sandbox subscriptions don't appear in regular iOS Settings. To test cancellation:
 
 **Option 1: Let it Auto-Cancel (Recommended)**
@@ -196,6 +251,22 @@ Use an annual subscription in sandbox testing:
 5. If you see your test subscription, you can cancel it
 6. If not, use Option 1 instead
 
+**Android Cancellation:**
+
+**Option 1: Use Google Play Console**
+
+1. Go to [Google Play Console](https://play.google.com/console)
+2. Navigate to your app
+3. Go to **Monetize** → **Subscriptions**
+4. Find your test subscription and cancel it
+
+**Option 2: Use Play Store App**
+
+1. Open Play Store app
+2. Tap menu → **Subscriptions**
+3. Find your test subscription and cancel it
+4. Test subscriptions should appear with "Test" labels
+
 **What to Expect:**
 
 - After cancellation, you should still have access until the period ends
@@ -203,7 +274,7 @@ Use an annual subscription in sandbox testing:
 
 ### Test Expired Subscription
 
-Sandbox subscriptions have accelerated renewal rates:
+**iOS Sandbox Renewal Rates:**
 
 - 1 week subscription = 3 minutes
 - 1 month subscription = 5 minutes
@@ -211,6 +282,13 @@ Sandbox subscriptions have accelerated renewal rates:
 - 3 months subscription = 15 minutes
 - 6 months subscription = 30 minutes
 - 1 year subscription = 1 hour
+
+**Android Sandbox Renewal Rates:**
+
+- Android test subscriptions typically renew every 5 minutes
+- Monthly subscriptions: 5 minutes
+- Annual subscriptions: 5 minutes
+- Weekly subscriptions: 5 minutes
 
 Wait for the subscription to expire and verify the paywall reappears.
 
@@ -247,9 +325,15 @@ if (__DEV__) {
 
 ### Common Issues
 
-**Issue:** "Cannot connect to iTunes Store"
+**Issue:** "Cannot connect to iTunes Store" (iOS)
 
 - **Solution:** Make sure you're signed out of your real Apple ID in Settings → App Store
+
+**Issue:** "Cannot connect to Google Play" (Android)
+
+- **Solution:** Make sure you're using a test account added in Google Play Console
+- Check that Google Play Services are up to date
+- Verify internet connection
 
 **Issue:** Paywall doesn't disappear after purchase
 
@@ -269,30 +353,32 @@ if (__DEV__) {
 
 Before going live:
 
-- [ ] Test with multiple sandbox accounts
-- [ ] Test all subscription durations
-- [ ] Test restore purchases flow
-- [ ] Test subscription expiration
-- [ ] Test cancellation flow
+- [ ] Test with multiple sandbox accounts (iOS & Android)
+- [ ] Test all subscription durations on both platforms
+- [ ] Test restore purchases flow on both platforms
+- [ ] Test subscription expiration on both platforms
+- [ ] Test cancellation flow on both platforms
 - [ ] Verify analytics are tracking correctly
 - [ ] Test on multiple iOS versions
+- [ ] Test on multiple Android versions
 - [ ] Review subscription terms and privacy policy
 - [ ] Test with poor network conditions
-- [ ] Verify error handling for failed purchases
+- [ ] Verify error handling for failed purchases on both platforms
+- [ ] Test upgrade/downgrade flows if applicable
 
 ## Environment Variables
 
-Make sure this is set in your `.env.local`:
+Make sure these are set in your `.env.local`:
 
 ```bash
+# iOS API key
 EXPO_PUBLIC_REVENUECAT_IOS_API_KEY=your_ios_api_key_here
+
+# Android API key
+EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY=your_android_api_key_here
 ```
 
-Android support can be added later by:
-
-1. Getting your Android API key from RevenueCat
-2. Adding `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY` to `.env.local`
-3. Updating the `initializeRevenueCat()` function in `RevenueCatProvider.tsx`
+The RevenueCat provider automatically detects the platform and uses the appropriate API key.
 
 ## Next Steps
 
@@ -300,4 +386,6 @@ Android support can be added later by:
 2. Add analytics tracking for purchase events
 3. Implement promotional offers
 4. Add subscription management screen
-5. Add Android support when ready (see Environment Variables section above)
+5. Test cross-platform subscription synchronization
+6. Add promotional offers for both platforms
+7. Implement family sharing (iOS) and family library (Android) if applicable

@@ -25,8 +25,8 @@ export function PremiumSubscriptionDrawer({
 }: PremiumSubscriptionDrawerProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<"trial" | "monthly">(
-    "trial"
+  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">(
+    "yearly"
   );
   const { isSubscribed } = usePaywall();
   const { offerings, purchasePackage } = useRevenueCat();
@@ -42,24 +42,29 @@ export function PremiumSubscriptionDrawer({
   const closeDrawer = () => setIsVisible(false);
 
   const handleSubscribe = async () => {
-    // Get the first available package (typically monthly)
+    // Get the selected package based on user choice
     const currentOffering = offerings?.current;
-    const availablePackages = currentOffering?.availablePackages || [];
+    let selectedPackage;
 
-    if (availablePackages.length === 0) {
+    if (selectedPlan === "yearly") {
+      selectedPackage = currentOffering?.annual;
+    } else {
+      selectedPackage = currentOffering?.monthly;
+    }
+
+    if (!selectedPackage) {
       Alert.alert(
-        "No Packages Available",
-        "No subscription packages are currently available. Please try again later.",
+        "Package Not Available",
+        "The selected subscription package is currently unavailable. Please try again later.",
         [{ text: "OK" }]
       );
       return;
     }
 
-    const pkg = availablePackages[0];
     setIsPurchasing(true);
 
     try {
-      const result = await purchasePackage(pkg);
+      const result = await purchasePackage(selectedPackage);
       if (result.success) {
         closeDrawer();
         Alert.alert(
@@ -81,22 +86,18 @@ export function PremiumSubscriptionDrawer({
 
   // Get pricing info from offerings
   const currentOffering = offerings?.current;
-  const availablePackages = currentOffering?.availablePackages || [];
-  const primaryPackage = availablePackages[0];
+  const monthlyPackage = currentOffering?.monthly;
+  const yearlyPackage = currentOffering?.annual;
 
-  const getPricingText = () => {
-    if (!primaryPackage) {
-      return "Subscribe to unlock premium features";
-    }
+  // Calculate yearly savings
+  const yearlySavings =
+    monthlyPackage && yearlyPackage
+      ? monthlyPackage.product.price * 12 - yearlyPackage.product.price
+      : 59.89;
 
-    const hasFreeTrial = !!primaryPackage.product.introPrice;
-    const price = primaryPackage.product.priceString;
-
-    if (hasFreeTrial) {
-      return `7-day free trial, then ${price}/month. Cancel anytime.`;
-    }
-
-    return `${price}/month. Cancel anytime.`;
+  // Helper function to format price consistently
+  const formatPrice = (price: number) => {
+    return `€${price.toFixed(2).replace(",", ".")}`;
   };
 
   const benefits = [
@@ -170,11 +171,11 @@ export function PremiumSubscriptionDrawer({
 
               {/* Plan Cards */}
               <View className="mb-6">
-                {/* 7-Day Free Trial Card */}
+                {/* Yearly Card */}
                 <TouchableOpacity
-                  onPress={() => setSelectedPlan("trial")}
+                  onPress={() => setSelectedPlan("yearly")}
                   className={`border-2 rounded-2xl p-4 mb-3 ${
-                    selectedPlan === "trial"
+                    selectedPlan === "yearly"
                       ? "border-blue-500 bg-blue-50"
                       : "border-gray-200 bg-white"
                   }`}
@@ -182,27 +183,33 @@ export function PremiumSubscriptionDrawer({
                   <View className="flex-row items-center justify-between mb-2">
                     <View>
                       <Text className="text-xl font-lufga-bold text-gray-900">
-                        {primaryPackage?.product.priceString || "11.28 €"}
+                        {yearlyPackage
+                          ? formatPrice(yearlyPackage.product.price)
+                          : formatPrice(119.99)}
                       </Text>
                       <Text className="text-xs font-lufga text-gray-500 mt-0.5">
-                        {primaryPackage?.product.priceString
-                          ? `${primaryPackage.product.priceString} / month`
-                          : "9.40 € / month"}
+                        {yearlyPackage
+                          ? formatPrice(yearlyPackage.product.price / 12)
+                          : formatPrice(10.0)}{" "}
+                        / month
                       </Text>
                     </View>
-                    <View className="bg-blue-500 px-3 py-1.5 rounded-full">
+                    <View className="bg-green-500 px-3 py-1.5 rounded-full">
                       <Text className="text-xs font-lufga-semibold text-white">
-                        7 days for free
+                        Save {formatPrice(yearlySavings)}/year
                       </Text>
                     </View>
                   </View>
                   <Text className="text-xs font-lufga text-gray-500 leading-4">
-                    Then {primaryPackage?.product.priceString || "11.28€"} every
-                    month until you cancel. Cancel anytime.
+                    Billed annually. Best value with{" "}
+                    {yearlyPackage
+                      ? formatPrice(yearlyPackage.product.price / 12)
+                      : formatPrice(10.0)}{" "}
+                    per month equivalent.
                   </Text>
                 </TouchableOpacity>
 
-                {/* 1 Month Card */}
+                {/* Monthly Card */}
                 <TouchableOpacity
                   onPress={() => setSelectedPlan("monthly")}
                   className={`border-2 rounded-2xl p-4 ${
@@ -214,22 +221,26 @@ export function PremiumSubscriptionDrawer({
                   <View className="flex-row items-center justify-between mb-2">
                     <View>
                       <Text className="text-xl font-lufga-bold text-gray-900">
-                        {primaryPackage?.product.priceString || "11.28 €"}
+                        {monthlyPackage
+                          ? formatPrice(monthlyPackage.product.price)
+                          : formatPrice(14.99)}
                       </Text>
                       <Text className="text-xs font-lufga text-gray-500 mt-0.5">
-                        {primaryPackage?.product.priceString
-                          ? `${primaryPackage.product.priceString} / month`
-                          : "9.40 € / month"}
+                        {monthlyPackage
+                          ? formatPrice(monthlyPackage.product.price)
+                          : formatPrice(14.99)}{" "}
+                        / month
                       </Text>
                     </View>
                     <View className="bg-gray-100 px-3 py-1.5 rounded-full">
                       <Text className="text-xs font-lufga-semibold text-gray-600">
-                        1 month
+                        Monthly
                       </Text>
                     </View>
                   </View>
                   <Text className="text-xs font-lufga text-gray-500 leading-4">
-                    Billed monthly. Get started right away without trial period.
+                    Billed monthly. Get started right away with flexible monthly
+                    payments.
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -255,13 +266,14 @@ export function PremiumSubscriptionDrawer({
               <TouchableOpacity
                 className="w-full bg-black py-4 rounded-full items-center"
                 onPress={handleSubscribe}
-                disabled={isPurchasing || !primaryPackage}
+                disabled={isPurchasing || (!monthlyPackage && !yearlyPackage)}
               >
                 {isPurchasing ? (
                   <ActivityIndicator color="#FFFFFF" />
                 ) : (
                   <Text className="text-base font-lufga-semibold text-white uppercase tracking-wide">
-                    Start Free Trial & Subscribe
+                    Subscribe to{" "}
+                    {selectedPlan === "yearly" ? "Yearly" : "Monthly"} Plan
                   </Text>
                 )}
               </TouchableOpacity>
