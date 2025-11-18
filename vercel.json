@@ -1,17 +1,19 @@
 {
   "buildCommand": "expo export -p web",
-  "outputDirectory": "dist",
+  "outputDirectory": "dist/client",
   "devCommand": "expo",
   "cleanUrls": true,
   "framework": null,
+  "functions": {
+    "api/index.ts": {
+      "runtime": "@vercel/node",
+      "includeFiles": "dist/server/**"
+    }
+  },
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/server/_expo/functions/api/$1"
-    },
-    {
       "source": "/(.*)",
-      "destination": "/server/$1"
+      "destination": "/api/index"
     }
   ]
 }
