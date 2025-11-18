@@ -3,5 +3,15 @@
   "outputDirectory": "dist",
   "devCommand": "expo",
   "cleanUrls": true,
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/server/_expo/functions/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/server/$1"
+    }
+  ]
 }
