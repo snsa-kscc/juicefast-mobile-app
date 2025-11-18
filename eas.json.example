@@ -7,17 +7,7 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "channel": "development",
-      "env": {
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "$EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY",
-        "CONVEX_DEPLOYMENT": "$CONVEX_DEPLOYMENT",
-        "EXPO_PUBLIC_CONVEX_URL": "$EXPO_PUBLIC_CONVEX_URL",
-        "CLERK_FRONTEND_API_URL": "$CLERK_FRONTEND_API_URL",
-        "GOOGLE_GENERATIVE_AI_API_KEY": "$GOOGLE_GENERATIVE_AI_API_KEY",
-        "EXPO_PUBLIC_REVENUECAT_IOS_API_KEY": "$EXPO_PUBLIC_REVENUECAT_IOS_API_KEY",
-        "EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY": "$EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY",
-        "EXPO_PUBLIC_API_BASE_URL": "$EXPO_PUBLIC_API_BASE_URL"
-      }
+      "channel": "development"
     },
     "production": {
       "autoIncrement": true,
