@@ -9,6 +9,7 @@ import {
   ImageBackground,
   ScrollView,
   Platform,
+  Linking,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -29,7 +30,7 @@ export function PremiumSubscriptionDrawer({
     "yearly"
   );
   const { isSubscribed } = usePaywall();
-  const { offerings, purchasePackage } = useRevenueCat();
+  const { offerings, purchasePackage, restorePurchases } = useRevenueCat();
 
   const openDrawer = () => {
     // If already subscribed, don't show drawer
@@ -81,6 +82,34 @@ export function PremiumSubscriptionDrawer({
       );
     } finally {
       setIsPurchasing(false);
+    }
+  };
+
+  const handleRestorePurchases = async () => {
+    try {
+      await restorePurchases();
+      // Check subscription status after restore
+      if (isSubscribed) {
+        Alert.alert(
+          "Purchases Restored",
+          "Your purchases have been successfully restored.",
+          [{ text: "OK" }]
+        );
+        closeDrawer();
+      } else {
+        Alert.alert(
+          "No Purchases Found",
+          "We couldn't find any previous purchases to restore.",
+          [{ text: "OK" }]
+        );
+      }
+    } catch (error: any) {
+      Alert.alert(
+        "Restore Failed",
+        error.message ||
+          "Something went wrong while restoring purchases. Please try again.",
+        [{ text: "OK" }]
+      );
     }
   };
 
@@ -196,7 +225,7 @@ export function PremiumSubscriptionDrawer({
                     </View>
                     <View className="bg-green-500 px-3 py-1.5 rounded-full">
                       <Text className="text-xs font-lufga-semibold text-white">
-                        Save {formatPrice(yearlySavings)}/year
+                        Yearly - save {formatPrice(yearlySavings)}/year
                       </Text>
                     </View>
                   </View>
@@ -277,6 +306,46 @@ export function PremiumSubscriptionDrawer({
                   </Text>
                 )}
               </TouchableOpacity>
+
+              {/* Required subscription terms and links */}
+              <View className="mt-4 px-5">
+                <Text className="text-sm font-lufga text-gray-500 text-center leading-4 mb-3">
+                  Subscription automatically renews unless auto-renew is turned
+                  off at least 24 hours before the end of the current period.
+                </Text>
+
+                <View className="flex-row justify-center items-center gap-4">
+                  <TouchableOpacity
+                    onPress={() =>
+                      Linking.openURL(
+                        "https://juicefast.com/privacy-and-security/"
+                      )
+                    }
+                  >
+                    <Text className="text-sm font-lufga text-blue-500 underline">
+                      Privacy Policy
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() =>
+                      Linking.openURL(
+                        "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                      )
+                    }
+                  >
+                    <Text className="text-sm font-lufga text-blue-500 underline">
+                      Terms of Use
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={handleRestorePurchases}>
+                    <Text className="text-sm font-lufga text-blue-500 underline">
+                      Restore purchases
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
           </ScrollView>
         </SafeAreaView>
