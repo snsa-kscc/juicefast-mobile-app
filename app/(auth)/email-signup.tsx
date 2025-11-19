@@ -194,10 +194,10 @@ export default function EmailSignUpScreen() {
       >
         {/* Logo */}
         <View className="items-center">
-          <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
+          <View className="w-16 h-16 rounded-2xl items-center justify-center mb-6">
             <Image
               source={require("@/assets/images/jf-picto.png")}
-              className="w-24 h-24 rounded-xl"
+              style={{ width: 128, height: 128 }}
             />
           </View>
           <Text className="text-4xl font-lufga-bold text-center mb-16 mt-14">
@@ -252,10 +252,10 @@ export default function EmailSignUpScreen() {
     >
       {/* Logo */}
       <View className="items-center">
-        <View className="w-16 h-16 bg-black rounded-2xl items-center justify-center mb-6">
+        <View className="w-16 h-16 rounded-2xl items-center justify-center mb-6">
           <Image
             source={require("@/assets/images/jf-picto.png")}
-            className="w-24 h-24 rounded-xl"
+            style={{ width: 128, height: 128 }}
           />
         </View>
         <Text className="text-4xl font-lufga-bold text-center mb-16 mt-14">
