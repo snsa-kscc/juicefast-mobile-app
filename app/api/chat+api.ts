@@ -1,24 +1,26 @@
 import { google } from "@ai-sdk/google";
-import { convertToModelMessages, streamText } from "ai";
+import { convertToModelMessages, streamText, UIMessage } from "ai";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "@/convex/_generated/api";
 
 export async function POST(request: Request) {
   try {
-    const { messages, userId: requestUserId } = await request.json();
+    const {
+      messages,
+      userId: requestUserId,
+    }: { messages: UIMessage[]; userId: string } = await request.json();
 
     // Get the Authorization header from the incoming request
     const authorizationHeader = request.headers.get("Authorization");
+    if (!authorizationHeader) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     // Initialize Convex client
     const convex = new ConvexHttpClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
 
-    // If the header exists, set the auth token for this Convex request
-    if (authorizationHeader) {
-      // The token is the part after "Bearer "
-      const token = authorizationHeader.split(" ")[1];
-      convex.setAuth(token);
-    }
+    const token = authorizationHeader.split(" ")[1];
+    convex.setAuth(token);
 
     // Fetch today's health data from Convex
     const selectedDate = new Date();
@@ -169,7 +171,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Error in chat API:", error);
     return Response.json(
-      { error: "Failed to process chat request" },
+      { error: "Failed to process ai chat request" },
       { status: 500 }
     );
   }
