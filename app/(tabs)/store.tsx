@@ -1,15 +1,20 @@
-import React from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, StyleSheet, View, BackHandler } from "react-native";
 import { WebView } from "react-native-webview";
 import { ThemedView } from "@/components/ThemedView";
 import { useLocalSearchParams } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
+import { Alert } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function StoreScreen() {
   const { link } = useLocalSearchParams<{ link?: string }>();
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [storedLink, setStoredLink] = React.useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [storedLink, setStoredLink] = useState<string | null>(null);
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log("Store Screen - Link parameter:", link);
     if (link && !storedLink) {
       const decodedLink = decodeURIComponent(link);
@@ -17,6 +22,43 @@ export default function StoreScreen() {
       setStoredLink(decodedLink);
     }
   }, [link, storedLink]);
+
+  useEffect(() => {
+    // Prevent back navigation for guests
+    const backHandler = () => {
+      if (!isSignedIn) {
+        Alert.alert(
+          "Sign In Required",
+          "You need to create an account or sign in to access other features.",
+          [
+            {
+              text: "Sign Up",
+              onPress: () => router.push("/(auth)/sso-signup"),
+            },
+            {
+              text: "Log In",
+              onPress: () => router.push("/(auth)/sign-in"),
+            },
+            {
+              text: "Stay in Store",
+              style: "cancel",
+            },
+          ]
+        );
+        return true; // Prevent back
+      }
+      return false; // Allow back for authenticated users
+    };
+
+    // Add back handler listener
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backHandler
+    );
+
+    // Cleanup listener on unmount
+    return () => subscription.remove();
+  }, [isSignedIn, router]);
 
   const handleLoadStart = () => {
     setIsLoading(true);

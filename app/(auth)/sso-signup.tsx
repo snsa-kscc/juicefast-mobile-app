@@ -70,6 +70,11 @@ export default function SSOSignUpScreen() {
     [router]
   );
 
+  // Handle continue as guest
+  const handleContinueAsGuest = () => {
+    router.replace("/(tabs)/store");
+  };
+
   // useEffect to handle user state changes after SSO
   useEffect(() => {
     // Only process if user is loaded, exists, and hasn't been processed yet
@@ -151,6 +156,20 @@ export default function SSOSignUpScreen() {
             Continue with Facebook
           </Text>
         </TouchableOpacity> */}
+        {/* Continue as Guest Button */}
+        <View className="mt-4">
+          <TouchableOpacity
+            onPress={handleContinueAsGuest}
+            className="border border-gray-300 rounded-xl py-4 flex-row items-center justify-center"
+          >
+            <Text className="text-gray-700 font-lufga-semibold">
+              Continue as Guest
+            </Text>
+          </TouchableOpacity>
+          <Text className="text-xs text-gray-500 text-center mt-2 font-lufga">
+            Browse the store without creating an account
+          </Text>
+        </View>
       </View>
 
       {/* Terms Text */}
@@ -182,6 +201,7 @@ export default function SSOSignUpScreen() {
           </Text>
         </Link>
       </View>
+
       <View className="h-24"></View>
     </KeyboardAwareScrollView>
   );

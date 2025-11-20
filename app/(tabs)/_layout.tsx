@@ -5,6 +5,8 @@ import { useAuth, useUser } from "@clerk/clerk-expo";
 import { Home, Heart, Store, MessageCircle, Users } from "lucide-react-native";
 import { BlurView } from "expo-blur";
 import { Platform } from "react-native";
+import { Alert } from "react-native";
+import { useRouter } from "expo-router";
 import {
   Badge,
   Icon,
@@ -29,6 +31,7 @@ export default function TabLayout() {
 function RegularTabLayout() {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
+  const router = useRouter();
   const isNutritionist = user?.unsafeMetadata?.role === "nutritionist";
 
   const userSessions = useQuery(
@@ -49,6 +52,31 @@ function RegularTabLayout() {
         (sum, session) => sum + (session.unreadCount || 0),
         0
       ) || 0;
+
+  const handleAuthRequired = (featureName: string) => {
+    if (!isSignedIn) {
+      Alert.alert(
+        "Sign In Required",
+        `You need to create an account or sign in to access ${featureName}.`,
+        [
+          {
+            text: "Sign Up",
+            onPress: () => router.push("/(auth)/sso-signup"),
+          },
+          {
+            text: "Log In",
+            onPress: () => router.push("/(auth)/sign-in"),
+          },
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+        ]
+      );
+      return true; // Prevent navigation
+    }
+    return false; // Allow navigation
+  };
 
   return (
     <Tabs
@@ -105,6 +133,13 @@ function RegularTabLayout() {
           title: "Home",
           tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            if (handleAuthRequired("the home screen")) {
+              e.preventDefault();
+            }
+          },
+        })}
       />
 
       <Tabs.Screen
@@ -113,6 +148,13 @@ function RegularTabLayout() {
           title: "Tracker",
           tabBarIcon: ({ color, size }) => <Heart size={size} color={color} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            if (handleAuthRequired("the wellness tracker")) {
+              e.preventDefault();
+            }
+          },
+        })}
       />
 
       <Tabs.Screen
@@ -141,6 +183,13 @@ function RegularTabLayout() {
             borderRadius: 9,
           },
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            if (handleAuthRequired("the chat feature")) {
+              e.preventDefault();
+            }
+          },
+        })}
       />
 
       <Tabs.Screen
@@ -149,6 +198,13 @@ function RegularTabLayout() {
           title: "JF Club",
           tabBarIcon: ({ color, size }) => <Users size={size} color={color} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            if (handleAuthRequired("the JF Club")) {
+              e.preventDefault();
+            }
+          },
+        })}
       />
     </Tabs>
   );
