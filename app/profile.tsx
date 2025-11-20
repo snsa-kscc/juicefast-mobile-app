@@ -675,6 +675,18 @@ export default function ProfileScreen() {
           <Text className="text-lg font-lufga-bold mb-4">Legal</Text>
 
           <View>
+            <Link href="/citations" asChild>
+              <TouchableOpacity
+                className="flex-row items-center justify-between p-4 bg-gray-50 rounded-[25px] mb-3"
+                activeOpacity={0.7}
+              >
+                <Text className="text-gray-900 font-lufga-medium">
+                  Citations for Health Info and Metrics
+                </Text>
+                <Text className="text-gray-400 text-lg">→</Text>
+              </TouchableOpacity>
+            </Link>
+
             <Link href="/terms" asChild>
               <TouchableOpacity
                 className="flex-row items-center justify-between p-4 bg-gray-50 rounded-[25px] mb-3"
