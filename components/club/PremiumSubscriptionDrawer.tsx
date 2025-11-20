@@ -329,9 +329,7 @@ export function PremiumSubscriptionDrawer({
 
                   <TouchableOpacity
                     onPress={() =>
-                      Linking.openURL(
-                        "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-                      )
+                      Linking.openURL("https://juicefast.com/eula/")
                     }
                   >
                     <Text className="text-sm font-lufga text-blue-500 underline">

@@ -681,7 +681,7 @@ export default function ProfileScreen() {
                 activeOpacity={0.7}
               >
                 <Text className="text-gray-900 font-lufga-medium">
-                  Terms of Service
+                  Terms of Use (EULA)
                 </Text>
                 <Text className="text-gray-400 text-lg">→</Text>
               </TouchableOpacity>
