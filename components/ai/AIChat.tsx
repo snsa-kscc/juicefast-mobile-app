@@ -45,6 +45,9 @@ export function AIChat({ userId: _userId }: AIChatProps) {
           Authorization: `Bearer ${token}`,
         };
       },
+      body: {
+        userId: _userId,
+      },
     }),
   });
 
