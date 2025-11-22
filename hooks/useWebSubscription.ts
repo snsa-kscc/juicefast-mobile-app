@@ -1,3 +1,4 @@
+import { generateAPIUrl } from "@/utils";
 import { useUser } from "@clerk/clerk-expo";
 import { useEffect, useState } from "react";
 import { createMMKV } from "react-native-mmkv";
@@ -48,7 +49,9 @@ export const useWebSubscription = () => {
       }
 
       const response = await fetch(
-        `/api/web-subscription?email=${encodeURIComponent(email)}`
+        generateAPIUrl(
+          `/api/web-subscription?email=${encodeURIComponent(email)}`
+        )
       );
       const data = await response.json();
 
