@@ -25,6 +25,7 @@ import {
   WaterIcon,
 } from "@/components/dashboard/icons/TrackerIcons";
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
+import { useWebSubscription } from "@/hooks/useWebSubscription";
 
 interface DailyMetrics {
   steps: number;
@@ -47,6 +48,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const { isSignedIn } = useAuth();
   const { simulateNoSubscription, restorePurchases } = useRevenueCat();
+  const { clearCache } = useWebSubscription();
 
   // Get selected date in YYYY-MM-DD format for note query
   const selectedDateString = useMemo(() => {
@@ -639,6 +641,22 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
             >
               <Text className="text-white text-lg font-lufga-semibold text-center">
                 🧪 Test Restore Purchases
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="bg-red-600 px-6 py-4 rounded-xl mb-4"
+              onPress={() => {
+                clearCache();
+                Alert.alert(
+                  "Cache Cleared",
+                  "Subscription cache has been cleared. The app will fetch fresh data on next check.",
+                  [{ text: "OK" }]
+                );
+              }}
+            >
+              <Text className="text-white text-lg font-lufga-semibold text-center">
+                🗑️ Clear Cache
               </Text>
             </TouchableOpacity>
           </View>
