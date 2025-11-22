@@ -1,8 +1,12 @@
 const WC_URL = process.env.EXPO_PUBLIC_WC_URL;
 const CONSUMER_KEY = process.env.WP_CK;
 const CONSUMER_SECRET = process.env.WP_CS;
-const YEARLY_PRODUCT_ID = parseInt(process.env.EXPO_PUBLIC_YEARLY_PRODUCT_ID || "0");
-const MONTHLY_PRODUCT_ID = parseInt(process.env.EXPO_PUBLIC_MONTHLY_PRODUCT_ID || "0");
+const YEARLY_PRODUCT_ID = parseInt(
+  process.env.EXPO_PUBLIC_YEARLY_PRODUCT_ID || "0"
+);
+const MONTHLY_PRODUCT_ID = parseInt(
+  process.env.EXPO_PUBLIC_MONTHLY_PRODUCT_ID || "0"
+);
 
 interface SubscriptionInfo {
   isActive: boolean;
@@ -11,8 +15,12 @@ interface SubscriptionInfo {
   subscriptionId?: number;
 }
 
-async function checkWooCommerceSubscription(email: string): Promise<SubscriptionInfo> {
-  const auth = Buffer.from(`${CONSUMER_KEY}:${CONSUMER_SECRET}`).toString("base64");
+async function checkWooCommerceSubscription(
+  email: string
+): Promise<SubscriptionInfo> {
+  const auth = Buffer.from(`${CONSUMER_KEY}:${CONSUMER_SECRET}`).toString(
+    "base64"
+  );
 
   try {
     const response = await fetch(
