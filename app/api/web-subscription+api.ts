@@ -30,6 +30,8 @@ async function checkWooCommerceSubscription(
         headers: {
           Authorization: `Basic ${auth}`,
           "Content-Type": "application/json",
+          "User-Agent":
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.7444.59 Safari/537.36",
         },
       }
     );
