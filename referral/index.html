@@ -69,9 +69,11 @@
         0% {
           background-position: 0% 50%;
         }
+
         50% {
           background-position: 100% 50%;
         }
+
         100% {
           background-position: 0% 50%;
         }
@@ -213,9 +215,10 @@
       }
 
       function getAppStoreUrl(referralCode) {
-        const baseUrl = "https://apps.apple.com/app/id";
+        const baseUrl =
+          "https://apps.apple.com/us/app/juicefast-ai/id6751504716";
         if (referralCode) {
-          return `${baseUrl}?referral_code=${referralCode}`;
+          return `${baseUrl}?referrer=${referralCode}`;
         }
         return baseUrl;
       }
