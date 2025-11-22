@@ -13,7 +13,7 @@ export default function SubcategoryPage() {
     category: string;
     subcategory: string;
   }>();
-  const { isSubscribed } = usePaywall();
+  const { isPremiumOnAnyPlatform } = usePaywall();
 
   const subcategoryData = getSubcategoryDetail(subcategory || "");
 
@@ -41,7 +41,7 @@ export default function SubcategoryPage() {
     const isPremium = index >= 2;
 
     // If item is premium and user is not subscribed, wrap with drawer
-    if (isPremium && !isSubscribed) {
+    if (isPremium && !isPremiumOnAnyPlatform) {
       return <PremiumSubscriptionDrawer>{children}</PremiumSubscriptionDrawer>;
     }
 
@@ -51,7 +51,7 @@ export default function SubcategoryPage() {
   const shouldDisablePress = (item: ProcessedClubItem, index: number) => {
     const isPremium = index >= 2;
     // Disable press for premium items when user is not subscribed
-    return isPremium && !isSubscribed;
+    return isPremium && !isPremiumOnAnyPlatform;
   };
 
   const handleBack = () => {
@@ -68,7 +68,7 @@ export default function SubcategoryPage() {
           onItemPress={handleItemClick}
           itemWrapper={itemWrapper}
           shouldDisablePress={shouldDisablePress}
-          isSubscribed={isSubscribed}
+          isPremiumOnAnyPlatform={isPremiumOnAnyPlatform}
           headerComponent={
             <WellnessHeader
               title="Subcategory Not Found"
@@ -93,7 +93,7 @@ export default function SubcategoryPage() {
         onItemPress={handleItemClick}
         itemWrapper={itemWrapper}
         shouldDisablePress={shouldDisablePress}
-        isSubscribed={isSubscribed}
+        isPremiumOnAnyPlatform={isPremiumOnAnyPlatform}
         headerComponent={
           <WellnessHeader
             title={subcategoryData.title}

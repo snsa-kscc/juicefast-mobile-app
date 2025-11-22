@@ -1,17 +1,24 @@
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
-import { useSubscription } from "./useSubscription";
+import { useWebSubscription } from "./useWebSubscription";
 
 export function usePaywall() {
-  const { isSubscribed, isLoading: revenueCatLoading, restorePurchases } = useRevenueCat();
-  const { isPremium: isWooCommerceSubscribed, isLoading: wooCommerceLoading } = useSubscription();
+  const {
+    isSubscribed: isMobileAppSubscribed,
+    isLoading: revenueCatLoading,
+    restorePurchases,
+  } = useRevenueCat();
+  const { isPremium: isWooCommerceSubscribed, isLoading: wooCommerceLoading } =
+    useWebSubscription();
 
-  const isPremium = isSubscribed || isWooCommerceSubscribed;
+  const isPremiumOnAnyPlatform =
+    isMobileAppSubscribed || isWooCommerceSubscribed;
   const isLoading = revenueCatLoading || wooCommerceLoading;
 
   return {
-    isSubscribed: isPremium,
+    isMobileAppSubscribed,
+    isWooCommerceSubscribed,
     isLoading,
     restorePurchases,
-    isPremium,
+    isPremiumOnAnyPlatform,
   };
 }

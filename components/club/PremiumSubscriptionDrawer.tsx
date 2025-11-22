@@ -29,12 +29,12 @@ export function PremiumSubscriptionDrawer({
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">(
     "yearly"
   );
-  const { isSubscribed } = usePaywall();
+  const { isPremiumOnAnyPlatform, isMobileAppSubscribed } = usePaywall();
   const { offerings, purchasePackage, restorePurchases } = useRevenueCat();
 
   const openDrawer = () => {
     // If already subscribed, don't show drawer
-    if (isSubscribed) {
+    if (isPremiumOnAnyPlatform) {
       return;
     }
     setIsVisible(true);
@@ -89,7 +89,7 @@ export function PremiumSubscriptionDrawer({
     try {
       await restorePurchases();
       // Check subscription status after restore
-      if (isSubscribed) {
+      if (isMobileAppSubscribed) {
         Alert.alert(
           "Purchases Restored",
           "Your purchases have been successfully restored.",

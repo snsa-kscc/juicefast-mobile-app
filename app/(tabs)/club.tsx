@@ -17,7 +17,7 @@ import { useClubLogic } from "@/hooks/useClubLogic";
 import { usePaywall } from "@/hooks/usePaywall";
 
 export default function JFClub() {
-  const { isSubscribed } = usePaywall();
+  const { isPremiumOnAnyPlatform } = usePaywall();
   const {
     activeTab,
     selectedCategory,
@@ -108,7 +108,7 @@ export default function JFClub() {
           )}
 
           {/* Premium Banner - Only show on trending and when not subscribed */}
-          {selectedCategory === "trending" && !isSubscribed && (
+          {selectedCategory === "trending" && !isPremiumOnAnyPlatform && (
             <View className="mb-8">
               <Text className="text-xs font-lufga text-gray-500 text-center mb-2">
                 *Premium also includes detail analytics, premium insights, PDF

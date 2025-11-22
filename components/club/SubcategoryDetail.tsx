@@ -25,7 +25,7 @@ interface SubcategoryDetailProps {
     children: React.ReactNode
   ) => React.ReactNode;
   shouldDisablePress?: (item: ProcessedClubItem, index: number) => boolean;
-  isSubscribed?: boolean;
+  isPremiumOnAnyPlatform?: boolean;
 }
 
 export function SubcategoryDetail({
@@ -38,7 +38,7 @@ export function SubcategoryDetail({
   headerComponent,
   itemWrapper,
   shouldDisablePress,
-  isSubscribed = false,
+  isPremiumOnAnyPlatform = false,
 }: SubcategoryDetailProps) {
   // Group items by their subcategory for sections
   const groupedItems = items.reduce<Record<string, ProcessedClubItem[]>>(
@@ -64,7 +64,7 @@ export function SubcategoryDetail({
     index: number;
   }) => {
     const isPremium = index >= 2;
-    const showLock = isPremium && !isSubscribed;
+    const showLock = isPremium && !isPremiumOnAnyPlatform;
 
     const isDisabled = shouldDisablePress?.(item, index) ?? false;
 

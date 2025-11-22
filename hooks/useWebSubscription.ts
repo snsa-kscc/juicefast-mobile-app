@@ -15,10 +15,12 @@ interface SubscriptionStatus {
 const CACHE_KEY = "subscription_status";
 const CACHE_DURATION = 60 * 60 * 1000; // 60 minutes
 
-export const useSubscription = () => {
+export const useWebSubscription = () => {
   const { user } = useUser();
   const [isLoading, setIsLoading] = useState(true);
-  const [subscription, setSubscription] = useState<SubscriptionStatus | null>(null);
+  const [subscription, setSubscription] = useState<SubscriptionStatus | null>(
+    null
+  );
 
   const email = user?.primaryEmailAddress?.emailAddress;
 
@@ -46,7 +48,7 @@ export const useSubscription = () => {
       }
 
       const response = await fetch(
-        `/api/subscription/check?email=${encodeURIComponent(email)}`
+        `/api/web-subscription?email=${encodeURIComponent(email)}`
       );
       const data = await response.json();
 

@@ -42,12 +42,16 @@ import { ActivityLevelPopup } from "@/components/ActivityLevelPopup";
 import { EditNameModal } from "@/components/EditNameModal";
 import { EditPasswordModal } from "@/components/EditPasswordModal";
 import { EditDetailsModal } from "@/components/EditDetailsModal";
-import { useRevenueCat } from "@/providers/RevenueCatProvider";
+import { usePaywall } from "@/hooks/usePaywall";
 
 export default function ProfileScreen() {
   const router = useRouter();
   const { user } = useUser();
-  const { isSubscribed } = useRevenueCat();
+  const {
+    isPremiumOnAnyPlatform,
+    isMobileAppSubscribed,
+    isWooCommerceSubscribed,
+  } = usePaywall();
   const userProfile = useQuery(api.userProfile.getByUserId);
   const updateUserProfile = useMutation(api.userProfile.createOrUpdate);
 
@@ -178,8 +182,8 @@ export default function ProfileScreen() {
   };
 
   const handleDeleteAccount = async () => {
-    const warningMessage = isSubscribed
-      ? "⚠️ You have an active subscription!\n\nYou can still delete your account, but please remember to cancel your subscription separately through your device's app store settings (App Store/Google Play) to avoid future charges.\n\nAre you sure you want to delete your account? This action cannot be undone. All your data will be permanently deleted."
+    const warningMessage = isPremiumOnAnyPlatform
+      ? "⚠️ You have an active subscription!\n\nYou can still delete your account, but please remember to cancel your subscription separately through your device's app store settings (App Store/Google Play) or on the website to avoid future charges.\n\nAre you sure you want to delete your account? This action cannot be undone. All your data will be permanently deleted."
       : "This action cannot be undone. All your data will be permanently deleted.";
 
     Alert.alert("Delete Account", warningMessage, [
@@ -228,6 +232,8 @@ export default function ProfileScreen() {
   const handleShowActivityPopup = () => {
     setShowActivityPopup(true);
   };
+
+  // 2DO:  apdejtaj prave linkove od storova
 
   const handleCopyReferralLink = async () => {
     if (!profile?.referralCode) return;
@@ -364,7 +370,7 @@ export default function ProfileScreen() {
               </TouchableOpacity>
             )}
 
-            {isSubscribed && (
+            {isMobileAppSubscribed && (
               <TouchableOpacity
                 className="flex-row items-center p-4 bg-gray-50 rounded-[25px] mb-3"
                 onPress={handleManageSubscription}
@@ -650,7 +656,7 @@ export default function ProfileScreen() {
           <Text className="font-lufga text-sm text-gray-600 mb-4">
             Once you delete your account, there is no going back. Please be
             certain.
-            {isSubscribed && (
+            {isPremiumOnAnyPlatform && (
               <Text className="text-orange-600 font-lufga-medium">
                 {"\n"}⚠️ You have an active subscription. Remember to cancel it
                 separately to avoid future charges.
