@@ -233,8 +233,6 @@ export default function ProfileScreen() {
     setShowActivityPopup(true);
   };
 
-  // 2DO:  apdejtaj prave linkove od storova
-
   const handleCopyReferralLink = async () => {
     if (!profile?.referralCode) return;
 
