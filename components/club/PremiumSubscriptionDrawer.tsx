@@ -14,22 +14,24 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { usePaywall } from "@/hooks/usePaywall";
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
 
 interface PremiumSubscriptionDrawerProps {
   children: React.ReactNode;
+  isPremiumOnAnyPlatform?: boolean;
+  isMobileAppSubscribed?: boolean;
 }
 
 export function PremiumSubscriptionDrawer({
   children,
+  isPremiumOnAnyPlatform = false,
+  isMobileAppSubscribed = false,
 }: PremiumSubscriptionDrawerProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">(
     "yearly"
   );
-  const { isPremiumOnAnyPlatform, isMobileAppSubscribed } = usePaywall();
   const { offerings, purchasePackage, restorePurchases } = useRevenueCat();
 
   const openDrawer = () => {

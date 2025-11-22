@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { View } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { SubcategoryDetail } from "@/components/club/SubcategoryDetail";
@@ -13,7 +13,7 @@ export default function SubcategoryPage() {
     category: string;
     subcategory: string;
   }>();
-  const { isPremiumOnAnyPlatform } = usePaywall();
+  const { isPremiumOnAnyPlatform, isMobileAppSubscribed } = usePaywall();
 
   const subcategoryData = getSubcategoryDetail(subcategory || "");
 
@@ -33,20 +33,26 @@ export default function SubcategoryPage() {
     });
   };
 
-  const itemWrapper = (
-    item: ProcessedClubItem,
-    index: number,
-    children: React.ReactNode
-  ) => {
-    const isPremium = index >= 2;
+  const itemWrapper = useCallback(
+    (item: ProcessedClubItem, index: number, children: React.ReactNode) => {
+      const isPremium = index >= 2;
 
-    // If item is premium and user is not subscribed, wrap with drawer
-    if (isPremium && !isPremiumOnAnyPlatform) {
-      return <PremiumSubscriptionDrawer>{children}</PremiumSubscriptionDrawer>;
-    }
+      // If item is premium and user is not subscribed, wrap with drawer
+      if (isPremium && !isPremiumOnAnyPlatform) {
+        return (
+          <PremiumSubscriptionDrawer
+            isPremiumOnAnyPlatform={isPremiumOnAnyPlatform}
+            isMobileAppSubscribed={isMobileAppSubscribed}
+          >
+            {children}
+          </PremiumSubscriptionDrawer>
+        );
+      }
 
-    return <>{children}</>;
-  };
+      return <>{children}</>;
+    },
+    [isPremiumOnAnyPlatform, isMobileAppSubscribed]
+  );
 
   const shouldDisablePress = (item: ProcessedClubItem, index: number) => {
     const isPremium = index >= 2;
