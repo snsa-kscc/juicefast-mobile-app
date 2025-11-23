@@ -316,7 +316,9 @@ export default function ProfileScreen() {
     return (
       <View className="flex-1 bg-jf-gray items-center justify-center">
         <ActivityIndicator size="large" color="#3B82F6" />
-        <Text className="font-lufga-medium text-gray-600 mt-4">Logging out...</Text>
+        <Text className="font-lufga-medium text-gray-600 mt-4">
+          Logging out...
+        </Text>
       </View>
     );
   }
