@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 
 export const generateAPIUrl = (relativePath: string) => {
-  const origin = Constants.expoConfig?.hostUri!;
+  const origin = Constants.expoConfig?.hostUri! || "localhost:8081";
   const path = relativePath.startsWith("/") ? relativePath : `/${relativePath}`;
 
   if (process.env.NODE_ENV === "development") {
