@@ -23,8 +23,37 @@ async function checkWooCommerceSubscription(
   );
 
   try {
+    // Try to find customer with any role (customer or subscriber)
+    const customerResponse = await fetch(
+      `${WC_URL}/customers?email=${encodeURIComponent(email)}&role=all`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Basic ${auth}`,
+          "Content-Type": "application/json",
+          "User-Agent":
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.7444.59 Safari/537.36",
+        },
+      }
+    );
+
+    if (!customerResponse.ok) {
+      throw new Error(
+        `WooCommerce customer API error: ${customerResponse.status}`
+      );
+    }
+
+    const customers = await customerResponse.json();
+
+    if (customers.length === 0) {
+      return { isActive: false };
+    }
+
+    const customerId = customers[0].id;
+
+    // Now get subscriptions for this specific customer
     const response = await fetch(
-      `${WC_URL}/subscriptions?customer_email=${encodeURIComponent(email)}&status=active&per_page=100`,
+      `${WC_URL}/subscriptions?customer=${customerId}&status=active&per_page=100`,
       {
         method: "GET",
         headers: {
