@@ -509,8 +509,11 @@ export default function ProfileScreen() {
 
         {/* Health Metrics Summary */}
         <View className="bg-white rounded-2xl border border-gray-100 p-6 mb-6 mx-6">
-          <Text className="text-lg font-lufga-bold mb-4">
+          <Text className="text-lg font-lufga-bold mb-1">
             Health Metrics and Goals
+          </Text>
+          <Text className="text-xs font-lufga text-gray-500 mb-3">
+            Metrics are calculated according to WHO guidelines
           </Text>
 
           <View className="flex-row flex-wrap -mx-2">

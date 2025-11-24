@@ -147,7 +147,7 @@ export function QuizQuestion({
                   <TouchableOpacity
                     key={index}
                     onPress={() => handleSingleChoice(option.value)}
-                    className={`flex-row items-center border rounded-lg p-4 mb-3 bg-white h-14 ${
+                    className={`flex-row items-center border rounded-lg p-4 mb-3 bg-white min-h-16 ${
                       isSelected ? "border-[#11B364]" : "border-gray-200"
                     }`}
                   >
@@ -186,7 +186,7 @@ export function QuizQuestion({
                   <TouchableOpacity
                     key={index}
                     onPress={() => handleMultipleChoice(option.value)}
-                    className={`flex-row items-center border rounded-lg p-4 mb-3 bg-white h-14 ${
+                    className={`flex-row items-center border rounded-lg p-4 mb-3 bg-white min-h-16 ${
                       isSelected ? "border-[#11B364]" : "border-gray-200"
                     }`}
                   >
