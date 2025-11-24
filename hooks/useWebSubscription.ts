@@ -1,20 +1,16 @@
 import { generateAPIUrl } from "@/utils";
 import { useUser } from "@clerk/clerk-expo";
 import { useEffect, useState } from "react";
-import { createMMKV } from "react-native-mmkv";
-
-const storage = createMMKV();
 
 interface SubscriptionStatus {
   isActive: boolean;
   plan?: "monthly" | "yearly";
   expiryDate?: string;
   subscriptionId?: number;
-  timestamp: number;
 }
 
-const CACHE_KEY = "subscription_status";
-const CACHE_DURATION = 60 * 60 * 1000; // 60 minutes
+// Simple in-memory cache that clears when app closes
+const sessionCache = new Map<string, SubscriptionStatus>();
 
 export const useWebSubscription = () => {
   const { user } = useUser();
@@ -25,7 +21,7 @@ export const useWebSubscription = () => {
 
   const email = user?.primaryEmailAddress?.emailAddress;
 
-  const checkStatus = async (forceRefresh = false) => {
+  const checkStatus = async () => {
     if (!email) {
       setIsLoading(false);
       return;
@@ -34,20 +30,12 @@ export const useWebSubscription = () => {
     setIsLoading(true);
 
     try {
-      if (!forceRefresh) {
-        const cached = storage.getString(`${CACHE_KEY}_${email}`);
-        if (cached) {
-          const parsedCache: SubscriptionStatus = JSON.parse(cached);
-          const age = Date.now() - parsedCache.timestamp;
-
-          if (age < CACHE_DURATION) {
-            setSubscription(parsedCache);
-            setIsLoading(false);
-            return;
-          }
-        }
+      const cached = sessionCache.get(email);
+      if (cached) {
+        setSubscription(cached);
+        setIsLoading(false);
+        return;
       }
-
       const response = await fetch(
         generateAPIUrl(
           `/api/web-subscription?email=${encodeURIComponent(email)}`
@@ -55,19 +43,12 @@ export const useWebSubscription = () => {
       );
       const data = await response.json();
 
-      const subscriptionData: SubscriptionStatus = {
-        ...data,
-        timestamp: Date.now(),
-      };
-
-      storage.set(`${CACHE_KEY}_${email}`, JSON.stringify(subscriptionData));
-
-      setSubscription(subscriptionData);
+      sessionCache.set(email, data);
+      setSubscription(data);
     } catch (error) {
       console.error("Error checking subscription:", error);
       setSubscription({
         isActive: false,
-        timestamp: Date.now(),
       });
     } finally {
       setIsLoading(false);
@@ -78,16 +59,11 @@ export const useWebSubscription = () => {
     checkStatus();
   }, [email]);
 
-  const refreshSubscription = () => checkStatus(true);
-
-  const getCacheAge = () => {
-    if (!subscription?.timestamp) return null;
-    return Date.now() - subscription.timestamp;
-  };
+  const refreshSubscription = () => checkStatus();
 
   const clearCache = () => {
     if (email) {
-      storage.remove(`${CACHE_KEY}_${email}`);
+      sessionCache.delete(email);
     }
   };
 
@@ -97,7 +73,6 @@ export const useWebSubscription = () => {
     expiryDate: subscription?.expiryDate,
     subscriptionId: subscription?.subscriptionId,
     isLoading,
-    cacheAge: getCacheAge(),
     refreshSubscription,
     clearCache,
   };
