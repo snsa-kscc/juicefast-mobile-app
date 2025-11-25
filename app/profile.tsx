@@ -356,6 +356,11 @@ export default function ProfileScreen() {
                   ? user.emailAddresses[0].emailAddress.split("@")[0]
                   : "Health Tracker User")}
             </Text>
+            {user?.emailAddresses?.[0]?.emailAddress && (
+              <Text className="text-sm font-lufga text-gray-500 text-center mt-1">
+                {user.emailAddresses[0].emailAddress}
+              </Text>
+            )}
           </View>
 
           <View>

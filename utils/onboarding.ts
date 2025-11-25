@@ -4,7 +4,6 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { ReferralStorage } from "@/utils/referralStorage";
 import { generateReferralCode } from "@/utils/referral";
-import * as SecureStore from "expo-secure-store";
 
 export const useOnboardingCompletion = () => {
   const { user } = useUser();
