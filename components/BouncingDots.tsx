@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 import { Animated, StyleSheet, View } from "react-native";
 
 interface BouncingDotsProps {

@@ -1,4 +1,10 @@
-import { startTransition, useEffect, useMemo, useOptimistic, useState } from 'react';
+import {
+  startTransition,
+  useEffect,
+  useMemo,
+  useOptimistic,
+  useState,
+} from "react";
 import {
   ScrollView,
   Text,

@@ -1,5 +1,5 @@
 import Slider from "@react-native-community/slider";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { QuizQuestionType } from "@/data/onboarding/quizQuestions";
 import { QuizProgress } from "@/components/onboarding/QuizProgress";

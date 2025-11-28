@@ -24,7 +24,7 @@ export const useOnboardingCompletion = () => {
       await user.update({
         unsafeMetadata: {
           ...user.unsafeMetadata,
-          role: "user",
+          ...(!user.unsafeMetadata?.role && { role: "user" }),
           onboardingCompleted: true,
         },
       });

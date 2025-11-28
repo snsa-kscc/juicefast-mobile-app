@@ -1,6 +1,6 @@
 import { HomeDashboard } from "@/components/dashboard";
 import { useUser } from "@clerk/clerk-expo";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import Animated, {
   Easing,
   useAnimatedStyle,
