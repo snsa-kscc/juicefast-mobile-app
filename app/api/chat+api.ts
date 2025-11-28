@@ -156,7 +156,7 @@ export async function POST(request: Request) {
 
     // Generate response using Vercel AI SDK
     const result = streamText({
-      model: google("gemini-2.5-flash"),
+      model: google("gemini-flash-latest"),
       system: systemMessage.content,
       messages: convertToModelMessages(messages),
       temperature: 0.7,

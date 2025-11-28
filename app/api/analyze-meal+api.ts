@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     }
 
     const { object } = await generateObject({
-      model: google("gemini-2.5-flash"),
+      model: google("gemini-flash-latest"),
       schema: z.object({
         meal: MacroSchema,
       }),

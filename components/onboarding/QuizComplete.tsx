@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { router } from "expo-router";
 import { useOnboardingCompletion } from "@/utils/onboarding";
@@ -194,7 +194,7 @@ function getRecommendations(
 }
 
 export function QuizComplete({ answers }: QuizCompleteProps) {
-  const [isCompleting, setIsCompleting] = React.useState(false);
+  const [isCompleting, setIsCompleting] = useState(false);
   const { markOnboardingCompleted } = useOnboardingCompletion();
   const recommendations = getRecommendations(answers);
   const answerEntries = Object.entries(answers);
