@@ -5,7 +5,7 @@ import { useAuth } from "@clerk/clerk-expo";
 import { DefaultChatTransport } from "ai";
 import { fetch as expoFetch } from "expo/fetch";
 import { Send } from "lucide-react-native";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 import {
   Keyboard,
   ScrollView,

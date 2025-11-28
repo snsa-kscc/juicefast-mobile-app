@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 import { View, Text, Animated } from "react-native";
 import { Info } from "lucide-react-native";
 import { CircularProgress } from "@/components/tracker/shared";

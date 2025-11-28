@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal } from "react-native";
 import { SleepTimePicker } from "@/components/tracker/SleepTimePicker";
 

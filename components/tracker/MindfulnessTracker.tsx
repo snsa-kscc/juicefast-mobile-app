@@ -1,12 +1,5 @@
 import Slider from "@react-native-community/slider";
-import React, {
-  useEffect,
-  useOptimistic,
-  useRef,
-  useState,
-  startTransition,
-  useMemo,
-} from "react";
+import { startTransition, useEffect, useMemo, useOptimistic, useRef, useState } from 'react';
 import {
   Animated,
   ScrollView,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View } from "react-native";
 import { useOnboardingManager } from "@/hooks/useOnboardingManager";
 import { QuizComplete } from "@/components/onboarding/QuizComplete";

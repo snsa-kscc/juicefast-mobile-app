@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from 'react';
 import { View } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { SubcategoryDetail } from "@/components/club/SubcategoryDetail";

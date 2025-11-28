@@ -1,6 +1,6 @@
 import { useSignIn } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import { useState } from 'react';
 import {
   Text,
   TextInput,

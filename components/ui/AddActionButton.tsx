@@ -1,6 +1,6 @@
 import { usePathname, useRouter } from "expo-router";
 import { Plus, X } from "lucide-react-native";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Dimensions,
   Modal,
@@ -33,7 +33,7 @@ interface ActionOption {
 export function AddActionButton() {
   const router = useRouter();
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const rotation = useSharedValue(0);
   const screenHeight = Dimensions.get("window").height;
   const fabBottom = screenHeight * 0.17;
