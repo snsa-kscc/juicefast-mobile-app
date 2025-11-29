@@ -1,7 +1,4 @@
-import { useState } from "react";
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
-import { router } from "expo-router";
-import { useOnboardingCompletion } from "@/utils/onboarding";
 import Star from "@/components/ui/star";
 import BodyFigure from "@/components/ui/body-figure";
 import Scale from "@/components/ui/scale";
@@ -12,19 +9,6 @@ interface QuizStartProps {
 }
 
 export function QuizStart({ onStart }: QuizStartProps) {
-  const [isSkipping, setIsSkipping] = useState(false);
-  const { markOnboardingCompleted } = useOnboardingCompletion();
-
-  const handleSkip = async () => {
-    setIsSkipping(true);
-    try {
-      await markOnboardingCompleted();
-      router.replace("/(tabs)");
-    } finally {
-      setIsSkipping(false);
-    }
-  };
-
   return (
     <ScrollView
       className="flex-1 bg-jf-gray"
@@ -95,8 +79,8 @@ export function QuizStart({ onStart }: QuizStartProps) {
         {/* Description */}
         <View className="mb-12">
           <Text className="text-base text-center leading-relaxed text-gray-800 font-lufga">
-            We'll ask you a few short questions to personalize your experience,
-            you can skip at any time
+            We&apos;ll ask you a few short questions to personalize your
+            experience, you can skip at any time
           </Text>
         </View>
 

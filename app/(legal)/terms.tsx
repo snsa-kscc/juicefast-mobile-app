@@ -24,15 +24,16 @@ export default function TermsScreen() {
         {/* Introduction */}
         <View className="mb-6">
           <Text className="text-base text-gray-800 leading-6">
-            This End User License Agreement ("Agreement") is a binding legal
-            contract between you ("User", "you") and Juicefast d.o.o., Cesta
-            Prvih Borcev 11, 8250 Brežice, Slovenia ("Company", "we", "us",
-            "our").
+            This End User License Agreement (&quot;Agreement&quot;) is a binding
+            legal contract between you (&quot;User&quot;, &quot;you&quot;) and
+            Juicefast d.o.o., Cesta Prvih Borcev 11, 8250 Brežice, Slovenia
+            (&quot;Company&quot;, &quot;we&quot;, &quot;us&quot;,
+            &quot;our&quot;).
           </Text>
           <Text className="text-base text-gray-800 leading-6 mt-2">
             This Agreement governs your use of the Juicefast mobile application
-            ("App"), our website, and all related digital services
-            (collectively, the "Services").
+            (&quot;App&quot;), our website, and all related digital services
+            (collectively, the &quot;Services&quot;).
           </Text>
           <Text className="text-base text-gray-800 leading-6 mt-2">
             By downloading, installing, accessing, or using the App, you
@@ -55,8 +56,8 @@ export default function TermsScreen() {
             • redistribute, sublicense, or commercially exploit the App{"\n"}•
             modify, copy, or reverse-engineer the App{"\n"}• access the App in
             order to build a competing product{"\n"}• disrupt, hack, or
-            interfere with the App's normal functioning{"\n"}• use the App for
-            unlawful, abusive, or harmful purposes
+            interfere with the App&apos;s normal functioning{"\n"}• use the App
+            for unlawful, abusive, or harmful purposes
           </Text>
           <Text className="text-base text-gray-700 leading-6 mt-2">
             All rights not expressly granted to you remain our exclusive
@@ -240,8 +241,8 @@ export default function TermsScreen() {
             Disclaimer of Warranties
           </Text>
           <Text className="text-base text-gray-700 leading-6 font-lufga-bold mb-2">
-            THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTIES
-            OF ANY KIND.
+            THE APP IS PROVIDED &quot;AS IS&quot; AND &quot;AS AVAILABLE,&quot;
+            WITHOUT WARRANTIES OF ANY KIND.
           </Text>
           <Text className="text-base text-gray-700 leading-6 mb-2">
             We do not guarantee:

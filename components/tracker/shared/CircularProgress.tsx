@@ -33,7 +33,6 @@ export function CircularProgress({
   unit,
 }: CircularProgressProps) {
   const radius = (size - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
   const progressPercentage = Math.min(
     100,
     Math.max(0, (value / maxValue) * 100)

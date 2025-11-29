@@ -38,8 +38,6 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
     if (contentWidth > 0 && scrollViewWidth > 0) {
       // Calculate position to show last 7 days
       // Each day item is 40px (w-10) + 16px margin (mr-4) = 56px
-      const itemWidth = 56;
-      const visibleDays = 7;
       const scrollPosition = Math.max(0, contentWidth - scrollViewWidth);
 
       setTimeout(() => {
@@ -49,15 +47,6 @@ export function DaySelector({ selectedDate, onDateSelect }: DaySelectorProps) {
   }, [contentWidth, scrollViewWidth]);
   const formatDate = (date: Date) => {
     return date.getDate();
-  };
-
-  const isToday = (date: Date) => {
-    const today = new Date();
-    return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
-    );
   };
 
   const isSameDate = (date1: Date, date2: Date) => {

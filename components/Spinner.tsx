@@ -26,7 +26,7 @@ export function Spinner({ size = 24, color = "#10B981" }: SpinnerProps) {
       }),
       -1
     );
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${rotation.value}deg` }],

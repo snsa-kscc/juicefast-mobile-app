@@ -136,10 +136,6 @@ export function StepsTracker({
     }
   };
 
-  const progressPercentage = Math.min(100, (displayedSteps / DAILY_GOAL) * 100);
-  // const circumference = 2 * Math.PI * 110;
-  // const strokeDashoffset = circumference - (circumference * progressPercentage) / 100;
-
   return (
     <ScrollView
       className="flex-1 bg-jf-gray"
@@ -274,7 +270,7 @@ export function StepsTracker({
         <View className="px-6 mt-6">
           <View className="bg-white rounded-lg p-4">
             <Text className="font-lufga-semibold mb-3 text-xl">
-              Today's Step Entries
+              Today&apos;s Step Entries
             </Text>
             {stepEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);

@@ -1,7 +1,12 @@
-import { Linking } from "react-native";
+import {
+  Linking,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useRouter } from "expo-router";
 import React from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function CitationsScreen() {
   const router = useRouter();
@@ -26,11 +31,13 @@ export default function CitationsScreen() {
         <View className="mb-6">
           <Text className="text-lg font-lufga-bold mb-2">Introduction</Text>
           <Text className="text-base text-gray-800 leading-6">
-            Our app provides health and wellness calculations and
-            recommendations based on established scientific guidelines and
-            reputable health organizations. All medical information, formulas,
-            and recommendations used in our app are sourced from authoritative
-            institutions and peer-reviewed research.
+            juice cleanses, meal plans, and wellness tracking. Start your health
+            transformation today with JuiceFast&apos;s comprehensive health and
+            wellness calculations and recommendations based on established
+            scientific guidelines and reputable health organizations. All
+            medical information, formulas, and recommendations used in our app
+            are sourced from authoritative institutions and peer-reviewed
+            research.
           </Text>
           <Text className="text-base text-gray-800 leading-6 mt-2">
             Below are the primary sources for the health metrics and
@@ -63,7 +70,7 @@ export default function CitationsScreen() {
           </TouchableOpacity>
           <Text className="text-base text-gray-700 leading-6">
             The Body Mass Index (BMI) calculation and classification standards
-            used in our app follow the WHO's official guidelines and BMI
+            used in our app follow the WHO&apos;s official guidelines and BMI
             calculation tools.
           </Text>
         </View>
@@ -93,8 +100,9 @@ export default function CitationsScreen() {
             </Text>
           </TouchableOpacity>
           <Text className="text-base text-gray-700 leading-6">
-            Daily calorie intake recommendations are based on EFSA's scientific
-            opinions on dietary reference values for energy and nutrition.
+            Daily calorie intake recommendations are based on EFSA&apos;s
+            scientific opinions on dietary reference values for energy and
+            nutrition.
           </Text>
         </View>
 
@@ -122,7 +130,7 @@ export default function CitationsScreen() {
           </TouchableOpacity>
           <Text className="text-base text-gray-700 leading-6">
             Hydration recommendations and adequate water intake guidelines are
-            derived from EFSA's scientific advice on water requirements for
+            derived from EFSA&apos;s scientific advice on water requirements for
             different population groups.
           </Text>
         </View>
@@ -149,8 +157,8 @@ export default function CitationsScreen() {
           </TouchableOpacity>
           <Text className="text-base text-gray-700 leading-6">
             Physical activity level classifications and definitions are based on
-            NIH guidelines and the National Heart, Lung, and Blood Institute's
-            recommendations for assessing activity levels.
+            NIH guidelines and the National Heart, Lung, and Blood
+            Institute&apos;s recommendations for assessing activity levels.
           </Text>
         </View>
 

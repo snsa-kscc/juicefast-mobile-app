@@ -22,7 +22,7 @@ export default function HomeScreen() {
       duration: 400,
       easing: Easing.out(Easing.cubic),
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const animatedStyle = useAnimatedStyle(() => {
     return {

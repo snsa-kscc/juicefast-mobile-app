@@ -1,7 +1,7 @@
 import { usePathname, useRouter } from "expo-router";
 import { Heart, Home, MessageCircle, Store, Users } from "lucide-react-native";
 import React from "react";
-import { Platform, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 interface TabItem {
   name: string;

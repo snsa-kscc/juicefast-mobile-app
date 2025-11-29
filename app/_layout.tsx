@@ -76,7 +76,7 @@ function AuthenticatedLayout() {
       // User is not signed in - redirect to signup
       router.replace("/(auth)/sso-signup");
     }
-  }, [isSignedIn, isLoaded]);
+  }, [isSignedIn, isLoaded, router, user]);
 
   if (!isLoaded) {
     return null;

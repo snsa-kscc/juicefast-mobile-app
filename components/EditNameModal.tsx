@@ -47,7 +47,7 @@ export function EditNameModal({
     try {
       await onSave(firstName, lastName);
       onClose();
-    } catch (error) {
+    } catch {
       // Error handling is done in parent
     } finally {
       setIsSaving(false);

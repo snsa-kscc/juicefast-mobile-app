@@ -15,11 +15,6 @@ import { Path, Svg } from "react-native-svg";
 import { api } from "@/convex/_generated/api";
 import { CircularProgress, WellnessHeader } from "@/components/tracker/shared";
 
-interface UserProfile {
-  id: string;
-  name: string;
-}
-
 interface DailyHealthMetrics {
   date: string;
   score: number;

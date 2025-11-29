@@ -189,7 +189,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
           setIsProcessingImage(false);
         }
       }
-    } catch (error) {
+    } catch {
       Alert.alert("Error", "Failed to access camera");
     }
   };
@@ -227,7 +227,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
           setIsProcessingImage(false);
         }
       }
-    } catch (error) {
+    } catch {
       Alert.alert("Error", "Failed to access gallery");
     }
   };
@@ -269,7 +269,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
         fat: "",
         description: "",
       });
-    } catch (error: any) {
+    } catch {
       Alert.alert("Validation Error", "Please check your input values");
     }
   };
@@ -547,7 +547,9 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
       )}
 
       <View className="px-6 mb-6">
-        <Text className="font-lufga-semibold text-2xl mb-4">Today's Meals</Text>
+        <Text className="font-lufga-semibold text-2xl mb-4">
+          Today&apos;s Meals
+        </Text>
 
         <View className="flex-row mb-4">
           {(["breakfast", "snack", "lunch", "dinner"] as const).map(

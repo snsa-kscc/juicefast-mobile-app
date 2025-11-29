@@ -1,12 +1,10 @@
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { Home, Heart, Store, MessageCircle, Users } from "lucide-react-native";
 import { BlurView } from "expo-blur";
-import { Platform } from "react-native";
-import { Alert } from "react-native";
-import { useRouter } from "expo-router";
+import { Platform, Alert } from "react-native";
 import {
   Badge,
   Icon,

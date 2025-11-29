@@ -1,14 +1,7 @@
 import { useSignIn, useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
-import {
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Image,
-  Platform,
-} from "react-native";
+import { Text, TextInput, TouchableOpacity, View, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "@/hooks/useSocialSignIn";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";

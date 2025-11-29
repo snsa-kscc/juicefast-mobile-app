@@ -12,14 +12,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import {
-  X,
-  ChevronDown,
-  Ruler,
-  Scale,
-  Calendar,
-  User,
-} from "lucide-react-native";
+import { X, ChevronDown, Ruler, Scale, Calendar } from "lucide-react-native";
 
 interface EditDetailsModalProps {
   visible: boolean;
@@ -139,7 +132,7 @@ export function EditDetailsModal({
     try {
       await onSave(height, weight, age, gender, activityLevel);
       onClose();
-    } catch (error) {
+    } catch {
       // Error handling is done in parent
     } finally {
       setIsSaving(false);

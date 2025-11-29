@@ -1,12 +1,11 @@
 import { useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import { useEffect, useRef, useCallback } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "@/hooks/useSocialSignIn";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
 import { ReferralStorage } from "@/utils/referralStorage";
-import { Image } from "react-native";
 
 export default function SSOSignUpScreen() {
   const router = useRouter();

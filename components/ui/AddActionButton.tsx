@@ -40,7 +40,7 @@ export function AddActionButton() {
 
   useEffect(() => {
     rotation.value = withTiming(isOpen ? 90 : 0, { duration: 200 });
-  }, [isOpen]);
+  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const animatedStyle = useAnimatedStyle(() => {
     return {

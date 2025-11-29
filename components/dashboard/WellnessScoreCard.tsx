@@ -77,7 +77,7 @@ export function WellnessScoreCard({
     });
 
     return () => animatedValue.removeListener(listener);
-  }, [averageScore]);
+  }, [averageScore]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <View className="bg-white rounded-2xl p-6 mb-6">

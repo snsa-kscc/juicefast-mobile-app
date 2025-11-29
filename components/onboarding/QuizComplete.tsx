@@ -235,8 +235,8 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
 
         {/* Description */}
         <Text className="text-xl text-center mb-12 text-gray-500 leading-7 font-lufga">
-          Based on your responses, we've created a personalized wellness plan
-          just for you.
+          Based on your responses, we&apos;ve created a personalized wellness
+          plan just for you.
         </Text>
 
         {/* Recommendations */}

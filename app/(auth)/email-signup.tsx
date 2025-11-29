@@ -409,7 +409,7 @@ export default function EmailSignUpScreen() {
             {noPromotions && <Text className="text-white text-xs">✓</Text>}
           </View>
           <Text className="text-sm text-gray-700 flex-1 font-lufga">
-            I don't want to receive updates and promotions via email
+            I don&apos;t want to receive updates and promotions via email
           </Text>
         </TouchableOpacity>
       </View>

@@ -3,7 +3,6 @@ import { useRouter } from "expo-router";
 import { ProcessedClubItem } from "@/types/club";
 import {
   getTrendingContent,
-  getDailyContent,
   getItemsByCategory,
   getSubcategoryData,
 } from "@/utils/clubData";

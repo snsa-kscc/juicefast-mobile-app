@@ -13,14 +13,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
-import {
-  User,
-  MessageSquare,
-  Clock,
-  CheckCircle,
-  XCircle,
-  LogOut,
-} from "lucide-react-native";
+import { User, MessageSquare, LogOut } from "lucide-react-native";
 
 interface ChatSession {
   id: Id<"chatSessions">;

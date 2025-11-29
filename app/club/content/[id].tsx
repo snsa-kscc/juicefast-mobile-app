@@ -117,7 +117,7 @@ export default function ClubContentDetail() {
         setShowVideo(true);
         try {
           player.play();
-        } catch (error) {
+        } catch {
           Alert.alert(
             "Playback Error",
             "Unable to load video. The stream may be unavailable."
@@ -131,7 +131,7 @@ export default function ClubContentDetail() {
           } else {
             player.play();
           }
-        } catch (error) {
+        } catch {
           Alert.alert(
             "Playback Error",
             "Unable to control video playback. Please try again."
@@ -159,7 +159,7 @@ export default function ClubContentDetail() {
         setShowAudio(true);
         try {
           player.play();
-        } catch (error) {
+        } catch {
           Alert.alert(
             "Playback Error",
             "Unable to start audio playback. Please try again."
@@ -173,7 +173,7 @@ export default function ClubContentDetail() {
           } else {
             player.play();
           }
-        } catch (error) {
+        } catch {
           Alert.alert(
             "Playback Error",
             "Unable to control audio playback. Please try again."

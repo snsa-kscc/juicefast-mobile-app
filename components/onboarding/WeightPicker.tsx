@@ -3,7 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from "react-native";

@@ -1,5 +1,4 @@
 import React from "react";
-import { View, Text } from "react-native";
 import { useRouter } from "expo-router";
 import { AnimatedScreen } from "@/components/AnimatedScreen";
 import { WellnessHeader } from "@/components/ui/CustomHeader";

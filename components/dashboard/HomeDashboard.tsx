@@ -27,16 +27,6 @@ import {
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
 import { useWebSubscription } from "@/hooks/useWebSubscription";
 
-interface DailyMetrics {
-  steps: number;
-  water: number;
-  calories: number;
-  mindfulness: number;
-  sleep: number;
-  healthyMeals: number;
-  totalScore: number;
-}
-
 interface HomeDashboardProps {
   userName?: string;
 }
@@ -47,7 +37,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   const [displayedScore, setDisplayedScore] = useState<number>(0);
   const animatedValue = useRef(new Animated.Value(0)).current;
   const { isSignedIn } = useAuth();
-  const { simulateNoSubscription, restorePurchases } = useRevenueCat();
+  const { simulateNoSubscription } = useRevenueCat();
   const { clearCache } = useWebSubscription();
 
   // Get selected date in YYYY-MM-DD format for note query
@@ -79,11 +69,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
       startTime: start.getTime(),
       endTime: end.getTime(),
     };
-  }, [
-    selectedDate.getFullYear(),
-    selectedDate.getMonth(),
-    selectedDate.getDate(),
-  ]);
+  }, [selectedDate]);
 
   // Query all 5 tables simultaneously - only when authenticated
   const stepEntries = useQuery(
@@ -229,7 +215,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
 
       return () => animatedValue.removeListener(listener);
     }
-  }, [selectedDateData]);
+  }, [selectedDateData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Calculate daily progress percentages based on goals
   const dailyProgress = useMemo(() => {

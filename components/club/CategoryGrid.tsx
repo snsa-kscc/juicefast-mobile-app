@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
+import { View, TouchableOpacity, ScrollView, Image } from "react-native";
 
 interface CategoryItem {
   id: string;

@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, StyleSheet, View, BackHandler } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  View,
+  BackHandler,
+  Alert,
+} from "react-native";
 import { WebView } from "react-native-webview";
 import { ThemedView } from "@/components/ThemedView";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
-import { Alert } from "react-native";
-import { useRouter } from "expo-router";
 
 export default function StoreScreen() {
   const { link } = useLocalSearchParams<{ link?: string }>();

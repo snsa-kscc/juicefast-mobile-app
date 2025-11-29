@@ -1,8 +1,5 @@
 import { useState } from "react";
-import {
-  quizQuestions,
-  QuizQuestionType,
-} from "@/data/onboarding/quizQuestions";
+import { quizQuestions } from "@/data/onboarding/quizQuestions";
 
 export const useOnboardingManager = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);

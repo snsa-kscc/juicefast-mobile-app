@@ -127,7 +127,7 @@ export function NotesTracker({ onBack, onSettingsPress }: NotesTrackerProps) {
         <View className="px-6">
           <View className="mb-2">
             <Text className="font-lufga-semibold text-2xl mb-1">
-              Today's Priority
+              Today&apos;s Priority
             </Text>
             {existingNote && (
               <Text className="font-lufga text-xs text-gray-500">

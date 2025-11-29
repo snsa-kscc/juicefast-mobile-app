@@ -41,7 +41,7 @@ export function SleepTimePicker({
         animated: false,
       });
     }, 100);
-  }, []);
+  }, [hours, minutes]);
 
   const handleHourScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;

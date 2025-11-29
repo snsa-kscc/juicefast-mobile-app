@@ -101,7 +101,7 @@ export function HydrationTracker({
     });
 
     return () => animatedValue.removeListener(listener);
-  }, [totalWater]);
+  }, [totalWater]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     Animated.timing(animatedValue, {
@@ -137,8 +137,6 @@ export function HydrationTracker({
       console.error("Failed to delete water entry:", error);
     }
   };
-
-  const progressPercentage = Math.min(100, (displayedWater / DAILY_GOAL) * 100);
 
   return (
     <ScrollView
@@ -273,7 +271,7 @@ export function HydrationTracker({
         <View className="px-6 mt-6">
           <View className="bg-white rounded-lg p-4">
             <Text className="font-lufga-semibold mb-3 text-xl">
-              Today's Water Entries
+              Today&apos;s Water Entries
             </Text>
             {waterEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);

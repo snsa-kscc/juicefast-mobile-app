@@ -52,7 +52,7 @@ export function EditPasswordModal({
     try {
       await onSave(currentPassword, newPassword);
       handleClose();
-    } catch (error) {
+    } catch {
       // Error handling is done in parent
     } finally {
       setIsSaving(false);

@@ -147,11 +147,6 @@ export function MindfulnessTracker({
     }
   };
 
-  const progressPercentage = Math.min(
-    100,
-    (displayedMinutes / DAILY_GOAL) * 100
-  );
-
   return (
     <ScrollView
       className="flex-1 bg-jf-gray"
@@ -260,7 +255,7 @@ export function MindfulnessTracker({
         <View className="px-6 mt-6">
           <View className="bg-white rounded-lg p-4">
             <Text className="font-lufga-semibold mb-3 text-xl">
-              Today's Mindfulness Sessions
+              Today&apos;s Mindfulness Sessions
             </Text>
             {mindfulnessEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);

@@ -1,7 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { type Meal, type CreateMeal } from "@/schemas/MealsSchema";
-import { AuthService } from "@/utils/auth";
-import { sanitizeForLog } from "@/utils/sanitize";
 
 const API_BASE = "/api/meals";
 

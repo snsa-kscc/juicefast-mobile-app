@@ -30,22 +30,23 @@ export default function PrivacyPolicyScreen() {
             about you.
           </Text>
           <Text className="text-base text-gray-800 leading-6 mt-2">
-            Juicefast d.o.o. and its affiliated companies ("Juicefast," "we,"
-            "us," "our") are committed to protecting and respecting your
+            Juicefast d.o.o. and its affiliated companies
+            (&quot;Juicefast,&quot; &quot;we,&quot; &quot;us,&quot;
+            &quot;our&quot;) are committed to protecting and respecting your
             privacy. This Privacy Policy (together with our Terms of Use and
-            other referenced documents) applies to juicefast.com ("website") and
-            other services and products provided by Juicefast (hereinafter
-            referred to as the "Service") to help you better understand how we
-            collect your personal data or how you submit it, what rights you
-            have, and how the data will be used, stored, and disclosed by us,
-            whether you are a user of our Service ("Registered User") or just a
-            visitor to our website.
+            other referenced documents) applies to juicefast.com
+            (&quot;website&quot;) and other services and products provided by
+            Juicefast (hereinafter referred to as the &quot;Service&quot;) to
+            help you better understand how we collect your personal data or how
+            you submit it, what rights you have, and how the data will be used,
+            stored, and disclosed by us, whether you are a user of our Service
+            (&quot;Registered User&quot;) or just a visitor to our website.
           </Text>
           <Text className="text-base text-gray-800 leading-6 mt-2">
-            In this Privacy Policy, the term "personal data" refers to
+            In this Privacy Policy, the term &quot;personal data&quot; refers to
             information relating to an identified or identifiable natural
-            person. "Sensitive personal data" refers to personal data revealing
-            racial or ethnic origin, political opinions, religious or
+            person. &quot;Sensitive personal data&quot; refers to personal data
+            revealing racial or ethnic origin, political opinions, religious or
             philosophical beliefs, trade union membership, genetic data,
             biometric data, and processing of health, sex life or sexual
             orientation data.
@@ -81,8 +82,8 @@ export default function PrivacyPolicyScreen() {
             We collect the information necessary for the use and proper
             execution of the Service. The following information is collected
             from our users in connection with registration or their use of the
-            Service (each such user being a "Registered User"). This information
-            may, in certain circumstances, constitute personal data:
+            Service (each such user being a &quot;Registered User&quot;). This
+            information may, in certain circumstances, constitute personal data:
           </Text>
           <Text className="text-base text-gray-700 leading-6 ml-4">
             • Email address{"\n"}• First/last name{"\n"}• Date of birth{"\n"}•
@@ -152,14 +153,14 @@ export default function PrivacyPolicyScreen() {
             URLs
           </Text>
           <Text className="text-base text-gray-700 leading-6 mt-2 mb-2">
-            We may place a "cookie" on the hard drive of the device you use to
-            access the Service. Cookies are text files stored on your device's
-            hard drive via your browser, allowing us to recognize your browser
-            for purposes such as saving your preferences and targeting relevant
-            content. Most current browsers allow you to manage cookies. Please
-            note that disabling cookies may result in limited functionality of
-            the Service. In all cases where we use cookies, we will not collect
-            personal data without your permission.
+            We may place a &quot;cookie&quot; on the hard drive of the device
+            you use to access the Service. Cookies are text files stored on your
+            device&apos;s hard drive via your browser, allowing us to recognize
+            your browser for purposes such as saving your preferences and
+            targeting relevant content. Most current browsers allow you to
+            manage cookies. Please note that disabling cookies may result in
+            limited functionality of the Service. In all cases where we use
+            cookies, we will not collect personal data without your permission.
           </Text>
           <Text className="text-base text-gray-700 leading-6 mb-2">
             Google Analytics, a web analytics service provided by Google Inc.,
@@ -172,8 +173,8 @@ export default function PrivacyPolicyScreen() {
           <Text className="text-base text-gray-700 leading-6">
             We also use Facebook Audience Insights, an analysis tool provided by
             Facebook Inc. Facebook Insights analyzes, monitors, and distributes
-            data collected through the Service's Facebook pages for analytics
-            and marketing. For more information, visit
+            data collected through the Service&apos;s Facebook pages for
+            analytics and marketing. For more information, visit
             https://www.facebook.com/business/learn/facebook-audience-insights.
           </Text>
         </View>
@@ -281,11 +282,11 @@ export default function PrivacyPolicyScreen() {
         {/* Do Not Track */}
         <View className="mb-6">
           <Text className="text-lg font-lufga-bold mb-2">
-            "Do Not Track" Notice
+            &quot;Do Not Track&quot; Notice
           </Text>
           <Text className="text-base text-gray-700 leading-6">
-            Your browser may allow you to send a "Do Not Track" signal to
-            websites. Websites are not required to respond to such signals.
+            Your browser may allow you to send a &quot;Do Not Track&quot; signal
+            to websites. Websites are not required to respond to such signals.
             Currently, the website does not recognize or respond to Do Not Track
             signals.
           </Text>
@@ -350,7 +351,7 @@ export default function PrivacyPolicyScreen() {
             of your personal data across borders.
           </Text>
           <Text className="text-base text-gray-700 leading-6 mb-2">
-            If you're located in the EEA, you have rights under the GDPR.
+            If you&apos;re located in the EEA, you have rights under the GDPR.
             Contact us at hi@juicefast.com to exercise them.
           </Text>
           <Text className="text-base text-gray-700 leading-6 mb-2">
@@ -369,7 +370,7 @@ export default function PrivacyPolicyScreen() {
         {/* Children's Privacy */}
         <View className="mb-6">
           <Text className="text-lg font-lufga-bold mb-2">
-            Children's Privacy
+            Children&apos;s Privacy
           </Text>
           <Text className="text-base text-gray-700 leading-6">
             The Service is not intended for children under 13. We do not

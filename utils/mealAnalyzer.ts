@@ -74,7 +74,7 @@ Respond with ONLY the JSON object, no additional text.`;
       let parsedData;
       try {
         parsedData = JSON.parse(cleanText);
-      } catch (parseError) {
+      } catch {
         return {
           success: false,
           error: "Failed to parse AI response",

@@ -7,7 +7,6 @@ import {
   ScrollView,
   Alert,
   Keyboard,
-  StyleSheet,
   ActivityIndicator,
 } from "react-native";
 import { Send, User, Users } from "lucide-react-native";

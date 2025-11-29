@@ -4,7 +4,6 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  TextInput,
   Alert,
   Image,
   Share,
@@ -48,11 +47,7 @@ import { usePaywall } from "@/hooks/usePaywall";
 export default function ProfileScreen() {
   const router = useRouter();
   const { user } = useUser();
-  const {
-    isPremiumOnAnyPlatform,
-    isMobileAppSubscribed,
-    isWooCommerceSubscribed,
-  } = usePaywall();
+  const { isPremiumOnAnyPlatform, isMobileAppSubscribed } = usePaywall();
   const userProfile = useQuery(api.userProfile.getByUserId);
   const updateUserProfile = useMutation(api.userProfile.createOrUpdate);
 
@@ -77,7 +72,7 @@ export default function ProfileScreen() {
     if (user?.unsafeMetadata) {
       setAllowPromotion(!(user.unsafeMetadata.disallow_promotion ?? false));
     }
-  }, [user?.unsafeMetadata?.disallow_promotion]);
+  }, [user?.unsafeMetadata]);
 
   useEffect(() => {
     if (user) {
@@ -231,10 +226,6 @@ export default function ProfileScreen() {
       newPassword,
     });
     Alert.alert("Success", "Password updated successfully!");
-  };
-
-  const handleShowActivityPopup = () => {
-    setShowActivityPopup(true);
   };
 
   const handleCopyReferralLink = async () => {

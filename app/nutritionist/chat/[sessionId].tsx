@@ -7,7 +7,6 @@ import {
   ScrollView,
   Alert,
   Keyboard,
-  StyleSheet,
   ActivityIndicator,
 } from "react-native";
 import { useQuery, useMutation } from "convex/react";
@@ -79,7 +78,7 @@ export default function NutritionistChatSession() {
       router.replace("/nutritionist/dashboard");
       return;
     }
-  }, [sessionId, user]);
+  }, [sessionId, user, router]);
 
   // Listen for notification taps (when app was closed/background)
   useEffect(() => {

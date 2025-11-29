@@ -7,13 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  Animated,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Animated, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
 import { useUser } from "@clerk/clerk-expo";
@@ -48,7 +42,6 @@ export function SleepTracker({
   onSettingsPress,
 }: SleepTrackerProps) {
   const { user, isLoaded } = useUser() || {};
-  const [hoursSlept, setHoursSlept] = useState<number>(8);
   const [displayedHours, setDisplayedHours] = useState<number>(0);
   const [sleepQuality, setSleepQuality] = useState<number>(3);
   const [bedTime, setBedTime] = useState({ hours: 22, minutes: 0 });
@@ -181,8 +174,6 @@ export function SleepTracker({
     }
   };
 
-  const progressPercentage = Math.min(100, (displayedHours / DAILY_GOAL) * 100);
-
   if (!isLoaded) {
     return null;
   }
@@ -306,7 +297,7 @@ export function SleepTracker({
         <View className="px-6 mt-6">
           <View className="bg-white rounded-lg p-4">
             <Text className="font-lufga-semibold mb-3 text-xl">
-              Today's Sleep Entries
+              Today&apos;s Sleep Entries
             </Text>
             {sleepEntries.map((entry, index) => {
               const date = new Date(entry.timestamp);
