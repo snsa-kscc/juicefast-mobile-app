@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "Juicefast AI",
     slug: "juicefast-nutrition-app",
-    version: "1.0.1",
+    version: "1.0.2",
     orientation: "portrait",
     icon: "./assets/images/jf-picto.png",
     scheme: "juicefast-ai",
@@ -80,7 +80,7 @@ export default {
       },
     },
     owner: "juicefast",
-    runtimeVersion: "1.0.1",
+    runtimeVersion: "1.0.2",
     updates: {
       url: "https://u.expo.dev/6e9c5757-7446-4974-80fa-fadd2ad8ebc4",
     },
