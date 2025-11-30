@@ -1,50 +1,25 @@
 import { ReferralStorage } from "@/utils/referralStorage";
+import * as Clipboard from "expo-clipboard";
 import * as Linking from "expo-linking";
 
 /**
  * Handle app install with referral code
  * This function should be called when the app first launches
- * to check if there's a referral code from the app store
+ * to check if there's a referral code from the app store or clipboard
  */
 export const handleAppInstallWithReferral = async (): Promise<void> => {
   try {
-    // Check if app was opened with a deep link containing referral code
-    const initialUrl = await Linking.getInitialURL();
-
-    if (initialUrl) {
-      // Parse the URL to extract referral code
-      const url = new URL(initialUrl);
-      const referralCode = url.searchParams.get("referral");
-
-      if (referralCode) {
-        // Store the referral code securely
-        await ReferralStorage.storeReferralCode(referralCode);
-        console.log(
-          "Referral code stored from app install deep link:",
-          referralCode
-        );
-        return;
-      }
-    }
-
-    // Check for iOS App Store referral parameters
-    // iOS App Store can pass referral data through the URL scheme or universal links
-    const iOSReferralCode = await getIOSAppStoreReferral();
-    if (iOSReferralCode) {
-      await ReferralStorage.storeReferralCode(iOSReferralCode);
-      console.log("Referral code stored from iOS App Store:", iOSReferralCode);
+    // First check if app was opened with a deep link containing referral code
+    const deepLinkReferral = await getDeepLinkReferral();
+    if (deepLinkReferral) {
+      await storeInstallReferralCode(deepLinkReferral);
       return;
     }
 
-    // Check for Google Play Store referral parameters
-    // Google Play Store can pass referral data through the INSTALL_REFERRER intent
-    const androidReferralCode = await getAndroidPlayStoreReferral();
-    if (androidReferralCode) {
-      await ReferralStorage.storeReferralCode(androidReferralCode);
-      console.log(
-        "Referral code stored from Google Play Store:",
-        androidReferralCode
-      );
+    // Then check clipboard for referral code (copied from web page)
+    const clipboardReferral = await getClipboardReferral();
+    if (clipboardReferral) {
+      await storeInstallReferralCode(clipboardReferral);
       return;
     }
   } catch (error) {
@@ -53,68 +28,54 @@ export const handleAppInstallWithReferral = async (): Promise<void> => {
 };
 
 /**
- * Get referral code from iOS App Store installation
- * This handles referral codes passed through iOS App Store campaigns
+ * Get referral code from deep link
+ * This handles referral codes passed through deep links
  */
-const getIOSAppStoreReferral = async (): Promise<string | null> => {
+const getDeepLinkReferral = async (): Promise<string | null> => {
   try {
-    // iOS App Store can pass referral data through:
-    // 1. Custom URL schemes (e.g., juicefast://referral=CODE123)
-    // 2. Universal links
-    // 3. User Activity from NSUserActivity
-
-    // For now, we'll check the initial URL again with iOS-specific parameters
     const initialUrl = await Linking.getInitialURL();
     if (initialUrl) {
       const url = new URL(initialUrl);
+      const referralCode =
+        url.searchParams.get("referral") ||
+        url.searchParams.get("referrer") ||
+        url.searchParams.get("ref");
 
-      // Check for iOS-specific parameters
-      const iOSReferral = url.searchParams.get("ref");
-      const campaignReferral = url.searchParams.get("campaign");
-      const sourceReferral = url.searchParams.get("source");
-
-      // Return the first valid referral code found
-      return iOSReferral || campaignReferral || sourceReferral || null;
+      if (referralCode) {
+        return referralCode;
+      }
     }
-
     return null;
   } catch (error) {
-    console.error("Error getting iOS App Store referral:", error);
+    console.error("Error getting deep link referral:", error);
     return null;
   }
 };
 
 /**
- * Get referral code from Google Play Store installation
- * This handles referral codes passed through Google Play Store install referrals
+ * Get referral code from clipboard
+ * This handles referral codes copied from the web referral page
  */
-const getAndroidPlayStoreReferral = async (): Promise<string | null> => {
+const getClipboardReferral = async (): Promise<string | null> => {
   try {
-    // Android Play Store install referrals come through the INSTALL_REFERRER intent
-    // This would typically be handled by a native module that reads the install referrer
-    // For now, we'll check if there's a way to access this through React Native
+    const clipboardContent = await Clipboard.getStringAsync();
 
-    // Note: Full Android Play Store install referrer handling would require
-    // a native module to access the INSTALL_REFERRER broadcast intent
-    // For Expo apps, this might need to be handled through a config plugin or custom dev client
+    if (!clipboardContent || clipboardContent.trim().length === 0) {
+      return null;
+    }
 
-    // For now, check if there are any Android-specific parameters in the initial URL
-    const initialUrl = await Linking.getInitialURL();
-    if (initialUrl) {
-      const url = new URL(initialUrl);
+    // Check if clipboard content looks like a referral code
+    // Basic validation: alphanumeric, 3-20 characters
+    const referralCode = clipboardContent.trim();
+    const referralCodePattern = /^[A-Z0-9]{3,20}$/i;
 
-      // Check for Android-specific parameters
-      const androidReferral = url.searchParams.get("referrer");
-      const utmSource = url.searchParams.get("utm_source");
-      const utmCampaign = url.searchParams.get("utm_campaign");
-
-      // Return the first valid referral code found
-      return androidReferral || utmSource || utmCampaign || null;
+    if (referralCodePattern.test(referralCode)) {
+      return referralCode;
     }
 
     return null;
   } catch (error) {
-    console.error("Error getting Android Play Store referral:", error);
+    console.error("Error getting clipboard referral:", error);
     return null;
   }
 };
@@ -135,5 +96,37 @@ export const storeInstallReferralCode = async (
   } catch (error) {
     console.error("Error storing install referral code:", error);
     throw error;
+  }
+};
+
+/**
+ * Debug function to test referral storage manually
+ * Call this function to verify the referral system works
+ */
+export const debugReferralSystem = async (): Promise<void> => {
+  try {
+    console.log("=== Referral System Debug ===");
+
+    // Test storing a referral code
+    const testCode = "TEST123";
+    await storeInstallReferralCode(testCode);
+    console.log("✓ Stored test referral code:", testCode);
+
+    // Test retrieving the referral code
+    const retrievedCode = await ReferralStorage.getReferralCode();
+    console.log("✓ Retrieved referral code:", retrievedCode);
+
+    // Test checking if referral code exists
+    const hasCode = await ReferralStorage.hasReferralCode();
+    console.log("✓ Has referral code:", hasCode);
+
+    // Clean up test data
+    await ReferralStorage.removeReferralCode();
+    const cleanedUp = !(await ReferralStorage.hasReferralCode());
+    console.log("✓ Cleanup successful:", cleanedUp);
+
+    console.log("=== Referral System Debug Complete ===");
+  } catch (error) {
+    console.error("❌ Referral system debug failed:", error);
   }
 };

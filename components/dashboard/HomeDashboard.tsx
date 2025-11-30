@@ -26,6 +26,8 @@ import {
 } from "@/components/dashboard/icons/TrackerIcons";
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
 import { useWebSubscription } from "@/hooks/useWebSubscription";
+import { debugReferralSystem } from "@/utils/appInstallHandler";
+import { ReferralStorage } from "@/utils/referralStorage";
 
 interface HomeDashboardProps {
   userName?: string;
@@ -643,6 +645,44 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
             >
               <Text className="text-white text-lg font-lufga-semibold text-center">
                 🗑️ Clear Cache
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-blue-600 px-6 py-4 rounded-xl mb-4"
+              onPress={async () => {
+                await debugReferralSystem();
+                Alert.alert(
+                  "Referral System Debug",
+                  "Referral system debug completed.",
+                  [{ text: "OK" }]
+                );
+              }}
+            >
+              <Text className="text-white text-lg font-lufga-semibold text-center">
+                🧪 Test Referral System
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-purple-600 px-6 py-4 rounded-xl mb-4"
+              onPress={async () => {
+                try {
+                  await ReferralStorage.removeReferralCode();
+                  Alert.alert(
+                    "Referral Code Cleared",
+                    "Stored referral code has been removed successfully.",
+                    [{ text: "OK" }]
+                  );
+                } catch (error) {
+                  Alert.alert(
+                    "Error",
+                    "Failed to clear referral code. Please try again.",
+                    [{ text: "OK" }]
+                  );
+                }
+              }}
+            >
+              <Text className="text-white text-lg font-lufga-semibold text-center">
+                🗑️ Clear Referral Code
               </Text>
             </TouchableOpacity>
           </View>

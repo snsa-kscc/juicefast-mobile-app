@@ -202,10 +202,6 @@
           Download for Android
         </a>
       </div>
-
-      <div class="info">
-        <p>You'll be redirected to your device's app store shortly...</p>
-      </div>
     </div>
 
     <script>
@@ -217,65 +213,69 @@
       function getAppStoreUrl(referralCode) {
         const baseUrl =
           "https://apps.apple.com/us/app/juicefast-ai/id6751504716";
-        if (referralCode) {
-          return `${baseUrl}?referrer=${referralCode}`;
-        }
         return baseUrl;
       }
 
       function getPlayStoreUrl(referralCode) {
         const baseUrl =
           "https://play.google.com/store/apps/details?id=com.juicefastapp.juicefastnutritionapp";
-        if (referralCode) {
-          return `${baseUrl}&referrer=${referralCode}`;
-        }
         return baseUrl;
       }
 
-      function detectDevice() {
-        const userAgent = navigator.userAgent.toLowerCase();
-
-        if (
-          userAgent.indexOf("iphone") > -1 ||
-          userAgent.indexOf("ipad") > -1 ||
-          userAgent.indexOf("ipod") > -1
-        ) {
-          return "ios";
-        } else if (userAgent.indexOf("android") > -1) {
-          return "android";
+      async function copyToClipboard(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (err) {
+          // Fallback for older browsers
+          const textArea = document.createElement("textarea");
+          textArea.value = text;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textArea);
+          return true;
         }
-
-        return "unknown";
       }
 
-      function redirectToStore() {
+      async function handleStoreClick(platform) {
         const referralCode = getReferralCode();
-        const device = detectDevice();
 
-        const iosButton = document.getElementById("ios-button");
-        const androidButton = document.getElementById("android-button");
+        if (referralCode) {
+          await copyToClipboard(referralCode);
+        }
+
+        const url =
+          platform === "ios"
+            ? getAppStoreUrl(referralCode)
+            : getPlayStoreUrl(referralCode);
+        window.location.href = url;
+      }
+
+      function initializePage() {
         const loading = document.getElementById("loading");
         const storeButtons = document.getElementById("store-buttons");
-
-        const iosUrl = getAppStoreUrl(referralCode);
-        const androidUrl = getPlayStoreUrl(referralCode);
-
-        iosButton.href = iosUrl;
-        androidButton.href = androidUrl;
 
         setTimeout(() => {
           loading.style.display = "none";
           storeButtons.style.display = "flex";
+        }, 1000);
 
-          if (device === "ios") {
-            window.location.href = iosUrl;
-          } else if (device === "android") {
-            window.location.href = androidUrl;
-          }
-        }, 1500);
+        const iosButton = document.getElementById("ios-button");
+        const androidButton = document.getElementById("android-button");
+
+        iosButton.addEventListener("click", (e) => {
+          e.preventDefault();
+          handleStoreClick("ios");
+        });
+
+        androidButton.addEventListener("click", (e) => {
+          e.preventDefault();
+          handleStoreClick("android");
+        });
       }
 
-      document.addEventListener("DOMContentLoaded", redirectToStore);
+      document.addEventListener("DOMContentLoaded", initializePage);
     </script>
   </body>
 </html>

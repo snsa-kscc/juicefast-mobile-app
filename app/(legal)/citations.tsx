@@ -31,13 +31,11 @@ export default function CitationsScreen() {
         <View className="mb-6">
           <Text className="text-lg font-lufga-bold mb-2">Introduction</Text>
           <Text className="text-base text-gray-800 leading-6">
-            juice cleanses, meal plans, and wellness tracking. Start your health
-            transformation today with JuiceFast&apos;s comprehensive health and
-            wellness calculations and recommendations based on established
-            scientific guidelines and reputable health organizations. All
-            medical information, formulas, and recommendations used in our app
-            are sourced from authoritative institutions and peer-reviewed
-            research.
+            Our app provides health and wellness calculations and
+            recommendations based on established scientific guidelines and
+            reputable health organizations. All medical information, formulas,
+            and recommendations used in our app are sourced from authoritative
+            institutions and peer-reviewed research.
           </Text>
           <Text className="text-base text-gray-800 leading-6 mt-2">
             Below are the primary sources for the health metrics and

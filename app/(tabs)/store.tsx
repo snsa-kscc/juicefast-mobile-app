@@ -19,10 +19,8 @@ export default function StoreScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("Store Screen - Link parameter:", link);
     if (link && !storedLink) {
       const decodedLink = decodeURIComponent(link);
-      console.log("Storing link:", decodedLink);
       setStoredLink(decodedLink);
     }
   }, [link, storedLink]);
@@ -74,7 +72,6 @@ export default function StoreScreen() {
 
   const getWebViewSource = () => {
     const urlToUse = storedLink || "https://juicefast.com/";
-    console.log("Using URL:", urlToUse);
     return { uri: urlToUse };
   };
 
