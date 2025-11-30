@@ -153,6 +153,35 @@
         margin-top: 2rem;
       }
 
+      .ios-message {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        margin-top: 1rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(26, 26, 26, 0.2);
+      }
+
+      .referral-code-display {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(26, 26, 26, 0.3);
+        color: #1a1a1a;
+      }
+
+      .referral-code-label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        margin-bottom: 0.5rem;
+      }
+
       .loading {
         display: inline-block;
         width: 20px;
@@ -201,6 +230,20 @@
           </svg>
           Download for Android
         </a>
+      </div>
+
+      <div id="ios-message" class="ios-message" style="display: none">
+        After opening the app, you'll be prompted to allow pasting to apply your
+        referral code.
+      </div>
+
+      <div
+        id="referral-code-display"
+        class="referral-code-display"
+        style="display: none"
+      >
+        <div class="referral-code-label">Your referral code:</div>
+        <div id="referral-code-text"></div>
       </div>
     </div>
 
@@ -255,6 +298,30 @@
       function initializePage() {
         const loading = document.getElementById("loading");
         const storeButtons = document.getElementById("store-buttons");
+        const iosMessage = document.getElementById("ios-message");
+        const referralCodeDisplay = document.getElementById(
+          "referral-code-display"
+        );
+        const referralCodeText = document.getElementById("referral-code-text");
+
+        // Detect if user is on iOS
+        function isIOS() {
+          return (
+            /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+          );
+        }
+
+        // Show referral code if present
+        const referralCode = getReferralCode();
+        if (referralCode) {
+          referralCodeText.textContent = referralCode;
+          referralCodeDisplay.style.display = "block";
+        }
+
+        // Show iOS message if on iOS device
+        if (isIOS()) {
+          iosMessage.style.display = "block";
+        }
 
         setTimeout(() => {
           loading.style.display = "none";
