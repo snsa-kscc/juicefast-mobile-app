@@ -252,4 +252,3 @@ This project is private and proprietary to Juicefast App.
 - [ ] Code cleanup
 - [ ] Upload html for referrals and set store urls - ja
 - [ ] Facebook OAuth - ja
-- [ ] test referral flow

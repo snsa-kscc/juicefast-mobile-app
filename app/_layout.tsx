@@ -114,21 +114,6 @@ function AuthenticatedLayout() {
 export default function RootLayout() {
   const [loaded] = useFonts(FONT_CONFIG);
 
-  // Handle referral code from app install
-  useEffect(() => {
-    const initializeReferral = async () => {
-      try {
-        await handleAppInstallWithReferral();
-      } catch (error) {
-        console.error("Error initializing referral system:", error);
-      }
-    };
-
-    if (loaded) {
-      initializeReferral();
-    }
-  }, [loaded]);
-
   if (!loaded) {
     return null;
   }

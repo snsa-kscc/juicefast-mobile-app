@@ -1,11 +1,11 @@
 import { useSignIn, useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
-import { useState } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Text, TextInput, TouchableOpacity, View, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "@/hooks/useSocialSignIn";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
-import { ReferralStorage } from "@/utils/referralStorage";
+import { handleAppInstallWithReferral } from "@/utils/appInstallHandler";
 import {
   MailIcon,
   LockIcon,
@@ -24,23 +24,26 @@ export default function Page() {
   // Automatically store push token when user signs in
   usePushTokenStorage({ skip: !user });
 
+  // Track if we've already processed this user to avoid duplicate processing
+  const processedUserRef = useRef<string | null>(null);
+
   // Handle referral processing for social sign-ins
-  const handleSocialSignInComplete = async () => {
-    try {
-      // For existing users signing in with social, check if profile exists
-      if (user) {
-        try {
-          await ReferralStorage.removeReferralCode();
-        } catch (error) {
-          console.log("No referral code to remove or error removing:", error);
-        }
+  const handleSocialSignInComplete = useCallback(
+    async (userId: string) => {
+      // Prevent duplicate processing
+      if (processedUserRef.current === userId) {
+        return;
       }
+
+      await handleAppInstallWithReferral();
+
+      // Mark this user as processed
+      processedUserRef.current = userId;
+
       router.replace("/onboarding");
-    } catch (error) {
-      console.error("Error processing social signin:", error);
-      router.replace("/onboarding");
-    }
-  };
+    },
+    [router]
+  );
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
@@ -52,6 +55,14 @@ export default function Page() {
   const handleContinueAsGuest = () => {
     router.replace("/(tabs)/store");
   };
+
+  // useEffect to handle user state changes after SSO
+  useEffect(() => {
+    // Only process if user is loaded, exists, and hasn't been processed yet
+    if (isLoaded && user && processedUserRef.current !== user.id) {
+      handleSocialSignInComplete(user.id);
+    }
+  }, [isLoaded, user, handleSocialSignInComplete]); // Dependencies: when user loads or changes
 
   // Handle the submission of the sign-in form
   const onSignInPress = async () => {
@@ -198,7 +209,7 @@ export default function Page() {
       {/* Social Login Buttons */}
       <View className="mt-2 px-4">
         <TouchableOpacity
-          onPress={() => signInWithApple(handleSocialSignInComplete)}
+          onPress={() => signInWithApple()}
           className="bg-gray-900 rounded-xl py-4 flex-row items-center mb-4"
         >
           <Image
@@ -211,7 +222,7 @@ export default function Page() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => signInWithGoogle(handleSocialSignInComplete)}
+          onPress={() => signInWithGoogle()}
           className="bg-gray-900 rounded-xl py-4 flex-row items-center mb-4"
         >
           <Image
@@ -225,7 +236,7 @@ export default function Page() {
 
         {/* Facebook sign-in - commented out */}
         {/* <TouchableOpacity
-          onPress={() => signInWithFacebook(handleSocialSignInComplete)}
+          onPress={() => signInWithFacebook()}
           className="bg-gray-900 rounded-xl py-4 flex-row items-center"
         >
           <Image

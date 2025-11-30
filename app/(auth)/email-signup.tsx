@@ -23,6 +23,7 @@ import {
   EyeOffIcon,
 } from "@/components/icons/AuthIcons";
 import { getInputFieldPadding } from "@/utils/platformStyles";
+import { handleAppInstallWithReferral } from "@/utils/appInstallHandler";
 
 export default function EmailSignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -57,6 +58,7 @@ export default function EmailSignUpScreen() {
   useEffect(() => {
     const loadReferralCode = async () => {
       try {
+        await handleAppInstallWithReferral();
         const storedCode = await ReferralStorage.getReferralCode();
         if (storedCode) {
           setReferralCodeInput(storedCode);
