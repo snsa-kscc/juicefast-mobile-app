@@ -64,11 +64,11 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
 
         <RecommendationsSection recommendations={recommendations} />
 
+        <AnswerSummarySection answerEntries={answerEntries} />
+
         <ProductRecommendationSection
           productRecommendation={productRecommendation}
         />
-
-        <AnswerSummarySection answerEntries={answerEntries} />
 
         {/* Continue button */}
         <TouchableOpacity

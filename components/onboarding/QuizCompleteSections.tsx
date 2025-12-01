@@ -1,6 +1,5 @@
-import { View, Text, TouchableOpacity, Platform } from "react-native";
-import { ArrowRight, Sparkles, ShoppingBag } from "lucide-react-native";
-import { openBrowserAsync } from "expo-web-browser";
+import { View, Text } from "react-native";
+import { Sparkles, ShoppingBag } from "lucide-react-native";
 import { getQuestionTitle, formatAnswer } from "@/utils/quizFormatters";
 
 export function RecommendationsSection({
@@ -63,21 +62,6 @@ export function ProductRecommendationSection({
         <Text className="leading-relaxed text-gray-500 font-lufga mb-4">
           {productRecommendation.description}
         </Text>
-        <TouchableOpacity
-          onPress={async () => {
-            if (Platform.OS !== "web") {
-              await openBrowserAsync(productRecommendation.link);
-            } else {
-              window.open(productRecommendation.link, "_blank");
-            }
-          }}
-          className="flex-row items-center justify-center px-6 py-3 rounded-full bg-black"
-        >
-          <Text className="text-white text-base font-lufga-semibold mr-2">
-            View Products
-          </Text>
-          <ArrowRight size={18} color="white" />
-        </TouchableOpacity>
       </View>
     </View>
   );
