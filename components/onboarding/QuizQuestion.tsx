@@ -13,6 +13,8 @@ interface QuizQuestionProps {
   onAnswer: (answer: string | string[] | number) => void;
   onPrevious: () => void;
   canGoBack: boolean;
+  currentAnswer?: string | string[] | number;
+  answers: Record<string, string | string[] | number>;
 }
 
 export function QuizQuestion({
@@ -20,24 +22,48 @@ export function QuizQuestion({
   onAnswer,
   onPrevious,
   canGoBack,
+  currentAnswer,
+  answers,
 }: QuizQuestionProps) {
   const [answer, setAnswer] = useState<string | string[] | number>(() => {
+    if (currentAnswer !== undefined) return currentAnswer;
     if (question.type === "multiple") return [];
-    if (question.type === "slider") return question.min || 0;
+    if (question.type === "slider") {
+      // If this is target_weight and current_weight exists, use that as initial value
+      if (
+        question.id === "target_weight" &&
+        typeof answers.current_weight === "number"
+      ) {
+        return answers.current_weight;
+      }
+      return question.min || 0;
+    }
     return "";
   });
   const [isSkipping, setIsSkipping] = useState(false);
   const { markOnboardingCompleted } = useOnboardingCompletion();
 
   useEffect(() => {
-    if (question.type === "multiple") {
-      setAnswer([]);
-    } else if (question.type === "slider") {
-      setAnswer(question.min || 0);
+    if (currentAnswer !== undefined) {
+      setAnswer(currentAnswer);
     } else {
-      setAnswer("");
+      if (question.type === "multiple") {
+        setAnswer([]);
+      } else if (question.type === "slider") {
+        // If this is target_weight and current_weight exists, use that as initial value
+        if (
+          question.id === "target_weight" &&
+          typeof answers.current_weight === "number"
+        ) {
+          setAnswer(answers.current_weight);
+        } else {
+          setAnswer(question.min || 0);
+        }
+      } else {
+        setAnswer("");
+      }
     }
-  }, [question.id, question.type, question.min]);
+  }, [question.id, question.type, question.min, currentAnswer, answers]);
 
   const handleSingleChoice = (value: string) => {
     setAnswer(value);

@@ -55,10 +55,6 @@ export const useOnboardingCompletion = () => {
       if (storedReferralCode) {
         try {
           await incrementReferralCount({ referralCode: storedReferralCode });
-          console.log(
-            "Referral count incremented for code:",
-            storedReferralCode
-          );
         } catch (referralError) {
           console.error("Error incrementing referral count:", referralError);
           // Don't fail the whole process if referral increment fails
@@ -69,8 +65,6 @@ export const useOnboardingCompletion = () => {
       if (storedReferralCode) {
         await ReferralStorage.removeReferralCode();
       }
-
-      console.log("Onboarding completion processed successfully");
     } catch (error) {
       console.error("Error processing onboarding completion:", error);
       throw error;

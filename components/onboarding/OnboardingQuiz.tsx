@@ -15,6 +15,7 @@ export function OnboardingQuiz() {
     previousQuestion,
     canGoBack,
     answers,
+    currentAnswer,
   } = useOnboardingManager();
 
   const handleStart = () => {
@@ -43,6 +44,8 @@ export function OnboardingQuiz() {
         onAnswer={handleAnswer}
         onPrevious={previousQuestion}
         canGoBack={canGoBack}
+        currentAnswer={currentAnswer}
+        answers={answers}
       />
     </View>
   );

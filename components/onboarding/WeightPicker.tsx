@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -19,6 +19,9 @@ interface WeightPickerProps {
 const ITEM_HEIGHT = 40;
 
 export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
+  const kgScrollViewRef = useRef<ScrollView>(null);
+  const gramsScrollViewRef = useRef<ScrollView>(null);
+
   const valueInGrams = value * 1000;
   const initialKg = Math.floor(valueInGrams / 1000);
   const initialGrams = Math.round((valueInGrams % 1000) / 100) * 100;
@@ -28,6 +31,32 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
 
   const kgOptions = Array.from({ length: max - min + 1 }, (_, i) => min + i);
   const gramOptions = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+
+  useEffect(() => {
+    const valueInGrams = value * 1000;
+    const newKg = Math.floor(valueInGrams / 1000);
+    const newGrams = Math.round((valueInGrams % 1000) / 100) * 100;
+
+    setSelectedKg(newKg);
+    setSelectedGrams(newGrams);
+
+    // Scroll to the correct positions
+    const kgIndex = kgOptions.indexOf(newKg);
+    const gramsIndex = gramOptions.indexOf(newGrams);
+
+    if (kgIndex !== -1 && kgScrollViewRef.current) {
+      kgScrollViewRef.current.scrollTo({
+        y: kgIndex * ITEM_HEIGHT,
+        animated: true,
+      });
+    }
+    if (gramsIndex !== -1 && gramsScrollViewRef.current) {
+      gramsScrollViewRef.current.scrollTo({
+        y: gramsIndex * ITEM_HEIGHT,
+        animated: true,
+      });
+    }
+  }, [value, min, max]);
 
   const handleKgScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -93,6 +122,7 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
           }}
         />
         <ScrollView
+          ref={kgScrollViewRef}
           showsVerticalScrollIndicator={false}
           snapToInterval={ITEM_HEIGHT}
           decelerationRate="fast"
@@ -176,6 +206,7 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
           }}
         />
         <ScrollView
+          ref={gramsScrollViewRef}
           showsVerticalScrollIndicator={false}
           snapToInterval={ITEM_HEIGHT}
           decelerationRate="fast"
