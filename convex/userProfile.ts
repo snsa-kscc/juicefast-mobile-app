@@ -25,11 +25,15 @@ export const createOrUpdate = mutation({
       .first();
 
     if (existingProfile) {
-      // Update existing profile
-      await ctx.db.patch(existingProfile._id, {
-        ...args,
+      // For existing profiles, preserve existing referral data
+      const updateData = {
+        referralCode: existingProfile.referralCode ?? args.referralCode,
+        referredBy: existingProfile.referredBy ?? args.referredBy,
+        referralCount: existingProfile.referralCount ?? args.referralCount,
         updatedAt: Date.now(),
-      });
+      };
+
+      await ctx.db.patch(existingProfile._id, updateData);
       return existingProfile._id;
     } else {
       // Create new profile
