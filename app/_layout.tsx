@@ -108,10 +108,6 @@ function AuthenticatedLayout() {
           );
           return;
         }
-
-        console.log("New message while app open:", messageText);
-        // For foreground notifications, we could show an in-app banner or toast
-        // For now, we'll just log it since forcing navigation can be disruptive
       }
     );
 

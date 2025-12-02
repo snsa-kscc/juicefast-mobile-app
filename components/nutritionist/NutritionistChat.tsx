@@ -15,6 +15,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import { setActiveSessionId } from "@/services/messagingService";
 
 interface Nutritionist {
   id: string;
@@ -105,6 +106,17 @@ export function NutritionistChat() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Track active session for push notification suppression
+  useEffect(() => {
+    if (currentSession) {
+      // Setting active session ID
+      setActiveSessionId(currentSession.id);
+    } else {
+      // Clearing active session ID
+      setActiveSessionId(null);
+    }
+  }, [currentSession]);
 
   // Mark nutritionist messages as read when they are viewed
   useEffect(() => {

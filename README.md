@@ -249,7 +249,5 @@ This project is private and proprietary to Juicefast App.
 - [ ] WooCommerce integration - test
 - [ ] Styling
 - [ ] Testing
-- [ ] Code cleanup
-- [ ] Upload html for referrals and set store urls - ja
 - [ ] Facebook OAuth - ja
 - [ ] Add Sentry for error tracking

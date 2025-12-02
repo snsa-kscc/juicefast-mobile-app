@@ -1,14 +1,38 @@
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 
-// Configure notification behavior - don't show alerts when app is open
+// Global session ID tracking for notification suppression
+let activeSessionId: string | null = null;
+
+export function setActiveSessionId(sessionId: string | null) {
+  activeSessionId = sessionId;
+}
+
+// Configure notification behavior - don't show alerts when app is open and user is in active chat
 Notifications.setNotificationHandler({
-  handleNotification: async (notification) => ({
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
+  handleNotification: async (notification) => {
+    const chatId = notification.request.content.data?.chatId as
+      | string
+      | undefined;
+
+    // Check if user is in the specific chat that's receiving the notification
+    if (chatId && activeSessionId === chatId) {
+      // Suppress notification display - user is in active chat
+      return {
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+        shouldShowBanner: false,
+        shouldShowList: false,
+      };
+    }
+
+    return {
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+      shouldShowBanner: true,
+      shouldShowList: true,
+    };
+  },
 });
 
 // Get push token for this device

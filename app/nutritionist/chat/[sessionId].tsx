@@ -15,6 +15,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Send, User, ArrowLeft, X } from "lucide-react-native";
+import { setActiveSessionId } from "@/services/messagingService";
 
 interface Message {
   id: Id<"chatMessages">;
@@ -78,6 +79,14 @@ export default function NutritionistChatSession() {
       router.replace("/nutritionist/dashboard");
       return;
     }
+
+    // Set active session ID when component mounts
+    setActiveSessionId(sessionId as string);
+
+    // Clear active session ID when component unmounts
+    return () => {
+      setActiveSessionId(null);
+    };
   }, [sessionId, user, router]);
 
   useEffect(() => {
