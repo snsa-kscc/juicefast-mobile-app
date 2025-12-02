@@ -12,10 +12,14 @@ import { QueryProvider } from "@/providers/QueryProvider";
 import { RevenueCatProvider } from "@/providers/RevenueCatProvider";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
 import "@/styles/global.css";
-import { handleAppInstallWithReferral } from "@/utils/appInstallHandler";
 import { AddActionButton } from "@/components/ui/AddActionButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WebContainer } from "@/components/ui/WebContainer";
+import {
+  addNotificationListener,
+  addForegroundNotificationListener,
+} from "@/services/messagingService";
+import * as Notifications from "expo-notifications";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
@@ -55,6 +59,68 @@ function AuthenticatedLayout() {
   // Automatically store push token for all authenticated users
   usePushTokenStorage({ skip: !user });
 
+  // Global notification handler for push notification taps
+  useEffect(() => {
+    if (!user) return;
+
+    // Handle notification taps when app was closed/backgrounded
+    const unsubscribeTap = addNotificationListener(
+      (chatId, intendedRecipientId) => {
+        // Validate that the current user is the intended recipient
+        if (intendedRecipientId && intendedRecipientId !== user.id) {
+          console.log(
+            "Ignoring notification - not the intended recipient:",
+            intendedRecipientId
+          );
+          return;
+        }
+
+        console.log("User tapped notification for chat:", chatId);
+
+        // Navigate based on user role
+        const isNutritionist =
+          user.unsafeMetadata?.role === "nutritionist" ||
+          user.unsafeMetadata?.role === "admin";
+
+        if (chatId) {
+          if (isNutritionist) {
+            // Nutritionist navigates to their chat interface
+            router.push(`/nutritionist/chat/${chatId}`);
+          } else {
+            // Regular user navigates to nutritionist chat with session ID
+            router.push(`/chat/nutritionist?sessionId=${chatId}`);
+          }
+        } else {
+          // Fallback to chat options if no specific chat ID
+          router.push("/chat");
+        }
+      }
+    );
+
+    // Handle notifications when app is open (foreground)
+    const unsubscribeForeground = addForegroundNotificationListener(
+      (senderName, messageText, chatId, intendedRecipientId) => {
+        // Validate that the current user is the intended recipient
+        if (intendedRecipientId && intendedRecipientId !== user.id) {
+          console.log(
+            "Ignoring foreground notification - not the intended recipient:",
+            intendedRecipientId
+          );
+          return;
+        }
+
+        console.log("New message while app open:", messageText);
+        // For foreground notifications, we could show an in-app banner or toast
+        // For now, we'll just log it since forcing navigation can be disruptive
+      }
+    );
+
+    return () => {
+      unsubscribeTap();
+      unsubscribeForeground();
+    };
+  }, [user, router]);
+
   const shouldShowAddButton =
     isSignedIn &&
     !segments.includes("(auth)") &&
@@ -64,14 +130,62 @@ function AuthenticatedLayout() {
     if (!isLoaded) return; // Wait for auth to load
 
     if (isSignedIn && user) {
-      // User is signed in - check onboarding status
-      const isOnboardingCompleted =
-        user.unsafeMetadata?.onboardingCompleted === true;
-      if (isOnboardingCompleted) {
-        router.replace("/(tabs)");
-      } else {
-        router.replace("/onboarding");
-      }
+      // Check if app was opened from a notification (cold start)
+      const handleNotificationNavigation = async () => {
+        try {
+          const response = Notifications.getLastNotificationResponse();
+
+          if (response?.notification?.request?.content?.data) {
+            const { chatId, intendedRecipientId } =
+              response.notification.request.content.data;
+
+            // Validate that the current user is the intended recipient
+            if (intendedRecipientId && intendedRecipientId !== user.id) {
+              console.log(
+                "Ignoring cold start notification - not the intended recipient:",
+                intendedRecipientId
+              );
+            } else if (chatId) {
+              console.log("App opened from notification for chat:", chatId);
+
+              // Navigate based on user role
+              const isNutritionist =
+                user.unsafeMetadata?.role === "nutritionist" ||
+                user.unsafeMetadata?.role === "admin";
+
+              // Check onboarding first, then navigate to chat
+              const isOnboardingCompleted =
+                user.unsafeMetadata?.onboardingCompleted === true;
+
+              if (!isOnboardingCompleted) {
+                // Store the chat navigation for after onboarding
+                // For now, just proceed with onboarding
+                router.replace("/onboarding");
+              } else {
+                if (isNutritionist) {
+                  router.replace(`/nutritionist/chat/${chatId}`);
+                } else {
+                  router.replace(`/chat/nutritionist?sessionId=${chatId}`);
+                }
+                return; // Skip normal navigation
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error checking notification response:", error);
+        }
+
+        // Normal navigation if no notification or notification handled
+        const isOnboardingCompleted =
+          user.unsafeMetadata?.onboardingCompleted === true;
+        if (isOnboardingCompleted) {
+          router.replace("/(tabs)");
+        } else {
+          router.replace("/onboarding");
+        }
+      };
+
+      handleNotificationNavigation();
     } else {
       // User is not signed in - redirect to signup
       router.replace("/(auth)/sso-signup");
@@ -102,6 +216,10 @@ function AuthenticatedLayout() {
           <Stack.Screen name="profile" options={SCREEN_OPTIONS} />
           <Stack.Screen name="chat/ai" options={SCREEN_OPTIONS} />
           <Stack.Screen name="chat/nutritionist" options={SCREEN_OPTIONS} />
+          <Stack.Screen
+            name="nutritionist/chat/[sessionId]"
+            options={SCREEN_OPTIONS}
+          />
           <Stack.Screen name="test-push" options={SCREEN_OPTIONS} />
           <Stack.Screen name="+not-found" />
         </Stack>

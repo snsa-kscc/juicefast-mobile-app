@@ -15,10 +15,6 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import {
-  addNotificationListener,
-  addForegroundNotificationListener,
-} from "@/services/messagingService";
 
 interface Nutritionist {
   id: string;
@@ -85,52 +81,6 @@ export function NutritionistChat() {
       hideSubscription.remove();
     };
   }, []);
-
-  // Listen for notification taps (when app was closed/background)
-  useEffect(() => {
-    const unsubscribeTap = addNotificationListener(
-      (chatId, intendedRecipientId) => {
-        if (user) {
-          // Validate that the current user is the intended recipient
-          if (intendedRecipientId && intendedRecipientId !== user.id) {
-            console.log(
-              "Ignoring notification - not the intended recipient:",
-              intendedRecipientId
-            );
-            return; // Silent ignore - wrong user logged in
-          }
-
-          console.log("User tapped notification for chat:", chatId);
-          // Handle navigation to specific chat if needed
-        }
-      }
-    );
-
-    return unsubscribeTap;
-  }, [user]);
-
-  // Listen for notifications when app is OPEN
-  useEffect(() => {
-    const unsubscribeForeground = addForegroundNotificationListener(
-      (senderName, messageText, chatId, intendedRecipientId) => {
-        if (user) {
-          // Validate that the current user is the intended recipient
-          if (intendedRecipientId && intendedRecipientId !== user.id) {
-            console.log(
-              "Ignoring foreground notification - not the intended recipient:",
-              intendedRecipientId
-            );
-            return; // Silent ignore - wrong user logged in
-          }
-
-          console.log("New message while app open:", messageText);
-          // You could show an in-app notification or handle it silently
-        }
-      }
-    );
-
-    return unsubscribeForeground;
-  }, [user]);
 
   const scrollToBottom = () => {
     setTimeout(() => {

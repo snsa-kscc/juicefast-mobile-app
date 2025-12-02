@@ -15,10 +15,6 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Send, User, ArrowLeft, X } from "lucide-react-native";
-import {
-  addNotificationListener,
-  addForegroundNotificationListener,
-} from "@/services/messagingService";
 
 interface Message {
   id: Id<"chatMessages">;
@@ -83,52 +79,6 @@ export default function NutritionistChatSession() {
       return;
     }
   }, [sessionId, user, router]);
-
-  // Listen for notification taps (when app was closed/background)
-  useEffect(() => {
-    if (!user) return;
-
-    const unsubscribeTap = addNotificationListener(
-      (chatId, intendedRecipientId) => {
-        // Validate that the current user is the intended recipient
-        if (intendedRecipientId && intendedRecipientId !== user.id) {
-          console.log(
-            "Ignoring notification - not the intended recipient:",
-            intendedRecipientId
-          );
-          return; // Silent ignore - wrong user logged in
-        }
-
-        console.log("Nutritionist tapped notification for chat:", chatId);
-        // Handle navigation to specific chat if needed
-      }
-    );
-
-    return unsubscribeTap;
-  }, [user]);
-
-  // Listen for notifications when app is OPEN
-  useEffect(() => {
-    if (!user) return;
-
-    const unsubscribeForeground = addForegroundNotificationListener(
-      (senderName, messageText, chatId, intendedRecipientId) => {
-        // Validate that the current user is the intended recipient
-        if (intendedRecipientId && intendedRecipientId !== user.id) {
-          console.log(
-            "Ignoring foreground notification - not the intended recipient:",
-            intendedRecipientId
-          );
-          return; // Silent ignore - wrong user logged in
-        }
-
-        console.log("New message while app open:", messageText);
-        // You could show an in-app notification or handle it silently
-      }
-    );
-
-    return unsubscribeForeground;
-  }, [user]);
 
   useEffect(() => {
     if (messagesData) {
