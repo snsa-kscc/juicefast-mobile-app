@@ -18,6 +18,7 @@ import { WebContainer } from "@/components/ui/WebContainer";
 import {
   addNotificationListener,
   addForegroundNotificationListener,
+  setActiveSessionId,
 } from "@/services/messagingService";
 import * as Notifications from "expo-notifications";
 
@@ -58,6 +59,17 @@ function AuthenticatedLayout() {
 
   // Automatically store push token for all authenticated users
   usePushTokenStorage({ skip: !user });
+
+  // Clear active session when user navigates away from chat screens
+  useEffect(() => {
+    const isInChatScreen =
+      (segments.includes("nutritionist") && segments.includes("chat")) ||
+      (segments.includes("chat") && segments.includes("nutritionist"));
+
+    if (!isInChatScreen) {
+      setActiveSessionId(null);
+    }
+  }, [segments]);
 
   // Global notification handler for push notification taps
   useEffect(() => {
