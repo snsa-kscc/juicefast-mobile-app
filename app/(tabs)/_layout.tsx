@@ -30,7 +30,9 @@ function RegularTabLayout() {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
   const router = useRouter();
-  const isNutritionist = user?.unsafeMetadata?.role === "nutritionist";
+  const isNutritionist =
+    user?.unsafeMetadata?.role === "nutritionist" ||
+    user?.unsafeMetadata?.role === "admin";
 
   const userSessions = useQuery(
     api.nutritionistChat.getActiveUserSessions,
@@ -211,7 +213,9 @@ function RegularTabLayout() {
 function IOSNativeTabLayout() {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
-  const isNutritionist = user?.unsafeMetadata?.role === "nutritionist";
+  const isNutritionist =
+    user?.unsafeMetadata?.role === "nutritionist" ||
+    user?.unsafeMetadata?.role === "admin";
 
   const userSessions = useQuery(
     api.nutritionistChat.getActiveUserSessions,

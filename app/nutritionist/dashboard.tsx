@@ -42,18 +42,21 @@ export default function NutritionistDashboard() {
 
   const chats = useQuery(
     api.nutritionistChat.getNutritionistSessions,
-    user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip"
+    user ? undefined : "skip"
   );
   const activeChats = useQuery(
     api.nutritionistChat.getActiveSessionsForNutritionist,
-    user && user.unsafeMetadata?.role === "nutritionist" ? undefined : "skip"
+    user ? undefined : "skip"
   );
   const updateStatus = useMutation(
     api.nutritionistChat.updateNutritionistStatus
   );
 
   useEffect(() => {
-    if (user?.unsafeMetadata?.role !== "nutritionist") {
+    if (
+      user?.unsafeMetadata?.role !== "nutritionist" &&
+      user?.unsafeMetadata?.role !== "admin"
+    ) {
       Alert.alert("Access Denied", "This area is for nutritionists only.");
       router.replace("/chat");
       return;
@@ -144,7 +147,11 @@ export default function NutritionistDashboard() {
     );
   };
 
-  if (!user || user.unsafeMetadata?.role !== "nutritionist") {
+  if (
+    !user ||
+    (user.unsafeMetadata?.role !== "nutritionist" &&
+      user.unsafeMetadata?.role !== "admin")
+  ) {
     return (
       <View className="flex-1 bg-[#FCFBF8] items-center justify-center">
         <ActivityIndicator size="large" color="#2d2d2d" />

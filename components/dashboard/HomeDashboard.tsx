@@ -1,4 +1,4 @@
-import { useAuth } from "@clerk/clerk-expo";
+import { useAuth, useUser } from "@clerk/clerk-expo";
 import { useQuery } from "convex/react";
 import { router } from "expo-router";
 import { Plus } from "lucide-react-native";
@@ -39,6 +39,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
   const [displayedScore, setDisplayedScore] = useState<number>(0);
   const animatedValue = useRef(new Animated.Value(0)).current;
   const { isSignedIn } = useAuth();
+  const { user } = useUser();
   const { simulateNoSubscription } = useRevenueCat();
   const { clearCache } = useWebSubscription();
 
@@ -277,6 +278,8 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
       </View>
     );
   }
+
+  const isAdmin = user?.unsafeMetadata?.role === "admin";
 
   return (
     <ScrollView
@@ -583,7 +586,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
       {/* Additional Actions */}
       <View className="px-6">
         {/* Debug: Test Restore Purchases Flow */}
-        {__DEV__ && (
+        {isAdmin && (
           <View>
             <TouchableOpacity
               className="bg-green-600 px-6 py-4 rounded-xl mb-4"

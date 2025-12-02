@@ -68,7 +68,11 @@ export default function NutritionistChatSession() {
   }, []);
 
   useEffect(() => {
-    if (!user || user.unsafeMetadata?.role !== "nutritionist") {
+    if (
+      !user ||
+      (user.unsafeMetadata?.role !== "nutritionist" &&
+        user.unsafeMetadata?.role !== "admin")
+    ) {
       Alert.alert("Access Denied", "This area is for nutritionists only.");
       router.replace("/chat");
       return;
@@ -216,7 +220,8 @@ export default function NutritionistChatSession() {
 
   if (
     !user ||
-    user.unsafeMetadata?.role !== "nutritionist" ||
+    (user.unsafeMetadata?.role !== "nutritionist" &&
+      user.unsafeMetadata?.role !== "admin") ||
     !currentSession
   ) {
     return (

@@ -165,7 +165,9 @@ export function ChatOptions({
   const { user } = useUser();
   const router = useRouter();
 
-  const isNutritionist = user?.unsafeMetadata?.role === "nutritionist";
+  const isNutritionist =
+    user?.unsafeMetadata?.role === "nutritionist" ||
+    user?.unsafeMetadata?.role === "admin";
   const displayOptions = isNutritionist
     ? [...NUTRITIONIST_OPTIONS, ...CHAT_OPTIONS]
     : CHAT_OPTIONS;

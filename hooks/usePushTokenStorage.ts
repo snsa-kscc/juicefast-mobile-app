@@ -52,7 +52,8 @@ export function usePushTokenStorage(options: UsePushTokenStorageOptions = {}) {
               name:
                 user.fullName || user.firstName || user.lastName || undefined,
               role:
-                user.unsafeMetadata?.role === "nutritionist"
+                user.unsafeMetadata?.role === "nutritionist" ||
+                user.unsafeMetadata?.role === "admin"
                   ? "nutritionist"
                   : "user",
             });
