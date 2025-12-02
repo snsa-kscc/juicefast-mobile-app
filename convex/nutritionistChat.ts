@@ -557,6 +557,39 @@ export const getNutritionistSessions = query({
   },
 });
 
+export const deleteChatSession = mutation({
+  args: {
+    sessionId: v.id("chatSessions"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+
+    const session = await ctx.db.get(args.sessionId);
+    if (!session) throw new Error("Session not found");
+
+    // Verify user is the nutritionist for this session
+    if (session.nutritionistId !== identity.subject) {
+      throw new Error("Unauthorized");
+    }
+
+    // Delete all messages associated with this session
+    const messages = await ctx.db
+      .query("chatMessages")
+      .withIndex("by_session", (q) => q.eq("sessionId", args.sessionId))
+      .collect();
+
+    for (const message of messages) {
+      await ctx.db.delete(message._id);
+    }
+
+    // Delete the session itself
+    await ctx.db.delete(args.sessionId);
+
+    return args.sessionId;
+  },
+});
+
 export const getActiveSessionsForNutritionist = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();

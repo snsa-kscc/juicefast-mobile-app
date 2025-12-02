@@ -47,6 +47,7 @@ export function NutritionistChat() {
   );
   const [showSessionSwitcher, setShowSessionSwitcher] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
+  const alertedSessionsRef = useRef<Set<string>>(new Set());
 
   // Convex hooks - only execute when user is authenticated
   const nutritionists = useQuery(
@@ -58,10 +59,10 @@ export function NutritionistChat() {
     user ? undefined : "skip"
   );
   const sendMessage = useMutation(api.nutritionistChat.sendMessage);
-  const endSession = useMutation(api.nutritionistChat.endChatSession);
   const markMessagesAsRead = useMutation(
     api.nutritionistChat.markMessagesAsRead
   );
+  const endChatSession = useMutation(api.nutritionistChat.endChatSession);
   const realtimeMessages = useQuery(
     api.nutritionistChat.getMessages,
     currentSession && user
@@ -161,6 +162,40 @@ export function NutritionistChat() {
       }
     }
   }, [sessionId, userSessions, currentSession, nutritionists, user]);
+
+  // Track when chat session ends (ended by nutritionist)
+  useEffect(() => {
+    if (!currentSession || !userSessions) {
+      return;
+    }
+
+    const currentSessionFromDB = userSessions.find(
+      (session) => session.id.toString() === currentSession.id
+    );
+
+    // Handle both ended and deleted sessions
+    if (
+      (!currentSessionFromDB || currentSessionFromDB.status === "ended") &&
+      !alertedSessionsRef.current.has(currentSession.id)
+    ) {
+      // Chat was ended or deleted by nutritionist, clear local state and show alert once per session
+      alertedSessionsRef.current.add(currentSession.id);
+      setCurrentSession(null);
+      setSelectedNutritionist(null);
+      setShowSessionSwitcher(false);
+      Alert.alert(
+        "Chat Ended",
+        "The nutritionist has ended this chat session. You can start a new chat if you need more assistance."
+      );
+    }
+  }, [userSessions, currentSession]);
+
+  // Cleanup memory when component unmounts
+  useEffect(() => {
+    return () => {
+      alertedSessionsRef.current.clear();
+    };
+  }, []);
 
   // Check for existing active sessions and restore the most recent one
   useEffect(() => {
@@ -269,11 +304,13 @@ export function NutritionistChat() {
           onPress: async () => {
             try {
               setIsLoading(true);
-              console.log("Ending session with ID:", currentSession.id);
-              const result = await endSession({
+
+              // First end the chat session in the database
+              await endChatSession({
                 sessionId: currentSession.id as Id<"chatSessions">,
               });
-              console.log("Session ended successfully:", result);
+
+              // Then clear local state
               setCurrentSession(null);
               setSelectedNutritionist(null);
               setShowSessionSwitcher(false);

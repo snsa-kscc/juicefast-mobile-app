@@ -13,7 +13,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
-import { User, MessageSquare, LogOut } from "lucide-react-native";
+import { User, MessageSquare, Trash2 } from "lucide-react-native";
 
 interface ChatSession {
   id: Id<"chatSessions">;
@@ -51,6 +51,8 @@ export default function NutritionistDashboard() {
   const updateStatus = useMutation(
     api.nutritionistChat.updateNutritionistStatus
   );
+  const deleteChatSession = useMutation(api.nutritionistChat.deleteChatSession);
+  const endChatSession = useMutation(api.nutritionistChat.endChatSession);
 
   useEffect(() => {
     if (
@@ -95,6 +97,37 @@ export default function NutritionistDashboard() {
     setDisplayedChats((prev) => prev + 20);
   };
 
+  const handleDeleteChat = (chatId: Id<"chatSessions">, userName: string) => {
+    Alert.alert(
+      "Delete Chat",
+      `Are you sure you want to delete the chat with ${userName}? This action cannot be undone and will remove all messages.`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              // First end the chat session if it's active
+              await endChatSession({ sessionId: chatId });
+
+              // Then delete the chat session and all messages
+              await deleteChatSession({ sessionId: chatId });
+
+              // The UI will automatically update due to Convex reactivity
+            } catch (error) {
+              console.error("Failed to delete chat:", error);
+              Alert.alert("Error", "Failed to delete chat. Please try again.");
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const formatTime = (timestamp: number) => {
     const date = new Date(timestamp);
     const now = new Date();
@@ -127,24 +160,6 @@ export default function NutritionistDashboard() {
     if (chat.status === "ended")
       return { text: "Ended", color: "bg-gray-100 text-gray-800" };
     return { text: "Pending", color: "bg-yellow-100 text-yellow-800" };
-  };
-
-  const handleLogout = () => {
-    Alert.alert(
-      "Go Offline",
-      "Are you sure you want to go offline? You won't receive new chat requests.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Go Offline",
-          style: "destructive",
-          onPress: () => {
-            setIsOnline(false);
-            updateNutritionistOnlineStatus(false);
-          },
-        },
-      ]
-    );
   };
 
   if (
@@ -192,10 +207,6 @@ export default function NutritionistDashboard() {
               >
                 {isOnline ? "Online" : "Offline"}
               </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity className="p-2" onPress={handleLogout}>
-              <LogOut size={20} color="#8B7355" />
             </TouchableOpacity>
           </View>
         </View>
@@ -270,13 +281,15 @@ export default function NutritionistDashboard() {
             filteredChats.slice(0, displayedChats).map((chat) => {
               const statusInfo = getChatStatus(chat);
               return (
-                <TouchableOpacity
+                <View
                   key={chat.id}
                   className="bg-white rounded-xl p-4 mb-3 border border-gray-100"
-                  onPress={() => handleChatPress(chat.id)}
                 >
                   <View className="flex-row items-start justify-between">
-                    <View className="flex-1">
+                    <TouchableOpacity
+                      className="flex-1"
+                      onPress={() => handleChatPress(chat.id)}
+                    >
                       <View className="flex-row items-center mb-2">
                         <View className="w-8 h-8 bg-[#E1D5B9] rounded-full items-center justify-center mr-3">
                           <User size={16} color="#8B7355" />
@@ -316,16 +329,30 @@ export default function NutritionistDashboard() {
                           </Text>
                         </View>
                       )}
-                    </View>
+                    </TouchableOpacity>
 
-                    <View className="flex-col items-end">
-                      <MessageSquare size={16} color="#8B7355" />
+                    <View className="flex-col items-end ml-3">
+                      <View className="flex-row items-center gap-2">
+                        <MessageSquare size={16} color="#8B7355" />
+                        <TouchableOpacity
+                          onPress={() =>
+                            handleDeleteChat(
+                              chat.id,
+                              chat.userName ||
+                                `Client ${chat.userId.slice(0, 8)}`
+                            )
+                          }
+                          className="p-1 rounded-full bg-red-50 active:bg-red-100"
+                        >
+                          <Trash2 size={18} color="#EF4444" />
+                        </TouchableOpacity>
+                      </View>
                       <Text className="text-xs font-lufga text-gray-400 mt-2">
                         {formatTime(chat.lastMessageAt)}
                       </Text>
                     </View>
                   </View>
-                </TouchableOpacity>
+                </View>
               );
             })
           ) : (
