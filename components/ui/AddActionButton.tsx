@@ -158,7 +158,7 @@ export function AddActionButton() {
         visible={isOpen}
         transparent={true}
         animationType="slide"
-        presentationStyle={Platform.OS === "ios" ? "pageSheet" : undefined}
+        presentationStyle={Platform.OS === "ios" ? "overFullScreen" : undefined}
         onRequestClose={handleCloseModal}
       >
         {/* Floating Action Button - Inside Modal */}
