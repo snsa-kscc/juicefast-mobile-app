@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  FlatList,
   ScrollView,
   Alert,
   Keyboard,
@@ -47,7 +48,7 @@ export function NutritionistChat() {
     null
   );
   const [showSessionSwitcher, setShowSessionSwitcher] = useState(false);
-  const scrollViewRef = useRef<ScrollView>(null);
+  const flatListRef = useRef<FlatList>(null);
   const alertedSessionsRef = useRef<Set<string>>(new Set());
 
   // Convex hooks - only execute when user is authenticated
@@ -85,12 +86,6 @@ export function NutritionistChat() {
     };
   }, []);
 
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      scrollViewRef.current?.scrollToEnd({ animated: true });
-    }, 100);
-  };
-
   // Convert realtime messages to the expected Message interface format
   const messages = useMemo(() => {
     if (!realtimeMessages) return [];
@@ -104,10 +99,6 @@ export function NutritionistChat() {
       isRead: msg.isRead,
     }));
   }, [realtimeMessages]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
   // Track active session for push notification suppression
   useEffect(() => {
@@ -332,8 +323,15 @@ export function NutritionistChat() {
     );
   };
 
-  // Show loading state while initial data is loading
-  if (!nutritionists || !userSessions) {
+  // Show loading state while initial data is loading or when we expect to restore a session
+  const hasActiveSessions = userSessions?.some((s) => s.status === "active");
+  const shouldShowLoading =
+    !nutritionists ||
+    !userSessions ||
+    (sessionId && !currentSession) ||
+    (hasActiveSessions && !currentSession && !sessionId);
+
+  if (shouldShowLoading) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#E1D5B9" />
@@ -599,15 +597,16 @@ export function NutritionistChat() {
       </View>
 
       {/* Messages */}
-      <ScrollView
-        ref={scrollViewRef}
+      <FlatList
+        ref={flatListRef}
         className="flex-1 px-4 py-2"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      >
-        {messages.map((message) => (
+        contentContainerStyle={{ paddingTop: 20 }}
+        inverted
+        data={[...messages].reverse()}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item: message }) => (
           <View
-            key={message.id}
             className={`mb-4 ${message.senderType === "user" ? "items-end" : "items-start"}`}
           >
             <View
@@ -631,16 +630,17 @@ export function NutritionistChat() {
               {formatTime(message.timestamp)}
             </Text>
           </View>
-        ))}
-
-        {isLoading && (
-          <View className="items-end mb-4">
-            <View className="bg-[#E1D5B9] px-4 py-3 rounded-2xl rounded-br-md">
-              <ActivityIndicator size="small" color="#8B7355" />
-            </View>
-          </View>
         )}
-      </ScrollView>
+        ListFooterComponent={
+          isLoading ? (
+            <View className="items-end mb-4">
+              <View className="bg-[#E1D5B9] px-4 py-3 rounded-2xl rounded-br-md">
+                <ActivityIndicator size="small" color="#8B7355" />
+              </View>
+            </View>
+          ) : null
+        }
+      />
 
       {/* Input */}
       <View className="px-4 py-2 bg-white border-t border-gray-100">

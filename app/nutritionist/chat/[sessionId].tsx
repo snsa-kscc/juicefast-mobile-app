@@ -4,7 +4,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
   Alert,
   Keyboard,
   ActivityIndicator,
@@ -31,7 +31,7 @@ export default function NutritionistChatSession() {
   const { user } = useUser();
   const router = useRouter();
   const { sessionId } = useLocalSearchParams();
-  const scrollViewRef = useRef<ScrollView>(null);
+  const flatListRef = useRef<FlatList>(null);
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
@@ -52,7 +52,6 @@ export default function NutritionistChatSession() {
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
       setKeyboardHeight(e.endCoordinates.height);
-      scrollToBottom();
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardHeight(0);
@@ -102,16 +101,6 @@ export default function NutritionistChatSession() {
       }
     }
   }, [messagesData, sessionId, markAsRead]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      scrollViewRef.current?.scrollToEnd({ animated: true });
-    }, 100);
-  };
 
   const handleSend = async () => {
     if (!inputText.trim() || isLoading || !sessionId || !currentSession) return;
@@ -234,15 +223,16 @@ export default function NutritionistChatSession() {
       </View>
 
       {/* Messages */}
-      <ScrollView
-        ref={scrollViewRef}
+      <FlatList
+        ref={flatListRef}
         className="flex-1 px-4 py-2"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      >
-        {messages.map((message) => (
+        contentContainerStyle={{ paddingTop: 20 }}
+        inverted
+        data={[...messages].reverse()}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item: message }) => (
           <View
-            key={message.id}
             className={`mb-4 ${message.senderType === "nutritionist" ? "items-end" : "items-start"}`}
           >
             <View
@@ -275,16 +265,17 @@ export default function NutritionistChatSession() {
               )}
             </View>
           </View>
-        ))}
-
-        {isLoading && (
-          <View className="items-end mb-4">
-            <View className="bg-[#8B7355] px-4 py-3 rounded-2xl rounded-br-md">
-              <ActivityIndicator size="small" color="white" />
-            </View>
-          </View>
         )}
-      </ScrollView>
+        ListFooterComponent={
+          isLoading ? (
+            <View className="items-end mb-4">
+              <View className="bg-[#8B7355] px-4 py-3 rounded-2xl rounded-br-md">
+                <ActivityIndicator size="small" color="white" />
+              </View>
+            </View>
+          ) : null
+        }
+      />
 
       {/* Input */}
       <View className="px-4 py-3 bg-white border-t border-gray-100">
@@ -298,7 +289,6 @@ export default function NutritionistChatSession() {
             multiline
             textAlignVertical="top"
             onSubmitEditing={handleSend}
-            onFocus={scrollToBottom}
             editable={currentSession.status === "active"}
           />
           <TouchableOpacity
