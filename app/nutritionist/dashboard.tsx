@@ -38,7 +38,7 @@ export default function NutritionistDashboard() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isOnline, setIsOnline] = useState(false);
   const [filter, setFilter] = useState<"all" | "active" | "ended">("all");
-  const [displayedChats, setDisplayedChats] = useState(20);
+  const [displayedChats, setDisplayedChats] = useState(10);
 
   const chats = useQuery(
     api.nutritionistChat.getNutritionistSessions,
@@ -78,9 +78,9 @@ export default function NutritionistDashboard() {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    setDisplayedChats(20); // Reset pagination on refresh
+    setDisplayedChats(10); // Reset pagination on refresh
     // Refetch queries will happen automatically
-    setTimeout(() => setIsRefreshing(false), 1000);
+    setTimeout(() => setIsRefreshing(false), 500);
   };
 
   const toggleOnlineStatus = () => {
@@ -94,7 +94,7 @@ export default function NutritionistDashboard() {
   };
 
   const handleLoadMore = () => {
-    setDisplayedChats((prev) => prev + 20);
+    setDisplayedChats((prev) => prev + 5);
   };
 
   const handleDeleteChat = (chatId: Id<"chatSessions">, userName: string) => {
@@ -165,11 +165,13 @@ export default function NutritionistDashboard() {
   if (
     !user ||
     (user.unsafeMetadata?.role !== "nutritionist" &&
-      user.unsafeMetadata?.role !== "admin")
+      user.unsafeMetadata?.role !== "admin") ||
+    !chats
   ) {
     return (
       <View className="flex-1 bg-[#FCFBF8] items-center justify-center">
         <ActivityIndicator size="large" color="#2d2d2d" />
+        <Text className="text-gray-600 font-lufga mt-4">Loading chats...</Text>
       </View>
     );
   }
