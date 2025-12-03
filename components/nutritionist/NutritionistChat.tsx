@@ -39,6 +39,7 @@ export function NutritionistChat() {
   const { sessionId } = useLocalSearchParams();
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isEndingSession, setIsEndingSession] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [selectedNutritionist, setSelectedNutritionist] =
     useState<Nutritionist | null>(null);
@@ -303,7 +304,7 @@ export function NutritionistChat() {
           style: "destructive",
           onPress: async () => {
             try {
-              setIsLoading(true);
+              setIsEndingSession(true);
 
               // First end the chat session in the database
               await endChatSession({
@@ -315,9 +316,7 @@ export function NutritionistChat() {
               setSelectedNutritionist(null);
               setShowSessionSwitcher(false);
               Alert.alert("Success", "Chat has been ended.");
-              setTimeout(() => {
-                router.push("/chat/nutritionist");
-              }, 1000);
+              router.replace("/chat/nutritionist");
             } catch (error: any) {
               console.error("Failed to end session:", error);
               Alert.alert(
@@ -325,13 +324,25 @@ export function NutritionistChat() {
                 `Failed to end chat: ${error.message || "Please try again."}`
               );
             } finally {
-              setIsLoading(false);
+              setIsEndingSession(false);
             }
           },
         },
       ]
     );
   };
+
+  // Show loading state while initial data is loading
+  if (!nutritionists || !userSessions) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#E1D5B9" />
+        <Text className="text-gray-600 font-lufga mt-4">
+          Loading nutritionists...
+        </Text>
+      </View>
+    );
+  }
 
   // Show nutritionist selection if no nutritionist selected
   if (!selectedNutritionist) {
@@ -533,12 +544,12 @@ export function NutritionistChat() {
             {/* End session button - only show when there's an active session */}
             {currentSession && currentSession.status === "active" && (
               <TouchableOpacity
-                className={`bg-red-100 px-2 py-1 rounded-full ${isLoading ? "opacity-50" : ""}`}
+                className={`bg-red-100 px-2 py-1 rounded-full ${isEndingSession ? "opacity-50" : ""}`}
                 onPress={handleEndSession}
-                disabled={isLoading}
+                disabled={isEndingSession}
               >
                 <Text className="text-red-600 text-xs font-lufga-medium">
-                  {isLoading ? "Ending..." : "End chat"}
+                  {isEndingSession ? "Ending..." : "End chat"}
                 </Text>
               </TouchableOpacity>
             )}
@@ -623,9 +634,9 @@ export function NutritionistChat() {
         ))}
 
         {isLoading && (
-          <View className="items-start mb-4">
-            <View className="bg-white px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
-              <ActivityIndicator size="small" color="#E1D5B9" />
+          <View className="items-end mb-4">
+            <View className="bg-[#E1D5B9] px-4 py-3 rounded-2xl rounded-br-md">
+              <ActivityIndicator size="small" color="#8B7355" />
             </View>
           </View>
         )}
