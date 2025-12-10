@@ -14,6 +14,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { User, MessageSquare, Trash2 } from "lucide-react-native";
+import { WellnessHeader } from "@/components/ui/CustomHeader";
 
 interface ChatSession {
   id: Id<"chatSessions">;
@@ -177,40 +178,39 @@ export default function NutritionistDashboard() {
   }
 
   return (
-    <View className="flex-1 bg-jf-gray pt-4">
-      {/* Header */}
-      <View className="bg-white px-4 py-4 border-b border-gray-100">
-        <View className="flex-row items-center justify-between">
-          <View>
-            <Text className="text-2xl font-lufga-bold text-gray-900">
-              Nutritionist Dashboard
-            </Text>
-            <Text className="text-sm font-lufga text-gray-600 mt-1">
-              Welcome back, {user.firstName || user.username}
-            </Text>
-          </View>
+    <View className="flex-1 bg-jf-gray">
+      <WellnessHeader
+        title="Nutritionist Dashboard"
+        subtitle={`Welcome back, ${user.firstName || user.username}`}
+        accentColor="#8B7355"
+        backgroundColor="white"
+        showBackButton={true}
+        showSettings={false}
+        onBackPress={() => router.back()}
+      />
 
-          <View className="flex-row items-center space-x-3">
-            <TouchableOpacity
-              className={`px-3 py-1 rounded-full flex-row items-center ${
-                isOnline ? "bg-green-100" : "bg-gray-200"
+      {/* Online Status Toggle */}
+      <View className="bg-white px-6 pb-3 border-b border-gray-100">
+        <View className="flex-row justify-end">
+          <TouchableOpacity
+            className={`px-3 py-1 rounded-full flex-row items-center ${
+              isOnline ? "bg-green-100" : "bg-gray-200"
+            }`}
+            onPress={toggleOnlineStatus}
+          >
+            <View
+              className={`w-2 h-2 rounded-full mr-2 ${
+                isOnline ? "bg-green-500" : "bg-gray-500"
               }`}
-              onPress={toggleOnlineStatus}
+            />
+            <Text
+              className={`text-xs font-lufga-medium ${
+                isOnline ? "text-green-800" : "text-gray-600"
+              }`}
             >
-              <View
-                className={`w-2 h-2 rounded-full mr-2 ${
-                  isOnline ? "bg-green-500" : "bg-gray-500"
-                }`}
-              />
-              <Text
-                className={`text-xs font-lufga-medium ${
-                  isOnline ? "text-green-800" : "text-gray-600"
-                }`}
-              >
-                {isOnline ? "Online" : "Offline"}
-              </Text>
-            </TouchableOpacity>
-          </View>
+              {isOnline ? "Online" : "Offline"}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
 

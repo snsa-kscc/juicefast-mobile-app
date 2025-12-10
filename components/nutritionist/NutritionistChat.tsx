@@ -56,6 +56,32 @@ export function NutritionistChat() {
     api.nutritionistChat.getNutritionists,
     user ? undefined : "skip"
   );
+
+  // Filter nutritionists based on current user's role
+  const visibleNutritionists = (() => {
+    if (!nutritionists || !user) return [];
+
+    const userRole = user.unsafeMetadata.role as string;
+
+    switch (userRole) {
+      case "admin":
+        // Admin can see nutritionists and other admins (everyone)
+        return nutritionists;
+      case "nutritionist":
+        // Nutritionist can see admins and other nutritionists (but not themselves)
+        return nutritionists.filter((person) => person.id !== user.id);
+      case "user":
+        // User can see only nutritionists (filter out admins by specialization)
+        return nutritionists.filter(
+          (person) => person.specialization !== "System Administrator"
+        );
+      default:
+        // Default to showing only nutritionists for safety
+        return nutritionists.filter(
+          (person) => person.specialization !== "System Administrator"
+        );
+    }
+  })();
   const userSessions = useQuery(
     api.nutritionistChat.getUserSessions,
     user ? undefined : "skip"
@@ -414,8 +440,8 @@ export function NutritionistChat() {
         )}
 
         <ScrollView showsVerticalScrollIndicator={false} className="px-4">
-          {nutritionists && nutritionists.length > 0 ? (
-            nutritionists.map((nutritionist) => {
+          {visibleNutritionists && visibleNutritionists.length > 0 ? (
+            visibleNutritionists.map((nutritionist) => {
               // Check if user already has active session with this nutritionist
               const hasActiveSession = userSessions?.some(
                 (session) =>

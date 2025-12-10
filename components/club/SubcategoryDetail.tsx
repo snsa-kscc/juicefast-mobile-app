@@ -129,27 +129,35 @@ export function SubcategoryDetail({
 
       {/* Featured Image Header */}
       {headerImageUrl && title && (
-        <View className="relative h-56 mb-4">
-          <Image source={{ uri: headerImageUrl }} className="w-full h-full" />
-          <View className="absolute bottom-0 left-0 right-0 bg-black/30 p-6">
-            <View className="self-start">
-              <Text className="text-2xl font-lufga-bold text-white mb-1">
-                {title}
+        <View className="px-4 pt-4 mb-6">
+          <View className="relative rounded-2xl overflow-hidden shadow-lg mb-6">
+            <Image
+              source={
+                typeof headerImageUrl === "string"
+                  ? { uri: headerImageUrl }
+                  : headerImageUrl
+              }
+              className="w-full h-64"
+              resizeMode="cover"
+            />
+          </View>
+          <View className="px-2">
+            <Text className="text-3xl font-lufga-bold text-gray-900 mb-2 leading-tight">
+              {title}
+            </Text>
+            {subtitle && (
+              <Text className="text-lg font-lufga-medium text-gray-700 mb-3 leading-relaxed">
+                {subtitle}
               </Text>
-              {subtitle && (
-                <Text className="text-base font-lufga-medium text-white mb-2">
-                  {subtitle}
-                </Text>
-              )}
-              {description && (
-                <Text
-                  className="text-sm font-lufga text-white leading-5 max-w-[280px]"
-                  numberOfLines={3}
-                >
-                  {description}
-                </Text>
-              )}
-            </View>
+            )}
+            {description && (
+              <Text
+                className="text-base font-lufga text-gray-600 leading-relaxed max-w-[320px]"
+                numberOfLines={3}
+              >
+                {description}
+              </Text>
+            )}
           </View>
         </View>
       )}

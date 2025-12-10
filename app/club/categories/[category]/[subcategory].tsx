@@ -68,17 +68,19 @@ export default function SubcategoryPage() {
     return (
       <View className="flex-1 bg-jf-gray">
         <SubcategoryDetail
-          title="Subcategory Not Found"
-          description="The wellness subcategory you're looking for doesn't exist."
+          title="Coming Soon"
+          subtitle="This wellness subcategory is on its way!"
+          description="We're working hard to bring you amazing content."
           items={[]}
           onItemPress={handleItemClick}
           itemWrapper={itemWrapper}
           shouldDisablePress={shouldDisablePress}
           isPremiumOnAnyPlatform={isPremiumOnAnyPlatform}
+          featuredImageUrl={require("@/assets/images/jf-club/affirmations.jpg")}
           headerComponent={
             <WellnessHeader
-              title="Subcategory Not Found"
-              subtitle="The wellness subcategory you're looking for doesn't exist"
+              title="Almost there!"
+              subtitle=""
               showBackButton={true}
               onBackPress={handleBack}
               showSettings={false}
