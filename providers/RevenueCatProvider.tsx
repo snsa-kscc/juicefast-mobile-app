@@ -50,10 +50,16 @@ export function RevenueCatProvider({
       let apiKey: string | null = null;
       switch (Platform.OS) {
         case "ios":
-          apiKey = process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY ?? null;
+          apiKey =
+            (__DEV__
+              ? process.env.EXPO_PUBLIC_REVENUECAT_DEV_API_KEY
+              : process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY) ?? null;
           break;
         case "android":
-          apiKey = process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY ?? null;
+          apiKey =
+            (__DEV__
+              ? process.env.EXPO_PUBLIC_REVENUECAT_DEV_API_KEY
+              : process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY) ?? null;
           break;
         default:
           apiKey = null;
