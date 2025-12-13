@@ -4,9 +4,7 @@ export default () => {
   return {
     expo: {
       name: process.env.DEV_APP_ID ? "Juicefast DEV" : "Juicefast AI",
-      slug: process.env.DEV_APP_ID
-        ? "juicefast-nutrition-app-dev"
-        : "juicefast-nutrition-app",
+      slug: "juicefast-nutrition-app",
       version: "1.0.2",
       orientation: "portrait",
       icon: "./assets/images/jf-picto.png",
