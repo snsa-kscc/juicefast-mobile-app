@@ -303,9 +303,9 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           <Text className="text-2xl font-lufga-semibold tracking-widest">
             WELLNESS SCORE
           </Text>
-          <View className="w-8 h-8 rounded-full bg-gray-100 justify-center items-center">
+          {/* <View className="w-8 h-8 rounded-full bg-gray-100 justify-center items-center">
             <Text className="text-base text-slate-600 font-lufga-bold">i</Text>
-          </View>
+          </View> */}
         </View>
         <Text className="font-lufga text-sm text-gray-500 mb-6">
           {isToday
