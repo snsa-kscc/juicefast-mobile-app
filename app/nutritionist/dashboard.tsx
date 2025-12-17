@@ -42,6 +42,11 @@ export default function NutritionistDashboard() {
   const [filter, setFilter] = useState<"all" | "active" | "ended">("all");
   const [displayedChats, setDisplayedChats] = useState(10);
 
+  const nutritionistStatus = useQuery(
+    api.nutritionistChat.getNutritionistStatus,
+    user ? undefined : "skip"
+  );
+
   const chats = useQuery(
     api.nutritionistChat.getNutritionistSessions,
     user ? undefined : "skip"
@@ -68,9 +73,11 @@ export default function NutritionistDashboard() {
       router.replace("/chat");
       return;
     }
-    setIsOnline(true);
-    updateNutritionistOnlineStatus(true);
-  }, [user]);
+    // Set the actual online status from database
+    if (nutritionistStatus !== undefined) {
+      setIsOnline(nutritionistStatus);
+    }
+  }, [user, nutritionistStatus]);
 
   const updateNutritionistOnlineStatus = async (online: boolean) => {
     if (!user) return;

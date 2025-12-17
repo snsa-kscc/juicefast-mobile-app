@@ -590,6 +590,20 @@ export const deleteChatSession = mutation({
   },
 });
 
+export const getNutritionistStatus = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+
+    const nutritionist = await ctx.db
+      .query("nutritionists")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    return nutritionist?.isOnline || false;
+  },
+});
+
 export const getActiveSessionsForNutritionist = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
