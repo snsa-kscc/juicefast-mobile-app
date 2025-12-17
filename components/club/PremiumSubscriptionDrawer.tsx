@@ -15,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRevenueCat } from "@/providers/RevenueCatProvider";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 interface PremiumSubscriptionDrawerProps {
   children: React.ReactNode;
@@ -56,7 +57,7 @@ export function PremiumSubscriptionDrawer({
     }
 
     if (!selectedPackage) {
-      Alert.alert(
+      showCrossPlatformAlert(
         "Package Not Available",
         "The selected subscription package is currently unavailable. Please try again later.",
         [{ text: "OK" }]
@@ -70,14 +71,14 @@ export function PremiumSubscriptionDrawer({
       const result = await purchasePackage(selectedPackage);
       if (result.success) {
         closeDrawer();
-        Alert.alert(
+        showCrossPlatformAlert(
           "Welcome to Premium!",
           "You now have access to all premium content and features.",
           [{ text: "Awesome!" }]
         );
       }
     } catch (error: any) {
-      Alert.alert(
+      showCrossPlatformAlert(
         "Purchase Failed",
         error.message || "Something went wrong. Please try again.",
         [{ text: "OK" }]
@@ -92,21 +93,21 @@ export function PremiumSubscriptionDrawer({
       await restorePurchases();
       // Check subscription status after restore
       if (isMobileAppSubscribed) {
-        Alert.alert(
+        showCrossPlatformAlert(
           "Purchases Restored",
           "Your purchases have been successfully restored.",
           [{ text: "OK" }]
         );
         closeDrawer();
       } else {
-        Alert.alert(
+        showCrossPlatformAlert(
           "No Purchases Found",
           "We couldn't find any previous purchases to restore.",
           [{ text: "OK" }]
         );
       }
     } catch (error: any) {
-      Alert.alert(
+      showCrossPlatformAlert(
         "Restore Failed",
         error.message ||
           "Something went wrong while restoring purchases. Please try again.",

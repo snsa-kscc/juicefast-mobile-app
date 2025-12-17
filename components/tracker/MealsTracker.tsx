@@ -16,6 +16,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { TrackerButton, WellnessHeader } from "@/components/tracker/shared";
 import { generateAPIUrl } from "@/utils";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
@@ -145,7 +146,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
         fat: mealData.fat,
         meal_type: selectedMealType!,
       });
-      Alert.alert("Success", "Meal added successfully!");
+      showCrossPlatformAlert("Success", "Meal added successfully!");
       setSelectedMealType(null);
     } catch (error) {
       console.error("Failed to save meal data:", error);
@@ -161,7 +162,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
     try {
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
       if (status !== "granted") {
-        Alert.alert(
+        showCrossPlatformAlert(
           "Permission needed",
           "Camera permission is required to take photos"
         );
@@ -181,7 +182,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
           await handleMealAdded(analyzedMeal);
         } catch (error) {
           console.error("Camera analysis error:", error);
-          Alert.alert(
+          showCrossPlatformAlert(
             "Error",
             "Failed to analyze meal. Please try manual entry."
           );
@@ -190,7 +191,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
         }
       }
     } catch {
-      Alert.alert("Error", "Failed to access camera");
+      showCrossPlatformAlert("Error", "Failed to access camera");
     }
   };
 
@@ -199,7 +200,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        Alert.alert(
+        showCrossPlatformAlert(
           "Permission needed",
           "Gallery permission is required to select photos"
         );
@@ -219,7 +220,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
           await handleMealAdded(analyzedMeal);
         } catch (error) {
           console.error("Gallery analysis error:", error);
-          Alert.alert(
+          showCrossPlatformAlert(
             "Error",
             "Failed to analyze meal. Please try manual entry."
           );
@@ -228,7 +229,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
         }
       }
     } catch {
-      Alert.alert("Error", "Failed to access gallery");
+      showCrossPlatformAlert("Error", "Failed to access gallery");
     }
   };
 
@@ -242,7 +243,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
     if (!formData.fat.trim()) missingFields.push("Fat");
 
     if (missingFields.length > 0) {
-      Alert.alert(
+      showCrossPlatformAlert(
         "Missing Fields",
         `Please fill in: ${missingFields.join(", ")}`
       );
@@ -270,7 +271,10 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
         description: "",
       });
     } catch {
-      Alert.alert("Validation Error", "Please check your input values");
+      showCrossPlatformAlert(
+        "Validation Error",
+        "Please check your input values"
+      );
     }
   };
 

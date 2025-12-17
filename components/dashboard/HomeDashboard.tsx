@@ -13,6 +13,7 @@ import {
   Alert,
   Image,
 } from "react-native";
+import { showCrossPlatformAlert } from "@/utils/alert";
 import { api } from "@/convex/_generated/api";
 import { CircularProgress, WellnessHeader } from "@/components/tracker/shared";
 import { DaySelector } from "@/components/dashboard/DaySelector";
@@ -609,7 +610,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
             <TouchableOpacity
               className="bg-orange-500 px-6 py-4 rounded-xl mb-4"
               onPress={() => {
-                Alert.alert(
+                showCrossPlatformAlert(
                   "Test Restore Flow",
                   "This will simulate losing your subscription so you can test the restore functionality.",
                   [
@@ -619,7 +620,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                       style: "destructive",
                       onPress: () => {
                         simulateNoSubscription();
-                        Alert.alert(
+                        showCrossPlatformAlert(
                           "Debug Mode",
                           "Subscription state cleared. Navigate to the Club tab to see the paywall, then tap 'Restore Purchases' to test the restore flow.",
                           [{ text: "OK" }]
@@ -639,7 +640,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
               className="bg-red-600 px-6 py-4 rounded-xl mb-4"
               onPress={() => {
                 clearCache();
-                Alert.alert(
+                showCrossPlatformAlert(
                   "Cache Cleared",
                   "Subscription cache has been cleared. The app will fetch fresh data on next check.",
                   [{ text: "OK" }]
@@ -654,7 +655,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
               className="bg-blue-600 px-6 py-4 rounded-xl mb-4"
               onPress={async () => {
                 await debugReferralSystem();
-                Alert.alert(
+                showCrossPlatformAlert(
                   "Referral System Debug",
                   "Referral system debug completed.",
                   [{ text: "OK" }]
@@ -670,13 +671,13 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
               onPress={async () => {
                 try {
                   await ReferralStorage.removeReferralCode();
-                  Alert.alert(
+                  showCrossPlatformAlert(
                     "Referral Code Cleared",
                     "Stored referral code has been removed successfully.",
                     [{ text: "OK" }]
                   );
                 } catch (error) {
-                  Alert.alert(
+                  showCrossPlatformAlert(
                     "Error",
                     "Failed to clear referral code. Please try again.",
                     [{ text: "OK" }]

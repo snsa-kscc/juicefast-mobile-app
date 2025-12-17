@@ -12,6 +12,7 @@ import {
   getPushToken,
   sendPushNotification,
 } from "@/services/messagingService";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 export default function PushNotificationTest() {
   const [myToken, setMyToken] = useState("");
@@ -42,17 +43,17 @@ export default function PushNotificationTest() {
 
   const handleSend = async () => {
     if (!otherToken || !message) {
-      Alert.alert("Error", "Enter token and message");
+      showCrossPlatformAlert("Error", "Enter token and message");
       return;
     }
 
     setIsSending(true);
     try {
       await sendPushNotification(otherToken, "Test User", message, "chat-123");
-      Alert.alert("Success", "Notification sent!");
+      showCrossPlatformAlert("Success", "Notification sent!");
       setMessage("");
     } catch (error) {
-      Alert.alert(
+      showCrossPlatformAlert(
         "Error",
         error instanceof Error ? error.message : "Failed to send notification"
       );
@@ -63,17 +64,17 @@ export default function PushNotificationTest() {
 
   const handleSendToSelf = async () => {
     if (!myToken || !message) {
-      Alert.alert("Error", "Wait for token or enter message");
+      showCrossPlatformAlert("Error", "Wait for token or enter message");
       return;
     }
 
     setIsSending(true);
     try {
       await sendPushNotification(myToken, "Self Test", message, "chat-123");
-      Alert.alert("Success", "Test notification sent to yourself!");
+      showCrossPlatformAlert("Success", "Test notification sent to yourself!");
       setMessage("");
     } catch (error) {
-      Alert.alert(
+      showCrossPlatformAlert(
         "Error",
         error instanceof Error ? error.message : "Failed to send notification"
       );

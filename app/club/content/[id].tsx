@@ -15,6 +15,7 @@ import { CLUB_DATA } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
 import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 export default function ClubContentDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -103,12 +104,15 @@ export default function ClubContentDetail() {
   const handlePlayPress = async () => {
     if (item.type === "video") {
       if (!item.url) {
-        Alert.alert("Error", "Video URL is not available for this content.");
+        showCrossPlatformAlert(
+          "Error",
+          "Video URL is not available for this content."
+        );
         return;
       }
 
       if (!player) {
-        Alert.alert("Error", "Video player is not available.");
+        showCrossPlatformAlert("Error", "Video player is not available.");
         return;
       }
 
@@ -118,7 +122,7 @@ export default function ClubContentDetail() {
         try {
           player.play();
         } catch {
-          Alert.alert(
+          showCrossPlatformAlert(
             "Playback Error",
             "Unable to load video. The stream may be unavailable."
           );
@@ -132,7 +136,7 @@ export default function ClubContentDetail() {
             player.play();
           }
         } catch {
-          Alert.alert(
+          showCrossPlatformAlert(
             "Playback Error",
             "Unable to control video playback. Please try again."
           );
@@ -145,12 +149,15 @@ export default function ClubContentDetail() {
     ) {
       // Handle audio content types
       if (!item.url) {
-        Alert.alert("Error", "Audio URL is not available for this content.");
+        showCrossPlatformAlert(
+          "Error",
+          "Audio URL is not available for this content."
+        );
         return;
       }
 
       if (!player) {
-        Alert.alert("Error", "Audio player is not available.");
+        showCrossPlatformAlert("Error", "Audio player is not available.");
         return;
       }
 
@@ -160,7 +167,7 @@ export default function ClubContentDetail() {
         try {
           player.play();
         } catch {
-          Alert.alert(
+          showCrossPlatformAlert(
             "Playback Error",
             "Unable to start audio playback. Please try again."
           );
@@ -174,7 +181,7 @@ export default function ClubContentDetail() {
             player.play();
           }
         } catch {
-          Alert.alert(
+          showCrossPlatformAlert(
             "Playback Error",
             "Unable to control audio playback. Please try again."
           );
@@ -182,7 +189,7 @@ export default function ClubContentDetail() {
       }
     } else {
       // Handle other content types
-      Alert.alert(
+      showCrossPlatformAlert(
         "Content Not Supported",
         "This content type is not yet supported."
       );

@@ -15,6 +15,7 @@ import { useUser } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { User, MessageSquare, Trash2 } from "lucide-react-native";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 interface ChatSession {
   id: Id<"chatSessions">;
@@ -60,7 +61,10 @@ export default function NutritionistDashboard() {
       user?.unsafeMetadata?.role !== "nutritionist" &&
       user?.unsafeMetadata?.role !== "admin"
     ) {
-      Alert.alert("Access Denied", "This area is for nutritionists only.");
+      showCrossPlatformAlert(
+        "Access Denied",
+        "This area is for nutritionists only."
+      );
       router.replace("/chat");
       return;
     }
@@ -99,7 +103,7 @@ export default function NutritionistDashboard() {
   };
 
   const handleDeleteChat = (chatId: Id<"chatSessions">, userName: string) => {
-    Alert.alert(
+    showCrossPlatformAlert(
       "Delete Chat",
       `Are you sure you want to delete the chat with ${userName}? This action cannot be undone and will remove all messages.`,
       [
@@ -121,7 +125,10 @@ export default function NutritionistDashboard() {
               // The UI will automatically update due to Convex reactivity
             } catch (error) {
               console.error("Failed to delete chat:", error);
-              Alert.alert("Error", "Failed to delete chat. Please try again.");
+              showCrossPlatformAlert(
+                "Error",
+                "Failed to delete chat. Please try again."
+              );
             }
           },
         },

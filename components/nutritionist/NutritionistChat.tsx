@@ -17,6 +17,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { setActiveSessionId } from "@/services/messagingService";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 interface Nutritionist {
   id: string;
@@ -201,7 +202,7 @@ export function NutritionistChat() {
       setCurrentSession(null);
       setSelectedNutritionist(null);
       setShowSessionSwitcher(false);
-      Alert.alert(
+      showCrossPlatformAlert(
         "Chat Ended",
         "The nutritionist has ended this chat session. You can start a new chat if you need more assistance."
       );
@@ -288,7 +289,7 @@ export function NutritionistChat() {
       }
     } catch (error: any) {
       console.error("Failed to send message:", error);
-      Alert.alert(
+      showCrossPlatformAlert(
         "Error",
         error.message || "Failed to send message. Please try again."
       );
@@ -307,11 +308,11 @@ export function NutritionistChat() {
 
   const handleEndSession = async () => {
     if (!currentSession) {
-      Alert.alert("Error", "No active session to end.");
+      showCrossPlatformAlert("Error", "No active session to end.");
       return;
     }
 
-    Alert.alert(
+    showCrossPlatformAlert(
       "End Chat",
       "Are you sure you want to end this chat? This will close your conversation and you will need to start a new chat to chat again.",
       [
@@ -332,11 +333,11 @@ export function NutritionistChat() {
               setCurrentSession(null);
               setSelectedNutritionist(null);
               setShowSessionSwitcher(false);
-              Alert.alert("Success", "Chat has been ended.");
+              showCrossPlatformAlert("Success", "Chat has been ended.");
               router.replace("/chat/nutritionist");
             } catch (error: any) {
               console.error("Failed to end session:", error);
-              Alert.alert(
+              showCrossPlatformAlert(
                 "Error",
                 `Failed to end chat: ${error.message || "Please try again."}`
               );

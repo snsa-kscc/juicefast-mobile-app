@@ -10,6 +10,7 @@ import { WebView } from "react-native-webview";
 import { ThemedView } from "@/components/ThemedView";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 export default function StoreScreen() {
   const { link } = useLocalSearchParams<{ link?: string }>();
@@ -29,7 +30,7 @@ export default function StoreScreen() {
     // Prevent back navigation for guests
     const backHandler = () => {
       if (!isSignedIn) {
-        Alert.alert(
+        showCrossPlatformAlert(
           "Sign In Required",
           "You need to create an account or sign in to access other features.",
           [

@@ -16,6 +16,7 @@ import { useUser } from "@clerk/clerk-expo";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Send, User, ArrowLeft, X } from "lucide-react-native";
 import { setActiveSessionId } from "@/services/messagingService";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 interface Message {
   id: Id<"chatMessages">;
@@ -69,7 +70,10 @@ export default function NutritionistChatSession() {
       (user.unsafeMetadata?.role !== "nutritionist" &&
         user.unsafeMetadata?.role !== "admin")
     ) {
-      Alert.alert("Access Denied", "This area is for nutritionists only.");
+      showCrossPlatformAlert(
+        "Access Denied",
+        "This area is for nutritionists only."
+      );
       router.replace("/chat");
       return;
     }
@@ -119,7 +123,10 @@ export default function NutritionistChatSession() {
     } catch (error) {
       console.error("Failed to send message:", error);
       setIsLoading(false);
-      Alert.alert("Error", "Failed to send message. Please try again.");
+      showCrossPlatformAlert(
+        "Error",
+        "Failed to send message. Please try again."
+      );
     }
   };
 
@@ -136,11 +143,11 @@ export default function NutritionistChatSession() {
 
   const handleEndSession = async () => {
     if (!currentSession || currentSession.status !== "active") {
-      Alert.alert("Error", "No active session to end.");
+      showCrossPlatformAlert("Error", "No active session to end.");
       return;
     }
 
-    Alert.alert(
+    showCrossPlatformAlert(
       "End Chat",
       "Are you sure you want to end this chat? This will close your conversation.",
       [
@@ -151,11 +158,11 @@ export default function NutritionistChatSession() {
           onPress: async () => {
             try {
               await endSession({ sessionId: sessionId as Id<"chatSessions"> });
-              Alert.alert("Success", "Chat has been ended.");
+              showCrossPlatformAlert("Success", "Chat has been ended.");
               router.back();
             } catch (error: any) {
               console.error("Failed to end chat:", error);
-              Alert.alert(
+              showCrossPlatformAlert(
                 "Error",
                 `Failed to end chat: ${error.message || "Please try again."}`
               );

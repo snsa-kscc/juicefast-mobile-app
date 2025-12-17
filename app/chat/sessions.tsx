@@ -14,6 +14,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { User, MessageSquare, ArrowLeft } from "lucide-react-native";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 interface ChatSession {
   id: Id<"chatSessions">;
@@ -51,7 +52,10 @@ export default function UserSessions() {
 
   useEffect(() => {
     if (!user) {
-      Alert.alert("Access Denied", "Please sign in to view your sessions.");
+      showCrossPlatformAlert(
+        "Access Denied",
+        "Please sign in to view your sessions."
+      );
       router.replace("/chat");
       return;
     }

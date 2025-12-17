@@ -43,6 +43,7 @@ import { EditNameModal } from "@/components/EditNameModal";
 import { EditPasswordModal } from "@/components/EditPasswordModal";
 import { EditDetailsModal } from "@/components/EditDetailsModal";
 import { usePaywall } from "@/hooks/usePaywall";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -113,7 +114,7 @@ export default function ProfileScreen() {
   ) => {
     try {
       if (!profile?.referralCode) {
-        Alert.alert("Error", "Referral code is required");
+        showCrossPlatformAlert("Error", "Referral code is required");
         return;
       }
 
@@ -149,17 +150,17 @@ export default function ProfileScreen() {
           : null
       );
 
-      Alert.alert("Success", "Profile updated successfully!");
+      showCrossPlatformAlert("Success", "Profile updated successfully!");
     } catch (error) {
       console.error("Failed to save profile:", error);
-      Alert.alert("Error", "Failed to save profile");
+      showCrossPlatformAlert("Error", "Failed to save profile");
     }
   };
 
   const { signOut, user: clerkUser } = useClerk();
 
   const handleLogout = async () => {
-    Alert.alert("Logout", "Are you sure you want to logout?", [
+    await showCrossPlatformAlert("Logout", "Are you sure you want to logout?", [
       { text: "Cancel", style: "cancel" },
       {
         text: "Logout",
@@ -185,7 +186,7 @@ export default function ProfileScreen() {
       ? "⚠️ You have an active subscription!\n\nYou can still delete your account, but please remember to cancel your subscription separately through your device's app store settings (App Store/Google Play) or on the website to avoid future charges.\n\nAre you sure you want to delete your account? This action cannot be undone. All your data will be permanently deleted."
       : "This action cannot be undone. All your data will be permanently deleted.";
 
-    Alert.alert("Delete Account", warningMessage, [
+    await showCrossPlatformAlert("Delete Account", warningMessage, [
       { text: "Cancel", style: "cancel" },
       {
         text: "Delete",
@@ -199,7 +200,10 @@ export default function ProfileScreen() {
             await SecureStore.deleteItemAsync("REFERRAL_CODE");
           } catch (error) {
             console.error("Delete account error:", error);
-            Alert.alert("Error", "Failed to delete account. Please try again.");
+            showCrossPlatformAlert(
+              "Error",
+              "Failed to delete account. Please try again."
+            );
           } finally {
             setIsDeletingAccount(false);
           }
@@ -214,7 +218,7 @@ export default function ProfileScreen() {
       lastName: lastName.trim(),
     });
     await user?.reload();
-    Alert.alert("Success", "Name updated successfully!");
+    showCrossPlatformAlert("Success", "Name updated successfully!");
   };
 
   const handleSavePassword = async (
@@ -225,7 +229,7 @@ export default function ProfileScreen() {
       currentPassword,
       newPassword,
     });
-    Alert.alert("Success", "Password updated successfully!");
+    showCrossPlatformAlert("Success", "Password updated successfully!");
   };
 
   const handleCopyReferralLink = async () => {
@@ -234,10 +238,10 @@ export default function ProfileScreen() {
     try {
       const referralLink = `https://juicefast.com/referral?code=${profile.referralCode}`;
       await Clipboard.setStringAsync(referralLink);
-      Alert.alert("Success", "Referral link copied to clipboard!");
+      showCrossPlatformAlert("Success", "Referral link copied to clipboard!");
     } catch (error) {
       console.error("Failed to copy link:", error);
-      Alert.alert("Error", "Failed to copy referral link");
+      showCrossPlatformAlert("Error", "Failed to copy referral link");
     }
   };
 
@@ -255,7 +259,7 @@ export default function ProfileScreen() {
       });
     } catch (error) {
       console.error("Failed to share link:", error);
-      Alert.alert("Error", "Failed to share referral link");
+      showCrossPlatformAlert("Error", "Failed to share referral link");
     }
   };
 
@@ -270,7 +274,7 @@ export default function ProfileScreen() {
         // Android deep link to Play Store subscriptions
         url = "https://play.google.com/store/account/subscriptions";
       } else {
-        Alert.alert(
+        showCrossPlatformAlert(
           "Not Available",
           "Subscription management is only available on mobile devices."
         );
@@ -282,11 +286,17 @@ export default function ProfileScreen() {
       if (supported) {
         await Linking.openURL(url);
       } else {
-        Alert.alert("Error", "Unable to open subscription management.");
+        showCrossPlatformAlert(
+          "Error",
+          "Unable to open subscription management."
+        );
       }
     } catch (error) {
       console.error("Failed to open subscription management:", error);
-      Alert.alert("Error", "Failed to open subscription management.");
+      showCrossPlatformAlert(
+        "Error",
+        "Failed to open subscription management."
+      );
     }
   };
 

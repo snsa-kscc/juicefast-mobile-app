@@ -24,6 +24,7 @@ import {
 } from "@/components/icons/AuthIcons";
 import { getInputFieldPadding } from "@/utils/platformStyles";
 import { handleAppInstallWithReferral } from "@/utils/appInstallHandler";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 export default function EmailSignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -85,14 +86,14 @@ export default function EmailSignUpScreen() {
     if (referralCodeInput.trim()) {
       if (referralData === undefined) {
         // Query is still loading, prevent submission
-        Alert.alert(
+        showCrossPlatformAlert(
           "Loading",
           "Please wait while we validate your referral code."
         );
         return;
       }
       if (!referralData) {
-        Alert.alert(
+        showCrossPlatformAlert(
           "Invalid Referral Code",
           "The referral code you entered is not valid. Please check and try again."
         );

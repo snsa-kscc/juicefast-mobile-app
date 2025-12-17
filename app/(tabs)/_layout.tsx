@@ -11,6 +11,7 @@ import {
   Label,
   NativeTabs,
 } from "expo-router/unstable-native-tabs";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 export default function TabLayout() {
   // Check if iOS 26 or later
@@ -55,7 +56,7 @@ function RegularTabLayout() {
 
   const handleAuthRequired = (featureName: string) => {
     if (!isSignedIn) {
-      Alert.alert(
+      showCrossPlatformAlert(
         "Sign In Required",
         `You need to create an account or sign in to access ${featureName}.`,
         [
