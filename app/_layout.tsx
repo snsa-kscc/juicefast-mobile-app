@@ -12,7 +12,6 @@ import { QueryProvider } from "@/providers/QueryProvider";
 import { RevenueCatProvider } from "@/providers/RevenueCatProvider";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
 import "@/styles/global.css";
-import { AddActionButton } from "@/components/ui/AddActionButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WebContainer } from "@/components/ui/WebContainer";
 import {
@@ -231,7 +230,6 @@ function AuthenticatedLayout() {
           <Stack.Screen name="test-push" options={SCREEN_OPTIONS} />
           <Stack.Screen name="+not-found" />
         </Stack>
-        {shouldShowAddButton && <AddActionButton />}
       </SafeAreaView>
     </WebContainer>
   );

@@ -12,6 +12,7 @@ import {
   NativeTabs,
 } from "expo-router/unstable-native-tabs";
 import { showCrossPlatformAlert } from "@/utils/alert";
+import { AddActionButton } from "@/components/ui/AddActionButton";
 
 export default function TabLayout() {
   // Check if iOS 26 or later
@@ -54,6 +55,8 @@ function RegularTabLayout() {
         0
       ) || 0;
 
+  const shouldShowAddButton = isSignedIn && Platform.OS !== "web";
+
   const handleAuthRequired = (featureName: string) => {
     if (!isSignedIn) {
       showCrossPlatformAlert(
@@ -80,134 +83,143 @@ function RegularTabLayout() {
   };
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          position: "absolute",
-          backgroundColor: "transparent",
-          borderTopWidth: 0,
-          borderRadius: 20,
-          height: 70,
-          marginHorizontal: 20,
-          marginBottom: 25,
-          paddingBottom: 10,
-          paddingTop: 10,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 8,
+    <>
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {
+            position: "absolute",
+            backgroundColor: "transparent",
+            borderTopWidth: 0,
+            borderRadius: 20,
+            height: 70,
+            marginHorizontal: 20,
+            marginBottom: 25,
+            paddingBottom: 10,
+            paddingTop: 10,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 8,
+            },
+            shadowOpacity: 0.12,
+            shadowRadius: 16,
+            elevation: 12,
+            borderWidth: 1.5,
+            borderColor: "rgba(0, 0, 0, 0.2)",
           },
-          shadowOpacity: 0.12,
-          shadowRadius: 16,
-          elevation: 12,
-          borderWidth: 1.5,
-          borderColor: "rgba(0, 0, 0, 0.2)",
-        },
-        tabBarBackground: () => (
-          <BlurView
-            intensity={80}
-            tint="light"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              borderRadius: 20,
-              backgroundColor: "rgba(255, 255, 255, 0.8)",
-              overflow: "hidden",
-            }}
-          />
-        ),
-        tabBarActiveTintColor: "#000000",
-        tabBarInactiveTintColor: "#9ca3af",
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontFamily: "Lufga-Medium",
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
-        }}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            if (handleAuthRequired("the home screen")) {
-              e.preventDefault();
-            }
-          },
-        })}
-      />
-
-      <Tabs.Screen
-        name="tracker"
-        options={{
-          title: "Tracker",
-          tabBarIcon: ({ color, size }) => <Heart size={size} color={color} />,
-        }}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            if (handleAuthRequired("the wellness tracker")) {
-              e.preventDefault();
-            }
-          },
-        })}
-      />
-
-      <Tabs.Screen
-        name="store"
-        options={{
-          title: "Store",
-          tabBarIcon: ({ color, size }) => <Store size={size} color={color} />,
-        }}
-      />
-
-      <Tabs.Screen
-        name="chat"
-        options={{
-          title: "Chat",
-          tabBarIcon: ({ color, size }) => (
-            <MessageCircle size={size} color={color} />
+          tabBarBackground: () => (
+            <BlurView
+              intensity={80}
+              tint="light"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                borderRadius: 20,
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                overflow: "hidden",
+              }}
+            />
           ),
-          tabBarBadge: unreadCount > 0 ? unreadCount : undefined,
-          tabBarBadgeStyle: {
-            backgroundColor: "#000",
-            color: "#ffffff",
-            fontSize: 10,
+          tabBarActiveTintColor: "#000000",
+          tabBarInactiveTintColor: "#9ca3af",
+          tabBarLabelStyle: {
+            fontSize: 12,
             fontFamily: "Lufga-Medium",
-            minWidth: 18,
-            height: 18,
-            borderRadius: 9,
           },
         }}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            if (handleAuthRequired("the chat feature")) {
-              e.preventDefault();
-            }
-          },
-        })}
-      />
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Home",
+            tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+          }}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              if (handleAuthRequired("the home screen")) {
+                e.preventDefault();
+              }
+            },
+          })}
+        />
 
-      <Tabs.Screen
-        name="club"
-        options={{
-          title: "JF Club",
-          tabBarIcon: ({ color, size }) => <Users size={size} color={color} />,
-        }}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            if (handleAuthRequired("the JF Club")) {
-              e.preventDefault();
-            }
-          },
-        })}
-      />
-    </Tabs>
+        <Tabs.Screen
+          name="tracker"
+          options={{
+            title: "Tracker",
+            tabBarIcon: ({ color, size }) => (
+              <Heart size={size} color={color} />
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              if (handleAuthRequired("the wellness tracker")) {
+                e.preventDefault();
+              }
+            },
+          })}
+        />
+
+        <Tabs.Screen
+          name="store"
+          options={{
+            title: "Store",
+            tabBarIcon: ({ color, size }) => (
+              <Store size={size} color={color} />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="chat"
+          options={{
+            title: "Chat",
+            tabBarIcon: ({ color, size }) => (
+              <MessageCircle size={size} color={color} />
+            ),
+            tabBarBadge: unreadCount > 0 ? unreadCount : undefined,
+            tabBarBadgeStyle: {
+              backgroundColor: "#000",
+              color: "#ffffff",
+              fontSize: 10,
+              fontFamily: "Lufga-Medium",
+              minWidth: 18,
+              height: 18,
+              borderRadius: 9,
+            },
+          }}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              if (handleAuthRequired("the chat feature")) {
+                e.preventDefault();
+              }
+            },
+          })}
+        />
+
+        <Tabs.Screen
+          name="club"
+          options={{
+            title: "JF Club",
+            tabBarIcon: ({ color, size }) => (
+              <Users size={size} color={color} />
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              if (handleAuthRequired("the JF Club")) {
+                e.preventDefault();
+              }
+            },
+          })}
+        />
+      </Tabs>
+      {shouldShowAddButton && <AddActionButton />}
+    </>
   );
 }
 

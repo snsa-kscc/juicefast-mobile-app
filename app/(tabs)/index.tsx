@@ -1,6 +1,7 @@
 import { HomeDashboard } from "@/components/dashboard";
 import { useUser } from "@clerk/clerk-expo";
 import { useEffect } from "react";
+import { Platform } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -32,7 +33,15 @@ export default function HomeScreen() {
   });
 
   return (
-    <Animated.View className="flex-1 bg-jf-gray" style={animatedStyle}>
+    <Animated.View
+      className="flex-1 bg-jf-gray"
+      style={[
+        animatedStyle,
+        Platform.OS === "web"
+          ? { height: "100vh" as any, overflow: "hidden" }
+          : {},
+      ]}
+    >
       <HomeDashboard userName={user?.firstName || "User"} />
     </Animated.View>
   );
