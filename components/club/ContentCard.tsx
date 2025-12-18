@@ -35,7 +35,8 @@ export function ContentCard({
       >
         <Image
           source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
-          className="w-full h-full"
+          className="max-w-full"
+          style={{ width: "100%", height: "100%", maxWidth: "100%" }}
           resizeMode="cover"
         />
         {/* Subcategory overlay in upper left */}

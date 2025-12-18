@@ -37,7 +37,8 @@ export function CategoryGrid({
           <View className="relative">
             <Image
               source={category.image}
-              className="w-full h-full"
+              className="max-w-full"
+              style={{ width: 120, height: 120, maxWidth: "100%" }}
               resizeMode="cover"
             />
           </View>

@@ -77,7 +77,8 @@ export function SubcategoryDetail({
         <View className="w-10 h-10 rounded-md overflow-hidden mr-3">
           <Image
             source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
-            className="w-full h-full"
+            className="max-w-full"
+            style={{ width: 40, height: 40, maxWidth: "100%" }}
             resizeMode="cover"
           />
         </View>
@@ -137,7 +138,8 @@ export function SubcategoryDetail({
                   ? { uri: headerImageUrl }
                   : headerImageUrl
               }
-              className="w-full h-64"
+              className="max-w-full"
+              style={{ width: "100%", height: 256, maxWidth: "100%" }}
               resizeMode="cover"
             />
           </View>

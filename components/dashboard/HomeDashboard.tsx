@@ -693,23 +693,27 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
         )}
 
         <TouchableOpacity
-          className="w-full mb-4"
+          className="w-full mb-4 max-w-full"
+          style={{ width: "100%", maxWidth: "100%" }}
           onPress={() => router.push("/(tabs)/store")}
         >
           <Image
             source={require("@/assets/images/challenge.png")}
             className="w-full h-32 rounded-xl"
+            style={{ width: "100%", maxWidth: "100%" }}
             resizeMode="cover"
           />
         </TouchableOpacity>
 
         <TouchableOpacity
-          className="w-full mb-20"
+          className="w-full mb-20 max-w-full"
+          style={{ width: "100%", maxWidth: "100%" }}
           onPress={() => router.push("/(tabs)/store")}
         >
           <Image
             source={require("@/assets/images/fasting.png")}
             className="w-full h-32 rounded-xl"
+            style={{ width: "100%", maxWidth: "100%" }}
             resizeMode="cover"
           />
         </TouchableOpacity>

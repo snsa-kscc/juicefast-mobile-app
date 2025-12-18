@@ -1,5 +1,12 @@
 import React from "react";
-import { Modal, View, Text, TouchableOpacity, Dimensions } from "react-native";
+import {
+  Modal,
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  Platform,
+} from "react-native";
 import { X } from "lucide-react-native";
 
 interface ActivityLevelPopupProps {
@@ -32,9 +39,9 @@ export function ActivityLevelPopup({
       animationType="slide"
       onRequestClose={onClose}
     >
-      <View className="flex-1 bg-transparent justify-end">
+      <View className="flex-1 bg-transparent justify-end items-center">
         <View
-          className="bg-white rounded-t-[20px] p-5"
+          className={`bg-white p-5 w-full ${Platform.OS === "web" ? "max-w-xl rounded-[20px] mb-6" : "rounded-t-[20px]"} ${Platform.OS === "android" ? "pb-16" : ""}`}
           style={{ maxHeight: windowHeight * 0.7 }}
         >
           <View className="flex-row justify-between items-center mb-5">

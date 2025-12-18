@@ -1,7 +1,14 @@
 import { useSignIn, useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Text, TextInput, TouchableOpacity, View, Image } from "react-native";
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Image,
+  Platform,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "@/hooks/useSocialSignIn";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
@@ -206,62 +213,63 @@ export default function Page() {
 
       <Text className="text-gray-900 font-lufga text-center my-4">or</Text>
 
-      {/* Social Login Buttons */}
-      <View className="mt-2 px-4">
-        <TouchableOpacity
-          onPress={() => signInWithApple()}
-          className="bg-gray-900 rounded-xl py-4 flex-row items-center mb-4"
-        >
-          <Image
-            source={require("@/assets/images/socials/apple.png")}
-            className="w-6 h-6 ml-14"
-          />
-          <Text className="text-white font-lufga-semibold ml-8">
-            Continue with Apple
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => signInWithGoogle()}
-          className="bg-gray-900 rounded-xl py-4 flex-row items-center mb-4"
-        >
-          <Image
-            source={require("@/assets/images/socials/google.png")}
-            className="w-6 h-6 ml-14"
-          />
-          <Text className="text-white font-lufga-semibold ml-8">
-            Continue with Google
-          </Text>
-        </TouchableOpacity>
-
-        {/* Facebook sign-in - commented out */}
-        {/* <TouchableOpacity
-          onPress={() => signInWithFacebook()}
-          className="bg-gray-900 rounded-xl py-4 flex-row items-center"
-        >
-          <Image
-            source={require("@/assets/images/socials/fb.png")}
-            className="w-6 h-6 ml-14"
-          />
-          <Text className="text-white font-lufga-semibold ml-8">
-            Continue with Facebook
-          </Text>
-        </TouchableOpacity> */}
-        {/* Continue as Guest Button */}
-        <View className="mt-4">
+      {/* Social Login Buttons - Only show on mobile platforms */}
+      {Platform.OS !== "web" && (
+        <View className="mt-2 px-4">
           <TouchableOpacity
-            onPress={handleContinueAsGuest}
-            className="border border-gray-300 rounded-xl py-4 flex-row items-center justify-center"
+            onPress={() => signInWithApple()}
+            className="bg-gray-900 rounded-xl py-4 flex-row items-center mb-4"
           >
-            <Text className="text-gray-700 font-lufga-semibold">
-              Continue as Guest
+            <Image
+              source={require("@/assets/images/socials/apple.png")}
+              className="w-6 h-6 ml-14"
+            />
+            <Text className="text-white font-lufga-semibold ml-8">
+              Continue with Apple
             </Text>
           </TouchableOpacity>
-          <Text className="text-xs text-gray-500 text-center mt-2 font-lufga">
-            Browse the store without creating an account
-          </Text>
+
+          <TouchableOpacity
+            onPress={() => signInWithGoogle()}
+            className="bg-gray-900 rounded-xl py-4 flex-row items-center mb-4"
+          >
+            <Image
+              source={require("@/assets/images/socials/google.png")}
+              className="w-6 h-6 ml-14"
+            />
+            <Text className="text-white font-lufga-semibold ml-8">
+              Continue with Google
+            </Text>
+          </TouchableOpacity>
+
+          {/* <TouchableOpacity
+            onPress={() => signInWithFacebook()}
+            className="bg-gray-900 rounded-xl py-4 flex-row items-center"
+          >
+            <Image
+              source={require("@/assets/images/socials/fb.png")}
+              className="w-6 h-6 ml-14"
+            />
+            <Text className="text-white font-lufga-semibold ml-8">
+              Continue with Facebook
+            </Text>
+          </TouchableOpacity> */}
+          {/* Continue as Guest Button */}
+          <View className="mt-4">
+            <TouchableOpacity
+              onPress={handleContinueAsGuest}
+              className="border border-gray-300 rounded-xl py-4 flex-row items-center justify-center"
+            >
+              <Text className="text-gray-700 font-lufga-semibold">
+                Continue as Guest
+              </Text>
+            </TouchableOpacity>
+            <Text className="text-xs text-gray-500 text-center mt-2 font-lufga">
+              Browse the store without creating an account
+            </Text>
+          </View>
         </View>
-      </View>
+      )}
 
       {/* Sign Up Link */}
       <View className="flex-row justify-center mt-12">

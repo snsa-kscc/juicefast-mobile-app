@@ -47,7 +47,8 @@ export function SubcategoryGrid({
             >
               <Image
                 source={subcategory.image}
-                className="w-full h-full"
+                className="max-w-full"
+                style={{ width: "100%", height: "100%", maxWidth: "100%" }}
                 resizeMode="cover"
               />
               {/* Overlay text for large images */}
