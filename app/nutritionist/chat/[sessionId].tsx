@@ -273,7 +273,7 @@ export default function NutritionistChatSession() {
             </View>
           </View>
         )}
-        ListFooterComponent={
+        ListHeaderComponent={
           isLoading ? (
             <View className="items-end mb-4">
               <View className="bg-[#8B7355] px-4 py-3 rounded-2xl rounded-br-md">

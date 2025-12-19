@@ -99,7 +99,7 @@ function AuthenticatedLayout() {
             router.push(`/nutritionist/chat/${chatId}`);
           } else {
             // Regular user navigates to nutritionist chat with session ID
-            router.push(`/chat/nutritionist?sessionId=${chatId}`);
+            router.push(`/chat/nutritionist`);
           }
         } else {
           // Fallback to chat options if no specific chat ID
@@ -172,7 +172,7 @@ function AuthenticatedLayout() {
                 if (isNutritionist) {
                   router.replace(`/nutritionist/chat/${chatId}`);
                 } else {
-                  router.replace(`/chat/nutritionist?sessionId=${chatId}`);
+                  router.replace(`/chat/nutritionist`);
                 }
                 return; // Skip normal navigation
               }

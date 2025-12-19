@@ -658,7 +658,7 @@ export function NutritionistChat() {
             </Text>
           </View>
         )}
-        ListFooterComponent={
+        ListHeaderComponent={
           isLoading ? (
             <View className="items-end mb-4">
               <View className="bg-[#E1D5B9] px-4 py-3 rounded-2xl rounded-br-md">
