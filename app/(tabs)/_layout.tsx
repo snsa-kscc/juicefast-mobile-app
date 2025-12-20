@@ -148,16 +148,16 @@ function RegularTabLayout() {
         />
 
         <Tabs.Screen
-          name="tracker"
+          name="challenge"
           options={{
-            title: "Tracker",
+            title: "Challenge",
             tabBarIcon: ({ color, size }) => (
               <Heart size={size} color={color} />
             ),
           }}
           listeners={({ navigation }) => ({
             tabPress: (e) => {
-              if (handleAuthRequired("the wellness tracker")) {
+              if (handleAuthRequired("the challenge challenge")) {
                 e.preventDefault();
               }
             },
@@ -262,8 +262,8 @@ function IOSNativeTabLayout() {
         <Icon sf={{ default: "house", selected: "house.fill" }} />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="tracker">
-        <Label>Tracker</Label>
+      <NativeTabs.Trigger name="challenge">
+        <Label>Challenge</Label>
         <Icon sf={{ default: "heart", selected: "heart.fill" }} />
       </NativeTabs.Trigger>
 
