@@ -73,8 +73,8 @@ export default function OrderEntryPage() {
       return;
     }
 
-    // Order number is valid, navigate to freemium activation page
-    router.push("/challenge/freemium-activation");
+    // Order number is valid, navigate to premium activation page
+    router.push("/challenge/premium-activation");
   };
 
   return (

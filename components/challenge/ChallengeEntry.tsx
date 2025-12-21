@@ -4,11 +4,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { BlurView } from "expo-blur";
 
-interface ChallengeTrackerProps {
+interface ChallengeEntryProps {
   isAdmin?: boolean;
 }
 
-export function ChallengeTracker({ isAdmin = false }: ChallengeTrackerProps) {
+export function ChallengeEntry({ isAdmin = false }: ChallengeEntryProps) {
   const router = useRouter();
 
   const handleParticipatePress = () => {

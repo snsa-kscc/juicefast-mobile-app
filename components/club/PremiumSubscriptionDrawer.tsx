@@ -21,12 +21,14 @@ interface PremiumSubscriptionDrawerProps {
   children: React.ReactNode;
   isPremiumOnAnyPlatform?: boolean;
   isMobileAppSubscribed?: boolean;
+  onPurchaseSuccess?: () => void;
 }
 
 export function PremiumSubscriptionDrawer({
   children,
   isPremiumOnAnyPlatform = false,
   isMobileAppSubscribed = false,
+  onPurchaseSuccess,
 }: PremiumSubscriptionDrawerProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
@@ -76,6 +78,7 @@ export function PremiumSubscriptionDrawer({
           "You now have access to all premium content and features.",
           [{ text: "Awesome!" }]
         );
+        onPurchaseSuccess?.();
       }
     } catch (error: any) {
       showCrossPlatformAlert(

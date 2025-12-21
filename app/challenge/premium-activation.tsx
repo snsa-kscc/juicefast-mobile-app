@@ -2,15 +2,19 @@ import React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { ArrowLeft, CheckCircle } from "lucide-react-native";
+import { ArrowLeft } from "lucide-react-native";
 import { PremiumSubscriptionDrawer } from "@/components/club/PremiumSubscriptionDrawer";
 
-export default function FreemiumActivationPage() {
+export default function PremiumActivationPage() {
   const router = useRouter();
 
-  // Progress tracking - current step is 2 (freemium activation)
+  // Progress tracking - current step is 2 (premium activation)
   const currentStep = 2;
   const totalSteps = 2;
+
+  const handlePurchaseSuccess = () => {
+    router.replace("/(tabs)/challenge");
+  };
 
   return (
     <ScrollView
@@ -77,11 +81,8 @@ export default function FreemiumActivationPage() {
           </Text>
         </View>
 
-        <PremiumSubscriptionDrawer>
-          <TouchableOpacity
-            className="w-full rounded-3xl py-5 mb-4 overflow-hidden"
-            activeOpacity={0.9}
-          >
+        <PremiumSubscriptionDrawer onPurchaseSuccess={handlePurchaseSuccess}>
+          <View className="w-full rounded-3xl py-6 mb-4 overflow-hidden">
             <LinearGradient
               colors={["#0DC99B", "#0DC99B"]}
               start={{ x: 1, y: 0 }}
@@ -100,7 +101,7 @@ export default function FreemiumActivationPage() {
                 Start my free 2 months
               </Text>
             </View>
-          </TouchableOpacity>
+          </View>
         </PremiumSubscriptionDrawer>
 
         <TouchableOpacity
