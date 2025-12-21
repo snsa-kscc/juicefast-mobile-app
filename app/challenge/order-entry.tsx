@@ -6,18 +6,30 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { usePaywall } from "@/hooks/usePaywall";
 
 export default function OrderEntryPage() {
   const router = useRouter();
   const [orderNumber, setOrderNumber] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Check subscription status
+  const { isPremiumOnAnyPlatform, isLoading: subscriptionLoading } =
+    usePaywall();
+
+  // Convex mutations
+  const enrollInChallenge = useMutation(api.challengeOrders.enrollInChallenge);
 
   // Progress tracking - current step is 1 (order entry)
   const currentStep = 1;
-  const totalSteps = 2;
+  const totalSteps = isPremiumOnAnyPlatform ? 1 : 2;
 
   // Minimum order number thresholds
   const minOrderNumberHR = 55555;
@@ -58,7 +70,7 @@ export default function OrderEntryPage() {
     return { isValid: true };
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!orderNumber) {
       Alert.alert("Error", "Please enter your order number");
       return;
@@ -73,8 +85,28 @@ export default function OrderEntryPage() {
       return;
     }
 
-    // Order number is valid, navigate to premium activation page
-    router.push("/challenge/premium-activation");
+    setIsLoading(true);
+    try {
+      // Create order and enroll user in challenge in one atomic operation
+      await enrollInChallenge({ orderNumber });
+
+      // Navigate based on subscription status
+      if (isPremiumOnAnyPlatform) {
+        // User has premium, go directly to challenge page
+        router.replace("/(tabs)/challenge");
+      } else {
+        // User needs premium, go to premium activation
+        router.push("/challenge/premium-activation");
+      }
+    } catch (error) {
+      console.error("Error activating order:", error);
+      Alert.alert(
+        "Error",
+        error instanceof Error ? error.message : "Failed to activate order"
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -164,10 +196,11 @@ export default function OrderEntryPage() {
         {/* Activate Button */}
         <TouchableOpacity
           onPress={handleSubmit}
+          disabled={isLoading}
           className="w-2/3 rounded-3xl shadow-2xl shadow-black/90 py-5 mb-6 overflow-hidden mx-auto"
         >
           <LinearGradient
-            colors={["#A5ECC9", "#EFEFEF"]}
+            colors={isLoading ? ["#D1D5DB", "#E5E7EB"] : ["#A5ECC9", "#EFEFEF"]}
             start={{ x: 1, y: 0 }}
             end={{ x: 0, y: 0 }}
             style={{
@@ -179,10 +212,23 @@ export default function OrderEntryPage() {
               borderRadius: 24,
             }}
           />
-          <View className="relative">
-            <Text className="text-black text-xl font-lufga-bold text-center">
-              Activate
-            </Text>
+          <View className="relative flex-row items-center justify-center">
+            {isLoading ? (
+              <>
+                <ActivityIndicator
+                  size="small"
+                  color="#374151"
+                  className="mr-2"
+                />
+                <Text className="text-gray-700 text-xl font-lufga-bold text-center">
+                  Activating...
+                </Text>
+              </>
+            ) : (
+              <Text className="text-black text-xl font-lufga-bold text-center">
+                Activate
+              </Text>
+            )}
           </View>
         </TouchableOpacity>
       </View>

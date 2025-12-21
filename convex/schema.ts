@@ -126,4 +126,24 @@ export default defineSchema({
   })
     .index("by_session", ["sessionId"])
     .index("by_sender", ["senderId"]),
+
+  // Challenge feature tables
+  challengeProgress: defineTable({
+    userId: v.string(), // Clerk user ID
+    hasStartedChallenge: v.boolean(),
+    hasClearedEntryModal: v.boolean(),
+    beforePhotoUrl: v.optional(v.string()), // Stored in Convex storage
+    afterPhotoUrl: v.optional(v.string()), // Stored in Convex storage
+    startedAt: v.number(), // UTC timestamp when challenge started
+    updatedAt: v.number(), // Last update timestamp
+  }).index("by_user_id", ["userId"]),
+
+  challengeOrders: defineTable({
+    userId: v.string(), // Clerk user ID
+    orderNumber: v.string(), // Unique order identifier
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_user_id", ["userId"])
+    .index("by_order_number", ["orderNumber"]),
 });

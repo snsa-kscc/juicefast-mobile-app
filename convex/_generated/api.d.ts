@@ -8,6 +8,8 @@
  * @module
  */
 
+import type * as challengeOrders from "../challengeOrders.js";
+import type * as challengeProgress from "../challengeProgress.js";
 import type * as mealEntry from "../mealEntry.js";
 import type * as migrations_removeAllowPromotion from "../migrations/removeAllowPromotion.js";
 import type * as mindfulnessEntry from "../mindfulnessEntry.js";
@@ -27,6 +29,8 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  challengeOrders: typeof challengeOrders;
+  challengeProgress: typeof challengeProgress;
   mealEntry: typeof mealEntry;
   "migrations/removeAllowPromotion": typeof migrations_removeAllowPromotion;
   mindfulnessEntry: typeof mindfulnessEntry;
