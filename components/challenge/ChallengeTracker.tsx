@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { BlurView } from "expo-blur";
 
 interface ChallengeTrackerProps {
@@ -8,6 +9,14 @@ interface ChallengeTrackerProps {
 }
 
 export function ChallengeTracker({ isAdmin = false }: ChallengeTrackerProps) {
+  const router = useRouter();
+
+  const handleParticipatePress = () => {
+    if (isAdmin) {
+      router.push("/challenge/order-entry");
+    }
+  };
+
   return (
     <ScrollView
       className="flex-1 bg-jf-gray"
@@ -53,6 +62,7 @@ export function ChallengeTracker({ isAdmin = false }: ChallengeTrackerProps) {
         <TouchableOpacity
           className="w-full rounded-3xl shadow-2xl shadow-black/90 py-5 px-8 mb-6 overflow-hidden"
           disabled={!isAdmin}
+          onPress={handleParticipatePress}
         >
           <LinearGradient
             colors={["#A5ECC9", "#EFEFEF"]}
@@ -154,12 +164,11 @@ export function ChallengeTracker({ isAdmin = false }: ChallengeTrackerProps) {
       </View>
 
       {/* Hero Image Section with Overlaid Features */}
-
-      <View className="overflow-hidden relative h-[75vh] flex-1">
+      <View className="overflow-hidden relative h-[700px] flex-1">
         <Image
           source={require("@/assets/images/challenge/fitness-lady.webp")}
           className="absolute inset-0 w-full h-full"
-          resizeMode="contain"
+          resizeMode="cover"
         />
 
         <View className="absolute bottom-28 left-0 right-0 px-6 pb-6">
