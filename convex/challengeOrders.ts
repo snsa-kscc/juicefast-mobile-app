@@ -32,10 +32,6 @@ export const enrollInChallenge = mutation({
       .withIndex("by_user_id", (q) => q.eq("userId", userId))
       .first();
 
-    if (existingProgress) {
-      throw new Error("User is already enrolled in the challenge");
-    }
-
     // Create the order
     await ctx.db.insert("challengeOrders", {
       userId,
@@ -44,18 +40,28 @@ export const enrollInChallenge = mutation({
       updatedAt: now,
     });
 
-    // Create challenge progress
-    const progressId = await ctx.db.insert("challengeProgress", {
-      userId,
-      hasStartedChallenge: true,
-      hasClearedEntryModal: false,
-      beforePhotoUrl: undefined,
-      afterPhotoUrl: undefined,
-      startedAt: now,
-      updatedAt: now,
-    });
+    // Create or update challenge progress
+    if (existingProgress) {
+      // Update existing progress
+      await ctx.db.patch(existingProgress._id, {
+        hasStartedChallenge: true,
+        updatedAt: now,
+      });
+      return existingProgress._id;
+    } else {
+      // Create new challenge progress
+      const progressId = await ctx.db.insert("challengeProgress", {
+        userId,
+        hasStartedChallenge: true,
+        hasClearedEntryModal: false,
+        beforePhotoUrl: undefined,
+        afterPhotoUrl: undefined,
+        startedAt: now,
+        updatedAt: now,
+      });
 
-    return progressId;
+      return progressId;
+    }
   },
 });
 

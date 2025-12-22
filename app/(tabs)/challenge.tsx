@@ -15,10 +15,13 @@ export default function TrackerScreen() {
   );
   const isEnrolled = challengeProgress?.hasStartedChallenge;
 
+  // Show loading state while query is resolving
+  if (challengeProgress === undefined) {
+    return null;
+  }
+
   if (isEnrolled) {
-    return (
-      <ChallengeDashboard progress={challengeProgress} isAdmin={isAdmin} />
-    );
+    return <ChallengeDashboard progress={challengeProgress} />;
   }
 
   return <ChallengeEntry isAdmin={isAdmin} />;
