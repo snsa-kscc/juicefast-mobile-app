@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { Modal, View, Text, TouchableOpacity, Dimensions } from "react-native";
+import {
+  Modal,
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  Image,
+} from "react-native";
 import { BlurView } from "expo-blur";
-import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
 import { showCrossPlatformAlert } from "@/utils/alert";
 
@@ -95,30 +101,13 @@ export function ChallengeCongratsModal({
               Congrats on starting the challenge!
             </Text>
 
-            {/* Illustration Container */}
+            {/* Illustration Image */}
             <View className="relative h-56 w-full mb-8 rounded-2xl overflow-hidden">
-              {/* Gradient Background */}
-              <LinearGradient
-                colors={["#A5EC9C", "#EFEFEF"]}
-                start={{ x: 0.5, y: 0 }}
-                end={{ x: 0.5, y: 1 }}
-                className="absolute inset-0"
-                style={{ transform: [{ rotate: "255.857deg" }] }}
+              <Image
+                source={require("@/assets/images/challenge/modal-img.webp")}
+                className="w-full h-full"
+                resizeMode="cover"
               />
-
-              {/* Calendar Illustration - Placeholder for the complex Figma illustration */}
-              <View className="absolute inset-0 justify-center items-center">
-                <View className="bg-white/90 rounded-2xl p-6 shadow-lg">
-                  <View className="w-20 h-20 bg-[#0DC99B] rounded-2xl justify-center items-center mb-3">
-                    <Text className="text-white text-3xl font-lufga-bold">
-                      📅
-                    </Text>
-                  </View>
-                  <Text className="text-gray-700 text-sm font-lufga-medium text-center">
-                    Day 1
-                  </Text>
-                </View>
-              </View>
             </View>
 
             {/* Subtitle */}

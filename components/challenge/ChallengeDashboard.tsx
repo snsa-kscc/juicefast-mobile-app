@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -19,6 +20,7 @@ export function ChallengeDashboard({
   const generateUploadUrl = useMutation(
     api.challengeProgress.generateUploadUrl
   );
+  const router = useRouter();
 
   useEffect(() => {
     // Show modal when component first loads if there's no progress
@@ -183,7 +185,10 @@ export function ChallengeDashboard({
         {/* Register another order and Prizes Section */}
         <View className="px-6 mb-6">
           {/* Register another order */}
-          <TouchableOpacity className="w-full rounded-3xl shadow-2xl shadow-black/90 py-5 px-8 mb-6 overflow-hidden">
+          <TouchableOpacity
+            className="w-full rounded-3xl shadow-2xl shadow-black/90 py-5 px-8 mb-6 overflow-hidden"
+            onPress={() => router.push("/challenge/another-entry")}
+          >
             <LinearGradient
               colors={["#A5ECC9", "#EFEFEF"]}
               start={{ x: 0, y: 0 }}
