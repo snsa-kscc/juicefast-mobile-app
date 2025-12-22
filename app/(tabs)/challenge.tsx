@@ -21,7 +21,7 @@ export default function TrackerScreen() {
   }
 
   if (isEnrolled) {
-    return <ChallengeDashboard progress={challengeProgress} />;
+    return <ChallengeDashboard progress={challengeProgress} showModal={true} />;
   }
 
   return <ChallengeEntry isAdmin={isAdmin} />;
