@@ -41,6 +41,16 @@ export const startChallenge = mutation({
   },
 });
 
+export const generateUploadUrl = mutation({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+    return await ctx.storage.generateUploadUrl();
+  },
+});
+
 export const updateProgress = mutation({
   args: {
     hasClearedEntryModal: v.optional(v.boolean()),
@@ -100,6 +110,13 @@ export const getUserChallengeProgress = query({
       .first();
 
     return progress;
+  },
+});
+
+export const getUrl = query({
+  args: { storageId: v.id("_storage") },
+  handler: async (ctx, args) => {
+    return await ctx.storage.getUrl(args.storageId);
   },
 });
 

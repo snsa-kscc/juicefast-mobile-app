@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
   ScrollView,
   ActivityIndicator,
 } from "react-native";
@@ -14,6 +13,7 @@ import { ArrowLeft } from "lucide-react-native";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { usePaywall } from "@/hooks/usePaywall";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 export default function OrderEntryPage() {
   const router = useRouter();
@@ -72,13 +72,13 @@ export default function OrderEntryPage() {
 
   const handleSubmit = async () => {
     if (!orderNumber) {
-      Alert.alert("Error", "Please enter your order number");
+      await showCrossPlatformAlert("Error", "Please enter your order number");
       return;
     }
 
     const validation = validateOrderNumber(orderNumber);
     if (!validation.isValid) {
-      Alert.alert(
+      await showCrossPlatformAlert(
         "Invalid Order Number",
         validation.message || "Invalid order number"
       );
@@ -100,7 +100,7 @@ export default function OrderEntryPage() {
       }
     } catch (error) {
       console.error("Error activating order:", error);
-      Alert.alert(
+      await showCrossPlatformAlert(
         "Error",
         error instanceof Error ? error.message : "Failed to activate order"
       );

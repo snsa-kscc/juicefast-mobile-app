@@ -1,21 +1,14 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-  Alert,
-} from "react-native";
+import { Modal, View, Text, TouchableOpacity, Dimensions } from "react-native";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 interface ChallengeCongratsModalProps {
   visible: boolean;
   onClose: () => void;
-  onUploadPhoto: (image: any) => void;
+  onUploadPhoto: (image: any) => Promise<void>;
 }
 
 const { height: windowHeight, width: windowWidth } = Dimensions.get("window");
@@ -25,14 +18,17 @@ export function ChallengeCongratsModal({
   onClose,
   onUploadPhoto,
 }: ChallengeCongratsModalProps) {
+  const [isUploading, setIsUploading] = useState(false);
+
   const handleUploadPhoto = async () => {
     try {
+      setIsUploading(true);
       // Request permission
       const permissionResult =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
 
       if (!permissionResult.granted) {
-        Alert.alert(
+        await showCrossPlatformAlert(
           "Permission Required",
           "Sorry, we need camera roll permissions to make this work!"
         );
@@ -41,18 +37,36 @@ export function ChallengeCongratsModal({
 
       // Launch image picker
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ["images"],
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [3, 4],
         quality: 0.8,
       });
 
       if (!result.canceled && result.assets[0]) {
-        onUploadPhoto(result.assets[0]);
+        try {
+          await onUploadPhoto(result.assets[0]);
+          // Show success alert
+          await showCrossPlatformAlert(
+            "Success!",
+            "Your photo has been uploaded successfully."
+          );
+        } catch (error) {
+          // Show error alert if upload failed
+          await showCrossPlatformAlert(
+            "Error",
+            "Failed to upload photo. Please try again."
+          );
+        }
       }
     } catch (error) {
       console.error("Error picking image:", error);
-      Alert.alert("Error", "Failed to pick image. Please try again.");
+      await showCrossPlatformAlert(
+        "Error",
+        "Failed to pick image. Please try again."
+      );
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -117,12 +131,21 @@ export function ChallengeCongratsModal({
               {/* Upload Photo Button */}
               <TouchableOpacity
                 onPress={handleUploadPhoto}
-                className="bg-[#0DC99B] rounded-xl py-3 px-12 justify-center items-center"
+                disabled={isUploading}
+                className={`rounded-xl py-3 px-12 justify-center items-center ${
+                  isUploading ? "bg-gray-400" : "bg-[#0DC99B]"
+                }`}
                 activeOpacity={0.8}
               >
-                <Text className="text-white text-2xl font-lufga-bold">
-                  Upload photo
-                </Text>
+                {isUploading ? (
+                  <Text className="text-white text-2xl font-lufga-bold">
+                    Uploading...
+                  </Text>
+                ) : (
+                  <Text className="text-white text-2xl font-lufga-bold">
+                    Upload photo
+                  </Text>
+                )}
               </TouchableOpacity>
 
               {/* Skip Button */}

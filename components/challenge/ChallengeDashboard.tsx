@@ -16,6 +16,9 @@ export function ChallengeDashboard({
 }: ChallengeDashboardProps) {
   const [showCongratsModal, setShowCongratsModal] = useState(false);
   const updateProgress = useMutation(api.challengeProgress.updateProgress);
+  const generateUploadUrl = useMutation(
+    api.challengeProgress.generateUploadUrl
+  );
 
   useEffect(() => {
     // Show modal when component first loads if there's no progress
@@ -36,15 +39,39 @@ export function ChallengeDashboard({
   };
 
   const handleUploadPhoto = async (image: any) => {
-    // TODO: Implement photo upload functionality
-    console.log("Upload photo pressed:", image);
-    setShowCongratsModal(false);
-
-    // Update the progress in the background
     try {
-      await updateProgress({ hasClearedEntryModal: true });
+      // Get upload URL from Convex
+      const postUrl = await generateUploadUrl();
+
+      // Convert image URI to blob for upload
+      const response = await fetch(image.uri);
+      const blob = await response.blob();
+
+      // Upload the image to Convex storage
+      const uploadResponse = await fetch(postUrl, {
+        method: "POST",
+        headers: { "Content-Type": image.mimeType || "image/jpeg" },
+        body: blob,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      // Get the storage ID from the response
+      const { storageId } = await uploadResponse.json();
+
+      // Update the challenge progress with the storage ID
+      await updateProgress({
+        hasClearedEntryModal: true,
+        beforePhotoUrl: storageId,
+      });
+
+      setShowCongratsModal(false);
     } catch (error) {
-      console.error("Failed to update progress:", error);
+      console.error("Failed to upload photo:", error);
+      // Re-throw error to let ChallengeCongratsModal handle it
+      throw error;
     }
   };
 
