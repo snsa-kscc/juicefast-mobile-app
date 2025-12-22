@@ -4,6 +4,7 @@ import React from "react";
 import { useUser } from "@clerk/clerk-expo";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { View, ActivityIndicator, Text } from "react-native";
 
 export default function TrackerScreen() {
   const { user } = useUser();
@@ -13,15 +14,21 @@ export default function TrackerScreen() {
   const challengeProgress = useQuery(
     api.challengeProgress.getUserChallengeProgress
   );
-  const isEnrolled = challengeProgress?.hasStartedChallenge;
+  const hasStartedChallenge = challengeProgress?.hasStartedChallenge;
+  const shouldShowModal = !challengeProgress?.hasClearedEntryModal;
 
   // Show loading state while query is resolving
   if (challengeProgress === undefined) {
-    return null;
+    return (
+      <View className="flex-1 justify-center items-center bg-white">
+        <ActivityIndicator size="large" className="text-primary" />
+        <Text className="text-lufga-bold">Loading...</Text>
+      </View>
+    );
   }
 
-  if (isEnrolled) {
-    return <ChallengeDashboard progress={challengeProgress} showModal={true} />;
+  if (hasStartedChallenge) {
+    return <ChallengeDashboard showModal={shouldShowModal} />;
   }
 
   return <ChallengeEntry isAdmin={isAdmin} />;

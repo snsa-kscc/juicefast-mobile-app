@@ -2,20 +2,20 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import { Doc } from "@/convex/_generated/dataModel";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { ChallengeTracker } from "@/components/challenge/ChallengeTracker";
 import { ChallengeCongratsModal } from "@/components/challenge/ChallengeCongratsModal";
 
 interface ChallengeDashboardProps {
-  progress?: Doc<"challengeProgress"> | null;
   showModal?: boolean;
 }
 
 export function ChallengeDashboard({
-  progress,
   showModal = false,
 }: ChallengeDashboardProps) {
   const [showCongratsModal, setShowCongratsModal] = useState(false);
+  const updateProgress = useMutation(api.challengeProgress.updateProgress);
 
   useEffect(() => {
     // Show modal when component first loads if there's no progress
@@ -24,14 +24,28 @@ export function ChallengeDashboard({
     }
   }, [showModal]);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = async () => {
     setShowCongratsModal(false);
+
+    // Update the progress in the background
+    try {
+      await updateProgress({ hasClearedEntryModal: true });
+    } catch (error) {
+      console.error("Failed to update progress:", error);
+    }
   };
 
-  const handleUploadPhoto = (image: any) => {
+  const handleUploadPhoto = async (image: any) => {
     // TODO: Implement photo upload functionality
     console.log("Upload photo pressed:", image);
     setShowCongratsModal(false);
+
+    // Update the progress in the background
+    try {
+      await updateProgress({ hasClearedEntryModal: true });
+    } catch (error) {
+      console.error("Failed to update progress:", error);
+    }
   };
 
   return (
