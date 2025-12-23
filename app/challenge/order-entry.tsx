@@ -100,10 +100,7 @@ export default function OrderEntryPage() {
       }
     } catch (error) {
       console.error("Error activating order:", error);
-      await showCrossPlatformAlert(
-        "Error",
-        error instanceof Error ? error.message : "Failed to activate order"
-      );
+      await showCrossPlatformAlert("Error", "Failed to activate order");
     } finally {
       setIsLoading(false);
     }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SquarePen } from "lucide-react-native";
+import { useRouter } from "expo-router";
 import {
   HabitTargetIcon,
   CaloriesIcon,
@@ -9,11 +10,7 @@ import {
   CircleGradientBorder,
 } from "@/components/challenge/ChallengeIcons";
 
-interface ChallengeTrackerProps {
-  onStartChallenge?: () => void;
-}
-
-export function ChallengeTracker({ onStartChallenge }: ChallengeTrackerProps) {
+export function ChallengeTracker() {
   const [caloriesBurned, setCaloriesBurned] = useState(0);
   const [caloriesConsumed, setCaloriesConsumed] = useState(0);
   const [caloriesRemaining, setCaloriesRemaining] = useState(2536);
@@ -24,6 +21,8 @@ export function ChallengeTracker({ onStartChallenge }: ChallengeTrackerProps) {
 
   const [waterValue, setWaterValue] = useState(0);
   const [stepsValue, setStepsValue] = useState(0);
+
+  const router = useRouter();
 
   return (
     <View className="px-6 mb-32">
@@ -52,15 +51,15 @@ export function ChallengeTracker({ onStartChallenge }: ChallengeTrackerProps) {
 
             {/* Button */}
             <TouchableOpacity
-              onPress={onStartChallenge}
               className="rounded-xl items-center justify-center py-3.5 px-11"
               style={{ backgroundColor: "#baf2c4" }}
+              onPress={() => router.push("/challenge/progress-dashboard")}
             >
               <Text
                 className="text-sm font-lufga-semibold text-center"
                 style={{ color: "#003d29", letterSpacing: -0.28 }}
               >
-                Start the challenge
+                Progress Dashboard
               </Text>
             </TouchableOpacity>
           </View>
@@ -178,6 +177,7 @@ export function ChallengeTracker({ onStartChallenge }: ChallengeTrackerProps) {
             borderRadius: 6,
             backgroundColor: "#BAF2C4",
           }}
+          onPress={() => router.push("/meals")}
         >
           <Text className="text-base font-lufga-medium text-black">+</Text>
         </TouchableOpacity>
@@ -243,6 +243,7 @@ export function ChallengeTracker({ onStartChallenge }: ChallengeTrackerProps) {
               borderRadius: 6,
               backgroundColor: "#BAF2C4",
             }}
+            onPress={() => router.push("/hydration")}
           >
             <Text className="text-base font-lufga-medium text-black">+</Text>
           </TouchableOpacity>
@@ -264,6 +265,7 @@ export function ChallengeTracker({ onStartChallenge }: ChallengeTrackerProps) {
               borderRadius: 6,
               backgroundColor: "#BAF2C4",
             }}
+            onPress={() => router.push("/steps")}
           >
             <Text className="text-base font-lufga-medium text-black">+</Text>
           </TouchableOpacity>

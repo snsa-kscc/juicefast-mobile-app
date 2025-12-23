@@ -113,6 +113,19 @@ export const getUserChallengeProgress = query({
   },
 });
 
+export const deletePhoto = mutation({
+  args: { storageId: v.id("_storage") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    // Delete the file from storage
+    await ctx.storage.delete(args.storageId);
+  },
+});
+
 export const getUrl = query({
   args: { storageId: v.id("_storage") },
   handler: async (ctx, args) => {

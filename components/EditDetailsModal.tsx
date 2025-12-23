@@ -13,6 +13,7 @@ import {
   Keyboard,
 } from "react-native";
 import { X, ChevronDown, Ruler, Scale, Calendar } from "lucide-react-native";
+import { showCrossPlatformAlert } from "@/utils/alert";
 
 interface EditDetailsModalProps {
   visible: boolean;
@@ -130,6 +131,26 @@ export function EditDetailsModal({
   const handleSave = async () => {
     setIsSaving(true);
     try {
+      // Validate height and weight before saving
+      const heightNum = parseInt(height);
+      const weightNum = parseInt(weight);
+
+      if (height && (heightNum < 50 || heightNum > 250)) {
+        await showCrossPlatformAlert(
+          "Error",
+          "Height must be between 50 and 250 cm"
+        );
+        return;
+      }
+
+      if (weight && (weightNum < 20 || weightNum > 150)) {
+        await showCrossPlatformAlert(
+          "Error",
+          "Weight must be between 20 and 150 kg"
+        );
+        return;
+      }
+
       await onSave(height, weight, age, gender, activityLevel);
       onClose();
     } catch {
@@ -182,11 +203,23 @@ export function EditDetailsModal({
                       <TextInput
                         className="flex-1 ml-2 text-base text-gray-900 font-lufga py-3"
                         value={height}
-                        onChangeText={setHeight}
+                        onChangeText={(text) => {
+                          // Allow empty input or valid range, but also allow partial inputs while typing
+                          if (text === "") {
+                            setHeight(text);
+                            return;
+                          }
+                          const num = parseInt(text);
+                          // Allow any input less than 1000, but will validate on save
+                          if (num < 1000) {
+                            setHeight(text);
+                          }
+                        }}
                         placeholder="170"
                         placeholderTextColor="#9CA3AF"
                         keyboardType="numeric"
                         editable={!isSaving}
+                        maxLength={3}
                       />
                     </View>
                   </View>
@@ -200,11 +233,23 @@ export function EditDetailsModal({
                       <TextInput
                         className="flex-1 ml-2 text-base text-gray-900 font-lufga py-3"
                         value={weight}
-                        onChangeText={setWeight}
+                        onChangeText={(text) => {
+                          // Allow empty input or valid range, but also allow partial inputs while typing
+                          if (text === "") {
+                            setWeight(text);
+                            return;
+                          }
+                          const num = parseInt(text);
+                          // Allow any input less than 1000, but will validate on save
+                          if (num < 1000) {
+                            setWeight(text);
+                          }
+                        }}
                         placeholder="70"
                         placeholderTextColor="#9CA3AF"
                         keyboardType="numeric"
                         editable={!isSaving}
+                        maxLength={3}
                       />
                     </View>
                   </View>
@@ -220,11 +265,17 @@ export function EditDetailsModal({
                       <TextInput
                         className="flex-1 ml-2 text-base text-gray-900 font-lufga py-3"
                         value={age}
-                        onChangeText={setAge}
+                        onChangeText={(text) => {
+                          // Allow only up to 2 digits
+                          if (text.length <= 2) {
+                            setAge(text);
+                          }
+                        }}
                         placeholder="30"
                         placeholderTextColor="#9CA3AF"
                         keyboardType="numeric"
                         editable={!isSaving}
+                        maxLength={2}
                       />
                     </View>
                   </View>

@@ -25,8 +25,13 @@ export const createOrUpdate = mutation({
       .first();
 
     if (existingProfile) {
-      // For existing profiles, preserve existing referral data
+      // For existing profiles, update all fields
       const updateData = {
+        height: args.height,
+        weight: args.weight,
+        age: args.age,
+        gender: args.gender,
+        activityLevel: args.activityLevel,
         referralCode: existingProfile.referralCode ?? args.referralCode,
         referredBy: existingProfile.referredBy ?? args.referredBy,
         referralCount: existingProfile.referralCount ?? args.referralCount,
