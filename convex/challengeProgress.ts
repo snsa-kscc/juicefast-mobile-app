@@ -51,11 +51,58 @@ export const generateUploadUrl = mutation({
   },
 });
 
+export const toggleHabit = mutation({
+  args: { habitId: v.number() },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const userId = identity.subject;
+    const now = Date.now();
+
+    // Find existing progress
+    const existingProgress = await ctx.db
+      .query("challengeProgress")
+      .withIndex("by_user_id", (q) => q.eq("userId", userId))
+      .first();
+
+    if (!existingProgress) {
+      throw new Error(
+        "Challenge progress not found. Please start the challenge first."
+      );
+    }
+
+    // Get current completed habits or initialize empty array
+    const currentHabits = existingProgress.completedHabits || [];
+
+    // Toggle the habit
+    let updatedHabits: number[];
+    if (currentHabits.includes(args.habitId)) {
+      // Remove habit from completed
+      updatedHabits = currentHabits.filter((id) => id !== args.habitId);
+    } else {
+      // Add habit to completed
+      updatedHabits = [...currentHabits, args.habitId];
+    }
+
+    // Update the progress
+    await ctx.db.patch(existingProgress._id, {
+      completedHabits: updatedHabits,
+      updatedAt: now,
+    });
+
+    return updatedHabits;
+  },
+});
+
 export const updateProgress = mutation({
   args: {
     hasClearedEntryModal: v.optional(v.boolean()),
     beforePhotoUrl: v.optional(v.string()),
     afterPhotoUrl: v.optional(v.string()),
+    completedHabits: v.optional(v.array(v.number())),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -88,6 +135,9 @@ export const updateProgress = mutation({
     }
     if (args.afterPhotoUrl !== undefined) {
       updateData.afterPhotoUrl = args.afterPhotoUrl;
+    }
+    if (args.completedHabits !== undefined) {
+      updateData.completedHabits = args.completedHabits;
     }
 
     await ctx.db.patch(existingProgress._id, updateData);

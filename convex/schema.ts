@@ -136,6 +136,7 @@ export default defineSchema({
     afterPhotoUrl: v.optional(v.string()), // Stored in Convex storage
     startedAt: v.number(), // UTC timestamp when challenge started
     updatedAt: v.number(), // Last update timestamp
+    completedHabits: v.optional(v.array(v.number())), // Array of completed habit IDs (1-21)
   }).index("by_user_id", ["userId"]),
 
   challengeOrders: defineTable({
