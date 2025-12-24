@@ -223,7 +223,10 @@ export default function ProgressDashboardPage() {
         <Text className="text-2xl font-lufga-medium text-[#750046]">
           Progress Dashboard
         </Text>
-        <TouchableOpacity className="w-20 h-16 bg-[#F8F8F8] rounded-full items-center justify-center">
+        <TouchableOpacity
+          className="w-20 h-16 bg-[#F8F8F8] rounded-full items-center justify-center"
+          onPress={() => router.push("/challenge/challenge-messages")}
+        >
           <Bell size={28} color="#750046" />
         </TouchableOpacity>
       </View>

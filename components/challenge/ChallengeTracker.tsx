@@ -1,28 +1,238 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useState, useMemo, useEffect } from "react";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SquarePen } from "lucide-react-native";
 import { useRouter } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
+import { useQuery } from "convex/react";
 import {
   HabitTargetIcon,
   CaloriesIcon,
   TimerIcon,
   CircleGradientBorder,
 } from "@/components/challenge/ChallengeIcons";
+import { api } from "@/convex/_generated/api";
+import { calculateDailyMacronutrients } from "@/schemas/UserProfileSchema";
 
 export function ChallengeTracker() {
-  const [caloriesBurned, setCaloriesBurned] = useState(0);
-  const [caloriesConsumed, setCaloriesConsumed] = useState(0);
-  const [caloriesRemaining, setCaloriesRemaining] = useState(2536);
-
-  const [proteinValue, setProteinValue] = useState(0);
-  const [fatValue, setFatValue] = useState(0);
-  const [carbsValue, setCarbsValue] = useState(0);
-
-  const [waterValue, setWaterValue] = useState(0);
-  const [stepsValue, setStepsValue] = useState(0);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isSignedIn } = useAuth();
   const router = useRouter();
+
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date();
+
+  // Calculate start and end timestamps for today
+  const { startTime, endTime } = useMemo(() => {
+    const start = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      0,
+      0,
+      0,
+      0
+    );
+    const end = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
+    return {
+      startTime: start.getTime(),
+      endTime: end.getTime(),
+    };
+  }, []);
+
+  // Query all 5 tables simultaneously - only when authenticated
+  const stepEntries = useQuery(
+    api.stepEntry.getByUserId,
+    isSignedIn
+      ? {
+          startTime,
+          endTime,
+        }
+      : "skip"
+  );
+
+  const waterEntries = useQuery(
+    api.waterIntake.getByUserId,
+    isSignedIn
+      ? {
+          startTime,
+          endTime,
+        }
+      : "skip"
+  );
+
+  const mealEntries = useQuery(
+    api.mealEntry.getByUserId,
+    isSignedIn
+      ? {
+          startTime,
+          endTime,
+        }
+      : "skip"
+  );
+
+  const mindfulnessEntries = useQuery(
+    api.mindfulnessEntry.getByUserId,
+    isSignedIn
+      ? {
+          startTime,
+          endTime,
+        }
+      : "skip"
+  );
+
+  const sleepEntries = useQuery(
+    api.sleepEntry.getByUserId,
+    isSignedIn
+      ? {
+          startTime,
+          endTime,
+        }
+      : "skip"
+  );
+
+  // Query user profile for macronutrient calculations
+  const userProfile = useQuery(api.userProfile.getByUserId);
+
+  // Calculate aggregated data from queries
+  const todayData = useMemo(() => {
+    if (
+      !stepEntries ||
+      !waterEntries ||
+      !mealEntries ||
+      !mindfulnessEntries ||
+      !sleepEntries
+    ) {
+      return null;
+    }
+
+    const totalSteps = stepEntries.reduce((sum, entry) => sum + entry.count, 0);
+    const totalWater = waterEntries.reduce(
+      (sum, entry) => sum + entry.amount,
+      0
+    );
+    const totalCalories = mealEntries.reduce(
+      (sum, entry) => sum + entry.calories,
+      0
+    );
+    const totalMindfulness = mindfulnessEntries.reduce(
+      (sum, entry) => sum + entry.minutes,
+      0
+    );
+    const totalSleep = sleepEntries.reduce(
+      (sum, entry) => sum + entry.hoursSlept,
+      0
+    );
+    const healthyMeals = mealEntries.length;
+
+    return {
+      steps: totalSteps,
+      water: totalWater,
+      calories: totalCalories,
+      mindfulness: totalMindfulness,
+      sleep: totalSleep,
+      healthyMeals,
+    };
+  }, [
+    stepEntries,
+    waterEntries,
+    mealEntries,
+    mindfulnessEntries,
+    sleepEntries,
+  ]);
+
+  // Update loading state based on query status
+  useEffect(() => {
+    const isQueryLoading =
+      stepEntries === undefined ||
+      waterEntries === undefined ||
+      mealEntries === undefined ||
+      mindfulnessEntries === undefined ||
+      sleepEntries === undefined;
+    setIsLoading(isQueryLoading);
+  }, [
+    stepEntries,
+    waterEntries,
+    mealEntries,
+    mindfulnessEntries,
+    sleepEntries,
+  ]);
+
+  // Default values when no data
+  const defaultCalorieTarget = 2536;
+  const caloriesConsumed = todayData?.calories || 0;
+
+  // Calculate daily macronutrient goals based on profile
+  const macroGoals = useMemo(() => {
+    if (
+      !userProfile?.weight ||
+      !userProfile?.height ||
+      !userProfile?.age ||
+      !userProfile?.gender ||
+      !userProfile?.activityLevel
+    ) {
+      return {
+        calories: defaultCalorieTarget,
+        protein: 159,
+        fat: 106,
+        carbs: 396,
+      };
+    }
+
+    return calculateDailyMacronutrients(
+      userProfile.weight,
+      userProfile.height,
+      userProfile.age,
+      userProfile.gender,
+      userProfile.activityLevel
+    );
+  }, [userProfile]);
+
+  const caloriesRemaining = macroGoals.calories - caloriesConsumed;
+
+  // Calculate actual macro values from meal entries
+  const actualMacros = useMemo(() => {
+    if (!mealEntries || mealEntries.length === 0) {
+      return { protein: 0, fat: 0, carbs: 0 };
+    }
+
+    // Aggregate macro data from meal entries
+    return mealEntries.reduce(
+      (totals, meal) => ({
+        protein: totals.protein + (meal.protein || 0),
+        fat: totals.fat + (meal.fat || 0),
+        carbs: totals.carbs + (meal.carbs || 0),
+      }),
+      { protein: 0, fat: 0, carbs: 0 }
+    );
+  }, [mealEntries]);
+
+  const proteinValue = actualMacros.protein;
+  const fatValue = actualMacros.fat;
+  const carbsValue = actualMacros.carbs;
+
+  const waterValue = todayData?.water || 0;
+  const stepsValue = todayData?.steps || 0;
+
+  // Calculate calories burned from steps
+  const CALORIES_PER_STEP = 0.04;
+  const caloriesBurned = Math.round(stepsValue * CALORIES_PER_STEP);
+
+  if (isLoading && isSignedIn) {
+    return (
+      <View className="flex-1 bg-[#FCFBF8] justify-center items-center px-6">
+        <ActivityIndicator size="large" color="#2d2d2d" />
+      </View>
+    );
+  }
 
   return (
     <View className="px-6 mb-32">
@@ -195,7 +405,7 @@ export function ChallengeTracker() {
             style={{ backgroundColor: "#F1F4F3" }}
           />
           <Text className="text-base font-lufga text-[#506484] text-center w-full">
-            {proteinValue}/159g
+            {proteinValue}/{macroGoals.protein}g
           </Text>
         </View>
 
@@ -209,7 +419,7 @@ export function ChallengeTracker() {
             style={{ backgroundColor: "#F1F4F3" }}
           />
           <Text className="text-base font-lufga text-[#506484] text-center w-full">
-            {fatValue}/106g
+            {fatValue}/{macroGoals.fat}g
           </Text>
         </View>
 
@@ -223,7 +433,7 @@ export function ChallengeTracker() {
             style={{ backgroundColor: "#F1F4F3" }}
           />
           <Text className="text-base font-lufga text-[#506484] text-center w-full">
-            {carbsValue}/396g
+            {carbsValue}/{macroGoals.carbs}g
           </Text>
         </View>
       </View>
@@ -330,6 +540,7 @@ export function ChallengeTracker() {
         <TouchableOpacity
           className="items-center justify-center rounded-xl py-1.5 mt-3"
           style={{ backgroundColor: "rgba(255,255,255,0.6)" }}
+          onPress={() => router.push("/challenge/challenge-habits")}
         >
           <Text className="text-base font-lufga text-black text-center">
             Add habit

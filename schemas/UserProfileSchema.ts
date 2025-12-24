@@ -68,3 +68,63 @@ export function getActivityLevelText(activityLevel: string): string {
       return "-";
   }
 }
+
+// Helper function to calculate BMI
+export function calculateBMI(weight: number, height: number): number {
+  const heightInMeters = height / 100;
+  return Number((weight / (heightInMeters * heightInMeters)).toFixed(1));
+}
+
+// Helper function to calculate daily macronutrients
+export function calculateDailyMacronutrients(
+  weight: number,
+  height: number,
+  age: number,
+  gender: string,
+  activityLevel: string
+): {
+  calories: number;
+  protein: number;
+  fat: number;
+  carbs: number;
+} {
+  // Calculate TDEE using existing function
+  let bmr = 0;
+  if (gender === "male") {
+    bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+  } else {
+    bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+  }
+
+  const activityMultipliers = {
+    sedentary: 1.2,
+    light: 1.375,
+    moderate: 1.55,
+    active: 1.725,
+    very_active: 1.9,
+  };
+
+  const multiplier =
+    activityMultipliers[activityLevel as keyof typeof activityMultipliers] ||
+    1.2;
+  const calories = Math.round(bmr * multiplier);
+
+  // Calculate protein: 2g per kg of body weight for active individuals
+  const protein = Math.round(weight * 2);
+
+  // Calculate fat: 25% of daily calories
+  const fatCalories = calories * 0.25;
+  const fat = Math.round(fatCalories / 9); // 9 calories per gram of fat
+
+  // Calculate carbs: remaining calories after protein and fat
+  const proteinCalories = protein * 4; // 4 calories per gram of protein
+  const remainingCalories = calories - proteinCalories - fatCalories;
+  const carbs = Math.round(remainingCalories / 4); // 4 calories per gram of carbs
+
+  return {
+    calories,
+    protein,
+    fat,
+    carbs,
+  };
+}
