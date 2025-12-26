@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter } from "expo-router";
+import { useRouter, usePathname } from "expo-router";
 
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -28,13 +28,23 @@ export function ChallengeDashboard({
     api.challengeProgress.generateUploadUrl
   );
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    // Show modal when component first loads if there's no progress
-    if (showModal) {
-      setShowCongratsModal(true);
+    // Show modal only when on challenge tab and there's no progress
+    // This prevents the modal from showing on Android when navigating to premium-activation
+    if (showModal && pathname === "/challenge") {
+      // Add delay for Android to ensure navigation is complete
+      const timer = setTimeout(
+        () => {
+          setShowCongratsModal(true);
+        },
+        Platform.OS === "android" ? 500 : 0
+      );
+
+      return () => clearTimeout(timer);
     }
-  }, [showModal]);
+  }, [showModal, pathname]);
 
   const handleCloseModal = async () => {
     setShowCongratsModal(false);
