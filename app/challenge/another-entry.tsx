@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  Platform,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
@@ -44,14 +51,26 @@ export default function AnotherEntryPage() {
       {/* Content Section */}
       <View className="px-10 pt-4">
         {/* Card */}
-        <View className="rounded-[20px] shadow-2xl shadow-black/90 mb-10 overflow-hidden">
+        <View
+          className={`rounded-3xl shadow-2xl shadow-black/90 mb-10 bg-transparent ${
+            Platform.OS === "ios" ? "shadow-black/30" : "shadow-black/90"
+          }`}
+        >
           <LinearGradient
             colors={["#A5ECC9", "#EFEFEF", "#F8F6EB"]}
             start={{ x: 1, y: 0 }}
             end={{ x: 0, y: 1 }}
             locations={[0.005, 0.8, 1]}
-            className="p-5 flex-row items-center gap-5"
-          >
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              borderRadius: 24,
+            }}
+          />
+          <View className="relative p-5 flex-row items-center gap-5">
             <View className="w-20 h-20 items-center justify-center overflow-visible">
               <Image
                 source={require("@/assets/images/challenge/gift-box.webp")}
@@ -59,10 +78,10 @@ export default function AnotherEntryPage() {
                 resizeMode="contain"
               />
             </View>
-            <Text className="flex-1 ml-4 text-3xl leading-tight font-lufga-extrabold text-black">
-              Register {"\n"}another order
+            <Text className="flex-1 ml-4 text-2xl leading-tight font-lufga-extrabold text-black">
+              Register another order
             </Text>
-          </LinearGradient>
+          </View>
         </View>
 
         {/* Description Text */}

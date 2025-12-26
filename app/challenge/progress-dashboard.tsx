@@ -414,31 +414,6 @@ export default function ProgressDashboardPage() {
               </View>
             </View>
           </View>
-
-          <View className="bg-white rounded-2xl p-5">
-            <View className="flex-row items-center mb-2">
-              <Scale size={18} color="#750046" />
-              <Text className="text-xl font-lufga-medium text-[#750046] ml-1.5">
-                Weight
-              </Text>
-            </View>
-
-            <View className="flex-row items-baseline mb-4">
-              <Text className="text-3xl font-lufga-medium text-[#750046]">
-                85.0{" "}
-              </Text>
-              <Text className="text-base font-lufga text-[#750046]">kg</Text>
-            </View>
-
-            <TouchableOpacity className="bg-[#BAF2C4] rounded-xl py-2.5 items-center">
-              <Text
-                className="text-lg font-lufga-medium text-[#003D29]"
-                style={{ letterSpacing: -0.28 }}
-              >
-                Log Weight
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </ScrollView>
 

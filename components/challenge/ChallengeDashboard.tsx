@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Platform,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 
@@ -186,7 +193,9 @@ export function ChallengeDashboard({
         <View className="px-6 mb-6">
           {/* Register another order */}
           <TouchableOpacity
-            className="w-full rounded-3xl shadow-2xl shadow-black/90 py-5 px-8 mb-6 overflow-hidden"
+            className={`w-full rounded-3xl shadow-2xl py-5 px-8 mb-6 bg-transparent ${
+              Platform.OS === "ios" ? "shadow-black/30" : "shadow-black/90"
+            }`}
             onPress={() => router.push("/challenge/another-entry")}
           >
             <LinearGradient

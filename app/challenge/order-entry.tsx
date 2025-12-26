@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -194,7 +195,11 @@ export default function OrderEntryPage() {
         <TouchableOpacity
           onPress={handleSubmit}
           disabled={isLoading}
-          className="w-2/3 rounded-3xl shadow-2xl shadow-black/90 py-5 mb-6 overflow-hidden mx-auto"
+          className={`w-2/3 rounded-3xl py-5 mb-6 bg-transparent mx-auto ${
+            Platform.OS === "ios"
+              ? "shadow-2xl shadow-black/30"
+              : "shadow-2xl shadow-black/90"
+          }`}
         >
           <LinearGradient
             colors={isLoading ? ["#D1D5DB", "#E5E7EB"] : ["#A5ECC9", "#EFEFEF"]}

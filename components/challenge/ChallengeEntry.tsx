@@ -1,20 +1,21 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { BlurView } from "expo-blur";
 
-interface ChallengeEntryProps {
-  isAdmin?: boolean;
-}
-
-export function ChallengeEntry({ isAdmin = false }: ChallengeEntryProps) {
+export function ChallengeEntry() {
   const router = useRouter();
 
   const handleParticipatePress = () => {
-    if (isAdmin) {
-      router.push("/challenge/order-entry");
-    }
+    router.push("/challenge/order-entry");
   };
 
   return (
@@ -60,8 +61,11 @@ export function ChallengeEntry({ isAdmin = false }: ChallengeEntryProps) {
       <View className="px-6">
         {/* CTA Button */}
         <TouchableOpacity
-          className="w-full rounded-3xl shadow-2xl shadow-black/90 py-5 px-8 mb-6 overflow-hidden"
-          disabled={!isAdmin}
+          className={`w-full rounded-3xl py-5 px-8 mb-6 bg-transparent ${
+            Platform.OS === "ios"
+              ? "shadow-2xl shadow-black/30"
+              : "shadow-2xl shadow-black/90"
+          }`}
           onPress={handleParticipatePress}
         >
           <LinearGradient
@@ -79,7 +83,7 @@ export function ChallengeEntry({ isAdmin = false }: ChallengeEntryProps) {
           />
           <View className="relative">
             <Text className="text-center text-2xl font-lufga-bold text-gray-700">
-              {isAdmin ? "Participate in" : "Coming Soon"}
+              Participate in
             </Text>
             <Text className="text-center text-2xl font-lufga-bold text-[#109375]">
               JF Challenge
@@ -176,9 +180,17 @@ export function ChallengeEntry({ isAdmin = false }: ChallengeEntryProps) {
             intensity={30}
             tint="light"
             experimentalBlurMethod="dimezisBlurView"
-            className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden shadow-2xl shadow-black/60 border-2 border-white/60"
+            className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden border-2 border-white/60"
             style={{
               backgroundColor: "rgba(255, 255, 255, 0.4)",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.3,
+              shadowRadius: 12,
+              elevation: 12,
             }}
           >
             <Text className="text-gray-900 font-lufga-medium text-xl text-center">
@@ -189,9 +201,17 @@ export function ChallengeEntry({ isAdmin = false }: ChallengeEntryProps) {
             intensity={30}
             tint="light"
             experimentalBlurMethod="dimezisBlurView"
-            className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden shadow-2xl shadow-black/60 border-2 border-white/60"
+            className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden border-2 border-white/60"
             style={{
               backgroundColor: "rgba(255, 255, 255, 0.4)",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.3,
+              shadowRadius: 12,
+              elevation: 12,
             }}
           >
             <Text className="text-gray-900 font-lufga-medium text-xl text-center">
@@ -202,9 +222,17 @@ export function ChallengeEntry({ isAdmin = false }: ChallengeEntryProps) {
             intensity={30}
             tint="light"
             experimentalBlurMethod="dimezisBlurView"
-            className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden shadow-2xl shadow-black/60 border-2 border-white/60"
+            className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden border-2 border-white/60"
             style={{
               backgroundColor: "rgba(255, 255, 255, 0.4)",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.3,
+              shadowRadius: 12,
+              elevation: 12,
             }}
           >
             <Text className="text-gray-900 font-lufga-medium text-xl text-center">

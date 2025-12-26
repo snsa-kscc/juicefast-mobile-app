@@ -488,8 +488,12 @@ export function ChallengeTracker() {
         locations={[0.17894, 1, 1]}
         start={{ x: 1, y: 0 }}
         end={{ x: 0, y: 1 }}
-        style={{ borderRadius: 16 }}
-        className="mb-4 px-4 py-3"
+        style={{
+          borderRadius: 16,
+          marginBottom: 16,
+          paddingHorizontal: 16,
+          paddingVertical: 12,
+        }}
       >
         <View
           className="flex-row items-center justify-between pb-1"

@@ -8,7 +8,6 @@ import { View, ActivityIndicator, Text } from "react-native";
 
 export default function TrackerScreen() {
   const { user } = useUser();
-  const isAdmin = user?.unsafeMetadata?.role === "admin";
 
   // Check if user is enrolled in challenge
   const challengeProgress = useQuery(
@@ -31,5 +30,5 @@ export default function TrackerScreen() {
     return <ChallengeDashboard showModal={shouldShowModal} />;
   }
 
-  return <ChallengeEntry isAdmin={isAdmin} />;
+  return <ChallengeEntry />;
 }

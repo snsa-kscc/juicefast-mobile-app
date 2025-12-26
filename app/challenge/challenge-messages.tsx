@@ -8,17 +8,18 @@ export default function ChallengeMessagesPage() {
 
   return (
     <View className="flex-1 bg-white">
-      <View className="flex-row items-center justify-between px-4 pt-12 pb-3">
+      <View className="relative px-4 pt-12 pb-3">
         <TouchableOpacity
-          className="w-16 h-16 bg-[#F8F8F8] rounded-full items-center justify-center"
+          className="absolute left-4 top-6 w-16 h-16 bg-[#F8F8F8] rounded-full items-center justify-center"
           onPress={() => router.back()}
         >
           <ChevronLeft size={28} color="#750046" />
         </TouchableOpacity>
-        <Text className="text-2xl font-lufga-medium text-[#750046]">Inbox</Text>
-        <TouchableOpacity className="w-20 h-16 bg-[#F8F8F8] rounded-full items-center justify-center">
-          <Bell size={28} color="#750046" />
-        </TouchableOpacity>
+        <View className="items-center justify-center">
+          <Text className="text-2xl font-lufga-medium text-[#750046]">
+            Inbox
+          </Text>
+        </View>
       </View>
 
       <ScrollView
@@ -26,7 +27,11 @@ export default function ChallengeMessagesPage() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
-        <Text>Challenge Messages</Text>
+        <View className="flex-1 items-center justify-center mt-8">
+          <Text className="text-lg font-lufga text-gray-600">
+            No messages yet
+          </Text>
+        </View>
       </ScrollView>
     </View>
   );
