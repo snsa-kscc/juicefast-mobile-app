@@ -244,10 +244,8 @@ This project is private and proprietary to Juicefast App.
 
 ## 2DO
 
-- [ ] Setup RevenueCat for Web - ??? later
-- [ ] Expo web bug and max width
-- [ ] WooCommerce integration - test
+- [ ] WooCommerce integration
 - [ ] Styling
 - [ ] Testing
-- [ ] Facebook OAuth - ja
+- [ ] Facebook OAuth
 - [ ] Add Sentry for error tracking
