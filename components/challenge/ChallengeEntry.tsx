@@ -11,7 +11,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { BlurView } from "expo-blur";
 
-export function ChallengeEntry() {
+export function ChallengeEntry({ isAdmin }: { isAdmin: boolean }) {
   const router = useRouter();
 
   const handleParticipatePress = () => {
@@ -67,6 +67,7 @@ export function ChallengeEntry() {
               : "shadow-2xl shadow-black/90"
           }`}
           onPress={handleParticipatePress}
+          disabled={!isAdmin}
         >
           <LinearGradient
             colors={["#A5ECC9", "#EFEFEF"]}
@@ -83,7 +84,7 @@ export function ChallengeEntry() {
           />
           <View className="relative">
             <Text className="text-center text-2xl font-lufga-bold text-gray-700">
-              Participate in
+              {!isAdmin ? "Coming soon" : "Participate in"}
             </Text>
             <Text className="text-center text-2xl font-lufga-bold text-[#109375]">
               JF Challenge
