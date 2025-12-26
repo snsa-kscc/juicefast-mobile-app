@@ -94,7 +94,7 @@ export function QuizQuestion({
     setIsSkipping(true);
     try {
       await markOnboardingCompleted();
-      router.replace("/(tabs)");
+      router.replace("/(tabs)/challenge");
     } finally {
       setIsSkipping(false);
     }

@@ -1,14 +1,11 @@
 import { ChallengeEntry } from "@/components/challenge/ChallengeEntry";
 import { ChallengeDashboard } from "@/components/challenge/ChallengeDashboard";
 import React from "react";
-import { useUser } from "@clerk/clerk-expo";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { View, ActivityIndicator, Text } from "react-native";
 
 export default function TrackerScreen() {
-  const { user } = useUser();
-
   // Check if user is enrolled in challenge
   const challengeProgress = useQuery(
     api.challengeProgress.getUserChallengeProgress

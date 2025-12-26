@@ -86,6 +86,24 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
           </Text>
           {!isCompleting && <ArrowRight size={20} color="white" />}
         </TouchableOpacity>
+
+        {/* Go to chellenge button */}
+        <TouchableOpacity
+          onPress={() => router.replace("/(tabs)/challenge")}
+          className="flex-row items-center justify-center px-8 rounded-full self-center"
+          style={{
+            backgroundColor: "#1A1A1A",
+            height: 56,
+            width: "100%",
+            maxWidth: 320,
+            marginTop: 16,
+          }}
+        >
+          <Text className="text-white text-base font-lufga-semibold mr-2">
+            {isCompleting ? "Loading..." : "Finish onboarding"}
+          </Text>
+          {!isCompleting && <ArrowRight size={20} color="white" />}
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
