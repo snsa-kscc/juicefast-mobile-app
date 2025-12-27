@@ -227,7 +227,6 @@ function AuthenticatedLayout() {
             name="nutritionist/chat/[sessionId]"
             options={SCREEN_OPTIONS}
           />
-          <Stack.Screen name="test-push" options={SCREEN_OPTIONS} />
           <Stack.Screen name="+not-found" />
         </Stack>
       </SafeAreaView>

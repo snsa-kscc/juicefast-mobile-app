@@ -1,5 +1,6 @@
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import { Platform } from "react-native";
 
 // Global session ID tracking for notification suppression
 let activeSessionId: string | null = null;
@@ -35,9 +36,17 @@ Notifications.setNotificationHandler({
   },
 });
 
-// Get push token for this device
+// Get push token for this device (only works on mobile)
 export async function getPushToken(): Promise<string | null> {
   try {
+    // Web platform cannot receive push tokens, only send notifications
+    if (Platform.OS === "web") {
+      console.log(
+        "Push tokens are not available on web - web can only send notifications"
+      );
+      return null;
+    }
+
     if (!Device.isDevice) {
       console.log("Push notifications only work on physical devices");
       return null;
@@ -97,10 +106,24 @@ export async function sendPushNotification(
   };
 
   try {
-    const response = await fetch("https://exp.host/--/api/v2/push/send", {
+    // For web, we need to use a proxy or backend to avoid CORS
+    // Option 1: Use a CORS proxy (for development only)
+    const apiUrl =
+      Platform.OS === "web"
+        ? "https://corsproxy.io/?https://exp.host/--/api/v2/push/send"
+        : "https://exp.host/--/api/v2/push/send";
+
+    // Option 2: Better approach - use your own backend endpoint
+    // const apiUrl = Platform.OS === 'web'
+    //   ? 'https://your-backend.com/api/send-push'
+    //   : 'https://exp.host/--/api/v2/push/send';
+
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        // Add origin header for CORS proxy
+        ...(Platform.OS === "web" && { Origin: window.location.origin }),
       },
       body: JSON.stringify(message),
     });

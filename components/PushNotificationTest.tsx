@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   Button,
-  Alert,
   ScrollView,
   Platform,
 } from "react-native";
@@ -105,7 +104,10 @@ export default function PushNotificationTest() {
         {/* Device info */}
         <Text className="text-sm font-lufga-medium mb-2">My Token:</Text>
         <Text className="text-xs bg-gray-100 p-3 mb-4 rounded-md" selectable>
-          {myToken || "Loading... (Make sure you are on a physical device)"}
+          {myToken ||
+            (Platform.OS === "web"
+              ? "Web cannot receive push tokens - only send notifications"
+              : "Loading... (Make sure you are on a physical device)")}
         </Text>
 
         {/* Input for other device's token */}
@@ -130,7 +132,7 @@ export default function PushNotificationTest() {
         />
 
         {/* Buttons */}
-        <View className="space-y-2">
+        <View className="mb-4 flex-col gap-4">
           <Button
             title={isSending ? "Sending..." : "Send to Other Device"}
             onPress={handleSend}
@@ -147,13 +149,16 @@ export default function PushNotificationTest() {
         <View className="mt-6 p-4 bg-blue-50 rounded-md">
           <Text className="text-sm font-lufga-medium mb-2">Instructions:</Text>
           <Text className="text-xs text-gray-700 mb-1">
-            • Must be on physical device (not simulator)
+            • Mobile: Must be on physical device (not simulator)
           </Text>
           <Text className="text-xs text-gray-700 mb-1">
-            • Grant notification permissions when prompted
+            • Web: Can only send notifications, not receive
           </Text>
           <Text className="text-xs text-gray-700 mb-1">
-            • Copy token from one device and paste into another
+            • Grant notification permissions when prompted (mobile only)
+          </Text>
+          <Text className="text-xs text-gray-700 mb-1">
+            • Copy token from mobile device and paste into web to send
           </Text>
           <Text className="text-xs text-gray-700">
             • Check console logs for detailed error info
