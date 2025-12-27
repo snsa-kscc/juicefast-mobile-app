@@ -85,6 +85,7 @@ export async function getPushToken(): Promise<string | null> {
 
 // Send push notification to a token (call this from your backend or another user's device)
 export async function sendPushNotification(
+  getToken: () => Promise<string | null>, // Clerk's getToken function
   targetToken: string,
   senderName: string,
   messageText: string,
@@ -106,25 +107,29 @@ export async function sendPushNotification(
   };
 
   try {
-    // For web, we need to use a proxy or backend to avoid CORS
-    // Option 1: Use a CORS proxy (for development only)
+    // For web, use our authenticated API endpoint
+    // For mobile, use Expo's API directly
     const apiUrl =
       Platform.OS === "web"
-        ? "https://corsproxy.io/?https://exp.host/--/api/v2/push/send"
+        ? "/api/push"
         : "https://exp.host/--/api/v2/push/send";
 
-    // Option 2: Better approach - use your own backend endpoint
-    // const apiUrl = Platform.OS === 'web'
-    //   ? 'https://your-backend.com/api/send-push'
-    //   : 'https://exp.host/--/api/v2/push/send';
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    // For web, get the Clerk session token
+    if (Platform.OS === "web") {
+      const token = await getToken();
+      if (!token) {
+        throw new Error("Authentication required for push notifications");
+      }
+      headers.Authorization = `Bearer ${token}`;
+    }
 
     const response = await fetch(apiUrl, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // Add origin header for CORS proxy
-        ...(Platform.OS === "web" && { Origin: window.location.origin }),
-      },
+      headers,
       body: JSON.stringify(message),
     });
 

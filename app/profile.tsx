@@ -16,7 +16,6 @@ import { useRouter, Link } from "expo-router";
 import { useClerk, useUser } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
 import * as Clipboard from "expo-clipboard";
-import { AuthService } from "@/utils/auth";
 import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
 import {
@@ -169,7 +168,6 @@ export default function ProfileScreen() {
           try {
             setIsLoggingOut(true);
             await signOut();
-            AuthService.clearToken();
             await SecureStore.deleteItemAsync("REFERRAL_CODE");
             router.replace("/(auth)/sso-signup");
           } catch (error) {
@@ -196,7 +194,6 @@ export default function ProfileScreen() {
             setIsDeletingAccount(true);
             router.replace("/(auth)/sso-signup");
             await clerkUser?.delete();
-            AuthService.clearToken();
             await SecureStore.deleteItemAsync("REFERRAL_CODE");
           } catch (error) {
             console.error("Delete account error:", error);

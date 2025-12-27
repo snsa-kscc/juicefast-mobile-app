@@ -7,6 +7,7 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
+import { useAuth } from "@clerk/clerk-expo";
 import {
   getPushToken,
   sendPushNotification,
@@ -14,6 +15,7 @@ import {
 import { showCrossPlatformAlert } from "@/utils/alert";
 
 export default function PushNotificationTest() {
+  const { getToken } = useAuth();
   const [myToken, setMyToken] = useState("");
   const [otherToken, setOtherToken] = useState("");
   const [message, setMessage] = useState("");
@@ -48,7 +50,13 @@ export default function PushNotificationTest() {
 
     setIsSending(true);
     try {
-      await sendPushNotification(otherToken, "Test User", message, "chat-123");
+      await sendPushNotification(
+        getToken,
+        otherToken,
+        "Test User",
+        message,
+        "chat-123"
+      );
       showCrossPlatformAlert("Success", "Notification sent!");
       setMessage("");
     } catch (error) {
@@ -69,7 +77,13 @@ export default function PushNotificationTest() {
 
     setIsSending(true);
     try {
-      await sendPushNotification(myToken, "Self Test", message, "chat-123");
+      await sendPushNotification(
+        getToken,
+        myToken,
+        "Self Test",
+        message,
+        "chat-123"
+      );
       showCrossPlatformAlert("Success", "Test notification sent to yourself!");
       setMessage("");
     } catch (error) {
