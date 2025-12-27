@@ -61,9 +61,6 @@ export default function ChallengeMessagesPage() {
                   <Text className="text-lg font-lufga-bold text-gray-900 mb-1">
                     {message.title}
                   </Text>
-                  <Text className="text-sm text-gray-500 mb-2">
-                    From: {message.senderName}
-                  </Text>
                   <Text className="text-xs text-gray-400">
                     {formatDate(message.sentAt)}
                   </Text>

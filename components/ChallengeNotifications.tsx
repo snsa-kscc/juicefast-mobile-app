@@ -12,6 +12,8 @@ import { router } from "expo-router";
 import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
 import { showCrossPlatformAlert } from "@/utils/alert";
+import { sendBulkChallengeNotifications } from "@/services/messagingService";
+import { useAuth } from "@clerk/clerk-expo";
 
 interface Participant {
   userId: string;
@@ -34,10 +36,12 @@ export default function AdminNotifications() {
     api.challengeNotifications.getChallengeParticipantsCount
   );
 
-  // Mutation to send notifications
-  const sendNotification = useMutation(
-    api.challengeNotifications.sendNotificationToChallengeParticipants
+  // Mutation to store message
+  const storeMessage = useMutation(
+    api.challengeNotifications.storeChallengeMessages
   );
+
+  const { getToken } = useAuth();
 
   const handleSendNotification = async () => {
     if (!title.trim() || !message.trim()) {
@@ -48,11 +52,37 @@ export default function AdminNotifications() {
       return;
     }
 
+    if (!participants) {
+      await showCrossPlatformAlert("Error", "Participants data not loaded");
+      return;
+    }
+
     setIsSending(true);
     try {
-      const result = await sendNotification({
+      // Filter participants with push tokens
+      const recipients = participants
+        .filter((p) => p.pushToken)
+        .map((p) => ({
+          userId: p.userId,
+          name: p.name,
+          pushToken: p.pushToken!,
+        }));
+
+      // Send bulk notifications
+      const result = await sendBulkChallengeNotifications(
+        getToken,
+        recipients,
+        title.trim(),
+        message.trim()
+      );
+
+      // Store the message with results
+      await storeMessage({
         title: title.trim(),
         message: message.trim(),
+        totalRecipients: participants.length,
+        successCount: result.successCount,
+        failureCount: result.failureCount,
       });
 
       await showCrossPlatformAlert(

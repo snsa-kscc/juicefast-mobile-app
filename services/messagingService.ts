@@ -153,6 +153,95 @@ export async function sendPushNotification(
   }
 }
 
+// Send bulk push notifications to challenge participants
+export async function sendBulkChallengeNotifications(
+  getToken: () => Promise<string | null>, // Clerk's getToken function
+  recipients: Array<{ userId: string; name?: string; pushToken: string }>,
+  title: string,
+  message: string
+) {
+  let successCount = 0;
+  let failureCount = 0;
+  const errors: string[] = [];
+
+  // Send notifications in batches of 500 to stay under the 600/sec limit
+  const batchSize = 500;
+  for (let i = 0; i < recipients.length; i += batchSize) {
+    const batch = recipients.slice(i, i + batchSize);
+
+    // Send all notifications in the current batch concurrently
+    const batchPromises = batch.map(async (recipient) => {
+      try {
+        // For web, use our authenticated API endpoint
+        // For mobile, use Expo's API directly
+        const apiUrl =
+          Platform.OS === "web"
+            ? "/api/push"
+            : "https://exp.host/--/api/v2/push/send";
+
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+        };
+
+        // For web, get the Clerk session token
+        if (Platform.OS === "web") {
+          const token = await getToken();
+          if (!token) {
+            throw new Error("Authentication required for push notifications");
+          }
+          headers.Authorization = `Bearer ${token}`;
+        }
+
+        const notificationData = {
+          to: recipient.pushToken,
+          sound: "default",
+          title,
+          body: message,
+          data: { type: "challenge_notification" },
+          priority: "high",
+          channelId: "default",
+        };
+
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(notificationData),
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.data?.status === "ok") {
+          successCount++;
+        } else {
+          failureCount++;
+          errors.push(
+            `Failed for user ${recipient.name || recipient.userId}: ${result.message || "Unknown error"}`
+          );
+        }
+      } catch (error) {
+        failureCount++;
+        errors.push(
+          `Error for user ${recipient.name || recipient.userId}: ${error instanceof Error ? error.message : "Unknown error"}`
+        );
+      }
+    });
+
+    // Wait for the current batch to complete
+    await Promise.all(batchPromises);
+
+    // If there are more batches, wait 1 second before continuing
+    if (i + batchSize < recipients.length) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+  }
+
+  return {
+    successCount,
+    failureCount,
+    errors,
+  };
+}
+
 // Listen for notification taps (when app was closed/background)
 export function addNotificationListener(
   callback: (chatId?: string, intendedRecipientId?: string) => void
