@@ -3,11 +3,13 @@ import {
   View,
   Text,
   TextInput,
-  Button,
+  TouchableOpacity,
   ScrollView,
   Platform,
 } from "react-native";
 import { useAuth } from "@clerk/clerk-expo";
+import { ChevronLeft } from "lucide-react-native";
+import { router } from "expo-router";
 import {
   getPushToken,
   sendPushNotification,
@@ -99,9 +101,15 @@ export default function PushNotificationTest() {
   return (
     <ScrollView className="flex-1 bg-jf-gray">
       <View className="p-4 pt-12">
-        <Text className="text-xl font-lufga-bold mb-4">
-          Test Push Notifications
-        </Text>
+        {/* Header with back button */}
+        <View className="flex-row items-center mb-4">
+          <TouchableOpacity onPress={() => router.back()} className="mr-3 p-2">
+            <ChevronLeft size={24} color="#000" />
+          </TouchableOpacity>
+          <Text className="text-xl font-lufga-bold">
+            Test Push Notifications
+          </Text>
+        </View>
 
         <Text className="text-sm font-lufga-medium mb-2">
           Platform: {Platform.OS}
@@ -140,23 +148,54 @@ export default function PushNotificationTest() {
         <Text className="text-sm font-lufga-medium mb-2">Message:</Text>
         <TextInput
           className="border border-gray-300 p-3 mb-4 rounded-md text-sm"
+          style={{ minHeight: 120, textAlignVertical: "top" }}
           value={message}
           onChangeText={setMessage}
           placeholder="Type a test message"
+          multiline
+          numberOfLines={6}
         />
 
         {/* Buttons */}
         <View className="mb-4 flex-col gap-4">
-          <Button
-            title={isSending ? "Sending..." : "Send to Other Device"}
-            onPress={handleSend}
-            disabled={isSending || !otherToken || !message}
-          />
-          <Button
-            title={isSending ? "Sending..." : "Send to Self (Test)"}
-            onPress={handleSendToSelf}
-            disabled={isSending || !myToken || !message}
-          />
+          <TouchableOpacity
+            className={`py-3 px-4 rounded-md ${
+              isSending || !otherToken || !message
+                ? "bg-gray-300 opacity-50"
+                : "bg-blue-500"
+            }`}
+            onPress={() => {
+              if (!isSending && otherToken && message) {
+                handleSend();
+              }
+            }}
+          >
+            <Text className="text-white text-center font-lufga-semibold text-base">
+              {isSending ? "Sending..." : "Send to Other Device"}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className={`py-3 px-4 rounded-md ${
+              Platform.OS === "web"
+                ? "bg-gray-400 opacity-50"
+                : isSending || !myToken || !message
+                  ? "bg-gray-300 opacity-50"
+                  : "bg-blue-500"
+            }`}
+            onPress={() => {
+              if (Platform.OS !== "web" && !isSending && myToken && message) {
+                handleSendToSelf();
+              }
+            }}
+          >
+            <Text className="text-white text-center font-lufga-semibold text-base">
+              {Platform.OS === "web"
+                ? "Web Cannot Test Self"
+                : isSending
+                  ? "Sending..."
+                  : "Send to Self (Test)"}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Instructions */}

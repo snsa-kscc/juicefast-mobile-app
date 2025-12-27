@@ -147,4 +147,16 @@ export default defineSchema({
   })
     .index("by_user_id", ["userId"])
     .index("by_order_number", ["orderNumber"]),
+
+  // Challenge messages sent to participants
+  challengeMessages: defineTable({
+    title: v.string(), // Message title
+    message: v.string(), // Message content
+    sentBy: v.string(), // Clerk user ID of who sent it
+    totalRecipients: v.number(), // Total number of participants
+    successCount: v.number(), // Number of successful deliveries
+    failureCount: v.number(), // Number of failed deliveries
+    createdAt: v.number(), // When message was created
+    sentAt: v.number(), // When message was sent
+  }).index("by_sent_by", ["sentBy"]),
 });

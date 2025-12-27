@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as challengeNotifications from "../challengeNotifications.js";
 import type * as challengeOrders from "../challengeOrders.js";
 import type * as challengeProgress from "../challengeProgress.js";
 import type * as mealEntry from "../mealEntry.js";
@@ -29,6 +30,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  challengeNotifications: typeof challengeNotifications;
   challengeOrders: typeof challengeOrders;
   challengeProgress: typeof challengeProgress;
   mealEntry: typeof mealEntry;

@@ -608,6 +608,15 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
             </TouchableOpacity>
 
             <TouchableOpacity
+              className="bg-purple-600 px-6 py-4 rounded-xl mb-4"
+              onPress={() => router.push("/challenge-notifications")}
+            >
+              <Text className="text-white text-lg font-lufga-semibold text-center">
+                Send Challenge Notifications
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
               className="bg-orange-500 px-6 py-4 rounded-xl mb-4"
               onPress={() => {
                 showCrossPlatformAlert(
