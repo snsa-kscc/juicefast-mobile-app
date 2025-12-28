@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  Alert,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useEvent } from "expo";
@@ -16,6 +9,7 @@ import { ProcessedClubItem } from "@/types/club";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
 import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
 import { showCrossPlatformAlert } from "@/utils/alert";
+import { NutritionRecipePage } from "@/components/club/nutrition/NutritionRecipePage";
 
 export default function ClubContentDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -195,6 +189,11 @@ export default function ClubContentDetail() {
       );
     }
   };
+
+  // Check if this is nutrition category
+  if (item.category === "nutrition") {
+    return <NutritionRecipePage />;
+  }
 
   return (
     <View className="flex-1 bg-jf-gray">

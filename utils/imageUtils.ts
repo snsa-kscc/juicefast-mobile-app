@@ -3,6 +3,7 @@ import { ImageSourcePropType } from "react-native";
 export const DEFAULT_IMAGES = {
   icon: require("@/assets/images/icon.png"),
   clubPlaceholder: require("@/assets/images/jf-club/placeholder.jpg"),
+  recipe: require("@/assets/images/jf-club/placeholder.jpg"),
 } as const;
 
 export const getImageWithFallback = (
