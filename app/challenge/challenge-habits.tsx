@@ -219,7 +219,7 @@ export default function ChallengeHabitsPage() {
       </View>
 
       <ScrollView
-        className="flex-1 bg-gray-100"
+        className="flex-1 bg-jf-gray"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
