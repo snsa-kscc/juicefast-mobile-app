@@ -88,7 +88,7 @@ export function ChallengeCongratsModal({
         intensity={5}
         className="flex-1"
         tint="dark"
-        experimentalBlurMethod="dimezisBlurView"
+        // experimentalBlurMethod="dimezisBlurView" // causing issues on android
       >
         <View className="flex-1 justify-center items-center px-6">
           {/* Modal Content */}

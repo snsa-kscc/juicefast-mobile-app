@@ -8,7 +8,8 @@ import {
   Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter, usePathname } from "expo-router";
+import { useRouter } from "expo-router";
+import { useIsFocused } from "@react-navigation/native";
 
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -22,29 +23,28 @@ interface ChallengeDashboardProps {
 export function ChallengeDashboard({
   showModal = false,
 }: ChallengeDashboardProps) {
+  const isFocused = useIsFocused();
+  // Local state for modal visibility
   const [showCongratsModal, setShowCongratsModal] = useState(false);
+  // Track if we've already shown/dismissed the modal to prevent re-showing
+  const [hasShownModal, setHasShownModal] = useState(false);
+  
   const updateProgress = useMutation(api.challengeProgress.updateProgress);
   const generateUploadUrl = useMutation(
     api.challengeProgress.generateUploadUrl
   );
   const router = useRouter();
-  const pathname = usePathname();
 
+  // Show modal only when:
+  // 1. Screen is focused (user is actually looking at this tab)
+  // 2. showModal prop is true (database says to show it)
+  // 3. We haven't already shown/dismissed the modal in this session
   useEffect(() => {
-    // Show modal only when on challenge tab and there's no progress
-    // This prevents the modal from showing on Android when navigating to premium-activation
-    if (showModal && pathname === "/challenge") {
-      // Add delay for Android to ensure navigation is complete
-      const timer = setTimeout(
-        () => {
-          setShowCongratsModal(true);
-        },
-        Platform.OS === "android" ? 500 : 0
-      );
-
-      return () => clearTimeout(timer);
+    if (isFocused && showModal && !hasShownModal) {
+      setShowCongratsModal(true);
+      setHasShownModal(true);
     }
-  }, [showModal, pathname]);
+  }, [isFocused, showModal, hasShownModal]);
 
   const handleCloseModal = async () => {
     setShowCongratsModal(false);
