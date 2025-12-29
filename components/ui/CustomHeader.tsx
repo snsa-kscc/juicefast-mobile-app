@@ -1,6 +1,12 @@
 import { Settings, ArrowLeft } from "lucide-react-native";
 import React from "react";
-import { Text, TouchableOpacity, View, Image, ImageSourcePropType } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  ImageSourcePropType,
+} from "react-native";
 
 interface WellnessHeaderProps {
   title: string;
@@ -96,21 +102,19 @@ export function WellnessHeader({
               </Text>
             )}
           </View>
-          {rightContent ? (
-            rightContent
-          ) : (
-            showSettings && (
-              <TouchableOpacity
-                className="w-14 h-14 rounded-full bg-transparent justify-center items-center"
-                onPress={onSettingsPress}
-              >
-                <Settings
-                  size={28}
-                  color={backgroundImage ? "white" : "#1A1A1A"}
-                />
-              </TouchableOpacity>
-            )
-          )}
+          {rightContent
+            ? rightContent
+            : showSettings && (
+                <TouchableOpacity
+                  className="w-14 h-14 rounded-full bg-transparent justify-center items-center"
+                  onPress={onSettingsPress}
+                >
+                  <Settings
+                    size={28}
+                    color={backgroundImage ? "white" : "#1A1A1A"}
+                  />
+                </TouchableOpacity>
+              )}
         </View>
       </View>
     </View>

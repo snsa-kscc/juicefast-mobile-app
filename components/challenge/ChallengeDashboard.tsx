@@ -28,7 +28,7 @@ export function ChallengeDashboard({
   const [showCongratsModal, setShowCongratsModal] = useState(false);
   // Track if we've already shown/dismissed the modal to prevent re-showing
   const [hasShownModal, setHasShownModal] = useState(false);
-  
+
   const updateProgress = useMutation(api.challengeProgress.updateProgress);
   const generateUploadUrl = useMutation(
     api.challengeProgress.generateUploadUrl
