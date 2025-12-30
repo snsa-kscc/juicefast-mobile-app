@@ -8,26 +8,26 @@ import {
   Dimensions,
 } from "react-native";
 import { ArrowLeft } from "lucide-react-native";
-import { NutritionTips } from "./NutritionTips";
+import { ArticleTips } from "./ArticleTips";
 import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
-import { Recipe } from "@/utils/recipeData";
+import { Article } from "@/utils/articleData";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const ITEM_WIDTH = (SCREEN_WIDTH - 48 - 16) / 2; // 2 items per page: 48 = px-6 * 2, 16 = gap space
 
-interface NutritionFooterProps {
-  recipe?: Recipe;
-  recipes: Array<{ name: string; image: string }>;
-  onRecipePress?: (recipe: { name: string; image: string }) => void;
+interface ArticleFooterProps {
+  article?: Article;
+  items: Array<{ name: string; image: string }>;
+  onItemPress?: (item: { name: string; image: string }) => void;
   title?: string;
 }
 
-export function NutritionFooter({
-  recipe,
-  recipes,
-  onRecipePress,
-  title = "More recipes for you",
-}: NutritionFooterProps) {
+export function ArticleFooter({
+  article,
+  items,
+  onItemPress,
+  title = "More for you",
+}: ArticleFooterProps) {
   const flatListRef = useRef<FlatList>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -35,7 +35,7 @@ export function NutritionFooter({
 
   // Calculate total pages (2 items per page)
   const itemsPerPage = 2;
-  const totalPages = Math.ceil(recipes.length / itemsPerPage);
+  const totalPages = Math.ceil(items.length / itemsPerPage);
 
   // Handle scroll to update current page and chevron state
   const handleScroll = useCallback(
@@ -61,7 +61,7 @@ export function NutritionFooter({
       setCurrentPage(newPage);
 
       // Check if we can scroll right
-      const contentWidth = recipes.length * (ITEM_WIDTH + 16);
+      const contentWidth = items.length * (ITEM_WIDTH + 16);
       const remainingScroll =
         contentWidth - (contentOffset.x + containerWidth.current);
       const newCanScrollRight = remainingScroll > 10; // 10px threshold
@@ -71,7 +71,7 @@ export function NutritionFooter({
         setCanScrollRight(newCanScrollRight);
       }
     },
-    [itemsPerPage, totalPages, recipes.length, canScrollRight]
+    [itemsPerPage, totalPages, items.length, canScrollRight]
   );
 
   // Scroll to previous page
@@ -94,17 +94,17 @@ export function NutritionFooter({
       // Ensure we don't scroll past the end
       const maxOffset = Math.max(
         0,
-        (recipes.length - itemsPerPage) * (ITEM_WIDTH + 16)
+        (items.length - itemsPerPage) * (ITEM_WIDTH + 16)
       );
       flatListRef.current?.scrollToOffset({
         offset: Math.min(targetOffset, maxOffset),
         animated: true,
       });
     }
-  }, [currentPage, canScrollRight, recipes.length]);
+  }, [currentPage, canScrollRight, items.length]);
 
-  // Render individual recipe item
-  const renderRecipeItem = useCallback(
+  // Render individual item
+  const renderItem = useCallback(
     ({
       item,
       index,
@@ -113,16 +113,16 @@ export function NutritionFooter({
       index: number;
     }) => (
       <TouchableOpacity
-        onPress={() => onRecipePress?.(item)}
+        onPress={() => onItemPress?.(item)}
         className="gap-2"
         style={{
           width: ITEM_WIDTH,
-          marginRight: index < recipes.length - 1 ? 16 : 0,
+          marginRight: index < items.length - 1 ? 16 : 0,
         }}
       >
         <View className="w-full aspect-square rounded-3xl overflow-hidden bg-white shadow-sm">
           <Image
-            source={getImageWithFallback(item.image, DEFAULT_IMAGES.recipe)}
+            source={getImageWithFallback(item.image, DEFAULT_IMAGES.article)}
             className="w-full h-full"
             resizeMode="cover"
           />
@@ -132,13 +132,13 @@ export function NutritionFooter({
         </Text>
       </TouchableOpacity>
     ),
-    [recipes.length, onRecipePress]
+    [items.length, onItemPress]
   );
 
   return (
     <View className="bg-jf-gray pb-8">
       {/* Tips Section */}
-      <View>{recipe && <NutritionTips recipe={recipe} />}</View>
+      <View>{article && <ArticleTips article={article} />}</View>
 
       {/* Navigation Slider Section */}
       <View>
@@ -197,8 +197,8 @@ export function NutritionFooter({
         <View>
           <FlatList
             ref={flatListRef}
-            data={recipes}
-            renderItem={renderRecipeItem}
+            data={items}
+            renderItem={renderItem}
             keyExtractor={(_, index) => index.toString()}
             horizontal
             showsHorizontalScrollIndicator={false}

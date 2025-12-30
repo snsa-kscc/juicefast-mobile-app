@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Recipe } from "@/utils/recipeData";
+import { Article } from "@/utils/articleData";
 
 interface StatProps {
   label: string;
@@ -21,7 +21,12 @@ const StatItem = ({ label, value, unit }: StatProps) => (
   </View>
 );
 
-export function NutritionStats({ recipe }: { recipe: Recipe }) {
+export function ArticleStats({ article }: { article: Article }) {
+  // Only render for recipes with nutrition data
+  if (article.articleType !== "recipe" || !article.nutrition) {
+    return null;
+  }
+
   return (
     <View className="w-full px-8 py-6">
       <View className="flex-row justify-between items-end mb-6">
@@ -30,36 +35,38 @@ export function NutritionStats({ recipe }: { recipe: Recipe }) {
           <Text className="font-inter-italic text-gray-500">(per serving)</Text>
         </Text>
         <Text className="text-sm font-inter-extrabold text-black">
-          Calories: {recipe.nutrition.calories} kcal
+          Calories: {article.nutrition.calories} kcal
         </Text>
       </View>
 
       <View className="flex-row justify-between gap-3">
         <StatItem
           label="Protein"
-          value={recipe.nutrition.protein.toString()}
+          value={article.nutrition.protein.toString()}
           unit="g"
         />
         <StatItem
           label="Carbs"
-          value={recipe.nutrition.carbs.toString()}
+          value={article.nutrition.carbs.toString()}
           unit="g"
         />
         <StatItem
           label="Fat"
-          value={recipe.nutrition.fat.toString()}
+          value={article.nutrition.fat.toString()}
           unit="g"
         />
         <StatItem
           label="Fiber"
-          value={recipe.nutrition.fiber.toString()}
+          value={article.nutrition.fiber.toString()}
           unit="g"
         />
       </View>
 
-      <Text className="text-center text-sm font-inter-medium text-gray-500 italic mt-6">
-        Bonus: {recipe.bonus}
-      </Text>
+      {article.bonus && (
+        <Text className="text-center text-sm font-inter-medium text-gray-500 italic mt-6">
+          Bonus: {article.bonus}
+        </Text>
+      )}
     </View>
   );
 }

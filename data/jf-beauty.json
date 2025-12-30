@@ -1,0 +1,1533 @@
+{
+  "version": "1.0",
+  "totalItems": 40,
+  "categories": [
+    {
+      "id": "face-yoga-mini-class",
+      "name": "Face Yoga Mini Class",
+      "itemCount": 10
+    },
+    {
+      "id": "diy-hair-masks",
+      "name": "DIY Hair Masks",
+      "itemCount": 10
+    },
+    {
+      "id": "diy-face-masks",
+      "name": "DIY Face Masks",
+      "itemCount": 10
+    },
+    {
+      "id": "diy-bath-bombs",
+      "name": "DIY Bath Bombs",
+      "itemCount": 10
+    }
+  ],
+  "items": [
+    {
+      "id": "forehead-smoother",
+      "title": "Forehead Smoother",
+      "category": "face-yoga-mini-class",
+      "tags": [
+        "Anti-wrinkle",
+        "Tension relief",
+        "Beginner",
+        "2 minutes"
+      ],
+      "image": "1.webp",
+      "description": "Reduces forehead lines and releases tension from frowning. Regular practice can soften horizontal wrinkles and prevent new ones from forming.",
+      "difficulty": "Beginner",
+      "quickInfo": {
+        "time": "2 min",
+        "frequency": "Daily",
+        "target": "Forehead"
+      },
+      "instructions": [
+        "Place all fingertips horizontally across your forehead.",
+        "Apply gentle pressure and sweep outward toward temples.",
+        "Repeat 10 times with smooth, slow movements.",
+        "Now make a fist and use knuckles to massage in small circles across forehead.",
+        "Finish by pressing palms gently against forehead for 5 seconds."
+      ],
+      "tips": [
+        "Do this whenever you notice you're frowning",
+        "Apply facial oil first for better glide",
+        "Combine with deep breathing for stress relief"
+      ]
+    },
+    {
+      "id": "cheek-lifter",
+      "title": "Cheek Lifter",
+      "category": "face-yoga-mini-class",
+      "tags": [
+        "Lifting",
+        "Sculpting",
+        "Intermediate",
+        "3 minutes"
+      ],
+      "image": "2.webp",
+      "description": "Lifts sagging cheeks and defines cheekbones. Strengthens the muscles that keep your face lifted and youthful.",
+      "difficulty": "Intermediate",
+      "quickInfo": {
+        "time": "3 min",
+        "frequency": "Daily",
+        "target": "Cheeks"
+      },
+      "instructions": [
+        "Smile as wide as possible, showing upper teeth.",
+        "Place fingertips on top of cheekbones.",
+        "While smiling, try to push cheeks up toward eyes.",
+        "Hold for 10 seconds while maintaining the smile.",
+        "Release and repeat 5 times.",
+        "Finish by tapping cheeks lightly to increase circulation."
+      ],
+      "tips": [
+        "Look in mirror to ensure you're engaging the right muscles",
+        "Don't scrunch your eyes - keep them relaxed",
+        "Practice while applying moisturizer"
+      ]
+    },
+    {
+      "id": "jawline-definer",
+      "title": "Jawline Definer",
+      "category": "face-yoga-mini-class",
+      "tags": [
+        "Contouring",
+        "Double chin",
+        "Beginner",
+        "3 minutes"
+      ],
+      "image": "3.webp",
+      "description": "Tightens the jawline and reduces the appearance of double chin. Tones the muscles along the jaw for a more sculpted look.",
+      "difficulty": "Beginner",
+      "quickInfo": {
+        "time": "3 min",
+        "frequency": "Daily",
+        "target": "Jawline & Chin"
+      },
+      "instructions": [
+        "Tilt your head back slightly, looking at the ceiling.",
+        "Push your lower jaw forward until you feel a stretch under the chin.",
+        "Hold for 5 seconds, then release.",
+        "Return to neutral, then use fingertips to massage along jawline from chin to ears.",
+        "Repeat the jaw push 10 times.",
+        "Finish with gentle pinching along the jawline."
+      ],
+      "tips": [
+        "Do this while watching TV or at your desk",
+        "Chewing gum also helps strengthen jaw muscles",
+        "Be gentle - no aggressive pulling"
+      ]
+    },
+    {
+      "id": "eye-firmer",
+      "title": "Eye Firmer",
+      "category": "face-yoga-mini-class",
+      "tags": [
+        "Anti-aging",
+        "Crow's feet",
+        "Gentle",
+        "2 minutes"
+      ],
+      "image": "4.webp",
+      "description": "Reduces crow's feet and firms the delicate eye area. Gentle enough for the thin skin around eyes while effectively toning muscles.",
+      "difficulty": "Beginner",
+      "quickInfo": {
+        "time": "2 min",
+        "frequency": "Daily",
+        "target": "Eye area"
+      },
+      "instructions": [
+        "Place index fingers at outer corners of eyes.",
+        "Place middle fingers at inner corners of eyes.",
+        "Apply light pressure and look up toward the ceiling.",
+        "Squint your lower eyelids up while keeping upper lids relaxed.",
+        "Hold for 5 seconds, release. Repeat 10 times.",
+        "Finish by gently tapping around entire eye socket."
+      ],
+      "tips": [
+        "Always use ring finger for eye area - it applies least pressure",
+        "Apply eye cream before to prevent tugging",
+        "Never pull or drag skin around eyes"
+      ]
+    },
+    {
+      "id": "lip-plumper",
+      "title": "Lip Plumper",
+      "category": "face-yoga-mini-class",
+      "tags": [
+        "Fuller lips",
+        "Anti-aging",
+        "Quick",
+        "1 minute"
+      ],
+      "image": "5.webp",
+      "description": "Naturally plumps lips and reduces fine lines around mouth. Increases blood flow for naturally rosier, fuller-looking lips.",
+      "difficulty": "Beginner",
+      "quickInfo": {
+        "time": "1 min",
+        "frequency": "Daily",
+        "target": "Lips"
+      },
+      "instructions": [
+        "Make an exaggerated 'O' shape with your mouth.",
+        "Hold for 5 seconds, feeling the stretch.",
+        "Now smile as wide as possible without showing teeth.",
+        "Alternate between 'O' and wide smile 10 times.",
+        "Finish by tracing lips with your fingertip in circular motions.",
+        "Gently tap lips to boost circulation."
+      ],
+      "tips": [
+        "Do this before applying lipstick for better color payoff",
+        "Exfoliate lips first for best results",
+        "Stay hydrated for naturally plumper lips"
+      ]
+    },
+    {
+      "id": "neck-decolletage-toner",
+      "title": "Neck & Décolletage Toner",
+      "category": "face-yoga-mini-class",
+      "tags": [
+        "Anti-aging",
+        "Neck lines",
+        "Posture",
+        "3 minutes"
+      ],
+      "image": "6.webp",
+      "description": "Tightens neck skin and reduces horizontal lines. Often-neglected area that shows age quickly - this keeps it firm and smooth.",
+      "difficulty": "Beginner",
+      "quickInfo": {
+        "time": "3 min",
+        "frequency": "Daily",
+        "target": "Neck & Chest"
+      },
+      "instructions": [
+        "Sit or stand with straight posture.",
+        "Tilt head back, looking at ceiling.",
+        "Press tongue firmly to roof of mouth.",
+        "Slowly lower chin to chest while maintaining tongue pressure.",
+        "Repeat 10 times.",
+        "Finish by sweeping hands upward from collarbone to chin.",
+        "Apply neck cream with upward strokes."
+      ],
+      "tips": [
+        "Extend skincare routine to neck and chest",
+        "Sleep on your back to prevent chest wrinkles",
+        "This also helps tech neck from phone use"
+      ]
+    },
+    {
+      "id": "nasolabial-fold-smoother",
+      "title": "Nasolabial Fold Smoother",
+      "category": "face-yoga-mini-class",
+      "tags": [
+        "Smile lines",
+        "Anti-aging",
+        "Intermediate",
+        "3 minutes"
+      ],
+      "image": "7.webp",
+      "description": "Softens deep smile lines (nasolabial folds) that run from nose to mouth. Regular practice can visibly reduce their depth.",
+      "difficulty": "Intermediate",
+      "quickInfo": {
+        "time": "3 min",
+        "frequency": "Daily",
+        "target": "Smile lines"
+      },
+      "instructions": [
+        "Place index fingers inside mouth, along the smile lines.",
+        "Use fingers to push outward while resisting with facial muscles.",
+        "Hold for 10 seconds. Repeat 5 times.",
+        "Remove fingers. Now smile widely while pressing fingertips on smile lines.",
+        "Hold smile against resistance for 10 seconds.",
+        "Finish with upward massage strokes along the folds."
+      ],
+      "tips": [
+        "Clean hands thoroughly before internal massage",
+        "Consistency is key - results take 4-6 weeks",
+        "Combine with retinol products at night"
+      ]
+    },
+    {
+      "id": "brow-lifter",
+      "title": "Brow Lifter",
+      "category": "face-yoga-mini-class",
+      "tags": [
+        "Hooded eyes",
+        "Lifting",
+        "Quick",
+        "2 minutes"
+      ],
+      "image": "8.webp",
+      "description": "Lifts drooping brows and opens up hooded eyes. Strengthens the frontalis muscle to naturally elevate the brow area.",
+      "difficulty": "Beginner",
+      "quickInfo": {
+        "time": "2 min",
+        "frequency": "Daily",
+        "target": "Eyebrows"
+      },
+      "instructions": [
+        "Place index fingers just above each eyebrow.",
+        "Apply gentle downward pressure with fingers.",
+        "Try to raise your eyebrows against this resistance.",
+        "Hold for 5 seconds, release. Repeat 10 times.",
+        "Now rapidly raise and lower brows 20 times without fingers.",
+        "Finish by tapping above brows to stimulate circulation."
+      ],
+      "tips": [
+        "Great for before photos or video calls",
+        "Don't create forehead wrinkles while lifting",
+        "Combine with brow gel for instant lift"
+      ]
+    },
+    {
+      "id": "full-face-lymphatic-drainage",
+      "title": "Full Face Lymphatic Drainage",
+      "category": "face-yoga-mini-class",
+      "tags": [
+        "De-puffing",
+        "Detox",
+        "Relaxing",
+        "5 minutes"
+      ],
+      "image": "9.webp",
+      "description": "Reduces puffiness and promotes healthy lymphatic flow. Eliminates toxins and excess fluid for a sculpted, refreshed appearance.",
+      "difficulty": "Beginner",
+      "quickInfo": {
+        "time": "5 min",
+        "frequency": "Morning",
+        "target": "Full face"
+      },
+      "instructions": [
+        "Start at center of forehead, sweep outward to temples. Repeat 5x.",
+        "Under eyes: gently sweep from inner corner to outer, down to ears. Repeat 5x.",
+        "Cheeks: sweep from nose outward to ears. Repeat 5x.",
+        "Upper lip: sweep from center to sides. Repeat 5x.",
+        "Jawline: sweep from chin along jaw to ears. Repeat 5x.",
+        "Neck: sweep downward from ears to collarbone. Repeat 5x.",
+        "All movements should be light - lymph is just under skin surface."
+      ],
+      "tips": [
+        "Best done in morning to reduce overnight puffiness",
+        "Use a gua sha or jade roller for enhanced effect",
+        "Apply facial oil for smooth gliding"
+      ]
+    },
+    {
+      "id": "face-yoga-cool-down",
+      "title": "Face Yoga Cool Down",
+      "category": "face-yoga-mini-class",
+      "tags": [
+        "Relaxation",
+        "Tension release",
+        "Evening",
+        "3 minutes"
+      ],
+      "image": "10.webp",
+      "description": "Releases all facial tension accumulated throughout the day. Perfect end to your face yoga routine or before bed for relaxation.",
+      "difficulty": "Beginner",
+      "quickInfo": {
+        "time": "3 min",
+        "frequency": "Evening",
+        "target": "Full face"
+      },
+      "instructions": [
+        "Rub palms together vigorously until warm.",
+        "Cup warm palms over closed eyes. Breathe deeply 5 times.",
+        "Move palms to cheeks. Hold and breathe 5 times.",
+        "Place fingertips on temples. Make small circles 10 times.",
+        "Open mouth wide, then scrunch face tight. Repeat 5 times.",
+        "Finish by gently pressing all fingertips across face, holding for 10 seconds.",
+        "Take three deep breaths with relaxed face."
+      ],
+      "tips": [
+        "Perfect before bed to release jaw tension from stress",
+        "Add lavender oil to palms for aromatherapy",
+        "Do this after screen time to relax eye muscles"
+      ]
+    },
+    {
+      "id": "coconut-honey-deep-moisture-mask",
+      "title": "Coconut & Honey Deep Moisture Mask",
+      "category": "diy-hair-masks",
+      "tags": [
+        "Dry hair",
+        "Deep conditioning",
+        "Shine",
+        "Natural"
+      ],
+      "image": "11.webp",
+      "description": "Intensely hydrates dry, damaged hair. Coconut oil penetrates the hair shaft while honey locks in moisture for silky, shiny results.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "30 min",
+        "bestFor": "Dry, damaged, frizzy"
+      },
+      "ingredients": [
+        "3 tbsp coconut oil (melted)",
+        "2 tbsp raw honey",
+        "1 tbsp olive oil",
+        "Optional: 5 drops lavender essential oil"
+      ],
+      "instructions": [
+        "Melt coconut oil if solid. Mix with honey and olive oil until smooth.",
+        "Add essential oil if using.",
+        "Apply to damp hair, focusing on mid-lengths and ends.",
+        "Massage into scalp if needed for dry scalp.",
+        "Cover with shower cap or warm towel.",
+        "Leave for 20-30 minutes (or overnight for intense treatment).",
+        "Rinse thoroughly, then shampoo and condition as normal."
+      ],
+      "tips": [
+        "Warm the mixture slightly for better absorption",
+        "Use once a week for best results",
+        "Double recipe for long or thick hair"
+      ]
+    },
+    {
+      "id": "avocado-egg-protein-treatment",
+      "title": "Avocado & Egg Protein Treatment",
+      "category": "diy-hair-masks",
+      "tags": [
+        "Strengthening",
+        "Damaged hair",
+        "Protein-rich",
+        "Repair"
+      ],
+      "image": "12.webp",
+      "description": "Repairs and strengthens weak, brittle hair. Avocado provides healthy fats while egg protein rebuilds damaged hair structure.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "25 min",
+        "bestFor": "Weak, brittle, over-processed"
+      },
+      "ingredients": [
+        "1 ripe avocado",
+        "1 egg",
+        "1 tbsp olive oil",
+        "1 tbsp honey"
+      ],
+      "instructions": [
+        "Mash avocado until completely smooth (no lumps).",
+        "Beat egg and mix into avocado.",
+        "Add olive oil and honey. Mix thoroughly.",
+        "Apply to clean, damp hair from roots to ends.",
+        "Cover with shower cap.",
+        "Leave for 20-25 minutes.",
+        "Rinse with COOL water (hot water will cook the egg!).",
+        "Shampoo and condition as normal."
+      ],
+      "tips": [
+        "Blend in food processor for smoother consistency",
+        "Always rinse with cool water to avoid cooked egg in hair",
+        "Use within 1 hour of making"
+      ]
+    },
+    {
+      "id": "apple-cider-vinegar-clarifying-rinse",
+      "title": "Apple Cider Vinegar Clarifying Rinse",
+      "category": "diy-hair-masks",
+      "tags": [
+        "Clarifying",
+        "Buildup removal",
+        "Shine",
+        "Oily hair"
+      ],
+      "image": "13.webp",
+      "description": "Removes product buildup and restores natural shine. Balances scalp pH and closes hair cuticles for smooth, glossy hair.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "5 min",
+        "bestFor": "All types, especially oily or buildup-prone"
+      },
+      "ingredients": [
+        "2 tbsp apple cider vinegar (raw, unfiltered)",
+        "1 cup cool water",
+        "Optional: 3 drops rosemary essential oil"
+      ],
+      "instructions": [
+        "Mix apple cider vinegar with water in a squeeze bottle or cup.",
+        "Add essential oil if using.",
+        "Shampoo hair as normal.",
+        "Pour ACV mixture over hair, focusing on scalp and lengths.",
+        "Massage gently for 1-2 minutes.",
+        "Rinse thoroughly with cool water.",
+        "Condition ends only if needed."
+      ],
+      "tips": [
+        "Use once every 1-2 weeks - not daily",
+        "Smell disappears once hair dries",
+        "Great after swimming to remove chlorine"
+      ]
+    },
+    {
+      "id": "banana-olive-oil-softening-mask",
+      "title": "Banana & Olive Oil Softening Mask",
+      "category": "diy-hair-masks",
+      "tags": [
+        "Softening",
+        "Frizz control",
+        "Natural",
+        "Curly hair"
+      ],
+      "image": "14.webp",
+      "description": "Softens coarse or curly hair while taming frizz. Banana's natural oils and potassium restore elasticity and manageability.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "25 min",
+        "bestFor": "Coarse, curly, frizzy"
+      },
+      "ingredients": [
+        "1 ripe banana",
+        "2 tbsp olive oil",
+        "1 tbsp honey",
+        "1 tbsp coconut milk"
+      ],
+      "instructions": [
+        "Blend banana until COMPLETELY smooth (very important - no chunks).",
+        "Mix in olive oil, honey, and coconut milk.",
+        "Apply to damp hair, section by section.",
+        "Cover with shower cap.",
+        "Leave for 20-25 minutes.",
+        "Rinse very thoroughly - banana can stick.",
+        "Shampoo and condition as normal."
+      ],
+      "tips": [
+        "Must blend extremely well or banana bits get stuck in hair",
+        "Overripe bananas work best - more nutrients",
+        "Rinse with warm water, then cool water to seal"
+      ]
+    },
+    {
+      "id": "green-tea-aloe-scalp-treatment",
+      "title": "Green Tea & Aloe Scalp Treatment",
+      "category": "diy-hair-masks",
+      "tags": [
+        "Scalp health",
+        "Hair growth",
+        "Soothing",
+        "Dandruff"
+      ],
+      "image": "15.webp",
+      "description": "Soothes irritated scalp and promotes healthy hair growth. Green tea stimulates follicles while aloe vera calms inflammation.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "20 min",
+        "bestFor": "All types, especially irritated or thinning"
+      },
+      "ingredients": [
+        "½ cup strong brewed green tea (cooled)",
+        "2 tbsp pure aloe vera gel",
+        "1 tsp jojoba oil",
+        "3 drops peppermint essential oil"
+      ],
+      "instructions": [
+        "Brew green tea strong and let cool completely.",
+        "Mix with aloe vera gel until combined.",
+        "Add jojoba oil and peppermint oil.",
+        "Apply directly to scalp using applicator bottle or fingers.",
+        "Massage gently for 3-5 minutes.",
+        "Leave for 15-20 minutes.",
+        "Rinse thoroughly. Shampoo if desired."
+      ],
+      "tips": [
+        "The peppermint creates a tingling sensation - that's normal",
+        "Use weekly for best results",
+        "Store leftover in fridge for up to 5 days"
+      ]
+    },
+    {
+      "id": "yogurt-lemon-shine-booster",
+      "title": "Yogurt & Lemon Shine Booster",
+      "category": "diy-hair-masks",
+      "tags": [
+        "Shine",
+        "Dull hair",
+        "Smoothing",
+        "Light treatment"
+      ],
+      "image": "16.webp",
+      "description": "Adds brilliant shine to dull, lackluster hair. Yogurt smooths the cuticle while lemon juice adds natural highlights and shine.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "20 min",
+        "bestFor": "Dull, normal to oily"
+      },
+      "ingredients": [
+        "½ cup plain Greek yogurt",
+        "1 tbsp fresh lemon juice",
+        "1 tbsp honey",
+        "1 tsp coconut oil"
+      ],
+      "instructions": [
+        "Mix yogurt with lemon juice until smooth.",
+        "Add honey and coconut oil. Stir well.",
+        "Apply to clean, damp hair.",
+        "Focus on mid-lengths and ends where dullness shows most.",
+        "Cover with shower cap.",
+        "Leave for 15-20 minutes.",
+        "Rinse thoroughly with cool water. Condition ends."
+      ],
+      "tips": [
+        "Lemon can lighten hair slightly - test first if concerned",
+        "Use full-fat yogurt for more moisture",
+        "Don't apply lemon directly to scalp if sensitive"
+      ]
+    },
+    {
+      "id": "castor-oil-growth-treatment",
+      "title": "Castor Oil Growth Treatment",
+      "category": "diy-hair-masks",
+      "tags": [
+        "Hair growth",
+        "Thickness",
+        "Edges",
+        "Overnight"
+      ],
+      "image": "17.webp",
+      "description": "Promotes hair growth and thickness. Castor oil is rich in ricinoleic acid which increases circulation to hair follicles.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "Overnight",
+        "bestFor": "Thinning, slow-growing"
+      },
+      "ingredients": [
+        "2 tbsp castor oil",
+        "1 tbsp coconut oil (to thin consistency)",
+        "5 drops rosemary essential oil",
+        "5 drops peppermint essential oil"
+      ],
+      "instructions": [
+        "Mix castor oil with coconut oil (castor oil alone is very thick).",
+        "Add essential oils and mix well.",
+        "Apply to scalp in sections, massaging thoroughly.",
+        "Focus on thinning areas, edges, or hairline.",
+        "Massage for 5 minutes to boost circulation.",
+        "Cover with old t-shirt or silk cap.",
+        "Leave overnight. Shampoo twice in morning to remove."
+      ],
+      "tips": [
+        "Use old pillowcase - castor oil stains",
+        "Consistency is key - use 2-3x per week for results",
+        "Takes 3-6 months to see significant growth"
+      ]
+    },
+    {
+      "id": "oatmeal-soothing-scalp-mask",
+      "title": "Oatmeal Soothing Scalp Mask",
+      "category": "diy-hair-masks",
+      "tags": [
+        "Itchy scalp",
+        "Sensitive",
+        "Soothing",
+        "Gentle"
+      ],
+      "image": "18.webp",
+      "description": "Relieves itchy, irritated, or sensitive scalp. Oatmeal has natural anti-inflammatory properties that calm scalp conditions.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "20 min",
+        "bestFor": "Sensitive, itchy, irritated scalp"
+      },
+      "ingredients": [
+        "3 tbsp colloidal oatmeal (or finely ground oats)",
+        "2 tbsp warm water",
+        "1 tbsp honey",
+        "1 tbsp coconut oil"
+      ],
+      "instructions": [
+        "Grind oats to fine powder if not using colloidal oatmeal.",
+        "Mix with warm water to form a paste.",
+        "Add honey and coconut oil. Stir until smooth.",
+        "Apply directly to scalp in sections.",
+        "Massage gently - don't scratch or aggravate.",
+        "Leave for 15-20 minutes.",
+        "Rinse thoroughly with lukewarm water. Shampoo gently."
+      ],
+      "tips": [
+        "Great for eczema, psoriasis, or dermatitis",
+        "Can use leftover mixture on face too",
+        "Avoid hot water which can irritate scalp further"
+      ]
+    },
+    {
+      "id": "beer-volumizing-rinse",
+      "title": "Beer Volumizing Rinse",
+      "category": "diy-hair-masks",
+      "tags": [
+        "Volume",
+        "Fine hair",
+        "Body",
+        "Unique"
+      ],
+      "image": "19.webp",
+      "description": "Adds volume and body to fine, flat hair. Beer's proteins and B vitamins coat the hair shaft and create natural lift.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "5 min",
+        "bestFor": "Fine, flat, limp"
+      },
+      "ingredients": [
+        "1 cup beer (flat, room temperature)",
+        "1 tbsp apple cider vinegar",
+        "Optional: 3 drops lemon essential oil"
+      ],
+      "instructions": [
+        "Open beer and let go flat overnight (or boil to remove carbonation).",
+        "Let reach room temperature.",
+        "Mix with apple cider vinegar and essential oil if using.",
+        "Shampoo hair as normal.",
+        "Pour beer mixture over hair as final rinse.",
+        "Massage through for 1-2 minutes.",
+        "Do NOT rinse out. Style as normal."
+      ],
+      "tips": [
+        "Beer smell disappears as hair dries",
+        "Works best on fine, straight hair",
+        "Don't use if you have yeast sensitivity"
+      ]
+    },
+    {
+      "id": "mayonnaise-deep-conditioning-mask",
+      "title": "Mayonnaise Deep Conditioning Mask",
+      "category": "diy-hair-masks",
+      "tags": [
+        "Deep conditioning",
+        "Dry hair",
+        "Pantry staple",
+        "Classic"
+      ],
+      "image": "20.webp",
+      "description": "Old-school remedy that seriously works. Mayo's eggs and oil deeply condition extremely dry or damaged hair.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "30 min",
+        "bestFor": "Very dry, damaged, over-processed"
+      },
+      "ingredients": [
+        "½ cup full-fat mayonnaise",
+        "1 tbsp olive oil",
+        "1 tbsp honey",
+        "Optional: 3 drops essential oil to mask smell"
+      ],
+      "instructions": [
+        "Mix mayonnaise with olive oil and honey.",
+        "Add essential oil if using (helps with smell).",
+        "Apply generously to dry hair, focusing on ends.",
+        "Really saturate the most damaged areas.",
+        "Cover with shower cap and warm towel.",
+        "Leave for 20-30 minutes.",
+        "Rinse with cool water, then shampoo TWICE to remove all residue."
+      ],
+      "tips": [
+        "Use full-fat mayo only - light versions don't work",
+        "The smell washes out completely",
+        "Great emergency treatment before a big event"
+      ]
+    },
+    {
+      "id": "honey-oatmeal-soothing-mask",
+      "title": "Honey & Oatmeal Soothing Mask",
+      "category": "diy-face-masks",
+      "tags": [
+        "Sensitive skin",
+        "Soothing",
+        "Hydrating",
+        "Gentle"
+      ],
+      "image": "21.webp",
+      "description": "Calms irritated, sensitive skin while providing gentle hydration. Oatmeal reduces redness while honey offers antibacterial and moisturizing benefits.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "15 min",
+        "skinType": "Sensitive, dry, irritated"
+      },
+      "ingredients": [
+        "2 tbsp colloidal oatmeal or finely ground oats",
+        "1 tbsp raw honey",
+        "2 tbsp warm water or milk",
+        "Optional: 1 tsp aloe vera gel"
+      ],
+      "instructions": [
+        "Grind oats to fine powder if not using colloidal oatmeal.",
+        "Mix with warm water or milk to form a paste.",
+        "Stir in honey and aloe vera if using.",
+        "Apply to clean face, avoiding eye area.",
+        "Relax for 15 minutes.",
+        "Rinse with lukewarm water using gentle circular motions.",
+        "Pat dry and apply moisturizer."
+      ],
+      "tips": [
+        "Great for post-sun exposure or after extractions",
+        "Can also apply to body for all-over soothing",
+        "Use raw, unprocessed honey for best results"
+      ]
+    },
+    {
+      "id": "turmeric-yogurt-brightening-mask",
+      "title": "Turmeric & Yogurt Brightening Mask",
+      "category": "diy-face-masks",
+      "tags": [
+        "Brightening",
+        "Glow",
+        "Dark spots",
+        "Anti-inflammatory"
+      ],
+      "image": "22.webp",
+      "description": "Brightens dull skin and fades dark spots. Turmeric's curcumin reduces pigmentation while yogurt gently exfoliates.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "15 min",
+        "skinType": "Dull, uneven tone, hyperpigmentation"
+      },
+      "ingredients": [
+        "1 tsp turmeric powder",
+        "2 tbsp plain yogurt",
+        "1 tsp honey",
+        "1 tsp lemon juice (optional - omit for sensitive skin)"
+      ],
+      "instructions": [
+        "Mix turmeric with yogurt until smooth.",
+        "Add honey and lemon juice if using.",
+        "Apply to clean face, avoiding eye area.",
+        "Leave for 10-15 minutes (less if you feel tingling).",
+        "Rinse with lukewarm water.",
+        "Note: Turmeric may temporarily stain skin yellow - this fades quickly."
+      ],
+      "tips": [
+        "Wear old clothes - turmeric stains fabric permanently",
+        "Follow with SPF - skin will be more sun-sensitive",
+        "Use at night to let any yellow tint fade by morning"
+      ]
+    },
+    {
+      "id": "avocado-honey-hydrating-mask",
+      "title": "Avocado & Honey Hydrating Mask",
+      "category": "diy-face-masks",
+      "tags": [
+        "Dry skin",
+        "Nourishing",
+        "Rich",
+        "Winter skin"
+      ],
+      "image": "23.webp",
+      "description": "Intensely nourishes and hydrates dry, dehydrated skin. Avocado's healthy fats repair the skin barrier while honey locks in moisture.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "20 min",
+        "skinType": "Dry, mature, dehydrated"
+      },
+      "ingredients": [
+        "½ ripe avocado",
+        "1 tbsp raw honey",
+        "1 tsp olive oil or jojoba oil",
+        "Optional: 1 tsp plain yogurt"
+      ],
+      "instructions": [
+        "Mash avocado until completely smooth.",
+        "Mix in honey and oil until creamy.",
+        "Add yogurt if using for extra moisture.",
+        "Apply thick layer to clean face and neck.",
+        "Relax for 15-20 minutes.",
+        "Remove with warm, damp cloth.",
+        "Follow with your regular moisturizer."
+      ],
+      "tips": [
+        "Use overripe avocados - they mash better and have more nutrients",
+        "Also great for dry hands and elbows",
+        "Make fresh each time - doesn't store well"
+      ]
+    },
+    {
+      "id": "charcoal-clay-detox-mask",
+      "title": "Charcoal & Clay Detox Mask",
+      "category": "diy-face-masks",
+      "tags": [
+        "Detox",
+        "Pores",
+        "Oily skin",
+        "Deep cleansing"
+      ],
+      "image": "24.webp",
+      "description": "Deep cleans pores and draws out impurities. Activated charcoal absorbs toxins while clay tightens and mattifies oily skin.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "15 min",
+        "skinType": "Oily, congested, acne-prone"
+      },
+      "ingredients": [
+        "1 tsp activated charcoal powder",
+        "1 tbsp bentonite clay",
+        "2 tbsp water or apple cider vinegar",
+        "1 tsp honey (optional - for less drying)"
+      ],
+      "instructions": [
+        "Mix charcoal and clay in a non-metal bowl.",
+        "Add liquid slowly, stirring with non-metal spoon until paste forms.",
+        "Add honey if using.",
+        "Apply to clean face, avoiding eye area and lips.",
+        "Leave 10-15 minutes (remove before completely dry).",
+        "Rinse with warm water.",
+        "Follow with hydrating toner and moisturizer."
+      ],
+      "tips": [
+        "Never let clay masks dry completely - this over-strips skin",
+        "Don't use metal - it deactivates the clay",
+        "Use 1-2x per week maximum"
+      ]
+    },
+    {
+      "id": "banana-honey-anti-aging-mask",
+      "title": "Banana & Honey Anti-Aging Mask",
+      "category": "diy-face-masks",
+      "tags": [
+        "Anti-aging",
+        "Smoothing",
+        "Natural",
+        "All skin types"
+      ],
+      "image": "25.webp",
+      "description": "Softens fine lines and provides antioxidant protection. Banana's vitamins A, E, and potassium nourish aging skin naturally.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "15 min",
+        "skinType": "Mature, dry, normal"
+      },
+      "ingredients": [
+        "1 ripe banana",
+        "1 tbsp honey",
+        "1 tsp plain yogurt",
+        "Optional: ½ tsp vitamin E oil"
+      ],
+      "instructions": [
+        "Mash banana until completely smooth.",
+        "Mix in honey and yogurt until creamy.",
+        "Add vitamin E oil if using.",
+        "Apply to clean face, neck, and décolletage.",
+        "Relax for 15 minutes.",
+        "Rinse with lukewarm water.",
+        "Follow with serum and moisturizer."
+      ],
+      "tips": [
+        "The riper the banana, the more nutrients it contains",
+        "Can add a pinch of turmeric for extra glow",
+        "Use weekly for cumulative benefits"
+      ]
+    },
+    {
+      "id": "coffee-grounds-exfoliating-mask",
+      "title": "Coffee Grounds Exfoliating Mask",
+      "category": "diy-face-masks",
+      "tags": [
+        "Exfoliating",
+        "Energizing",
+        "Circulation",
+        "Glow"
+      ],
+      "image": "26.webp",
+      "description": "Physically exfoliates while caffeine stimulates circulation. Leaves skin glowing and temporarily tightened. Great morning pick-me-up.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "10 min",
+        "skinType": "Normal, combination (not sensitive)"
+      },
+      "ingredients": [
+        "2 tbsp fresh coffee grounds (not used)",
+        "1 tbsp coconut oil or olive oil",
+        "1 tbsp honey",
+        "Optional: 1 tsp cocoa powder"
+      ],
+      "instructions": [
+        "Mix coffee grounds with oil until combined.",
+        "Add honey and cocoa powder if using.",
+        "Apply to damp face using gentle circular motions.",
+        "Massage for 1-2 minutes, avoiding eye area.",
+        "Leave as mask for additional 5 minutes.",
+        "Rinse thoroughly with warm water.",
+        "Follow with moisturizer."
+      ],
+      "tips": [
+        "Use fine grounds to avoid micro-tears",
+        "Not for sensitive or acne-prone skin",
+        "Use leftover grounds from morning coffee (cooled)"
+      ]
+    },
+    {
+      "id": "egg-white-pore-tightening-mask",
+      "title": "Egg White Pore-Tightening Mask",
+      "category": "diy-face-masks",
+      "tags": [
+        "Pores",
+        "Tightening",
+        "Oily skin",
+        "Minimizing"
+      ],
+      "image": "27.webp",
+      "description": "Temporarily tightens pores and absorbs excess oil. Egg white's protein firms skin for a smooth, refined appearance.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "15 min",
+        "skinType": "Oily, large pores, combination"
+      },
+      "ingredients": [
+        "1 egg white",
+        "1 tsp lemon juice",
+        "½ tsp honey",
+        "Optional: tissue paper for peel-off effect"
+      ],
+      "instructions": [
+        "Separate egg white from yolk.",
+        "Whisk egg white until slightly foamy.",
+        "Mix in lemon juice and honey.",
+        "Apply thin layer to clean face.",
+        "Optional: press tissue paper onto wet mask, apply another layer.",
+        "Let dry completely (10-15 minutes).",
+        "Peel off gently or rinse with warm water."
+      ],
+      "tips": [
+        "Best used before makeup for a smooth base",
+        "Don't use if allergic to eggs",
+        "The tightening effect lasts several hours"
+      ]
+    },
+    {
+      "id": "aloe-vera-cooling-gel-mask",
+      "title": "Aloe Vera Cooling Gel Mask",
+      "category": "diy-face-masks",
+      "tags": [
+        "Soothing",
+        "Cooling",
+        "After-sun",
+        "Redness"
+      ],
+      "image": "28.webp",
+      "description": "Instantly soothes and cools irritated or sunburned skin. Pure aloe vera reduces inflammation and promotes healing.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "20 min",
+        "skinType": "All types, especially irritated or sunburned"
+      },
+      "ingredients": [
+        "3 tbsp pure aloe vera gel (fresh or store-bought)",
+        "1 tsp cucumber juice",
+        "2 drops lavender essential oil (optional)",
+        "½ tsp vitamin E oil"
+      ],
+      "instructions": [
+        "If using fresh aloe, scoop gel from leaf.",
+        "Blend or mash until smooth.",
+        "Mix in cucumber juice and oils.",
+        "Apply thick layer to clean face.",
+        "Refrigerate mask beforehand for extra cooling effect.",
+        "Leave for 15-20 minutes.",
+        "Rinse with cool water or leave on as treatment."
+      ],
+      "tips": [
+        "Keep aloe vera gel in fridge for instant relief",
+        "Can be left on overnight for intense healing",
+        "Test fresh aloe on small area first - some people react"
+      ]
+    },
+    {
+      "id": "papaya-enzyme-brightening-mask",
+      "title": "Papaya Enzyme Brightening Mask",
+      "category": "diy-face-masks",
+      "tags": [
+        "Brightening",
+        "Exfoliating",
+        "Enzymes",
+        "Tropical"
+      ],
+      "image": "29.webp",
+      "description": "Gently exfoliates with natural papain enzymes. Dissolves dead skin cells without physical scrubbing for brighter, smoother skin.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "10 min",
+        "skinType": "Dull, normal, combination"
+      },
+      "ingredients": [
+        "¼ cup ripe papaya, mashed",
+        "1 tbsp honey",
+        "1 tsp plain yogurt",
+        "Optional: 1 tsp lemon juice"
+      ],
+      "instructions": [
+        "Mash ripe papaya until smooth.",
+        "Mix in honey and yogurt.",
+        "Add lemon juice if using.",
+        "Apply to clean face, avoiding eye area.",
+        "Leave for 10 minutes only (enzymes are active!).",
+        "Rinse with cool water.",
+        "Apply soothing moisturizer."
+      ],
+      "tips": [
+        "Don't leave on too long - enzymes continue working",
+        "Ripe papaya = more active enzymes",
+        "Avoid if sensitive to tropical fruits"
+      ]
+    },
+    {
+      "id": "green-tea-antioxidant-mask",
+      "title": "Green Tea Antioxidant Mask",
+      "category": "diy-face-masks",
+      "tags": [
+        "Antioxidant",
+        "Anti-aging",
+        "Soothing",
+        "All skin types"
+      ],
+      "image": "30.webp",
+      "description": "Delivers powerful antioxidants to fight aging and environmental damage. Green tea's EGCG protects and rejuvenates skin.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "15 min",
+        "skinType": "All types, especially aging or stressed"
+      },
+      "ingredients": [
+        "1 tsp matcha powder (or contents of 2 green tea bags)",
+        "1 tbsp honey",
+        "1 tbsp plain yogurt",
+        "Optional: 1 tsp rice flour for thickening"
+      ],
+      "instructions": [
+        "Mix matcha powder with honey until paste forms.",
+        "Add yogurt and rice flour if using.",
+        "Stir until smooth and consistent.",
+        "Apply to clean face and neck.",
+        "Relax for 15 minutes.",
+        "Rinse with lukewarm water.",
+        "Follow with antioxidant serum for enhanced benefits."
+      ],
+      "tips": [
+        "Use culinary-grade matcha for best results",
+        "The green tint washes off completely",
+        "Great before a big event for radiant skin"
+      ]
+    },
+    {
+      "id": "lavender-dreams-relaxation-bomb",
+      "title": "Lavender Dreams Relaxation Bomb",
+      "category": "diy-bath-bombs",
+      "tags": [
+        "Relaxing",
+        "Sleep",
+        "Calming",
+        "Classic"
+      ],
+      "image": "31.webp",
+      "description": "Promotes deep relaxation and better sleep. Lavender essential oil calms the nervous system while the fizzing action soothes tired muscles.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "24 hrs (drying)",
+        "mood": "Relaxing, before bed"
+      },
+      "ingredients": [
+        "1 cup baking soda",
+        "½ cup citric acid",
+        "½ cup Epsom salt",
+        "½ cup cornstarch",
+        "2 tbsp coconut oil (melted)",
+        "20 drops lavender essential oil",
+        "Purple food coloring (optional)",
+        "Dried lavender buds for decoration"
+      ],
+      "instructions": [
+        "Mix all dry ingredients in a large bowl.",
+        "In separate bowl, combine melted coconut oil, essential oil, and coloring.",
+        "Slowly add wet to dry, mixing constantly (avoid fizzing!).",
+        "Mixture should hold together when squeezed.",
+        "Pack tightly into bath bomb molds.",
+        "Press dried lavender into top surface.",
+        "Let dry 24 hours before removing from molds.",
+        "Store in airtight container away from moisture."
+      ],
+      "tips": [
+        "Add a tiny bit of witch hazel if mixture is too dry",
+        "Humidity affects drying time - may need longer",
+        "Makes great gifts!"
+      ]
+    },
+    {
+      "id": "citrus-burst-energy-bomb",
+      "title": "Citrus Burst Energy Bomb",
+      "category": "diy-bath-bombs",
+      "tags": [
+        "Energizing",
+        "Morning",
+        "Uplifting",
+        "Refreshing"
+      ],
+      "image": "32.webp",
+      "description": "Invigorates and energizes for morning baths or showers. Citrus oils boost mood and alertness while providing vitamin C benefits for skin.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "24 hrs (drying)",
+        "mood": "Energizing, morning"
+      },
+      "ingredients": [
+        "1 cup baking soda",
+        "½ cup citric acid",
+        "½ cup Epsom salt",
+        "½ cup cornstarch",
+        "2 tbsp sweet almond oil",
+        "10 drops sweet orange essential oil",
+        "10 drops lemon essential oil",
+        "Yellow and orange food coloring",
+        "Orange zest (dried)"
+      ],
+      "instructions": [
+        "Mix all dry ingredients thoroughly.",
+        "Combine almond oil with essential oils.",
+        "Divide dry mixture in half - color one yellow, one orange.",
+        "Add wet ingredients to each half.",
+        "Layer colors when packing into molds for swirl effect.",
+        "Press dried orange zest into top.",
+        "Dry for 24 hours.",
+        "Store away from light (citrus oils are photosensitive)."
+      ],
+      "tips": [
+        "Citrus oils can irritate sensitive skin - do a patch test",
+        "Perfect for Monday morning motivation",
+        "Add poppy seeds for gentle exfoliation"
+      ]
+    },
+    {
+      "id": "eucalyptus-peppermint-sinus-relief-bomb",
+      "title": "Eucalyptus & Peppermint Sinus Relief Bomb",
+      "category": "diy-bath-bombs",
+      "tags": [
+        "Decongestant",
+        "Wellness",
+        "Cooling",
+        "Cold relief"
+      ],
+      "image": "33.webp",
+      "description": "Opens airways and relieves sinus congestion. Perfect when you're feeling under the weather or during allergy season.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "24 hrs (drying)",
+        "mood": "Wellness, when sick"
+      },
+      "ingredients": [
+        "1 cup baking soda",
+        "½ cup citric acid",
+        "½ cup Epsom salt",
+        "½ cup cornstarch",
+        "2 tbsp coconut oil",
+        "15 drops eucalyptus essential oil",
+        "10 drops peppermint essential oil",
+        "Green food coloring",
+        "Dried eucalyptus leaves (optional)"
+      ],
+      "instructions": [
+        "Mix dry ingredients in large bowl.",
+        "Combine coconut oil with essential oils and coloring.",
+        "Add wet to dry slowly, mixing constantly.",
+        "Pack firmly into molds.",
+        "Add eucalyptus leaf pieces to top if using.",
+        "Dry completely for 24 hours.",
+        "Use in warm (not hot) bath for best aromatherapy effect."
+      ],
+      "tips": [
+        "The steam helps carry the essential oils into sinuses",
+        "Also great as shower steamers - place on shower floor",
+        "Avoid if you have sensitive respiratory conditions"
+      ]
+    },
+    {
+      "id": "rose-petal-romance-bomb",
+      "title": "Rose Petal Romance Bomb",
+      "category": "diy-bath-bombs",
+      "tags": [
+        "Romantic",
+        "Luxurious",
+        "Self-care",
+        "Feminine"
+      ],
+      "image": "34.webp",
+      "description": "Creates a luxurious, romantic bathing experience. Rose is known for its mood-enhancing and skin-softening properties.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "24 hrs (drying)",
+        "mood": "Romantic, self-love"
+      },
+      "ingredients": [
+        "1 cup baking soda",
+        "½ cup citric acid",
+        "½ cup Epsom salt",
+        "½ cup cornstarch",
+        "2 tbsp rosehip oil",
+        "20 drops rose geranium essential oil",
+        "Pink food coloring",
+        "Dried rose petals",
+        "Pink Himalayan salt (optional)"
+      ],
+      "instructions": [
+        "Combine all dry ingredients including pink salt if using.",
+        "Mix rosehip oil with essential oil and coloring.",
+        "Add wet to dry, mixing until it holds together.",
+        "Press mixture into molds.",
+        "Generously press dried rose petals into top.",
+        "Dry 24 hours.",
+        "Enjoy with candles and wine!"
+      ],
+      "tips": [
+        "Use food-grade rose petals to avoid chemicals",
+        "Rosehip oil is amazing for skin - don't substitute",
+        "Perfect for Valentine's Day or anniversaries"
+      ]
+    },
+    {
+      "id": "oatmeal-honey-soothing-bomb",
+      "title": "Oatmeal & Honey Soothing Bomb",
+      "category": "diy-bath-bombs",
+      "tags": [
+        "Sensitive skin",
+        "Soothing",
+        "Moisturizing",
+        "Gentle"
+      ],
+      "image": "35.webp",
+      "description": "Soothes irritated, itchy, or sensitive skin. Oatmeal calms inflammation while honey provides antibacterial and moisturizing benefits.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "24 hrs (drying)",
+        "mood": "Soothing, after shaving"
+      },
+      "ingredients": [
+        "1 cup baking soda",
+        "½ cup citric acid",
+        "½ cup colloidal oatmeal",
+        "¼ cup cornstarch",
+        "2 tbsp honey",
+        "2 tbsp coconut oil (melted)",
+        "10 drops chamomile essential oil",
+        "Rolled oats for decoration"
+      ],
+      "instructions": [
+        "Mix baking soda, citric acid, colloidal oatmeal, and cornstarch.",
+        "Warm honey slightly so it's pourable. Mix with coconut oil and essential oil.",
+        "Combine wet and dry mixtures carefully.",
+        "Pack into molds.",
+        "Press a few rolled oats into top.",
+        "Dry for 24-48 hours (honey makes them take longer).",
+        "Store in airtight container."
+      ],
+      "tips": [
+        "Great for eczema, sunburn, or post-shave irritation",
+        "Use muslin bag to contain oats in tub for easier cleanup",
+        "Safe for children's baths"
+      ]
+    },
+    {
+      "id": "detox-green-tea-charcoal-bomb",
+      "title": "Detox Green Tea & Charcoal Bomb",
+      "category": "diy-bath-bombs",
+      "tags": [
+        "Detox",
+        "Deep cleansing",
+        "Drawing",
+        "Modern"
+      ],
+      "image": "36.webp",
+      "description": "Draws out impurities while providing antioxidant benefits. Great for when your body and skin need a reset.",
+      "difficulty": "Medium",
+      "quickInfo": {
+        "time": "24 hrs (drying)",
+        "mood": "Detox, reset"
+      },
+      "ingredients": [
+        "1 cup baking soda",
+        "½ cup citric acid",
+        "½ cup Epsom salt",
+        "½ cup cornstarch",
+        "1 tsp activated charcoal powder",
+        "1 tsp matcha powder",
+        "2 tbsp coconut oil",
+        "15 drops tea tree essential oil"
+      ],
+      "instructions": [
+        "Divide dry ingredients into two bowls.",
+        "Add charcoal to one bowl (black), matcha to other (green).",
+        "Divide coconut oil and essential oil between both.",
+        "Mix each separately until proper consistency.",
+        "Layer black and green into molds for marbled effect.",
+        "Dry 24 hours.",
+        "Note: May leave some residue in tub - rinse after."
+      ],
+      "tips": [
+        "Charcoal can stain light-colored tubs temporarily",
+        "Great after indulgent weekends",
+        "Follow with body moisturizer"
+      ]
+    },
+    {
+      "id": "tropical-paradise-mango-bomb",
+      "title": "Tropical Paradise Mango Bomb",
+      "category": "diy-bath-bombs",
+      "tags": [
+        "Tropical",
+        "Fun",
+        "Fruity",
+        "Summer"
+      ],
+      "image": "37.webp",
+      "description": "Transports you to tropical paradise. Mango and coconut nourish skin while the scent boosts mood and provides mental escape.",
+      "difficulty": "Easy",
+      "quickInfo": {
+        "time": "24 hrs (drying)",
+        "mood": "Summer, vacation vibes"
+      },
+      "ingredients": [
+        "1 cup baking soda",
+        "½ cup citric acid",
+        "½ cup Epsom salt",
+        "½ cup cornstarch",
+        "2 tbsp mango butter (melted)",
+        "10 drops mango fragrance oil",
+        "10 drops coconut fragrance oil",
+        "Orange and yellow food coloring",
+        "Shredded coconut for decoration"
+      ],
+      "instructions": [
+        "Mix all dry ingredients.",
+        "Melt mango butter, add fragrance oils and coloring.",
+        "Combine wet and dry mixtures.",
+        "Pack into molds.",
+        "Press shredded coconut into top.",
+        "Dry 24 hours.",
+        "Close your eyes and pretend you're on a beach!"
+      ],
+      "tips": [
+        "Mango butter is ultra-moisturizing - skin will feel amazing",
+        "Safe fragrance oils only - not essential oils for this recipe",
+        "Perfect for winter when you need a mental getaway"
+      ]
+    },
+    {
+      "id": "muscle-relief-arnica-ginger-bomb",
+      "title": "Muscle Relief Arnica & Ginger Bomb",
+      "category": "diy-bath-bombs",
+      "tags": [
+        "Post-workout",
+        "Muscle pain",
+        "Athletic",
+        "Therapeutic"
+      ],
+      "image": "38.webp",
+      "description": "Relieves sore, tired muscles after exercise. Arnica reduces inflammation while ginger warms and soothes aching joints.",
+      "difficulty": "Medium",
+      "quickInfo": {
+        "time": "24 hrs (drying)",
+        "mood": "Post-workout, recovery"
+      },
+      "ingredients": [
+        "1 cup baking soda",
+        "½ cup citric acid",
+        "½ cup Epsom salt (extra for muscle relief)",
+        "¼ cup cornstarch",
+        "1 tbsp arnica oil",
+        "1 tbsp coconut oil",
+        "15 drops ginger essential oil",
+        "10 drops black pepper essential oil"
+      ],
+      "instructions": [
+        "Mix all dry ingredients, using extra Epsom salt.",
+        "Combine arnica oil, coconut oil, and essential oils.",
+        "Add wet to dry, mixing well.",
+        "Pack firmly into molds.",
+        "Dry 24 hours.",
+        "Use in warm bath after workouts - soak at least 20 minutes."
+      ],
+      "tips": [
+        "Don't use if you have open cuts or wounds (arnica)",
+        "Add extra Epsom salt directly to bath water too",
+        "Great for athletes, dancers, or anyone with physical jobs"
+      ]
+    },
+    {
+      "id": "kids-surprise-rainbow-bomb",
+      "title": "Kids' Surprise Rainbow Bomb",
+      "category": "diy-bath-bombs",
+      "tags": [
+        "Kids",
+        "Fun",
+        "Colorful",
+        "Surprise inside"
+      ],
+      "image": "39.webp",
+      "description": "Makes bath time fun and exciting for kids. Multiple colors create a rainbow effect in water, and hidden surprise encourages bathing.",
+      "difficulty": "Medium",
+      "quickInfo": {
+        "time": "24 hrs (drying)",
+        "mood": "Kids' bath time, fun"
+      },
+      "ingredients": [
+        "1 cup baking soda",
+        "½ cup citric acid",
+        "½ cup cornstarch (no Epsom salt for kids)",
+        "2 tbsp coconut oil",
+        "Kid-safe fragrance (vanilla or berry)",
+        "Multiple food colors (red, orange, yellow, green, blue, purple)",
+        "Small waterproof toy for inside"
+      ],
+      "instructions": [
+        "Mix dry ingredients. Divide into 6 portions.",
+        "Color each portion a different rainbow color.",
+        "Add a bit of coconut oil and fragrance to each.",
+        "Layer colors in mold, starting with purple on outside.",
+        "Place small toy in center before final layers.",
+        "Pack tightly and dry 24 hours.",
+        "Watch kids' excitement as colors swirl and toy appears!"
+      ],
+      "tips": [
+        "Use only body-safe, non-toxic colorings",
+        "Ensure toy is bath-safe and appropriate size",
+        "Skip essential oils for young children"
+      ]
+    },
+    {
+      "id": "sleepy-time-moon-milk-bomb",
+      "title": "Sleepy Time Moon Milk Bomb",
+      "category": "diy-bath-bombs",
+      "tags": [
+        "Sleep",
+        "Nighttime",
+        "Calming",
+        "Dreamy"
+      ],
+      "image": "40.webp",
+      "description": "Prepares body and mind for restful sleep. Chamomile and vanilla create a cozy, drowsy atmosphere for bedtime routines.",
+      "difficulty": "Medium",
+      "quickInfo": {
+        "time": "24 hrs (drying)",
+        "mood": "Bedtime, sleep prep"
+      },
+      "ingredients": [
+        "1 cup baking soda",
+        "½ cup citric acid",
+        "½ cup Epsom salt",
+        "½ cup milk powder",
+        "2 tbsp coconut oil",
+        "15 drops chamomile essential oil",
+        "10 drops vanilla essential oil",
+        "Blue and white food coloring",
+        "Dried chamomile flowers"
+      ],
+      "instructions": [
+        "Mix all dry ingredients including milk powder.",
+        "Divide in half - color one pale blue, leave other white.",
+        "Add oils to both portions.",
+        "Swirl colors together when packing into molds (moon shape if you have it).",
+        "Press chamomile flowers into top.",
+        "Dry 24 hours.",
+        "Use 1-2 hours before bed with low lighting."
+      ],
+      "tips": [
+        "Milk powder makes water incredibly soft",
+        "Pair with no-screen time for best sleep",
+        "The vanilla-chamomile combo is scientifically calming"
+      ]
+    }
+  ]
+}

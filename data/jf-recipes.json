@@ -44,7 +44,7 @@
         "Freezer-friendly",
         "Dairy-free"
       ],
-      "image": null,
+      "image": "1.webp",
       "description": "Replenishes iron lost during birth. Lentils provide plant-based protein for milk production. Easy to eat one-handed while nursing.",
       "prepTime": 10,
       "cookTime": 25,
@@ -95,7 +95,7 @@
         "High protein",
         "Gluten-free"
       ],
-      "image": null,
+      "image": "2.webp",
       "description": "Omega-3 fatty acids support brain development in breastfed babies. Sweet potatoes provide sustained energy and vitamin A for recovery.",
       "prepTime": 15,
       "cookTime": 30,
@@ -142,7 +142,7 @@
         "Postpartum recovery",
         "Low-carb"
       ],
-      "image": null,
+      "image": "3.webp",
       "description": "Collagen supports tissue repair after birth. Amino acids aid gut healing and reduce inflammation. Deeply nourishing and easy to digest.",
       "prepTime": 10,
       "cookTime": 5,
@@ -188,7 +188,7 @@
         "Grab-and-go",
         "Oat-based"
       ],
-      "image": null,
+      "image": "4.webp",
       "description": "Oats and brewer's yeast are galactagogues that support milk production. Perfect one-handed snack for nursing sessions.",
       "prepTime": 15,
       "cookTime": 0,
@@ -235,7 +235,7 @@
         "Fiber-rich",
         "Comfort food"
       ],
-      "image": null,
+      "image": "5.webp",
       "description": "Turmeric reduces postpartum inflammation. Oats provide sustained energy and support milk production. Warming and comforting for early mornings.",
       "prepTime": 5,
       "cookTime": 10,
@@ -282,7 +282,7 @@
         "Warming",
         "Protein-rich"
       ],
-      "image": null,
+      "image": "6.webp",
       "description": "Traditional postpartum food across Asian cultures. Gentle on digestion while providing protein and hydration. Ginger warms the body and aids recovery.",
       "prepTime": 10,
       "cookTime": 45,
@@ -329,7 +329,7 @@
         "High protein",
         "Colorful"
       ],
-      "image": null,
+      "image": "7.webp",
       "description": "Beef and beetroot together maximize iron absorption. Supports blood replenishment after delivery. Fresh and energizing.",
       "prepTime": 15,
       "cookTime": 20,
@@ -376,7 +376,7 @@
         "Hydrating",
         "Warming"
       ],
-      "image": null,
+      "image": "8.webp",
       "description": "Miso provides probiotics for gut health and immune support. Hydrating and warming. Easy to digest during recovery.",
       "prepTime": 10,
       "cookTime": 15,
@@ -422,7 +422,7 @@
         "Quick meal",
         "Bone health"
       ],
-      "image": null,
+      "image": "9.webp",
       "description": "Sardines with bones provide highly absorbable calcium for bone health and milk production. Omega-3s support baby's brain development.",
       "prepTime": 5,
       "cookTime": 3,
@@ -468,7 +468,7 @@
         "Warming",
         "Sweet"
       ],
-      "image": null,
+      "image": "10.webp",
       "description": "Red dates and goji berries are traditional blood-building foods in Chinese postpartum care. Naturally sweet and deeply nourishing.",
       "prepTime": 5,
       "cookTime": 30,
@@ -514,7 +514,7 @@
         "Vegan",
         "Low sugar"
       ],
-      "image": null,
+      "image": "11.webp",
       "description": "Packed with chlorophyll and antioxidants for gentle detoxification. Cucumber and celery provide hydration.",
       "prepTime": 5,
       "cookTime": 0,
@@ -561,7 +561,7 @@
         "High fiber",
         "Immune boost"
       ],
-      "image": null,
+      "image": "12.webp",
       "description": "Berries provide powerful antioxidants that fight inflammation and support immune health. High fiber keeps you satisfied.",
       "prepTime": 5,
       "cookTime": 0,
@@ -607,7 +607,7 @@
         "Energizing",
         "Dairy-free"
       ],
-      "image": null,
+      "image": "13.webp",
       "description": "Mango and pineapple provide vitamin C for collagen production and immune support.",
       "prepTime": 5,
       "cookTime": 0,
@@ -653,7 +653,7 @@
         "Satisfying",
         "Muscle recovery"
       ],
-      "image": null,
+      "image": "14.webp",
       "description": "Perfect post-workout recovery with protein and carbs. Cacao provides magnesium for muscle function.",
       "prepTime": 5,
       "cookTime": 0,
@@ -699,7 +699,7 @@
         "Creamy",
         "Keto-friendly"
       ],
-      "image": null,
+      "image": "15.webp",
       "description": "Avocado provides healthy fats for brain function and satiety. Spinach adds iron without affecting taste.",
       "prepTime": 5,
       "cookTime": 0,
@@ -745,7 +745,7 @@
         "Cooling",
         "Summer favorite"
       ],
-      "image": null,
+      "image": "16.webp",
       "description": "Extremely hydrating and cooling. Perfect for hot days or after exercise. Low calorie but refreshing.",
       "prepTime": 5,
       "cookTime": 0,
@@ -791,7 +791,7 @@
         "Energy boost",
         "Kid-friendly"
       ],
-      "image": null,
+      "image": "17.webp",
       "description": "Complete breakfast in a glass with protein, healthy fats, and complex carbs.",
       "prepTime": 5,
       "cookTime": 0,
@@ -837,7 +837,7 @@
         "Anti-inflammatory",
         "Cold fighter"
       ],
-      "image": null,
+      "image": "18.webp",
       "description": "Citrus fruits provide massive vitamin C boost. Ginger adds anti-inflammatory and digestive benefits.",
       "prepTime": 5,
       "cookTime": 0,
@@ -883,7 +883,7 @@
         "Meal replacement",
         "Morning energy"
       ],
-      "image": null,
+      "image": "19.webp",
       "description": "Combines morning coffee with breakfast nutrition. Protein keeps you satisfied.",
       "prepTime": 5,
       "cookTime": 0,
@@ -929,7 +929,7 @@
         "Enzyme-rich",
         "Tropical"
       ],
-      "image": null,
+      "image": "20.webp",
       "description": "Papaya contains papain enzyme for protein digestion. Kefir adds probiotics for gut health.",
       "prepTime": 5,
       "cookTime": 0,
@@ -975,7 +975,7 @@
         "Vegan",
         "Meal prep friendly"
       ],
-      "image": null,
+      "image": "21.webp",
       "description": "Natural sugars from dates provide quick energy without crash. Nuts add protein and healthy fats.",
       "prepTime": 15,
       "cookTime": 0,
@@ -1022,7 +1022,7 @@
         "Savory",
         "Fiber-rich"
       ],
-      "image": null,
+      "image": "22.webp",
       "description": "High protein and fiber snack that satisfies salty cravings. Great alternative to chips.",
       "prepTime": 5,
       "cookTime": 40,
@@ -1068,7 +1068,7 @@
         "Low sugar",
         "Kid-friendly"
       ],
-      "image": null,
+      "image": "23.webp",
       "description": "Satisfies ice cream cravings with protein-rich yogurt. Fresh berries add antioxidants.",
       "prepTime": 10,
       "cookTime": 0,
@@ -1113,7 +1113,7 @@
         "Dip-worthy",
         "Fresh"
       ],
-      "image": null,
+      "image": "24.webp",
       "description": "Crunchy vegetables satisfy snack cravings with minimal calories. White bean hummus provides protein.",
       "prepTime": 15,
       "cookTime": 0,
@@ -1159,7 +1159,7 @@
         "Party snack",
         "Healthy fats"
       ],
-      "image": null,
+      "image": "25.webp",
       "description": "Classic deviled eggs made healthier with avocado. High protein and healthy fats.",
       "prepTime": 15,
       "cookTime": 12,
@@ -1205,7 +1205,7 @@
         "Quick",
         "Fun"
       ],
-      "image": null,
+      "image": "26.webp",
       "description": "Satisfies sweet cravings with fiber-rich apples. Nut butter adds protein.",
       "prepTime": 10,
       "cookTime": 0,
@@ -1251,7 +1251,7 @@
         "Party snack",
         "Gluten-free"
       ],
-      "image": null,
+      "image": "27.webp",
       "description": "All the pizza flavor without the carbs. Makes vegetables exciting.",
       "prepTime": 10,
       "cookTime": 15,
@@ -1297,7 +1297,7 @@
         "Healthy dessert",
         "3 ingredients"
       ],
-      "image": null,
+      "image": "28.webp",
       "description": "Satisfies ice cream and chocolate cravings. Only natural sugars from banana.",
       "prepTime": 15,
       "cookTime": 0,
@@ -1340,7 +1340,7 @@
         "Customizable",
         "Muscle building"
       ],
-      "image": null,
+      "image": "29.webp",
       "description": "Cottage cheese is one of the highest protein snacks available. Casein protein digests slowly.",
       "prepTime": 5,
       "cookTime": 0,
@@ -1385,7 +1385,7 @@
         "Asian-inspired",
         "Light"
       ],
-      "image": null,
+      "image": "30.webp",
       "description": "Seaweed provides iodine for thyroid health. Extremely low calorie with satisfying crunch.",
       "prepTime": 10,
       "cookTime": 0,
@@ -1431,7 +1431,7 @@
         "Colorful",
         "Meal prep"
       ],
-      "image": null,
+      "image": "31.webp",
       "description": "Complete plant-based nutrition with protein, fiber, and healthy fats. Rainbow of vegetables provides diverse nutrients.",
       "prepTime": 15,
       "cookTime": 25,
@@ -1481,7 +1481,7 @@
         "Fresh",
         "High protein"
       ],
-      "image": null,
+      "image": "32.webp",
       "description": "Fresh salmon provides omega-3s for brain and heart health. Light yet satisfying.",
       "prepTime": 20,
       "cookTime": 15,
@@ -1530,7 +1530,7 @@
         "Fresh",
         "Flavorful"
       ],
-      "image": null,
+      "image": "33.webp",
       "description": "Mediterranean diet pattern supports heart health and longevity. Fresh vegetables and olive oil provide antioxidants.",
       "prepTime": 15,
       "cookTime": 15,
@@ -1579,7 +1579,7 @@
         "Spicy option",
         "Traditional"
       ],
-      "image": null,
+      "image": "34.webp",
       "description": "Traditional Korean nutrition with variety of vegetables. Fermented gochujang supports gut health.",
       "prepTime": 25,
       "cookTime": 20,
@@ -1629,7 +1629,7 @@
         "Filling",
         "Customizable"
       ],
-      "image": null,
+      "image": "35.webp",
       "description": "High protein from chicken and beans. Fiber-rich for satiety. All the burrito flavors without the heavy tortilla.",
       "prepTime": 20,
       "cookTime": 15,
@@ -1678,7 +1678,7 @@
         "Veggie-loaded",
         "Satisfying"
       ],
-      "image": null,
+      "image": "36.webp",
       "description": "Peanut sauce provides protein and healthy fats. Rice noodles are naturally gluten-free.",
       "prepTime": 15,
       "cookTime": 10,
@@ -1727,7 +1727,7 @@
         "Roasted veggies",
         "Warming"
       ],
-      "image": null,
+      "image": "37.webp",
       "description": "Ancient grains provide complex carbs and fiber. Roasted fall vegetables rich in beta-carotene.",
       "prepTime": 15,
       "cookTime": 30,
@@ -1777,7 +1777,7 @@
         "Omega-3 rich",
         "Fresh"
       ],
-      "image": null,
+      "image": "38.webp",
       "description": "Ahi tuna is lean protein packed with omega-3s. Light and refreshing.",
       "prepTime": 20,
       "cookTime": 15,
@@ -1826,7 +1826,7 @@
         "Vegan",
         "Warming spices"
       ],
-      "image": null,
+      "image": "39.webp",
       "description": "Warming spices aid digestion and circulation. Plant-based protein from chickpeas.",
       "prepTime": 15,
       "cookTime": 30,
@@ -1877,7 +1877,7 @@
         "Instagram-worthy",
         "Energizing"
       ],
-      "image": null,
+      "image": "40.webp",
       "description": "Acai berries are among the highest antioxidant foods. Natural energy boost.",
       "prepTime": 10,
       "cookTime": 0,
@@ -1921,7 +1921,7 @@
         "Elegant",
         "Quick"
       ],
-      "image": null,
+      "image": "41.webp",
       "description": "Salmon provides omega-3 fatty acids for heart and brain health.",
       "prepTime": 10,
       "cookTime": 15,
@@ -1969,7 +1969,7 @@
         "High protein",
         "Easy cleanup"
       ],
-      "image": null,
+      "image": "42.webp",
       "description": "High protein, low carb. One pan means easy cleanup. Perfect weeknight dinner.",
       "prepTime": 15,
       "cookTime": 25,
@@ -2016,7 +2016,7 @@
         "Colorful",
         "Family-friendly"
       ],
-      "image": null,
+      "image": "43.webp",
       "description": "Complete meal in one pepper - protein, carbs, and vegetables.",
       "prepTime": 20,
       "cookTime": 40,
@@ -2065,7 +2065,7 @@
         "Healthier fried",
         "Crispy"
       ],
-      "image": null,
+      "image": "44.webp",
       "description": "All the crispy satisfaction without deep frying. High protein, kid-approved.",
       "prepTime": 15,
       "cookTime": 20,
@@ -2114,7 +2114,7 @@
         "One-dish",
         "Heart-healthy"
       ],
-      "image": null,
+      "image": "45.webp",
       "description": "Light yet flavorful Mediterranean preparation. Heart-healthy ingredients.",
       "prepTime": 10,
       "cookTime": 20,
@@ -2163,7 +2163,7 @@
         "Mexican-inspired",
         "Healthy carbs"
       ],
-      "image": null,
+      "image": "46.webp",
       "description": "Sweet potatoes provide complex carbs and beta-carotene. Black beans add plant protein.",
       "prepTime": 10,
       "cookTime": 45,
@@ -2212,7 +2212,7 @@
         "Crispy skin",
         "One-pan"
       ],
-      "image": null,
+      "image": "47.webp",
       "description": "Chicken thighs are more flavorful and budget-friendly than breasts.",
       "prepTime": 10,
       "cookTime": 40,
@@ -2259,7 +2259,7 @@
         "Make-ahead",
         "Crowd-pleaser"
       ],
-      "image": null,
+      "image": "48.webp",
       "description": "Loaded with vegetables for extra nutrition. Make-ahead friendly for busy weeks.",
       "prepTime": 30,
       "cookTime": 50,
@@ -2309,7 +2309,7 @@
         "Baked not fried",
         "High protein"
       ],
-      "image": null,
+      "image": "49.webp",
       "description": "Traditional falafel made healthier by baking. Plant protein from chickpeas.",
       "prepTime": 20,
       "cookTime": 25,
@@ -2361,7 +2361,7 @@
         "Low-carb",
         "Family-friendly"
       ],
-      "image": null,
+      "image": "50.webp",
       "description": "Lean white fish with satisfying crispy coating. Quick enough for weeknights.",
       "prepTime": 10,
       "cookTime": 15,
@@ -2409,7 +2409,7 @@
         "Mint",
         "Summer favorite"
       ],
-      "image": null,
+      "image": "51.webp",
       "description": "All the refreshing mojito flavor without alcohol. Mint aids digestion.",
       "prepTime": 5,
       "cookTime": 0,
@@ -2455,7 +2455,7 @@
         "Festive",
         "Beautiful color"
       ],
-      "image": null,
+      "image": "52.webp",
       "description": "Pomegranate is rich in antioxidants. Elegant enough for celebrations.",
       "prepTime": 5,
       "cookTime": 0,
@@ -2502,7 +2502,7 @@
         "Ultra-refreshing",
         "Sophisticated"
       ],
-      "image": null,
+      "image": "53.webp",
       "description": "Extremely hydrating and cooling. Elderflower adds sophisticated floral notes.",
       "prepTime": 5,
       "cookTime": 0,
@@ -2547,7 +2547,7 @@
         "Spicy",
         "Immune boost"
       ],
-      "image": null,
+      "image": "54.webp",
       "description": "Powerful anti-inflammatory combination. Ginger aids digestion.",
       "prepTime": 10,
       "cookTime": 0,
@@ -2593,7 +2593,7 @@
         "Fruity",
         "Crowd-pleaser"
       ],
-      "image": null,
+      "image": "55.webp",
       "description": "Tropical fruits provide vitamin C. Fun, party-ready presentation.",
       "prepTime": 5,
       "cookTime": 0,
@@ -2641,7 +2641,7 @@
         "Beautiful purple",
         "Unique flavor"
       ],
-      "image": null,
+      "image": "56.webp",
       "description": "Lavender promotes relaxation and calm. Unique floral flavor.",
       "prepTime": 15,
       "cookTime": 5,
@@ -2687,7 +2687,7 @@
         "Cozy",
         "Holiday favorite"
       ],
-      "image": null,
+      "image": "57.webp",
       "description": "Warming spices aid digestion. Perfect for fall and winter entertaining.",
       "prepTime": 5,
       "cookTime": 10,
@@ -2733,7 +2733,7 @@
         "Instagram-worthy",
         "Complex flavor"
       ],
-      "image": null,
+      "image": "58.webp",
       "description": "Berries provide antioxidants. Basil adds unexpected herbal complexity.",
       "prepTime": 5,
       "cookTime": 0,
@@ -2779,7 +2779,7 @@
         "Light",
         "Beach vibes"
       ],
-      "image": null,
+      "image": "59.webp",
       "description": "Coconut water provides natural electrolytes. Extremely hydrating.",
       "prepTime": 5,
       "cookTime": 0,
@@ -2823,7 +2823,7 @@
         "Summer",
         "Low calorie"
       ],
-      "image": null,
+      "image": "60.webp",
       "description": "Watermelon is 92% water - extremely hydrating. Traditional Mexican refreshment.",
       "prepTime": 10,
       "cookTime": 0,

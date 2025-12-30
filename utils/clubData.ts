@@ -7,6 +7,7 @@ import {
 } from "@/types/club";
 import clubDataRaw from "@/data/jf-club.json";
 import { getRecipesBySubcategory } from "./recipeData";
+import { getBeautyItemsBySubcategory } from "./beautyData";
 
 // Wellness categories for the app
 export const WELLNESS_CATEGORIES: WellnessCategory[] = [
@@ -363,32 +364,51 @@ export const getSubcategoryDetail = (
   // Convert kebab-case back to original format (e.g., "postpartum-nutrition" -> "postpartum nutrition")
   const normalizedSubcategory = subcategory.replace(/-/g, " ");
 
-  // Check if this is a recipe subcategory
+  // Check if this is an article subcategory (nutrition or beauty)
   const subcategoryInfo = SUBCATEGORY_DATA[normalizedSubcategory];
-  const isRecipeSubcategory =
-    subcategoryInfo?.category === "nutrition" ||
-    subcategoryInfo?.category === "beauty";
+  const isNutritionSubcategory = subcategoryInfo?.category === "nutrition";
+  const isBeautySubcategory = subcategoryInfo?.category === "beauty";
+  const isArticleSubcategory = isNutritionSubcategory || isBeautySubcategory;
 
   let items: ProcessedClubItem[] = [];
 
-  if (isRecipeSubcategory) {
-    // For recipe subcategories, get recipes and convert them to ProcessedClubItem format
-    // Recipe categories use kebab-case, so convert the subcategory name
-    const recipeCategory = normalizedSubcategory.replace(/\s+/g, "-");
-    const recipes = getRecipesBySubcategory(recipeCategory);
-    items = recipes.map((recipe, index) => ({
-      id: `recipe-${recipe.id}`, // Prefix with recipe- for proper identification
-      title: recipe.title,
-      subcategory: normalizedSubcategory,
-      category: subcategoryInfo?.category || "nutrition",
-      url: "", // Recipes don't have URLs
-      duration_minutes: recipe.prepTime + recipe.cookTime,
-      duration: `${recipe.prepTime + recipe.cookTime} min`,
-      type: "recipe" as const,
-      imageUrl:
-        recipe.image ||
-        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop&crop=center",
-    }));
+  if (isArticleSubcategory) {
+    // Article categories use kebab-case, so convert the subcategory name
+    const articleCategory = normalizedSubcategory.replace(/\s+/g, "-");
+
+    if (isNutritionSubcategory) {
+      // For nutrition subcategories, get recipes
+      const recipes = getRecipesBySubcategory(articleCategory);
+      items = recipes.map((recipe) => ({
+        id: `article-${recipe.id}`, // Prefix with article- for unified identification
+        title: recipe.title,
+        subcategory: normalizedSubcategory,
+        category: "nutrition",
+        url: "",
+        duration_minutes: recipe.prepTime + recipe.cookTime,
+        duration: `${recipe.prepTime + recipe.cookTime} min`,
+        type: "recipe" as const,
+        imageUrl:
+          recipe.image ||
+          "https://images.unsplash.com/photo-1547592180-85f173990554?w=400&h=400&fit=crop&crop=center",
+      }));
+    } else if (isBeautySubcategory) {
+      // For beauty subcategories, get beauty items
+      const beautyItems = getBeautyItemsBySubcategory(articleCategory);
+      items = beautyItems.map((item) => ({
+        id: `article-${item.id}`, // Prefix with article- for unified identification
+        title: item.title,
+        subcategory: normalizedSubcategory,
+        category: "beauty",
+        url: "",
+        duration_minutes: 0, // Beauty items use string time in quickInfo
+        duration: item.quickInfo.time,
+        type: "recipe" as const, // Using recipe type for article content
+        imageUrl:
+          item.image ||
+          "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=400&h=400&fit=crop&crop=center",
+      }));
+    }
   } else {
     // For wellness subcategories, get items from CLUB_DATA
     items = getItemsBySubcategory(normalizedSubcategory);

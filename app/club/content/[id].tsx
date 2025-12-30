@@ -9,14 +9,20 @@ import { ProcessedClubItem } from "@/types/club";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
 import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
 import { showCrossPlatformAlert } from "@/utils/alert";
-import { NutritionRecipePage } from "@/components/club/nutrition/NutritionRecipePage";
-import { getRecipeById, getRandomRecipes, Recipe } from "@/utils/recipeData";
-import { getRecipesByCategory, getCategoryById } from "@/utils/recipeData";
+import { ArticlePage } from "@/components/club/article/ArticlePage";
+import {
+  Article,
+  getArticleById,
+  getRandomArticles,
+  getArticleCategoryById,
+} from "@/utils/articleData";
+import { getRecipesByCategory } from "@/utils/recipeData";
+import { getBeautyItemsByCategory } from "@/utils/beautyData";
 
 // Type for items that can be displayed
 type DisplayItem =
   | ProcessedClubItem
-  | (Recipe & {
+  | (Article & {
       type: "recipe";
       subcategory: string;
       duration: string;
@@ -28,26 +34,31 @@ export default function ClubContentDetail() {
   const [showVideo, setShowVideo] = useState(false);
   const [showAudio, setShowAudio] = useState(false);
 
-  // Check if this is recipe content (id starts with "recipe-")
-  const isRecipeContent = id?.startsWith("recipe-");
+  // Check if this is article content (id starts with "article-")
+  const isArticleContent = id?.startsWith("article-");
 
-  // Get recipe data if this is recipe content
-  const recipe = isRecipeContent
-    ? getRecipeById(id?.replace("recipe-", "") || "")
+  // Get article data if this is article content
+  const article = isArticleContent
+    ? getArticleById(id?.replace("article-", "") || "")
     : null;
 
   // Find the item from club data
   const item = CLUB_DATA.find((item: ProcessedClubItem) => item.id === id);
 
-  // If not found in CLUB_DATA and it's a recipe, get it from recipe data
-  const recipeItem =
-    !item && isRecipeContent && recipe
+  // If not found in CLUB_DATA and it's an article, get it from article data
+  const articleItem =
+    !item && isArticleContent && article
       ? {
-          ...recipe,
+          ...article,
           type: "recipe" as const,
-          subcategory: recipe.category.replace(/-/g, " "),
-          duration: `${recipe.prepTime + recipe.cookTime} min`,
-          imageUrl: recipe.image,
+          subcategory: article.category.replace(/-/g, " "),
+          duration:
+            article.articleType === "recipe" &&
+            article.prepTime !== undefined &&
+            article.cookTime !== undefined
+              ? `${article.prepTime + article.cookTime} min`
+              : article.quickInfo?.time || "",
+          imageUrl: article.image,
         }
       : null;
 
@@ -61,7 +72,7 @@ export default function ClubContentDetail() {
       ? item.url
       : "";
 
-  const displayItem = (item || recipeItem) as DisplayItem | null;
+  const displayItem = (item || articleItem) as DisplayItem | null;
 
   const player = useVideoPlayer(mediaUrl, (player) => {
     if (player) {
@@ -75,7 +86,7 @@ export default function ClubContentDetail() {
     isPlaying: player?.playing || false,
   });
 
-  if (!item && !recipeItem) {
+  if (!item && !articleItem) {
     return (
       <View className="flex-1 bg-jf-gray">
         <WellnessHeader
@@ -227,50 +238,64 @@ export default function ClubContentDetail() {
     }
   };
 
-  // If this is recipe content, show the recipe
-  if (isRecipeContent && recipe) {
-    const categoryInfo = getCategoryById(recipe.category);
-    const randomRecipes = useMemo(
-      () => getRandomRecipes(5, recipe.id),
-      [recipe.id]
+  // If this is article content, show the article page
+  if (isArticleContent && article) {
+    const categoryInfo = getArticleCategoryById(
+      article.category,
+      article.articleType
+    );
+    const randomArticles = useMemo(
+      () => getRandomArticles(5, article.id, article.articleType),
+      [article.id, article.articleType]
     );
 
     const handleBack = () => {
       router.back();
     };
 
-    const footerRecipes = useMemo(
+    const footerItems = useMemo(
       () =>
-        randomRecipes.map((r) => ({
-          name: r.title,
-          image: r.image || "/images/placeholder.jpg",
+        randomArticles.map((a) => ({
+          name: a.title,
+          image: a.image || "/images/placeholder.jpg",
         })),
-      [randomRecipes]
+      [randomArticles]
     );
 
-    const handleFooterRecipePress = useCallback(
-      (recipeItem: { name: string; image: string }) => {
-        const fullRecipe = randomRecipes.find(
-          (r) => r.title === recipeItem.name
+    const handleFooterItemPress = useCallback(
+      (footerItem: { name: string; image: string }) => {
+        const fullArticle = randomArticles.find(
+          (a) => a.title === footerItem.name
         );
-        if (fullRecipe) {
-          router.push(`/club/content/recipe-${fullRecipe.id}`);
+        if (fullArticle) {
+          router.push(`/club/content/article-${fullArticle.id}`);
         }
       },
-      [randomRecipes]
+      [randomArticles]
     );
+
+    // Get item count based on article type
+    const categoryItemCount =
+      article.articleType === "recipe"
+        ? getRecipesByCategory(article.category).length
+        : getBeautyItemsByCategory(article.category).length;
+
+    const footerTitle =
+      article.articleType === "recipe"
+        ? "More recipes for you"
+        : "More for you";
 
     return (
       <View className="flex-1 bg-white">
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-          <NutritionRecipePage
-            recipe={recipe}
+          <ArticlePage
+            article={article}
             categoryName={categoryInfo?.name}
-            categoryRecipeCount={getRecipesByCategory(recipe.category).length}
+            categoryItemCount={categoryItemCount}
             onBackPress={handleBack}
-            footerRecipes={footerRecipes}
-            onFooterRecipePress={handleFooterRecipePress}
-            footerTitle="More recipes for you"
+            footerItems={footerItems}
+            onFooterItemPress={handleFooterItemPress}
+            footerTitle={footerTitle}
           />
         </ScrollView>
       </View>

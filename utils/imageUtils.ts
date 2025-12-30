@@ -1,9 +1,9 @@
 import { ImageSourcePropType } from "react-native";
 
 export const DEFAULT_IMAGES = {
-  icon: require("@/assets/images/icon.png"),
+  icon: require("@/assets/images/jf-club/placeholder.jpg"),
   clubPlaceholder: require("@/assets/images/jf-club/placeholder.jpg"),
-  recipe: require("@/assets/images/jf-club/placeholder.jpg"),
+  article: require("@/assets/images/jf-club/placeholder.jpg"),
 } as const;
 
 export const getImageWithFallback = (
@@ -11,7 +11,7 @@ export const getImageWithFallback = (
   fallback: ImageSourcePropType = DEFAULT_IMAGES.icon
 ): ImageSourcePropType => {
   // If uri exists, is not empty, and is not the placeholder path, use it
-  if (uri && uri.trim() !== "" && !uri.includes("/images/placeholder.jpg")) {
+  if (uri && !uri.includes("webp")) {
     return { uri };
   }
   // Otherwise, use the fallback image

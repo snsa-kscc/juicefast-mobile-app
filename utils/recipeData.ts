@@ -5,7 +5,7 @@ export interface Recipe {
   title: string;
   category: string;
   tags: string[];
-  image: string | null;
+  image: string;
   description: string;
   prepTime: number;
   cookTime: number;
