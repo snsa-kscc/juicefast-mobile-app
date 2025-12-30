@@ -6,7 +6,6 @@ import {
   Image,
   FlatList,
   Dimensions,
-  ViewToken,
 } from "react-native";
 import { ArrowLeft } from "lucide-react-native";
 import { NutritionTips } from "./NutritionTips";
@@ -14,7 +13,7 @@ import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
 import { Recipe } from "@/utils/recipeData";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-const ITEM_WIDTH = (SCREEN_WIDTH - 48 - 32) / 3; // 48 = px-6 * 2, 32 = gap space
+const ITEM_WIDTH = (SCREEN_WIDTH - 48 - 16) / 2; // 2 items per page: 48 = px-6 * 2, 16 = gap space
 
 interface NutritionFooterProps {
   recipe?: Recipe;
@@ -31,34 +30,57 @@ export function NutritionFooter({
 }: NutritionFooterProps) {
   const flatListRef = useRef<FlatList>(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const containerWidth = useRef(SCREEN_WIDTH);
 
-  // Calculate total pages (3 items per page)
-  const itemsPerPage = 3;
+  // Calculate total pages (2 items per page)
+  const itemsPerPage = 2;
   const totalPages = Math.ceil(recipes.length / itemsPerPage);
 
-  // Stabilize viewabilityConfig with useRef to prevent re-renders
-  const viewabilityConfigRef = useRef({
-    itemVisiblePercentThreshold: 50,
-  });
+  // Handle scroll to update current page and chevron state
+  const handleScroll = useCallback(
+    (event: any) => {
+      const contentOffset = event.nativeEvent.contentOffset;
 
-  // Handle scroll to update current page indicator
-  const onViewableItemsChanged = useRef(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      if (viewableItems.length > 0) {
-        const firstVisibleIndex = viewableItems[0].index ?? 0;
-        const newPage = Math.floor(firstVisibleIndex / itemsPerPage);
-        setCurrentPage(newPage);
+      // Calculate which item is at the leading edge of the screen
+      // Use Math.ceil to ensure we get the correct item at the end
+      const leadingItemIndex = Math.ceil(contentOffset.x / (ITEM_WIDTH + 16));
+
+      // Calculate page based on the leading item index
+      let newPage = Math.floor(leadingItemIndex / itemsPerPage);
+
+      // Special case: if we're at the end (can't scroll right), force to last page
+      if (!canScrollRight) {
+        newPage = totalPages - 1;
       }
-    }
-  ).current;
+
+      // Ensure we don't go beyond bounds
+      newPage = Math.min(newPage, totalPages - 1);
+      newPage = Math.max(newPage, 0);
+
+      setCurrentPage(newPage);
+
+      // Check if we can scroll right
+      const contentWidth = recipes.length * (ITEM_WIDTH + 16);
+      const remainingScroll =
+        contentWidth - (contentOffset.x + containerWidth.current);
+      const newCanScrollRight = remainingScroll > 10; // 10px threshold
+
+      // Update state only if it changed to avoid re-renders
+      if (newCanScrollRight !== canScrollRight) {
+        setCanScrollRight(newCanScrollRight);
+      }
+    },
+    [itemsPerPage, totalPages, recipes.length, canScrollRight]
+  );
 
   // Scroll to previous page
   const handlePrev = useCallback(() => {
     if (currentPage > 0) {
       const newPage = currentPage - 1;
-      const targetIndex = newPage * itemsPerPage;
-      flatListRef.current?.scrollToIndex({
-        index: targetIndex,
+      const targetOffset = newPage * itemsPerPage * (ITEM_WIDTH + 16);
+      flatListRef.current?.scrollToOffset({
+        offset: targetOffset,
         animated: true,
       });
     }
@@ -66,15 +88,20 @@ export function NutritionFooter({
 
   // Scroll to next page
   const handleNext = useCallback(() => {
-    if (currentPage < totalPages - 1) {
+    if (canScrollRight) {
       const newPage = currentPage + 1;
-      const targetIndex = newPage * itemsPerPage;
-      flatListRef.current?.scrollToIndex({
-        index: Math.min(targetIndex, recipes.length - 1),
+      const targetOffset = newPage * itemsPerPage * (ITEM_WIDTH + 16);
+      // Ensure we don't scroll past the end
+      const maxOffset = Math.max(
+        0,
+        (recipes.length - itemsPerPage) * (ITEM_WIDTH + 16)
+      );
+      flatListRef.current?.scrollToOffset({
+        offset: Math.min(targetOffset, maxOffset),
         animated: true,
       });
     }
-  }, [currentPage, totalPages, recipes.length]);
+  }, [currentPage, canScrollRight, recipes.length]);
 
   // Render individual recipe item
   const renderRecipeItem = useCallback(
@@ -154,9 +181,9 @@ export function NutritionFooter({
           <View className="absolute top-0 right-6 h-full items-center justify-center">
             <TouchableOpacity
               onPress={handleNext}
-              disabled={currentPage >= totalPages - 1}
+              disabled={!canScrollRight}
               className={`w-16 h-16 rounded-full bg-amber-400 shadow-lg items-center justify-center ${
-                currentPage >= totalPages - 1 ? "opacity-40" : ""
+                !canScrollRight ? "opacity-40" : ""
               }`}
             >
               <View className="rotate-180">
@@ -176,15 +203,20 @@ export function NutritionFooter({
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 24 }}
-            onViewableItemsChanged={onViewableItemsChanged}
-            viewabilityConfig={viewabilityConfigRef.current}
-            snapToInterval={ITEM_WIDTH + 16}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+            snapToInterval={itemsPerPage * (ITEM_WIDTH + 16)}
             decelerationRate="fast"
             getItemLayout={(_, index) => ({
               length: ITEM_WIDTH + 16,
               offset: (ITEM_WIDTH + 16) * index,
               index,
             })}
+            onScrollToIndexFailed={(info) => {
+              // Fallback if scrollToIndex fails
+              const offset = info.index * (ITEM_WIDTH + 16);
+              flatListRef.current?.scrollToOffset({ offset, animated: false });
+            }}
           />
         </View>
       </View>

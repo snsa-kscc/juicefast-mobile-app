@@ -9,9 +9,11 @@ export const DEFAULT_IMAGES = {
 export const getImageWithFallback = (
   uri: string | undefined,
   fallback: ImageSourcePropType = DEFAULT_IMAGES.icon
-): { uri?: string; defaultSource: ImageSourcePropType } => {
-  if (uri) {
-    return { uri, defaultSource: fallback };
+): ImageSourcePropType => {
+  // If uri exists, is not empty, and is not the placeholder path, use it
+  if (uri && uri.trim() !== "" && !uri.includes("/images/placeholder.jpg")) {
+    return { uri };
   }
-  return { defaultSource: fallback };
+  // Otherwise, use the fallback image
+  return fallback;
 };
