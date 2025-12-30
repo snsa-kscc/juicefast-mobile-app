@@ -4,11 +4,8 @@ import React from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { View, ActivityIndicator, Text } from "react-native";
-import { useUser } from "@clerk/clerk-expo";
 
 export default function ChallengePage() {
-  const { user } = useUser();
-  const isAdmin = user?.unsafeMetadata.role === "admin";
   // Check if user is enrolled in challenge
   const challengeProgress = useQuery(
     api.challengeProgress.getUserChallengeProgress
@@ -30,5 +27,5 @@ export default function ChallengePage() {
     return <ChallengeDashboard showModal={shouldShowModal} />;
   }
 
-  return <ChallengeEntry isAdmin={isAdmin} />;
+  return <ChallengeEntry />;
 }

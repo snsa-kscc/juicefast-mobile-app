@@ -33,7 +33,7 @@ export default function OrderEntryPage() {
   const totalSteps = isPremiumOnAnyPlatform ? 1 : 2;
 
   // Minimum order number thresholds
-  const minOrderNumberHR = 55555;
+  const minOrderNumberHR = 91610;
   const minOrderNumberSI = 55555;
 
   const validateOrderNumber = (
