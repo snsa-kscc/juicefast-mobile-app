@@ -155,6 +155,45 @@ function ArticleTitleSection({ article }: { article: Article }) {
                 </View>
               </>
             )}
+            {article.quickInfo.bestFor && (
+              <>
+                <View className="w-px h-4 bg-gray-300" />
+                <View className="flex-row items-center gap-1">
+                  <Text className="text-sm font-inter-bold text-black">
+                    Best For:
+                  </Text>
+                  <Text className="text-sm font-inter-medium text-black">
+                    {article.quickInfo.bestFor}
+                  </Text>
+                </View>
+              </>
+            )}
+            {article.quickInfo.skinType && (
+              <>
+                <View className="w-px h-4 bg-gray-300" />
+                <View className="flex-row items-center gap-1">
+                  <Text className="text-sm font-inter-bold text-black">
+                    Skin Type:
+                  </Text>
+                  <Text className="text-sm font-inter-medium text-black">
+                    {article.quickInfo.skinType}
+                  </Text>
+                </View>
+              </>
+            )}
+            {article.quickInfo.mood && (
+              <>
+                <View className="w-px h-4 bg-gray-300" />
+                <View className="flex-row items-center gap-1">
+                  <Text className="text-sm font-inter-bold text-black">
+                    Mood:
+                  </Text>
+                  <Text className="text-sm font-inter-medium text-black">
+                    {article.quickInfo.mood}
+                  </Text>
+                </View>
+              </>
+            )}
           </View>
         )}
       </View>

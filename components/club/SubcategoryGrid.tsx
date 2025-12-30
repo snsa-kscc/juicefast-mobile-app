@@ -3,9 +3,10 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import {
   getOrderedSubcategoriesForCategory,
   getItemsBySubcategory,
-  isRecipeCategory,
+  isArticleCategory,
 } from "@/utils/clubData";
 import { getRecipesBySubcategory } from "@/utils/recipeData";
+import { getBeautyItemsBySubcategory } from "@/utils/beautyData";
 
 interface SubcategoryGridProps {
   category: string;
@@ -35,13 +36,24 @@ export function SubcategoryGrid({
           (index === subcategories.length - 1 && groupPosition % 2 === 1);
 
         // Get item count for this subcategory
-        const count = isRecipeCategory(category)
-          ? getRecipesBySubcategory(subcategory.name.toLowerCase()).length
+        const count = isArticleCategory(category)
+          ? (() => {
+              // Try recipes first (for nutrition)
+              const recipes = getRecipesBySubcategory(
+                subcategory.name.toLowerCase().replace(/\s+/g, "-")
+              );
+              if (recipes.length > 0) return recipes.length;
+              // Fall back to beauty items
+              const beautyItems = getBeautyItemsBySubcategory(
+                subcategory.name.toLowerCase().replace(/\s+/g, "-")
+              );
+              return beautyItems.length;
+            })()
           : getItemsBySubcategory(subcategory.name.toLowerCase()).length;
 
         // Determine label text based on category type
-        const countLabel = isRecipeCategory(category)
-          ? `${count} ${count === 1 ? "recipe" : "recipes"}`
+        const countLabel = isArticleCategory(category)
+          ? `${count} ${count === 1 ? "article" : "articles"}`
           : `${count} ${count === 1 ? "item" : "items"}`;
 
         return (

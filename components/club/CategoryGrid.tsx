@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, ScrollView, Image, Text } from "react-native";
-import { getCategoryCount, isRecipeCategory } from "@/utils/clubData";
+import { getCategoryCount, isArticleCategory } from "@/utils/clubData";
 
 interface CategoryItem {
   id: string;
@@ -27,8 +27,8 @@ export function CategoryGrid({
     >
       {categories.map((category) => {
         const count = getCategoryCount(category.categoryId);
-        const countLabel = isRecipeCategory(category.categoryId)
-          ? `${count} ${count === 1 ? "recipe" : "recipes"}`
+        const countLabel = isArticleCategory(category.categoryId)
+          ? `${count} ${count === 1 ? "article" : "articles"}`
           : `${count} ${count === 1 ? "item" : "items"}`;
 
         return (

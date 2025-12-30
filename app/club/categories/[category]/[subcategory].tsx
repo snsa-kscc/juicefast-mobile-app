@@ -111,7 +111,7 @@ export default function SubcategoryPage() {
               require("@/assets/images/jf-club/placeholder.jpg")
             }
             itemCount={subcategoryData.items.length}
-            itemCountLabel="meditations"
+            itemCountLabel="items"
             showBackButton={true}
             onBackPress={handleBack}
             showSettings={true}

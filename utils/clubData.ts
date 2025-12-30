@@ -14,8 +14,8 @@ export const WELLNESS_CATEGORIES: WellnessCategory[] = [
   { id: "trending", name: "Trending", contentType: "video" },
   { id: "mind", name: "Mind", contentType: "video" },
   { id: "workouts", name: "Workouts", contentType: "video" },
-  { id: "nutrition", name: "Nutrition", contentType: "recipe" },
-  { id: "beauty", name: "Beauty", contentType: "recipe" },
+  { id: "nutrition", name: "Nutrition", contentType: "article" },
+  { id: "beauty", name: "Beauty", contentType: "article" },
 ];
 
 // Comprehensive subcategory data structure
@@ -403,7 +403,7 @@ export const getSubcategoryDetail = (
         url: "",
         duration_minutes: 0, // Beauty items use string time in quickInfo
         duration: item.quickInfo.time,
-        type: "recipe" as const, // Using recipe type for article content
+        type: "article" as const,
         imageUrl:
           item.image ||
           "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=400&h=400&fit=crop&crop=center",
@@ -595,15 +595,28 @@ export const getCategoryImages = () => {
 
 // Get total count for a category (recipes or items)
 export const getCategoryCount = (categoryId: string): number => {
-  if (isRecipeCategory(categoryId)) {
-    // For recipe categories, count all recipes in this category
+  if (isArticleCategory(categoryId)) {
+    // For recipe categories (nutrition and beauty), count all articles in this category
     const subcategories = Object.values(SUBCATEGORY_DATA).filter(
       (sub) => sub.category === categoryId
     );
-    return subcategories.reduce((total, sub) => {
-      const recipes = getRecipesBySubcategory(sub.name.toLowerCase());
-      return total + recipes.length;
+
+    const total = subcategories.reduce((total, sub) => {
+      // Convert subcategory name to kebab-case for data lookup
+      const kebabSubcategory = sub.name.toLowerCase().replace(/\s+/g, "-");
+
+      // Try getting recipes first (for nutrition subcategories)
+      const recipes = getRecipesBySubcategory(kebabSubcategory);
+      if (recipes.length > 0) {
+        return total + recipes.length;
+      }
+
+      // Try getting beauty items (for beauty subcategories)
+      const beautyItems = getBeautyItemsBySubcategory(kebabSubcategory);
+      return total + beautyItems.length;
     }, 0);
+
+    return total;
   } else {
     // For video categories, count all items in this category
     const subcategories = Object.values(SUBCATEGORY_DATA).filter(
@@ -617,17 +630,9 @@ export const getCategoryCount = (categoryId: string): number => {
 };
 
 // Check if a category is recipe content
-export const isRecipeCategory = (categoryId: string): boolean => {
-  const category = WELLNESS_CATEGORIES.find((cat) => cat.id === categoryId);
-  return category?.contentType === "recipe";
-};
-
-// Check if a subcategory is recipe content
-export const isRecipeSubcategory = (subcategory: string): boolean => {
-  // For now, all nutrition and beauty subcategories are recipe content
-  const subcategoryData = SUBCATEGORY_DATA[subcategory];
-  return (
-    subcategoryData?.category === "nutrition" ||
-    subcategoryData?.category === "beauty"
+export const isArticleCategory = (categoryId: string): boolean => {
+  const category = WELLNESS_CATEGORIES.find(
+    (cat: WellnessCategory) => cat.id === categoryId
   );
+  return category?.contentType === "article";
 };
