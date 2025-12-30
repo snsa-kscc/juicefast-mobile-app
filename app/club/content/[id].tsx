@@ -7,7 +7,7 @@ import { VideoView, useVideoPlayer } from "expo-video";
 import { CLUB_DATA } from "@/utils/clubData";
 import { ProcessedClubItem } from "@/types/club";
 import { WellnessHeader } from "@/components/ui/CustomHeader";
-import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
+import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
 import { showCrossPlatformAlert } from "@/utils/alert";
 import { ArticlePage } from "@/components/club/article/ArticlePage";
 import {
@@ -356,7 +356,7 @@ export default function ClubContentDetail() {
               <Image
                 source={getImageWithFallback(
                   displayItem?.imageUrl || "",
-                  DEFAULT_IMAGES.icon
+                  DEFAULT_IMAGE
                 )}
                 className="w-full h-full"
               />

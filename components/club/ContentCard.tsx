@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProcessedClubItem } from "@/types/club";
-import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
+import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
 import { formatSubcategoryTitle } from "@/utils/clubData";
 
 interface ContentCardProps {
@@ -34,7 +34,7 @@ export function ContentCard({
         style={{ aspectRatio: getAspectRatio() }}
       >
         <Image
-          source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
+          source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGE)}
           className="max-w-full"
           style={{ width: "100%", height: "100%", maxWidth: "100%" }}
           resizeMode="cover"

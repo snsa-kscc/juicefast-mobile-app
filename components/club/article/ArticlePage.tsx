@@ -6,7 +6,7 @@ import { ArticleStats } from "./ArticleStats";
 import { ArticleIngredients } from "./ArticleIngredients";
 import { ArticleSteps } from "./ArticleSteps";
 import { ArticleFooter } from "./ArticleFooter";
-import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
+import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
 import { Article, getDifficultyColor, formatTime } from "@/utils/articleData";
 
 interface ArticlePageProps {
@@ -168,7 +168,7 @@ function ArticleImageSection({ article }: { article: Article }) {
     <View className="pb-6 bg-jf-gray">
       <View className="relative w-full h-96 overflow-hidden bg-white">
         <Image
-          source={getImageWithFallback(article.image, DEFAULT_IMAGES.article)}
+          source={getImageWithFallback(article.image, DEFAULT_IMAGE)}
           className="w-full h-full"
           resizeMode="cover"
         />

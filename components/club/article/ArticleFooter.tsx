@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { ArrowLeft } from "lucide-react-native";
 import { ArticleTips } from "./ArticleTips";
-import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
+import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
 import { Article } from "@/utils/articleData";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -122,7 +122,7 @@ export function ArticleFooter({
       >
         <View className="w-full aspect-square rounded-3xl overflow-hidden bg-white shadow-sm">
           <Image
-            source={getImageWithFallback(item.image, DEFAULT_IMAGES.article)}
+            source={getImageWithFallback(item.image, DEFAULT_IMAGE)}
             className="w-full h-full"
             resizeMode="cover"
           />

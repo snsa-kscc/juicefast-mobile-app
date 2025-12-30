@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProcessedClubItem } from "@/types/club";
-import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
+import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
 
 interface SubcategoryDetailProps {
   title: string;
@@ -76,7 +76,7 @@ export function SubcategoryDetail({
       >
         <View className="w-10 h-10 rounded-md overflow-hidden mr-3">
           <Image
-            source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGES.icon)}
+            source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGE)}
             className="max-w-full"
             style={{ width: 40, height: 40, maxWidth: "100%" }}
             resizeMode="cover"
