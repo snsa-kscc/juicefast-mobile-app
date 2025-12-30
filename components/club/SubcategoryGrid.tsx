@@ -3,7 +3,9 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import {
   getOrderedSubcategoriesForCategory,
   getItemsBySubcategory,
+  isRecipeCategory,
 } from "@/utils/clubData";
+import { getRecipesBySubcategory } from "@/utils/recipeData";
 
 interface SubcategoryGridProps {
   category: string;
@@ -33,8 +35,14 @@ export function SubcategoryGrid({
           (index === subcategories.length - 1 && groupPosition % 2 === 1);
 
         // Get item count for this subcategory
-        const items = getItemsBySubcategory(subcategory.name.toLowerCase());
-        const count = items.length;
+        const count = isRecipeCategory(category)
+          ? getRecipesBySubcategory(subcategory.name.toLowerCase()).length
+          : getItemsBySubcategory(subcategory.name.toLowerCase()).length;
+
+        // Determine label text based on category type
+        const countLabel = isRecipeCategory(category)
+          ? `${count} ${count === 1 ? "recipe" : "recipes"}`
+          : `${count} ${count === 1 ? "item" : "items"}`;
 
         return (
           <TouchableOpacity
@@ -59,7 +67,7 @@ export function SubcategoryGrid({
                   </Text>
                   {count > 0 && (
                     <Text className="text-black/80 text-sm font-lufga">
-                      {count} {count === 1 ? "item" : "items"}
+                      {countLabel}
                     </Text>
                   )}
                 </View>
@@ -73,7 +81,7 @@ export function SubcategoryGrid({
                 </Text>
                 {count > 0 && (
                   <Text className="text-xs font-lufga text-gray-500 mt-0.5">
-                    {count} {count === 1 ? "item" : "items"}
+                    {countLabel}
                   </Text>
                 )}
               </View>

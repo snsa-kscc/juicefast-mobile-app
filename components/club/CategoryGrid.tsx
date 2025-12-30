@@ -1,5 +1,6 @@
 import React from "react";
-import { View, TouchableOpacity, ScrollView, Image } from "react-native";
+import { View, TouchableOpacity, ScrollView, Image, Text } from "react-native";
+import { getCategoryCount, isRecipeCategory } from "@/utils/clubData";
 
 interface CategoryItem {
   id: string;
@@ -24,26 +25,38 @@ export function CategoryGrid({
       className="flex-1 mb-6"
       contentContainerStyle={{ paddingLeft: 16, paddingRight: 16, gap: 16 }}
     >
-      {categories.map((category) => (
-        <TouchableOpacity
-          key={category.id}
-          onPress={() => onCategoryPress(category.categoryId)}
-          className="rounded-2xl overflow-hidden"
-          style={{
-            width: 120,
-            height: 120,
-          }}
-        >
-          <View className="relative">
-            <Image
-              source={category.image}
-              className="max-w-full"
-              style={{ width: 120, height: 120, maxWidth: "100%" }}
-              resizeMode="cover"
-            />
-          </View>
-        </TouchableOpacity>
-      ))}
+      {categories.map((category) => {
+        const count = getCategoryCount(category.categoryId);
+        const countLabel = isRecipeCategory(category.categoryId)
+          ? `${count} ${count === 1 ? "recipe" : "recipes"}`
+          : `${count} ${count === 1 ? "item" : "items"}`;
+
+        return (
+          <TouchableOpacity
+            key={category.id}
+            onPress={() => onCategoryPress(category.categoryId)}
+            className="rounded-2xl overflow-hidden"
+            style={{
+              width: 120,
+              height: 120,
+            }}
+          >
+            <View className="relative">
+              <Image
+                source={category.image}
+                className="max-w-full"
+                style={{ width: 120, height: 120, maxWidth: "100%" }}
+                resizeMode="cover"
+              />
+              <View className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/60 to-transparent">
+                <Text className="text-white text-xs font-lufga text-center">
+                  {countLabel}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        );
+      })}
     </ScrollView>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,14 +10,46 @@ import { WellnessHeader } from "@/components/ui/CustomHeader";
 import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
 import { showCrossPlatformAlert } from "@/utils/alert";
 import { NutritionRecipePage } from "@/components/club/nutrition/NutritionRecipePage";
+import { getRecipeById, getRandomRecipes, Recipe } from "@/utils/recipeData";
+import { getRecipesByCategory, getCategoryById } from "@/utils/recipeData";
+
+// Type for items that can be displayed
+type DisplayItem =
+  | ProcessedClubItem
+  | (Recipe & {
+      type: "recipe";
+      subcategory: string;
+      duration: string;
+      imageUrl: string | null;
+    });
 
 export default function ClubContentDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [showVideo, setShowVideo] = useState(false);
   const [showAudio, setShowAudio] = useState(false);
 
+  // Check if this is recipe content (id starts with "recipe-")
+  const isRecipeContent = id?.startsWith("recipe-");
+
+  // Get recipe data if this is recipe content
+  const recipe = isRecipeContent
+    ? getRecipeById(id?.replace("recipe-", "") || "")
+    : null;
+
   // Find the item from club data
   const item = CLUB_DATA.find((item: ProcessedClubItem) => item.id === id);
+
+  // If not found in CLUB_DATA and it's a recipe, get it from recipe data
+  const recipeItem =
+    !item && isRecipeContent && recipe
+      ? {
+          ...recipe,
+          type: "recipe" as const,
+          subcategory: recipe.category.replace(/-/g, " "),
+          duration: `${recipe.prepTime + recipe.cookTime} min`,
+          imageUrl: recipe.image,
+        }
+      : null;
 
   // Create video/audio player - always call hook but conditionally use it
   const mediaUrl =
@@ -29,10 +61,12 @@ export default function ClubContentDetail() {
       ? item.url
       : "";
 
+  const displayItem = (item || recipeItem) as DisplayItem | null;
+
   const player = useVideoPlayer(mediaUrl, (player) => {
     if (player) {
       player.loop = false;
-      player.showNowPlayingNotification = item?.type !== "video";
+      player.showNowPlayingNotification = displayItem?.type !== "video";
     }
   });
 
@@ -41,7 +75,7 @@ export default function ClubContentDetail() {
     isPlaying: player?.playing || false,
   });
 
-  if (!item) {
+  if (!item && !recipeItem) {
     return (
       <View className="flex-1 bg-jf-gray">
         <WellnessHeader
@@ -65,7 +99,8 @@ export default function ClubContentDetail() {
   }
 
   const getActionText = () => {
-    switch (item.type) {
+    if (!displayItem) return "Start Content";
+    switch (displayItem.type) {
       case "meditation":
         return showAudio
           ? isPlaying
@@ -96,8 +131,10 @@ export default function ClubContentDetail() {
   };
 
   const handlePlayPress = async () => {
-    if (item.type === "video") {
-      if (!item.url) {
+    if (!displayItem) return;
+
+    if (displayItem.type === "video") {
+      if (!displayItem.url) {
         showCrossPlatformAlert(
           "Error",
           "Video URL is not available for this content."
@@ -137,12 +174,12 @@ export default function ClubContentDetail() {
         }
       }
     } else if (
-      item.type === "audio" ||
-      item.type === "meditation" ||
-      item.type === "track"
+      displayItem.type === "audio" ||
+      displayItem.type === "meditation" ||
+      displayItem.type === "track"
     ) {
       // Handle audio content types
-      if (!item.url) {
+      if (!displayItem.url) {
         showCrossPlatformAlert(
           "Error",
           "Audio URL is not available for this content."
@@ -190,19 +227,64 @@ export default function ClubContentDetail() {
     }
   };
 
-  // Check if this is nutrition category
-  if (item.category === "nutrition") {
-    return <NutritionRecipePage />;
+  // If this is recipe content, show the recipe
+  if (isRecipeContent && recipe) {
+    const categoryInfo = getCategoryById(recipe.category);
+    const randomRecipes = useMemo(
+      () => getRandomRecipes(5, recipe.id),
+      [recipe.id]
+    );
+
+    const handleBack = () => {
+      router.back();
+    };
+
+    const footerRecipes = useMemo(
+      () =>
+        randomRecipes.map((r) => ({
+          name: r.title,
+          image: r.image || "/images/placeholder.jpg",
+        })),
+      [randomRecipes]
+    );
+
+    const handleFooterRecipePress = useCallback(
+      (recipeItem: { name: string; image: string }) => {
+        const fullRecipe = randomRecipes.find(
+          (r) => r.title === recipeItem.name
+        );
+        if (fullRecipe) {
+          router.push(`/club/content/recipe-${fullRecipe.id}`);
+        }
+      },
+      [randomRecipes]
+    );
+
+    return (
+      <View className="flex-1 bg-white">
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+          <NutritionRecipePage
+            recipe={recipe}
+            categoryName={categoryInfo?.name}
+            categoryRecipeCount={getRecipesByCategory(recipe.category).length}
+            onBackPress={handleBack}
+            footerRecipes={footerRecipes}
+            onFooterRecipePress={handleFooterRecipePress}
+            footerTitle="More recipes for you"
+          />
+        </ScrollView>
+      </View>
+    );
   }
 
   return (
     <View className="flex-1 bg-jf-gray">
       <WellnessHeader
-        title={item.title}
+        title={displayItem?.title || ""}
         subtitle={
-          item.subcategory
-            ? `${item.subcategory.charAt(0).toUpperCase() + item.subcategory.slice(1)}${item.duration ? ` • ${item.duration}` : ""}`
-            : item.duration || ""
+          displayItem?.subcategory
+            ? `${displayItem?.subcategory.charAt(0).toUpperCase() + displayItem?.subcategory.slice(1)}${displayItem?.duration ? ` • ${displayItem?.duration}` : ""}`
+            : displayItem?.duration || ""
         }
         showBackButton={true}
         onBackPress={() => router.back()}
@@ -213,7 +295,7 @@ export default function ClubContentDetail() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Video or Audio Container */}
         <View className="relative w-full aspect-video bg-black">
-          {showVideo && item.type === "video" && player ? (
+          {showVideo && displayItem?.type === "video" && player ? (
             <>
               <VideoView
                 player={player}
@@ -227,9 +309,9 @@ export default function ClubContentDetail() {
               />
             </>
           ) : showAudio &&
-            (item.type === "audio" ||
-              item.type === "meditation" ||
-              item.type === "track") &&
+            (displayItem?.type === "audio" ||
+              displayItem?.type === "meditation" ||
+              displayItem?.type === "track") &&
             player ? (
             // Audio player - simple like video
             <View className="w-full h-full bg-black">
@@ -248,13 +330,13 @@ export default function ClubContentDetail() {
             <>
               <Image
                 source={getImageWithFallback(
-                  item.imageUrl,
+                  displayItem?.imageUrl || "",
                   DEFAULT_IMAGES.icon
                 )}
                 className="w-full h-full"
               />
               {/* Video overlay controls */}
-              {item.type === "video" && !showVideo && (
+              {displayItem?.type === "video" && !showVideo && (
                 <TouchableOpacity
                   onPress={handlePlayPress}
                   className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center bg-black/30"
@@ -266,9 +348,9 @@ export default function ClubContentDetail() {
               )}
 
               {/* Audio overlay controls */}
-              {(item.type === "audio" ||
-                item.type === "meditation" ||
-                item.type === "track") &&
+              {(displayItem?.type === "audio" ||
+                displayItem?.type === "meditation" ||
+                displayItem?.type === "track") &&
                 !showAudio && (
                   <TouchableOpacity
                     onPress={handlePlayPress}
@@ -277,9 +359,9 @@ export default function ClubContentDetail() {
                     <View className="bg-black/60 rounded-full p-6">
                       <Ionicons
                         name={
-                          item.type === "meditation"
+                          displayItem?.type === "meditation"
                             ? "flower"
-                            : item.type === "track"
+                            : displayItem?.type === "track"
                               ? "radio"
                               : "volume-high"
                         }
@@ -289,9 +371,9 @@ export default function ClubContentDetail() {
                     </View>
                     <View className="mt-4">
                       <Text className="text-white text-lg font-lufga-bold">
-                        {item.type === "meditation"
+                        {displayItem?.type === "meditation"
                           ? "Start Meditation"
-                          : item.type === "track"
+                          : displayItem?.type === "track"
                             ? "Play Track"
                             : "Play Audio"}
                       </Text>
@@ -311,10 +393,12 @@ export default function ClubContentDetail() {
           >
             <Ionicons
               name={
-                (item.type === "video" && showVideo && isPlaying) ||
-                (item.type === "audio" && showAudio && isPlaying) ||
-                (item.type === "meditation" && showAudio && isPlaying) ||
-                (item.type === "track" && showAudio && isPlaying)
+                (displayItem?.type === "video" && showVideo && isPlaying) ||
+                (displayItem?.type === "audio" && showAudio && isPlaying) ||
+                (displayItem?.type === "meditation" &&
+                  showAudio &&
+                  isPlaying) ||
+                (displayItem?.type === "track" && showAudio && isPlaying)
                   ? "pause"
                   : "play"
               }
@@ -353,7 +437,7 @@ export default function ClubContentDetail() {
             About
           </Text>
           <Text className="text-base font-lufga text-gray-500 leading-6">
-            {getDescriptionForType(item.type)}
+            {getDescriptionForType(displayItem?.type || "")}
           </Text>
         </View>
       </ScrollView>

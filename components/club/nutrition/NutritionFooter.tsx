@@ -11,57 +11,23 @@ import {
 import { ArrowLeft } from "lucide-react-native";
 import { NutritionTips } from "./NutritionTips";
 import { getImageWithFallback, DEFAULT_IMAGES } from "@/utils/imageUtils";
+import { Recipe } from "@/utils/recipeData";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const ITEM_WIDTH = (SCREEN_WIDTH - 48 - 32) / 3; // 48 = px-6 * 2, 32 = gap space
 
 interface NutritionFooterProps {
-  recipes?: Array<{ name: string; image: string }>;
+  recipe?: Recipe;
+  recipes: Array<{ name: string; image: string }>;
   onRecipePress?: (recipe: { name: string; image: string }) => void;
+  title?: string;
 }
 
-const DEFAULT_RECIPES = [
-  {
-    name: "Lentil Soup",
-    image: "https://images.unsplash.com/photo-1547592180-85f173990554?w=400",
-  },
-  {
-    name: "Bean Stew",
-    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400",
-  },
-  {
-    name: "Roasted Salmon",
-    image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400",
-  },
-  {
-    name: "Grilled Chicken",
-    image: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400",
-  },
-  {
-    name: "Veggie Bowl",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400",
-  },
-  {
-    name: "Pasta Salad",
-    image: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=400",
-  },
-  {
-    name: "Quinoa Mix",
-    image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=400",
-  },
-  {
-    name: "Fish Tacos",
-    image: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=400",
-  },
-  {
-    name: "Buddha Bowl",
-    image: "https://images.unsplash.com/photo-1540914124281-342587941389?w=400",
-  },
-];
-
 export function NutritionFooter({
-  recipes = DEFAULT_RECIPES,
+  recipe,
+  recipes,
   onRecipePress,
+  title = "More recipes for you",
 }: NutritionFooterProps) {
   const flatListRef = useRef<FlatList>(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -145,16 +111,12 @@ export function NutritionFooter({
   return (
     <View className="bg-jf-gray pb-8">
       {/* Tips Section */}
-      <View>
-        <NutritionTips />
-      </View>
+      <View>{recipe && <NutritionTips recipe={recipe} />}</View>
 
       {/* Navigation Slider Section */}
       <View>
         <View className="py-6 px-6">
-          <Text className="text-center font-lufga-bold text-2xl">
-            More recipes for you
-          </Text>
+          <Text className="text-center font-lufga-bold text-2xl">{title}</Text>
         </View>
 
         {/* Navigation Controls - Now ABOVE the slider */}

@@ -6,14 +6,15 @@ import {
   SubcategorySummary,
 } from "@/types/club";
 import clubDataRaw from "@/data/jf-club.json";
+import { getRecipesBySubcategory } from "./recipeData";
 
 // Wellness categories for the app
 export const WELLNESS_CATEGORIES: WellnessCategory[] = [
-  { id: "trending", name: "Trending" },
-  { id: "mind", name: "Mind" },
-  { id: "workouts", name: "Workouts" },
-  { id: "nutrition", name: "Nutrition" },
-  { id: "beauty", name: "Beauty" },
+  { id: "trending", name: "Trending", contentType: "video" },
+  { id: "mind", name: "Mind", contentType: "video" },
+  { id: "workouts", name: "Workouts", contentType: "video" },
+  { id: "nutrition", name: "Nutrition", contentType: "recipe" },
+  { id: "beauty", name: "Beauty", contentType: "recipe" },
 ];
 
 // Comprehensive subcategory data structure
@@ -275,8 +276,9 @@ const processClubData = (rawData: ClubItem[]): ProcessedClubItem[] => {
 
 // Determine item type based on URL and category
 const determineItemType = (
-  item: ClubItem
-): "meditation" | "track" | "video" | "audio" => {
+  item: ClubItem & { type?: string }
+): "meditation" | "track" | "video" | "audio" | "recipe" => {
+  if (item.type === "recipe") return "recipe";
   if (item.url.includes(".m3u8")) return "video";
   if (item.subcategory.includes("meditation")) return "meditation";
   if (
@@ -360,10 +362,39 @@ export const getSubcategoryDetail = (
 ): SubcategoryData | null => {
   // Convert kebab-case back to original format (e.g., "postpartum-nutrition" -> "postpartum nutrition")
   const normalizedSubcategory = subcategory.replace(/-/g, " ");
-  const items = getItemsBySubcategory(normalizedSubcategory);
-  if (items.length === 0) return null;
 
+  // Check if this is a recipe subcategory
   const subcategoryInfo = SUBCATEGORY_DATA[normalizedSubcategory];
+  const isRecipeSubcategory =
+    subcategoryInfo?.category === "nutrition" ||
+    subcategoryInfo?.category === "beauty";
+
+  let items: ProcessedClubItem[] = [];
+
+  if (isRecipeSubcategory) {
+    // For recipe subcategories, get recipes and convert them to ProcessedClubItem format
+    // Recipe categories use kebab-case, so convert the subcategory name
+    const recipeCategory = normalizedSubcategory.replace(/\s+/g, "-");
+    const recipes = getRecipesBySubcategory(recipeCategory);
+    items = recipes.map((recipe, index) => ({
+      id: `recipe-${recipe.id}`, // Prefix with recipe- for proper identification
+      title: recipe.title,
+      subcategory: normalizedSubcategory,
+      category: subcategoryInfo?.category || "nutrition",
+      url: "", // Recipes don't have URLs
+      duration_minutes: recipe.prepTime + recipe.cookTime,
+      duration: `${recipe.prepTime + recipe.cookTime} min`,
+      type: "recipe" as const,
+      imageUrl:
+        recipe.image ||
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop&crop=center",
+    }));
+  } else {
+    // For wellness subcategories, get items from CLUB_DATA
+    items = getItemsBySubcategory(normalizedSubcategory);
+  }
+
+  if (items.length === 0) return null;
 
   const defaultInfo = {
     title:
@@ -542,5 +573,41 @@ export const getCategoryImages = () => {
   return Object.values(CATEGORY_IMAGES);
 };
 
-// Export the comprehensive subcategory data structure for use throughout the app
-export { SUBCATEGORY_DATA };
+// Get total count for a category (recipes or items)
+export const getCategoryCount = (categoryId: string): number => {
+  if (isRecipeCategory(categoryId)) {
+    // For recipe categories, count all recipes in this category
+    const subcategories = Object.values(SUBCATEGORY_DATA).filter(
+      (sub) => sub.category === categoryId
+    );
+    return subcategories.reduce((total, sub) => {
+      const recipes = getRecipesBySubcategory(sub.name.toLowerCase());
+      return total + recipes.length;
+    }, 0);
+  } else {
+    // For video categories, count all items in this category
+    const subcategories = Object.values(SUBCATEGORY_DATA).filter(
+      (sub) => sub.category === categoryId
+    );
+    return subcategories.reduce((total, sub) => {
+      const items = getItemsBySubcategory(sub.name.toLowerCase());
+      return total + items.length;
+    }, 0);
+  }
+};
+
+// Check if a category is recipe content
+export const isRecipeCategory = (categoryId: string): boolean => {
+  const category = WELLNESS_CATEGORIES.find((cat) => cat.id === categoryId);
+  return category?.contentType === "recipe";
+};
+
+// Check if a subcategory is recipe content
+export const isRecipeSubcategory = (subcategory: string): boolean => {
+  // For now, all nutrition and beauty subcategories are recipe content
+  const subcategoryData = SUBCATEGORY_DATA[subcategory];
+  return (
+    subcategoryData?.category === "nutrition" ||
+    subcategoryData?.category === "beauty"
+  );
+};

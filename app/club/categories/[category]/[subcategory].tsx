@@ -9,16 +9,16 @@ import { PremiumSubscriptionDrawer } from "@/components/club/PremiumSubscription
 import { usePaywall } from "@/hooks/usePaywall";
 
 export default function SubcategoryPage() {
-  const { subcategory } = useLocalSearchParams<{
+  const { category, subcategory } = useLocalSearchParams<{
     category: string;
     subcategory: string;
   }>();
   const { isPremiumOnAnyPlatform, isMobileAppSubscribed } = usePaywall();
 
-  const subcategoryData = getSubcategoryDetail(subcategory || "");
-
-  // Get the original subcategory name for image lookup (convert kebab-case back to spaces)
+  // Get the original subcategory name (convert kebab-case back to spaces)
   const originalSubcategory = subcategory?.replace(/-/g, " ") || "";
+
+  const subcategoryData = getSubcategoryDetail(subcategory || "");
 
   // Get subcategory info from unified data structure
   const subcategoryInfo = getSubcategoryInfo(originalSubcategory);

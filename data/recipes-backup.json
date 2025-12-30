@@ -1,0 +1,2802 @@
+{
+  "categories": [
+    {
+      "id": "postpartum-nutrition",
+      "name": "Postpartum Nutrition",
+      "recipeCount": 10
+    },
+    {
+      "id": "smoothies",
+      "name": "Smoothies",
+      "recipeCount": 10
+    },
+    {
+      "id": "snacks",
+      "name": "Snacks",
+      "recipeCount": 10
+    },
+    {
+      "id": "bowls",
+      "name": "Bowls",
+      "recipeCount": 10
+    },
+    {
+      "id": "oven-baked",
+      "name": "Oven Baked",
+      "recipeCount": 10
+    },
+    {
+      "id": "mocktails",
+      "name": "Mocktails",
+      "recipeCount": 10
+    }
+  ],
+  "recipes": [
+    {
+      "id": "iron-boosting-spinach-lentil-stew",
+      "title": "Iron-Boosting Spinach & Lentil Stew",
+      "category": "postpartum-nutrition",
+      "tags": [
+        "Iron-rich",
+        "One-pot",
+        "Freezer-friendly",
+        "Dairy-free"
+      ],
+      "description": "Replenishes iron lost during birth. Lentils provide plant-based protein for milk production. Easy to eat one-handed while nursing.",
+      "prepTime": "10 min",
+      "cookTime": "25 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 320,
+        "protein": 18,
+        "carbs": 42,
+        "fat": 8,
+        "fiber": 12
+      },
+      "bonus": "Iron: 6mg (35% DV)",
+      "ingredients": [
+        "1 cup red lentils, rinsed",
+        "200g fresh spinach",
+        "1 can (400g) diced tomatoes",
+        "1 medium onion, diced",
+        "3 garlic cloves, minced",
+        "2 tbsp olive oil",
+        "1 tsp cumin",
+        "½ tsp turmeric",
+        "4 cups vegetable broth",
+        "Salt & pepper to taste",
+        "Squeeze of lemon juice"
+      ],
+      "instructions": [
+        "Heat olive oil in a large pot over medium heat. Sauté onion until soft (3-4 min).",
+        "Add garlic, cumin, and turmeric. Stir for 30 seconds until fragrant.",
+        "Pour in lentils, tomatoes, and broth. Bring to boil, then reduce heat.",
+        "Simmer 20 minutes until lentils are tender.",
+        "Stir in spinach until wilted. Season with salt, pepper, and lemon.",
+        "Serve warm. Store leftovers up to 4 days or freeze for 3 months."
+      ],
+      "tips": [
+        "Add a fried egg on top for extra protein",
+        "Batch cook and freeze in portions for exhausted days",
+        "Pairs well with crusty bread or rice"
+      ]
+    },
+    {
+      "id": "salmon-sweet-potato-power-bowl",
+      "title": "Salmon & Sweet Potato Power Bowl",
+      "category": "postpartum-nutrition",
+      "tags": [
+        "Omega-3 rich",
+        "Brain health",
+        "High protein",
+        "Gluten-free"
+      ],
+      "description": "Omega-3 fatty acids support brain development in breastfed babies. Sweet potatoes provide sustained energy and vitamin A for recovery.",
+      "prepTime": "15 min",
+      "cookTime": "30 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 480,
+        "protein": 32,
+        "carbs": 38,
+        "fat": 22,
+        "fiber": 7
+      },
+      "bonus": "Omega-3: 2.5g, Vitamin A: 380% DV",
+      "ingredients": [
+        "2 salmon fillets (150g each)",
+        "2 medium sweet potatoes, cubed",
+        "2 cups arugula",
+        "1 avocado, sliced",
+        "2 tbsp olive oil",
+        "2 tbsp tahini",
+        "1 lemon, juiced",
+        "Salt, pepper, paprika"
+      ],
+      "instructions": [
+        "Preheat oven to 200°C. Toss sweet potato cubes with 1 tbsp olive oil, salt, and paprika.",
+        "Roast sweet potatoes for 20 minutes until tender.",
+        "Season salmon with salt and pepper. Pan-sear in remaining olive oil, 4 min per side.",
+        "Arrange arugula in bowls. Top with sweet potato, flaked salmon, and avocado.",
+        "Drizzle with tahini mixed with lemon juice. Serve immediately."
+      ],
+      "tips": [
+        "Use canned salmon for a quicker version",
+        "Prep sweet potatoes ahead and refrigerate",
+        "Add quinoa for extra sustenance"
+      ]
+    },
+    {
+      "id": "bone-broth-healing-soup",
+      "title": "Bone Broth Healing Soup",
+      "category": "postpartum-nutrition",
+      "tags": [
+        "Collagen-rich",
+        "Gut healing",
+        "Postpartum recovery",
+        "Low-carb"
+      ],
+      "description": "Collagen supports tissue repair after birth. Amino acids aid gut healing and reduce inflammation. Deeply nourishing and easy to digest.",
+      "prepTime": "10 min",
+      "cookTime": "5 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 180,
+        "protein": 15,
+        "carbs": 8,
+        "fat": 10,
+        "fiber": 2
+      },
+      "bonus": "Collagen: 10g",
+      "ingredients": [
+        "4 cups bone broth (chicken or beef)",
+        "2 soft-boiled eggs",
+        "1 carrot, thinly sliced",
+        "2 green onions, chopped",
+        "Fresh parsley and thyme",
+        "1 tsp ginger, grated",
+        "Salt and pepper to taste"
+      ],
+      "instructions": [
+        "Heat bone broth in a pot over medium heat.",
+        "Add sliced carrots and ginger. Simmer for 3-4 minutes until carrots soften.",
+        "Ladle into bowls. Add halved soft-boiled eggs.",
+        "Garnish with green onions and fresh herbs.",
+        "Season to taste and serve warm."
+      ],
+      "tips": [
+        "Make bone broth in batches and freeze in portions",
+        "Add rice noodles for a more filling meal",
+        "Sip throughout the day for continuous nourishment"
+      ]
+    },
+    {
+      "id": "lactation-cookie-energy-bites",
+      "title": "Lactation Cookie Energy Bites",
+      "category": "postpartum-nutrition",
+      "tags": [
+        "Lactation support",
+        "No-bake",
+        "Grab-and-go",
+        "Oat-based"
+      ],
+      "description": "Oats and brewer's yeast are galactagogues that support milk production. Perfect one-handed snack for nursing sessions.",
+      "prepTime": "15 min",
+      "cookTime": "0 min",
+      "servings": 20,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 95,
+        "protein": 3,
+        "carbs": 12,
+        "fat": 5,
+        "fiber": 2
+      },
+      "bonus": "B vitamins from brewer's yeast",
+      "ingredients": [
+        "1½ cups rolled oats",
+        "½ cup peanut butter",
+        "⅓ cup honey",
+        "2 tbsp brewer's yeast",
+        "2 tbsp ground flaxseed",
+        "¼ cup mini chocolate chips",
+        "1 tsp vanilla extract",
+        "Pinch of salt"
+      ],
+      "instructions": [
+        "Combine all ingredients in a large bowl. Mix until fully combined.",
+        "If mixture is too dry, add 1 tbsp milk. If too wet, add more oats.",
+        "Roll into 20 small balls using your hands.",
+        "Place on a lined baking sheet. Refrigerate for 30 minutes.",
+        "Store in airtight container in fridge for up to 1 week."
+      ],
+      "tips": [
+        "Substitute almond butter for peanut-free version",
+        "Add dried cranberries or coconut flakes",
+        "Keep a container by your nursing station"
+      ]
+    },
+    {
+      "id": "healing-turmeric-golden-milk-oatmeal",
+      "title": "Healing Turmeric Golden Milk Oatmeal",
+      "category": "postpartum-nutrition",
+      "tags": [
+        "Anti-inflammatory",
+        "Warming",
+        "Fiber-rich",
+        "Comfort food"
+      ],
+      "description": "Turmeric reduces postpartum inflammation. Oats provide sustained energy and support milk production. Warming and comforting for early mornings.",
+      "prepTime": "5 min",
+      "cookTime": "10 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 380,
+        "protein": 10,
+        "carbs": 52,
+        "fat": 14,
+        "fiber": 8
+      },
+      "bonus": "Curcumin from turmeric",
+      "ingredients": [
+        "½ cup rolled oats",
+        "1 cup milk of choice",
+        "½ tsp turmeric powder",
+        "¼ tsp cinnamon",
+        "Pinch of black pepper",
+        "1 tbsp maple syrup",
+        "1 banana, sliced",
+        "2 tbsp walnuts, chopped"
+      ],
+      "instructions": [
+        "Combine oats, milk, turmeric, cinnamon, and black pepper in a pot.",
+        "Cook over medium heat, stirring frequently, for 5-7 minutes.",
+        "Transfer to a bowl. Drizzle with maple syrup.",
+        "Top with sliced banana and walnuts.",
+        "Serve warm."
+      ],
+      "tips": [
+        "Black pepper increases turmeric absorption by 2000%",
+        "Add a scoop of collagen powder for extra healing",
+        "Make overnight oats version by refrigerating uncooked mixture"
+      ]
+    },
+    {
+      "id": "postpartum-recovery-chicken-congee",
+      "title": "Postpartum Recovery Chicken Congee",
+      "category": "postpartum-nutrition",
+      "tags": [
+        "Traditional healing",
+        "Easy to digest",
+        "Warming",
+        "Protein-rich"
+      ],
+      "description": "Traditional postpartum food across Asian cultures. Gentle on digestion while providing protein and hydration. Ginger warms the body and aids recovery.",
+      "prepTime": "10 min",
+      "cookTime": "45 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 290,
+        "protein": 22,
+        "carbs": 35,
+        "fat": 6,
+        "fiber": 1
+      },
+      "bonus": "Easily digestible protein",
+      "ingredients": [
+        "1 cup jasmine rice",
+        "8 cups chicken broth",
+        "2 chicken thighs, bone-in",
+        "2 inches fresh ginger, sliced",
+        "3 green onions, chopped",
+        "1 tbsp sesame oil",
+        "Soy sauce to taste",
+        "White pepper"
+      ],
+      "instructions": [
+        "Rinse rice until water runs clear.",
+        "Bring broth to boil with chicken thighs and ginger slices.",
+        "Add rice, reduce heat to low. Simmer 45 minutes, stirring occasionally.",
+        "Remove chicken, shred meat, and return to pot.",
+        "Ladle into bowls. Top with green onions, sesame oil, soy sauce, and white pepper."
+      ],
+      "tips": [
+        "Use a slow cooker for hands-off cooking",
+        "Freeze in portions for easy reheating",
+        "Add a soft-boiled egg for extra nutrition"
+      ]
+    },
+    {
+      "id": "iron-rich-beef-beetroot-salad",
+      "title": "Iron-Rich Beef & Beetroot Salad",
+      "category": "postpartum-nutrition",
+      "tags": [
+        "Iron-rich",
+        "Fresh",
+        "High protein",
+        "Colorful"
+      ],
+      "description": "Beef and beetroot together maximize iron absorption. Supports blood replenishment after delivery. Fresh and energizing.",
+      "prepTime": "15 min",
+      "cookTime": "20 min",
+      "servings": 2,
+      "difficulty": "Medium",
+      "nutrition": {
+        "calories": 420,
+        "protein": 28,
+        "carbs": 22,
+        "fat": 24,
+        "fiber": 5
+      },
+      "bonus": "Iron: 5mg (28% DV)",
+      "ingredients": [
+        "200g beef sirloin",
+        "2 medium beetroots, cubed",
+        "4 cups mixed greens",
+        "50g feta cheese, crumbled",
+        "¼ cup walnuts",
+        "2 tbsp olive oil",
+        "1 tbsp balsamic vinegar",
+        "Salt and pepper"
+      ],
+      "instructions": [
+        "Preheat oven to 200°C. Toss beetroot with 1 tbsp olive oil, salt. Roast 20 minutes.",
+        "Season beef with salt and pepper. Sear in hot pan, 3 min per side for medium-rare. Rest 5 min, then slice.",
+        "Arrange greens on plates. Top with beetroot and sliced beef.",
+        "Scatter feta and walnuts over salad.",
+        "Drizzle with remaining olive oil and balsamic. Serve immediately."
+      ],
+      "tips": [
+        "Use pre-cooked beetroot to save time",
+        "Substitute goat cheese for feta",
+        "Add orange segments for vitamin C to boost iron absorption"
+      ]
+    },
+    {
+      "id": "nourishing-chicken-vegetable-miso-soup",
+      "title": "Nourishing Chicken & Vegetable Miso Soup",
+      "category": "postpartum-nutrition",
+      "tags": [
+        "Probiotic",
+        "Gut health",
+        "Hydrating",
+        "Warming"
+      ],
+      "description": "Miso provides probiotics for gut health and immune support. Hydrating and warming. Easy to digest during recovery.",
+      "prepTime": "10 min",
+      "cookTime": "15 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 240,
+        "protein": 24,
+        "carbs": 14,
+        "fat": 10,
+        "fiber": 3
+      },
+      "bonus": "Probiotics from miso",
+      "ingredients": [
+        "4 cups water",
+        "3 tbsp white miso paste",
+        "150g cooked chicken, shredded",
+        "100g firm tofu, cubed",
+        "2 tbsp dried wakame seaweed",
+        "1 cup mushrooms, sliced",
+        "2 green onions, chopped"
+      ],
+      "instructions": [
+        "Bring water to a simmer (not boiling) in a pot.",
+        "Add mushrooms and wakame. Cook for 3 minutes.",
+        "Add tofu and chicken. Heat through for 2 minutes.",
+        "Remove from heat. Whisk in miso paste until dissolved.",
+        "Ladle into bowls. Garnish with green onions. Serve warm."
+      ],
+      "tips": [
+        "Never boil miso - it kills the probiotics",
+        "Add noodles for a more filling meal",
+        "Use any leftover protein you have on hand"
+      ]
+    },
+    {
+      "id": "calcium-boosting-sardine-toast",
+      "title": "Calcium-Boosting Sardine Toast",
+      "category": "postpartum-nutrition",
+      "tags": [
+        "Calcium-rich",
+        "Omega-3",
+        "Quick meal",
+        "Bone health"
+      ],
+      "description": "Sardines with bones provide highly absorbable calcium for bone health and milk production. Omega-3s support baby's brain development.",
+      "prepTime": "5 min",
+      "cookTime": "3 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 380,
+        "protein": 22,
+        "carbs": 28,
+        "fat": 20,
+        "fiber": 6
+      },
+      "bonus": "Calcium: 350mg (27% DV)",
+      "ingredients": [
+        "2 slices sourdough bread",
+        "1 can sardines in olive oil (with bones)",
+        "½ avocado, sliced",
+        "6 cherry tomatoes, halved",
+        "Handful of microgreens",
+        "Lemon juice",
+        "Salt, pepper, red pepper flakes"
+      ],
+      "instructions": [
+        "Toast sourdough slices until golden.",
+        "Drain sardines, place on toast. Mash lightly with a fork.",
+        "Layer avocado slices on top.",
+        "Add cherry tomato halves and microgreens.",
+        "Squeeze lemon juice over. Season with salt, pepper, and red pepper flakes."
+      ],
+      "tips": [
+        "Mash the bones - they're soft and packed with calcium",
+        "Use any canned fish with bones",
+        "Add a poached egg for extra protein"
+      ]
+    },
+    {
+      "id": "restorative-red-date-goji-tea-porridge",
+      "title": "Restorative Red Date & Goji Tea Porridge",
+      "category": "postpartum-nutrition",
+      "tags": [
+        "Traditional Chinese",
+        "Blood building",
+        "Warming",
+        "Sweet"
+      ],
+      "description": "Red dates and goji berries are traditional blood-building foods in Chinese postpartum care. Naturally sweet and deeply nourishing.",
+      "prepTime": "5 min",
+      "cookTime": "30 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 280,
+        "protein": 6,
+        "carbs": 58,
+        "fat": 3,
+        "fiber": 4
+      },
+      "bonus": "Iron and antioxidants from dates and goji",
+      "ingredients": [
+        "½ cup glutinous rice",
+        "4 cups water",
+        "8 dried red dates (jujubes)",
+        "2 tbsp dried goji berries",
+        "1 tbsp brown sugar or honey",
+        "2 slices fresh ginger"
+      ],
+      "instructions": [
+        "Rinse rice until water runs clear.",
+        "Bring water to boil with ginger slices and red dates.",
+        "Add rice, reduce heat. Simmer 25 minutes, stirring occasionally.",
+        "Add goji berries in last 5 minutes of cooking.",
+        "Remove ginger. Sweeten with brown sugar or honey.",
+        "Serve warm in small bowls."
+      ],
+      "tips": [
+        "Find red dates and goji at Asian grocery stores",
+        "Make a double batch - reheats beautifully",
+        "Add a splash of coconut milk for creaminess"
+      ]
+    },
+    {
+      "id": "green-detox-power-smoothie",
+      "title": "Green Detox Power Smoothie",
+      "category": "smoothies",
+      "tags": [
+        "Detox",
+        "Energizing",
+        "Vegan",
+        "Low sugar"
+      ],
+      "description": "Packed with chlorophyll and antioxidants for gentle detoxification. Cucumber and celery provide hydration. Perfect post-juice cleanse transition.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 180,
+        "protein": 5,
+        "carbs": 32,
+        "fat": 4,
+        "fiber": 6
+      },
+      "bonus": "Vitamin K: 150% DV",
+      "ingredients": [
+        "1 cup spinach",
+        "½ cucumber",
+        "1 celery stalk",
+        "1 green apple",
+        "½ lemon, juiced",
+        "1 inch fresh ginger",
+        "1 cup coconut water",
+        "Handful of fresh mint"
+      ],
+      "instructions": [
+        "Add coconut water to blender first.",
+        "Add spinach, cucumber, celery, and apple chunks.",
+        "Add lemon juice, ginger, and mint.",
+        "Blend on high for 60 seconds until smooth.",
+        "Pour into glass and serve immediately."
+      ],
+      "tips": [
+        "Freeze banana slices for a creamier texture",
+        "Add a scoop of spirulina for extra detox power",
+        "Best consumed in the morning on empty stomach"
+      ]
+    },
+    {
+      "id": "berry-antioxidant-blast",
+      "title": "Berry Antioxidant Blast",
+      "category": "smoothies",
+      "tags": [
+        "Antioxidant-rich",
+        "Anti-aging",
+        "High fiber",
+        "Immune boost"
+      ],
+      "description": "Berries provide powerful antioxidants that fight inflammation and support immune health. High fiber keeps you satisfied.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 220,
+        "protein": 6,
+        "carbs": 38,
+        "fat": 6,
+        "fiber": 10
+      },
+      "bonus": "Antioxidants: very high ORAC value",
+      "ingredients": [
+        "½ cup blueberries",
+        "½ cup raspberries",
+        "½ cup strawberries",
+        "1 tbsp chia seeds",
+        "1 cup almond milk",
+        "½ frozen banana",
+        "1 tbsp almond butter"
+      ],
+      "instructions": [
+        "Add almond milk to blender.",
+        "Add all berries and frozen banana.",
+        "Add chia seeds and almond butter.",
+        "Blend until smooth, about 45 seconds.",
+        "Pour and top with extra berries if desired."
+      ],
+      "tips": [
+        "Use frozen berries for thicker consistency",
+        "Add açai powder for extra antioxidants",
+        "Prep berry bags in freezer for quick morning smoothies"
+      ]
+    },
+    {
+      "id": "tropical-mango-sunshine-smoothie",
+      "title": "Tropical Mango Sunshine Smoothie",
+      "category": "smoothies",
+      "tags": [
+        "Vitamin C rich",
+        "Tropical",
+        "Energizing",
+        "Dairy-free"
+      ],
+      "description": "Mango and pineapple provide vitamin C for collagen production and immune support. Natural sugars give sustained energy boost.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 260,
+        "protein": 4,
+        "carbs": 52,
+        "fat": 6,
+        "fiber": 5
+      },
+      "bonus": "Vitamin C: 180% DV",
+      "ingredients": [
+        "1 cup frozen mango chunks",
+        "½ cup pineapple chunks",
+        "½ banana",
+        "1 cup coconut milk",
+        "1 tbsp shredded coconut",
+        "½ tsp turmeric (optional)",
+        "Ice cubes"
+      ],
+      "instructions": [
+        "Pour coconut milk into blender.",
+        "Add frozen mango, pineapple, and banana.",
+        "Add turmeric if using.",
+        "Blend until creamy smooth.",
+        "Top with shredded coconut and extra mango."
+      ],
+      "tips": [
+        "Add a squeeze of lime for tanginess",
+        "Freeze in popsicle molds for healthy treats",
+        "Use light coconut milk to reduce calories"
+      ]
+    },
+    {
+      "id": "chocolate-protein-power-smoothie",
+      "title": "Chocolate Protein Power Smoothie",
+      "category": "smoothies",
+      "tags": [
+        "High protein",
+        "Post-workout",
+        "Satisfying",
+        "Muscle recovery"
+      ],
+      "description": "Perfect post-workout recovery with protein and carbs. Cacao provides magnesium for muscle function. Satisfies chocolate cravings healthily.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 340,
+        "protein": 24,
+        "carbs": 42,
+        "fat": 10,
+        "fiber": 7
+      },
+      "bonus": "Magnesium: 25% DV",
+      "ingredients": [
+        "1 frozen banana",
+        "2 tbsp raw cacao powder",
+        "1 scoop protein powder (chocolate or vanilla)",
+        "1 tbsp peanut butter",
+        "1 cup oat milk",
+        "1 tbsp cacao nibs",
+        "Pinch of sea salt"
+      ],
+      "instructions": [
+        "Add oat milk to blender.",
+        "Add frozen banana, cacao powder, and protein powder.",
+        "Add peanut butter and sea salt.",
+        "Blend until thick and creamy.",
+        "Top with cacao nibs."
+      ],
+      "tips": [
+        "Add espresso shot for mocha version",
+        "Use frozen cauliflower for hidden veggies",
+        "Add a date for extra natural sweetness"
+      ]
+    },
+    {
+      "id": "creamy-avocado-spinach-smoothie",
+      "title": "Creamy Avocado Spinach Smoothie",
+      "category": "smoothies",
+      "tags": [
+        "Healthy fats",
+        "Brain food",
+        "Creamy",
+        "Keto-friendly"
+      ],
+      "description": "Avocado provides healthy fats for brain function and satiety. Spinach adds iron without affecting taste. Keeps you full for hours.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 320,
+        "protein": 8,
+        "carbs": 24,
+        "fat": 22,
+        "fiber": 9
+      },
+      "bonus": "Healthy monounsaturated fats",
+      "ingredients": [
+        "½ ripe avocado",
+        "1 cup spinach",
+        "½ frozen banana",
+        "1 cup unsweetened almond milk",
+        "1 tbsp hemp seeds",
+        "1 tsp honey or maple syrup",
+        "½ tsp vanilla extract"
+      ],
+      "instructions": [
+        "Add almond milk to blender.",
+        "Add avocado, spinach, and frozen banana.",
+        "Add hemp seeds, sweetener, and vanilla.",
+        "Blend until silky smooth.",
+        "Serve immediately - avocado oxidizes quickly."
+      ],
+      "tips": [
+        "Add MCT oil for extra brain fuel",
+        "Squeeze of lime prevents browning",
+        "Perfect for intermittent fasting breakfast"
+      ]
+    },
+    {
+      "id": "refreshing-cucumber-mint-cooler",
+      "title": "Refreshing Cucumber Mint Cooler",
+      "category": "smoothies",
+      "tags": [
+        "Hydrating",
+        "Low calorie",
+        "Cooling",
+        "Summer favorite"
+      ],
+      "description": "Extremely hydrating and cooling. Perfect for hot days or after exercise. Low calorie but refreshing.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 120,
+        "protein": 2,
+        "carbs": 26,
+        "fat": 1,
+        "fiber": 3
+      },
+      "bonus": "Hydration boost",
+      "ingredients": [
+        "1 whole cucumber",
+        "1 cup honeydew melon",
+        "Large handful fresh mint",
+        "1 cup coconut water",
+        "½ lime, juiced",
+        "1 tsp honey",
+        "Ice cubes"
+      ],
+      "instructions": [
+        "Peel cucumber, chop roughly.",
+        "Add coconut water and cucumber to blender.",
+        "Add honeydew, mint, lime juice, and honey.",
+        "Add ice cubes.",
+        "Blend until smooth and frothy."
+      ],
+      "tips": [
+        "Freeze cucumber chunks for thicker consistency",
+        "Add a splash of sparkling water after blending",
+        "Perfect afternoon refresher"
+      ]
+    },
+    {
+      "id": "peanut-butter-banana-oat-smoothie",
+      "title": "Peanut Butter Banana Oat Smoothie",
+      "category": "smoothies",
+      "tags": [
+        "Filling",
+        "Breakfast replacement",
+        "Energy boost",
+        "Kid-friendly"
+      ],
+      "description": "Complete breakfast in a glass with protein, healthy fats, and complex carbs. Sustained energy release throughout the morning.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 420,
+        "protein": 16,
+        "carbs": 54,
+        "fat": 18,
+        "fiber": 8
+      },
+      "bonus": "Complete breakfast nutrition",
+      "ingredients": [
+        "1 frozen banana",
+        "2 tbsp peanut butter",
+        "¼ cup rolled oats",
+        "1 cup milk of choice",
+        "1 tbsp honey",
+        "½ tsp cinnamon",
+        "Pinch of salt"
+      ],
+      "instructions": [
+        "Add milk to blender.",
+        "Add frozen banana, peanut butter, and oats.",
+        "Add honey, cinnamon, and salt.",
+        "Blend until oats are fully incorporated.",
+        "Let sit 1 minute to thicken slightly."
+      ],
+      "tips": [
+        "Soak oats overnight for smoother texture",
+        "Add a scoop of protein powder",
+        "Substitute almond butter for variety"
+      ]
+    },
+    {
+      "id": "immune-boosting-citrus-ginger-smoothie",
+      "title": "Immune-Boosting Citrus Ginger Smoothie",
+      "category": "smoothies",
+      "tags": [
+        "Immune support",
+        "Vitamin C",
+        "Anti-inflammatory",
+        "Cold fighter"
+      ],
+      "description": "Citrus fruits provide massive vitamin C boost. Ginger adds anti-inflammatory and digestive benefits. Perfect during cold season.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 190,
+        "protein": 3,
+        "carbs": 42,
+        "fat": 2,
+        "fiber": 5
+      },
+      "bonus": "Vitamin C: 250% DV",
+      "ingredients": [
+        "1 orange, peeled",
+        "½ grapefruit, peeled",
+        "1 carrot",
+        "1 inch fresh ginger",
+        "½ cup frozen mango",
+        "1 cup water or orange juice",
+        "1 tsp turmeric"
+      ],
+      "instructions": [
+        "Add liquid to blender.",
+        "Add orange and grapefruit segments.",
+        "Add chopped carrot, ginger, and mango.",
+        "Add turmeric.",
+        "Blend until smooth."
+      ],
+      "tips": [
+        "Add a pinch of black pepper for turmeric absorption",
+        "Use blood oranges when in season",
+        "Add raw honey for sore throat relief"
+      ]
+    },
+    {
+      "id": "coffee-protein-breakfast-smoothie",
+      "title": "Coffee Protein Breakfast Smoothie",
+      "category": "smoothies",
+      "tags": [
+        "Caffeine boost",
+        "High protein",
+        "Meal replacement",
+        "Morning energy"
+      ],
+      "description": "Combines morning coffee with breakfast nutrition. Protein keeps you satisfied. Perfect for busy mornings when you need both caffeine and fuel.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 310,
+        "protein": 22,
+        "carbs": 32,
+        "fat": 10,
+        "fiber": 4
+      },
+      "bonus": "Caffeine: ~95mg",
+      "ingredients": [
+        "1 cup cold brew coffee",
+        "1 frozen banana",
+        "1 scoop vanilla protein powder",
+        "1 tbsp almond butter",
+        "½ cup milk of choice",
+        "1 tsp maple syrup",
+        "Ice cubes"
+      ],
+      "instructions": [
+        "Add cold brew coffee and milk to blender.",
+        "Add frozen banana and protein powder.",
+        "Add almond butter and maple syrup.",
+        "Add ice cubes.",
+        "Blend until frothy and smooth."
+      ],
+      "tips": [
+        "Prep cold brew in batches on weekends",
+        "Add cacao powder for mocha flavor",
+        "Skip sweetener if using flavored protein"
+      ]
+    },
+    {
+      "id": "gut-healing-papaya-probiotic-smoothie",
+      "title": "Gut-Healing Papaya Probiotic Smoothie",
+      "category": "smoothies",
+      "tags": [
+        "Digestive health",
+        "Probiotic",
+        "Enzyme-rich",
+        "Tropical"
+      ],
+      "description": "Papaya contains papain enzyme for protein digestion. Kefir adds probiotics for gut health. Soothes digestive discomfort.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 240,
+        "protein": 10,
+        "carbs": 38,
+        "fat": 6,
+        "fiber": 4
+      },
+      "bonus": "Probiotics and digestive enzymes",
+      "ingredients": [
+        "1 cup ripe papaya, cubed",
+        "½ cup plain kefir",
+        "½ frozen banana",
+        "½ cup coconut water",
+        "1 tbsp coconut flakes",
+        "1 tsp honey",
+        "Squeeze of lime"
+      ],
+      "instructions": [
+        "Add kefir and coconut water to blender.",
+        "Add papaya cubes and frozen banana.",
+        "Add honey and lime juice.",
+        "Blend until smooth.",
+        "Top with coconut flakes."
+      ],
+      "tips": [
+        "Use dairy-free coconut kefir if needed",
+        "Add a probiotic capsule for extra gut support",
+        "Riper papaya = sweeter smoothie"
+      ]
+    },
+    {
+      "id": "energy-boosting-date-nut-balls",
+      "title": "Energy-Boosting Date & Nut Balls",
+      "category": "snacks",
+      "tags": [
+        "No-bake",
+        "Natural energy",
+        "Vegan",
+        "Meal prep friendly"
+      ],
+      "description": "Natural sugars from dates provide quick energy without crash. Nuts add protein and healthy fats. Perfect pre or post workout.",
+      "prepTime": "15 min",
+      "cookTime": "0 min",
+      "servings": 12,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 110,
+        "protein": 3,
+        "carbs": 14,
+        "fat": 6,
+        "fiber": 2
+      },
+      "bonus": "Natural energy boost",
+      "ingredients": [
+        "1 cup Medjool dates, pitted",
+        "½ cup almonds",
+        "¼ cup walnuts",
+        "2 tbsp coconut oil",
+        "2 tbsp cacao powder",
+        "1 tsp vanilla extract",
+        "Pinch of sea salt",
+        "Shredded coconut for rolling"
+      ],
+      "instructions": [
+        "Add dates to food processor, pulse until sticky paste forms.",
+        "Add nuts, coconut oil, cacao, vanilla, and salt.",
+        "Process until mixture holds together.",
+        "Roll into 12 balls using damp hands.",
+        "Roll in shredded coconut. Refrigerate 30 minutes."
+      ],
+      "tips": [
+        "Freeze for firmer texture",
+        "Add espresso powder for coffee flavor",
+        "Last 2 weeks refrigerated"
+      ]
+    },
+    {
+      "id": "crispy-baked-chickpea-crunchies",
+      "title": "Crispy Baked Chickpea Crunchies",
+      "category": "snacks",
+      "tags": [
+        "High protein",
+        "Crunchy",
+        "Savory",
+        "Fiber-rich"
+      ],
+      "description": "High protein and fiber snack that satisfies salty cravings. Crunchy texture without the guilt. Great alternative to chips.",
+      "prepTime": "5 min",
+      "cookTime": "40 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 140,
+        "protein": 7,
+        "carbs": 20,
+        "fat": 4,
+        "fiber": 6
+      },
+      "bonus": "Plant-based protein",
+      "ingredients": [
+        "1 can (400g) chickpeas, drained and dried",
+        "2 tbsp olive oil",
+        "1 tsp smoked paprika",
+        "½ tsp garlic powder",
+        "½ tsp cumin",
+        "¼ tsp cayenne (optional)",
+        "Salt to taste"
+      ],
+      "instructions": [
+        "Preheat oven to 200°C. Pat chickpeas very dry with paper towels.",
+        "Toss with olive oil and all spices.",
+        "Spread in single layer on baking sheet.",
+        "Bake 35-40 minutes, shaking pan halfway, until crispy.",
+        "Season with extra salt while warm."
+      ],
+      "tips": [
+        "Must be completely dry before baking for crispiness",
+        "Store in open container - sealed makes them soft",
+        "Try different seasoning combos: ranch, BBQ, cinnamon sugar"
+      ]
+    },
+    {
+      "id": "greek-yogurt-bark-with-berries",
+      "title": "Greek Yogurt Bark with Berries",
+      "category": "snacks",
+      "tags": [
+        "Frozen treat",
+        "High protein",
+        "Low sugar",
+        "Kid-friendly"
+      ],
+      "description": "Satisfies ice cream cravings with protein-rich yogurt. Fresh berries add antioxidants. Fun, customizable healthy treat.",
+      "prepTime": "10 min",
+      "cookTime": "0 min",
+      "servings": 8,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 80,
+        "protein": 6,
+        "carbs": 10,
+        "fat": 2,
+        "fiber": 1
+      },
+      "bonus": "Probiotics from yogurt",
+      "ingredients": [
+        "2 cups Greek yogurt",
+        "2 tbsp honey",
+        "½ tsp vanilla extract",
+        "½ cup mixed berries",
+        "2 tbsp dark chocolate chips",
+        "1 tbsp chopped nuts"
+      ],
+      "instructions": [
+        "Line baking sheet with parchment paper.",
+        "Mix yogurt with honey and vanilla.",
+        "Spread evenly on parchment, about ½ cm thick.",
+        "Scatter berries, chocolate chips, and nuts on top. Press lightly.",
+        "Freeze 4 hours until solid. Break into pieces."
+      ],
+      "tips": [
+        "Store in freezer up to 2 weeks",
+        "Try peanut butter and banana version",
+        "Let sit 2 minutes before eating for best texture"
+      ]
+    },
+    {
+      "id": "veggie-sticks-with-white-bean-hummus",
+      "title": "Veggie Sticks with White Bean Hummus",
+      "category": "snacks",
+      "tags": [
+        "Low calorie",
+        "High fiber",
+        "Dip-worthy",
+        "Fresh"
+      ],
+      "description": "Crunchy vegetables satisfy snack cravings with minimal calories. White bean hummus provides protein and creaminess.",
+      "prepTime": "15 min",
+      "cookTime": "0 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 160,
+        "protein": 8,
+        "carbs": 22,
+        "fat": 5,
+        "fiber": 7
+      },
+      "bonus": "Multiple vitamin sources",
+      "ingredients": [
+        "1 can (400g) white beans, drained",
+        "2 tbsp tahini",
+        "2 garlic cloves",
+        "3 tbsp lemon juice",
+        "2 tbsp olive oil",
+        "Salt and pepper",
+        "Assorted vegetables: carrots, cucumber, bell pepper, celery"
+      ],
+      "instructions": [
+        "Add beans, tahini, garlic, and lemon juice to food processor.",
+        "Blend until smooth, scraping sides.",
+        "Drizzle in olive oil while blending.",
+        "Season with salt and pepper.",
+        "Serve with cut vegetable sticks."
+      ],
+      "tips": [
+        "Add roasted garlic for milder flavor",
+        "Thin with water if too thick",
+        "Stores refrigerated 5 days"
+      ]
+    },
+    {
+      "id": "avocado-deviled-eggs",
+      "title": "Avocado Deviled Eggs",
+      "category": "snacks",
+      "tags": [
+        "High protein",
+        "Keto-friendly",
+        "Party snack",
+        "Healthy fats"
+      ],
+      "description": "Classic deviled eggs made healthier with avocado. High protein and healthy fats. Perfect for meal prep or entertaining.",
+      "prepTime": "15 min",
+      "cookTime": "12 min",
+      "servings": 6,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 95,
+        "protein": 6,
+        "carbs": 2,
+        "fat": 7,
+        "fiber": 1
+      },
+      "bonus": "Complete protein + healthy fats",
+      "ingredients": [
+        "6 eggs",
+        "1 ripe avocado",
+        "2 tbsp Greek yogurt",
+        "1 tbsp lime juice",
+        "½ tsp garlic powder",
+        "Salt and pepper",
+        "Paprika and microgreens for garnish"
+      ],
+      "instructions": [
+        "Boil eggs 10-12 minutes. Ice bath immediately.",
+        "Peel eggs, slice in half, remove yolks to bowl.",
+        "Mash yolks with avocado, yogurt, lime juice, and garlic powder.",
+        "Season with salt and pepper.",
+        "Pipe or spoon filling into egg whites. Dust with paprika."
+      ],
+      "tips": [
+        "Add sriracha for spicy version",
+        "Make filling ahead, assemble before serving",
+        "Lime juice prevents browning"
+      ]
+    },
+    {
+      "id": "crunchy-apple-nachos",
+      "title": "Crunchy Apple Nachos",
+      "category": "snacks",
+      "tags": [
+        "Sweet treat",
+        "Kid-friendly",
+        "Quick",
+        "Fun"
+      ],
+      "description": "Satisfies sweet cravings with fiber-rich apples. Nut butter adds protein. Fun, shareable snack that kids love too.",
+      "prepTime": "10 min",
+      "cookTime": "0 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 220,
+        "protein": 5,
+        "carbs": 32,
+        "fat": 10,
+        "fiber": 5
+      },
+      "bonus": "Fiber and antioxidants",
+      "ingredients": [
+        "2 medium apples, thinly sliced",
+        "2 tbsp almond butter",
+        "1 tbsp dark chocolate, melted",
+        "2 tbsp granola",
+        "1 tbsp coconut flakes",
+        "1 tbsp mini chocolate chips",
+        "Squeeze of lemon"
+      ],
+      "instructions": [
+        "Arrange apple slices on plate. Squeeze lemon to prevent browning.",
+        "Warm almond butter slightly for drizzling consistency.",
+        "Drizzle almond butter and melted chocolate over apples.",
+        "Sprinkle with granola, coconut, and chocolate chips.",
+        "Serve immediately."
+      ],
+      "tips": [
+        "Use different apple varieties for color",
+        "Try peanut butter or sunflower seed butter",
+        "Add dried cranberries or raisins"
+      ]
+    },
+    {
+      "id": "zucchini-pizza-bites",
+      "title": "Zucchini Pizza Bites",
+      "category": "snacks",
+      "tags": [
+        "Low carb",
+        "Veggie-loaded",
+        "Party snack",
+        "Gluten-free"
+      ],
+      "description": "All the pizza flavor without the carbs. Perfect for low-carb eating. Makes vegetables exciting.",
+      "prepTime": "10 min",
+      "cookTime": "15 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 120,
+        "protein": 8,
+        "carbs": 6,
+        "fat": 8,
+        "fiber": 1
+      },
+      "bonus": "Low carb pizza alternative",
+      "ingredients": [
+        "2 large zucchini, sliced 1cm thick",
+        "½ cup marinara sauce",
+        "1 cup shredded mozzarella",
+        "Mini pepperoni slices",
+        "Italian herbs",
+        "Olive oil",
+        "Fresh basil"
+      ],
+      "instructions": [
+        "Preheat oven to 220°C. Line baking sheet with parchment.",
+        "Arrange zucchini slices, brush with olive oil.",
+        "Bake 5 minutes to remove moisture.",
+        "Top each with sauce, cheese, and pepperoni.",
+        "Bake another 8-10 minutes until cheese melts. Add basil."
+      ],
+      "tips": [
+        "Salt zucchini first and pat dry for crispier results",
+        "Try different toppings: olives, mushrooms, bell peppers",
+        "Use dairy-free cheese for vegan version"
+      ]
+    },
+    {
+      "id": "chocolate-banana-ice-cream-bites",
+      "title": "Chocolate Banana Ice Cream Bites",
+      "category": "snacks",
+      "tags": [
+        "Frozen",
+        "Sweet",
+        "Healthy dessert",
+        "3 ingredients"
+      ],
+      "description": "Satisfies ice cream and chocolate cravings. Only natural sugars from banana. Perfect freezer snack.",
+      "prepTime": "15 min",
+      "cookTime": "0 min",
+      "servings": 20,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 45,
+        "protein": 1,
+        "carbs": 7,
+        "fat": 2,
+        "fiber": 1
+      },
+      "bonus": "Natural sweetness only",
+      "ingredients": [
+        "2 bananas, sliced into coins",
+        "100g dark chocolate",
+        "1 tsp coconut oil",
+        "Toppings: chopped nuts, coconut, sea salt"
+      ],
+      "instructions": [
+        "Line tray with parchment paper. Arrange banana slices.",
+        "Freeze banana slices for 1 hour until firm.",
+        "Melt chocolate with coconut oil.",
+        "Dip each banana slice halfway in chocolate.",
+        "Add toppings before chocolate sets. Freeze 1 more hour."
+      ],
+      "tips": [
+        "Use ripe but firm bananas",
+        "Store in freezer up to 2 months",
+        "Try almond butter drizzle too"
+      ]
+    },
+    {
+      "id": "cottage-cheese-protein-bowl",
+      "title": "Cottage Cheese Protein Bowl",
+      "category": "snacks",
+      "tags": [
+        "High protein",
+        "Quick",
+        "Customizable",
+        "Muscle building"
+      ],
+      "description": "Cottage cheese is one of the highest protein snacks available. Casein protein digests slowly for sustained energy.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 240,
+        "protein": 24,
+        "carbs": 18,
+        "fat": 8,
+        "fiber": 3
+      },
+      "bonus": "28g protein with toppings",
+      "ingredients": [
+        "1 cup cottage cheese",
+        "½ cup mixed berries",
+        "1 tbsp sliced almonds",
+        "1 tbsp honey",
+        "1 tsp chia seeds",
+        "Sprinkle of cinnamon"
+      ],
+      "instructions": [
+        "Add cottage cheese to bowl.",
+        "Top with berries and almonds.",
+        "Drizzle with honey.",
+        "Sprinkle chia seeds and cinnamon.",
+        "Eat immediately or refrigerate."
+      ],
+      "tips": [
+        "Blend cottage cheese for smoother texture",
+        "Savory version: cucumber, tomato, everything bagel seasoning",
+        "High protein = great before bed"
+      ]
+    },
+    {
+      "id": "seaweed-snack-rolls-with-avocado",
+      "title": "Seaweed Snack Rolls with Avocado",
+      "category": "snacks",
+      "tags": [
+        "Low calorie",
+        "Mineral-rich",
+        "Asian-inspired",
+        "Light"
+      ],
+      "description": "Seaweed provides iodine for thyroid health. Extremely low calorie with satisfying crunch. Mineral-rich snack.",
+      "prepTime": "10 min",
+      "cookTime": "0 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 120,
+        "protein": 3,
+        "carbs": 8,
+        "fat": 9,
+        "fiber": 4
+      },
+      "bonus": "Iodine and minerals",
+      "ingredients": [
+        "4 nori seaweed sheets",
+        "1 avocado, sliced",
+        "½ cucumber, julienned",
+        "½ carrot, julienned",
+        "2 tbsp cream cheese (optional)",
+        "Soy sauce for dipping",
+        "Sesame seeds"
+      ],
+      "instructions": [
+        "Lay nori sheet shiny side down.",
+        "Spread thin layer of cream cheese if using.",
+        "Layer avocado, cucumber, and carrot at one end.",
+        "Roll tightly, seal edge with water.",
+        "Slice into pieces. Sprinkle sesame seeds. Serve with soy sauce."
+      ],
+      "tips": [
+        "Add smoked salmon for more protein",
+        "Use cauliflower rice for sushi-style rolls",
+        "Keep nori crispy by assembling just before eating"
+      ]
+    },
+    {
+      "id": "buddha-bowl-with-tahini-dressing",
+      "title": "Buddha Bowl with Tahini Dressing",
+      "category": "bowls",
+      "tags": [
+        "Plant-based",
+        "Protein-rich",
+        "Colorful",
+        "Meal prep"
+      ],
+      "description": "Complete plant-based nutrition with protein, fiber, and healthy fats. Rainbow of vegetables provides diverse nutrients. Perfect meal prep option.",
+      "prepTime": "15 min",
+      "cookTime": "25 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 480,
+        "protein": 18,
+        "carbs": 52,
+        "fat": 24,
+        "fiber": 14
+      },
+      "bonus": "Complete plant protein",
+      "ingredients": [
+        "1 cup quinoa, cooked",
+        "1 can chickpeas, roasted",
+        "1 cup purple cabbage, shredded",
+        "1 carrot, shredded",
+        "1 avocado, sliced",
+        "1 cucumber, sliced",
+        "2 cups mixed greens",
+        "3 tbsp tahini",
+        "2 tbsp lemon juice",
+        "1 garlic clove, minced",
+        "Water to thin"
+      ],
+      "instructions": [
+        "Cook quinoa according to package. Let cool slightly.",
+        "Roast drained chickpeas at 200°C for 20 minutes with olive oil and spices.",
+        "Make dressing: whisk tahini, lemon, garlic, and water until pourable.",
+        "Arrange quinoa, chickpeas, and all vegetables in sections in bowls.",
+        "Drizzle generously with tahini dressing."
+      ],
+      "tips": [
+        "Prep components separately and assemble fresh daily",
+        "Swap chickpeas for edamame or tofu",
+        "Add kimchi or sauerkraut for probiotics"
+      ]
+    },
+    {
+      "id": "teriyaki-salmon-poke-bowl",
+      "title": "Teriyaki Salmon Poke Bowl",
+      "category": "bowls",
+      "tags": [
+        "Omega-3 rich",
+        "Japanese-inspired",
+        "Fresh",
+        "High protein"
+      ],
+      "description": "Fresh salmon provides omega-3s for brain and heart health. Light yet satisfying. Restaurant-quality at home.",
+      "prepTime": "20 min",
+      "cookTime": "15 min",
+      "servings": 2,
+      "difficulty": "Medium",
+      "nutrition": {
+        "calories": 520,
+        "protein": 32,
+        "carbs": 48,
+        "fat": 22,
+        "fiber": 6
+      },
+      "bonus": "Omega-3: 2.5g",
+      "ingredients": [
+        "300g sushi-grade salmon, cubed",
+        "1.5 cups sushi rice, cooked",
+        "½ cup edamame, shelled",
+        "1 avocado, sliced",
+        "½ cucumber, sliced",
+        "2 tbsp teriyaki sauce",
+        "1 tbsp soy sauce",
+        "Sesame seeds",
+        "Pickled ginger",
+        "Nori strips"
+      ],
+      "instructions": [
+        "Cook sushi rice, season with rice vinegar.",
+        "Marinate salmon cubes in teriyaki and soy sauce for 10 minutes.",
+        "Divide rice between bowls.",
+        "Arrange salmon, edamame, avocado, and cucumber on rice.",
+        "Top with sesame seeds, pickled ginger, and nori strips."
+      ],
+      "tips": [
+        "Use frozen-and-thawed salmon for safety",
+        "Add sriracha mayo for spice",
+        "Substitute cooked salmon if preferred"
+      ]
+    },
+    {
+      "id": "mediterranean-quinoa-power-bowl",
+      "title": "Mediterranean Quinoa Power Bowl",
+      "category": "bowls",
+      "tags": [
+        "Heart-healthy",
+        "Mediterranean diet",
+        "Fresh",
+        "Flavorful"
+      ],
+      "description": "Mediterranean diet pattern supports heart health and longevity. Fresh vegetables and olive oil provide antioxidants.",
+      "prepTime": "15 min",
+      "cookTime": "15 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 420,
+        "protein": 14,
+        "carbs": 44,
+        "fat": 22,
+        "fiber": 8
+      },
+      "bonus": "Heart-healthy Mediterranean fats",
+      "ingredients": [
+        "1 cup quinoa, cooked",
+        "1 cup cherry tomatoes, halved",
+        "1 cucumber, diced",
+        "¼ cup kalamata olives",
+        "¼ red onion, thinly sliced",
+        "50g feta cheese, crumbled",
+        "Fresh parsley and mint",
+        "3 tbsp olive oil",
+        "2 tbsp lemon juice",
+        "1 tsp oregano"
+      ],
+      "instructions": [
+        "Cook quinoa and let cool to room temperature.",
+        "Combine tomatoes, cucumber, olives, onion, and herbs in bowl.",
+        "Add quinoa and toss gently.",
+        "Whisk olive oil, lemon, and oregano for dressing.",
+        "Top with feta and drizzle with dressing."
+      ],
+      "tips": [
+        "Add grilled chicken or lamb for more protein",
+        "Use pearl couscous for different texture",
+        "Keeps well for lunch prep"
+      ]
+    },
+    {
+      "id": "korean-bibimbap-bowl",
+      "title": "Korean Bibimbap Bowl",
+      "category": "bowls",
+      "tags": [
+        "Korean",
+        "Colorful",
+        "Spicy option",
+        "Traditional"
+      ],
+      "description": "Traditional Korean nutrition with variety of vegetables. Fermented gochujang supports gut health. Customizable spice level.",
+      "prepTime": "25 min",
+      "cookTime": "20 min",
+      "servings": 2,
+      "difficulty": "Medium",
+      "nutrition": {
+        "calories": 480,
+        "protein": 18,
+        "carbs": 62,
+        "fat": 18,
+        "fiber": 6
+      },
+      "bonus": "Diverse vegetable nutrition",
+      "ingredients": [
+        "2 cups white rice, cooked",
+        "200g beef mince or tofu",
+        "1 cup spinach, blanched",
+        "1 carrot, julienned and sautéed",
+        "1 cup bean sprouts, blanched",
+        "1 zucchini, julienned and sautéed",
+        "2 eggs",
+        "3 tbsp gochujang",
+        "2 tbsp sesame oil",
+        "Sesame seeds"
+      ],
+      "instructions": [
+        "Cook rice and keep warm.",
+        "Prepare each vegetable separately: blanch spinach and sprouts, sauté carrot and zucchini with sesame oil.",
+        "Cook beef mince with soy sauce and garlic (or press and sauté tofu).",
+        "Fry eggs sunny-side up.",
+        "Arrange rice in bowls, top with vegetables in sections, add protein and egg.",
+        "Serve with gochujang and sesame seeds. Mix before eating."
+      ],
+      "tips": [
+        "Use dolsot (stone bowl) for crispy rice bottom",
+        "Add kimchi for extra fermented goodness",
+        "Adjust gochujang to your spice preference"
+      ]
+    },
+    {
+      "id": "southwest-chicken-burrito-bowl",
+      "title": "Southwest Chicken Burrito Bowl",
+      "category": "bowls",
+      "tags": [
+        "High protein",
+        "Mexican-inspired",
+        "Filling",
+        "Customizable"
+      ],
+      "description": "High protein from chicken and beans. Fiber-rich for satiety. All the burrito flavors without the heavy tortilla.",
+      "prepTime": "20 min",
+      "cookTime": "15 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 540,
+        "protein": 38,
+        "carbs": 52,
+        "fat": 20,
+        "fiber": 12
+      },
+      "bonus": "38g protein per serving",
+      "ingredients": [
+        "2 chicken breasts",
+        "1.5 cups rice, cooked",
+        "1 can black beans, drained",
+        "1 cup corn kernels",
+        "1 avocado, for guacamole",
+        "Fresh pico de gallo",
+        "Sour cream",
+        "Shredded cheese",
+        "Lime, cilantro",
+        "Cumin, paprika, garlic powder"
+      ],
+      "instructions": [
+        "Season chicken with cumin, paprika, garlic, salt. Grill or pan-fry until cooked. Slice.",
+        "Mix cooked rice with lime juice and chopped cilantro.",
+        "Warm black beans with a pinch of cumin.",
+        "Make quick guacamole: mash avocado with lime, salt, cilantro.",
+        "Assemble bowls: rice base, beans, corn, chicken, pico, guacamole, sour cream, cheese."
+      ],
+      "tips": [
+        "Use rotisserie chicken for quick version",
+        "Add jalapeños for heat",
+        "Meal prep the components separately"
+      ]
+    },
+    {
+      "id": "thai-peanut-noodle-bowl",
+      "title": "Thai Peanut Noodle Bowl",
+      "category": "bowls",
+      "tags": [
+        "Thai-inspired",
+        "Creamy",
+        "Veggie-loaded",
+        "Satisfying"
+      ],
+      "description": "Peanut sauce provides protein and healthy fats. Rice noodles are naturally gluten-free. Satisfying and flavorful.",
+      "prepTime": "15 min",
+      "cookTime": "10 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 460,
+        "protein": 16,
+        "carbs": 54,
+        "fat": 22,
+        "fiber": 6
+      },
+      "bonus": "Plant-based protein from peanuts",
+      "ingredients": [
+        "200g rice noodles",
+        "3 tbsp peanut butter",
+        "2 tbsp soy sauce",
+        "1 tbsp lime juice",
+        "1 tbsp honey",
+        "1 tsp sriracha",
+        "1 cup purple cabbage, shredded",
+        "1 carrot, julienned",
+        "½ cup edamame",
+        "Cilantro, crushed peanuts, lime"
+      ],
+      "instructions": [
+        "Cook rice noodles according to package. Rinse with cold water.",
+        "Whisk peanut butter, soy sauce, lime juice, honey, and sriracha until smooth.",
+        "Toss noodles with peanut sauce.",
+        "Top with cabbage, carrot, and edamame.",
+        "Garnish with cilantro, crushed peanuts, and lime wedge."
+      ],
+      "tips": [
+        "Add grilled chicken, shrimp, or tofu for protein boost",
+        "Use almond butter for peanut-free version",
+        "Thin sauce with warm water if too thick"
+      ]
+    },
+    {
+      "id": "harvest-grain-bowl-roasted-vegetables",
+      "title": "Harvest Grain Bowl with Roasted Vegetables",
+      "category": "bowls",
+      "tags": [
+        "Autumn-inspired",
+        "Whole grains",
+        "Roasted veggies",
+        "Warming"
+      ],
+      "description": "Ancient grains provide complex carbs and fiber. Roasted fall vegetables rich in beta-carotene. Warming and satisfying.",
+      "prepTime": "15 min",
+      "cookTime": "30 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 440,
+        "protein": 12,
+        "carbs": 58,
+        "fat": 18,
+        "fiber": 10
+      },
+      "bonus": "Beta-carotene and fiber",
+      "ingredients": [
+        "1 cup farro, cooked",
+        "2 cups butternut squash, cubed",
+        "1 cup Brussels sprouts, halved",
+        "2 tbsp olive oil",
+        "2 tbsp dried cranberries",
+        "2 tbsp pecans",
+        "30g goat cheese",
+        "2 tbsp balsamic vinegar",
+        "1 tbsp maple syrup",
+        "Salt, pepper, thyme"
+      ],
+      "instructions": [
+        "Preheat oven to 200°C.",
+        "Toss squash and Brussels sprouts with olive oil, salt, pepper, thyme.",
+        "Roast 25-30 minutes until caramelized.",
+        "Cook farro according to package.",
+        "Whisk balsamic and maple for dressing.",
+        "Assemble: farro, roasted vegetables, cranberries, pecans, goat cheese. Drizzle dressing."
+      ],
+      "tips": [
+        "Substitute quinoa or brown rice for farro",
+        "Add kale or arugula for greens",
+        "Roast extra vegetables for the week"
+      ]
+    },
+    {
+      "id": "tuna-poke-bowl",
+      "title": "Tuna Poke Bowl",
+      "category": "bowls",
+      "tags": [
+        "Hawaiian",
+        "Light",
+        "Omega-3 rich",
+        "Fresh"
+      ],
+      "description": "Ahi tuna is lean protein packed with omega-3s. Light and refreshing. Perfect for warmer days.",
+      "prepTime": "20 min",
+      "cookTime": "15 min",
+      "servings": 2,
+      "difficulty": "Medium",
+      "nutrition": {
+        "calories": 460,
+        "protein": 28,
+        "carbs": 48,
+        "fat": 18,
+        "fiber": 5
+      },
+      "bonus": "Lean protein + omega-3s",
+      "ingredients": [
+        "300g sushi-grade ahi tuna, cubed",
+        "1.5 cups sushi rice, cooked",
+        "1 avocado, sliced",
+        "½ mango, cubed",
+        "½ cucumber, sliced",
+        "2 tbsp wakame seaweed",
+        "2 tbsp soy sauce",
+        "1 tsp sesame oil",
+        "Sesame seeds, green onion"
+      ],
+      "instructions": [
+        "Cook sushi rice, season with rice vinegar. Cool.",
+        "Marinate tuna cubes in soy sauce and sesame oil for 10 minutes.",
+        "Rehydrate wakame in cold water.",
+        "Divide rice between bowls.",
+        "Arrange tuna, avocado, mango, cucumber, and wakame on rice.",
+        "Top with sesame seeds and sliced green onion."
+      ],
+      "tips": [
+        "Only use sushi-grade fish for raw preparation",
+        "Add spicy mayo for creaminess",
+        "Substitute salmon if preferred"
+      ]
+    },
+    {
+      "id": "moroccan-chickpea-tagine-bowl",
+      "title": "Moroccan Chickpea Tagine Bowl",
+      "category": "bowls",
+      "tags": [
+        "Moroccan",
+        "Aromatic",
+        "Vegan",
+        "Warming spices"
+      ],
+      "description": "Warming spices aid digestion and circulation. Plant-based protein from chickpeas. Aromatic and deeply satisfying.",
+      "prepTime": "15 min",
+      "cookTime": "30 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 420,
+        "protein": 14,
+        "carbs": 68,
+        "fat": 12,
+        "fiber": 12
+      },
+      "bonus": "Anti-inflammatory spices",
+      "ingredients": [
+        "1 can chickpeas, drained",
+        "1 can diced tomatoes",
+        "¼ cup dried apricots, chopped",
+        "1 onion, diced",
+        "2 garlic cloves",
+        "1 tsp cumin",
+        "1 tsp cinnamon",
+        "½ tsp turmeric",
+        "½ tsp paprika",
+        "1 cup couscous",
+        "Cilantro, sliced almonds",
+        "Olive oil"
+      ],
+      "instructions": [
+        "Sauté onion in olive oil until soft. Add garlic and all spices.",
+        "Add tomatoes, chickpeas, and apricots. Simmer 20 minutes.",
+        "Cook couscous according to package. Fluff with fork.",
+        "Serve tagine over couscous.",
+        "Garnish with cilantro and almonds."
+      ],
+      "tips": [
+        "Add preserved lemons for authentic flavor",
+        "Substitute quinoa for couscous",
+        "Add harissa paste for heat"
+      ]
+    },
+    {
+      "id": "acai-berry-breakfast-bowl",
+      "title": "Acai Berry Breakfast Bowl",
+      "category": "bowls",
+      "tags": [
+        "Breakfast",
+        "Antioxidant-rich",
+        "Instagram-worthy",
+        "Energizing"
+      ],
+      "description": "Acai berries are among the highest antioxidant foods. Natural energy boost. Beautiful way to start the day.",
+      "prepTime": "10 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 380,
+        "protein": 8,
+        "carbs": 62,
+        "fat": 12,
+        "fiber": 10
+      },
+      "bonus": "Very high antioxidant content",
+      "ingredients": [
+        "2 frozen acai packets (200g)",
+        "1 frozen banana",
+        "½ cup frozen berries",
+        "½ cup almond milk",
+        "Toppings: sliced banana, fresh berries, granola, coconut flakes, chia seeds, honey"
+      ],
+      "instructions": [
+        "Blend acai packets, frozen banana, berries, and almond milk until thick.",
+        "Pour into bowl - should be thick enough to hold toppings.",
+        "Arrange toppings in rows or patterns.",
+        "Drizzle with honey.",
+        "Eat immediately before it melts."
+      ],
+      "tips": [
+        "Freeze banana in chunks for easier blending",
+        "Use as little liquid as possible for thickness",
+        "Add protein powder to the blend for staying power"
+      ]
+    },
+    {
+      "id": "herb-crusted-baked-salmon",
+      "title": "Herb-Crusted Baked Salmon",
+      "category": "oven-baked",
+      "tags": [
+        "High protein",
+        "Omega-3 rich",
+        "Elegant",
+        "Quick"
+      ],
+      "description": "Salmon provides omega-3 fatty acids for heart and brain health. Herb crust adds flavor without extra calories. Impressive yet easy.",
+      "prepTime": "10 min",
+      "cookTime": "15 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 320,
+        "protein": 34,
+        "carbs": 6,
+        "fat": 18,
+        "fiber": 1
+      },
+      "bonus": "Omega-3: 2.5g per serving",
+      "ingredients": [
+        "4 salmon fillets (150g each)",
+        "½ cup panko breadcrumbs",
+        "2 tbsp fresh herbs (dill, parsley, chives)",
+        "2 tbsp Dijon mustard",
+        "1 tbsp olive oil",
+        "1 lemon, zested and sliced",
+        "Salt and pepper",
+        "Asparagus for serving"
+      ],
+      "instructions": [
+        "Preheat oven to 200°C.",
+        "Mix panko, chopped herbs, lemon zest, and olive oil.",
+        "Brush salmon with Dijon mustard.",
+        "Press herb mixture onto top of each fillet.",
+        "Bake 12-15 minutes until fish flakes easily.",
+        "Serve with roasted asparagus and lemon slices."
+      ],
+      "tips": [
+        "Don't overcook - salmon continues cooking after removal",
+        "Use skin-on fillets for easier handling",
+        "Add parmesan to crust for extra flavor"
+      ]
+    },
+    {
+      "id": "sheet-pan-chicken-fajitas",
+      "title": "Sheet Pan Chicken Fajitas",
+      "category": "oven-baked",
+      "tags": [
+        "One-pan",
+        "Mexican",
+        "High protein",
+        "Easy cleanup"
+      ],
+      "description": "High protein, low carb (without tortillas). One pan means easy cleanup. Perfect weeknight dinner.",
+      "prepTime": "15 min",
+      "cookTime": "25 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 340,
+        "protein": 32,
+        "carbs": 18,
+        "fat": 16,
+        "fiber": 4
+      },
+      "bonus": "High protein, low effort",
+      "ingredients": [
+        "500g chicken breast, sliced",
+        "2 bell peppers (mixed colors), sliced",
+        "1 large onion, sliced",
+        "3 tbsp olive oil",
+        "2 tbsp fajita seasoning",
+        "Lime juice",
+        "Tortillas, sour cream, guacamole for serving"
+      ],
+      "instructions": [
+        "Preheat oven to 220°C.",
+        "Toss chicken with half the oil and seasoning.",
+        "Toss peppers and onions with remaining oil and seasoning.",
+        "Spread on sheet pan in single layer - chicken on one side, vegetables on other.",
+        "Bake 20-25 minutes until chicken is cooked and vegetables are charred.",
+        "Squeeze lime over. Serve with warm tortillas and toppings."
+      ],
+      "tips": [
+        "Don't overcrowd pan - use two if needed",
+        "Broil last 2 minutes for extra char",
+        "Works great for meal prep"
+      ]
+    },
+    {
+      "id": "stuffed-bell-peppers",
+      "title": "Stuffed Bell Peppers",
+      "category": "oven-baked",
+      "tags": [
+        "Classic comfort",
+        "Balanced meal",
+        "Colorful",
+        "Family-friendly"
+      ],
+      "description": "Complete meal in one pepper - protein, carbs, and vegetables. Portion-controlled naturally. Crowd-pleasing classic.",
+      "prepTime": "20 min",
+      "cookTime": "40 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 380,
+        "protein": 24,
+        "carbs": 32,
+        "fat": 18,
+        "fiber": 5
+      },
+      "bonus": "Complete balanced meal",
+      "ingredients": [
+        "4 large bell peppers",
+        "400g lean beef mince",
+        "1 cup cooked rice",
+        "1 can diced tomatoes",
+        "1 cup mozzarella, shredded",
+        "1 onion, diced",
+        "2 garlic cloves, minced",
+        "Italian herbs",
+        "Salt and pepper"
+      ],
+      "instructions": [
+        "Preheat oven to 190°C. Cut tops off peppers, remove seeds.",
+        "Brown beef mince with onion and garlic. Drain excess fat.",
+        "Stir in rice, half the tomatoes, herbs, salt, and pepper.",
+        "Stuff peppers with mixture. Place in baking dish.",
+        "Pour remaining tomatoes around peppers. Cover with foil.",
+        "Bake 30 minutes. Uncover, add cheese, bake 10 more minutes."
+      ],
+      "tips": [
+        "Use different colored peppers for visual appeal",
+        "Substitute quinoa for rice, turkey for beef",
+        "Freeze unbaked for future meals"
+      ]
+    },
+    {
+      "id": "crispy-baked-chicken-tenders",
+      "title": "Crispy Baked Chicken Tenders",
+      "category": "oven-baked",
+      "tags": [
+        "Kid-friendly",
+        "High protein",
+        "Healthier fried",
+        "Crispy"
+      ],
+      "description": "All the crispy satisfaction without deep frying. High protein, kid-approved. Perfect for meal prep.",
+      "prepTime": "15 min",
+      "cookTime": "20 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 290,
+        "protein": 32,
+        "carbs": 18,
+        "fat": 10,
+        "fiber": 1
+      },
+      "bonus": "Baked not fried",
+      "ingredients": [
+        "500g chicken breast, cut into strips",
+        "1 cup panko breadcrumbs",
+        "½ cup parmesan, grated",
+        "1 tsp garlic powder",
+        "1 tsp paprika",
+        "2 eggs, beaten",
+        "½ cup flour",
+        "Salt and pepper",
+        "Cooking spray"
+      ],
+      "instructions": [
+        "Preheat oven to 220°C. Line baking sheet with parchment, spray with oil.",
+        "Mix panko, parmesan, garlic powder, paprika, salt, pepper.",
+        "Set up breading station: flour, eggs, panko mixture.",
+        "Coat chicken: flour, then egg, then panko. Press coating firmly.",
+        "Arrange on baking sheet. Spray tops with cooking spray.",
+        "Bake 18-20 minutes until golden and cooked through."
+      ],
+      "tips": [
+        "Spray generously for maximum crispiness",
+        "Let chicken rest 5 minutes after baking",
+        "Dipping sauces: honey mustard, BBQ, ranch"
+      ]
+    },
+    {
+      "id": "mediterranean-baked-fish-tomatoes",
+      "title": "Mediterranean Baked Fish with Tomatoes",
+      "category": "oven-baked",
+      "tags": [
+        "Light",
+        "Mediterranean",
+        "One-dish",
+        "Heart-healthy"
+      ],
+      "description": "Light yet flavorful Mediterranean preparation. Heart-healthy ingredients. Impressive with minimal effort.",
+      "prepTime": "10 min",
+      "cookTime": "20 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 280,
+        "protein": 28,
+        "carbs": 12,
+        "fat": 14,
+        "fiber": 3
+      },
+      "bonus": "Heart-healthy Mediterranean",
+      "ingredients": [
+        "4 white fish fillets (cod, sea bass, or halibut)",
+        "2 cups cherry tomatoes, halved",
+        "¼ cup kalamata olives",
+        "2 tbsp capers",
+        "4 garlic cloves, sliced",
+        "3 tbsp olive oil",
+        "Fresh basil and oregano",
+        "Salt, pepper, red pepper flakes",
+        "Crusty bread for serving"
+      ],
+      "instructions": [
+        "Preheat oven to 200°C.",
+        "Toss tomatoes, olives, capers, and garlic with olive oil in baking dish.",
+        "Season fish with salt, pepper, and herbs. Nestle into tomato mixture.",
+        "Drizzle more olive oil over fish.",
+        "Bake 18-20 minutes until fish flakes easily.",
+        "Garnish with fresh basil. Serve with crusty bread."
+      ],
+      "tips": [
+        "Add white wine to the dish for extra flavor",
+        "Works with any firm white fish",
+        "Spoon the tomato juices over fish when serving"
+      ]
+    },
+    {
+      "id": "baked-sweet-potato-black-bean-tacos",
+      "title": "Baked Sweet Potato Black Bean Tacos",
+      "category": "oven-baked",
+      "tags": [
+        "Vegan",
+        "Fiber-rich",
+        "Mexican-inspired",
+        "Healthy carbs"
+      ],
+      "description": "Sweet potatoes provide complex carbs and beta-carotene. Black beans add plant protein and fiber. Satisfying vegan meal.",
+      "prepTime": "10 min",
+      "cookTime": "45 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 340,
+        "protein": 12,
+        "carbs": 58,
+        "fat": 8,
+        "fiber": 14
+      },
+      "bonus": "High fiber vegan meal",
+      "ingredients": [
+        "4 medium sweet potatoes",
+        "1 can black beans, drained",
+        "1 cup corn kernels",
+        "1 tsp cumin",
+        "1 tsp chili powder",
+        "1 avocado, diced",
+        "Fresh pico de gallo",
+        "Cilantro, lime",
+        "Greek yogurt or vegan sour cream"
+      ],
+      "instructions": [
+        "Preheat oven to 200°C. Pierce sweet potatoes with fork.",
+        "Bake sweet potatoes 40-45 minutes until soft.",
+        "Heat black beans with corn, cumin, and chili powder.",
+        "Slice sweet potatoes open, fluff insides.",
+        "Top with bean mixture, pico de gallo, avocado, yogurt.",
+        "Garnish with cilantro and lime."
+      ],
+      "tips": [
+        "Microwave sweet potatoes for faster cooking",
+        "Add cheese for non-vegan version",
+        "Prep sweet potatoes ahead and reheat"
+      ]
+    },
+    {
+      "id": "lemon-garlic-roasted-chicken-thighs",
+      "title": "Lemon Garlic Roasted Chicken Thighs",
+      "category": "oven-baked",
+      "tags": [
+        "Classic",
+        "Budget-friendly",
+        "Crispy skin",
+        "One-pan"
+      ],
+      "description": "Chicken thighs are more flavorful and budget-friendly than breasts. Crispy skin, juicy meat. Simple but impressive.",
+      "prepTime": "10 min",
+      "cookTime": "40 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 380,
+        "protein": 28,
+        "carbs": 4,
+        "fat": 28,
+        "fiber": 0
+      },
+      "bonus": "Budget-friendly protein",
+      "ingredients": [
+        "8 bone-in, skin-on chicken thighs",
+        "1 head garlic, halved",
+        "2 lemons, halved",
+        "4 tbsp olive oil",
+        "Fresh thyme and rosemary",
+        "Salt and pepper",
+        "1 tsp paprika"
+      ],
+      "instructions": [
+        "Preheat oven to 220°C.",
+        "Pat chicken thighs very dry. Season generously with salt, pepper, paprika.",
+        "Heat oven-safe pan with olive oil. Sear chicken skin-side down 5 minutes until golden.",
+        "Flip chicken. Add garlic and lemon halves cut-side down.",
+        "Transfer to oven. Roast 25-30 minutes until internal temp reaches 75°C.",
+        "Rest 5 minutes. Serve with pan juices, squeeze roasted lemon over."
+      ],
+      "tips": [
+        "Dry skin = crispy skin - pat thoroughly",
+        "Let chicken come to room temperature before cooking",
+        "Save pan juices for sauce or gravy"
+      ]
+    },
+    {
+      "id": "vegetable-lasagna",
+      "title": "Vegetable Lasagna",
+      "category": "oven-baked",
+      "tags": [
+        "Comfort food",
+        "Vegetarian",
+        "Make-ahead",
+        "Crowd-pleaser"
+      ],
+      "description": "Loaded with vegetables for extra nutrition. Make-ahead friendly for busy weeks. Satisfying comfort food.",
+      "prepTime": "30 min",
+      "cookTime": "50 min",
+      "servings": 8,
+      "difficulty": "Medium",
+      "nutrition": {
+        "calories": 380,
+        "protein": 18,
+        "carbs": 38,
+        "fat": 18,
+        "fiber": 5
+      },
+      "bonus": "Vegetable-loaded comfort food",
+      "ingredients": [
+        "12 lasagna sheets",
+        "2 cups ricotta cheese",
+        "2 cups mozzarella, shredded",
+        "½ cup parmesan, grated",
+        "2 cups spinach",
+        "2 zucchini, sliced",
+        "1 cup mushrooms, sliced",
+        "3 cups marinara sauce",
+        "1 egg",
+        "Italian herbs, garlic"
+      ],
+      "instructions": [
+        "Preheat oven to 190°C. Sauté zucchini and mushrooms until soft.",
+        "Mix ricotta with egg, half the parmesan, and herbs.",
+        "Layer in 9x13 dish: sauce, pasta, ricotta, vegetables, mozzarella. Repeat.",
+        "Top with remaining sauce, mozzarella, and parmesan.",
+        "Cover with foil. Bake 40 minutes. Uncover, bake 10 more.",
+        "Rest 10 minutes before slicing."
+      ],
+      "tips": [
+        "No-boil lasagna sheets save time",
+        "Can be assembled day before and refrigerated",
+        "Freezes well for up to 3 months"
+      ]
+    },
+    {
+      "id": "baked-falafel-with-tzatziki",
+      "title": "Baked Falafel with Tzatziki",
+      "category": "oven-baked",
+      "tags": [
+        "Middle Eastern",
+        "Vegan",
+        "Baked not fried",
+        "High protein"
+      ],
+      "description": "Traditional falafel made healthier by baking. Plant protein from chickpeas. Great for meal prep.",
+      "prepTime": "20 min",
+      "cookTime": "25 min",
+      "servings": 4,
+      "difficulty": "Medium",
+      "nutrition": {
+        "calories": 320,
+        "protein": 14,
+        "carbs": 42,
+        "fat": 12,
+        "fiber": 10
+      },
+      "bonus": "Plant-based protein",
+      "ingredients": [
+        "2 cans chickpeas, drained very well",
+        "1 onion, quartered",
+        "4 garlic cloves",
+        "1 cup fresh parsley and cilantro",
+        "1 tsp cumin",
+        "1 tsp coriander",
+        "½ tsp cayenne",
+        "3 tbsp flour",
+        "Salt and pepper",
+        "Olive oil spray",
+        "For tzatziki: Greek yogurt, cucumber, garlic, dill, lemon"
+      ],
+      "instructions": [
+        "Preheat oven to 190°C. Line baking sheet.",
+        "Pulse chickpeas, onion, garlic, herbs in food processor. Don't puree - keep texture.",
+        "Add spices and flour. Pulse to combine.",
+        "Form into 16 balls, flatten slightly. Place on baking sheet.",
+        "Spray generously with olive oil.",
+        "Bake 25 minutes, flipping halfway, until golden.",
+        "Make tzatziki: mix yogurt, grated cucumber (squeezed dry), garlic, dill, lemon."
+      ],
+      "tips": [
+        "Chickpeas must be very dry for proper texture",
+        "Chill mixture 30 minutes for easier shaping",
+        "Serve in pita with vegetables and tzatziki"
+      ]
+    },
+    {
+      "id": "parmesan-crusted-baked-cod",
+      "title": "Parmesan Crusted Baked Cod",
+      "category": "oven-baked",
+      "tags": [
+        "Light",
+        "Quick",
+        "Low-carb",
+        "Family-friendly"
+      ],
+      "description": "Lean white fish with satisfying crispy coating. Quick enough for weeknights. Family-friendly mild flavor.",
+      "prepTime": "10 min",
+      "cookTime": "15 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 260,
+        "protein": 32,
+        "carbs": 8,
+        "fat": 12,
+        "fiber": 1
+      },
+      "bonus": "Lean protein, quick cooking",
+      "ingredients": [
+        "4 cod fillets (150g each)",
+        "½ cup parmesan, grated",
+        "¼ cup panko breadcrumbs",
+        "2 tbsp butter, melted",
+        "1 tbsp fresh parsley, chopped",
+        "1 tsp garlic powder",
+        "Salt and pepper",
+        "Lemon wedges"
+      ],
+      "instructions": [
+        "Preheat oven to 200°C. Line baking sheet with parchment.",
+        "Mix parmesan, panko, melted butter, parsley, garlic powder.",
+        "Pat fish dry. Season with salt and pepper.",
+        "Place on baking sheet. Press parmesan mixture on top.",
+        "Bake 12-15 minutes until fish flakes and topping is golden.",
+        "Serve with lemon wedges."
+      ],
+      "tips": [
+        "Don't flip the fish - topping stays on top",
+        "Works with any white fish",
+        "Add lemon zest to topping for extra brightness"
+      ]
+    },
+    {
+      "id": "virgin-mojito",
+      "title": "Virgin Mojito",
+      "category": "mocktails",
+      "tags": [
+        "Refreshing",
+        "Classic",
+        "Mint",
+        "Summer favorite"
+      ],
+      "description": "All the refreshing mojito flavor without alcohol. Mint aids digestion. Perfect summer entertaining drink.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 80,
+        "protein": 0,
+        "carbs": 20,
+        "fat": 0,
+        "fiber": 1
+      },
+      "bonus": "Digestive benefits from mint",
+      "ingredients": [
+        "10 fresh mint leaves",
+        "1 lime, cut into wedges",
+        "2 tbsp simple syrup (or 1 tbsp sugar)",
+        "Crushed ice",
+        "Sparkling water",
+        "Mint sprig for garnish"
+      ],
+      "instructions": [
+        "Add mint leaves and lime wedges to glass.",
+        "Muddle gently to release mint oils and lime juice.",
+        "Add simple syrup and stir.",
+        "Fill glass with crushed ice.",
+        "Top with sparkling water. Stir gently.",
+        "Garnish with mint sprig and lime wheel."
+      ],
+      "tips": [
+        "Don't over-muddle mint - it becomes bitter",
+        "Use superfine sugar if not using simple syrup",
+        "Add cucumber slices for spa-style variation"
+      ]
+    },
+    {
+      "id": "sparkling-pomegranate-spritzer",
+      "title": "Sparkling Pomegranate Spritzer",
+      "category": "mocktails",
+      "tags": [
+        "Antioxidant-rich",
+        "Elegant",
+        "Festive",
+        "Beautiful color"
+      ],
+      "description": "Pomegranate is rich in antioxidants. Elegant enough for celebrations. Beautiful ruby color impresses guests.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 90,
+        "protein": 1,
+        "carbs": 22,
+        "fat": 0,
+        "fiber": 0
+      },
+      "bonus": "High in antioxidants",
+      "ingredients": [
+        "½ cup pomegranate juice",
+        "½ cup sparkling water",
+        "1 tbsp lime juice",
+        "1 tsp honey",
+        "Ice cubes",
+        "Pomegranate seeds",
+        "Rosemary sprig"
+      ],
+      "instructions": [
+        "Stir honey into pomegranate juice until dissolved.",
+        "Add lime juice and stir.",
+        "Fill glass with ice.",
+        "Pour pomegranate mixture over ice.",
+        "Top with sparkling water.",
+        "Garnish with pomegranate seeds and rosemary."
+      ],
+      "tips": [
+        "Use champagne flute for elegant presentation",
+        "Freeze pomegranate seeds as ice cube alternatives",
+        "Add orange juice for mimosa-style variation"
+      ]
+    },
+    {
+      "id": "cucumber-elderflower-cooler",
+      "title": "Cucumber Elderflower Cooler",
+      "category": "mocktails",
+      "tags": [
+        "Spa-like",
+        "Floral",
+        "Ultra-refreshing",
+        "Sophisticated"
+      ],
+      "description": "Extremely hydrating and cooling. Elderflower adds sophisticated floral notes. Perfect for afternoon refreshment.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 60,
+        "protein": 0,
+        "carbs": 15,
+        "fat": 0,
+        "fiber": 0
+      },
+      "bonus": "Very hydrating",
+      "ingredients": [
+        "4-5 cucumber slices + ribbons for garnish",
+        "2 tbsp elderflower cordial",
+        "1 tbsp lime juice",
+        "Sparkling water",
+        "Ice cubes",
+        "Fresh mint leaves"
+      ],
+      "instructions": [
+        "Muddle cucumber slices gently in glass.",
+        "Add elderflower cordial and lime juice.",
+        "Fill with ice cubes.",
+        "Top with sparkling water.",
+        "Garnish with cucumber ribbons and mint."
+      ],
+      "tips": [
+        "Use a vegetable peeler for cucumber ribbons",
+        "Adjust elderflower to taste - it's quite sweet",
+        "Add gin for alcoholic version"
+      ]
+    },
+    {
+      "id": "ginger-turmeric-tonic",
+      "title": "Ginger Turmeric Tonic",
+      "category": "mocktails",
+      "tags": [
+        "Anti-inflammatory",
+        "Wellness drink",
+        "Spicy",
+        "Immune boost"
+      ],
+      "description": "Powerful anti-inflammatory combination. Ginger aids digestion. Immune-boosting wellness drink.",
+      "prepTime": "10 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 70,
+        "protein": 0,
+        "carbs": 18,
+        "fat": 0,
+        "fiber": 0
+      },
+      "bonus": "Anti-inflammatory properties",
+      "ingredients": [
+        "1 inch fresh ginger, grated",
+        "½ tsp turmeric powder",
+        "2 tbsp honey",
+        "2 tbsp lemon juice",
+        "Pinch of black pepper",
+        "Sparkling water",
+        "Orange slice for garnish"
+      ],
+      "instructions": [
+        "Grate ginger and squeeze juice through strainer into glass.",
+        "Add turmeric, honey, lemon juice, and black pepper. Stir well.",
+        "Add ice cubes.",
+        "Top with sparkling water.",
+        "Garnish with orange slice."
+      ],
+      "tips": [
+        "Black pepper increases turmeric absorption",
+        "Make ginger juice in batches and refrigerate",
+        "Add cayenne for extra kick"
+      ]
+    },
+    {
+      "id": "tropical-passion-fruit-punch",
+      "title": "Tropical Passion Fruit Punch",
+      "category": "mocktails",
+      "tags": [
+        "Tropical",
+        "Party drink",
+        "Fruity",
+        "Crowd-pleaser"
+      ],
+      "description": "Tropical fruits provide vitamin C. Fun, party-ready presentation. Naturally sweet without added sugar.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 120,
+        "protein": 1,
+        "carbs": 30,
+        "fat": 0,
+        "fiber": 2
+      },
+      "bonus": "Vitamin C rich",
+      "ingredients": [
+        "2 tbsp passion fruit pulp",
+        "½ cup pineapple juice",
+        "¼ cup orange juice",
+        "1 tbsp lime juice",
+        "Splash of coconut water",
+        "Sparkling water",
+        "Ice",
+        "Pineapple wedge, paper umbrella"
+      ],
+      "instructions": [
+        "Combine passion fruit pulp, pineapple juice, orange juice, and lime juice in shaker.",
+        "Shake with ice.",
+        "Strain into tall glass filled with ice.",
+        "Add splash of coconut water.",
+        "Top with sparkling water.",
+        "Garnish with pineapple wedge and umbrella."
+      ],
+      "tips": [
+        "Use frozen passion fruit pulp if fresh unavailable",
+        "Make as a batch punch for parties",
+        "Add coconut rum for alcoholic version"
+      ]
+    },
+    {
+      "id": "lavender-lemonade",
+      "title": "Lavender Lemonade",
+      "category": "mocktails",
+      "tags": [
+        "Floral",
+        "Calming",
+        "Beautiful purple",
+        "Unique flavor"
+      ],
+      "description": "Lavender promotes relaxation and calm. Unique floral flavor impresses guests. Beautiful purple hue.",
+      "prepTime": "15 min",
+      "cookTime": "5 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 70,
+        "protein": 0,
+        "carbs": 18,
+        "fat": 0,
+        "fiber": 0
+      },
+      "bonus": "Calming lavender properties",
+      "ingredients": [
+        "2 tbsp dried culinary lavender",
+        "½ cup honey",
+        "1 cup hot water",
+        "1 cup fresh lemon juice",
+        "3 cups cold water",
+        "Ice",
+        "Fresh lavender sprigs and lemon wheels"
+      ],
+      "instructions": [
+        "Steep lavender in hot water for 10 minutes. Strain.",
+        "Dissolve honey in warm lavender water.",
+        "Add lemon juice and cold water. Stir well.",
+        "Refrigerate until cold.",
+        "Serve over ice with lavender sprigs and lemon wheels."
+      ],
+      "tips": [
+        "Use culinary lavender only - not decorative",
+        "Adjust honey to taste",
+        "Don't over-steep lavender - it becomes bitter"
+      ]
+    },
+    {
+      "id": "spiced-apple-cider-mocktail",
+      "title": "Spiced Apple Cider Mocktail",
+      "category": "mocktails",
+      "tags": [
+        "Autumn",
+        "Warming spices",
+        "Cozy",
+        "Holiday favorite"
+      ],
+      "description": "Warming spices aid digestion. Perfect for fall and winter entertaining. Cozy comfort in a glass.",
+      "prepTime": "5 min",
+      "cookTime": "10 min",
+      "servings": 2,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 110,
+        "protein": 0,
+        "carbs": 28,
+        "fat": 0,
+        "fiber": 0
+      },
+      "bonus": "Digestive spices",
+      "ingredients": [
+        "2 cups apple cider",
+        "1 cinnamon stick",
+        "3 whole cloves",
+        "2 star anise",
+        "1 orange slice",
+        "1 tbsp maple syrup (optional)",
+        "Apple slices for garnish"
+      ],
+      "instructions": [
+        "Combine cider, cinnamon, cloves, star anise, and orange in pot.",
+        "Heat over medium-low for 10 minutes. Don't boil.",
+        "Add maple syrup if desired.",
+        "Strain into mugs.",
+        "Garnish with cinnamon stick and apple slice."
+      ],
+      "tips": [
+        "Can be made in slow cooker for parties",
+        "Add a splash of orange juice for brightness",
+        "Serve warm or chilled over ice"
+      ]
+    },
+    {
+      "id": "berry-basil-smash",
+      "title": "Berry Basil Smash",
+      "category": "mocktails",
+      "tags": [
+        "Fruity",
+        "Herbal",
+        "Instagram-worthy",
+        "Complex flavor"
+      ],
+      "description": "Berries provide antioxidants. Basil adds unexpected herbal complexity. Beautiful presentation.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 75,
+        "protein": 1,
+        "carbs": 18,
+        "fat": 0,
+        "fiber": 2
+      },
+      "bonus": "Antioxidant-rich berries",
+      "ingredients": [
+        "6 fresh blackberries (or mixed berries)",
+        "4 fresh basil leaves",
+        "1 tbsp simple syrup",
+        "2 tbsp lime juice",
+        "Crushed ice",
+        "Sparkling water",
+        "Basil sprig and berry for garnish"
+      ],
+      "instructions": [
+        "Muddle berries and basil leaves in glass.",
+        "Add simple syrup and lime juice. Stir.",
+        "Fill with crushed ice.",
+        "Top with sparkling water.",
+        "Garnish with basil sprig and fresh berry."
+      ],
+      "tips": [
+        "Clap basil between palms to release oils before muddling",
+        "Strain for cleaner presentation",
+        "Try strawberry-basil or raspberry-mint variations"
+      ]
+    },
+    {
+      "id": "coconut-lime-refresher",
+      "title": "Coconut Lime Refresher",
+      "category": "mocktails",
+      "tags": [
+        "Tropical",
+        "Hydrating",
+        "Light",
+        "Beach vibes"
+      ],
+      "description": "Coconut water provides natural electrolytes. Extremely hydrating. Transports you to tropical paradise.",
+      "prepTime": "5 min",
+      "cookTime": "0 min",
+      "servings": 1,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 90,
+        "protein": 1,
+        "carbs": 18,
+        "fat": 2,
+        "fiber": 0
+      },
+      "bonus": "Natural electrolytes",
+      "ingredients": [
+        "1 cup coconut water",
+        "2 tbsp coconut cream",
+        "2 tbsp lime juice",
+        "1 tbsp simple syrup",
+        "Ice cubes",
+        "Lime wheel",
+        "Toasted coconut flakes"
+      ],
+      "instructions": [
+        "Shake coconut water, coconut cream, lime juice, and simple syrup with ice.",
+        "Strain into glass filled with ice.",
+        "Garnish with lime wheel and toasted coconut."
+      ],
+      "tips": [
+        "Use light coconut milk instead of cream for lighter version",
+        "Add rum for piña colada vibes",
+        "Freeze coconut water in cubes to prevent dilution"
+      ]
+    },
+    {
+      "id": "watermelon-mint-agua-fresca",
+      "title": "Watermelon Mint Agua Fresca",
+      "category": "mocktails",
+      "tags": [
+        "Mexican",
+        "Super refreshing",
+        "Summer",
+        "Low calorie"
+      ],
+      "description": "Watermelon is 92% water - extremely hydrating. Traditional Mexican refreshment. Very low calorie.",
+      "prepTime": "10 min",
+      "cookTime": "0 min",
+      "servings": 4,
+      "difficulty": "Easy",
+      "nutrition": {
+        "calories": 50,
+        "protein": 1,
+        "carbs": 12,
+        "fat": 0,
+        "fiber": 1
+      },
+      "bonus": "Extremely hydrating",
+      "ingredients": [
+        "4 cups watermelon, cubed and seeded",
+        "2 cups cold water",
+        "2 tbsp lime juice",
+        "1 tbsp honey (optional)",
+        "Fresh mint leaves",
+        "Ice",
+        "Watermelon wedges for garnish"
+      ],
+      "instructions": [
+        "Blend watermelon until smooth.",
+        "Strain through fine mesh sieve, pressing to extract all liquid.",
+        "Stir in water, lime juice, and honey if using.",
+        "Add torn mint leaves.",
+        "Refrigerate until cold.",
+        "Serve over ice with watermelon wedge and mint."
+      ],
+      "tips": [
+        "No need to strain for more rustic version",
+        "Freeze watermelon cubes as ice",
+        "Add jalapeño slice for spicy Mexican twist"
+      ]
+    }
+  ]
+}

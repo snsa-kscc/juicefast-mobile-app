@@ -9,12 +9,13 @@ export interface ClubItem {
 export interface WellnessCategory {
   id: string;
   name: string;
+  contentType: "video" | "recipe";
 }
 
 export interface ProcessedClubItem extends ClubItem {
   id: string;
   duration: string;
-  type: "meditation" | "track" | "video" | "audio";
+  type: "meditation" | "track" | "video" | "audio" | "recipe";
   imageUrl?: string;
 }
 

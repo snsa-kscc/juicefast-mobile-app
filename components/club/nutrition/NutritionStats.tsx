@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { Recipe } from "@/utils/recipeData";
 
 interface StatProps {
   label: string;
@@ -20,7 +21,7 @@ const StatItem = ({ label, value, unit }: StatProps) => (
   </View>
 );
 
-export function NutritionStats() {
+export function NutritionStats({ recipe }: { recipe: Recipe }) {
   return (
     <View className="w-full px-8 py-6">
       <View className="flex-row justify-between items-end mb-6">
@@ -29,19 +30,35 @@ export function NutritionStats() {
           <Text className="font-inter-italic text-gray-500">(per serving)</Text>
         </Text>
         <Text className="text-sm font-inter-extrabold text-black">
-          Calories: 320 kcal
+          Calories: {recipe.nutrition.calories} kcal
         </Text>
       </View>
 
       <View className="flex-row justify-between gap-3">
-        <StatItem label="Protein" value="18" unit="g" />
-        <StatItem label="Carbs" value="42" unit="g" />
-        <StatItem label="Fat" value="8" unit="g" />
-        <StatItem label="Fiber" value="12" unit="g" />
+        <StatItem
+          label="Protein"
+          value={recipe.nutrition.protein.toString()}
+          unit="g"
+        />
+        <StatItem
+          label="Carbs"
+          value={recipe.nutrition.carbs.toString()}
+          unit="g"
+        />
+        <StatItem
+          label="Fat"
+          value={recipe.nutrition.fat.toString()}
+          unit="g"
+        />
+        <StatItem
+          label="Fiber"
+          value={recipe.nutrition.fiber.toString()}
+          unit="g"
+        />
       </View>
 
       <Text className="text-center text-sm font-inter-medium text-gray-500 italic mt-6">
-        Bonus: Iron: 6mg (35% DV)
+        Bonus: {recipe.bonus}
       </Text>
     </View>
   );
