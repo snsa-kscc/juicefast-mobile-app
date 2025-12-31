@@ -7,6 +7,7 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { ArrowLeft } from "lucide-react-native";
 import { ArticleTips } from "./ArticleTips";
 import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
@@ -32,6 +33,17 @@ export function ArticleFooter({
   const [currentPage, setCurrentPage] = useState(0);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const containerWidth = useRef(SCREEN_WIDTH);
+
+  // Determine colors based on article type
+  const gradientColors =
+    article?.articleType === "recipe"
+      ? (["#FCD34D", "#F59E0B"] as const) // amber-300 to amber-500
+      : (["#DEFFD1", "#B4EDF0"] as const); // beauty gradient colors
+
+  const solidColor =
+    article?.articleType === "recipe" ? "bg-amber-400" : "bg-[#B4EDF0]";
+  const borderColor =
+    article?.articleType === "recipe" ? "border-amber-400" : "border-[#B4EDF0]";
 
   // Calculate total pages (2 items per page)
   const itemsPerPage = 2;
@@ -156,8 +168,8 @@ export function ArticleFooter({
                   key={index}
                   className={`w-3 h-3 rounded-full mx-1.5 ${
                     index === currentPage
-                      ? "bg-amber-400"
-                      : "border-2 border-amber-400"
+                      ? solidColor
+                      : `border-2 ${borderColor}`
                   }`}
                 />
               ))}
@@ -169,11 +181,31 @@ export function ArticleFooter({
             <TouchableOpacity
               onPress={handlePrev}
               disabled={currentPage === 0}
-              className={`w-16 h-16 rounded-full bg-amber-400 shadow-lg items-center justify-center ${
+              className={`w-16 h-16 rounded-full shadow-lg items-center justify-center ${
                 currentPage === 0 ? "opacity-40" : ""
               }`}
             >
-              <ArrowLeft size={28} color="#fff" />
+              {article?.articleType === "recipe" ? (
+                <View
+                  className={`w-14 h-14 rounded-full ${solidColor} items-center justify-center`}
+                >
+                  <ArrowLeft size={28} color="#fff" />
+                </View>
+              ) : (
+                <LinearGradient
+                  colors={gradientColors}
+                  className="rounded-full flex-shrink-0"
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: 300,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <ArrowLeft size={28} color="#000" />
+                </LinearGradient>
+              )}
             </TouchableOpacity>
           </View>
 
@@ -182,13 +214,35 @@ export function ArticleFooter({
             <TouchableOpacity
               onPress={handleNext}
               disabled={!canScrollRight}
-              className={`w-16 h-16 rounded-full bg-amber-400 shadow-lg items-center justify-center ${
+              className={`w-16 h-16 rounded-full shadow-lg items-center justify-center ${
                 !canScrollRight ? "opacity-40" : ""
               }`}
             >
-              <View className="rotate-180">
-                <ArrowLeft size={28} color="#fff" />
-              </View>
+              {article?.articleType === "recipe" ? (
+                <View
+                  className={`w-14 h-14 rounded-full ${solidColor} items-center justify-center`}
+                >
+                  <View className="rotate-180">
+                    <ArrowLeft size={28} color="#fff" />
+                  </View>
+                </View>
+              ) : (
+                <LinearGradient
+                  colors={gradientColors}
+                  className="rounded-full flex-shrink-0"
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: 300,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <View className="rotate-180">
+                    <ArrowLeft size={28} color="#000" />
+                  </View>
+                </LinearGradient>
+              )}
             </TouchableOpacity>
           </View>
         </View>

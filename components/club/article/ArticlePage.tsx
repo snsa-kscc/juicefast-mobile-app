@@ -37,7 +37,9 @@ function ArticleHeader({
     <View className="bg-white px-8 py-5">
       <View className="flex-row items-center gap-5">
         <TouchableOpacity
-          className="bg-sky-400 p-2 rounded-full"
+          className={`p-2 rounded-full ${
+            articleType === "recipe" ? "bg-amber-400" : "bg-sky-400"
+          }`}
           onPress={onBackPress}
         >
           <View>
@@ -73,7 +75,7 @@ function ArticleTitleSection({ article }: { article: Article }) {
 
       <View className="flex-row items-center gap-4 flex-wrap">
         <View className={`${difficultyColor} px-3 py-1 rounded-md`}>
-          <Text className="text-base font-inter-semibold text-gray-700">
+          <Text className="text-base font-inter-semibold text-white">
             {article.difficulty}
           </Text>
         </View>
