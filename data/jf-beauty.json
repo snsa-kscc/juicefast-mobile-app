@@ -28,12 +28,7 @@
       "id": "forehead-smoother",
       "title": "Forehead Smoother",
       "category": "face-yoga-mini-class",
-      "tags": [
-        "Anti-wrinkle",
-        "Tension relief",
-        "Beginner",
-        "2 minutes"
-      ],
+      "tags": ["Anti-wrinkle", "Tension relief", "Beginner", "2 minutes"],
       "image": "1.webp",
       "description": "Reduces forehead lines and releases tension from frowning. Regular practice can soften horizontal wrinkles and prevent new ones from forming.",
       "difficulty": "Beginner",
@@ -59,12 +54,7 @@
       "id": "cheek-lifter",
       "title": "Cheek Lifter",
       "category": "face-yoga-mini-class",
-      "tags": [
-        "Lifting",
-        "Sculpting",
-        "Intermediate",
-        "3 minutes"
-      ],
+      "tags": ["Lifting", "Sculpting", "Intermediate", "3 minutes"],
       "image": "2.webp",
       "description": "Lifts sagging cheeks and defines cheekbones. Strengthens the muscles that keep your face lifted and youthful.",
       "difficulty": "Intermediate",
@@ -91,12 +81,7 @@
       "id": "jawline-definer",
       "title": "Jawline Definer",
       "category": "face-yoga-mini-class",
-      "tags": [
-        "Contouring",
-        "Double chin",
-        "Beginner",
-        "3 minutes"
-      ],
+      "tags": ["Contouring", "Double chin", "Beginner", "3 minutes"],
       "image": "3.webp",
       "description": "Tightens the jawline and reduces the appearance of double chin. Tones the muscles along the jaw for a more sculpted look.",
       "difficulty": "Beginner",
@@ -123,12 +108,7 @@
       "id": "eye-firmer",
       "title": "Eye Firmer",
       "category": "face-yoga-mini-class",
-      "tags": [
-        "Anti-aging",
-        "Crow's feet",
-        "Gentle",
-        "2 minutes"
-      ],
+      "tags": ["Anti-aging", "Crow's feet", "Gentle", "2 minutes"],
       "image": "4.webp",
       "description": "Reduces crow's feet and firms the delicate eye area. Gentle enough for the thin skin around eyes while effectively toning muscles.",
       "difficulty": "Beginner",
@@ -155,12 +135,7 @@
       "id": "lip-plumper",
       "title": "Lip Plumper",
       "category": "face-yoga-mini-class",
-      "tags": [
-        "Fuller lips",
-        "Anti-aging",
-        "Quick",
-        "1 minute"
-      ],
+      "tags": ["Fuller lips", "Anti-aging", "Quick", "1 minute"],
       "image": "5.webp",
       "description": "Naturally plumps lips and reduces fine lines around mouth. Increases blood flow for naturally rosier, fuller-looking lips.",
       "difficulty": "Beginner",
@@ -187,12 +162,7 @@
       "id": "neck-decolletage-toner",
       "title": "Neck & Décolletage Toner",
       "category": "face-yoga-mini-class",
-      "tags": [
-        "Anti-aging",
-        "Neck lines",
-        "Posture",
-        "3 minutes"
-      ],
+      "tags": ["Anti-aging", "Neck lines", "Posture", "3 minutes"],
       "image": "6.webp",
       "description": "Tightens neck skin and reduces horizontal lines. Often-neglected area that shows age quickly - this keeps it firm and smooth.",
       "difficulty": "Beginner",
@@ -220,12 +190,7 @@
       "id": "nasolabial-fold-smoother",
       "title": "Nasolabial Fold Smoother",
       "category": "face-yoga-mini-class",
-      "tags": [
-        "Smile lines",
-        "Anti-aging",
-        "Intermediate",
-        "3 minutes"
-      ],
+      "tags": ["Smile lines", "Anti-aging", "Intermediate", "3 minutes"],
       "image": "7.webp",
       "description": "Softens deep smile lines (nasolabial folds) that run from nose to mouth. Regular practice can visibly reduce their depth.",
       "difficulty": "Intermediate",
@@ -252,12 +217,7 @@
       "id": "brow-lifter",
       "title": "Brow Lifter",
       "category": "face-yoga-mini-class",
-      "tags": [
-        "Hooded eyes",
-        "Lifting",
-        "Quick",
-        "2 minutes"
-      ],
+      "tags": ["Hooded eyes", "Lifting", "Quick", "2 minutes"],
       "image": "8.webp",
       "description": "Lifts drooping brows and opens up hooded eyes. Strengthens the frontalis muscle to naturally elevate the brow area.",
       "difficulty": "Beginner",
@@ -284,12 +244,7 @@
       "id": "full-face-lymphatic-drainage",
       "title": "Full Face Lymphatic Drainage",
       "category": "face-yoga-mini-class",
-      "tags": [
-        "De-puffing",
-        "Detox",
-        "Relaxing",
-        "5 minutes"
-      ],
+      "tags": ["De-puffing", "Detox", "Relaxing", "5 minutes"],
       "image": "9.webp",
       "description": "Reduces puffiness and promotes healthy lymphatic flow. Eliminates toxins and excess fluid for a sculpted, refreshed appearance.",
       "difficulty": "Beginner",
@@ -317,12 +272,7 @@
       "id": "face-yoga-cool-down",
       "title": "Face Yoga Cool Down",
       "category": "face-yoga-mini-class",
-      "tags": [
-        "Relaxation",
-        "Tension release",
-        "Evening",
-        "3 minutes"
-      ],
+      "tags": ["Relaxation", "Tension release", "Evening", "3 minutes"],
       "image": "10.webp",
       "description": "Releases all facial tension accumulated throughout the day. Perfect end to your face yoga routine or before bed for relaxation.",
       "difficulty": "Beginner",
@@ -350,12 +300,7 @@
       "id": "coconut-honey-deep-moisture-mask",
       "title": "Coconut & Honey Deep Moisture Mask",
       "category": "diy-hair-masks",
-      "tags": [
-        "Dry hair",
-        "Deep conditioning",
-        "Shine",
-        "Natural"
-      ],
+      "tags": ["Dry hair", "Deep conditioning", "Shine", "Natural"],
       "image": "11.webp",
       "description": "Intensely hydrates dry, damaged hair. Coconut oil penetrates the hair shaft while honey locks in moisture for silky, shiny results.",
       "difficulty": "Easy",
@@ -388,12 +333,7 @@
       "id": "avocado-egg-protein-treatment",
       "title": "Avocado & Egg Protein Treatment",
       "category": "diy-hair-masks",
-      "tags": [
-        "Strengthening",
-        "Damaged hair",
-        "Protein-rich",
-        "Repair"
-      ],
+      "tags": ["Strengthening", "Damaged hair", "Protein-rich", "Repair"],
       "image": "12.webp",
       "description": "Repairs and strengthens weak, brittle hair. Avocado provides healthy fats while egg protein rebuilds damaged hair structure.",
       "difficulty": "Easy",
@@ -427,12 +367,7 @@
       "id": "apple-cider-vinegar-clarifying-rinse",
       "title": "Apple Cider Vinegar Clarifying Rinse",
       "category": "diy-hair-masks",
-      "tags": [
-        "Clarifying",
-        "Buildup removal",
-        "Shine",
-        "Oily hair"
-      ],
+      "tags": ["Clarifying", "Buildup removal", "Shine", "Oily hair"],
       "image": "13.webp",
       "description": "Removes product buildup and restores natural shine. Balances scalp pH and closes hair cuticles for smooth, glossy hair.",
       "difficulty": "Easy",
@@ -464,12 +399,7 @@
       "id": "banana-olive-oil-softening-mask",
       "title": "Banana & Olive Oil Softening Mask",
       "category": "diy-hair-masks",
-      "tags": [
-        "Softening",
-        "Frizz control",
-        "Natural",
-        "Curly hair"
-      ],
+      "tags": ["Softening", "Frizz control", "Natural", "Curly hair"],
       "image": "14.webp",
       "description": "Softens coarse or curly hair while taming frizz. Banana's natural oils and potassium restore elasticity and manageability.",
       "difficulty": "Easy",
@@ -502,12 +432,7 @@
       "id": "green-tea-aloe-scalp-treatment",
       "title": "Green Tea & Aloe Scalp Treatment",
       "category": "diy-hair-masks",
-      "tags": [
-        "Scalp health",
-        "Hair growth",
-        "Soothing",
-        "Dandruff"
-      ],
+      "tags": ["Scalp health", "Hair growth", "Soothing", "Dandruff"],
       "image": "15.webp",
       "description": "Soothes irritated scalp and promotes healthy hair growth. Green tea stimulates follicles while aloe vera calms inflammation.",
       "difficulty": "Easy",
@@ -540,12 +465,7 @@
       "id": "yogurt-lemon-shine-booster",
       "title": "Yogurt & Lemon Shine Booster",
       "category": "diy-hair-masks",
-      "tags": [
-        "Shine",
-        "Dull hair",
-        "Smoothing",
-        "Light treatment"
-      ],
+      "tags": ["Shine", "Dull hair", "Smoothing", "Light treatment"],
       "image": "16.webp",
       "description": "Adds brilliant shine to dull, lackluster hair. Yogurt smooths the cuticle while lemon juice adds natural highlights and shine.",
       "difficulty": "Easy",
@@ -578,12 +498,7 @@
       "id": "castor-oil-growth-treatment",
       "title": "Castor Oil Growth Treatment",
       "category": "diy-hair-masks",
-      "tags": [
-        "Hair growth",
-        "Thickness",
-        "Edges",
-        "Overnight"
-      ],
+      "tags": ["Hair growth", "Thickness", "Edges", "Overnight"],
       "image": "17.webp",
       "description": "Promotes hair growth and thickness. Castor oil is rich in ricinoleic acid which increases circulation to hair follicles.",
       "difficulty": "Easy",
@@ -616,12 +531,7 @@
       "id": "oatmeal-soothing-scalp-mask",
       "title": "Oatmeal Soothing Scalp Mask",
       "category": "diy-hair-masks",
-      "tags": [
-        "Itchy scalp",
-        "Sensitive",
-        "Soothing",
-        "Gentle"
-      ],
+      "tags": ["Itchy scalp", "Sensitive", "Soothing", "Gentle"],
       "image": "18.webp",
       "description": "Relieves itchy, irritated, or sensitive scalp. Oatmeal has natural anti-inflammatory properties that calm scalp conditions.",
       "difficulty": "Easy",
@@ -654,12 +564,7 @@
       "id": "beer-volumizing-rinse",
       "title": "Beer Volumizing Rinse",
       "category": "diy-hair-masks",
-      "tags": [
-        "Volume",
-        "Fine hair",
-        "Body",
-        "Unique"
-      ],
+      "tags": ["Volume", "Fine hair", "Body", "Unique"],
       "image": "19.webp",
       "description": "Adds volume and body to fine, flat hair. Beer's proteins and B vitamins coat the hair shaft and create natural lift.",
       "difficulty": "Easy",
@@ -691,12 +596,7 @@
       "id": "mayonnaise-deep-conditioning-mask",
       "title": "Mayonnaise Deep Conditioning Mask",
       "category": "diy-hair-masks",
-      "tags": [
-        "Deep conditioning",
-        "Dry hair",
-        "Pantry staple",
-        "Classic"
-      ],
+      "tags": ["Deep conditioning", "Dry hair", "Pantry staple", "Classic"],
       "image": "20.webp",
       "description": "Old-school remedy that seriously works. Mayo's eggs and oil deeply condition extremely dry or damaged hair.",
       "difficulty": "Easy",
@@ -729,12 +629,7 @@
       "id": "honey-oatmeal-soothing-mask",
       "title": "Honey & Oatmeal Soothing Mask",
       "category": "diy-face-masks",
-      "tags": [
-        "Sensitive skin",
-        "Soothing",
-        "Hydrating",
-        "Gentle"
-      ],
+      "tags": ["Sensitive skin", "Soothing", "Hydrating", "Gentle"],
       "image": "21.webp",
       "description": "Calms irritated, sensitive skin while providing gentle hydration. Oatmeal reduces redness while honey offers antibacterial and moisturizing benefits.",
       "difficulty": "Easy",
@@ -767,12 +662,7 @@
       "id": "turmeric-yogurt-brightening-mask",
       "title": "Turmeric & Yogurt Brightening Mask",
       "category": "diy-face-masks",
-      "tags": [
-        "Brightening",
-        "Glow",
-        "Dark spots",
-        "Anti-inflammatory"
-      ],
+      "tags": ["Brightening", "Glow", "Dark spots", "Anti-inflammatory"],
       "image": "22.webp",
       "description": "Brightens dull skin and fades dark spots. Turmeric's curcumin reduces pigmentation while yogurt gently exfoliates.",
       "difficulty": "Easy",
@@ -804,12 +694,7 @@
       "id": "avocado-honey-hydrating-mask",
       "title": "Avocado & Honey Hydrating Mask",
       "category": "diy-face-masks",
-      "tags": [
-        "Dry skin",
-        "Nourishing",
-        "Rich",
-        "Winter skin"
-      ],
+      "tags": ["Dry skin", "Nourishing", "Rich", "Winter skin"],
       "image": "23.webp",
       "description": "Intensely nourishes and hydrates dry, dehydrated skin. Avocado's healthy fats repair the skin barrier while honey locks in moisture.",
       "difficulty": "Easy",
@@ -842,12 +727,7 @@
       "id": "charcoal-clay-detox-mask",
       "title": "Charcoal & Clay Detox Mask",
       "category": "diy-face-masks",
-      "tags": [
-        "Detox",
-        "Pores",
-        "Oily skin",
-        "Deep cleansing"
-      ],
+      "tags": ["Detox", "Pores", "Oily skin", "Deep cleansing"],
       "image": "24.webp",
       "description": "Deep cleans pores and draws out impurities. Activated charcoal absorbs toxins while clay tightens and mattifies oily skin.",
       "difficulty": "Easy",
@@ -880,12 +760,7 @@
       "id": "banana-honey-anti-aging-mask",
       "title": "Banana & Honey Anti-Aging Mask",
       "category": "diy-face-masks",
-      "tags": [
-        "Anti-aging",
-        "Smoothing",
-        "Natural",
-        "All skin types"
-      ],
+      "tags": ["Anti-aging", "Smoothing", "Natural", "All skin types"],
       "image": "25.webp",
       "description": "Softens fine lines and provides antioxidant protection. Banana's vitamins A, E, and potassium nourish aging skin naturally.",
       "difficulty": "Easy",
@@ -918,12 +793,7 @@
       "id": "coffee-grounds-exfoliating-mask",
       "title": "Coffee Grounds Exfoliating Mask",
       "category": "diy-face-masks",
-      "tags": [
-        "Exfoliating",
-        "Energizing",
-        "Circulation",
-        "Glow"
-      ],
+      "tags": ["Exfoliating", "Energizing", "Circulation", "Glow"],
       "image": "26.webp",
       "description": "Physically exfoliates while caffeine stimulates circulation. Leaves skin glowing and temporarily tightened. Great morning pick-me-up.",
       "difficulty": "Easy",
@@ -956,12 +826,7 @@
       "id": "egg-white-pore-tightening-mask",
       "title": "Egg White Pore-Tightening Mask",
       "category": "diy-face-masks",
-      "tags": [
-        "Pores",
-        "Tightening",
-        "Oily skin",
-        "Minimizing"
-      ],
+      "tags": ["Pores", "Tightening", "Oily skin", "Minimizing"],
       "image": "27.webp",
       "description": "Temporarily tightens pores and absorbs excess oil. Egg white's protein firms skin for a smooth, refined appearance.",
       "difficulty": "Easy",
@@ -994,12 +859,7 @@
       "id": "aloe-vera-cooling-gel-mask",
       "title": "Aloe Vera Cooling Gel Mask",
       "category": "diy-face-masks",
-      "tags": [
-        "Soothing",
-        "Cooling",
-        "After-sun",
-        "Redness"
-      ],
+      "tags": ["Soothing", "Cooling", "After-sun", "Redness"],
       "image": "28.webp",
       "description": "Instantly soothes and cools irritated or sunburned skin. Pure aloe vera reduces inflammation and promotes healing.",
       "difficulty": "Easy",
@@ -1032,12 +892,7 @@
       "id": "papaya-enzyme-brightening-mask",
       "title": "Papaya Enzyme Brightening Mask",
       "category": "diy-face-masks",
-      "tags": [
-        "Brightening",
-        "Exfoliating",
-        "Enzymes",
-        "Tropical"
-      ],
+      "tags": ["Brightening", "Exfoliating", "Enzymes", "Tropical"],
       "image": "29.webp",
       "description": "Gently exfoliates with natural papain enzymes. Dissolves dead skin cells without physical scrubbing for brighter, smoother skin.",
       "difficulty": "Easy",
@@ -1070,12 +925,7 @@
       "id": "green-tea-antioxidant-mask",
       "title": "Green Tea Antioxidant Mask",
       "category": "diy-face-masks",
-      "tags": [
-        "Antioxidant",
-        "Anti-aging",
-        "Soothing",
-        "All skin types"
-      ],
+      "tags": ["Antioxidant", "Anti-aging", "Soothing", "All skin types"],
       "image": "30.webp",
       "description": "Delivers powerful antioxidants to fight aging and environmental damage. Green tea's EGCG protects and rejuvenates skin.",
       "difficulty": "Easy",
@@ -1108,12 +958,7 @@
       "id": "lavender-dreams-relaxation-bomb",
       "title": "Lavender Dreams Relaxation Bomb",
       "category": "diy-bath-bombs",
-      "tags": [
-        "Relaxing",
-        "Sleep",
-        "Calming",
-        "Classic"
-      ],
+      "tags": ["Relaxing", "Sleep", "Calming", "Classic"],
       "image": "31.webp",
       "description": "Promotes deep relaxation and better sleep. Lavender essential oil calms the nervous system while the fizzing action soothes tired muscles.",
       "difficulty": "Easy",
@@ -1151,12 +996,7 @@
       "id": "citrus-burst-energy-bomb",
       "title": "Citrus Burst Energy Bomb",
       "category": "diy-bath-bombs",
-      "tags": [
-        "Energizing",
-        "Morning",
-        "Uplifting",
-        "Refreshing"
-      ],
+      "tags": ["Energizing", "Morning", "Uplifting", "Refreshing"],
       "image": "32.webp",
       "description": "Invigorates and energizes for morning baths or showers. Citrus oils boost mood and alertness while providing vitamin C benefits for skin.",
       "difficulty": "Easy",
@@ -1195,12 +1035,7 @@
       "id": "eucalyptus-peppermint-sinus-relief-bomb",
       "title": "Eucalyptus & Peppermint Sinus Relief Bomb",
       "category": "diy-bath-bombs",
-      "tags": [
-        "Decongestant",
-        "Wellness",
-        "Cooling",
-        "Cold relief"
-      ],
+      "tags": ["Decongestant", "Wellness", "Cooling", "Cold relief"],
       "image": "33.webp",
       "description": "Opens airways and relieves sinus congestion. Perfect when you're feeling under the weather or during allergy season.",
       "difficulty": "Easy",
@@ -1238,12 +1073,7 @@
       "id": "rose-petal-romance-bomb",
       "title": "Rose Petal Romance Bomb",
       "category": "diy-bath-bombs",
-      "tags": [
-        "Romantic",
-        "Luxurious",
-        "Self-care",
-        "Feminine"
-      ],
+      "tags": ["Romantic", "Luxurious", "Self-care", "Feminine"],
       "image": "34.webp",
       "description": "Creates a luxurious, romantic bathing experience. Rose is known for its mood-enhancing and skin-softening properties.",
       "difficulty": "Easy",
@@ -1281,12 +1111,7 @@
       "id": "oatmeal-honey-soothing-bomb",
       "title": "Oatmeal & Honey Soothing Bomb",
       "category": "diy-bath-bombs",
-      "tags": [
-        "Sensitive skin",
-        "Soothing",
-        "Moisturizing",
-        "Gentle"
-      ],
+      "tags": ["Sensitive skin", "Soothing", "Moisturizing", "Gentle"],
       "image": "35.webp",
       "description": "Soothes irritated, itchy, or sensitive skin. Oatmeal calms inflammation while honey provides antibacterial and moisturizing benefits.",
       "difficulty": "Easy",
@@ -1323,12 +1148,7 @@
       "id": "detox-green-tea-charcoal-bomb",
       "title": "Detox Green Tea & Charcoal Bomb",
       "category": "diy-bath-bombs",
-      "tags": [
-        "Detox",
-        "Deep cleansing",
-        "Drawing",
-        "Modern"
-      ],
+      "tags": ["Detox", "Deep cleansing", "Drawing", "Modern"],
       "image": "36.webp",
       "description": "Draws out impurities while providing antioxidant benefits. Great for when your body and skin need a reset.",
       "difficulty": "Medium",
@@ -1365,12 +1185,7 @@
       "id": "tropical-paradise-mango-bomb",
       "title": "Tropical Paradise Mango Bomb",
       "category": "diy-bath-bombs",
-      "tags": [
-        "Tropical",
-        "Fun",
-        "Fruity",
-        "Summer"
-      ],
+      "tags": ["Tropical", "Fun", "Fruity", "Summer"],
       "image": "37.webp",
       "description": "Transports you to tropical paradise. Mango and coconut nourish skin while the scent boosts mood and provides mental escape.",
       "difficulty": "Easy",
@@ -1408,12 +1223,7 @@
       "id": "muscle-relief-arnica-ginger-bomb",
       "title": "Muscle Relief Arnica & Ginger Bomb",
       "category": "diy-bath-bombs",
-      "tags": [
-        "Post-workout",
-        "Muscle pain",
-        "Athletic",
-        "Therapeutic"
-      ],
+      "tags": ["Post-workout", "Muscle pain", "Athletic", "Therapeutic"],
       "image": "38.webp",
       "description": "Relieves sore, tired muscles after exercise. Arnica reduces inflammation while ginger warms and soothes aching joints.",
       "difficulty": "Medium",
@@ -1449,12 +1259,7 @@
       "id": "kids-surprise-rainbow-bomb",
       "title": "Kids' Surprise Rainbow Bomb",
       "category": "diy-bath-bombs",
-      "tags": [
-        "Kids",
-        "Fun",
-        "Colorful",
-        "Surprise inside"
-      ],
+      "tags": ["Kids", "Fun", "Colorful", "Surprise inside"],
       "image": "39.webp",
       "description": "Makes bath time fun and exciting for kids. Multiple colors create a rainbow effect in water, and hidden surprise encourages bathing.",
       "difficulty": "Medium",
@@ -1490,12 +1295,7 @@
       "id": "sleepy-time-moon-milk-bomb",
       "title": "Sleepy Time Moon Milk Bomb",
       "category": "diy-bath-bombs",
-      "tags": [
-        "Sleep",
-        "Nighttime",
-        "Calming",
-        "Dreamy"
-      ],
+      "tags": ["Sleep", "Nighttime", "Calming", "Dreamy"],
       "image": "40.webp",
       "description": "Prepares body and mind for restful sleep. Chamomile and vanilla create a cozy, drowsy atmosphere for bedtime routines.",
       "difficulty": "Medium",
