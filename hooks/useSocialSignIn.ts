@@ -1,8 +1,10 @@
 import { useSSO } from "@clerk/clerk-expo";
+import { useSignIn } from "@clerk/clerk-expo";
 import * as AuthSession from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 import { useCallback, useState } from "react";
 import { getPushToken } from "@/services/messagingService";
+import { Platform } from "react-native";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -17,6 +19,7 @@ interface SignInError {
 
 export const useSocialSignIn = () => {
   const { startSSOFlow } = useSSO();
+  const { signIn, isLoaded } = useSignIn();
   const [state, setState] = useState<SignInState>("idle");
   const [error, setError] = useState<SignInError | null>(null);
 
@@ -30,47 +33,65 @@ export const useSocialSignIn = () => {
       provider: SocialProvider,
       onSignupComplete?: () => Promise<void>
     ) => {
+      if (!isLoaded) return;
+
       try {
         setState("loading");
         setError(null);
 
-        const { createdSessionId, setActive, signUp } = await startSSOFlow({
-          strategy: provider,
-          redirectUrl: `${AuthSession.makeRedirectUri()}sso-callback`,
-        });
+        if (Platform.OS === "web") {
+          // Web: Use redirect-based OAuth
+          const redirectUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/sso-callback`;
+          const redirectUrlComplete = `${typeof window !== "undefined" ? window.location.origin : ""}/onboarding`;
 
-        // redundant block
-        if (signUp) {
-          try {
-            await signUp.update({
-              unsafeMetadata: {
-                role: "user",
-                onboardingCompleted: false,
-              },
-            });
-          } catch (metadataError) {
-            console.warn("Failed to update user metadata:", metadataError);
+          await signIn.authenticateWithRedirect({
+            strategy: provider,
+            redirectUrl,
+            redirectUrlComplete,
+          });
+        } else {
+          // Native: Use expo-web-browser flow
+          const { createdSessionId, setActive, signUp } = await startSSOFlow({
+            strategy: provider,
+            redirectUrl: `${AuthSession.makeRedirectUri()}sso-callback`,
+          });
+
+          // redundant block
+          if (signUp) {
+            try {
+              await signUp.update({
+                unsafeMetadata: {
+                  role: "user",
+                  onboardingCompleted: false,
+                },
+              });
+            } catch (metadataError) {
+              console.warn("Failed to update user metadata:", metadataError);
+            }
           }
-        }
 
-        if (!createdSessionId) {
-          throw new Error("No session created after authentication");
-        }
+          if (!createdSessionId) {
+            throw new Error("No session created after authentication");
+          }
 
-        await setActive!({ session: createdSessionId });
+          await setActive!({ session: createdSessionId });
 
-        // Store push token after successful authentication
-        try {
-          await getPushToken();
-        } catch (error) {
-          console.warn("Failed to get push token after social sign-in:", error);
-        }
-
-        if (signUp && onSignupComplete) {
+          // Store push token after successful authentication
           try {
-            await onSignupComplete();
-          } catch (callbackError) {
-            console.warn("Signup completion callback failed:", callbackError);
+            await getPushToken();
+          } catch (error) {
+            console.warn(
+              "Failed to get push token after social sign-in:",
+              error
+            );
+          }
+
+          if (signUp && onSignupComplete) {
+            try {
+              await onSignupComplete();
+            } catch (callbackError) {
+              console.warn("Signup completion callback failed:", callbackError);
+            }
           }
         }
 
@@ -92,7 +113,7 @@ export const useSocialSignIn = () => {
         console.error("Social sign in error:", err);
       }
     },
-    [startSSOFlow]
+    [startSSOFlow, signIn, isLoaded]
   );
 
   const signInWithGoogle = useCallback(

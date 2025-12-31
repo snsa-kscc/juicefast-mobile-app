@@ -22,6 +22,7 @@ export function QuizStart({ onStart }: QuizStartProps) {
             <Image
               source={require("@/assets/images/jf-picto.png")}
               className="w-16 h-16"
+              style={{ width: 64, height: 64 }}
               resizeMode="contain"
             />
           </View>

@@ -53,6 +53,7 @@ export function ChallengeEntry() {
         <Image
           source={require("@/assets/images/challenge/gift-box.webp")}
           className="w-28 h-28"
+          style={{ width: 112, height: 112 }}
           resizeMode="contain"
         />
       </View>

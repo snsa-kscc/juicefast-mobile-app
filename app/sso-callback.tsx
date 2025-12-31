@@ -1,4 +1,4 @@
-import { View, ActivityIndicator, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 
 export default function SSOCallbackScreen() {
   return (

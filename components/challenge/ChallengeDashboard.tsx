@@ -139,6 +139,7 @@ export function ChallengeDashboard({
               <Image
                 source={require("@/assets/images/challenge/cash.webp")}
                 className="w-14 h-14"
+                style={{ width: 56, height: 56 }}
               />
               <Text className="text-white font-lufga-bold text-base">
                 2.000 €
@@ -165,6 +166,7 @@ export function ChallengeDashboard({
               <Image
                 source={require("@/assets/images/challenge/iphone.webp")}
                 className="w-14 h-14"
+                style={{ width: 56, height: 56 }}
               />
               <Text className="text-white font-lufga-bold text-sm text-center">
                 iPhone{"\n"}17 pro
@@ -191,6 +193,7 @@ export function ChallengeDashboard({
               <Image
                 source={require("@/assets/images/challenge/gift-card.webp")}
                 className="w-14 h-14"
+                style={{ width: 56, height: 56 }}
               />
               <Text className="text-white font-lufga-bold text-sm text-center">
                 10x 50€{"\n"}gift card
@@ -225,6 +228,7 @@ export function ChallengeDashboard({
               <Image
                 source={require("@/assets/images/challenge/gift-box.webp")}
                 className="w-12 h-12 mr-3"
+                style={{ width: 48, height: 48 }}
                 resizeMode="contain"
               />
 
