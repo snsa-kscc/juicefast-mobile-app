@@ -37,13 +37,13 @@ function ArticleHeader({
     <View className="bg-white px-8 py-5">
       <View className="flex-row items-center gap-5">
         <TouchableOpacity
-          className={`p-2 rounded-full ${
+          className={`w-14 h-14 justify-center items-center rounded-full ${
             articleType === "recipe" ? "bg-amber-400" : "bg-sky-400"
           }`}
           onPress={onBackPress}
         >
           <View>
-            <ArrowLeft size={24} color="white" />
+            <ArrowLeft size={20} color="white" />
           </View>
         </TouchableOpacity>
 
@@ -232,7 +232,7 @@ function ArticleImageSection({ article }: { article: Article }) {
 // Why It's Great Section
 function WhyItsGreatSection({ article }: { article: Article }) {
   return (
-    <View className="px-8 py-2 bg-jf-gray">
+    <View className="px-8 py-6 bg-jf-gray">
       <Text className="text-2xl font-lufga-semibold text-black mb-3">
         Why It's Great
       </Text>
