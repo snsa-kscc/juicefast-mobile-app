@@ -15,10 +15,10 @@ export function ArticleTips({ article }: { article: Article }) {
       <View className="gap-2">
         {article.tips.map((tip, index) => (
           <View key={index} className="flex-row items-start">
-            <Text className="text-lg font-inter-medium text-black mr-2 leading-6">
+            <Text className="text-lg font-lufga-medium text-black mr-2 leading-6">
               •
             </Text>
-            <Text className="text-base font-inter-medium text-black leading-6 mt-0.5">
+            <Text className="text-base font-lufga-medium text-black leading-6 mt-0.5">
               {tip}
             </Text>
           </View>

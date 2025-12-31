@@ -17,7 +17,7 @@ export function ArticleIngredients({ article }: { article: Article }) {
         {article.ingredients.map((item, index) => (
           <View key={index} className="flex-row items-start gap-3">
             <View className="w-1.5 h-1.5 rounded-full bg-black mt-2.5" />
-            <Text className="text-base font-inter text-black leading-6 flex-1">
+            <Text className="text-base font-lufga text-black leading-6 flex-1">
               {item}
             </Text>
           </View>

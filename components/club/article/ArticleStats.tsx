@@ -31,10 +31,12 @@ export function ArticleStats({ article }: { article: Article }) {
     <View className="w-full px-8 py-6">
       <View className="flex-row justify-between items-end mb-6">
         <Text className="text-sm text-black">
-          <Text className="font-inter-extrabold">Nutrition </Text>
-          <Text className="font-inter-italic text-gray-500">(per serving)</Text>
+          <Text className="font-lufga-bold text-black">Nutrition </Text>
+          <Text className="font-lufga-bold-italic text-gray-500">
+            (per serving)
+          </Text>
         </Text>
-        <Text className="text-sm font-inter-extrabold text-black">
+        <Text className="text-sm font-lufga-bold text-black">
           Calories: {article.nutrition.calories} kcal
         </Text>
       </View>
@@ -63,7 +65,7 @@ export function ArticleStats({ article }: { article: Article }) {
       </View>
 
       {article.bonus && (
-        <Text className="text-center text-sm font-inter-medium text-gray-500 italic mt-6">
+        <Text className="text-center text-sm font-lufga-medium text-gray-500 italic mt-6">
           Bonus: {article.bonus}
         </Text>
       )}

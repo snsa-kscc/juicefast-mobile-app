@@ -36,13 +36,13 @@ export function ArticleSteps({ article }: { article: Article }) {
               }}
             >
               <Text
-                className={`text-sm font-inter-medium ${textColorClass} text-center leading-none`}
+                className={`text-sm font-lufga-medium ${textColorClass} text-center leading-none`}
               >
                 {index + 1}
               </Text>
             </LinearGradient>
             {/* Step Text */}
-            <Text className="text-lg font-inter text-black leading-6 flex-1">
+            <Text className="text-lg font-lufga text-black leading-6 flex-1">
               {step}
             </Text>
           </View>

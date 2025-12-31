@@ -139,7 +139,7 @@ export function ArticleFooter({
             resizeMode="cover"
           />
         </View>
-        <Text className="text-base font-inter-bold text-center text-black leading-tight">
+        <Text className="text-base font-lufga-bold text-center text-black leading-tight">
           {item.name}
         </Text>
       </TouchableOpacity>

@@ -75,7 +75,7 @@ function ArticleTitleSection({ article }: { article: Article }) {
 
       <View className="flex-row items-center gap-4 flex-wrap">
         <View className={`${difficultyColor} px-3 py-1 rounded-md`}>
-          <Text className="text-base font-inter-semibold text-white">
+          <Text className="text-base font-lufga-semibold text-white">
             {article.difficulty}
           </Text>
         </View>
@@ -86,19 +86,19 @@ function ArticleTitleSection({ article }: { article: Article }) {
           article.cookTime !== undefined && (
             <View className="flex-row items-center gap-2">
               <View className="flex-row items-center gap-1">
-                <Text className="text-sm font-inter-bold text-black">
+                <Text className="text-sm font-lufga-bold text-black">
                   Prep:
                 </Text>
-                <Text className="text-sm font-inter-medium text-black">
+                <Text className="text-sm font-lufga-medium text-black">
                   {formatTime(article.prepTime)}
                 </Text>
               </View>
               <View className="w-px h-4 bg-gray-300" />
               <View className="flex-row items-center gap-1">
-                <Text className="text-sm font-inter-bold text-black">
+                <Text className="text-sm font-lufga-bold text-black">
                   Cook:
                 </Text>
-                <Text className="text-sm font-inter-medium text-black">
+                <Text className="text-sm font-lufga-medium text-black">
                   {formatTime(article.cookTime)}
                 </Text>
               </View>
@@ -106,10 +106,10 @@ function ArticleTitleSection({ article }: { article: Article }) {
                 <>
                   <View className="w-px h-4 bg-gray-300" />
                   <View className="flex-row items-center gap-1">
-                    <Text className="text-sm font-inter-bold text-black">
+                    <Text className="text-sm font-lufga-bold text-black">
                       Servings:
                     </Text>
-                    <Text className="text-sm font-inter-medium text-black">
+                    <Text className="text-sm font-lufga-medium text-black">
                       {article.servings}
                     </Text>
                   </View>
@@ -123,10 +123,10 @@ function ArticleTitleSection({ article }: { article: Article }) {
           <View className="flex-row items-center gap-2 flex-wrap">
             {article.quickInfo.time && (
               <View className="flex-row items-center gap-1">
-                <Text className="text-sm font-inter-bold text-black">
+                <Text className="text-sm font-lufga-bold text-black">
                   Time:
                 </Text>
-                <Text className="text-sm font-inter-medium text-black">
+                <Text className="text-sm font-lufga-medium text-black">
                   {article.quickInfo.time}
                 </Text>
               </View>
@@ -135,10 +135,10 @@ function ArticleTitleSection({ article }: { article: Article }) {
               <>
                 <View className="w-px h-4 bg-gray-300" />
                 <View className="flex-row items-center gap-1">
-                  <Text className="text-sm font-inter-bold text-black">
+                  <Text className="text-sm font-lufga-bold text-black">
                     Frequency:
                   </Text>
-                  <Text className="text-sm font-inter-medium text-black">
+                  <Text className="text-sm font-lufga-medium text-black">
                     {article.quickInfo.frequency}
                   </Text>
                 </View>
@@ -148,10 +148,10 @@ function ArticleTitleSection({ article }: { article: Article }) {
               <>
                 <View className="w-px h-4 bg-gray-300" />
                 <View className="flex-row items-center gap-1">
-                  <Text className="text-sm font-inter-bold text-black">
+                  <Text className="text-sm font-lufga-bold text-black">
                     Target:
                   </Text>
-                  <Text className="text-sm font-inter-medium text-black">
+                  <Text className="text-sm font-lufga-medium text-black">
                     {article.quickInfo.target}
                   </Text>
                 </View>
@@ -161,10 +161,10 @@ function ArticleTitleSection({ article }: { article: Article }) {
               <>
                 <View className="w-px h-4 bg-gray-300" />
                 <View className="flex-row items-center gap-1">
-                  <Text className="text-sm font-inter-bold text-black">
+                  <Text className="text-sm font-lufga-bold text-black">
                     Best For:
                   </Text>
-                  <Text className="text-sm font-inter-medium text-black">
+                  <Text className="text-sm font-lufga-medium text-black">
                     {article.quickInfo.bestFor}
                   </Text>
                 </View>
@@ -174,10 +174,10 @@ function ArticleTitleSection({ article }: { article: Article }) {
               <>
                 <View className="w-px h-4 bg-gray-300" />
                 <View className="flex-row items-center gap-1">
-                  <Text className="text-sm font-inter-bold text-black">
+                  <Text className="text-sm font-lufga-bold text-black">
                     Skin Type:
                   </Text>
-                  <Text className="text-sm font-inter-medium text-black">
+                  <Text className="text-sm font-lufga-medium text-black">
                     {article.quickInfo.skinType}
                   </Text>
                 </View>
@@ -187,10 +187,10 @@ function ArticleTitleSection({ article }: { article: Article }) {
               <>
                 <View className="w-px h-4 bg-gray-300" />
                 <View className="flex-row items-center gap-1">
-                  <Text className="text-sm font-inter-bold text-black">
+                  <Text className="text-sm font-lufga-bold text-black">
                     Mood:
                   </Text>
-                  <Text className="text-sm font-inter-medium text-black">
+                  <Text className="text-sm font-lufga-medium text-black">
                     {article.quickInfo.mood}
                   </Text>
                 </View>
@@ -236,7 +236,7 @@ function WhyItsGreatSection({ article }: { article: Article }) {
       <Text className="text-2xl font-lufga-semibold text-black mb-3">
         Why It's Great
       </Text>
-      <Text className="text-lg font-inter text-black leading-6">
+      <Text className="text-lg font-lufga text-black leading-6">
         {article.description}
       </Text>
     </View>

@@ -338,12 +338,12 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 className="absolute bottom-0 left-0 right-0"
                 style={{
                   height: `${Math.min(100, dailyProgress.steps)}%`,
-                  backgroundColor: "#FFC856",
+                  backgroundColor: "#FFD700",
                 }}
               />
               <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
                 <View className="mb-1">
-                  <StepsIcon size={24} color="#FFC856" />
+                  <StepsIcon size={24} color="#B8860B" />
                 </View>
                 <Text
                   className={`font-lufga-semibold ${dailyProgress.steps > 50 ? "text-white" : "text-black"}`}
@@ -362,12 +362,12 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 className="absolute bottom-0 left-0 right-0"
                 style={{
                   height: `${Math.min(100, dailyProgress.mindfulness)}%`,
-                  backgroundColor: "#FE8E77",
+                  backgroundColor: "#FF6B47",
                 }}
               />
               <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
                 <View className="mb-1">
-                  <MindfulnessIcon size={24} color="#FE8E77" />
+                  <MindfulnessIcon size={24} color="#C44130" />
                 </View>
                 <Text
                   className={`font-lufga-semibold ${dailyProgress.mindfulness > 50 ? "text-white" : "text-black"}`}
@@ -386,12 +386,12 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 className="absolute bottom-0 left-0 right-0"
                 style={{
                   height: `${Math.min(100, dailyProgress.meals)}%`,
-                  backgroundColor: "#0DC99B",
+                  backgroundColor: "#00B894",
                 }}
               />
               <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
                 <View className="mb-1">
-                  <MealIcon size={24} color="#0DC99B" />
+                  <MealIcon size={24} color="#00796B" />
                 </View>
                 <Text
                   className={`font-lufga-semibold ${dailyProgress.meals > 50 ? "text-white" : "text-black"}`}
@@ -410,12 +410,12 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 className="absolute bottom-0 left-0 right-0"
                 style={{
                   height: `${Math.min(100, dailyProgress.sleep)}%`,
-                  backgroundColor: "#625FD3",
+                  backgroundColor: "#5B4FE6",
                 }}
               />
               <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
                 <View className="mb-1">
-                  <SleepIcon size={24} color="#625FD3" />
+                  <SleepIcon size={24} color="#3F3AB8" />
                 </View>
                 <Text
                   className={`font-lufga-semibold ${dailyProgress.sleep > 50 ? "text-white" : "text-black"}`}
@@ -434,12 +434,12 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
                 className="absolute bottom-0 left-0 right-0"
                 style={{
                   height: `${Math.min(100, dailyProgress.water)}%`,
-                  backgroundColor: "#4CC3FF",
+                  backgroundColor: "#00B8D4",
                 }}
               />
               <View className="flex-col items-center justify-evenly z-10 absolute inset-0">
                 <View className="mb-1">
-                  <WaterIcon size={24} color="#4CC3FF" />
+                  <WaterIcon size={24} color="#006064" />
                 </View>
                 <Text
                   className={`font-lufga-semibold ${dailyProgress.water > 50 ? "text-white" : "text-black"}`}
