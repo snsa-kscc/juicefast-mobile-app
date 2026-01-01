@@ -17,12 +17,23 @@ interface QuizCompleteProps {
 
 export function QuizComplete({ answers }: QuizCompleteProps) {
   const [isCompleting, setIsCompleting] = useState(false);
+  const [isFinishing, setIsFinishing] = useState(false);
   const { markOnboardingCompleted } = useOnboardingCompletion();
   const recommendations = getRecommendations(answers);
   const productRecommendation = getProductRecommendation(answers);
   const answerEntries = Object.entries(answers);
 
-  const handleContinue = async () => {
+  const continueToChallenge = async () => {
+    setIsFinishing(true);
+    try {
+      await markOnboardingCompleted();
+      router.replace("/(tabs)/challenge");
+    } finally {
+      setIsFinishing(false);
+    }
+  };
+
+  const handleContinueToShop = async () => {
     setIsCompleting(true);
     try {
       await markOnboardingCompleted();
@@ -72,7 +83,7 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
 
         {/* Continue button */}
         <TouchableOpacity
-          onPress={handleContinue}
+          onPress={handleContinueToShop}
           className="flex-row items-center justify-center px-8 rounded-full self-center"
           style={{
             backgroundColor: "#1A1A1A",
@@ -89,7 +100,7 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
 
         {/* Go to chellenge button */}
         <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/challenge")}
+          onPress={continueToChallenge}
           className="flex-row items-center justify-center px-8 rounded-full self-center"
           style={{
             backgroundColor: "#1A1A1A",
@@ -100,9 +111,9 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
           }}
         >
           <Text className="text-white text-base font-lufga-semibold mr-2">
-            Finish onboarding
+            {isFinishing ? "Loading..." : "Finish onboarding"}
           </Text>
-          <ArrowRight size={20} color="white" />
+          {!isFinishing && <ArrowRight size={20} color="white" />}
         </TouchableOpacity>
       </View>
     </ScrollView>
