@@ -132,15 +132,15 @@ const SUBCATEGORY_DATA: Record<
     image: require("@/assets/images/jf-club/cardio-fat-burn.jpg"),
     sortIndex: 3,
   },
-  "weight loss fitness": {
-    id: "weight-loss-fitness",
-    name: "Weight Loss Fitness",
-    category: "workouts",
-    description:
-      "Achieve your weight loss goals with our targeted fitness programs that combine strength training and cardio for maximum results.",
-    image: require("@/assets/images/jf-club/weight-loss-fitness.jpg"),
-    sortIndex: 4,
-  },
+  // "weight loss fitness": {
+  //   id: "weight-loss-fitness",
+  //   name: "Weight Loss Fitness",
+  //   category: "workouts",
+  //   description:
+  //     "Achieve your weight loss goals with our targeted fitness programs that combine strength training and cardio for maximum results.",
+  //   image: require("@/assets/images/jf-club/weight-loss-fitness.jpg"),
+  //   sortIndex: 4,
+  // },
   fitness: {
     id: "fitness",
     name: "Fitness",
@@ -148,7 +148,7 @@ const SUBCATEGORY_DATA: Record<
     description:
       "General fitness workouts to improve your overall health, strength, and endurance with a variety of exercise styles and intensities.",
     image: require("@/assets/images/jf-club/workouts.jpg"),
-    sortIndex: 5,
+    sortIndex: 4,
   },
 
   // Nutrition category
@@ -206,24 +206,24 @@ const SUBCATEGORY_DATA: Record<
     image: require("@/assets/images/jf-club/mocktails.jpg"),
     sortIndex: 5,
   },
-  recipes: {
-    id: "recipes",
-    name: "Recipes",
-    category: "nutrition",
-    description:
-      "A collection of healthy, delicious recipes designed to support your wellness journey with balanced nutrition and amazing flavors.",
-    image: require("@/assets/images/jf-club/recipes.jpg"),
-    sortIndex: 6,
-  },
-  "apple cider": {
-    id: "apple-cider",
-    name: "Apple Cider",
-    category: "nutrition",
-    description:
-      "Discover the health benefits and creative uses of apple cider in various wellness recipes and remedies.",
-    image: require("@/assets/images/jf-club/apple-cider.jpg"),
-    sortIndex: 7,
-  },
+  // recipes: {
+  //   id: "recipes",
+  //   name: "Recipes",
+  //   category: "nutrition",
+  //   description:
+  //     "A collection of healthy, delicious recipes designed to support your wellness journey with balanced nutrition and amazing flavors.",
+  //   image: require("@/assets/images/jf-club/recipes.jpg"),
+  //   sortIndex: 6,
+  // },
+  // "apple cider": {
+  //   id: "apple-cider",
+  //   name: "Apple Cider",
+  //   category: "nutrition",
+  //   description:
+  //     "Discover the health benefits and creative uses of apple cider in various wellness recipes and remedies.",
+  //   image: require("@/assets/images/jf-club/apple-cider.jpg"),
+  //   sortIndex: 7,
+  // },
 
   // Beauty category
   "face yoga mini class": {
@@ -364,11 +364,35 @@ export const getSubcategoryDetail = (
   // Convert kebab-case back to original format (e.g., "postpartum-nutrition" -> "postpartum nutrition")
   const normalizedSubcategory = subcategory.replace(/-/g, " ");
 
+  // Find the subcategory info by checking both the kebab-case ID and the space-separated key
+  let subcategoryInfo: (typeof SUBCATEGORY_DATA)[string] | null =
+    SUBCATEGORY_DATA[normalizedSubcategory];
+
+  // If not found with spaces, try to find by ID in the values
+  if (!subcategoryInfo) {
+    const foundEntry = Object.values(SUBCATEGORY_DATA).find(
+      (entry) => entry.id === subcategory
+    );
+    if (foundEntry) {
+      // Get the original key from the found entry
+      const originalKey = Object.keys(SUBCATEGORY_DATA).find(
+        (key) => SUBCATEGORY_DATA[key].id === subcategory
+      );
+      subcategoryInfo = originalKey ? SUBCATEGORY_DATA[originalKey] : null;
+    }
+  }
+
   // Check if this is an article subcategory (nutrition or beauty)
-  const subcategoryInfo = SUBCATEGORY_DATA[normalizedSubcategory];
   const isNutritionSubcategory = subcategoryInfo?.category === "nutrition";
   const isBeautySubcategory = subcategoryInfo?.category === "beauty";
   const isArticleSubcategory = isNutritionSubcategory || isBeautySubcategory;
+
+  // Use the original key for data lookup to ensure consistency
+  const lookupKey = subcategoryInfo
+    ? Object.keys(SUBCATEGORY_DATA).find(
+        (key) => SUBCATEGORY_DATA[key].id === subcategory
+      ) || normalizedSubcategory
+    : normalizedSubcategory;
 
   let items: ProcessedClubItem[] = [];
 
@@ -410,8 +434,8 @@ export const getSubcategoryDetail = (
       }));
     }
   } else {
-    // For wellness subcategories, get items from CLUB_DATA
-    items = getItemsBySubcategory(normalizedSubcategory);
+    // For wellness subcategories, get items from CLUB_DATA using the correct lookup key
+    items = getItemsBySubcategory(lookupKey);
   }
 
   if (items.length === 0) return null;
@@ -538,17 +562,56 @@ export const formatSubcategoryTitle = (title: string): string => {
 
 // Get subcategory image from unified data structure
 export const getSubcategoryImage = (subcategory: string) => {
-  const subcategoryInfo = SUBCATEGORY_DATA[subcategory];
+  // First try direct lookup with space-separated key
+  let subcategoryInfo: (typeof SUBCATEGORY_DATA)[string] | null =
+    SUBCATEGORY_DATA[subcategory];
 
-  // Return mapped image or fallback to placeholder
-  return (
-    subcategoryInfo?.image || require("@/assets/images/jf-club/placeholder.jpg")
-  );
+  // If not found, try to find by kebab-case ID
+  if (!subcategoryInfo) {
+    const foundEntry = Object.values(SUBCATEGORY_DATA).find(
+      (entry) => entry.id === subcategory
+    );
+    if (foundEntry) {
+      // Get the original key to access the image
+      const originalKey = Object.keys(SUBCATEGORY_DATA).find(
+        (key) => SUBCATEGORY_DATA[key].id === subcategory
+      );
+      subcategoryInfo = originalKey ? SUBCATEGORY_DATA[originalKey] : null;
+    }
+  }
+
+  const result =
+    subcategoryInfo?.image ||
+    require("@/assets/images/jf-club/placeholder.jpg");
+
+  return result;
 };
 
 // Get subcategory info from unified data structure
 export const getSubcategoryInfo = (subcategory: string) => {
-  return SUBCATEGORY_DATA[subcategory];
+  // First try direct lookup with space-separated key
+  let subcategoryInfo: (typeof SUBCATEGORY_DATA)[string] | null =
+    SUBCATEGORY_DATA[subcategory];
+
+  // If not found, try to find by kebab-case ID
+  if (!subcategoryInfo) {
+    // Convert space-separated to kebab-case for ID lookup
+    const kebabCaseId = subcategory.replace(/\s+/g, "-");
+
+    const foundEntry = Object.values(SUBCATEGORY_DATA).find(
+      (entry) => entry.id === kebabCaseId
+    );
+
+    if (foundEntry) {
+      // Get the original key to access the info
+      const originalKey = Object.keys(SUBCATEGORY_DATA).find(
+        (key) => SUBCATEGORY_DATA[key].id === kebabCaseId
+      );
+      subcategoryInfo = originalKey ? SUBCATEGORY_DATA[originalKey] : null;
+    }
+  }
+
+  return subcategoryInfo;
 };
 
 // Get all subcategories for a category, ordered by defined sort order
