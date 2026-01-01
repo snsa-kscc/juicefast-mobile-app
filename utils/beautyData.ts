@@ -50,11 +50,15 @@ export const getBeautyItemsBySubcategory = getBeautyItemsByCategory;
 export const getBeautyItemById = (itemId: string): BeautyItem | undefined =>
   BEAUTY_DATA.items.find((item) => item.id === itemId);
 
-export const getBeautyCategoryById = (categoryId: string): BeautyCategory | undefined =>
+export const getBeautyCategoryById = (
+  categoryId: string
+): BeautyCategory | undefined =>
   BEAUTY_DATA.categories.find((category) => category.id === categoryId);
 
-export const getRandomBeautyItems = (count: number = 5, excludeId?: string): BeautyItem[] =>
-  getRandomItems(BEAUTY_DATA.items, count, excludeId);
+export const getRandomBeautyItems = (
+  count: number = 5,
+  excludeId?: string
+): BeautyItem[] => getRandomItems(BEAUTY_DATA.items, count, excludeId);
 
 // Re-export for backwards compatibility
 export { getDifficultyColor as getBeautyDifficultyColor };

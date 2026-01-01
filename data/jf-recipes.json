@@ -62,12 +62,7 @@
       "id": "iron-boosting-spinach-lentil-stew",
       "title": "Iron-Boosting Spinach & Lentil Stew",
       "category": "postpartum-nutrition",
-      "tags": [
-        "Iron-rich",
-        "One-pot",
-        "Freezer-friendly",
-        "Dairy-free"
-      ],
+      "tags": ["Iron-rich", "One-pot", "Freezer-friendly", "Dairy-free"],
       "image": "1.webp",
       "description": "Replenishes iron lost during birth. Lentils provide plant-based protein for milk production. Easy to eat one-handed while nursing.",
       "prepTime": 10,
@@ -113,12 +108,7 @@
       "id": "salmon-sweet-potato-power-bowl",
       "title": "Salmon & Sweet Potato Power Bowl",
       "category": "postpartum-nutrition",
-      "tags": [
-        "Omega-3 rich",
-        "Brain health",
-        "High protein",
-        "Gluten-free"
-      ],
+      "tags": ["Omega-3 rich", "Brain health", "High protein", "Gluten-free"],
       "image": "2.webp",
       "description": "Omega-3 fatty acids support brain development in breastfed babies. Sweet potatoes provide sustained energy and vitamin A for recovery.",
       "prepTime": 15,
@@ -206,12 +196,7 @@
       "id": "lactation-cookie-energy-bites",
       "title": "Lactation Cookie Energy Bites",
       "category": "postpartum-nutrition",
-      "tags": [
-        "Lactation support",
-        "No-bake",
-        "Grab-and-go",
-        "Oat-based"
-      ],
+      "tags": ["Lactation support", "No-bake", "Grab-and-go", "Oat-based"],
       "image": "4.webp",
       "description": "Oats and brewer's yeast are galactagogues that support milk production. Perfect one-handed snack for nursing sessions.",
       "prepTime": 15,
@@ -253,12 +238,7 @@
       "id": "healing-turmeric-golden-milk-oatmeal",
       "title": "Healing Turmeric Golden Milk Oatmeal",
       "category": "postpartum-nutrition",
-      "tags": [
-        "Anti-inflammatory",
-        "Warming",
-        "Fiber-rich",
-        "Comfort food"
-      ],
+      "tags": ["Anti-inflammatory", "Warming", "Fiber-rich", "Comfort food"],
       "image": "5.webp",
       "description": "Turmeric reduces postpartum inflammation. Oats provide sustained energy and support milk production. Warming and comforting for early mornings.",
       "prepTime": 5,
@@ -347,12 +327,7 @@
       "id": "iron-rich-beef-beetroot-salad",
       "title": "Iron-Rich Beef & Beetroot Salad",
       "category": "postpartum-nutrition",
-      "tags": [
-        "Iron-rich",
-        "Fresh",
-        "High protein",
-        "Colorful"
-      ],
+      "tags": ["Iron-rich", "Fresh", "High protein", "Colorful"],
       "image": "7.webp",
       "description": "Beef and beetroot together maximize iron absorption. Supports blood replenishment after delivery. Fresh and energizing.",
       "prepTime": 15,
@@ -394,12 +369,7 @@
       "id": "nourishing-chicken-vegetable-miso-soup",
       "title": "Nourishing Chicken & Vegetable Miso Soup",
       "category": "postpartum-nutrition",
-      "tags": [
-        "Probiotic",
-        "Gut health",
-        "Hydrating",
-        "Warming"
-      ],
+      "tags": ["Probiotic", "Gut health", "Hydrating", "Warming"],
       "image": "8.webp",
       "description": "Miso provides probiotics for gut health and immune support. Hydrating and warming. Easy to digest during recovery.",
       "prepTime": 10,
@@ -440,12 +410,7 @@
       "id": "calcium-boosting-sardine-toast",
       "title": "Calcium-Boosting Sardine Toast",
       "category": "postpartum-nutrition",
-      "tags": [
-        "Calcium-rich",
-        "Omega-3",
-        "Quick meal",
-        "Bone health"
-      ],
+      "tags": ["Calcium-rich", "Omega-3", "Quick meal", "Bone health"],
       "image": "9.webp",
       "description": "Sardines with bones provide highly absorbable calcium for bone health and milk production. Omega-3s support baby's brain development.",
       "prepTime": 5,
@@ -486,12 +451,7 @@
       "id": "restorative-red-date-goji-tea-porridge",
       "title": "Restorative Red Date & Goji Tea Porridge",
       "category": "postpartum-nutrition",
-      "tags": [
-        "Traditional Chinese",
-        "Blood building",
-        "Warming",
-        "Sweet"
-      ],
+      "tags": ["Traditional Chinese", "Blood building", "Warming", "Sweet"],
       "image": "10.webp",
       "description": "Red dates and goji berries are traditional blood-building foods in Chinese postpartum care. Naturally sweet and deeply nourishing.",
       "prepTime": 5,
@@ -532,12 +492,7 @@
       "id": "green-detox-power-smoothie",
       "title": "Green Detox Power Smoothie",
       "category": "smoothies",
-      "tags": [
-        "Detox",
-        "Energizing",
-        "Vegan",
-        "Low sugar"
-      ],
+      "tags": ["Detox", "Energizing", "Vegan", "Low sugar"],
       "image": "11.webp",
       "description": "Packed with chlorophyll and antioxidants for gentle detoxification. Cucumber and celery provide hydration.",
       "prepTime": 5,
@@ -579,12 +534,7 @@
       "id": "berry-antioxidant-blast",
       "title": "Berry Antioxidant Blast",
       "category": "smoothies",
-      "tags": [
-        "Antioxidant-rich",
-        "Anti-aging",
-        "High fiber",
-        "Immune boost"
-      ],
+      "tags": ["Antioxidant-rich", "Anti-aging", "High fiber", "Immune boost"],
       "image": "12.webp",
       "description": "Berries provide powerful antioxidants that fight inflammation and support immune health. High fiber keeps you satisfied.",
       "prepTime": 5,
@@ -625,12 +575,7 @@
       "id": "tropical-mango-sunshine-smoothie",
       "title": "Tropical Mango Sunshine Smoothie",
       "category": "smoothies",
-      "tags": [
-        "Vitamin C rich",
-        "Tropical",
-        "Energizing",
-        "Dairy-free"
-      ],
+      "tags": ["Vitamin C rich", "Tropical", "Energizing", "Dairy-free"],
       "image": "13.webp",
       "description": "Mango and pineapple provide vitamin C for collagen production and immune support.",
       "prepTime": 5,
@@ -671,12 +616,7 @@
       "id": "chocolate-protein-power-smoothie",
       "title": "Chocolate Protein Power Smoothie",
       "category": "smoothies",
-      "tags": [
-        "High protein",
-        "Post-workout",
-        "Satisfying",
-        "Muscle recovery"
-      ],
+      "tags": ["High protein", "Post-workout", "Satisfying", "Muscle recovery"],
       "image": "14.webp",
       "description": "Perfect post-workout recovery with protein and carbs. Cacao provides magnesium for muscle function.",
       "prepTime": 5,
@@ -717,12 +657,7 @@
       "id": "creamy-avocado-spinach-smoothie",
       "title": "Creamy Avocado Spinach Smoothie",
       "category": "smoothies",
-      "tags": [
-        "Healthy fats",
-        "Brain food",
-        "Creamy",
-        "Keto-friendly"
-      ],
+      "tags": ["Healthy fats", "Brain food", "Creamy", "Keto-friendly"],
       "image": "15.webp",
       "description": "Avocado provides healthy fats for brain function and satiety. Spinach adds iron without affecting taste.",
       "prepTime": 5,
@@ -763,12 +698,7 @@
       "id": "refreshing-cucumber-mint-cooler",
       "title": "Refreshing Cucumber Mint Cooler",
       "category": "smoothies",
-      "tags": [
-        "Hydrating",
-        "Low calorie",
-        "Cooling",
-        "Summer favorite"
-      ],
+      "tags": ["Hydrating", "Low calorie", "Cooling", "Summer favorite"],
       "image": "16.webp",
       "description": "Extremely hydrating and cooling. Perfect for hot days or after exercise. Low calorie but refreshing.",
       "prepTime": 5,
@@ -947,12 +877,7 @@
       "id": "gut-healing-papaya-probiotic-smoothie",
       "title": "Gut-Healing Papaya Probiotic Smoothie",
       "category": "smoothies",
-      "tags": [
-        "Digestive health",
-        "Probiotic",
-        "Enzyme-rich",
-        "Tropical"
-      ],
+      "tags": ["Digestive health", "Probiotic", "Enzyme-rich", "Tropical"],
       "image": "20.webp",
       "description": "Papaya contains papain enzyme for protein digestion. Kefir adds probiotics for gut health.",
       "prepTime": 5,
@@ -993,12 +918,7 @@
       "id": "energy-boosting-date-nut-balls",
       "title": "Energy-Boosting Date & Nut Balls",
       "category": "snacks",
-      "tags": [
-        "No-bake",
-        "Natural energy",
-        "Vegan",
-        "Meal prep friendly"
-      ],
+      "tags": ["No-bake", "Natural energy", "Vegan", "Meal prep friendly"],
       "image": "21.webp",
       "description": "Natural sugars from dates provide quick energy without crash. Nuts add protein and healthy fats.",
       "prepTime": 15,
@@ -1040,12 +960,7 @@
       "id": "crispy-baked-chickpea-crunchies",
       "title": "Crispy Baked Chickpea Crunchies",
       "category": "snacks",
-      "tags": [
-        "High protein",
-        "Crunchy",
-        "Savory",
-        "Fiber-rich"
-      ],
+      "tags": ["High protein", "Crunchy", "Savory", "Fiber-rich"],
       "image": "22.webp",
       "description": "High protein and fiber snack that satisfies salty cravings. Great alternative to chips.",
       "prepTime": 5,
@@ -1086,12 +1001,7 @@
       "id": "greek-yogurt-bark-with-berries",
       "title": "Greek Yogurt Bark with Berries",
       "category": "snacks",
-      "tags": [
-        "Frozen treat",
-        "High protein",
-        "Low sugar",
-        "Kid-friendly"
-      ],
+      "tags": ["Frozen treat", "High protein", "Low sugar", "Kid-friendly"],
       "image": "23.webp",
       "description": "Satisfies ice cream cravings with protein-rich yogurt. Fresh berries add antioxidants.",
       "prepTime": 10,
@@ -1131,12 +1041,7 @@
       "id": "veggie-sticks-with-white-bean-hummus",
       "title": "Veggie Sticks with White Bean Hummus",
       "category": "snacks",
-      "tags": [
-        "Low calorie",
-        "High fiber",
-        "Dip-worthy",
-        "Fresh"
-      ],
+      "tags": ["Low calorie", "High fiber", "Dip-worthy", "Fresh"],
       "image": "24.webp",
       "description": "Crunchy vegetables satisfy snack cravings with minimal calories. White bean hummus provides protein.",
       "prepTime": 15,
@@ -1177,12 +1082,7 @@
       "id": "avocado-deviled-eggs",
       "title": "Avocado Deviled Eggs",
       "category": "snacks",
-      "tags": [
-        "High protein",
-        "Keto-friendly",
-        "Party snack",
-        "Healthy fats"
-      ],
+      "tags": ["High protein", "Keto-friendly", "Party snack", "Healthy fats"],
       "image": "25.webp",
       "description": "Classic deviled eggs made healthier with avocado. High protein and healthy fats.",
       "prepTime": 15,
@@ -1223,12 +1123,7 @@
       "id": "crunchy-apple-nachos",
       "title": "Crunchy Apple Nachos",
       "category": "snacks",
-      "tags": [
-        "Sweet treat",
-        "Kid-friendly",
-        "Quick",
-        "Fun"
-      ],
+      "tags": ["Sweet treat", "Kid-friendly", "Quick", "Fun"],
       "image": "26.webp",
       "description": "Satisfies sweet cravings with fiber-rich apples. Nut butter adds protein.",
       "prepTime": 10,
@@ -1269,12 +1164,7 @@
       "id": "zucchini-pizza-bites",
       "title": "Zucchini Pizza Bites",
       "category": "snacks",
-      "tags": [
-        "Low carb",
-        "Veggie-loaded",
-        "Party snack",
-        "Gluten-free"
-      ],
+      "tags": ["Low carb", "Veggie-loaded", "Party snack", "Gluten-free"],
       "image": "27.webp",
       "description": "All the pizza flavor without the carbs. Makes vegetables exciting.",
       "prepTime": 10,
@@ -1315,12 +1205,7 @@
       "id": "chocolate-banana-ice-cream-bites",
       "title": "Chocolate Banana Ice Cream Bites",
       "category": "snacks",
-      "tags": [
-        "Frozen",
-        "Sweet",
-        "Healthy dessert",
-        "3 ingredients"
-      ],
+      "tags": ["Frozen", "Sweet", "Healthy dessert", "3 ingredients"],
       "image": "28.webp",
       "description": "Satisfies ice cream and chocolate cravings. Only natural sugars from banana.",
       "prepTime": 15,
@@ -1358,12 +1243,7 @@
       "id": "cottage-cheese-protein-bowl",
       "title": "Cottage Cheese Protein Bowl",
       "category": "snacks",
-      "tags": [
-        "High protein",
-        "Quick",
-        "Customizable",
-        "Muscle building"
-      ],
+      "tags": ["High protein", "Quick", "Customizable", "Muscle building"],
       "image": "29.webp",
       "description": "Cottage cheese is one of the highest protein snacks available. Casein protein digests slowly.",
       "prepTime": 5,
@@ -1403,12 +1283,7 @@
       "id": "seaweed-snack-rolls-with-avocado",
       "title": "Seaweed Snack Rolls with Avocado",
       "category": "snacks",
-      "tags": [
-        "Low calorie",
-        "Mineral-rich",
-        "Asian-inspired",
-        "Light"
-      ],
+      "tags": ["Low calorie", "Mineral-rich", "Asian-inspired", "Light"],
       "image": "30.webp",
       "description": "Seaweed provides iodine for thyroid health. Extremely low calorie with satisfying crunch.",
       "prepTime": 10,
@@ -1449,12 +1324,7 @@
       "id": "buddha-bowl-with-tahini-dressing",
       "title": "Buddha Bowl with Tahini Dressing",
       "category": "bowls",
-      "tags": [
-        "Plant-based",
-        "Protein-rich",
-        "Colorful",
-        "Meal prep"
-      ],
+      "tags": ["Plant-based", "Protein-rich", "Colorful", "Meal prep"],
       "image": "31.webp",
       "description": "Complete plant-based nutrition with protein, fiber, and healthy fats. Rainbow of vegetables provides diverse nutrients.",
       "prepTime": 15,
@@ -1499,12 +1369,7 @@
       "id": "teriyaki-salmon-poke-bowl",
       "title": "Teriyaki Salmon Poke Bowl",
       "category": "bowls",
-      "tags": [
-        "Omega-3 rich",
-        "Japanese-inspired",
-        "Fresh",
-        "High protein"
-      ],
+      "tags": ["Omega-3 rich", "Japanese-inspired", "Fresh", "High protein"],
       "image": "32.webp",
       "description": "Fresh salmon provides omega-3s for brain and heart health. Light yet satisfying.",
       "prepTime": 20,
@@ -1548,12 +1413,7 @@
       "id": "mediterranean-quinoa-power-bowl",
       "title": "Mediterranean Quinoa Power Bowl",
       "category": "bowls",
-      "tags": [
-        "Heart-healthy",
-        "Mediterranean diet",
-        "Fresh",
-        "Flavorful"
-      ],
+      "tags": ["Heart-healthy", "Mediterranean diet", "Fresh", "Flavorful"],
       "image": "33.webp",
       "description": "Mediterranean diet pattern supports heart health and longevity. Fresh vegetables and olive oil provide antioxidants.",
       "prepTime": 15,
@@ -1597,12 +1457,7 @@
       "id": "korean-bibimbap-bowl",
       "title": "Korean Bibimbap Bowl",
       "category": "bowls",
-      "tags": [
-        "Korean",
-        "Colorful",
-        "Spicy option",
-        "Traditional"
-      ],
+      "tags": ["Korean", "Colorful", "Spicy option", "Traditional"],
       "image": "34.webp",
       "description": "Traditional Korean nutrition with variety of vegetables. Fermented gochujang supports gut health.",
       "prepTime": 25,
@@ -1647,12 +1502,7 @@
       "id": "southwest-chicken-burrito-bowl",
       "title": "Southwest Chicken Burrito Bowl",
       "category": "bowls",
-      "tags": [
-        "High protein",
-        "Mexican-inspired",
-        "Filling",
-        "Customizable"
-      ],
+      "tags": ["High protein", "Mexican-inspired", "Filling", "Customizable"],
       "image": "35.webp",
       "description": "High protein from chicken and beans. Fiber-rich for satiety. All the burrito flavors without the heavy tortilla.",
       "prepTime": 20,
@@ -1696,12 +1546,7 @@
       "id": "thai-peanut-noodle-bowl",
       "title": "Thai Peanut Noodle Bowl",
       "category": "bowls",
-      "tags": [
-        "Thai-inspired",
-        "Creamy",
-        "Veggie-loaded",
-        "Satisfying"
-      ],
+      "tags": ["Thai-inspired", "Creamy", "Veggie-loaded", "Satisfying"],
       "image": "36.webp",
       "description": "Peanut sauce provides protein and healthy fats. Rice noodles are naturally gluten-free.",
       "prepTime": 15,
@@ -1745,12 +1590,7 @@
       "id": "harvest-grain-bowl-roasted-vegetables",
       "title": "Harvest Grain Bowl with Roasted Vegetables",
       "category": "bowls",
-      "tags": [
-        "Autumn-inspired",
-        "Whole grains",
-        "Roasted veggies",
-        "Warming"
-      ],
+      "tags": ["Autumn-inspired", "Whole grains", "Roasted veggies", "Warming"],
       "image": "37.webp",
       "description": "Ancient grains provide complex carbs and fiber. Roasted fall vegetables rich in beta-carotene.",
       "prepTime": 15,
@@ -1795,12 +1635,7 @@
       "id": "tuna-poke-bowl",
       "title": "Tuna Poke Bowl",
       "category": "bowls",
-      "tags": [
-        "Hawaiian",
-        "Light",
-        "Omega-3 rich",
-        "Fresh"
-      ],
+      "tags": ["Hawaiian", "Light", "Omega-3 rich", "Fresh"],
       "image": "38.webp",
       "description": "Ahi tuna is lean protein packed with omega-3s. Light and refreshing.",
       "prepTime": 20,
@@ -1844,12 +1679,7 @@
       "id": "moroccan-chickpea-tagine-bowl",
       "title": "Moroccan Chickpea Tagine Bowl",
       "category": "bowls",
-      "tags": [
-        "Moroccan",
-        "Aromatic",
-        "Vegan",
-        "Warming spices"
-      ],
+      "tags": ["Moroccan", "Aromatic", "Vegan", "Warming spices"],
       "image": "39.webp",
       "description": "Warming spices aid digestion and circulation. Plant-based protein from chickpeas.",
       "prepTime": 15,
@@ -1939,12 +1769,7 @@
       "id": "herb-crusted-baked-salmon",
       "title": "Herb-Crusted Baked Salmon",
       "category": "oven-baked",
-      "tags": [
-        "High protein",
-        "Omega-3 rich",
-        "Elegant",
-        "Quick"
-      ],
+      "tags": ["High protein", "Omega-3 rich", "Elegant", "Quick"],
       "image": "41.webp",
       "description": "Salmon provides omega-3 fatty acids for heart and brain health.",
       "prepTime": 10,
@@ -1987,12 +1812,7 @@
       "id": "sheet-pan-chicken-fajitas",
       "title": "Sheet Pan Chicken Fajitas",
       "category": "oven-baked",
-      "tags": [
-        "One-pan",
-        "Mexican",
-        "High protein",
-        "Easy cleanup"
-      ],
+      "tags": ["One-pan", "Mexican", "High protein", "Easy cleanup"],
       "image": "42.webp",
       "description": "High protein, low carb. One pan means easy cleanup. Perfect weeknight dinner.",
       "prepTime": 15,
@@ -2083,12 +1903,7 @@
       "id": "crispy-baked-chicken-tenders",
       "title": "Crispy Baked Chicken Tenders",
       "category": "oven-baked",
-      "tags": [
-        "Kid-friendly",
-        "High protein",
-        "Healthier fried",
-        "Crispy"
-      ],
+      "tags": ["Kid-friendly", "High protein", "Healthier fried", "Crispy"],
       "image": "44.webp",
       "description": "All the crispy satisfaction without deep frying. High protein, kid-approved.",
       "prepTime": 15,
@@ -2132,12 +1947,7 @@
       "id": "mediterranean-baked-fish-tomatoes",
       "title": "Mediterranean Baked Fish with Tomatoes",
       "category": "oven-baked",
-      "tags": [
-        "Light",
-        "Mediterranean",
-        "One-dish",
-        "Heart-healthy"
-      ],
+      "tags": ["Light", "Mediterranean", "One-dish", "Heart-healthy"],
       "image": "45.webp",
       "description": "Light yet flavorful Mediterranean preparation. Heart-healthy ingredients.",
       "prepTime": 10,
@@ -2181,12 +1991,7 @@
       "id": "baked-sweet-potato-black-bean-tacos",
       "title": "Baked Sweet Potato Black Bean Tacos",
       "category": "oven-baked",
-      "tags": [
-        "Vegan",
-        "Fiber-rich",
-        "Mexican-inspired",
-        "Healthy carbs"
-      ],
+      "tags": ["Vegan", "Fiber-rich", "Mexican-inspired", "Healthy carbs"],
       "image": "46.webp",
       "description": "Sweet potatoes provide complex carbs and beta-carotene. Black beans add plant protein.",
       "prepTime": 10,
@@ -2230,12 +2035,7 @@
       "id": "lemon-garlic-roasted-chicken-thighs",
       "title": "Lemon Garlic Roasted Chicken Thighs",
       "category": "oven-baked",
-      "tags": [
-        "Classic",
-        "Budget-friendly",
-        "Crispy skin",
-        "One-pan"
-      ],
+      "tags": ["Classic", "Budget-friendly", "Crispy skin", "One-pan"],
       "image": "47.webp",
       "description": "Chicken thighs are more flavorful and budget-friendly than breasts.",
       "prepTime": 10,
@@ -2277,12 +2077,7 @@
       "id": "vegetable-lasagna",
       "title": "Vegetable Lasagna",
       "category": "oven-baked",
-      "tags": [
-        "Comfort food",
-        "Vegetarian",
-        "Make-ahead",
-        "Crowd-pleaser"
-      ],
+      "tags": ["Comfort food", "Vegetarian", "Make-ahead", "Crowd-pleaser"],
       "image": "48.webp",
       "description": "Loaded with vegetables for extra nutrition. Make-ahead friendly for busy weeks.",
       "prepTime": 30,
@@ -2327,12 +2122,7 @@
       "id": "baked-falafel-with-tzatziki",
       "title": "Baked Falafel with Tzatziki",
       "category": "oven-baked",
-      "tags": [
-        "Middle Eastern",
-        "Vegan",
-        "Baked not fried",
-        "High protein"
-      ],
+      "tags": ["Middle Eastern", "Vegan", "Baked not fried", "High protein"],
       "image": "49.webp",
       "description": "Traditional falafel made healthier by baking. Plant protein from chickpeas.",
       "prepTime": 20,
@@ -2379,12 +2169,7 @@
       "id": "parmesan-crusted-baked-cod",
       "title": "Parmesan Crusted Baked Cod",
       "category": "oven-baked",
-      "tags": [
-        "Light",
-        "Quick",
-        "Low-carb",
-        "Family-friendly"
-      ],
+      "tags": ["Light", "Quick", "Low-carb", "Family-friendly"],
       "image": "50.webp",
       "description": "Lean white fish with satisfying crispy coating. Quick enough for weeknights.",
       "prepTime": 10,
@@ -2427,12 +2212,7 @@
       "id": "virgin-mojito",
       "title": "Virgin Mojito",
       "category": "mocktails",
-      "tags": [
-        "Refreshing",
-        "Classic",
-        "Mint",
-        "Summer favorite"
-      ],
+      "tags": ["Refreshing", "Classic", "Mint", "Summer favorite"],
       "image": "51.webp",
       "description": "All the refreshing mojito flavor without alcohol. Mint aids digestion.",
       "prepTime": 5,
@@ -2473,12 +2253,7 @@
       "id": "sparkling-pomegranate-spritzer",
       "title": "Sparkling Pomegranate Spritzer",
       "category": "mocktails",
-      "tags": [
-        "Antioxidant-rich",
-        "Elegant",
-        "Festive",
-        "Beautiful color"
-      ],
+      "tags": ["Antioxidant-rich", "Elegant", "Festive", "Beautiful color"],
       "image": "52.webp",
       "description": "Pomegranate is rich in antioxidants. Elegant enough for celebrations.",
       "prepTime": 5,
@@ -2520,12 +2295,7 @@
       "id": "cucumber-elderflower-cooler",
       "title": "Cucumber Elderflower Cooler",
       "category": "mocktails",
-      "tags": [
-        "Spa-like",
-        "Floral",
-        "Ultra-refreshing",
-        "Sophisticated"
-      ],
+      "tags": ["Spa-like", "Floral", "Ultra-refreshing", "Sophisticated"],
       "image": "53.webp",
       "description": "Extremely hydrating and cooling. Elderflower adds sophisticated floral notes.",
       "prepTime": 5,
@@ -2565,12 +2335,7 @@
       "id": "ginger-turmeric-tonic",
       "title": "Ginger Turmeric Tonic",
       "category": "mocktails",
-      "tags": [
-        "Anti-inflammatory",
-        "Wellness drink",
-        "Spicy",
-        "Immune boost"
-      ],
+      "tags": ["Anti-inflammatory", "Wellness drink", "Spicy", "Immune boost"],
       "image": "54.webp",
       "description": "Powerful anti-inflammatory combination. Ginger aids digestion.",
       "prepTime": 10,
@@ -2611,12 +2376,7 @@
       "id": "tropical-passion-fruit-punch",
       "title": "Tropical Passion Fruit Punch",
       "category": "mocktails",
-      "tags": [
-        "Tropical",
-        "Party drink",
-        "Fruity",
-        "Crowd-pleaser"
-      ],
+      "tags": ["Tropical", "Party drink", "Fruity", "Crowd-pleaser"],
       "image": "55.webp",
       "description": "Tropical fruits provide vitamin C. Fun, party-ready presentation.",
       "prepTime": 5,
@@ -2659,12 +2419,7 @@
       "id": "lavender-lemonade",
       "title": "Lavender Lemonade",
       "category": "mocktails",
-      "tags": [
-        "Floral",
-        "Calming",
-        "Beautiful purple",
-        "Unique flavor"
-      ],
+      "tags": ["Floral", "Calming", "Beautiful purple", "Unique flavor"],
       "image": "56.webp",
       "description": "Lavender promotes relaxation and calm. Unique floral flavor.",
       "prepTime": 15,
@@ -2705,12 +2460,7 @@
       "id": "spiced-apple-cider-mocktail",
       "title": "Spiced Apple Cider Mocktail",
       "category": "mocktails",
-      "tags": [
-        "Autumn",
-        "Warming spices",
-        "Cozy",
-        "Holiday favorite"
-      ],
+      "tags": ["Autumn", "Warming spices", "Cozy", "Holiday favorite"],
       "image": "57.webp",
       "description": "Warming spices aid digestion. Perfect for fall and winter entertaining.",
       "prepTime": 5,
@@ -2751,12 +2501,7 @@
       "id": "berry-basil-smash",
       "title": "Berry Basil Smash",
       "category": "mocktails",
-      "tags": [
-        "Fruity",
-        "Herbal",
-        "Instagram-worthy",
-        "Complex flavor"
-      ],
+      "tags": ["Fruity", "Herbal", "Instagram-worthy", "Complex flavor"],
       "image": "58.webp",
       "description": "Berries provide antioxidants. Basil adds unexpected herbal complexity.",
       "prepTime": 5,
@@ -2797,12 +2542,7 @@
       "id": "coconut-lime-refresher",
       "title": "Coconut Lime Refresher",
       "category": "mocktails",
-      "tags": [
-        "Tropical",
-        "Hydrating",
-        "Light",
-        "Beach vibes"
-      ],
+      "tags": ["Tropical", "Hydrating", "Light", "Beach vibes"],
       "image": "59.webp",
       "description": "Coconut water provides natural electrolytes. Extremely hydrating.",
       "prepTime": 5,
@@ -2841,12 +2581,7 @@
       "id": "watermelon-mint-agua-fresca",
       "title": "Watermelon Mint Agua Fresca",
       "category": "mocktails",
-      "tags": [
-        "Mexican",
-        "Super refreshing",
-        "Summer",
-        "Low calorie"
-      ],
+      "tags": ["Mexican", "Super refreshing", "Summer", "Low calorie"],
       "image": "60.webp",
       "description": "Watermelon is 92% water - extremely hydrating. Traditional Mexican refreshment.",
       "prepTime": 10,

@@ -51,11 +51,15 @@ export const getRecipesBySubcategory = getRecipesByCategory;
 export const getRecipeById = (recipeId: string): Recipe | undefined =>
   RECIPES_DATA.recipes.find((recipe) => recipe.id === recipeId);
 
-export const getCategoryById = (categoryId: string): RecipeCategory | undefined =>
+export const getCategoryById = (
+  categoryId: string
+): RecipeCategory | undefined =>
   RECIPES_DATA.categories.find((category) => category.id === categoryId);
 
-export const getRandomRecipes = (count: number = 5, excludeId?: string): Recipe[] =>
-  getRandomItems(RECIPES_DATA.recipes, count, excludeId);
+export const getRandomRecipes = (
+  count: number = 5,
+  excludeId?: string
+): Recipe[] => getRandomItems(RECIPES_DATA.recipes, count, excludeId);
 
 // Re-export shared utilities for backwards compatibility
 export { formatTime, getDifficultyColor };
