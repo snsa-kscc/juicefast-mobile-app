@@ -1,5 +1,5 @@
 import beautyDataJson from "@/data/jf-beauty.json";
-import { getRandomItems, getDifficultyColor } from "./helpers";
+import { getRandomItems } from "./helpers";
 
 export interface BeautyQuickInfo {
   time: string;
@@ -37,15 +37,10 @@ export interface BeautyData {
   items: BeautyItem[];
 }
 
-export const BEAUTY_DATA: BeautyData = beautyDataJson;
+const BEAUTY_DATA: BeautyData = beautyDataJson;
 
-export const getAllBeautyItems = (): BeautyItem[] => BEAUTY_DATA.items;
-
-export const getBeautyItemsByCategory = (categoryId: string): BeautyItem[] =>
+export const getBeautyItemsBySubcategory = (categoryId: string): BeautyItem[] =>
   BEAUTY_DATA.items.filter((item) => item.category === categoryId);
-
-// Alias for consistency with clubData
-export const getBeautyItemsBySubcategory = getBeautyItemsByCategory;
 
 export const getBeautyItemById = (itemId: string): BeautyItem | undefined =>
   BEAUTY_DATA.items.find((item) => item.id === itemId);
@@ -59,6 +54,3 @@ export const getRandomBeautyItems = (
   count: number = 5,
   excludeId?: string
 ): BeautyItem[] => getRandomItems(BEAUTY_DATA.items, count, excludeId);
-
-// Re-export for backwards compatibility
-export { getDifficultyColor as getBeautyDifficultyColor };

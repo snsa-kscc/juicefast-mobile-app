@@ -1,5 +1,5 @@
 import recipesData from "@/data/jf-recipes.json";
-import { getRandomItems, formatTime, getDifficultyColor } from "./helpers";
+import { getRandomItems } from "./helpers";
 
 export interface Recipe {
   id: string;
@@ -38,15 +38,10 @@ export interface RecipeData {
   recipes: Recipe[];
 }
 
-export const RECIPES_DATA: RecipeData = recipesData;
+const RECIPES_DATA: RecipeData = recipesData;
 
-export const getAllRecipes = (): Recipe[] => RECIPES_DATA.recipes;
-
-export const getRecipesByCategory = (categoryId: string): Recipe[] =>
+export const getRecipesBySubcategory = (categoryId: string): Recipe[] =>
   RECIPES_DATA.recipes.filter((recipe) => recipe.category === categoryId);
-
-// Alias for consistency with clubData
-export const getRecipesBySubcategory = getRecipesByCategory;
 
 export const getRecipeById = (recipeId: string): Recipe | undefined =>
   RECIPES_DATA.recipes.find((recipe) => recipe.id === recipeId);
@@ -60,6 +55,3 @@ export const getRandomRecipes = (
   count: number = 5,
   excludeId?: string
 ): Recipe[] => getRandomItems(RECIPES_DATA.recipes, count, excludeId);
-
-// Re-export shared utilities for backwards compatibility
-export { formatTime, getDifficultyColor };

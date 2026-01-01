@@ -208,7 +208,7 @@ export const getSubcategoryData = (category: string): SubcategorySummary[] => {
 
     return {
       id: subcategoryInfo?.id || subcategory,
-      name: subcategoryInfo?.name || formatSubcategoryTitle(subcategory),
+      name: subcategoryInfo?.name || formatKebabToTitle(subcategory),
       count: subcategoryItems.length,
       countLabel: subcategoryItems.length === 1 ? "track" : "tracks",
       imageUrl: subcategoryItems[0]?.imageUrl,
@@ -250,9 +250,7 @@ export const getSubcategoryDetail = (
         duration_minutes: recipe.prepTime + recipe.cookTime,
         duration: `${recipe.prepTime + recipe.cookTime} min`,
         type: "recipe" as const,
-        imageUrl:
-          recipe.image ||
-          "https://images.unsplash.com/photo-1547592180-85f173990554?w=400&h=400&fit=crop&crop=center",
+        imageUrl: recipe.image,
       }));
     } else if (isBeautySubcategory) {
       const beautyItems = getBeautyItemsBySubcategory(subcategory);
@@ -265,9 +263,7 @@ export const getSubcategoryDetail = (
         duration_minutes: 0,
         duration: item.quickInfo.time,
         type: "article" as const,
-        imageUrl:
-          item.image ||
-          "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=400&h=400&fit=crop&crop=center",
+        imageUrl: item.image,
       }));
     }
   } else {
@@ -283,7 +279,7 @@ export const getSubcategoryDetail = (
         description: subcategoryInfo.description,
       }
     : {
-        title: formatSubcategoryTitle(subcategory),
+        title: formatKebabToTitle(subcategory),
         subtitle: `${items.length} ${items.length === 1 ? "item" : "items"}`,
         description: "Wellness content to support your journey.",
       };
@@ -324,9 +320,6 @@ export const getDailyContent = (): ProcessedClubItem[] => {
     ...getItemsBySubcategory("yoga").slice(0, 2),
   ];
 };
-
-// Re-export for backwards compatibility
-export const formatSubcategoryTitle = formatKebabToTitle;
 
 // Get subcategory image (expects kebab-case)
 export const getSubcategoryImage = (subcategory: string) => {

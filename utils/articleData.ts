@@ -10,10 +10,7 @@ import {
   getRandomBeautyItems,
   getBeautyCategoryById,
 } from "./beautyData";
-import {
-  getDifficultyColor as sharedGetDifficultyColor,
-  formatTime as sharedFormatTime,
-} from "./helpers";
+import { formatTime } from "./helpers";
 
 // Unified Article type that works for both recipes and beauty
 export interface Article {
@@ -176,10 +173,6 @@ export const getArticleCategoryById = (
 
   return undefined;
 };
-
-// Re-export shared utilities for backwards compatibility
-export const getDifficultyColor = sharedGetDifficultyColor;
-export const formatTime = sharedFormatTime;
 
 // Get duration string for an article
 export const getArticleDuration = (article: Article): string => {

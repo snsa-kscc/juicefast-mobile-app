@@ -7,7 +7,8 @@ import { ArticleIngredients } from "./ArticleIngredients";
 import { ArticleSteps } from "./ArticleSteps";
 import { ArticleFooter } from "./ArticleFooter";
 import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
-import { Article, getDifficultyColor, formatTime } from "@/utils/articleData";
+import { getDifficultyColor, formatTime } from "@/utils/helpers";
+import type { Article } from "@/utils/articleData";
 
 interface ArticlePageProps {
   article: Article;

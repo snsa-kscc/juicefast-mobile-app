@@ -16,8 +16,8 @@ import {
   getRandomArticles,
   getArticleCategoryById,
 } from "@/utils/articleData";
-import { getRecipesByCategory } from "@/utils/recipeData";
-import { getBeautyItemsByCategory } from "@/utils/beautyData";
+import { getRecipesBySubcategory } from "@/utils/recipeData";
+import { getBeautyItemsBySubcategory } from "@/utils/beautyData";
 
 // Type for items that can be displayed
 type DisplayItem =
@@ -277,8 +277,8 @@ export default function ClubContentDetail() {
     // Get item count based on article type
     const categoryItemCount =
       article.articleType === "recipe"
-        ? getRecipesByCategory(article.category).length
-        : getBeautyItemsByCategory(article.category).length;
+        ? getRecipesBySubcategory(article.category).length
+        : getBeautyItemsBySubcategory(article.category).length;
 
     const footerTitle =
       article.articleType === "recipe"

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ProcessedClubItem } from "@/types/club";
 import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
-import { formatSubcategoryTitle } from "@/utils/clubData";
+import { formatKebabToTitle } from "@/utils/helpers";
 
 interface ContentCardProps {
   item: ProcessedClubItem;
@@ -42,7 +42,7 @@ export function ContentCard({
         {/* Subcategory overlay in upper left */}
         <View className="absolute top-2 left-2 bg-white/90 px-3 py-1.5 rounded-full">
           <Text className="text-xs font-lufga text-black text-center">
-            {formatSubcategoryTitle(item.subcategory)}
+            {formatKebabToTitle(item.subcategory)}
           </Text>
         </View>
       </View>
