@@ -202,6 +202,11 @@ export default function ChallengeHabitsPage() {
     }
   };
 
+  // Handle unauthenticated state
+  if (challengeProgress === null) {
+    return null;
+  }
+
   return (
     <View className="flex-1 bg-white">
       <View className="relative px-4 pt-12 pb-3">

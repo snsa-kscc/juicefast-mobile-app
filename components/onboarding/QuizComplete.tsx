@@ -100,9 +100,9 @@ export function QuizComplete({ answers }: QuizCompleteProps) {
           }}
         >
           <Text className="text-white text-base font-lufga-semibold mr-2">
-            {isCompleting ? "Loading..." : "Finish onboarding"}
+            Finish onboarding
           </Text>
-          {!isCompleting && <ArrowRight size={20} color="white" />}
+          <ArrowRight size={20} color="white" />
         </TouchableOpacity>
       </View>
     </ScrollView>

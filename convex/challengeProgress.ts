@@ -150,7 +150,7 @@ export const getUserChallengeProgress = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
-      throw new Error("Unauthorized");
+      return null;
     }
 
     const userId = identity.subject;
