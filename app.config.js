@@ -7,11 +7,12 @@ export default () => {
       slug: "juicefast-nutrition-app",
       version: "1.0.2",
       orientation: "portrait",
-      icon: "./assets/images/jf-picto.png",
+      icon: "./assets/images/jf-picto-ios.png",
       scheme: process.env.DEV_APP_ID ? "juicefast-dev" : "juicefast-ai",
       userInterfaceStyle: "automatic",
       newArchEnabled: true,
       ios: {
+        icon: "./assets/images/jf-picto-ios.png",
         supportsTablet: true,
         bundleIdentifier: process.env.DEV_APP_ID ?? defaultAppId,
         infoPlist: {
@@ -22,8 +23,9 @@ export default () => {
         },
       },
       android: {
+        icon: "./assets/images/jf-picto-android.png",
         adaptiveIcon: {
-          foregroundImage: "./assets/images/jf-picto.png",
+          foregroundImage: "./assets/images/jf-picto-android.png",
           backgroundColor: "#2d2d2d",
         },
         edgeToEdgeEnabled: true,
