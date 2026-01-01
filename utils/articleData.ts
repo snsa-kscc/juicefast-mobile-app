@@ -173,17 +173,3 @@ export const getArticleCategoryById = (
 
   return undefined;
 };
-
-// Get duration string for an article
-export const getArticleDuration = (article: Article): string => {
-  if (
-    article.articleType === "recipe" &&
-    article.prepTime !== undefined &&
-    article.cookTime !== undefined
-  ) {
-    return formatTime(article.prepTime + article.cookTime);
-  } else if (article.articleType === "beauty" && article.quickInfo?.time) {
-    return article.quickInfo.time;
-  }
-  return "";
-};

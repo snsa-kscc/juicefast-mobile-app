@@ -321,13 +321,6 @@ export const getDailyContent = (): ProcessedClubItem[] => {
   ];
 };
 
-// Get subcategory image (expects kebab-case)
-export const getSubcategoryImage = (subcategory: string) => {
-  return (
-    SUBCATEGORY_DATA[subcategory]?.image || IMAGE_MAP["jf-club/placeholder.jpg"]
-  );
-};
-
 // Get subcategory info (expects kebab-case)
 export const getSubcategoryInfo = (subcategory: string) => {
   return SUBCATEGORY_DATA[subcategory] || null;
