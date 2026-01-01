@@ -1,20 +1,22 @@
 export default () => {
-  const defaultAppId = "com.juicefastapp.juicefastnutritionapp";
+  const isDev = process.env.APP_VARIANT === "development";
 
   return {
     expo: {
-      name: process.env.DEV_APP_ID ? "Juicefast DEV" : "Juicefast AI",
+      name: isDev ? "JuiceFest dev" : "JuiceFest AI",
       slug: "juicefast-nutrition-app",
       version: "1.0.2",
       orientation: "portrait",
       icon: "./assets/images/jf-picto-ios.png",
-      scheme: process.env.DEV_APP_ID ? "juicefast-dev" : "juicefast-ai",
+      scheme: isDev ? "juicefast-dev" : "juicefast-ai",
       userInterfaceStyle: "automatic",
       newArchEnabled: true,
       ios: {
         icon: "./assets/images/jf-picto-ios.png",
         supportsTablet: true,
-        bundleIdentifier: process.env.DEV_APP_ID ?? defaultAppId,
+        bundleIdentifier: isDev
+          ? "com.juicefastapp.juicefastnutritionapp.dev"
+          : "com.juicefastapp.juicefastnutritionapp",
         infoPlist: {
           ITSAppUsesNonExemptEncryption: false,
         },
@@ -29,7 +31,9 @@ export default () => {
           backgroundColor: "#2d2d2d",
         },
         edgeToEdgeEnabled: true,
-        package: process.env.DEV_APP_ID ?? defaultAppId,
+        package: isDev
+          ? "com.juicefastapp.juicefastnutritionapp.dev"
+          : "com.juicefastapp.juicefastnutritionapp",
         permissions: [
           "android.permission.RECEIVE_BOOT_COMPLETED",
           "android.permission.VIBRATE",
@@ -37,7 +41,7 @@ export default () => {
         ],
         softwareKeyboardLayoutMode: "resize",
         useNextNotificationsApi: true,
-        googleServicesFile: process.env.DEV_APP_ID
+        googleServicesFile: isDev
           ? "./google-services-dev.json"
           : "./google-services.json",
       },
