@@ -10,6 +10,10 @@ import {
   getRandomBeautyItems,
   getBeautyCategoryById,
 } from "./beautyData";
+import {
+  getDifficultyColor as sharedGetDifficultyColor,
+  formatTime as sharedFormatTime,
+} from "./helpers";
 
 // Unified Article type that works for both recipes and beauty
 export interface Article {
@@ -173,32 +177,9 @@ export const getArticleCategoryById = (
   return undefined;
 };
 
-// Get difficulty color (unified for both types)
-export const getDifficultyColor = (difficulty: string): string => {
-  switch (difficulty.toLowerCase()) {
-    case "easy":
-    case "beginner":
-      return "bg-green-500";
-    case "medium":
-    case "intermediate":
-      return "bg-yellow-500";
-    case "hard":
-    case "advanced":
-      return "bg-red-500";
-    default:
-      return "bg-gray-500";
-  }
-};
-
-// Format time for display
-export const formatTime = (minutes: number): string => {
-  if (minutes < 60) {
-    return `${minutes} min`;
-  }
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = minutes % 60;
-  return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
-};
+// Re-export shared utilities for backwards compatibility
+export const getDifficultyColor = sharedGetDifficultyColor;
+export const formatTime = sharedFormatTime;
 
 // Get duration string for an article
 export const getArticleDuration = (article: Article): string => {

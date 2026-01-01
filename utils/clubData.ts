@@ -5,9 +5,12 @@ import {
   SubcategoryData,
   SubcategorySummary,
 } from "@/types/club";
-import clubDataRaw from "@/data/jf-club.json";
+import clubData from "@/data/jf-club.json";
+import beautyDataRaw from "@/data/jf-beauty.json";
+import recipesDataRaw from "@/data/jf-recipes.json";
 import { getRecipesBySubcategory } from "./recipeData";
 import { getBeautyItemsBySubcategory } from "./beautyData";
+import { formatKebabToTitle } from "./helpers";
 
 // Wellness categories for the app
 export const WELLNESS_CATEGORIES: WellnessCategory[] = [
@@ -18,8 +21,75 @@ export const WELLNESS_CATEGORIES: WellnessCategory[] = [
   { id: "beauty", name: "Beauty", contentType: "article" },
 ];
 
-// Comprehensive subcategory data structure
-const SUBCATEGORY_DATA: Record<
+export const CATEGORY_IMAGES = {
+  mind: {
+    id: "mind",
+    name: "Mind",
+    image: require("@/assets/images/jf-club/meditation.jpg"),
+    categoryId: "mind",
+  },
+  workouts: {
+    id: "workouts",
+    name: "Workouts",
+    image: require("@/assets/images/jf-club/workouts.jpg"),
+    categoryId: "workouts",
+  },
+  nutrition: {
+    id: "nutrition",
+    name: "Nutrition",
+    image: require("@/assets/images/jf-club/recipes.jpg"),
+    categoryId: "nutrition",
+  },
+  beauty: {
+    id: "beauty",
+    name: "Beauty",
+    image: require("@/assets/images/jf-club/articles.jpg"),
+    categoryId: "beauty",
+  },
+};
+
+// Image mapping object to avoid dynamic requires
+const IMAGE_MAP: Record<string, any> = {
+  "jf-club/guided-meditation.jpg": require("@/assets/images/jf-club/guided-meditation.jpg"),
+  "jf-club/relaxation.jpg": require("@/assets/images/jf-club/relaxation.jpg"),
+  "jf-club/breathing.jpg": require("@/assets/images/jf-club/breathing.jpg"),
+  "jf-club/binaural.jpg": require("@/assets/images/jf-club/binaural.jpg"),
+  "jf-club/better-sleep.jpg": require("@/assets/images/jf-club/better-sleep.jpg"),
+  "jf-club/meditation.jpg": require("@/assets/images/jf-club/meditation.jpg"),
+  "jf-club/affirmations.jpg": require("@/assets/images/jf-club/affirmations.jpg"),
+  "jf-club/nature-sounds.jpg": require("@/assets/images/jf-club/nature-sounds.jpg"),
+  "jf-club/workouts.jpg": require("@/assets/images/jf-club/workouts.jpg"),
+  "jf-club/yoga.jpg": require("@/assets/images/jf-club/yoga.jpg"),
+  "jf-club/pilates.jpg": require("@/assets/images/jf-club/pilates.jpg"),
+  "jf-club/cardio-fat-burn.jpg": require("@/assets/images/jf-club/cardio-fat-burn.jpg"),
+  "jf-club/weight-loss-fitness.jpg": require("@/assets/images/jf-club/weight-loss-fitness.jpg"),
+  "jf-club/mobility-stretching.jpg": require("@/assets/images/jf-club/mobility-stretching.jpg"),
+  "jf-club/easy-flow.jpg": require("@/assets/images/jf-club/easy-flow.jpg"),
+  "jf-club/neck-shoulder.jpg": require("@/assets/images/jf-club/neck-shoulder.jpg"),
+  "jf-club/face-yoga.jpg": require("@/assets/images/jf-club/face-yoga.jpg"),
+  "jf-club/recipes.jpg": require("@/assets/images/jf-club/recipes.jpg"),
+  "jf-club/smoothies.jpg": require("@/assets/images/jf-club/smoothies.jpg"),
+  "jf-club/snacks.jpg": require("@/assets/images/jf-club/snacks.jpg"),
+  "jf-club/oven-baked.jpg": require("@/assets/images/jf-club/oven-baked.jpg"),
+  "jf-club/mocktails.jpg": require("@/assets/images/jf-club/mocktails.jpg"),
+  "jf-club/apple-cider.jpg": require("@/assets/images/jf-club/apple-cider.jpg"),
+  "jf-club/postpartum-nutrition.jpg": require("@/assets/images/jf-club/postpartum-nutrition.jpg"),
+  "jf-club/articles.jpg": require("@/assets/images/jf-club/articles.jpg"),
+  "jf-club/face-masks.jpg": require("@/assets/images/jf-club/face-masks.jpg"),
+  "jf-club/hair-masks.jpg": require("@/assets/images/jf-club/hair-masks.jpg"),
+  "jf-club/bath-bombs.jpg": require("@/assets/images/jf-club/bath-bombs.jpg"),
+  "jf-club/bowls.jpg": require("@/assets/images/jf-club/bowls.jpg"),
+  "jf-club/placeholder.jpg": require("@/assets/images/jf-club/placeholder.jpg"),
+};
+
+// Helper function to get images by path
+const getImageByPath = (imagePath: string) => {
+  if (!imagePath) return IMAGE_MAP["jf-club/placeholder.jpg"];
+  return IMAGE_MAP[imagePath] || IMAGE_MAP["jf-club/placeholder.jpg"];
+};
+
+// Build subcategory data from JSON files
+const buildSubcategoryData = (): Record<
   string,
   {
     id: string;
@@ -29,240 +99,52 @@ const SUBCATEGORY_DATA: Record<
     image: any;
     sortIndex: number;
   }
-> = {
-  // Mind category
-  "better sleep": {
-    id: "better-sleep",
-    name: "Better Sleep",
-    category: "mind",
-    description:
-      "Catch the z's you need to with the help of these sleep tracks. Play them in the background, focus on the sound, and slip into a slumber.",
-    image: require("@/assets/images/jf-club/better-sleep.jpg"),
-    sortIndex: 0,
-  },
-  "breathing techniques": {
-    id: "breathing-techniques",
-    name: "Breathing Techniques",
-    category: "mind",
-    description:
-      "Learn various breathing techniques to calm your mind, reduce stress, and improve your overall well-being through mindful breathing practices.",
-    image: require("@/assets/images/jf-club/breathing.jpg"),
-    sortIndex: 1,
-  },
-  "guided meditations": {
-    id: "guided-meditations",
-    name: "Guided Meditations",
-    category: "mind",
-    description:
-      "Through these meditations, you can achieve a mental, physical and emotional balance and reset. Find your inner peace with our guided meditation tracks.",
-    image: require("@/assets/images/jf-club/guided-meditation.jpg"),
-    sortIndex: 2,
-  },
-  "guided affirmations": {
-    id: "guided-affirmations",
-    name: "Guided Affirmations",
-    category: "mind",
-    description:
-      "Transform your mindset with positive affirmations that help build confidence, reduce anxiety, and cultivate a more positive outlook on life.",
-    image: require("@/assets/images/jf-club/affirmations.jpg"),
-    sortIndex: 3,
-  },
-  "binaural beats": {
-    id: "binaural-beats",
-    name: "Binaural Beats",
-    category: "mind",
-    description:
-      "These specially designed audio tracks use different frequencies in each ear to help you focus, relax, or sleep. For best results, listen with headphones.",
-    image: require("@/assets/images/jf-club/binaural.jpg"),
-    sortIndex: 4,
-  },
-  "relaxation music": {
-    id: "relaxation-music",
-    name: "Relaxation Music",
-    category: "mind",
-    description:
-      "Here you'll find relaxing music that can help lower your heart rate, reduce stress and induce calmness. Take 20 minutes to relax and focus inwards.",
-    image: require("@/assets/images/jf-club/relaxation.jpg"),
-    sortIndex: 5,
-  },
-  "sounds of nature": {
-    id: "sounds-of-nature",
-    name: "Sounds of Nature",
-    category: "mind",
-    description:
-      "Immerse yourself in the calming sounds of nature. From ocean waves to forest rain, these tracks help you connect with natural environments.",
-    image: require("@/assets/images/jf-club/nature-sounds.jpg"),
-    sortIndex: 6,
-  },
+> => {
+  const data: Record<string, any> = {};
 
-  // Workouts category
-  pilates: {
-    id: "pilates",
-    name: "Pilates",
-    category: "workouts",
-    description:
-      "Strengthen your core, improve flexibility, and build lean muscle with our guided Pilates workouts suitable for all fitness levels.",
-    image: require("@/assets/images/jf-club/pilates.jpg"),
-    sortIndex: 0,
-  },
-  yoga: {
-    id: "yoga",
-    name: "Yoga",
-    category: "workouts",
-    description:
-      "Find balance, flexibility, and inner peace through our yoga practices. From beginner flows to advanced poses, there's something for everyone.",
-    image: require("@/assets/images/jf-club/yoga.jpg"),
-    sortIndex: 1,
-  },
-  "mobility & stretching": {
-    id: "mobility-stretching",
-    name: "Mobility & Stretching",
-    category: "workouts",
-    description:
-      "Improve your range of motion, prevent injury, and feel more flexible with our targeted mobility and stretching routines.",
-    image: require("@/assets/images/jf-club/mobility-stretching.jpg"),
-    sortIndex: 2,
-  },
-  "cardio and fat burn": {
-    id: "cardio-fat-burn",
-    name: "Cardio and Fat Burn",
-    category: "workouts",
-    description:
-      "Get your heart pumping and burn calories with our effective cardio workouts designed to boost your metabolism and improve endurance.",
-    image: require("@/assets/images/jf-club/cardio-fat-burn.jpg"),
-    sortIndex: 3,
-  },
-  // "weight loss fitness": {
-  //   id: "weight-loss-fitness",
-  //   name: "Weight Loss Fitness",
-  //   category: "workouts",
-  //   description:
-  //     "Achieve your weight loss goals with our targeted fitness programs that combine strength training and cardio for maximum results.",
-  //   image: require("@/assets/images/jf-club/weight-loss-fitness.jpg"),
-  //   sortIndex: 4,
-  // },
-  fitness: {
-    id: "fitness",
-    name: "Fitness",
-    category: "workouts",
-    description:
-      "General fitness workouts to improve your overall health, strength, and endurance with a variety of exercise styles and intensities.",
-    image: require("@/assets/images/jf-club/workouts.jpg"),
-    sortIndex: 4,
-  },
+  // Process jf-club-new.json subcategories
+  clubData.categories.forEach((category) => {
+    category.subcategories.forEach((subcategory) => {
+      data[subcategory.id] = {
+        id: subcategory.id,
+        name: subcategory.name,
+        category: category.id,
+        description: subcategory.description,
+        image: getImageByPath(subcategory.image),
+        sortIndex: subcategory.sortIndex,
+      };
+    });
+  });
 
-  // Nutrition category
-  "postpartum nutrition": {
-    id: "postpartum-nutrition",
-    name: "Postpartum Nutrition",
-    category: "nutrition",
-    description:
-      "Nourish your body during the postpartum period with nutrient-dense recipes and nutritional guidance designed to support recovery and lactation.",
-    image: require("@/assets/images/jf-club/postpartum-nutrition.jpg"),
-    sortIndex: 0,
-  },
-  smoothies: {
-    id: "smoothies",
-    name: "Smoothies",
-    category: "nutrition",
-    description:
-      "Delicious and nutritious smoothie recipes packed with vitamins, minerals, and antioxidants to support your health and wellness goals.",
-    image: require("@/assets/images/jf-club/smoothies.jpg"),
-    sortIndex: 1,
-  },
-  snacks: {
-    id: "snacks",
-    name: "Snacks",
-    category: "nutrition",
-    description:
-      "Healthy and satisfying snack options that keep you energized throughout the day without compromising your nutrition goals.",
-    image: require("@/assets/images/jf-club/snacks.jpg"),
-    sortIndex: 2,
-  },
-  bowls: {
-    id: "bowls",
-    name: "Bowls",
-    category: "nutrition",
-    description:
-      "Nutritious and colorful bowl recipes that combine wholesome ingredients for balanced meals that are as beautiful as they are delicious.",
-    image: require("@/assets/images/jf-club/bowls.jpg"),
-    sortIndex: 3,
-  },
-  "oven baked": {
-    id: "oven-baked",
-    name: "Oven Baked",
-    category: "nutrition",
-    description:
-      "Healthy oven-baked recipes that bring out the best flavors in whole foods while maintaining their nutritional value.",
-    image: require("@/assets/images/jf-club/oven-baked.jpg"),
-    sortIndex: 4,
-  },
-  mocktails: {
-    id: "mocktails",
-    name: "Mocktails",
-    category: "nutrition",
-    description:
-      "Refreshing non-alcoholic beverages packed with nutrients and natural flavors to hydrate and delight your senses.",
-    image: require("@/assets/images/jf-club/mocktails.jpg"),
-    sortIndex: 5,
-  },
-  // recipes: {
-  //   id: "recipes",
-  //   name: "Recipes",
-  //   category: "nutrition",
-  //   description:
-  //     "A collection of healthy, delicious recipes designed to support your wellness journey with balanced nutrition and amazing flavors.",
-  //   image: require("@/assets/images/jf-club/recipes.jpg"),
-  //   sortIndex: 6,
-  // },
-  // "apple cider": {
-  //   id: "apple-cider",
-  //   name: "Apple Cider",
-  //   category: "nutrition",
-  //   description:
-  //     "Discover the health benefits and creative uses of apple cider in various wellness recipes and remedies.",
-  //   image: require("@/assets/images/jf-club/apple-cider.jpg"),
-  //   sortIndex: 7,
-  // },
+  // Process beauty.json categories (which are actually subcategories)
+  beautyDataRaw.categories.forEach((subcategory) => {
+    data[subcategory.id] = {
+      id: subcategory.id,
+      name: subcategory.name,
+      category: subcategory.category || "beauty",
+      description: subcategory.description,
+      image: getImageByPath(subcategory.image),
+      sortIndex: subcategory.sortIndex,
+    };
+  });
 
-  // Beauty category
-  "face yoga mini class": {
-    id: "face-yoga-mini-class",
-    name: "Face Yoga Mini Class",
-    category: "beauty",
-    description:
-      "Learn facial exercises and techniques to tone your facial muscles, improve circulation, and achieve a natural, youthful glow.",
-    image: require("@/assets/images/jf-club/face-yoga.jpg"),
-    sortIndex: 0,
-  },
-  "diy hair masks": {
-    id: "diy-hair-masks",
-    name: "DIY Hair Masks",
-    category: "beauty",
-    description:
-      "Natural hair mask recipes using simple ingredients to nourish, strengthen, and revitalize your hair at home.",
-    image: require("@/assets/images/jf-club/hair-masks.jpg"),
-    sortIndex: 1,
-  },
-  "diy face masks": {
-    id: "diy-face-masks",
-    name: "DIY Face Masks",
-    category: "beauty",
-    description:
-      "Create your own natural face masks with ingredients from your kitchen to address various skin concerns and achieve a radiant complexion.",
-    image: require("@/assets/images/jf-club/face-masks.jpg"),
-    sortIndex: 2,
-  },
-  "diy bath bombs": {
-    id: "diy-bath-bombs",
-    name: "DIY Bath Bombs",
-    category: "beauty",
-    description:
-      "Learn to make luxurious bath bombs with natural ingredients that transform your bath time into a spa-like experience.",
-    image: require("@/assets/images/jf-club/bath-bombs.jpg"),
-    sortIndex: 3,
-  },
+  // Process recipes.json categories (which are actually subcategories)
+  recipesDataRaw.categories.forEach((subcategory) => {
+    data[subcategory.id] = {
+      id: subcategory.id,
+      name: subcategory.name,
+      category: subcategory.category || "nutrition",
+      description: subcategory.description,
+      image: getImageByPath(subcategory.image),
+      sortIndex: subcategory.sortIndex,
+    };
+  });
+
+  return data;
 };
+
+// Subcategory data - built dynamically from JSON files
+const SUBCATEGORY_DATA = buildSubcategoryData();
 
 // Process raw club data
 const processClubData = (rawData: ClubItem[]): ProcessedClubItem[] => {
@@ -292,31 +174,28 @@ const determineItemType = (
 
 // Generate placeholder image URL for individual items
 const generateImageUrl = (_item: ClubItem): string => {
-  // Use a generic placeholder for all individual items
-  // Headers will use local images via getSubcategoryImage
   return "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop&crop=center";
 };
 
 // Process and export all club data
-export const CLUB_DATA = processClubData(clubDataRaw as ClubItem[]);
+export const CLUB_DATA = processClubData(clubData.items as ClubItem[]);
 
 // Get items by category
 export const getItemsByCategory = (category: string): ProcessedClubItem[] => {
   if (category === "trending") {
-    // Return a mix of popular items from different categories
     return CLUB_DATA.slice(0, 20);
   }
   return CLUB_DATA.filter((item) => item.category === category);
 };
 
-// Get items by subcategory
+// Get items by subcategory (expects kebab-case)
 export const getItemsBySubcategory = (
   subcategory: string
 ): ProcessedClubItem[] => {
   return CLUB_DATA.filter((item) => item.subcategory === subcategory);
 };
 
-// Get subcategory data with counts (legacy function for backward compatibility)
+// Get subcategory data with counts
 export const getSubcategoryData = (category: string): SubcategorySummary[] => {
   const items = getItemsByCategory(category);
   const uniqueSubcategories = [
@@ -328,85 +207,44 @@ export const getSubcategoryData = (category: string): SubcategorySummary[] => {
     const subcategoryInfo = SUBCATEGORY_DATA[subcategory];
 
     return {
-      id: subcategoryInfo?.id || subcategory.toLowerCase().replace(/\s+/g, "-"),
-      name:
-        subcategoryInfo?.name ||
-        subcategory.charAt(0).toUpperCase() + subcategory.slice(1),
+      id: subcategoryInfo?.id || subcategory,
+      name: subcategoryInfo?.name || formatSubcategoryTitle(subcategory),
       count: subcategoryItems.length,
       countLabel: subcategoryItems.length === 1 ? "track" : "tracks",
       imageUrl: subcategoryItems[0]?.imageUrl,
-      _originalName: subcategory, // Keep for compatibility
+      _originalName: subcategory,
     };
   });
 
-  // Sort by defined order in SUBCATEGORY_DATA, then alphabetically for any not in the list
   return subcategoryData.sort((a, b) => {
-    const subcategoryInfoA = SUBCATEGORY_DATA[a._originalName];
-    const subcategoryInfoB = SUBCATEGORY_DATA[b._originalName];
+    const infoA = SUBCATEGORY_DATA[a._originalName];
+    const infoB = SUBCATEGORY_DATA[b._originalName];
 
-    // Both have defined sort order - use defined order
-    if (subcategoryInfoA && subcategoryInfoB) {
-      return subcategoryInfoA.sortIndex - subcategoryInfoB.sortIndex;
-    }
-    // Only A has defined order - A comes first
-    if (subcategoryInfoA) return -1;
-    // Only B has defined order - B comes first
-    if (subcategoryInfoB) return 1;
-    // Neither in defined data - alphabetical
+    if (infoA && infoB) return infoA.sortIndex - infoB.sortIndex;
+    if (infoA) return -1;
+    if (infoB) return 1;
     return a.name.localeCompare(b.name);
   });
 };
 
-// Get detailed subcategory information
+// Get detailed subcategory information (expects kebab-case)
 export const getSubcategoryDetail = (
   subcategory: string
 ): SubcategoryData | null => {
-  // Convert kebab-case back to original format (e.g., "postpartum-nutrition" -> "postpartum nutrition")
-  const normalizedSubcategory = subcategory.replace(/-/g, " ");
-
-  // Find the subcategory info by checking both the kebab-case ID and the space-separated key
-  let subcategoryInfo: (typeof SUBCATEGORY_DATA)[string] | null =
-    SUBCATEGORY_DATA[normalizedSubcategory];
-
-  // If not found with spaces, try to find by ID in the values
-  if (!subcategoryInfo) {
-    const foundEntry = Object.values(SUBCATEGORY_DATA).find(
-      (entry) => entry.id === subcategory
-    );
-    if (foundEntry) {
-      // Get the original key from the found entry
-      const originalKey = Object.keys(SUBCATEGORY_DATA).find(
-        (key) => SUBCATEGORY_DATA[key].id === subcategory
-      );
-      subcategoryInfo = originalKey ? SUBCATEGORY_DATA[originalKey] : null;
-    }
-  }
-
-  // Check if this is an article subcategory (nutrition or beauty)
+  const subcategoryInfo = SUBCATEGORY_DATA[subcategory];
   const isNutritionSubcategory = subcategoryInfo?.category === "nutrition";
   const isBeautySubcategory = subcategoryInfo?.category === "beauty";
   const isArticleSubcategory = isNutritionSubcategory || isBeautySubcategory;
 
-  // Use the original key for data lookup to ensure consistency
-  const lookupKey = subcategoryInfo
-    ? Object.keys(SUBCATEGORY_DATA).find(
-        (key) => SUBCATEGORY_DATA[key].id === subcategory
-      ) || normalizedSubcategory
-    : normalizedSubcategory;
-
   let items: ProcessedClubItem[] = [];
 
   if (isArticleSubcategory) {
-    // Article categories use kebab-case, so convert the subcategory name
-    const articleCategory = normalizedSubcategory.replace(/\s+/g, "-");
-
     if (isNutritionSubcategory) {
-      // For nutrition subcategories, get recipes
-      const recipes = getRecipesBySubcategory(articleCategory);
+      const recipes = getRecipesBySubcategory(subcategory);
       items = recipes.map((recipe) => ({
-        id: `article-${recipe.id}`, // Prefix with article- for unified identification
+        id: `article-${recipe.id}`,
         title: recipe.title,
-        subcategory: normalizedSubcategory,
+        subcategory,
         category: "nutrition",
         url: "",
         duration_minutes: recipe.prepTime + recipe.cookTime,
@@ -417,15 +255,14 @@ export const getSubcategoryDetail = (
           "https://images.unsplash.com/photo-1547592180-85f173990554?w=400&h=400&fit=crop&crop=center",
       }));
     } else if (isBeautySubcategory) {
-      // For beauty subcategories, get beauty items
-      const beautyItems = getBeautyItemsBySubcategory(articleCategory);
+      const beautyItems = getBeautyItemsBySubcategory(subcategory);
       items = beautyItems.map((item) => ({
-        id: `article-${item.id}`, // Prefix with article- for unified identification
+        id: `article-${item.id}`,
         title: item.title,
-        subcategory: normalizedSubcategory,
+        subcategory,
         category: "beauty",
         url: "",
-        duration_minutes: 0, // Beauty items use string time in quickInfo
+        duration_minutes: 0,
         duration: item.quickInfo.time,
         type: "article" as const,
         imageUrl:
@@ -434,221 +271,80 @@ export const getSubcategoryDetail = (
       }));
     }
   } else {
-    // For wellness subcategories, get items from CLUB_DATA using the correct lookup key
-    items = getItemsBySubcategory(lookupKey);
+    items = getItemsBySubcategory(subcategory);
   }
 
   if (items.length === 0) return null;
 
-  const defaultInfo = {
-    title:
-      normalizedSubcategory.charAt(0).toUpperCase() +
-      normalizedSubcategory.slice(1),
-    subtitle: `${items.length} ${items.length === 1 ? "item" : "items"}`,
-    description: "Wellness content to support your journey.",
-  };
-
-  const finalInfo = subcategoryInfo
+  const info = subcategoryInfo
     ? {
         title: subcategoryInfo.name,
         subtitle: `${items.length} ${items.length === 1 ? "item" : "items"}`,
         description: subcategoryInfo.description,
       }
-    : defaultInfo;
+    : {
+        title: formatSubcategoryTitle(subcategory),
+        subtitle: `${items.length} ${items.length === 1 ? "item" : "items"}`,
+        description: "Wellness content to support your journey.",
+      };
 
-  return {
-    ...finalInfo,
-    items,
-  };
+  return { ...info, items };
 };
 
-// Get trending content (mix of popular items)
+// Get trending content
 export const getTrendingContent = (): ProcessedClubItem[] => {
-  // Get a diverse mix from different subcategories
-  const guidedMeditations = getItemsBySubcategory("guided meditations").slice(
-    0,
-    8
-  );
-  const sleepTracks = getItemsBySubcategory("better sleep").slice(0, 4);
-  const binauralBeats = getItemsBySubcategory("binaural beats").slice(0, 4);
-  const relaxationMusic = getItemsBySubcategory("relaxation music").slice(0, 4);
-
   return [
-    ...guidedMeditations,
-    ...sleepTracks,
-    ...binauralBeats,
-    ...relaxationMusic,
+    ...getItemsBySubcategory("guided-meditations").slice(0, 8),
+    ...getItemsBySubcategory("better-sleep").slice(0, 4),
+    ...getItemsBySubcategory("binaural-beats").slice(0, 4),
+    ...getItemsBySubcategory("relaxation-music").slice(0, 4),
   ];
 };
 
 // Daily content (featured items for today)
 export const getDailyContent = (): ProcessedClubItem[] => {
-  // Return a diverse selection of items from ALL subcategories for daily recommendations
-  // Get items from each subcategory to ensure maximum diversity
-  const guidedMeditations = getItemsBySubcategory("guided meditations").slice(
-    0,
-    2
-  );
-  const betterSleep = getItemsBySubcategory("better sleep").slice(0, 2);
-  const binauralBeats = getItemsBySubcategory("binaural beats").slice(0, 2);
-  const breathingTechniques = getItemsBySubcategory(
-    "breathing techniques"
-  ).slice(0, 2);
-  const cardioFatBurn = getItemsBySubcategory("cardio and fat burn").slice(
-    0,
-    2
-  );
-  const diyBathBombs = getItemsBySubcategory("diy bath bombs").slice(0, 2);
-  const diyFaceMasks = getItemsBySubcategory("diy face masks").slice(0, 2);
-  const diyHairMasks = getItemsBySubcategory("diy hair masks").slice(0, 2);
-  const faceYoga = getItemsBySubcategory("face yoga mini class").slice(0, 2);
-  const fitness = getItemsBySubcategory("fitness").slice(0, 2);
-  const guidedAffirmations = getItemsBySubcategory("guided affirmations").slice(
-    0,
-    2
-  );
-  const mobilityStretching = getItemsBySubcategory(
-    "mobility & stretching"
-  ).slice(0, 2);
-  const pilates = getItemsBySubcategory("pilates").slice(0, 2);
-  const postpartumNutrition = getItemsBySubcategory(
-    "postpartum nutrition"
-  ).slice(0, 2);
-  const relaxationMusic = getItemsBySubcategory("relaxation music").slice(0, 2);
-  const snacks = getItemsBySubcategory("snacks").slice(0, 2);
-  const soundsOfNature = getItemsBySubcategory("sounds of nature").slice(0, 2);
-  const yoga = getItemsBySubcategory("yoga").slice(0, 2);
-
   return [
-    ...guidedMeditations,
-    ...betterSleep,
-    ...binauralBeats,
-    ...breathingTechniques,
-    ...cardioFatBurn,
-    ...diyBathBombs,
-    ...diyFaceMasks,
-    ...diyHairMasks,
-    ...faceYoga,
-    ...fitness,
-    ...guidedAffirmations,
-    ...mobilityStretching,
-    ...pilates,
-    ...postpartumNutrition,
-    ...relaxationMusic,
-    ...snacks,
-    ...soundsOfNature,
-    ...yoga,
+    ...getItemsBySubcategory("guided-meditations").slice(0, 2),
+    ...getItemsBySubcategory("better-sleep").slice(0, 2),
+    ...getItemsBySubcategory("binaural-beats").slice(0, 2),
+    ...getItemsBySubcategory("breathing-techniques").slice(0, 2),
+    ...getItemsBySubcategory("cardio-and-fat-burn").slice(0, 2),
+    ...getItemsBySubcategory("diy-bath-bombs").slice(0, 2),
+    ...getItemsBySubcategory("diy-face-masks").slice(0, 2),
+    ...getItemsBySubcategory("diy-hair-masks").slice(0, 2),
+    ...getItemsBySubcategory("face-yoga-mini-class").slice(0, 2),
+    ...getItemsBySubcategory("fitness").slice(0, 2),
+    ...getItemsBySubcategory("guided-affirmations").slice(0, 2),
+    ...getItemsBySubcategory("mobility-and-stretching").slice(0, 2),
+    ...getItemsBySubcategory("pilates").slice(0, 2),
+    ...getItemsBySubcategory("postpartum-nutrition").slice(0, 2),
+    ...getItemsBySubcategory("relaxation-music").slice(0, 2),
+    ...getItemsBySubcategory("snacks").slice(0, 2),
+    ...getItemsBySubcategory("sounds-of-nature").slice(0, 2),
+    ...getItemsBySubcategory("yoga").slice(0, 2),
   ];
 };
 
-// Format subcategory title with proper capitalization and symbols
-export const formatSubcategoryTitle = (title: string): string => {
-  return title
-    .split(" ")
-    .map((word) => {
-      // Make DIY completely uppercase
-      if (word.toLowerCase() === "diy") {
-        return "DIY";
-      }
-      // Replace "and" with "&"
-      if (word.toLowerCase() === "and") {
-        return "&";
-      }
-      // Capitalize first letter of each word
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    })
-    .join(" ");
-};
+// Re-export for backwards compatibility
+export const formatSubcategoryTitle = formatKebabToTitle;
 
-// Get subcategory image from unified data structure
+// Get subcategory image (expects kebab-case)
 export const getSubcategoryImage = (subcategory: string) => {
-  // First try direct lookup with space-separated key
-  let subcategoryInfo: (typeof SUBCATEGORY_DATA)[string] | null =
-    SUBCATEGORY_DATA[subcategory];
-
-  // If not found, try to find by kebab-case ID
-  if (!subcategoryInfo) {
-    const foundEntry = Object.values(SUBCATEGORY_DATA).find(
-      (entry) => entry.id === subcategory
-    );
-    if (foundEntry) {
-      // Get the original key to access the image
-      const originalKey = Object.keys(SUBCATEGORY_DATA).find(
-        (key) => SUBCATEGORY_DATA[key].id === subcategory
-      );
-      subcategoryInfo = originalKey ? SUBCATEGORY_DATA[originalKey] : null;
-    }
-  }
-
-  const result =
-    subcategoryInfo?.image ||
-    require("@/assets/images/jf-club/placeholder.jpg");
-
-  return result;
+  return (
+    SUBCATEGORY_DATA[subcategory]?.image || IMAGE_MAP["jf-club/placeholder.jpg"]
+  );
 };
 
-// Get subcategory info from unified data structure
+// Get subcategory info (expects kebab-case)
 export const getSubcategoryInfo = (subcategory: string) => {
-  // First try direct lookup with space-separated key
-  let subcategoryInfo: (typeof SUBCATEGORY_DATA)[string] | null =
-    SUBCATEGORY_DATA[subcategory];
-
-  // If not found, try to find by kebab-case ID
-  if (!subcategoryInfo) {
-    // Convert space-separated to kebab-case for ID lookup
-    const kebabCaseId = subcategory.replace(/\s+/g, "-");
-
-    const foundEntry = Object.values(SUBCATEGORY_DATA).find(
-      (entry) => entry.id === kebabCaseId
-    );
-
-    if (foundEntry) {
-      // Get the original key to access the info
-      const originalKey = Object.keys(SUBCATEGORY_DATA).find(
-        (key) => SUBCATEGORY_DATA[key].id === kebabCaseId
-      );
-      subcategoryInfo = originalKey ? SUBCATEGORY_DATA[originalKey] : null;
-    }
-  }
-
-  return subcategoryInfo;
+  return SUBCATEGORY_DATA[subcategory] || null;
 };
 
-// Get all subcategories for a category, ordered by defined sort order
+// Get all subcategories for a category, ordered by sort index
 export const getOrderedSubcategoriesForCategory = (category: string) => {
-  const allSubcategories = Object.values(SUBCATEGORY_DATA)
-    .filter((subcategory) => subcategory.category === category)
+  return Object.values(SUBCATEGORY_DATA)
+    .filter((sub) => sub.category === category)
     .sort((a, b) => a.sortIndex - b.sortIndex);
-
-  return allSubcategories;
-};
-
-// Category images for the trending section
-export const CATEGORY_IMAGES = {
-  mind: {
-    id: "mind",
-    name: "Mind",
-    image: require("@/assets/images/jf-club/meditation.jpg"),
-    categoryId: "mind",
-  },
-  workouts: {
-    id: "workouts",
-    name: "Workouts",
-    image: require("@/assets/images/jf-club/workouts.jpg"),
-    categoryId: "workouts",
-  },
-  nutrition: {
-    id: "nutrition",
-    name: "Nutrition",
-    image: require("@/assets/images/jf-club/recipes.jpg"),
-    categoryId: "nutrition",
-  },
-  beauty: {
-    id: "beauty",
-    name: "Beauty",
-    image: require("@/assets/images/jf-club/articles.jpg"),
-    categoryId: "beauty",
-  },
 };
 
 // Get category images for trending section
@@ -656,46 +352,29 @@ export const getCategoryImages = () => {
   return Object.values(CATEGORY_IMAGES);
 };
 
-// Get total count for a category (recipes or items)
+// Get total count for a category
 export const getCategoryCount = (categoryId: string): number => {
+  const subcategories = Object.values(SUBCATEGORY_DATA).filter(
+    (sub) => sub.category === categoryId
+  );
+
   if (isArticleCategory(categoryId)) {
-    // For recipe categories (nutrition and beauty), count all articles in this category
-    const subcategories = Object.values(SUBCATEGORY_DATA).filter(
-      (sub) => sub.category === categoryId
-    );
+    return subcategories.reduce((total, sub) => {
+      const recipes = getRecipesBySubcategory(sub.id);
+      if (recipes.length > 0) return total + recipes.length;
 
-    const total = subcategories.reduce((total, sub) => {
-      // Convert subcategory name to kebab-case for data lookup
-      const kebabSubcategory = sub.name.toLowerCase().replace(/\s+/g, "-");
-
-      // Try getting recipes first (for nutrition subcategories)
-      const recipes = getRecipesBySubcategory(kebabSubcategory);
-      if (recipes.length > 0) {
-        return total + recipes.length;
-      }
-
-      // Try getting beauty items (for beauty subcategories)
-      const beautyItems = getBeautyItemsBySubcategory(kebabSubcategory);
+      const beautyItems = getBeautyItemsBySubcategory(sub.id);
       return total + beautyItems.length;
     }, 0);
-
-    return total;
   } else {
-    // For video categories, count all items in this category
-    const subcategories = Object.values(SUBCATEGORY_DATA).filter(
-      (sub) => sub.category === categoryId
-    );
     return subcategories.reduce((total, sub) => {
-      const items = getItemsBySubcategory(sub.name.toLowerCase());
-      return total + items.length;
+      return total + getItemsBySubcategory(sub.id).length;
     }, 0);
   }
 };
 
-// Check if a category is recipe content
+// Check if a category is article content
 export const isArticleCategory = (categoryId: string): boolean => {
-  const category = WELLNESS_CATEGORIES.find(
-    (cat: WellnessCategory) => cat.id === categoryId
-  );
+  const category = WELLNESS_CATEGORIES.find((cat) => cat.id === categoryId);
   return category?.contentType === "article";
 };

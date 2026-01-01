@@ -15,13 +15,10 @@ export default function SubcategoryPage() {
   }>();
   const { isPremiumOnAnyPlatform, isMobileAppSubscribed } = usePaywall();
 
-  // Get the original subcategory name (convert kebab-case back to spaces)
-  const originalSubcategory = subcategory?.replace(/-/g, " ") || "";
-
   const subcategoryData = getSubcategoryDetail(subcategory || "");
 
-  // Get subcategory info from unified data structure
-  const subcategoryInfo = getSubcategoryInfo(originalSubcategory);
+  // Get subcategory info (expects kebab-case)
+  const subcategoryInfo = getSubcategoryInfo(subcategory || "");
 
   const handleItemClick = (item: ProcessedClubItem, index: number) => {
     // First 2 items (index 0 and 1) are free, rest require premium

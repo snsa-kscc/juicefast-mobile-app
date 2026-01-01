@@ -35,21 +35,16 @@ export function SubcategoryGrid({
           // Or if it's the last item and the current group has odd number of items
           (index === subcategories.length - 1 && groupPosition % 2 === 1);
 
-        // Get item count for this subcategory
+        // Get item count for this subcategory (using id which is always kebab-case)
         const count = isArticleCategory(category)
           ? (() => {
               // Try recipes first (for nutrition)
-              const recipes = getRecipesBySubcategory(
-                subcategory.name.toLowerCase().replace(/\s+/g, "-")
-              );
+              const recipes = getRecipesBySubcategory(subcategory.id);
               if (recipes.length > 0) return recipes.length;
               // Fall back to beauty items
-              const beautyItems = getBeautyItemsBySubcategory(
-                subcategory.name.toLowerCase().replace(/\s+/g, "-")
-              );
-              return beautyItems.length;
+              return getBeautyItemsBySubcategory(subcategory.id).length;
             })()
-          : getItemsBySubcategory(subcategory.name.toLowerCase()).length;
+          : getItemsBySubcategory(subcategory.id).length;
 
         // Determine label text based on category type
         const countLabel = isArticleCategory(category)
