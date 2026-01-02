@@ -39,7 +39,7 @@ export const getChallengeParticipants = query({
 
       participantsWithTokens.push({
         userId: participant.userId,
-        name: user?.name || `User ${participant.userId.slice(-6)}`,
+        name: user?.name || `User ${participant.userId}`,
         pushToken: user?.pushToken,
         startedAt: participant.startedAt,
         hasPushToken,
