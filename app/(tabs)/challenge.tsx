@@ -23,11 +23,6 @@ export default function ChallengePage() {
     );
   }
 
-  // Handle unauthenticated state
-  if (challengeProgress === null) {
-    return null;
-  }
-
   if (hasStartedChallenge) {
     return <ChallengeDashboard showModal={shouldShowModal} />;
   }
