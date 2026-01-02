@@ -28,12 +28,9 @@ export default function AdminNotifications() {
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
 
-  // Fetch challenge participants
-  const participants = useQuery(
+  // Fetch challenge participants and stats in a single query
+  const participantsData = useQuery(
     api.challengeNotifications.getChallengeParticipants
-  );
-  const participantsCount = useQuery(
-    api.challengeNotifications.getChallengeParticipantsCount
   );
 
   // Mutation to store message
@@ -52,7 +49,7 @@ export default function AdminNotifications() {
       return;
     }
 
-    if (!participants) {
+    if (!participantsData) {
       await showCrossPlatformAlert("Error", "Participants data not loaded");
       return;
     }
@@ -60,7 +57,7 @@ export default function AdminNotifications() {
     setIsSending(true);
     try {
       // Filter participants with push tokens
-      const recipients = participants
+      const recipients = participantsData.participants
         .filter((p) => p.pushToken)
         .map((p) => ({
           userId: p.userId,
@@ -80,7 +77,7 @@ export default function AdminNotifications() {
       await storeMessage({
         title: title.trim(),
         message: message.trim(),
-        totalRecipients: participants.length,
+        totalRecipients: participantsData.stats.total,
         successCount: result.successCount,
         failureCount: result.failureCount,
       });
@@ -125,19 +122,19 @@ export default function AdminNotifications() {
         </View>
 
         {/* Statistics */}
-        {participantsCount && (
+        {participantsData && (
           <View className="bg-blue-50 p-4 rounded-md mb-6">
             <Text className="text-sm font-lufga-bold mb-2">
               Challenge Participants Statistics:
             </Text>
             <Text className="text-xs text-gray-700 mb-1">
-              • Total enrolled: {participantsCount.total}
+              • Total enrolled: {participantsData.stats.total}
             </Text>
             <Text className="text-xs text-gray-700 mb-1">
-              • With push tokens: {participantsCount.withPushTokens}
+              • With push tokens: {participantsData.stats.withPushTokens}
             </Text>
             <Text className="text-xs text-gray-700">
-              • Without push tokens: {participantsCount.withoutPushTokens}
+              • Without push tokens: {participantsData.stats.withoutPushTokens}
             </Text>
           </View>
         )}
@@ -194,13 +191,13 @@ export default function AdminNotifications() {
 
         {/* Participants List */}
         <Text className="text-lg font-lufga-bold mb-3">
-          Challenge Participants ({participants?.length || 0})
+          Challenge Participants ({participantsData?.participants.length || 0})
         </Text>
 
-        {participants === undefined ? (
+        {participantsData === undefined ? (
           <ActivityIndicator size="large" />
-        ) : participants && participants.length > 0 ? (
-          participants.map((participant: Participant) => (
+        ) : participantsData && participantsData.participants.length > 0 ? (
+          participantsData.participants.map((participant: Participant) => (
             <View
               key={participant.userId}
               className="bg-white p-3 mb-2 rounded-md flex-row justify-between items-center"

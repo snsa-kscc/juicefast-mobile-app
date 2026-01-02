@@ -10,6 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { ProcessedClubItem } from "@/types/club";
 import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
+import { formatKebabToTitle } from "@/utils/helpers";
 
 interface SubcategoryDetailProps {
   title: string;
@@ -169,7 +170,7 @@ export function SubcategoryDetail({
         {Object.entries(groupedItems).map(([group, groupItems]) => (
           <View key={group} className="mb-6">
             <Text className="text-lg font-lufga-semibold text-amber-500 mb-2 p-4">
-              {group.replace(/\b\w/g, (char) => char.toUpperCase())}
+              {formatKebabToTitle(group)}
             </Text>
             <FlatList
               data={groupItems}
