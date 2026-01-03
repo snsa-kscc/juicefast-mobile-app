@@ -21,6 +21,8 @@ interface WellnessHeaderProps {
   showBackButton?: boolean;
   rightContent?: React.ReactNode;
   showSettings?: boolean;
+  position?: "center" | "top" | "bottom" | "left" | "right";
+  padding?: string;
 }
 
 export function WellnessHeader({
@@ -36,6 +38,8 @@ export function WellnessHeader({
   showBackButton = false,
   showSettings = true,
   rightContent,
+  position,
+  padding = "pt-8 pb-6",
 }: WellnessHeaderProps) {
   return (
     <View
@@ -52,13 +56,14 @@ export function WellnessHeader({
           }
           className="absolute inset-0 w-full h-full"
           contentFit="cover"
+          contentPosition={position}
         />
       )}
 
       {/* Overlay for better text visibility */}
       {backgroundImage && <View className="absolute inset-0 bg-black/30" />}
 
-      <View className="px-6 z-10" style={{ paddingTop: 32, paddingBottom: 24 }}>
+      <View className={`px-6 z-10 ${padding}`}>
         <View className="flex-row justify-between items-center mb-4">
           {showBackButton && (
             <TouchableOpacity

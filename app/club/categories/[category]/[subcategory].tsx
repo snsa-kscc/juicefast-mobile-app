@@ -81,6 +81,12 @@ export default function SubcategoryPage() {
               showBackButton={true}
               onBackPress={handleBack}
               showSettings={false}
+              position={
+                category === "workouts" || category === "beauty"
+                  ? "top"
+                  : "center"
+              }
+              padding="pt-10 pb-32"
             />
           }
         />
@@ -113,6 +119,12 @@ export default function SubcategoryPage() {
             onBackPress={handleBack}
             showSettings={true}
             onSettingsPress={() => router.push("/profile")}
+            position={
+              category === "workouts" || category === "beauty"
+                ? "top"
+                : "center"
+            }
+            padding="pt-10 pb-32"
           />
         }
       />
