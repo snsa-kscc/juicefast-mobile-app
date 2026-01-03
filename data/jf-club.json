@@ -10,7 +10,7 @@
         {
           "id": "guided-meditations",
           "name": "Guided Meditations",
-          "itemCount": 280,
+          "itemCount": 197,
           "description": "Through these meditations, you can achieve a mental, physical and emotional balance and reset. Find your inner peace with our guided meditation tracks.",
           "image": "jf-club/guided-meditation.jpg",
           "sortIndex": 2
@@ -18,7 +18,7 @@
         {
           "id": "relaxation-music",
           "name": "Relaxation Music",
-          "itemCount": 91,
+          "itemCount": 76,
           "description": "Here you'll find relaxing music that can help lower your heart rate, reduce stress and induce calmness. Take 20 minutes to relax and focus inwards.",
           "image": "jf-club/relaxation.jpg",
           "sortIndex": 5
@@ -34,7 +34,7 @@
         {
           "id": "binaural-beats",
           "name": "Binaural Beats",
-          "itemCount": 28,
+          "itemCount": 21,
           "description": "These specially designed audio tracks use different frequencies in each ear to help you focus, relax, or sleep. For best results, listen with headphones.",
           "image": "jf-club/binaural.jpg",
           "sortIndex": 4
@@ -42,7 +42,7 @@
         {
           "id": "better-sleep",
           "name": "Better Sleep",
-          "itemCount": 24,
+          "itemCount": 28,
           "description": "Catch the z's you need to with the help of these sleep tracks. Play them in the background, focus on the sound, and slip into a slumber.",
           "image": "jf-club/better-sleep.jpg",
           "sortIndex": 0
@@ -50,7 +50,7 @@
         {
           "id": "sounds-of-nature",
           "name": "Sounds of Nature",
-          "itemCount": 8,
+          "itemCount": 100,
           "description": "Immerse yourself in the calming sounds of nature. From ocean waves to forest rain, these tracks help you connect with natural environments.",
           "image": "jf-club/nature-sounds.jpg",
           "sortIndex": 6
@@ -58,7 +58,7 @@
         {
           "id": "guided-affirmations",
           "name": "Guided Affirmations",
-          "itemCount": 6,
+          "itemCount": 15,
           "description": "Transform your mindset with positive affirmations that help build confidence, reduce anxiety, and cultivate a more positive outlook on life.",
           "image": "jf-club/affirmations.jpg",
           "sortIndex": 3
@@ -146,14 +146,14 @@
       "title": "Creating Confidence",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/meditation_confidence_10min.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "guided-affirmations",
       "duration_minutes": 10
     },
     {
       "title": "Quick Confidence",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/meditation_confidence_2min.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "guided-affirmations",
       "duration_minutes": 2
     },
     {
@@ -272,7 +272,7 @@
       "title": "Rainy Day Deep Sleep",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/Varied_Tracks/DeepSleep_Binaural__3Hz_Delta__18_min.mp3",
       "category": "mind",
-      "subcategory": "better-sleep",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 18
     },
     {
@@ -300,7 +300,7 @@
       "title": "Lucid Dreaming",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/Varied_Tracks/Lucid_Dreaming_Binaural__1.5Hz_Delta__18_min.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "better-sleep",
       "duration_minutes": 18
     },
     {
@@ -720,7 +720,7 @@
       "title": "Rainy Day Deep Sleep",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/Binaural_DeepSleep_Binaural__3Hz_Delta__18_min.mp3",
       "category": "mind",
-      "subcategory": "better-sleep",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 18
     },
     {
@@ -748,21 +748,21 @@
       "title": "The Calm of the Forest",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/Binaural_Calm_Binaural__10Hz_Alpha__18_min.mp3",
       "category": "mind",
-      "subcategory": "binaural-beats",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 18
     },
     {
       "title": "Deep Trance in the Heavy Rain",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/Binaural_DeepMeditation_Rain_Binaural__6Hz_Theta__18_min.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 18
     },
     {
       "title": "Everything Is Okay on Rainy Days",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/Binaural_EverythingIsOkay_Binaural__6Hz_Theta__18_min.mp3.mp3",
       "category": "mind",
-      "subcategory": "binaural-beats",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 18
     },
     {
@@ -874,14 +874,14 @@
       "title": "Creating Confidence",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/meditation_confidence_10min.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "guided-affirmations",
       "duration_minutes": 10
     },
     {
       "title": "Quick Confidence",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/meditation_confidence_2min.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "guided-affirmations",
       "duration_minutes": 2
     },
     {
@@ -1049,14 +1049,14 @@
       "title": "Deep Ocean",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/3d_underwater.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 10
     },
     {
       "title": "Experiencing Self Love",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/meditation_radiating_love.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "guided-affirmations",
       "duration_minutes": 6
     },
     {
@@ -1070,7 +1070,7 @@
       "title": "Tropical Island",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/3d_tropic.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 10
     },
     {
@@ -1175,161 +1175,161 @@
       "title": "Morning Birds in the Countryside",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/11__Concentration_and_Focus_Music__Deciduous_Forest_Country_Morning%2C_11Hz_Alpha_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Carefree Winds",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/15__Motivational_Music__Wind_Mod_Strong%2C_12Hz_Alpha_Binaural_Beats__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 21
     },
     {
       "title": "Transcendent Winds of Positivity",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/15__Motivational_Music__Wind_Mod_Strong%2C_12Hz_Alpha_Binaural_Beats__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 21
     },
     {
       "title": "Morning in the Forest with Birds",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/27__Beautiful_skin__Deciduous_Forest_Morning_Songbirds%2C_1_5Hz_Delta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Waves on Pebbles",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/24__Chakras_Healing__Pebbled_Ocean_Waves%2C_3Hz_Delta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Hidden Stream in the Forest",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/07__Beautiful_skin__Stream_Rolling_Intricate%2C_1_5Hz_Delta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Soft Wind",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/21__Music_for_babies__Soft_Wind%2C_2Hz_Delta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Tropical Forest Morning",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/08__Chakras_Healing__Tropical_Forest_Morning_2%2C_3Hz_Delta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Humming Rapids & Waterfall in the Distance I",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/12__Find_Inner_Peace__Waterfall_Rapids_Humming_Distant%2C_2Hz_Delta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Lost in Time on the Sandy Shore",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/17_Attract_Money__Sandy_Ocean_Waves%2C_11Hz_Alpha_Binaural_Waves__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 21
     },
     {
       "title": "Humming Rapids & Waterfall in the Distance II",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/20__Music_for_babies__Waterfall_rapids_humming_distant%2C_2Hz_Delta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "A Day in the Forest with Birds",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/09__Clear_Subconscious_Negativity__Deciduous_Forest_Day_Songbirds%2C_6HZ_Theta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 21
     },
     {
       "title": "Birds in the Distance on the Shore",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/23__Meditation_Music_for_Self_Doubt__with_Ocean_Shore_Waves_and_Distant_Forest_Birds%2C_7Hz_Theta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 20
     },
     {
       "title": "Bubbly Stream",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/01__Music_for_Relaxation__with_Stream_Bubbly%2C_5Hz_Theta_Binaural_Beats__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 21
     },
     {
       "title": "Stream in the Forest",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/22__Meditation_Music_for_Self_Doubt__with_Tropical_Forest_Stream%2C_7Hz_Theta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 20
     },
     {
       "title": "Waterfall & Rapids in the Distance II",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/25__Clear_Subconscious_Negativity__Waterfall_Rapids_Moderately_Distant%2C_6HZ_Theta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 21
     },
     {
       "title": "Forest Ambience",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/28__Feel_good__Coniferous_Forest_Ambience_Active%2C_16Hz_Beta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Waterfall & Rapids in the Distance I",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/10__Feel_good__Waterfall_rapids_moderately_distant%2C_16Hz_Beta_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Dramatic Ocean Waves",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/13__Harmony_in_family__with_Dramatic_Ocean_Waves%2C_9Hz_Alpha_Binaural_Waves__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 20
     },
     {
       "title": "Sitting on the Shore at Dawn",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/30__Harmony_in_family__with_Small_and_Detailed_Ocean_Waves%2C_9Hz_Alpha_Binaural_Waves__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 20
     },
     {
       "title": "Gentle Waves at Dusk",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/30__Harmony_in_family__with_Small_and_Detailed_Ocean_Waves%2C_9Hz_Alpha_Binaural_Waves__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 20
     },
     {
       "title": "Curious Waves of Contemplation",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/17_Attract_Money__Sandy_Ocean_Waves%2C_11Hz_Alpha_Binaural_Waves__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 21
     },
     {
       "title": "Water Droplets on Tree Tops",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/03__Music_for_Relaxation__with_Rain_Storm_Aftermath%2C_9Hz_Alpha_Binaural_Beats__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
@@ -1350,14 +1350,14 @@
       "title": "Ocean Waves for Better Focus",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/26__Concentration_and_Focus_Music__Small_and_Pebbled_Ocean_Waves%2C_11Hz_Alpha_Binaurals__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Gentle Stream Beneath the Stars",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Binaural_Beats/05__Music_for_Relaxation__with_Stream_Rolling_Intricate%2C_9Hz_Alpha_Binaural_Beats__mp3.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
@@ -1378,7 +1378,7 @@
       "title": "Feel Empowered",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/GIULIA/AUDI_MED-GUID_AUD_GB_FEEL-EMPOWERED_2305_NA.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "guided-affirmations",
       "duration_minutes": 8
     },
     {
@@ -1399,7 +1399,7 @@
       "title": "Drifting Into Dreams",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/Relaxation_Music/RELAXATION_MUSIC_drifting_into_dreams--FULL.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "better-sleep",
       "duration_minutes": 25
     },
     {
@@ -1497,7 +1497,7 @@
       "title": "Winds of Relaxation",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/Relaxation_Music/RELAXATION_MUSIC_relaxing_meditation--FULL.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
@@ -1511,7 +1511,7 @@
       "title": "Stream of Relaxation",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/Relaxation_Music/RELAXATION_MUSIC_boosting_self-esteem--FULL.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
@@ -1525,7 +1525,7 @@
       "title": "Steady Stream of Reflection",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/Relaxation_Music/RELAXATION_MUSIC_deep_meditation--FULL.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
@@ -1581,7 +1581,7 @@
       "title": "Eastern Winds of Release",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/Relaxation_Music/RELAXATION_MUSIC_managing_stress--FULL.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
@@ -1630,7 +1630,7 @@
       "title": "Soaring Over Trees",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/Relaxation_Music/RELAXATION_MUSIC_quiet_rest--FULL.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
@@ -1644,196 +1644,196 @@
       "title": "Dreaming of Golden Fields",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/Relaxation_Music/RELAXATION_MUSIC_lucid_dreaming--FULL.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "better-sleep",
       "duration_minutes": 25
     },
     {
       "title": "Waves of Relaxation & Peace",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/Relaxation_Music/RELAXATION_MUSIC_deep_relaxation--FULL.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
       "title": "Dreams of Moments Past",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/Relaxation_Music/RELAXATION_MUSIC_deep_sleep--FULL.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "better-sleep",
       "duration_minutes": 25
     },
     {
       "title": "Beach Sounds From the Tropics",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Beach_sound_from_the_tropics.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 65
     },
     {
       "title": "Crackling Fire",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/nature_fire_burning_crackle_fireplace_1_hour.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 61
     },
     {
       "title": "Ocean Waves at Night",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Ocean_wave_sound_at_night_for_deep_sleep.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 65
     },
     {
       "title": "Babbling Brook in the Forest",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Rain_forest_sound.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 64
     },
     {
       "title": "Thunderstorm in the Forest",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Rain_Sound_and_Rain_forest_animal_sound.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 64
     },
     {
       "title": "Rain and Thunder",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Rain_with_Thunder.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 64
     },
     {
       "title": "Birds Next to a Relaxing River",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Relaxing_River_Sound_while_Birds_singing.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 60
     },
     {
       "title": "Sitting by the Gentle River",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/River_sound_with_Birds_singing.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 65
     },
     {
       "title": "Soft Ocean Waves",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Soft_ocean_wave_sound.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 63
     },
     {
       "title": "On the Shore Watching Seagulls",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Soft_ocean_wave_with_seagull_sound.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 63
     },
     {
       "title": "Near the Waterfall",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Waterfall_with_animal_sounds.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 63
     },
     {
       "title": "Birds Singing in the Rain",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Birds_Singing_While_raining.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 63
     },
     {
       "title": "Rain in the Country Side",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_rain/Country_side_rain.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 481
     },
     {
       "title": "Heavy Rain on Your Umbrella",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_rain/Heave_rain_on_umbrella_and_concrete.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 482
     },
     {
       "title": "Heavy Rain on the Sidewalk",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_rain/Heavy_rain_on_concrete_with_thunder.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 481
     },
     {
       "title": "Heavy Rain on Street Lights",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_rain/Heavy_rain_with_diffused_light_and_thunders.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 481
     },
     {
       "title": "Light Rain & Thunder Outside",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_rain/Light_Rain_with_loud_thunder_outside.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 482
     },
     {
       "title": "Light Rain with Thunder",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_rain/Light_rain_with_thunder.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 483
     },
     {
       "title": "Light Rain With Wind and Distant Thunder",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_rain/Light_rain_with_wind_and_distant_thunder.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 482
     },
     {
       "title": "Soft Rain Storm in the City",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_rain/Rain_on_city_and_medium_drippy_thunder_rumble.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 480
     },
     {
       "title": "Calm Jungle",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Calm_jungle_sound.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 66
     },
     {
       "title": "Lazy Day Napping on a Tropical Beach",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Beach_sound_from_the_tropics.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 482
     },
     {
       "title": "Crickets at Night",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Crickets_at_night.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 485
     },
     {
       "title": "Overnight Camping Trip",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Crickets_at_night.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 485
     },
     {
       "title": "Outside in the Heavy Rain",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Heavy_Rain_Outside.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 485
     },
     {
@@ -1847,119 +1847,119 @@
       "title": "River Side",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/River_side.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 486
     },
     {
       "title": "Resting by the River",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/River_side.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 486
     },
     {
       "title": "Singing Birds",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Singing_Birds.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 480
     },
     {
       "title": "Listening to the Birds Sing",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Singing_Birds.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 480
     },
     {
       "title": "Mellow Ocean Waves",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Soft_Ocean_Wave.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 481
     },
     {
       "title": "Evening Next to the Sea",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Soft_Ocean_Wave.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 481
     },
     {
       "title": "Soft Rain",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Soft_Rain.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 480
     },
     {
       "title": "Napping During a Gentle Rain Shower",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Soft_Rain.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 480
     },
     {
       "title": "Present in the Jungle",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Walk_in_jungle.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 483
     },
     {
       "title": "Enjoying the Rain Under the Tree",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Walk_in_rain_forest_while_raining.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 483
     },
     {
       "title": "Sleeping Next to the Stream",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/8_hr_tracks/Water_Stream_Sound.mp3",
       "category": "mind",
-      "subcategory": "better-sleep",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 483
     },
     {
       "title": "Crickets at Night",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Crickets_and_Nature_sounds_at_night.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 64
     },
     {
       "title": "Cold Stream in the Forest",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Deep_rain_forest_sound.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 60
     },
     {
       "title": "Gentle Rain",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Gentle_Rain_sound_for_deep_sleep.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 62
     },
     {
       "title": "Heavy Rain",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Heavy_Rain.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 61
     },
     {
       "title": "Walking Through the Forest",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Inside_of_the_forest.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 65
     },
     {
       "title": "Light Rain",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Sound_of_Nature/1_hr_tracks/Light_Rain.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 65
     },
     {
@@ -1980,7 +1980,7 @@
       "title": "Confidence",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Guided_Affirmations/AUDI_MED-AFF_FA_NA_CONFIDENCE_2109_NA.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "guided-affirmations",
       "duration_minutes": 6
     },
     {
@@ -2015,7 +2015,7 @@
       "title": "I Am in Charge of My Life",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/audio/in/meditations/Guided_Affirmations/AUDI_MED-AFF_FA_NA_IN-CHARGE_2109_NA.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "guided-affirmations",
       "duration_minutes": 4
     },
     {
@@ -3142,28 +3142,28 @@
       "title": "Carefree Winds",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/Binaural_Wind_Mod_Strong_12Hz_Alpha.mp3",
       "category": "mind",
-      "subcategory": "binaural-beats",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 21
     },
     {
       "title": "Ocean Waves for Better Focus",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/Binaural_26__Concentration_and_Focus_Music__Small_and_Pebbled_Ocean_Waves,_11Hz_Alpha_Binaurals__mp3.mp3.mp3",
       "category": "mind",
-      "subcategory": "binaural-beats",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
       "title": "Whimsical Waves on a Sandy Beach",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/Binaural_17_Attract_Money__Sandy_Ocean_Waves,_11Hz_Alpha_Binaural_Waves__mp3.mp3.mp3",
       "category": "mind",
-      "subcategory": "binaural-beats",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 21
     },
     {
       "title": "Creative Focus by a Rolling Stream",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/Binaural_Stream_Rolling_Intricate,_9Hz_Alpha.mp3",
       "category": "mind",
-      "subcategory": "binaural-beats",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 23
     },
     {
@@ -3177,7 +3177,7 @@
       "title": "Dramatic Waves of Creativity & Focus",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/Binaural_Dramatic_Ocean_Waves_9Hz_Alpha.mp3",
       "category": "mind",
-      "subcategory": "binaural-beats",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 20
     },
     {
@@ -3345,7 +3345,7 @@
       "title": "Experiencing Self Love",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/meditation_radiating_love.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "guided-affirmations",
       "duration_minutes": 6
     },
     {
@@ -3401,7 +3401,7 @@
       "title": "Distant Storm in the Calm Forest",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/NATURE_Calm_jungle_sound_1hr.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 66
     },
     {
@@ -3520,28 +3520,28 @@
       "title": "Steady Stream of Reflection",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/RELAXATION_MUSIC_deep_meditation.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
       "title": "Waves of Relaxation & Peace",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/RELAXATION_MUSIC_deep_relaxation.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
       "title": "Dreams of Moments Past",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/RELAXATION_MUSIC_deep_sleep.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "better-sleep",
       "duration_minutes": 25
     },
     {
       "title": "Drifting into Dreams",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/RELAXATION_MUSIC_drifting_into_dreams.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "better-sleep",
       "duration_minutes": 25
     },
     {
@@ -3583,7 +3583,7 @@
       "title": "Dreaming of Golden Fields",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/RELAXATION_MUSIC_lucid_dreaming.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "better-sleep",
       "duration_minutes": 25
     },
     {
@@ -3625,14 +3625,14 @@
       "title": "Soaring Over Trees",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/RELAXATION_MUSIC_quiet_rest.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
       "title": "Winds of Relaxation",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/RELAXATION_MUSIC_relaxing_meditation.mp3",
       "category": "mind",
-      "subcategory": "guided-meditations",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
@@ -3667,7 +3667,7 @@
       "title": "Stream of Relaxation",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/RELAXATION_MUSIC_boosting_self-esteem.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
@@ -3702,7 +3702,7 @@
       "title": "Eastern Winds of Release",
       "url": "https://d1rdw86ji6lelz.cloudfront.net/app/content/audio/standalone/RELAXATION_MUSIC_managing_stress.mp3",
       "category": "mind",
-      "subcategory": "relaxation-music",
+      "subcategory": "sounds-of-nature",
       "duration_minutes": 25
     },
     {
