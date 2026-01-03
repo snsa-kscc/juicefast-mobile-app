@@ -4,9 +4,9 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Image,
   ImageSourcePropType,
 } from "react-native";
+import { Image } from "expo-image";
 
 interface WellnessHeaderProps {
   title: string;
@@ -51,7 +51,7 @@ export function WellnessHeader({
               : backgroundImage
           }
           className="absolute inset-0 w-full h-full"
-          style={{ resizeMode: "cover" }}
+          contentFit="cover"
         />
       )}
 

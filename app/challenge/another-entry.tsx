@@ -4,9 +4,9 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Image,
   Platform,
 } from "react-native";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
@@ -75,7 +75,7 @@ export default function AnotherEntryPage() {
               <Image
                 source={require("@/assets/images/challenge/gift-box.webp")}
                 className="w-24 h-24 ml-2"
-                resizeMode="contain"
+                contentFit="contain"
               />
             </View>
             <Text className="flex-1 ml-4 text-2xl leading-tight font-lufga-extrabold text-black">

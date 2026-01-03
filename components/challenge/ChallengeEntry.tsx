@@ -2,11 +2,11 @@ import React from "react";
 import {
   View,
   Text,
-  Image,
   ScrollView,
   TouchableOpacity,
   Platform,
 } from "react-native";
+import { Image, ImageBackground } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { BlurView } from "expo-blur";
@@ -53,8 +53,7 @@ export function ChallengeEntry() {
         <Image
           source={require("@/assets/images/challenge/gift-box.webp")}
           className="w-28 h-28"
-          style={{ width: 112, height: 112 }}
-          resizeMode="contain"
+          contentFit="contain"
         />
       </View>
 
@@ -169,78 +168,78 @@ export function ChallengeEntry() {
       </View>
 
       {/* Hero Image Section with Overlaid Features */}
-      <View className="overflow-hidden relative h-[700px] flex-1">
-        <Image
+      <View className=" relative h-[700px]">
+        <ImageBackground
           source={require("@/assets/images/challenge/fitness-lady.webp")}
-          className="absolute inset-0 w-full h-full"
-          resizeMode="cover"
-        />
-
-        <View className="absolute bottom-28 left-0 right-0 px-6 pb-6">
-          <BlurView
-            intensity={30}
-            tint="light"
-            experimentalBlurMethod="dimezisBlurView"
-            className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden border-2 border-white/60"
-            style={{
-              backgroundColor: "rgba(255, 255, 255, 0.4)",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 4,
-              },
-              shadowOpacity: 0.3,
-              shadowRadius: 12,
-              elevation: 12,
-            }}
-          >
-            <Text className="text-gray-900 font-lufga-medium text-xl text-center">
-              Track progress
-            </Text>
-          </BlurView>
-          <BlurView
-            intensity={30}
-            tint="light"
-            experimentalBlurMethod="dimezisBlurView"
-            className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden border-2 border-white/60"
-            style={{
-              backgroundColor: "rgba(255, 255, 255, 0.4)",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 4,
-              },
-              shadowOpacity: 0.3,
-              shadowRadius: 12,
-              elevation: 12,
-            }}
-          >
-            <Text className="text-gray-900 font-lufga-medium text-xl text-center">
-              Win prizes
-            </Text>
-          </BlurView>
-          <BlurView
-            intensity={30}
-            tint="light"
-            experimentalBlurMethod="dimezisBlurView"
-            className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden border-2 border-white/60"
-            style={{
-              backgroundColor: "rgba(255, 255, 255, 0.4)",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 4,
-              },
-              shadowOpacity: 0.3,
-              shadowRadius: 12,
-              elevation: 12,
-            }}
-          >
-            <Text className="text-gray-900 font-lufga-medium text-xl text-center">
-              Become your best self
-            </Text>
-          </BlurView>
-        </View>
+          style={{ width: "100%", height: "100%" }}
+          contentFit="cover"
+        >
+          <View className="absolute bottom-28 left-0 right-0 px-6 pb-6">
+            <BlurView
+              intensity={30}
+              tint="light"
+              experimentalBlurMethod="dimezisBlurView"
+              className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden border-2 border-white/60"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.4)",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 4,
+                },
+                shadowOpacity: 0.3,
+                shadowRadius: 12,
+                elevation: 12,
+              }}
+            >
+              <Text className="text-gray-900 font-lufga-medium text-xl text-center">
+                Track progress
+              </Text>
+            </BlurView>
+            <BlurView
+              intensity={30}
+              tint="light"
+              experimentalBlurMethod="dimezisBlurView"
+              className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden border-2 border-white/60"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.4)",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 4,
+                },
+                shadowOpacity: 0.3,
+                shadowRadius: 12,
+                elevation: 12,
+              }}
+            >
+              <Text className="text-gray-900 font-lufga-medium text-xl text-center">
+                Win prizes
+              </Text>
+            </BlurView>
+            <BlurView
+              intensity={30}
+              tint="light"
+              experimentalBlurMethod="dimezisBlurView"
+              className="rounded-3xl py-3.5 px-6 mb-2.5 overflow-hidden border-2 border-white/60"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.4)",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 4,
+                },
+                shadowOpacity: 0.3,
+                shadowRadius: 12,
+                elevation: 12,
+              }}
+            >
+              <Text className="text-gray-900 font-lufga-medium text-xl text-center">
+                Become your best self
+              </Text>
+            </BlurView>
+          </View>
+        </ImageBackground>
       </View>
     </ScrollView>
   );

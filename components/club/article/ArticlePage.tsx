@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { ArticleStats } from "./ArticleStats";
@@ -212,7 +213,7 @@ function ArticleImageSection({ article }: { article: Article }) {
         <Image
           source={getImageWithFallback(article.image, DEFAULT_IMAGE)}
           className="w-full h-full"
-          resizeMode="cover"
+          contentFit="cover"
         />
 
         {/* Tags Overlay */}

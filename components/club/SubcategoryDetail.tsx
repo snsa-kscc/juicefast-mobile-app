@@ -3,10 +3,10 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   ScrollView,
   FlatList,
 } from "react-native";
+import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { ProcessedClubItem } from "@/types/club";
 import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
@@ -78,9 +78,8 @@ export function SubcategoryDetail({
         <View className="w-10 h-10 rounded-md overflow-hidden mr-3">
           <Image
             source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGE)}
-            className="max-w-full"
-            style={{ width: 40, height: 40, maxWidth: "100%" }}
-            resizeMode="cover"
+            className="w-full h-full"
+            contentFit="cover"
           />
         </View>
 
@@ -139,9 +138,8 @@ export function SubcategoryDetail({
                   ? { uri: headerImageUrl }
                   : headerImageUrl
               }
-              className="max-w-full"
-              style={{ width: "100%", height: 256, maxWidth: "100%" }}
-              resizeMode="cover"
+              className="w-full h-64"
+              contentFit="cover"
             />
           </View>
           <View className="px-2">

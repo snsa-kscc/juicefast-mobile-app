@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  View,
-  Text,
-  TouchableOpacity,
-  Dimensions,
-  Image,
-} from "react-native";
+import { Modal, View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { Image } from "expo-image";
 import { BlurView } from "expo-blur";
 import * as ImagePicker from "expo-image-picker";
 import { showCrossPlatformAlert } from "@/utils/alert";
@@ -106,7 +100,7 @@ export function ChallengeCongratsModal({
               <Image
                 source={require("@/assets/images/challenge/modal-img.webp")}
                 className="w-full h-full"
-                resizeMode="cover"
+                contentFit="cover"
               />
             </View>
 

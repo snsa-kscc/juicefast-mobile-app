@@ -12,6 +12,7 @@ import { QueryProvider } from "@/providers/QueryProvider";
 import { RevenueCatProvider } from "@/providers/RevenueCatProvider";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
 import "@/styles/global.css";
+import "@/utils/nativewind";
 import "@/utils/navigationGuard";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WebContainer } from "@/components/ui/WebContainer";

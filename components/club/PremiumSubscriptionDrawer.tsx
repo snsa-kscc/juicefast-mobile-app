@@ -4,13 +4,12 @@ import {
   Text,
   TouchableOpacity,
   Modal,
-  Alert,
   ActivityIndicator,
-  ImageBackground,
   ScrollView,
   Platform,
   Linking,
 } from "react-native";
+import { ImageBackground } from "expo-image";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -162,12 +161,11 @@ export function PremiumSubscriptionDrawer({
           >
             <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
               {/* Hero Section with Image */}
-              <View className="relative h-80">
+              <View className="relative h-[400px]">
                 <ImageBackground
                   source={require("@/assets/images/jf-club/cardio-fat-burn.jpg")}
                   style={{ width: "100%", height: "100%" }}
-                  resizeMode="cover"
-                  imageStyle={{ resizeMode: "cover" }}
+                  contentFit="cover"
                 >
                   <LinearGradient
                     colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.4)"]}

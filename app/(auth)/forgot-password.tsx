@@ -6,9 +6,9 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image,
   Platform,
 } from "react-native";
+import { Image } from "expo-image";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MailIcon, LockIcon } from "@/components/icons/AuthIcons";
 import { getInputFieldPadding } from "@/utils/platformStyles";
@@ -106,7 +106,7 @@ export default function ForgotPasswordPage() {
         <View className="w-16 h-16 rounded-2xl items-center justify-center mb-6">
           <Image
             source={require("@/assets/images/jf-picto.png")}
-            style={{ width: 128, height: 128 }}
+            className="w-32 h-32"
           />
         </View>
         <Text className="text-4xl font-lufga-bold text-center mb-4 mt-14">

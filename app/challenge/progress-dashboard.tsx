@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { Bell, Camera, Scale, ChevronLeft } from "lucide-react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -357,7 +358,7 @@ export default function ProgressDashboardPage() {
                     <Image
                       source={{ uri: beforeImageUrl }}
                       className="w-full h-full"
-                      resizeMode="cover"
+                      contentFit="cover"
                     />
                   ) : (
                     <View className="flex-1 items-center justify-center">
@@ -392,7 +393,7 @@ export default function ProgressDashboardPage() {
                     <Image
                       source={{ uri: afterImageUrl }}
                       className="w-full h-full"
-                      resizeMode="cover"
+                      contentFit="cover"
                     />
                   ) : (
                     <View className="flex-1 items-center justify-center">

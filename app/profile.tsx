@@ -4,8 +4,6 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Alert,
-  Image,
   Share,
   Switch,
   Linking,
@@ -16,6 +14,7 @@ import { useRouter, Link } from "expo-router";
 import { useClerk, useUser } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
 import * as Clipboard from "expo-clipboard";
+import { Image } from "expo-image";
 import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
 import {
@@ -342,6 +341,7 @@ export default function ProfileScreen() {
                 <Image
                   source={{ uri: user.imageUrl }}
                   className="w-full h-full"
+                  contentFit="cover"
                 />
               ) : (
                 <User size={48} color="#3B82F6" />

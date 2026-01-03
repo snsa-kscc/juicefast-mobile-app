@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { Image } from "expo-image";
 import Star from "@/components/ui/star";
 import BodyFigure from "@/components/ui/body-figure";
 import Scale from "@/components/ui/scale";
@@ -22,8 +23,7 @@ export function QuizStart({ onStart }: QuizStartProps) {
             <Image
               source={require("@/assets/images/jf-picto.png")}
               className="w-16 h-16"
-              style={{ width: 64, height: 64 }}
-              resizeMode="contain"
+              contentFit="contain"
             />
           </View>
         </View>

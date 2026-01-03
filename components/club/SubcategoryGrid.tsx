@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import {
   getOrderedSubcategoriesForCategory,
   getItemsBySubcategory,
@@ -62,9 +63,8 @@ export function SubcategoryGrid({
             >
               <Image
                 source={subcategory.image}
-                className="max-w-full"
-                style={{ width: "100%", height: "100%", maxWidth: "100%" }}
-                resizeMode="cover"
+                className="w-full h-full"
+                contentFit="cover"
               />
               {/* Overlay text for large images */}
               {isFullWidth && (

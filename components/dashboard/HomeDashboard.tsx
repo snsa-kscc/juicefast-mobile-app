@@ -11,8 +11,8 @@ import {
   TouchableOpacity,
   Animated,
   Alert,
-  Image,
 } from "react-native";
+import { Image } from "expo-image";
 import { showCrossPlatformAlert } from "@/utils/alert";
 import { api } from "@/convex/_generated/api";
 import { CircularProgress, WellnessHeader } from "@/components/tracker/shared";
@@ -709,8 +709,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           <Image
             source={require("@/assets/images/challenge.png")}
             className="w-full h-32 rounded-xl"
-            style={{ width: "100%", maxWidth: "100%" }}
-            resizeMode="cover"
+            contentFit="cover"
           />
         </TouchableOpacity>
 
@@ -722,8 +721,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
           <Image
             source={require("@/assets/images/fasting.png")}
             className="w-full h-32 rounded-xl"
-            style={{ width: "100%", maxWidth: "100%" }}
-            resizeMode="cover"
+            contentFit="cover"
           />
         </TouchableOpacity>
       </View>

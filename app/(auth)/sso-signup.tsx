@@ -1,7 +1,8 @@
 import { useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import { useEffect, useRef, useCallback } from "react";
-import { Text, TouchableOpacity, View, Image, Platform } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { Image } from "expo-image";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSocialSignIn } from "@/hooks/useSocialSignIn";
 import { usePushTokenStorage } from "@/hooks/usePushTokenStorage";
@@ -61,7 +62,7 @@ export default function SSOSignUpScreen() {
         <View className="w-16 h-16 rounded-2xl items-center justify-center mb-6">
           <Image
             source={require("@/assets/images/jf-picto.png")}
-            style={{ width: 128, height: 128 }}
+            className="w-32 h-32"
           />
         </View>
         <Text className="text-4xl font-lufga-bold text-center mb-16 mt-14">

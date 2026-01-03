@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { ProcessedClubItem } from "@/types/club";
 import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
@@ -35,9 +36,8 @@ export function ContentCard({
       >
         <Image
           source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGE)}
-          className="max-w-full"
-          style={{ width: "100%", height: "100%", maxWidth: "100%" }}
-          resizeMode="cover"
+          className="w-full h-full"
+          contentFit="cover"
         />
         {/* Subcategory overlay in upper left */}
         <View className="absolute top-2 left-2 bg-white/90 px-3 py-1.5 rounded-full">

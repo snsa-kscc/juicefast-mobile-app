@@ -3,17 +3,22 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   FlatList,
   Dimensions,
+  Platform,
 } from "react-native";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { ArrowLeft } from "lucide-react-native";
 import { ArticleTips } from "./ArticleTips";
 import { getImageWithFallback, DEFAULT_IMAGE } from "@/utils/imageUtils";
 import { Article } from "@/utils/articleData";
 
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const MAX_WEB_WIDTH = 576; // max-w-xl
+const SCREEN_WIDTH =
+  Platform.OS === "web"
+    ? Math.min(Dimensions.get("window").width, MAX_WEB_WIDTH)
+    : Dimensions.get("window").width;
 const ITEM_WIDTH = (SCREEN_WIDTH - 48 - 16) / 2; // 2 items per page: 48 = px-6 * 2, 16 = gap space
 
 interface ArticleFooterProps {
@@ -136,7 +141,7 @@ export function ArticleFooter({
           <Image
             source={getImageWithFallback(item.image, DEFAULT_IMAGE)}
             className="w-full h-full"
-            resizeMode="cover"
+            contentFit="cover"
           />
         </View>
         <Text className="text-base font-lufga-bold text-center text-black leading-tight">

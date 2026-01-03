@@ -10,7 +10,6 @@ import {
   getRandomBeautyItems,
   getBeautyCategoryById,
 } from "./beautyData";
-import { formatTime } from "./helpers";
 
 // Unified Article type that works for both recipes and beauty
 export interface Article {
