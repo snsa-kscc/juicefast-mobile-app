@@ -441,7 +441,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                 Manual Meal Entry
               </Text>
 
-              <View className="space-y-4">
+              <View>
                 <View>
                   <Text className="font-lufga text-sm text-gray-500 mb-1">
                     Meal Name
@@ -456,7 +456,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                   />
                 </View>
 
-                <View className="flex-row gap-4">
+                <View className="flex-row gap-4 mt-2">
                   <View className="flex-1">
                     <Text className="font-lufga text-sm text-gray-500 mb-1">
                       Calories
@@ -488,7 +488,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                   </View>
                 </View>
 
-                <View className="flex-row gap-4">
+                <View className="flex-row gap-4 mt-2">
                   <View className="flex-1">
                     <Text className="font-lufga text-sm text-gray-500 mb-1">
                       Carbs (g)
@@ -520,7 +520,7 @@ export function MealsTracker({ onBack, onSettingsPress }: MealsTrackerProps) {
                   </View>
                 </View>
 
-                <View>
+                <View className="mt-2">
                   <Text className="font-lufga text-sm text-gray-500 mb-1">
                     Description (optional)
                   </Text>

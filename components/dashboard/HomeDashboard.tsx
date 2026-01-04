@@ -724,6 +724,7 @@ export function HomeDashboard({ userName }: HomeDashboardProps) {
             contentFit="cover"
           />
         </TouchableOpacity>
+        <View className="h-16" />
       </View>
     </ScrollView>
   );
