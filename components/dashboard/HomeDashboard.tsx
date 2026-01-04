@@ -10,7 +10,6 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Animated,
-  Alert,
 } from "react-native";
 import { Image } from "expo-image";
 import { showCrossPlatformAlert } from "@/utils/alert";

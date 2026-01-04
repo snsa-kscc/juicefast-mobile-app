@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
-  Alert,
   ActivityIndicator,
 } from "react-native";
 import { useQuery } from "convex/react";

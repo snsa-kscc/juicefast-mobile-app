@@ -52,13 +52,7 @@ export default function PushNotificationTest() {
 
     setIsSending(true);
     try {
-      await sendPushNotification(
-        getToken,
-        otherToken,
-        "Test User",
-        message,
-        "chat-123"
-      );
+      await sendPushNotification(getToken, otherToken, "Test User", message);
       showCrossPlatformAlert("Success", "Notification sent!");
       setMessage("");
     } catch (error) {
@@ -79,13 +73,7 @@ export default function PushNotificationTest() {
 
     setIsSending(true);
     try {
-      await sendPushNotification(
-        getToken,
-        myToken,
-        "Self Test",
-        message,
-        "chat-123"
-      );
+      await sendPushNotification(getToken, myToken, "Self Test", message);
       showCrossPlatformAlert("Success", "Test notification sent to yourself!");
       setMessage("");
     } catch (error) {

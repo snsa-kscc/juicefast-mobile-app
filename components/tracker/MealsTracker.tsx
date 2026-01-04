@@ -8,7 +8,7 @@ import {
   Cookie,
 } from "lucide-react-native";
 import { startTransition, useMemo, useOptimistic, useState } from "react";
-import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation, useQuery } from "convex/react";
 import { useAuth } from "@clerk/clerk-expo";

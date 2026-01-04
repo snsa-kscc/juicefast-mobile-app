@@ -88,8 +88,7 @@ export async function sendPushNotification(
   getToken: () => Promise<string | null>, // Clerk's getToken function
   targetToken: string,
   senderName: string,
-  messageText: string,
-  chatId?: string
+  messageText: string
 ) {
   if (!targetToken) {
     console.error("Push notification failed: No target token provided");
@@ -101,7 +100,7 @@ export async function sendPushNotification(
     sound: "default",
     title: senderName,
     body: messageText,
-    data: { chatId },
+    data: { type: "test_notification" },
     priority: "high",
     channelId: "default",
   };

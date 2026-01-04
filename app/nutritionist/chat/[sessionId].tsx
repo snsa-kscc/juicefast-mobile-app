@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  Alert,
   Keyboard,
   ActivityIndicator,
 } from "react-native";
