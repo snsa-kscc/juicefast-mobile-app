@@ -3,13 +3,16 @@ import { Plus, X } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
   Dimensions,
-  Modal,
   Platform,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import Animated, {
+  FadeIn,
+  FadeOut,
+  SlideInDown,
+  SlideOutDown,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -36,7 +39,8 @@ export function AddActionButton() {
   const [isOpen, setIsOpen] = useState(false);
   const rotation = useSharedValue(0);
   const screenHeight = Dimensions.get("window").height;
-  const fabBottom = screenHeight * 0.17;
+  const fabBottom =
+    Platform.OS === "android" ? screenHeight * 0.12 : screenHeight * 0.17;
 
   useEffect(() => {
     rotation.value = withTiming(isOpen ? 90 : 0, { duration: 200 });
@@ -134,60 +138,37 @@ export function AddActionButton() {
 
   return (
     <>
-      {/* Floating Action Button - Outside Modal */}
-      {!isOpen && (
-        <View
-          className="absolute right-6"
-          style={{ bottom: fabBottom, zIndex: 9999, elevation: 9999 }}
-          pointerEvents="auto"
-        >
-          <TouchableOpacity
-            className="w-14 h-14 rounded-full bg-white justify-center items-center shadow-lg"
-            onPress={handleOpenModal}
-            activeOpacity={0.8}
+      {/* Overlay and Sheet */}
+      {isOpen && (
+        <>
+          {/* Background Overlay */}
+          <Animated.View
+            entering={FadeIn.duration(200)}
+            exiting={FadeOut.duration(200)}
+            className="absolute inset-0 bg-black/50"
+            style={{ zIndex: 9998, elevation: 9998 }}
           >
-            <Animated.View style={animatedStyle}>
-              <Plus size={28} color="#000000" />
-            </Animated.View>
-          </TouchableOpacity>
-        </View>
-      )}
+            <TouchableOpacity
+              className="flex-1"
+              activeOpacity={1}
+              onPress={handleCloseModal}
+            />
+          </Animated.View>
 
-      {/* Modal */}
-      <Modal
-        visible={isOpen}
-        transparent={true}
-        animationType="slide"
-        presentationStyle={Platform.OS === "ios" ? "overFullScreen" : undefined}
-        onRequestClose={handleCloseModal}
-      >
-        {/* Floating Action Button - Inside Modal */}
-        <View
-          className="absolute right-6"
-          style={{ bottom: fabBottom, zIndex: 9999, elevation: 9999 }}
-          pointerEvents="auto"
-        >
-          <TouchableOpacity
-            className="w-14 h-14 rounded-full bg-white justify-center items-center shadow-lg"
-            onPress={handleCloseModal}
-            activeOpacity={0.8}
+          {/* Bottom Sheet Content */}
+          <Animated.View
+            entering={SlideInDown.duration(300)}
+            exiting={SlideOutDown.duration(200)}
+            className="absolute bottom-0 left-0 right-0 bg-[#F5F5F5] rounded-t-[20px] px-5 pt-3 pb-5"
+            style={{ zIndex: 9998, elevation: 9998 }}
           >
-            <Animated.View style={animatedStyle}>
-              <X size={28} color="#000000" />
-            </Animated.View>
-          </TouchableOpacity>
-        </View>
-
-        {/* Modal Content */}
-        <View className="flex-1 justify-end">
-          <View className="bg-[#F5F5F5] rounded-t-[20px] px-5 pt-3 pb-5">
             {/* Handle Indicator */}
-            <View className="items-center mb-7">
+            <View className="items-center mb-5">
               <View className="w-10 h-1 bg-black rounded-full" />
             </View>
 
-            <View className="mb-5">
-              <Text className="text-2xl font-lufga-bold text-black text-center mb-10 tracking-wider">
+            <View className="mb-1">
+              <Text className="text-2xl font-lufga-bold text-black text-center mb-6 tracking-wider">
                 WELLNESS LOG
               </Text>
               {wellnessOptions.map((option) => {
@@ -217,12 +198,33 @@ export function AddActionButton() {
               })}
             </View>
 
-            <Text className="text-sm text-[#666] text-center mt-5 leading-5 pb-10 font-lufga">
+            <Text className="text-sm text-[#666] text-center leading-5 font-lufga">
               For the most accurate insights,{"\n"}log daily.
             </Text>
-          </View>
-        </View>
-      </Modal>
+          </Animated.View>
+        </>
+      )}
+
+      {/* Single Floating Action Button - Always on top */}
+      <View
+        className="absolute right-6"
+        style={{ bottom: fabBottom, zIndex: 9999, elevation: 9999 }}
+        pointerEvents="auto"
+      >
+        <TouchableOpacity
+          className="w-14 h-14 rounded-full bg-white justify-center items-center shadow-lg"
+          onPress={isOpen ? handleCloseModal : handleOpenModal}
+          activeOpacity={0.8}
+        >
+          <Animated.View style={animatedStyle}>
+            {isOpen ? (
+              <X size={28} color="#000000" />
+            ) : (
+              <Plus size={28} color="#000000" />
+            )}
+          </Animated.View>
+        </TouchableOpacity>
+      </View>
     </>
   );
 }

@@ -4,7 +4,7 @@ import { api } from "@/convex/_generated/api";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { Home, Heart, Store, MessageCircle, Users } from "lucide-react-native";
 import { BlurView } from "expo-blur";
-import { Platform, Alert } from "react-native";
+import { Platform } from "react-native";
 import {
   Badge,
   Icon,
@@ -92,7 +92,7 @@ function RegularTabLayout() {
             backgroundColor: "transparent",
             borderTopWidth: 0,
             borderRadius: 20,
-            height: 70,
+            height: 75,
             marginHorizontal: 20,
             marginBottom: 25,
             paddingBottom: 10,

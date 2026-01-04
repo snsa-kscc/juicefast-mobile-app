@@ -7,6 +7,7 @@ import { Stack, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
 import { StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Platform } from "react-native";
 import { LoadingProvider } from "@/providers/LoadingProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { RevenueCatProvider } from "@/providers/RevenueCatProvider";
@@ -130,11 +131,6 @@ function AuthenticatedLayout() {
     };
   }, [user, router]);
 
-  const shouldShowAddButton =
-    isSignedIn &&
-    !segments.includes("(auth)") &&
-    !segments.includes("onboarding");
-
   useEffect(() => {
     if (!isLoaded) return; // Wait for auth to load
 
@@ -194,7 +190,10 @@ function AuthenticatedLayout() {
         }
       };
 
-      handleNotificationNavigation();
+      // Only run notification navigation on mobile, not on web
+      if (Platform.OS !== "web") {
+        handleNotificationNavigation();
+      }
     } else {
       // User is not signed in - redirect to signup
       router.replace("/(auth)/sso-signup");

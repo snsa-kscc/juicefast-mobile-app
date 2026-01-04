@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  View,
-  BackHandler,
-  Alert,
-} from "react-native";
+import { ActivityIndicator, StyleSheet, View, BackHandler } from "react-native";
 import { WebView } from "react-native-webview";
 import { ThemedView } from "@/components/ThemedView";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -90,7 +84,7 @@ export default function StoreScreen() {
         onLoadEnd={handleLoadEnd}
         javaScriptEnabled={true}
         domStorageEnabled={true}
-        startInLoadingState={true}
+        startInLoadingState={false}
         scalesPageToFit={true}
         allowsBackForwardNavigationGestures={true}
         mediaPlaybackRequiresUserAction={false}
@@ -98,6 +92,8 @@ export default function StoreScreen() {
         allowsFullscreenVideo={true}
         allowsAirPlayForMediaPlayback={true}
         mixedContentMode="compatibility"
+        cacheEnabled={true}
+        cacheMode="LOAD_CACHE_ELSE_NETWORK"
       />
     </ThemedView>
   );
