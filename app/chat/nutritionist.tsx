@@ -8,7 +8,11 @@ export default function NutritionistChatPage() {
   const router = useRouter();
 
   const handleBackPress = () => {
-    router.back();
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/(tabs)");
+    }
   };
 
   const handleSettingsPress = () => {

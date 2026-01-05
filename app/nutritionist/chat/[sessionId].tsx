@@ -137,7 +137,11 @@ export default function NutritionistChatSession() {
   };
 
   const handleBack = () => {
-    router.back();
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/(tabs)");
+    }
   };
 
   const handleEndSession = async () => {

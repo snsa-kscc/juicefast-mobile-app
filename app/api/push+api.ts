@@ -103,11 +103,7 @@ export async function POST(request: Request) {
       sound: sound || "default",
       title,
       body: messageBody,
-      data: {
-        ...data,
-        senderId: userId, // Track which user sent the notification
-        timestamp: new Date().toISOString(),
-      },
+      data,
       priority: priority || "high",
       channelId: channelId || "default",
     };
