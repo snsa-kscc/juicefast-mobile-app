@@ -69,6 +69,14 @@ export function SubcategoryDetail({
 
     const isDisabled = shouldDisablePress?.(item, index) ?? false;
 
+    // Determine image type based on item type
+    const imageType =
+      item.type === "recipe"
+        ? "recipe"
+        : item.type === "article"
+          ? "beauty"
+          : undefined;
+
     const itemContent = (
       <TouchableOpacity
         className="flex-row items-center bg-jf-gray px-4 py-3 mb-2 rounded-lg border border-gray-200"
@@ -77,7 +85,7 @@ export function SubcategoryDetail({
       >
         <View className="w-10 h-10 rounded-md overflow-hidden mr-3">
           <Image
-            source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGE)}
+            source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGE, imageType)}
             className="w-full h-full"
             contentFit="cover"
           />

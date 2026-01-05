@@ -28,6 +28,14 @@ export function ContentCard({
     }
   };
 
+  // Determine image type based on item type
+  const imageType =
+    item.type === "recipe"
+      ? "recipe"
+      : item.type === "article"
+        ? "beauty"
+        : undefined;
+
   return (
     <TouchableOpacity className="flex-1 mb-4" onPress={onPress}>
       <View
@@ -35,7 +43,7 @@ export function ContentCard({
         style={{ aspectRatio: getAspectRatio() }}
       >
         <Image
-          source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGE)}
+          source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGE, imageType)}
           className="w-full h-full"
           contentFit="cover"
         />

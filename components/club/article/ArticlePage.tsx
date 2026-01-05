@@ -207,11 +207,13 @@ function ArticleTitleSection({ article }: { article: Article }) {
 
 // Image Section with Tags
 function ArticleImageSection({ article }: { article: Article }) {
+  const imageType = article.articleType === "recipe" ? "recipe" : "beauty";
+
   return (
     <View className="pb-6 bg-jf-gray">
-      <View className="relative w-full h-96 overflow-hidden bg-white">
+      <View className="relative w-full aspect-square overflow-hidden bg-white">
         <Image
-          source={getImageWithFallback(article.image, DEFAULT_IMAGE)}
+          source={getImageWithFallback(article.image, DEFAULT_IMAGE, imageType)}
           className="w-full h-full"
           contentFit="cover"
         />
