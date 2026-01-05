@@ -2,6 +2,14 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 
+type NotificationType = "chat" | "challenge_notification" | "test_notification";
+
+export interface NotificationData {
+  type: NotificationType;
+  chatId?: string;
+  intendedRecipientId?: string;
+}
+
 // Global session ID tracking for notification suppression
 let activeSessionId: string | null = null;
 
@@ -241,53 +249,47 @@ export async function sendBulkChallengeNotifications(
   };
 }
 
-// Listen for notification taps (when app was closed/background)
+function parseNotificationData(
+  data: Record<string, unknown> | undefined
+): NotificationData {
+  const { type, chatId, intendedRecipientId } = data ?? {};
+
+  // Determine type: if chatId exists it's a chat notification, otherwise use the type field
+  let notificationType: NotificationType = "test_notification";
+  if (chatId) {
+    notificationType = "chat";
+  } else if (type === "challenge_notification") {
+    notificationType = "challenge_notification";
+  }
+
+  return {
+    type: notificationType,
+    chatId: chatId as string | undefined,
+    intendedRecipientId: intendedRecipientId as string | undefined,
+  };
+}
+
+// Get notification that opened the app (cold start)
+export function getInitialNotification(): NotificationData | null {
+  // This API is not available on web
+  if (Platform.OS === "web") {
+    return null;
+  }
+
+  const response = Notifications.getLastNotificationResponse();
+  if (!response) return null;
+  return parseNotificationData(response.notification.request.content.data);
+}
+
+// Listen for notification taps (when app is in background)
 export function addNotificationListener(
-  callback: (chatId?: string, intendedRecipientId?: string) => void
+  callback: (data: NotificationData) => void
 ) {
   const subscription = Notifications.addNotificationResponseReceivedListener(
     (response) => {
-      const chatId = response.notification.request.content.data.chatId as
-        | string
-        | undefined;
-      const intendedRecipientId = response.notification.request.content.data
-        .intendedRecipientId as string | undefined;
-
-      // Validate that the current user is the intended recipient
-      if (intendedRecipientId) {
-        // This will be handled by the chat components with user context
-        // We just pass the validation data along
-        callback(chatId, intendedRecipientId);
-      } else {
-        // Legacy notifications without recipient validation
-        callback(chatId);
-      }
-    }
-  );
-
-  return () => subscription.remove();
-}
-
-// Listen for notifications when app is OPEN
-export function addForegroundNotificationListener(
-  callback: (
-    senderName: string,
-    messageText: string,
-    chatId?: string,
-    intendedRecipientId?: string
-  ) => void
-) {
-  const subscription = Notifications.addNotificationReceivedListener(
-    (notification) => {
-      // This fires when notification arrives and app is OPEN
-      const { title, body, data } = notification.request.content;
-      const chatId = data?.chatId as string | undefined;
-      const intendedRecipientId = data?.intendedRecipientId as
-        | string
-        | undefined;
-
-      // Pass recipient validation data along with the notification
-      callback(title || "Someone", body || "", chatId, intendedRecipientId);
+      callback(
+        parseNotificationData(response.notification.request.content.data)
+      );
     }
   );
 

@@ -7,7 +7,6 @@ import { Stack, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
 import { StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Platform } from "react-native";
 import { LoadingProvider } from "@/providers/LoadingProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { RevenueCatProvider } from "@/providers/RevenueCatProvider";
@@ -19,10 +18,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { WebContainer } from "@/components/ui/WebContainer";
 import {
   addNotificationListener,
-  addForegroundNotificationListener,
   setActiveSessionId,
+  getInitialNotification,
+  type NotificationData,
 } from "@/services/messagingService";
-import * as Notifications from "expo-notifications";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!);
@@ -65,137 +64,102 @@ function AuthenticatedLayout() {
   // Clear active session when user navigates away from chat screens
   useEffect(() => {
     const isInChatScreen =
-      (segments.includes("nutritionist") && segments.includes("chat")) ||
-      (segments.includes("chat") && segments.includes("nutritionist"));
+      segments.includes("chat") || segments.includes("nutritionist");
 
     if (!isInChatScreen) {
       setActiveSessionId(null);
     }
   }, [segments]);
 
-  // Global notification handler for push notification taps
+  // Handle notification taps
   useEffect(() => {
     if (!user) return;
 
-    // Handle notification taps when app was closed/backgrounded
-    const unsubscribeTap = addNotificationListener(
-      (chatId, intendedRecipientId) => {
-        // Validate that the current user is the intended recipient
-        if (intendedRecipientId && intendedRecipientId !== user.id) {
-          console.log(
-            "Ignoring notification - not the intended recipient:",
-            intendedRecipientId
-          );
-          return;
-        }
+    const handleNotification = (data: NotificationData) => {
+      if (data.intendedRecipientId && data.intendedRecipientId !== user.id)
+        return;
 
-        console.log("User tapped notification for chat:", chatId);
+      const isInChatScreen =
+        segments.includes("chat") || segments.includes("nutritionist");
 
-        // Navigate based on user role
-        const isNutritionist =
-          user.unsafeMetadata?.role === "nutritionist" ||
-          user.unsafeMetadata?.role === "admin";
-
-        if (chatId) {
-          if (isNutritionist) {
-            // Nutritionist navigates to their chat interface
-            router.push(`/nutritionist/chat/${chatId}`);
-          } else {
-            // Regular user navigates to nutritionist chat with session ID
-            router.push(`/chat/nutritionist`);
-          }
+      const navigate = (path: string, shouldReplace: boolean) => {
+        if (shouldReplace) {
+          router.replace(path as any);
         } else {
-          // Fallback to chat options if no specific chat ID
-          router.push("/chat");
-        }
-      }
-    );
-
-    // Handle notifications when app is open (foreground)
-    const unsubscribeForeground = addForegroundNotificationListener(
-      (senderName, messageText, chatId, intendedRecipientId) => {
-        // Validate that the current user is the intended recipient
-        if (intendedRecipientId && intendedRecipientId !== user.id) {
-          console.log(
-            "Ignoring foreground notification - not the intended recipient:",
-            intendedRecipientId
-          );
-          return;
-        }
-      }
-    );
-
-    return () => {
-      unsubscribeTap();
-      unsubscribeForeground();
-    };
-  }, [user, router]);
-
-  useEffect(() => {
-    if (!isLoaded) return; // Wait for auth to load
-
-    if (isSignedIn && user) {
-      // Check if app was opened from a notification (cold start)
-      const handleNotificationNavigation = async () => {
-        try {
-          const response = Notifications.getLastNotificationResponse();
-
-          if (response?.notification?.request?.content?.data) {
-            const { chatId, intendedRecipientId } =
-              response.notification.request.content.data;
-
-            // Validate that the current user is the intended recipient
-            if (intendedRecipientId && intendedRecipientId !== user.id) {
-              console.log(
-                "Ignoring cold start notification - not the intended recipient:",
-                intendedRecipientId
-              );
-            } else if (chatId) {
-              console.log("App opened from notification for chat:", chatId);
-
-              // Navigate based on user role
-              const isNutritionist =
-                user.unsafeMetadata?.role === "nutritionist" ||
-                user.unsafeMetadata?.role === "admin";
-
-              // Check onboarding first, then navigate to chat
-              const isOnboardingCompleted =
-                user.unsafeMetadata?.onboardingCompleted === true;
-
-              if (!isOnboardingCompleted) {
-                // Store the chat navigation for after onboarding
-                // For now, just proceed with onboarding
-                router.replace("/onboarding");
-              } else {
-                if (isNutritionist) {
-                  router.replace(`/nutritionist/chat/${chatId}`);
-                } else {
-                  router.replace(`/chat/nutritionist`);
-                }
-                return; // Skip normal navigation
-              }
-            }
-          }
-        } catch (error) {
-          console.error("Error checking notification response:", error);
-        }
-
-        // Normal navigation if no notification or notification handled
-        const isOnboardingCompleted =
-          user.unsafeMetadata?.onboardingCompleted === true;
-        if (isOnboardingCompleted) {
-          router.replace("/(tabs)");
-        } else {
-          router.replace("/onboarding");
+          router.push(path as any);
         }
       };
 
-      // Only run notification navigation on mobile, not on web
-      if (Platform.OS !== "web") {
-        handleNotificationNavigation();
+      switch (data.type) {
+        case "chat": {
+          const isNutritionist =
+            user.unsafeMetadata?.role === "nutritionist" ||
+            user.unsafeMetadata?.role === "admin";
+          const path = isNutritionist
+            ? `/nutritionist/chat/${data.chatId}`
+            : `/chat/nutritionist`;
+          navigate(path, isInChatScreen);
+          break;
+        }
+        case "challenge_notification":
+          navigate("/(tabs)/challenge", false);
+          break;
+        case "test_notification":
+          navigate("/(tabs)", false);
+          break;
       }
+    };
+
+    return addNotificationListener(handleNotification);
+  }, [user, router, segments]);
+
+  // Auth routing (including cold start from notification)
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    if (isSignedIn && user) {
+      const isOnboardingCompleted =
+        user.unsafeMetadata?.onboardingCompleted === true;
+
+      if (!isOnboardingCompleted) {
+        router.replace("/onboarding");
+        return;
+      }
+
+      // Check for cold start notification
+      const initial = getInitialNotification();
+      if (initial) {
+        if (
+          initial.intendedRecipientId &&
+          initial.intendedRecipientId !== user.id
+        ) {
+          router.replace("/(tabs)");
+          return;
+        }
+
+        switch (initial.type) {
+          case "chat": {
+            const isNutritionist =
+              user.unsafeMetadata?.role === "nutritionist" ||
+              user.unsafeMetadata?.role === "admin";
+            router.replace(
+              (isNutritionist
+                ? `/nutritionist/chat/${initial.chatId}`
+                : `/chat/nutritionist`) as any
+            );
+            return;
+          }
+          case "challenge_notification":
+            router.replace("/(tabs)/challenge");
+            return;
+          case "test_notification":
+            // Fall through to default home navigation
+            break;
+        }
+      }
+
+      router.replace("/(tabs)");
     } else {
-      // User is not signed in - redirect to signup
       router.replace("/(auth)/sso-signup");
     }
   }, [isSignedIn, isLoaded, router, user]);
