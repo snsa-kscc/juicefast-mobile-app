@@ -34,7 +34,7 @@ export default function OrderEntryPage() {
 
   // Minimum order number thresholds
   const minOrderNumberHR = 91610;
-  const minOrderNumberSLO = 37530;
+  const minOrderNumberSLO = 36960;
 
   const validateOrderNumber = (
     orderNumber: string
