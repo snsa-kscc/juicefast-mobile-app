@@ -34,22 +34,22 @@ export default function OrderEntryPage() {
 
   // Minimum order number thresholds
   const minOrderNumberHR = 91610;
-  const minOrderNumberSI = 55555;
+  const minOrderNumberSLO = 37530;
 
   const validateOrderNumber = (
     orderNumber: string
   ): { isValid: boolean; message?: string } => {
-    const regex = /^(HR|SI)\d{5}$/;
+    const regex = /^(HR|SLO)\d{5}$/;
     if (!regex.test(orderNumber)) {
       return {
         isValid: false,
-        message: "Order number must start with HR or SI followed by 5 digits",
+        message: "Order number must start with HR or SLO followed by 5 digits",
       };
     }
 
     // Extract the prefix and numeric part
-    const prefix = orderNumber.substring(0, 2);
-    const numericPart = parseInt(orderNumber.substring(2));
+    const prefix = orderNumber.startsWith("SLO") ? "SLO" : "HR";
+    const numericPart = parseInt(orderNumber.substring(prefix.length));
 
     // Check minimum based on prefix
     if (prefix === "HR") {
@@ -59,8 +59,8 @@ export default function OrderEntryPage() {
           message: "Order number is invalid",
         };
       }
-    } else if (prefix === "SI") {
-      if (numericPart < minOrderNumberSI) {
+    } else if (prefix === "SLO") {
+      if (numericPart < minOrderNumberSLO) {
         return {
           isValid: false,
           message: "Order number is invalid",
@@ -179,7 +179,7 @@ export default function OrderEntryPage() {
             textAlign="center"
             autoCorrect={false}
             spellCheck={false}
-            maxLength={7}
+            maxLength={8}
             caretHidden={true}
           />
         </View>
