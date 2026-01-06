@@ -120,6 +120,9 @@ export function ArticleFooter({
     }
   }, [currentPage, canScrollRight, items.length]);
 
+  // Determine image type based on article type
+  const imageType = article?.articleType === "recipe" ? "recipe" : "beauty";
+
   // Render individual item
   const renderItem = useCallback(
     ({
@@ -139,7 +142,7 @@ export function ArticleFooter({
       >
         <View className="w-full aspect-square rounded-3xl overflow-hidden bg-white shadow-sm">
           <Image
-            source={getImageWithFallback(item.image, DEFAULT_IMAGE)}
+            source={getImageWithFallback(item.image, DEFAULT_IMAGE, imageType)}
             className="w-full h-full"
             contentFit="cover"
           />
@@ -149,7 +152,7 @@ export function ArticleFooter({
         </Text>
       </TouchableOpacity>
     ),
-    [items.length, onItemPress]
+    [items.length, onItemPress, imageType]
   );
 
   return (
