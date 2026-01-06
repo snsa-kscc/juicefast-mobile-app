@@ -85,7 +85,11 @@ export function SubcategoryDetail({
       >
         <View className="w-10 h-10 rounded-md overflow-hidden mr-3">
           <Image
-            source={getImageWithFallback(item.imageUrl, DEFAULT_IMAGE, imageType)}
+            source={getImageWithFallback(
+              item.imageUrl,
+              DEFAULT_IMAGE,
+              imageType
+            )}
             className="w-full h-full"
             contentFit="cover"
           />

@@ -5,7 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   ActivityIndicator,
 } from "react-native";
 import { useQuery, useMutation } from "convex/react";
@@ -36,7 +37,6 @@ export default function NutritionistChatSession() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   const sessionData = useQuery(api.nutritionistChat.getNutritionistSessions);
   const currentSession = sessionData?.find((s) => s.id === sessionId);
@@ -48,20 +48,6 @@ export default function NutritionistChatSession() {
   const sendMessage = useMutation(api.nutritionistChat.sendNutritionistMessage);
   const markAsRead = useMutation(api.nutritionistChat.markMessagesAsRead);
   const endSession = useMutation(api.nutritionistChat.endChatSession);
-
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
-      setKeyboardHeight(e.endCoordinates.height);
-    });
-    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-      setKeyboardHeight(0);
-    });
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
 
   useEffect(() => {
     if (
@@ -190,9 +176,10 @@ export default function NutritionistChatSession() {
   }
 
   return (
-    <View
-      className="flex-1 bg-jf-gray"
-      style={{ paddingBottom: keyboardHeight }}
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: "#FCFBF8" }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={10}
     >
       {/* Chat header */}
       <View className="bg-white px-4 py-3 border-b border-gray-100">
@@ -335,6 +322,6 @@ export default function NutritionistChatSession() {
           </Text>
         )}
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

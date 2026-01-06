@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
-  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   ActivityIndicator,
 } from "react-native";
 import { Send, User, Users } from "lucide-react-native";
@@ -41,7 +42,6 @@ export function NutritionistChat() {
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEndingSession, setIsEndingSession] = useState(false);
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [selectedNutritionist, setSelectedNutritionist] =
     useState<Nutritionist | null>(null);
   const [currentSession, setCurrentSession] = useState<ChatSession | null>(
@@ -97,20 +97,6 @@ export function NutritionistChat() {
       ? { sessionId: currentSession.id as Id<"chatSessions"> }
       : "skip"
   );
-
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
-      setKeyboardHeight(e.endCoordinates.height);
-    });
-    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-      setKeyboardHeight(0);
-    });
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
 
   // Convert realtime messages to the expected Message interface format
   const messages = useMemo(() => {
@@ -530,7 +516,11 @@ export function NutritionistChat() {
 
   // Show chat interface
   return (
-    <View className="flex-1" style={{ paddingBottom: keyboardHeight }}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={10}
+    >
       {/* Chat header */}
       <View className="bg-white px-4 py-3 border-b border-gray-100">
         <View className="flex-row items-center justify-between">
@@ -695,6 +685,6 @@ export function NutritionistChat() {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

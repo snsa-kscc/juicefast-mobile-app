@@ -7,9 +7,9 @@ import { fetch as expoFetch } from "expo/fetch";
 import { Send } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import {
-  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -20,18 +20,8 @@ interface AIChatProps {
   userId: string;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  inner: {
-    flex: 1,
-  },
-});
-
 export function AIChat({ userId: _userId }: AIChatProps) {
   const [inputText, setInputText] = useState("");
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const scrollViewRef = useRef<ScrollView>(null);
   const { getToken } = useAuth();
 
@@ -63,20 +53,6 @@ export function AIChat({ userId: _userId }: AIChatProps) {
     scrollToBottom();
   }, [messages]);
 
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
-      setKeyboardHeight(e.endCoordinates.height);
-    });
-    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-      setKeyboardHeight(0);
-    });
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
-
   const handleSendMessage = async () => {
     if (!inputText.trim() || isLoading) return;
 
@@ -94,8 +70,12 @@ export function AIChat({ userId: _userId }: AIChatProps) {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: "#FCFBF8" }]}>
-      <View style={[styles.inner, { paddingBottom: keyboardHeight }]}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={10}
+    >
+      <View className="flex-1">
         {/* Error state */}
         {error && (
           <View className="px-4 py-2">
@@ -172,6 +152,6 @@ export function AIChat({ userId: _userId }: AIChatProps) {
           </View>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
