@@ -5,7 +5,7 @@ export default () => {
     expo: {
       name: isDev ? "Juicefast DEV" : "Juicefast AI",
       slug: "juicefast-nutrition-app",
-      version: "1.1.1",
+      version: "1.1.2",
       orientation: "portrait",
       icon: "./assets/images/jf-picto-ios.png",
       scheme: isDev ? "juicefast-dev" : "juicefast-ai",
@@ -91,7 +91,7 @@ export default () => {
         },
       },
       owner: "juicefast",
-      runtimeVersion: "1.1.1",
+      runtimeVersion: "1.1.2",
       updates: {
         url: "https://u.expo.dev/6e9c5757-7446-4974-80fa-fadd2ad8ebc4",
       },
