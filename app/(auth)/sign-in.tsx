@@ -80,10 +80,9 @@ export default function Page() {
       });
 
       // If sign-in process is complete, set the created session as active
-      // and redirect the user
+      // Navigation is handled by the root layout based on onboarding status
       if (signInAttempt.status === "complete") {
         await setActive({ session: signInAttempt.createdSessionId });
-        router.replace("/onboarding");
       } else {
         // If the status isn't complete, check why. User might need to
         // complete further steps.

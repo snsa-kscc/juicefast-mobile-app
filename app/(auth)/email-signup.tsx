@@ -159,8 +159,7 @@ export default function EmailSignUpScreen() {
         if (referralCodeInput.trim()) {
           await ReferralStorage.storeReferralCode(referralCodeInput.trim());
         }
-
-        router.replace("/onboarding");
+        // Root layout will handle navigation to onboarding or tabs
       } else {
         setVerificationError("Verification incomplete. Please try again.");
         console.error("Sign up attempt incomplete:", signUpAttempt.status);
