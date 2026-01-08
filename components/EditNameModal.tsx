@@ -62,14 +62,14 @@ export function EditNameModal({
       onRequestClose={onClose}
     >
       <KeyboardAvoidingView
-        behavior="padding"
-        className="flex-1"
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "android" ? -32 : 0}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View className="flex-1 bg-transparent justify-end items-center">
             <View
-              className={`bg-white p-5 w-full ${Platform.OS === "web" ? "max-w-xl rounded-[20px] mb-6" : "rounded-t-[20px]"} ${Platform.OS === "android" ? "pb-16" : ""}`}
+              className={`bg-white border border-gray-200 p-5 w-full ${Platform.OS === "web" ? "max-w-xl rounded-[20px] mb-6" : "rounded-t-[20px]"} ${Platform.OS === "android" ? "pb-16" : ""}`}
               style={{ maxHeight: windowHeight * 0.5 }}
             >
               <View className="flex-row justify-between items-center mb-6">
@@ -99,7 +99,7 @@ export function EditNameModal({
                   />
                 </View>
 
-                <View className="gap-2">
+                <View className="gap-2 mt-2">
                   <Text className="text-sm font-lufga-medium text-gray-700">
                     Last Name
                   </Text>
@@ -113,7 +113,7 @@ export function EditNameModal({
                   />
                 </View>
 
-                <View className="flex-row gap-3 mt-2">
+                <View className="flex-row gap-3 mt-4">
                   <TouchableOpacity
                     className="flex-1 bg-gray-100 rounded-xl py-3.5 items-center"
                     onPress={onClose}

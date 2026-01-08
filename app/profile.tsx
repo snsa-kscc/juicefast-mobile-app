@@ -781,7 +781,7 @@ export default function ProfileScreen() {
         />
 
         {/* Bottom padding */}
-        <View className="h-24" />
+        <View className="h-8" />
       </ScrollView>
     </View>
   );

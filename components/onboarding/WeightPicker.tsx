@@ -126,6 +126,7 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
           showsVerticalScrollIndicator={false}
           snapToInterval={ITEM_HEIGHT}
           decelerationRate="fast"
+          onScrollEndDrag={handleKgScroll}
           onMomentumScrollEnd={handleKgScroll}
           contentContainerStyle={{ paddingVertical: 80 }}
         >
@@ -210,6 +211,7 @@ export function WeightPicker({ value, onChange, min, max }: WeightPickerProps) {
           showsVerticalScrollIndicator={false}
           snapToInterval={ITEM_HEIGHT}
           decelerationRate="fast"
+          onScrollEndDrag={handleGramScroll}
           onMomentumScrollEnd={handleGramScroll}
           contentContainerStyle={{ paddingVertical: 80 }}
         >
