@@ -101,7 +101,22 @@ export default function OrderEntryPage() {
       }
     } catch (error) {
       console.error("Error activating order:", error);
-      await showCrossPlatformAlert("Error", "Failed to activate order");
+
+      // Check if the error is about duplicate order number
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+
+      if (errorMessage.includes("Order number already exists")) {
+        await showCrossPlatformAlert(
+          "Order Already Claimed",
+          "This order number has already been used to enroll in the challenge. Each order number can only be used once."
+        );
+      } else {
+        await showCrossPlatformAlert(
+          "Error",
+          "Failed to activate order. Please try again."
+        );
+      }
     } finally {
       setIsLoading(false);
     }
