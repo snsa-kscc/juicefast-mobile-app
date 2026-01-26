@@ -245,6 +245,7 @@ export default function NutritionistChatSession() {
                     ? "text-white"
                     : "text-gray-800"
                 }`}
+                selectable
               >
                 {message.content}
               </Text>
