@@ -241,11 +241,3 @@ This project is private and proprietary to Juicefast App.
 ---
 
 **Built with ❤️ using Expo and React Native**
-
-## 2DO
-
-- [ ] WooCommerce integration
-- [ ] Styling
-- [ ] Testing
-- [ ] Facebook OAuth
-- [ ] Add Sentry for error tracking
