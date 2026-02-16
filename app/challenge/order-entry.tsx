@@ -39,11 +39,12 @@ export default function OrderEntryPage() {
   const validateOrderNumber = (
     orderNumber: string
   ): { isValid: boolean; message?: string } => {
-    const regex = /^(HR|SLO)\d{5}$/;
+    const regex = /^(HR|SLO)\d{5,6}$/;
     if (!regex.test(orderNumber)) {
       return {
         isValid: false,
-        message: "Order number must start with HR or SLO followed by 5 digits",
+        message:
+          "Order number must start with HR or SLO followed by 5 or 6 digits",
       };
     }
 
@@ -194,7 +195,7 @@ export default function OrderEntryPage() {
             textAlign="center"
             autoCorrect={false}
             spellCheck={false}
-            maxLength={8}
+            maxLength={9}
             caretHidden={true}
           />
         </View>
