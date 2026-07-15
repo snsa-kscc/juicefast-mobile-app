@@ -1,99 +1,63 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository. For a full feature/architecture handover, see [README.md](README.md).
 
 ## Project Overview
 
-This is the **Juicefast Nutrition App**, a React Native mobile application built with Expo. The app focuses on wellness tracking functionality, currently featuring a comprehensive WellnessTracker component as the main screen. The app uses TypeScript, NativeWind (Tailwind CSS for React Native), and React Native Reanimated for animations.
+**Juicefast AI** (`juicefast-nutrition-app`) is a cross-platform wellness & nutrition app built with React Native + Expo, running on iOS, Android, and Web from one codebase. It combines wellness tracking (meals, steps, hydration, mindfulness, sleep, notes), an AI health chat and meal-photo analysis (Google Gemini), real-time nutritionist chat, a 21-day habit Challenge, the subscription-gated JF Club content library, a WooCommerce store, referrals, and native/web subscriptions.
+
+Stack: TypeScript (strict), Expo SDK ~54 (New Architecture), React Native 0.81 / React 19, Expo Router ~6, NativeWind 4 + Tailwind 3, React Native Reanimated ~4. Backend is **Convex**; auth is **Clerk**; subscriptions via **RevenueCat** (native) and **WooCommerce** (web). Package manager is **pnpm**.
 
 ## Development Commands
 
-### Basic Development
+- **Start dev server**: `pnpm start` (Metro/Expo)
+- **iOS / Android (native)**: `pnpm ios` / `pnpm android` — required because the app uses native modules; **Expo Go will not work**, use a dev-client build
+- **Web**: `pnpm web`
+- **Convex backend**: `npx convex dev` — keep running while developing so schema/function changes deploy live and `convex/_generated` stays current
+- **Lint**: `pnpm lint` (`eslint-config-expo`)
+- **Format**: `pnpm format` (Prettier + Tailwind class sorting)
 
-- **Start development server**: `expo start` (or `npm start`)
-- **Android**: `expo start --android` (or `npm run android`)
-- **iOS**: `expo start --ios` (or `npm run ios`)
-- **Web**: `expo start --web` (or `npm run web`)
+## Architecture
 
-### Code Quality
+### Provider tree (`app/_layout.tsx`)
 
-- **Lint code**: `expo lint` (or `npm run lint`)
+Order matters: `ClerkProvider` → `ConvexProviderWithClerk` → `RevenueCatProvider` → `GestureHandlerRootView` → `LoadingProvider` → `QueryProvider` → `AuthenticatedLayout`.
 
-### Project Management
+`AuthenticatedLayout` owns: auth gating/routing (signed-out → `(auth)/sso-signup`; signed-in but `onboardingCompleted !== true` → `/onboarding`; else `/(tabs)`), push-notification tap routing (incl. cold start), and push-token registration.
 
-- **Reset to blank project**: `npm run reset-project` - moves starter code to app-example/ and creates blank app/
+### Routing (`app/`, Expo Router, typed routes)
 
-## Architecture & Structure
+Route groups in parentheses don't affect the URL. Main groups: `(auth)`, `(tabs)` (Home/Challenge/Store/Chat/Club), `(legal)`. Tracker detail screens (`meals`, `steps`, `hydration`, `mindfulness`, `sleep`, `notes`) and `profile` are stack screens. `chat/`, `nutritionist/`, `challenge/`, `club/` hold their feature screens. Server routes live in `app/api/*+api.ts` (see below).
 
-### Core Technologies
+### Backend (`convex/`)
 
-- **Framework**: React Native with Expo (~53.0.20)
-- **Navigation**: Expo Router with file-based routing
-- **Styling**: NativeWind (Tailwind CSS for React Native)
-- **Animations**: React Native Reanimated (~3.17.5)
-- **Typography**: SpaceMono font loaded via expo-font
-- **Icons**: Lucide React Native, custom SVG icons
-- **State Management**: React hooks (useState, useEffect)
+Convex holds all user data. Auth is Clerk-based (`convex/auth.config.js` trusts `CLERK_FRONTEND_API_URL`). Protected functions enforce `getUserIdentity()` (helpers in `convex/util.ts`). Tables (`convex/schema.ts`): trackers (`stepEntry`, `waterIntake`, `mindfulnessEntry`, `sleepEntry`, `mealEntry`, `noteEntry`), `userProfile`, `users` (push token + role), nutritionist chat (`nutritionists`, `chatSessions`, `chatMessages`), and challenge (`challengeProgress`, `challengeOrders`, `challengeMessages`). Each tracker exposes `create` / `getByUserId` / `deleteByUserIdAndTimestamp` plus `getByUserIdForServer` (used by the AI API routes).
 
-### Project Structure
+### Server API routes (`app/api/*+api.ts`, hosted on Vercel)
 
-- **app/**: File-based routing with Expo Router
-  - `_layout.tsx`: Root layout, currently renders WellnessTracker as main screen
-  - `(tabs)/`: Tab-based navigation structure (currently unused)
-- **components/**: Reusable React components
-  - `tracker/WellnessTracker.tsx`: Main wellness tracking component
-  - `ui/`: Platform-specific UI components
-- **constants/**: App-wide constants (Colors.ts)
-- **hooks/**: Custom React hooks for theming and color schemes
-- **styles/global.css**: Global NativeWind/Tailwind styles
+Trusted server surface. They authenticate by forwarding the caller's Clerk bearer token to Convex (`convex.setAuth(token)`) and reject requests without an `Authorization` header. `chat+api.ts` (Gemini chat with the user's tracked data injected), `analyze-meal+api.ts` (meal photo → macros via `generateObject`), `push+api.ts` (authenticated Expo push relay for web), `web-subscription+api.ts` (WooCommerce). Web build/deploy is configured in `vercel.json` (`api/index.ts` is the `expo-server` Vercel adapter).
 
-### Key Component: WellnessTracker
+### State & data flow
 
-Located at `components/tracker/WellnessTracker.tsx`, this is the main feature component that includes:
+- Realtime user data → Convex (`useQuery`/`useMutation` from `convex/react`).
+- REST/WooCommerce & web flows → TanStack React Query (`providers/QueryProvider.tsx`, `hooks/`).
+- Auth/session/roles → Clerk (`useAuth`, `useUser`; role in `user.unsafeMetadata.role`).
+- Subscription state → `useRevenueCat()` + `usePaywall()`.
 
-- **Circular progress display** showing weekly wellness score using SVG
-- **5 tracking categories**: meals, steps, mindfulness, sleep, water
-- **Rich animations** using React Native Reanimated (fade-ins, slides, springs, zoom effects)
-- **Interactive selection** of tracking options with visual feedback
-- **Custom SVG icons** for each tracking category with unique color schemes
-- **Responsive design** using NativeWind classes
+## Conventions & Gotchas
 
-### Styling System
+- **Path alias**: `@/*` → repo root (`tsconfig.json`). Use it for imports.
+- **Styling**: NativeWind/Tailwind classes; global styles in `styles/global.css`, config in `tailwind.config.js`. Prettier sorts Tailwind classes — run `pnpm format`.
+- **Fonts**: the **Lufga** family (loaded in `app/_layout.tsx`), e.g. `Lufga-Medium`, `Lufga-Bold`. (SpaceMono is present but Lufga is the app font.)
+- **Convex casing**: table columns/indexes mix `userId` and `userID` across modules — match the existing column when extending a given table; don't "fix" it in isolation.
+- **Roles**: nutritionist/admin behavior is driven by `user.unsafeMetadata.role` in Clerk; there is no in-app admin UI to set it.
+- **RevenueCat debug flag**: `providers/RevenueCatProvider.tsx` has `PREMIUM_ACCESS_DEBUG` (default `false`) that force-unlocks premium in `__DEV__`. Keep it `false` for releases.
+- **Env vars**: see `.env.example` / README §5. `EXPO_PUBLIC_`-prefixed vars are bundled into the client. `APP_VARIANT=development` switches to the dev app id/name/icon (`app.config.js`).
 
-Uses NativeWind for Tailwind CSS classes in React Native:
+## Build & Release
 
-- **Colors**: Custom color palette with category-specific backgrounds
-- **Typography**: SpaceMono font with various weights
-- **Layout**: Flexbox with responsive spacing
-- **Animations**: Integrated with React Native Reanimated
+EAS profiles in `eas.json`: `development` (dev client), `preview` (internal QA, Android APK), `production` (store, auto-increment). `appVersionSource` is `remote`. OTA updates ship via `expo-updates` to the `production` channel; the GitHub Actions workflow `.github/workflows/eas-update.yml` runs `eas update` when a `push`/PR to `main` is prefixed `[ci]` or on manual dispatch. Native changes (new native modules, permissions, `runtimeVersion` bump) require a new EAS **build** + store submission, not OTA.
 
-### TypeScript Configuration
+## Docs
 
-- **Path mapping**: `@/*` maps to root directory for imports
-- **Strict mode**: Enabled for better type safety
-- **Expo types**: Includes Expo-specific type definitions
-
-## Development Notes
-
-### Current State
-
-- App is in development with wellness tracking as the primary feature
-- Main screen displays WellnessTracker component directly from root layout
-- Tab navigation structure exists but is not currently active
-- Uses pnpm for package management
-
-### Animation System
-
-The app heavily uses React Native Reanimated for sophisticated animations:
-
-- Entrance animations with staggered delays
-- Continuous animations (spinning, pulsing)
-- Spring physics for natural motion
-- Various animation types: FadeIn, SlideIn, ZoomIn, BounceIn
-
-### Styling Patterns
-
-- NativeWind classes for consistent styling
-- Custom background colors for different tracking categories
-- Conditional styling based on component state
-- SVG icons with stroke-based designs and category-specific colors
+Feature deep-dives live in `docs/` (push notifications, paywall testing, RevenueCat troubleshooting, web subscription, referral system, security fixes, refactor history).
